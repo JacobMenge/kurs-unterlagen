@@ -1,0 +1,10 @@
+nav:
+  - "Überblick": index.md
+  - "Warum kapseln?": warum-kapseln.md
+  - "Grundbegriffe": grundbegriffe.md
+  - "Hypervisor-Typen": hypervisor-typen.md
+  - "Werkzeuge im Überblick": werkzeuge-im-ueberblick.md
+  - "Multipass – Einstieg": multipass-einstieg.md
+  - "Praxis mit Multipass": praxis-multipass.md
+  - "Stolpersteine": stolpersteine.md
+  - "Merksätze": merksaetze.md

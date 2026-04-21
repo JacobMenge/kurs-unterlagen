@@ -1,0 +1,6 @@
+nav:
+  - "Überblick & Zeitplan": index.md
+  - "Dockerfile-Best-Practices": dockerfile-best-practices.md
+  - "Image-Optimierung": image-optimierung.md
+  - "Stolpersteine": stolpersteine.md
+  - "Merksätze": merksaetze.md

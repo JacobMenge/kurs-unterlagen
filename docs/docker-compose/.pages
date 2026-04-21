@@ -1,0 +1,7 @@
+nav:
+  - "Überblick & Zeitplan": index.md
+  - "Einführung": einfuehrung.md
+  - "Grundlagen: compose.yaml": grundlagen.md
+  - "Praxis: WebApp mit Compose": praxis-webapp.md
+  - "Stolpersteine": stolpersteine.md
+  - "Merksätze": merksaetze.md

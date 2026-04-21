@@ -1,0 +1,11 @@
+# MkDocs mit Material Theme
+mkdocs>=1.5.0
+mkdocs-material>=9.5.0
+
+# Erforderlich fuer Material-Theme-Erweiterungen (Icons, Emojis)
+mkdocs-material-extensions>=1.3
+
+# Automatische Navigation aus .pages-Dateien pro Ordner
+mkdocs-awesome-pages-plugin>=2.9.0
+
+# Hinweis: Mermaid-Diagramme sind ab mkdocs-material 9 ohne zusaetzliches JS nutzbar.

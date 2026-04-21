@@ -1,0 +1,733 @@
+/* ==========================================================================
+   kurs-unterlagen – Terminal-Akzente auf Material Slate
+   Jacob Menge / jacob-decoded.de
+
+   Idee: Material Dark-Mode als Basis, dezente Phosphor-Gruen-Akzente
+   auf Headlines, Links, Code-Borders und Admonitions. Keine Scanlines,
+   kein Flicker, kein Chromatic-Aberration im Content – das soll
+   professionell lesbar bleiben.
+   ========================================================================== */
+
+/* 1) Design-Tokens --------------------------------------------------------- */
+:root {
+  /* Haupt-Phosphor: ruhiger, WCAG-AAA-tauglich auf Slate */
+  --jd-phosphor: #7dff9a;
+  /* Dekorativer Akzent: nur fuer Glow, Fokus, Hover */
+  --jd-phosphor-hot: #00ff41;
+  /* Gedaempftes Phosphor fuer Borders, Meta-Text */
+  --jd-phosphor-dim: #56c374;
+  /* Sehr tiefes Phosphor fuer Trennlinien */
+  --jd-phosphor-deep: #1f4a2b;
+  /* Body-Text: nicht pures Weiss, angenehmer auf dunklem Grund */
+  --jd-ink: #e2ece6;
+  --jd-ink-dim: #8fa498;
+  /* Leicht dunklerer Grund fuer Code-Blocks */
+  --jd-bg-code: #12141a;
+  --jd-bg-code-inline: rgba(125, 255, 154, 0.09);
+  /* Rahmen- und Karten-Grund */
+  --jd-bg-card: #1a1d25;
+}
+
+/* 2) Slate-Ueberschreibung: Primary auf Phosphor --------------------------- */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--jd-phosphor);
+  --md-primary-fg-color--light: var(--jd-phosphor-hot);
+  --md-primary-fg-color--dark: var(--jd-phosphor-deep);
+  --md-primary-bg-color: #0e1013;
+  --md-primary-bg-color--light: #12141a;
+  --md-accent-fg-color: var(--jd-phosphor-hot);
+  --md-accent-fg-color--transparent: rgba(0, 255, 65, 0.12);
+  --md-typeset-a-color: var(--jd-phosphor);
+}
+
+/* Body-Grundfarbe */
+[data-md-color-scheme="slate"] body,
+[data-md-color-scheme="slate"] .md-main {
+  color: var(--jd-ink);
+}
+
+/* 3) Header & Top-Bar ------------------------------------------------------ */
+.md-header {
+  background-color: #0e1013;
+  border-bottom: 1px solid var(--jd-phosphor-deep);
+  box-shadow: none;
+}
+
+.md-header__title {
+  color: var(--jd-phosphor);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+}
+
+.md-header__button {
+  color: var(--jd-phosphor);
+}
+
+.md-search__input {
+  background-color: rgba(125, 255, 154, 0.06);
+  color: var(--jd-ink);
+}
+.md-search__input::placeholder {
+  color: var(--jd-ink-dim);
+}
+
+/* 4) Navigations-Tabs: Phosphor-Underline nur bei aktiv -------------------- */
+.md-tabs {
+  background-color: #0e1013;
+  border-bottom: 1px solid var(--jd-phosphor-deep);
+}
+
+.md-tabs__link {
+  color: var(--jd-ink);
+  opacity: 0.85;
+  transition: color 150ms ease, opacity 150ms ease;
+}
+
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  color: var(--jd-phosphor);
+  opacity: 1;
+}
+
+.md-tabs__link--active {
+  border-bottom: 2px solid var(--jd-phosphor);
+}
+
+/* 5) Headlines: dezenter Glow nur auf H1 ---------------------------------- */
+.md-typeset h1 {
+  color: var(--jd-phosphor);
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.15);
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h2 {
+  color: var(--jd-phosphor);
+  font-weight: 600;
+  border-bottom: 1px solid var(--jd-phosphor-deep);
+  padding-bottom: 0.3rem;
+  margin-top: 2rem;
+}
+
+.md-typeset h3 {
+  color: #b4e8bd;
+  font-weight: 600;
+}
+
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  color: var(--jd-ink);
+}
+
+/* Permalink-Anker (¶) dezent */
+.md-typeset .headerlink {
+  color: var(--jd-phosphor-dim);
+  opacity: 0.35;
+  transition: opacity 150ms ease;
+}
+.md-typeset :hover > .headerlink {
+  opacity: 1;
+}
+
+/* 6) Links ----------------------------------------------------------------- */
+.md-typeset a {
+  color: var(--jd-phosphor);
+  text-decoration: underline;
+  text-decoration-color: var(--jd-phosphor-dim);
+  text-underline-offset: 2px;
+  transition: color 120ms ease, text-shadow 120ms ease, text-decoration-color 120ms ease;
+}
+
+.md-typeset a:hover,
+.md-typeset a:focus-visible {
+  color: var(--jd-phosphor-hot);
+  text-decoration-color: var(--jd-phosphor-hot);
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
+}
+
+/* 7) Inline-Code und Code-Blocks ------------------------------------------ */
+.md-typeset code {
+  background-color: var(--jd-bg-code-inline);
+  color: var(--jd-phosphor);
+  border-radius: 3px;
+  padding: 0.1rem 0.35rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.88em;
+}
+
+.md-typeset pre > code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.md-typeset .highlight,
+.md-typeset pre {
+  background-color: var(--jd-bg-code);
+  border-left: 3px solid var(--jd-phosphor);
+  border-radius: 4px;
+}
+
+.md-typeset .highlight pre {
+  border-left: none;
+  background: transparent;
+  margin: 0;
+}
+
+/* Copy-Button dezent einfaerben */
+.md-clipboard {
+  color: var(--jd-phosphor-dim);
+}
+.md-clipboard:hover {
+  color: var(--jd-phosphor);
+}
+
+/* 8) Admonitions und Details ---------------------------------------------- */
+/*
+   Drei Farbkategorien:
+   - PHOSPHOR-GRUEN: note, info, abstract, tip, example, success, question, quote
+   - AMBER:          warning
+   - ROT:            danger, error, failure, bug
+
+   Material Theme setzt pro Typ eine eigene --md-admonition-icon--<type>-Variable
+   und nutzt farbbezogene Selektoren. Wir ueberschreiben alle Ebenen,
+   damit kein Default-Blau mehr durchkommt.
+*/
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-left-width: 4px;
+  border-radius: 4px;
+  background-color: var(--jd-bg-card);
+  box-shadow: none;
+}
+
+/* ---------- Gruene Admonition-Typen (Phosphor) --------------------------- */
+.md-typeset .admonition.note,
+.md-typeset details.note,
+.md-typeset .admonition.info,
+.md-typeset details.info,
+.md-typeset .admonition.abstract,
+.md-typeset details.abstract,
+.md-typeset .admonition.tldr,
+.md-typeset details.tldr,
+.md-typeset .admonition.summary,
+.md-typeset details.summary,
+.md-typeset .admonition.tip,
+.md-typeset details.tip,
+.md-typeset .admonition.hint,
+.md-typeset details.hint,
+.md-typeset .admonition.important,
+.md-typeset details.important,
+.md-typeset .admonition.example,
+.md-typeset details.example,
+.md-typeset .admonition.success,
+.md-typeset details.success,
+.md-typeset .admonition.check,
+.md-typeset details.check,
+.md-typeset .admonition.done,
+.md-typeset details.done,
+.md-typeset .admonition.question,
+.md-typeset details.question,
+.md-typeset .admonition.help,
+.md-typeset details.help,
+.md-typeset .admonition.faq,
+.md-typeset details.faq,
+.md-typeset .admonition.quote,
+.md-typeset details.quote,
+.md-typeset .admonition.cite,
+.md-typeset details.cite {
+  border-color: var(--jd-phosphor) !important;
+  border-left-color: var(--jd-phosphor) !important;
+}
+
+/* Title-Bar der gruenen Typen */
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset .admonition.note > summary,
+.md-typeset details.note > .admonition-title,
+.md-typeset details.note > summary,
+.md-typeset .admonition.info > .admonition-title,
+.md-typeset .admonition.info > summary,
+.md-typeset details.info > .admonition-title,
+.md-typeset details.info > summary,
+.md-typeset .admonition.abstract > .admonition-title,
+.md-typeset .admonition.abstract > summary,
+.md-typeset details.abstract > .admonition-title,
+.md-typeset details.abstract > summary,
+.md-typeset .admonition.tldr > .admonition-title,
+.md-typeset .admonition.tldr > summary,
+.md-typeset .admonition.summary > .admonition-title,
+.md-typeset .admonition.summary > summary,
+.md-typeset .admonition.tip > .admonition-title,
+.md-typeset .admonition.tip > summary,
+.md-typeset details.tip > .admonition-title,
+.md-typeset details.tip > summary,
+.md-typeset .admonition.hint > .admonition-title,
+.md-typeset .admonition.hint > summary,
+.md-typeset .admonition.important > .admonition-title,
+.md-typeset .admonition.important > summary,
+.md-typeset .admonition.example > .admonition-title,
+.md-typeset .admonition.example > summary,
+.md-typeset details.example > .admonition-title,
+.md-typeset details.example > summary,
+.md-typeset .admonition.success > .admonition-title,
+.md-typeset .admonition.success > summary,
+.md-typeset details.success > .admonition-title,
+.md-typeset details.success > summary,
+.md-typeset .admonition.check > .admonition-title,
+.md-typeset .admonition.check > summary,
+.md-typeset .admonition.done > .admonition-title,
+.md-typeset .admonition.done > summary,
+.md-typeset .admonition.question > .admonition-title,
+.md-typeset .admonition.question > summary,
+.md-typeset details.question > .admonition-title,
+.md-typeset details.question > summary,
+.md-typeset .admonition.help > .admonition-title,
+.md-typeset .admonition.help > summary,
+.md-typeset .admonition.faq > .admonition-title,
+.md-typeset .admonition.faq > summary,
+.md-typeset .admonition.quote > .admonition-title,
+.md-typeset .admonition.quote > summary,
+.md-typeset .admonition.cite > .admonition-title,
+.md-typeset .admonition.cite > summary {
+  color: var(--jd-phosphor) !important;
+  background-color: rgba(125, 255, 154, 0.08) !important;
+}
+
+/* Icon (::before-Pseudoelement) der gruenen Typen */
+.md-typeset .admonition.note > .admonition-title::before,
+.md-typeset .admonition.note > summary::before,
+.md-typeset details.note > .admonition-title::before,
+.md-typeset details.note > summary::before,
+.md-typeset .admonition.info > .admonition-title::before,
+.md-typeset .admonition.info > summary::before,
+.md-typeset details.info > .admonition-title::before,
+.md-typeset details.info > summary::before,
+.md-typeset .admonition.abstract > .admonition-title::before,
+.md-typeset .admonition.abstract > summary::before,
+.md-typeset details.abstract > .admonition-title::before,
+.md-typeset details.abstract > summary::before,
+.md-typeset .admonition.tldr > .admonition-title::before,
+.md-typeset .admonition.tldr > summary::before,
+.md-typeset .admonition.summary > .admonition-title::before,
+.md-typeset .admonition.summary > summary::before,
+.md-typeset .admonition.tip > .admonition-title::before,
+.md-typeset .admonition.tip > summary::before,
+.md-typeset details.tip > .admonition-title::before,
+.md-typeset details.tip > summary::before,
+.md-typeset .admonition.hint > .admonition-title::before,
+.md-typeset .admonition.hint > summary::before,
+.md-typeset .admonition.important > .admonition-title::before,
+.md-typeset .admonition.important > summary::before,
+.md-typeset .admonition.example > .admonition-title::before,
+.md-typeset .admonition.example > summary::before,
+.md-typeset details.example > .admonition-title::before,
+.md-typeset details.example > summary::before,
+.md-typeset .admonition.success > .admonition-title::before,
+.md-typeset .admonition.success > summary::before,
+.md-typeset details.success > .admonition-title::before,
+.md-typeset details.success > summary::before,
+.md-typeset .admonition.check > .admonition-title::before,
+.md-typeset .admonition.check > summary::before,
+.md-typeset .admonition.done > .admonition-title::before,
+.md-typeset .admonition.done > summary::before,
+.md-typeset .admonition.question > .admonition-title::before,
+.md-typeset .admonition.question > summary::before,
+.md-typeset details.question > .admonition-title::before,
+.md-typeset details.question > summary::before,
+.md-typeset .admonition.help > .admonition-title::before,
+.md-typeset .admonition.help > summary::before,
+.md-typeset .admonition.faq > .admonition-title::before,
+.md-typeset .admonition.faq > summary::before,
+.md-typeset .admonition.quote > .admonition-title::before,
+.md-typeset .admonition.quote > summary::before,
+.md-typeset .admonition.cite > .admonition-title::before,
+.md-typeset .admonition.cite > summary::before {
+  background-color: var(--jd-phosphor) !important;
+}
+
+/* ---------- Amber Admonition-Typen (Warnung) ----------------------------- */
+.md-typeset .admonition.warning,
+.md-typeset details.warning,
+.md-typeset .admonition.caution,
+.md-typeset details.caution,
+.md-typeset .admonition.attention,
+.md-typeset details.attention {
+  border-color: #ffb300 !important;
+  border-left-color: #ffb300 !important;
+}
+.md-typeset .admonition.warning > .admonition-title,
+.md-typeset .admonition.warning > summary,
+.md-typeset details.warning > .admonition-title,
+.md-typeset details.warning > summary,
+.md-typeset .admonition.caution > .admonition-title,
+.md-typeset .admonition.caution > summary,
+.md-typeset .admonition.attention > .admonition-title,
+.md-typeset .admonition.attention > summary {
+  color: #ffb300 !important;
+  background-color: rgba(255, 179, 0, 0.08) !important;
+}
+.md-typeset .admonition.warning > .admonition-title::before,
+.md-typeset .admonition.warning > summary::before,
+.md-typeset details.warning > .admonition-title::before,
+.md-typeset details.warning > summary::before,
+.md-typeset .admonition.caution > .admonition-title::before,
+.md-typeset .admonition.caution > summary::before,
+.md-typeset .admonition.attention > .admonition-title::before,
+.md-typeset .admonition.attention > summary::before {
+  background-color: #ffb300 !important;
+}
+
+/* ---------- Rote Admonition-Typen (Gefahr / Fehler) ---------------------- */
+.md-typeset .admonition.danger,
+.md-typeset details.danger,
+.md-typeset .admonition.error,
+.md-typeset details.error,
+.md-typeset .admonition.failure,
+.md-typeset details.failure,
+.md-typeset .admonition.fail,
+.md-typeset details.fail,
+.md-typeset .admonition.missing,
+.md-typeset details.missing,
+.md-typeset .admonition.bug,
+.md-typeset details.bug {
+  border-color: #ff6a6a !important;
+  border-left-color: #ff6a6a !important;
+}
+.md-typeset .admonition.danger > .admonition-title,
+.md-typeset .admonition.danger > summary,
+.md-typeset details.danger > .admonition-title,
+.md-typeset details.danger > summary,
+.md-typeset .admonition.error > .admonition-title,
+.md-typeset .admonition.error > summary,
+.md-typeset .admonition.failure > .admonition-title,
+.md-typeset .admonition.failure > summary,
+.md-typeset .admonition.fail > .admonition-title,
+.md-typeset .admonition.fail > summary,
+.md-typeset .admonition.missing > .admonition-title,
+.md-typeset .admonition.missing > summary,
+.md-typeset .admonition.bug > .admonition-title,
+.md-typeset .admonition.bug > summary {
+  color: #ff6a6a !important;
+  background-color: rgba(255, 106, 106, 0.08) !important;
+}
+.md-typeset .admonition.danger > .admonition-title::before,
+.md-typeset .admonition.danger > summary::before,
+.md-typeset details.danger > .admonition-title::before,
+.md-typeset details.danger > summary::before,
+.md-typeset .admonition.error > .admonition-title::before,
+.md-typeset .admonition.error > summary::before,
+.md-typeset .admonition.failure > .admonition-title::before,
+.md-typeset .admonition.failure > summary::before,
+.md-typeset .admonition.fail > .admonition-title::before,
+.md-typeset .admonition.fail > summary::before,
+.md-typeset .admonition.missing > .admonition-title::before,
+.md-typeset .admonition.missing > summary::before,
+.md-typeset .admonition.bug > .admonition-title::before,
+.md-typeset .admonition.bug > summary::before {
+  background-color: #ff6a6a !important;
+}
+
+/* ---------- Pfeil (Chevron) beim details-Element dezent faerben ---------- */
+.md-typeset details > summary::after {
+  color: var(--jd-phosphor-dim);
+}
+
+/* 9) Blockzitate: dezente Terminal-Prompt-Optik --------------------------- */
+.md-typeset blockquote {
+  border-left: 3px solid var(--jd-phosphor);
+  background-color: rgba(125, 255, 154, 0.04);
+  padding: 0.8rem 1rem;
+  border-radius: 0 4px 4px 0;
+  color: var(--jd-ink);
+}
+
+/* 10) Tabellen ------------------------------------------------------------- */
+.md-typeset table:not([class]) {
+  background: transparent;
+  border: 1px solid var(--jd-phosphor-deep);
+  box-shadow: none;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: #151921;
+  color: var(--jd-phosphor);
+  border-bottom: 2px solid var(--jd-phosphor-deep);
+  font-weight: 600;
+}
+
+.md-typeset table:not([class]) td {
+  border-bottom: 1px solid rgba(125, 255, 154, 0.08);
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background-color: rgba(125, 255, 154, 0.04);
+}
+
+/* 11) Glossar-Links (vom glossar-links.js erzeugt) ------------------------ */
+/*
+  Der abbr-Mechanismus (pymdownx) verwandelt jedes Vorkommen eines Begriffs
+  aus includes/abbreviations.md in ein <abbr>-Element. glossar-links.js
+  wickelt das in einen klickbaren Link zum Glossar. Weil die Dichte hoch ist
+  (viele Fachbegriffe pro Seite), halten wir den Style sehr dezent:
+  - kein farbiger Text, nur dezente punktierte Unterstreichung
+  - beim Hover klare Hervorhebung
+*/
+.md-typeset a.glossar-link {
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(125, 255, 154, 0.35);
+  color: inherit;
+  text-shadow: none;
+  cursor: help;
+}
+.md-typeset a.glossar-link:hover,
+.md-typeset a.glossar-link:focus-visible {
+  border-bottom-color: var(--jd-phosphor-hot);
+  border-bottom-style: solid;
+  color: var(--jd-phosphor);
+  text-shadow: 0 0 4px rgba(0, 255, 65, 0.25);
+}
+
+.md-typeset abbr {
+  text-decoration: none;
+  cursor: help;
+  border-bottom: 1px dotted rgba(125, 255, 154, 0.35);
+}
+.md-typeset abbr:hover {
+  border-bottom-color: var(--jd-phosphor-hot);
+  color: var(--jd-phosphor);
+}
+
+/* 12) Keys (++Ctrl+C++) --------------------------------------------------- */
+.md-typeset kbd,
+.md-typeset .keys kbd {
+  background-color: #151921;
+  border: 1px solid var(--jd-phosphor-deep);
+  border-bottom-width: 2px;
+  color: var(--jd-phosphor);
+  box-shadow: none;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+}
+
+/* 13) Task-Lists (- [x] ...) ---------------------------------------------- */
+.md-typeset .task-list-control .task-list-indicator::before {
+  background-color: var(--jd-bg-code);
+  border: 1px solid var(--jd-phosphor-dim);
+}
+.md-typeset [type="checkbox"]:checked + .task-list-indicator::before {
+  background-color: var(--jd-phosphor);
+  border-color: var(--jd-phosphor);
+}
+
+/* 14) Sidebar / Navigation ------------------------------------------------ */
+.md-nav__title {
+  color: var(--jd-phosphor);
+}
+
+.md-nav__link {
+  color: var(--jd-ink);
+}
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: var(--jd-phosphor);
+}
+
+.md-nav__link--active {
+  font-weight: 600;
+}
+
+/* 15) Footer --------------------------------------------------------------- */
+.md-footer {
+  background-color: #0e1013;
+}
+.md-footer-meta {
+  background-color: #0a0c0f;
+  border-top: 1px solid var(--jd-phosphor-deep);
+}
+.md-footer-meta a {
+  color: var(--jd-phosphor);
+}
+
+/* 16) Fokus-Outline (A11y) ------------------------------------------------ */
+*:focus-visible {
+  outline: 2px solid var(--jd-phosphor-hot);
+  outline-offset: 2px;
+}
+
+/* 17) Reduced Motion: keine Glows, keine Transitions --------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .md-typeset h1 {
+    text-shadow: none;
+  }
+  .md-typeset a:hover,
+  .md-typeset a.glossar-link:hover {
+    text-shadow: none;
+  }
+}
+
+/* 18) Druck: klassisch schwarz auf weiss ---------------------------------- */
+@media print {
+  body,
+  .md-main {
+    background: white !important;
+    color: black !important;
+  }
+  .md-typeset h1,
+  .md-typeset h2,
+  .md-typeset h3,
+  .md-typeset a {
+    color: black !important;
+    text-shadow: none !important;
+  }
+  .md-typeset pre,
+  .md-typeset .highlight {
+    background: #f5f5f5 !important;
+    border-left-color: #555 !important;
+  }
+  .md-typeset code {
+    background: #eee !important;
+    color: #000 !important;
+  }
+  .md-header,
+  .md-tabs,
+  .md-sidebar,
+  .md-footer {
+    display: none !important;
+  }
+}
+
+/* 18b) Mermaid-Diagramme ------------------------------------------------- */
+/*
+  Material Theme rendert Mermaid client-side. Die Default-Farben passen nicht
+  zum Phosphor-Look, deshalb ueberschreiben wir hier konsistent.
+  Einzelne "style X fill:... stroke:..."-Anweisungen in den .md-Dateien
+  haben Vorrang und muessen ggf. entfernt werden, damit diese Regeln greifen.
+*/
+
+.md-typeset .mermaid {
+  background: transparent;
+  text-align: center;
+}
+
+/* Knoten (rechteckige, abgerundete, Raute, Stadion usw.) */
+.md-typeset .mermaid .node rect,
+.md-typeset .mermaid .node circle,
+.md-typeset .mermaid .node ellipse,
+.md-typeset .mermaid .node polygon,
+.md-typeset .mermaid .node path {
+  fill: var(--jd-bg-card) !important;
+  stroke: var(--jd-phosphor) !important;
+  stroke-width: 1.5px !important;
+}
+
+/* Zylinder (Datenbank/Volume-Darstellung mit [(...)] ) */
+.md-typeset .mermaid .cylinder,
+.md-typeset .mermaid .node.cylinder path {
+  fill: var(--jd-bg-code) !important;
+  stroke: var(--jd-phosphor) !important;
+}
+
+/* Text in Knoten */
+.md-typeset .mermaid .node .label,
+.md-typeset .mermaid .node .label span,
+.md-typeset .mermaid .nodeLabel,
+.md-typeset .mermaid .nodeLabel p {
+  color: var(--jd-ink) !important;
+  fill: var(--jd-ink) !important;
+}
+
+/* Verbindungslinien */
+.md-typeset .mermaid .edgePath .path,
+.md-typeset .mermaid .flowchart-link {
+  stroke: var(--jd-phosphor) !important;
+  stroke-width: 1.5px !important;
+}
+
+/* Pfeilspitzen */
+.md-typeset .mermaid .arrowheadPath,
+.md-typeset .mermaid .arrowMarkerPath,
+.md-typeset .mermaid defs marker path {
+  fill: var(--jd-phosphor) !important;
+  stroke: var(--jd-phosphor) !important;
+}
+
+/* Labels an Kanten */
+.md-typeset .mermaid .edgeLabel,
+.md-typeset .mermaid .edgeLabel rect,
+.md-typeset .mermaid .edgeLabel p {
+  background-color: var(--jd-bg-card) !important;
+  color: var(--jd-ink) !important;
+  fill: var(--jd-ink) !important;
+}
+
+.md-typeset .mermaid .edgeLabel span {
+  color: var(--jd-ink) !important;
+  background-color: transparent !important;
+}
+
+/* Subgraphen (Cluster) */
+.md-typeset .mermaid .cluster rect {
+  fill: rgba(125, 255, 154, 0.04) !important;
+  stroke: var(--jd-phosphor-dim) !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 4 3;
+}
+
+.md-typeset .mermaid .cluster .cluster-label,
+.md-typeset .mermaid .cluster .nodeLabel {
+  color: var(--jd-phosphor) !important;
+  fill: var(--jd-phosphor) !important;
+  font-weight: 600;
+}
+
+/* State-Diagramme (stateDiagram-v2) */
+.md-typeset .mermaid .state-start,
+.md-typeset .mermaid .state-end {
+  fill: var(--jd-phosphor) !important;
+  stroke: var(--jd-phosphor) !important;
+}
+
+.md-typeset .mermaid .statediagram-state rect {
+  fill: var(--jd-bg-card) !important;
+  stroke: var(--jd-phosphor) !important;
+}
+
+.md-typeset .mermaid .statediagram-state .label,
+.md-typeset .mermaid .statediagram-state .nodeLabel {
+  color: var(--jd-ink) !important;
+  fill: var(--jd-ink) !important;
+}
+
+.md-typeset .mermaid .transition {
+  stroke: var(--jd-phosphor) !important;
+  fill: none !important;
+}
+
+/* 19) Startseiten-Karten (grid cards) ------------------------------------- */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid.cards > ol > li,
+.md-typeset .grid > .card {
+  background-color: var(--jd-bg-card);
+  border: 1px solid var(--jd-phosphor-deep);
+  border-radius: 6px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid.cards > ol > li:hover,
+.md-typeset .grid > .card:hover {
+  border-color: var(--jd-phosphor);
+  box-shadow: 0 0 16px rgba(0, 255, 65, 0.1);
+}

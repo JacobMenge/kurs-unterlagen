@@ -1,0 +1,5 @@
+nav:
+  - "Überblick": index.md
+  - "Multipass": multipass.md
+  - "Docker": docker.md
+  - "Docker Compose": compose.md

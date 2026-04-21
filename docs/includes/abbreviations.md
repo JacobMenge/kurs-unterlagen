@@ -1,0 +1,144 @@
+*[VM]: Virtuelle Maschine – ein per Software emulierter Computer mit eigenem Gast-Betriebssystem
+*[VMs]: Virtuelle Maschinen (Plural)
+*[OS]: Operating System – Betriebssystem (z.B. Linux, macOS, Windows)
+*[CLI]: Command-Line Interface – textbasierte Bedienung über die Kommandozeile
+*[GUI]: Graphical User Interface – grafische Benutzeroberfläche
+*[RAM]: Random Access Memory – Arbeitsspeicher
+*[CPU]: Central Processing Unit – Prozessor
+*[vCPU]: Virtual CPU – virtualisierte Prozessoreinheit
+*[NIC]: Network Interface Card – Netzwerkkarte (physisch oder virtuell)
+*[SSH]: Secure Shell – verschlüsseltes Netzwerkprotokoll für Fernzugriff auf Server
+*[LTS]: Long Term Support – langzeitgepflegte Software-Version (z.B. Ubuntu 22.04 LTS)
+*[KVM]: Kernel-based Virtual Machine – Virtualisierungslösung des Linux-Kernels
+*[QEMU]: Quick Emulator – quelloffener Maschinen-Emulator
+*[HVF]: Hypervisor Framework – Apples Virtualisierungs-API auf macOS
+*[WSL]: Windows Subsystem for Linux – Microsofts Linux-Laufzeit unter Windows
+*[WSL2]: Windows Subsystem for Linux 2 – optimierte WSL-Version mit echtem Linux-Kernel
+*[ESXi]: VMware ESXi – Typ-1-Hypervisor von VMware
+*[UTM]: UTM Virtual Machines – freie Virtualisierungs-App für macOS
+*[ARM]: Advanced RISC Machines – Prozessorarchitektur (z.B. Apple Silicon)
+*[x86]: x86-Architektur – klassische Intel/AMD-Prozessorarchitektur
+*[x86_64]: 64-Bit-Variante der x86-Architektur (auch "amd64")
+*[amd64]: 64-Bit-Intel/AMD-Architektur, Synonym für x86_64
+*[HTTP]: Hypertext Transfer Protocol – Protokoll für Webseiten-Übertragung
+*[HTTPS]: HTTP Secure – verschlüsselte Variante von HTTP
+*[TCP]: Transmission Control Protocol – zuverlässiges, verbindungsorientiertes Netzwerkprotokoll
+*[UDP]: User Datagram Protocol – verbindungsloses Netzwerkprotokoll, schneller als TCP
+*[DNS]: Domain Name System – übersetzt Namen in IP-Adressen
+*[DHCP]: Dynamic Host Configuration Protocol – automatische IP-Adresszuweisung
+*[NAT]: Network Address Translation – Adress-Übersetzung zwischen Netzen
+*[IP]: Internet Protocol – Grundlage der Netzwerkkommunikation im Internet
+*[URL]: Uniform Resource Locator – Webadresse
+*[YAML]: YAML Ain't Markup Language – menschenlesbares Datenformat
+*[JSON]: JavaScript Object Notation – leichtgewichtiges Datenaustauschformat
+*[CI/CD]: Continuous Integration / Continuous Deployment – automatisierte Software-Auslieferung
+*[IDE]: Integrated Development Environment – integrierte Entwicklungsumgebung
+*[BIOS]: Basic Input/Output System – Firmware, die beim Rechnerstart läuft
+*[UEFI]: Unified Extensible Firmware Interface – moderner BIOS-Nachfolger
+*[SBOM]: Software Bill of Materials – maschinenlesbare Liste aller Software-Komponenten
+*[PID]: Process ID – eindeutige Nummer eines laufenden Prozesses
+*[MAC]: Media Access Control – eindeutige Hardware-Adresse einer Netzwerkkarte
+*[SSD]: Solid State Drive – Flash-basierte Festplatte
+*[HDD]: Hard Disk Drive – klassische magnetische Festplatte
+
+Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
+
+*[Kernel]: Der zentrale Teil eines Betriebssystems – verwaltet Hardware, Prozesse, Speicher
+*[Container]: Isolierter Prozess, der sich den Kernel mit dem Host teilt
+*[Container-Engine]: Software, die Container ausführt (Docker Engine, containerd, Podman)
+*[Containerisierung]: Das Prinzip, Anwendungen in Container zu verpacken
+*[Image]: Schreibgeschützte Vorlage für Container
+*[Layer]: Schicht in einem Docker-Image
+*[Dockerfile]: Textdatei mit Anweisungen zum Image-Bauen
+*[Registry]: Server, auf dem Docker-Images gespeichert sind
+*[Tag]: Versions-Bezeichner eines Images hinter dem Doppelpunkt
+*[Daemon]: Hintergrund-Dienst ohne Terminal-Ausgabe
+*[Namespace]: Linux-Kernel-Feature für Prozess-Isolation
+*[cgroup]: Control Group – Linux-Kernel-Feature für Ressourcen-Limits
+*[Capability]: Feinkörniges Rechte-System unter Linux
+*[Copy-on-Write]: Schreibschutz-Strategie, Kopie erst beim Schreiben
+*[Build-Kontext]: Ordner, der beim docker build an den Daemon geschickt wird
+*[Detached Mode]: Container im Hintergrund (Flag -d)
+*[Port]: Nummer zwischen 0 und 65535, identifiziert einen Dienst
+*[Port-Mapping]: Weiterleitung Host-Port → Container-Port (-p)
+*[Bind Mount]: Host-Verzeichnis direkt in Container eingehängt
+*[Volume]: Persistenter, von Docker verwalteter Speicher
+*[Bridge]: Default-Netzwerktreiber von Docker
+*[Bridge-Netzwerk]: Virtuelles Netzwerk, in dem Container standardmäßig laufen
+*[Mount]: Einhängepunkt im Dateisystem
+*[Mount-Point]: Der Pfad, an dem etwas eingehängt wird
+*[Dateisystem]: Organisation von Dateien auf einem Speicher
+*[Prozess]: Ein laufendes Programm, das der Kernel verwaltet
+*[Shell]: Programm, das Befehle aus dem Terminal entgegennimmt
+*[Bash]: Standard-Shell auf vielen Linux-Systemen
+*[Zsh]: Erweiterte Shell, Standard auf neueren Macs
+*[PowerShell]: Microsofts moderne Shell, plattformübergreifend
+*[Firmware]: Low-Level-Software, die beim Rechnerstart läuft (BIOS/UEFI)
+*[Bootloader]: Programm, das Kernel beim Start lädt
+*[Hostname]: Name eines Rechners im Netzwerk
+*[Gateway]: Netzwerk-Gerät oder IP, über die man "nach draußen" kommt
+*[Loopback]: Virtuelles Netzwerk-Interface für die eigene Maschine
+*[localhost]: Name für den eigenen Rechner (IP 127.0.0.1)
+*[Socket]: Kommunikationskanal zwischen zwei Endpunkten
+*[Unix-Socket]: Lokaler Datei-Socket für Prozess-zu-Prozess-Kommunikation
+*[Subnet]: Bereich von IP-Adressen im selben Netzwerk
+*[Subnetz]: Bereich von IP-Adressen im selben Netzwerk
+*[Routing-Tabelle]: Liste, wohin Netzwerk-Pakete geschickt werden
+*[Netzwerkinterface]: Schnittstelle zum Netzwerk (NIC, Loopback, Bridge usw.)
+*[Interface]: Schnittstelle – oft Netzwerk-Interface gemeint
+*[Umgebungsvariable]: Variable, die einem Prozess beim Start übergeben wird
+*[Umgebungsvariablen]: Variablen, die Prozessen beim Start übergeben werden
+*[PATH]: Umgebungsvariable mit Pfaden zu ausführbaren Programmen
+*[Paketmanager]: Software, die Software installiert und verwaltet
+*[Paket-Manager]: Software, die Software installiert und verwaltet
+*[Repository]: Zentraler Ablageort für Code oder Pakete
+*[Repo]: Repository – zentraler Ablageort für Code oder Pakete
+*[Compose]: Docker Compose – deklaratives Multi-Container-Tool
+*[compose.yaml]: Die zentrale Compose-Konfigurationsdatei
+*[Healthcheck]: Bereitschafts-Prüfung, die Docker regelmäßig ausführt
+*[Multi-Stage-Build]: Dockerfile-Technik mit mehreren FROM-Blöcken
+*[Distroless]: Basis-Image von Google ohne Shell und Paketmanager
+*[Dangling Image]: Image ohne Tag, das Platten­platz belegt
+*[Trivy]: Open-Source-Scanner für Docker-Images
+*[Podman]: Container-Engine als Docker-Alternative, ohne Daemon
+*[OrbStack]: Mac-native Docker-Alternative
+*[Rosetta]: Rosetta 2 – Apples Übersetzer von x86_64 nach ARM
+*[Emulation]: Simulation einer Hardware oder Architektur in Software
+*[Hardware-Beschleunigung]: CPU-Feature, das Virtualisierung beschleunigt
+*[Hypervisor]: Software, die virtuelle Maschinen verwaltet
+*[Host]: Der physische Rechner, auf dem etwas läuft
+*[Gast]: Das System, das innerhalb einer VM läuft
+*[Gast-OS]: Betriebssystem innerhalb einer virtuellen Maschine
+*[Bare-Metal]: Software, die direkt auf Hardware läuft
+*[Orchestrierung]: Verwaltung vieler Container über mehrere Hosts
+*[Virtualisierung]: Technik, mit der sich Computer-Ressourcen in Software nachbauen lassen
+*[Multipass]: Canonicals CLI-Tool für Ubuntu-VMs
+*[LinuxKit]: Minimales Linux, das Docker Desktop auf Mac verwendet
+*[Docker Hub]: Default-Registry für Docker-Images
+*[Docker Desktop]: Fertige Docker-Umgebung für Mac und Windows
+*[SELinux]: Linux-Sicherheitsmodul (Fedora/RHEL)
+*[AppArmor]: Linux-Sicherheitsmodul (Ubuntu/Debian)
+*[systemd]: Moderner Linux-Init- und Service-Manager
+*[Snap]: Canonicals Paketformat und -Manager
+*[apt]: Paketmanager auf Debian/Ubuntu
+*[dnf]: Paketmanager auf Fedora/RHEL
+*[pacman]: Paketmanager auf Arch Linux
+*[Homebrew]: Paketmanager für macOS
+*[Hyper-V]: Virtualisierungs­technologie von Microsoft
+*[Secret]: Vertrauliche Information (Passwort, API-Key)
+*[Service]: Eintrag unter services: in compose.yaml
+*[depends_on]: Compose-Schlüssel für Start-Reihenfolge
+*[Linux]: Open-Source-Betriebssystem, Basis für Container
+*[init]: Der erste Prozess in einem Linux-System (PID 1)
+*[Zsh]: Z shell – erweiterte Shell, Default auf neueren Macs
+*[Postgres]: Freie relationale Datenbank, oft als Docker-Image genutzt
+*[PostgreSQL]: Vollname von Postgres
+*[nginx]: Populärer Webserver und Reverse Proxy
+*[Adminer]: Web-Oberfläche zur Datenbankverwaltung
+*[Flask]: Leichtgewichtiges Python-Web-Framework
+*[Gatekeeper]: Sicherheits­mechanismus von macOS für unbekannte Apps
+*[Virtualization.framework]: Apples moderne Virtualisierungs-API
+*[Typ-1-Hypervisor]: Bare-Metal-Hypervisor direkt auf Hardware
+*[Typ-2-Hypervisor]: Hosted-Hypervisor, läuft als App im Host-OS
+*[Image-ID]: SHA-256-Hash eines Images (unveränderlich)
+*[Docker Hub]: Default-Registry von Docker Inc.

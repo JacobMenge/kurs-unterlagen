@@ -1,0 +1,107 @@
+site_name: "Kursunterlagen – Virtualisierung & Docker"
+site_description: "Frei verfügbares Lernmaterial zu Virtualisierung und Docker – von Jacob Menge (jacob-decoded.de)"
+site_author: "Jacob Menge"
+site_url: "https://jacobmenge.github.io/kurs-unterlagen/"
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: de
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: custom
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tabs.link
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://jacob-decoded.de
+      name: jacob-decoded.de
+    - icon: fontawesome/brands/github
+      link: https://github.com/JacobMenge/kurs-unterlagen
+      name: GitHub Repository
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/glossar-links.js
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.snippets:
+      base_path: ["docs"]
+      auto_append:
+        - includes/abbreviations.md
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search:
+      lang: de
+  - awesome-pages
+
+# Navigation wird automatisch aus den .pages-Dateien in den jeweiligen Ordnern
+# erzeugt (awesome-pages-Plugin). Neue Markdown-Seiten werden automatisch erkannt.
+
+# Dateien unter docs/includes/ dienen nur als Snippet-Quellen (abbreviations.md)
+# und werden nicht als eigene Seiten gerendert.
+exclude_docs: |
+  includes/
+
+copyright: "&copy; Jacob Menge &middot; <a href=\"https://jacob-decoded.de\">jacob-decoded.de</a>"
