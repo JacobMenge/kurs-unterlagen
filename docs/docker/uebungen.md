@@ -378,6 +378,18 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
         cd $HOME\visitenkarte
         ```
 
+    !!! tip "Wie du die HTML-Dateien erzeugst"
+        Die nachfolgenden Code-Blöcke zeigen den **Dateiinhalt**. So legst du sie an:
+
+        **macOS / Linux**: mit einem Editor (VSCode, nano, vim) oder per `cat > dateiname.html << 'EOF'` / Inhalt / `EOF`.
+
+        **Windows**: Dateien mit einem Editor (VSCode, Notepad, Notepad++) erstellen und den Inhalt aus den Code-Blöcken hineinkopieren. `cat > ... << 'EOF'` funktioniert in PowerShell **nicht** – nutze die Editor-Variante. Alternativ in PowerShell:
+        ```powershell
+        @"
+        <Dateiinhalt hier>
+        "@ | Set-Content dateiname.html
+        ```
+
     ### Schritt 2 – Gemeinsames CSS
 
     Erzeuge eine Datei `style.css`:

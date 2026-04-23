@@ -145,6 +145,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="hardware-beschleunigung"></span>Hardware-Beschleunigung
 : **Wenn der Prozessor spezielle Instruktionen hat, die eine Aufgabe direkt ausführen können** – statt sie in Software zu simulieren. Moderne Intel/AMD-CPUs haben Virtualisierungs-Beschleunigung (VT-x / AMD-V), die VMs deutlich schneller macht. Ohne diese Beschleunigung müsste die VM emuliert werden, was viel langsamer ist.
 
+## <span id="here-document"></span>Here-Document (`<<`, `<< 'EOF'`)
+: **Shell-Technik**, um mehrzeiligen Text direkt in einen Befehl oder eine Datei zu schreiben. Beispiel: `cat > datei.txt << 'EOF'` – danach schreibst du beliebig viele Zeilen Text; das Wort `EOF` (für „End Of File") auf einer eigenen Zeile beendet den Block und alle dazwischen geschriebenen Zeilen landen in `datei.txt`. Praktisch für HTML/Konfigurations­dateien ohne Editor-Umweg. Die Anführungszeichen um `'EOF'` verhindern, dass `$variable` im Block interpretiert wird. **Windows PowerShell** hat eine eigene Syntax dafür: `@" ... "@ | Set-Content datei.txt`.
+
 ## <span id="healthcheck"></span>Healthcheck
 : **Prüfung, die Docker regelmäßig in einem Container ausführt**, um festzustellen, ob der Dienst nicht nur läuft, sondern tatsächlich bereit ist. Definiert im Dockerfile (`HEALTHCHECK`) oder in `compose.yaml`. Status `healthy` / `unhealthy` sichtbar in `docker ps`. Beispiel: `pg_isready -U postgres` bei PostgreSQL.
 
@@ -262,6 +265,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="port-mapping"></span>Port-Mapping
 : **Weiterleitung eines Host-Ports auf einen Container-Port.** Syntax bei Docker: `-p HOST:CONTAINER`. Beispiel: `-p 8080:80` verbindet den Host-Port 8080 mit dem Container-Port 80. Der Host-Port steht **zuerst**, der Container-Port danach – häufige Fehlerquelle.
 
+## <span id="pipe"></span>Pipe (`|`)
+: **Shell-Symbol**, das die Ausgabe eines Befehls direkt als Eingabe an einen anderen Befehl weitergibt. Beispiel: `docker ps -aq | xargs docker rm` → `docker ps -aq` liefert eine Liste von Container-IDs, `xargs` übergibt sie Stück für Stück an `docker rm`. Die Pipe ist ein Grundbaustein der Unix-Shell und sehr mächtig. In Windows PowerShell funktioniert Piping ähnlich, aber leitet **Objekte** statt Text weiter.
+
 ## <span id="podman"></span>Podman
 : **Container-Engine von Red Hat als Alternative zu Docker.** Arbeitet ohne zentralen Daemon – Container laufen direkt unter dem aufrufenden User. Mit `alias docker=podman` meist Drop-in-Ersatz. Gut für lizenz­sensitive Umgebungen und strenge Security-Anforderungen.
 
@@ -307,17 +313,26 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="shell"></span>Shell
 : **Programm, das Befehle aus dem Terminal entgegennimmt** und an das Betriebssystem weiterleitet. Beispiele: Bash, Zsh, Fish (Linux/Mac), PowerShell, cmd (Windows). Die Shell interpretiert Befehle, führt sie aus und zeigt das Ergebnis. Beim `docker exec -it container bash` öffnest du eine Bash-Shell im Container.
 
+## <span id="shell-redirektion"></span>Shell-Redirektion (`>`, `>>`, `|`)
+: **Umleitung** der Ein-/Ausgabe von Befehlen. `echo "text" > datei.txt` schreibt den Text in die Datei (**überschreibt** sie). `echo "text" >> datei.txt` hängt ans Ende der Datei an. `|` (Pipe) leitet die Ausgabe eines Befehls als Eingabe an einen anderen weiter. Grundlegende Technik in Bash, Zsh und PowerShell.
+
 ## <span id="snap"></span>Snap
 : **Paketformat und Paketmanager von Canonical.** Snaps sind in sich abgeschlossene Pakete, die ihre Abhängigkeiten mitbringen – ähnlich wie Container, aber auf Linux-Desktop-Ebene. Auf Ubuntu vorinstalliert, auf Debian manuell nachrüstbar. Wird in diesem Kurs für die Multipass-Installation genutzt: `sudo snap install multipass`.
 
 ## <span id="socket"></span>Socket
 : **Kommunikations­kanal** zwischen zwei Endpunkten – entweder im Netzwerk (TCP/UDP-Sockets zwischen Rechnern) oder lokal auf einem Rechner (Unix-Sockets zwischen Prozessen). Docker-CLI spricht mit dem Daemon über einen Unix-Socket. Bei Netzwerk-Sockets gehören immer IP-Adresse und Port zusammen.
 
+## <span id="sql"></span>SQL (Structured Query Language)
+: **Standard-Sprache zum Arbeiten mit relationalen Datenbanken** wie PostgreSQL, MySQL, MariaDB, SQLite. Mit SQL legst du Tabellen an (`CREATE TABLE`), fügst Daten ein (`INSERT INTO`), holst sie zurück (`SELECT`) und änderst sie (`UPDATE`, `DELETE`). Ein Standard seit den 1970ern, der auf fast allen Datenbanken gleich funktioniert – mit kleinen Varianten pro Produkt.
+
 ## <span id="ssh"></span>SSH (Secure Shell)
 : **Verschlüsseltes Netzwerk­protokoll für Fernzugriff auf Server.** Standard-Port: 22. Multipass nutzt SSH, um eine Shell in der VM zu öffnen. Man meldet sich mit Benutzername + Passwort oder (besser) mit SSH-Keys an.
 
 ## <span id="subnet"></span>Subnetz / Subnet
 : **Bereich von IP-Adressen, die zum gleichen Netzwerk gehören.** Schreibweise z.B. `172.17.0.0/16` – das sind alle Adressen `172.17.*.*`. Docker-Netzwerke bekommen jeweils ein eigenes Subnetz, damit Container-IPs eindeutig sind. Zuhause hast du meist `192.168.1.0/24`.
+
+## <span id="sudo"></span>sudo
+: **Unix/Linux-Befehl**, mit dem du einen anderen Befehl mit Administrator-Rechten (root) ausführst. Beispiel: `sudo apt update` – normale User dürfen keine Paketlisten aktualisieren, mit `sudo` schon. Meistens fragt sudo einmal nach deinem Passwort und merkt sich das für ein paar Minuten. Auf macOS und den meisten Linux-Distributionen Standard. Innerhalb von Docker-Containern oft nicht nötig, weil der Container-Prozess häufig schon als root läuft.
 
 ## <span id="systemd"></span>systemd
 : **Moderner Linux-Init-Manager und Service-Manager.** Startet, stoppt und überwacht System­dienste. Auf systemd-Systemen verwaltest du den Docker-Daemon mit `sudo systemctl {start|stop|restart|status} docker`. Default in den meisten heutigen Linux-Distributionen (Ubuntu, Debian, Fedora, RHEL, openSUSE, Arch).
@@ -372,6 +387,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="wsl-2"></span>WSL2 (Windows Subsystem for Linux 2)
 : **Microsofts Linux-Runtime auf Windows.** Technisch eine hoch­optimierte Hyper-V-VM mit einem Linux-Kernel von Microsoft. Grundlage für Docker Desktop auf Windows – der Docker-Daemon läuft in WSL2, nicht direkt in Windows.
+
+## <span id="xargs"></span>xargs
+: **Unix-Befehl**, der Ausgaben in Argumente für einen anderen Befehl umwandelt. Klassische Nutzung mit Pipe: `docker ps -aq | xargs docker rm -f`. `docker ps -aq` liefert eine Liste von Container-IDs (eine pro Zeile), `xargs` nimmt sie und hängt sie als Argumente an `docker rm -f` an – das löscht alle Container in einem Rutsch. Windows PowerShell hat ein anderes Muster, meist mit `@(...)` oder `ForEach-Object`.
 
 ## <span id="x86-64"></span>x86_64 (auch amd64)
 : **64-Bit-Variante der klassischen Intel/AMD-Prozessor­architektur.** Die meisten Server, viele Laptops und ältere Macs laufen auf x86_64. Apple Silicon (M-Chips) und viele mobile Geräte nutzen stattdessen ARM. Bei Docker-Images sieht man oft `amd64` als Architektur-Tag.

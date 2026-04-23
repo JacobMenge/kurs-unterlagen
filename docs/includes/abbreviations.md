@@ -142,3 +142,14 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[Typ-2-Hypervisor]: Hosted-Hypervisor, läuft als App im Host-OS
 *[Image-ID]: SHA-256-Hash eines Images (unveränderlich)
 *[Docker Hub]: Default-Registry von Docker Inc.
+
+Shell- und System-Begriffe:
+
+*[sudo]: Unix-Präfix, um einen Befehl mit Administrator-Rechten auszuführen
+*[xargs]: Unix-Befehl, der Eingabe-Zeilen in Argumente für einen anderen Befehl umwandelt
+*[Pipe]: Shell-Symbol `|`, das die Ausgabe eines Befehls an den nächsten weitergibt
+*[SQL]: Structured Query Language – Standard-Sprache für relationale Datenbanken
+*[Here-Document]: Shell-Technik, um mehrzeiligen Text direkt in eine Datei zu schreiben
+*[EOF]: End Of File – Markierung, die ein Here-Document oder Eingabe-Ende signalisiert
+*[Shell-Redirektion]: Umleitung der Ein-/Ausgabe von Befehlen mit `>`, `>>` oder `|`
+

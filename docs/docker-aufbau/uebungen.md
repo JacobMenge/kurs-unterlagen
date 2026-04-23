@@ -17,10 +17,20 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block – Volumes, Env-Variabl
 
 - Docker läuft (`docker version` klappt).
 - Aufräumen von alten Übungen der vorherigen Blöcke:
-    ```bash
-    docker ps -aq | xargs docker rm -f 2>/dev/null
-    docker network ls --filter "name=kurs" -q | xargs docker network rm 2>/dev/null
-    ```
+
+    === "macOS / Linux"
+        ```bash
+        docker ps -aq | xargs docker rm -f 2>/dev/null
+        docker network ls --filter "name=kurs" -q | xargs docker network rm 2>/dev/null
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker ps -aq | ForEach-Object { docker rm -f $_ }
+        docker network ls --filter "name=kurs" -q | ForEach-Object { docker network rm $_ }
+        ```
+
+    **`|`** ist die [Pipe](../glossar.md#pipe) – die Ausgabe des ersten Befehls wird an den zweiten weitergereicht. **[xargs](../glossar.md#xargs)** macht aus jeder Zeile ein Argument für den folgenden Befehl; PowerShell nutzt stattdessen `ForEach-Object`.
 
 ---
 
@@ -297,7 +307,13 @@ Prüfe per `docker exec`, dass:
 #### Hinweise
 
 - Ein Container kann in mehreren Netzwerken sein – genau das macht `backend`.
-- Mit `docker exec frontend ping -c 2 backend` testest du. Wenn der Container `ping` nicht hat: `getent hosts backend` oder `apt install iputils-ping`.
+- Mit `docker exec frontend ping -c 2 backend` testest du.
+- **Nicht jeder Container hat `ping` vorinstalliert.** Alternativen:
+    - `docker exec frontend getent hosts backend` (DNS-Auflösung testen, meistens verfügbar)
+    - `docker exec frontend wget -q -O- http://backend` (HTTP-Test, klappt bei nginx)
+    - `ping` nachinstallieren:
+        - In **Alpine-Images** (z.B. `nginx:alpine`): `docker exec frontend apk add --no-cache iputils-ping`
+        - In **Debian/Ubuntu-Images**: `docker exec frontend apt-get update && apt-get install -y iputils-ping`
 - Network-Create, dann `docker network connect`.
 
 #### Aufräumen

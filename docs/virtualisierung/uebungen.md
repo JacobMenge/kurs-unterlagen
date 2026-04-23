@@ -124,8 +124,8 @@ echo "Hallo aus der VM!" > meine-notiz.txt
 
 Was passiert:
 
-- `echo` gibt Text aus.
-- `>` leitet die Ausgabe in eine Datei um (statt sie auf den Bildschirm zu drucken).
+- `echo` gibt Text aus. Normalerweise landet der Text direkt auf dem Bildschirm (der „Standard-Ausgabe").
+- `>` ist die [Shell-Redirektion](../glossar.md#shell-redirektion) – sie leitet die Ausgabe **in eine Datei** um, statt sie auf den Bildschirm zu drucken. Wenn die Datei schon existiert, wird sie überschrieben. Mit `>>` würdest du stattdessen anhängen.
 - `meine-notiz.txt` ist der Dateiname, den wir gewählt haben.
 
 Prüfen:
@@ -285,6 +285,8 @@ Wir installieren **Python** in der VM und starten damit einen ganz einfachen Web
    sudo apt install -y python3
    ```
 
+   **`sudo`?** Das ist das Präfix, um einen Befehl mit Administrator-Rechten auszuführen. System-weite Installationen wie `apt install` brauchen die. Auf der Multipass-VM ist `sudo` passwortlos eingerichtet, du musst nichts eingeben. Mehr im [Glossar](../glossar.md#sudo).
+
 3. Eine HTML-Datei erzeugen:
    ```bash
    echo '<h1>Hallo aus meiner VM!</h1>' > index.html
@@ -389,6 +391,9 @@ Beides sollte funktionieren.
     **Bonus:** Style die Seiten mit etwas eingebetteten CSS (z.B. andere Hintergrundfarbe, andere Schrift).
 
 ??? success "Musterlösung (erst versuchen, dann aufklappen!)"
+
+    !!! tip "Hinweis zur Here-Doc-Syntax"
+        Die folgenden `cat > datei << 'EOF'`-Blöcke sind ein sogenanntes [Here-Document](../glossar.md#here-document). Der Text zwischen `'EOF'` und dem abschließenden `EOF` wird in die Datei geschrieben. Das Ganze läuft **in der VM** (nicht auf dem Host) – dort ist es reine Bash-Syntax und funktioniert immer.
 
     ### Schritt 1 – VM starten
 

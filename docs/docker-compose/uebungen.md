@@ -257,6 +257,7 @@ Baue den WordPress-Stack aus Übung 4.3 **um**:
 !!! info "Was du lernst"
     - `depends_on` mit `condition: service_healthy`
     - Healthcheck im Compose definieren
+    - Warum `$$` in Healthchecks nötig ist
 
 #### Szenario
 
@@ -264,15 +265,15 @@ Der `wordpress`-Container startet manchmal **bevor** die Datenbank bereit ist, u
 
 #### Aufgabe
 
-Erweitere den WordPress-Stack so, dass:
+Erweitere den WordPress-Stack aus Übung 4.3 so, dass:
 
-1. `db` einen Healthcheck hat, der `mariadb-admin ping -h localhost` ausführt, alle 5 Sekunden, bis zu 10 Retries.
+1. `db` einen Healthcheck hat, der das offizielle `healthcheck.sh`-Skript des MariaDB-Images nutzt, alle 5 Sekunden, bis zu 10 Retries.
 2. `wordpress` mit `depends_on: db: condition: service_healthy` konfiguriert ist.
 
 #### Hinweise
 
-- Das Healthcheck-Format ist ein JSON-Array oder `CMD-SHELL`-String.
-- `docker compose ps` zeigt den Health-Status einer Service.
+- Das MariaDB-Image bringt ein **eingebautes** Healthcheck-Script mit: `healthcheck.sh --connect --innodb_initialized`. Das ist die Canonical-Lösung – robuster als `mariadb-admin ping`, weil es keine Auth-Argumente braucht.
+- `docker compose ps` zeigt den Health-Status eines Services.
 - Achte darauf, dass `depends_on` in der detaillierteren Form (`condition:`) strukturiert werden muss.
 
 #### Erfolgs-Check
@@ -282,6 +283,85 @@ docker compose up -d
 docker compose ps
 ```
 Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` – und erst **danach** läuft `wordpress`.
+
+??? success "Musterlösung"
+
+    ### `compose.yaml`
+
+    ```yaml
+    services:
+      db:
+        image: mariadb:11
+        restart: unless-stopped
+        environment:
+          MARIADB_DATABASE: wordpress
+          MARIADB_USER: wp
+          MARIADB_PASSWORD: wppass
+          MARIADB_ROOT_PASSWORD: rootpass
+        volumes:
+          - db-data:/var/lib/mysql
+        healthcheck:
+          # healthcheck.sh ist im MariaDB-Image eingebaut
+          test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+          interval: 5s
+          timeout: 3s
+          retries: 10
+          start_period: 10s
+
+      wordpress:
+        image: wordpress:latest
+        restart: unless-stopped
+        depends_on:
+          db:
+            condition: service_healthy
+        environment:
+          WORDPRESS_DB_HOST: db:3306
+          WORDPRESS_DB_USER: wp
+          WORDPRESS_DB_PASSWORD: wppass
+          WORDPRESS_DB_NAME: wordpress
+        ports:
+          - "8080:80"
+        volumes:
+          - wp-content:/var/www/html/wp-content
+
+    volumes:
+      db-data:
+      wp-content:
+    ```
+
+    ### Starten und Status beobachten
+
+    ```bash
+    docker compose up -d
+    watch -n 1 docker compose ps
+    ```
+
+    Auf macOS gibt's `watch` nicht standardmäßig – dann einfach:
+    ```bash
+    docker compose ps
+    ```
+    alle paar Sekunden wiederholen.
+
+    Du siehst nacheinander:
+
+    1. `db` – `(health: starting)`
+    2. `db` – `(healthy)` ← jetzt darf wordpress starten
+    3. `wordpress` – `running`
+
+    ### Ohne Healthcheck-Bedingung (Vergleich)
+
+    Wenn du nur `depends_on: [db]` schreibst (ohne `condition`), startet `wordpress` **sofort**, auch wenn `db` noch 10 Sekunden braucht, bis es Anfragen akzeptiert. Die App stirbt dann mit Verbindungsfehler – außer sie hat eingebaute Retry-Logik.
+
+    ### `$$` in Healthchecks – wofür das gut ist
+
+    Falls dein Healthcheck eine ENV-Variable nutzen will, die Compose ebenfalls verwenden darf, musst du `$$` schreiben:
+
+    ```yaml
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+    ```
+
+    **Warum?** Compose parst `${VAR}` bereits, bevor der Container startet. Mit `$${VAR}` schreibst du buchstäblich `${VAR}` in die Container-Config – und die Shell im Container ersetzt das dann zur Laufzeit. Ohne `$$` würde Compose die Variable schon selbst einsetzen (oder leer lassen, falls nicht gesetzt).
 
 ---
 
@@ -310,6 +390,9 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
     Bonus: Schreib eine `README.md` für diesen Stack, die erklärt, wie man ihn startet und wozu er gut ist.
 
 ??? success "Musterlösung"
+
+    !!! tip "Dateien erstellen – OS-agnostisch"
+        Die folgenden Code-Blöcke zeigen jeweils den **Dateiinhalt**. Erstelle die Dateien mit einem Editor deiner Wahl (VSCode, Notepad, nano, vim) und speichere sie unter dem angegebenen Namen. Auf allen drei Systemen (Windows, macOS, Linux) ist das der zuverlässigste Weg.
 
     ### Verzeichnisstruktur
 
@@ -415,11 +498,15 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
       redis:
         image: redis:7-alpine
         restart: unless-stopped
+        environment:
+          # REDISCLI_AUTH wird automatisch von redis-cli als Passwort genutzt
+          REDISCLI_AUTH: ${REDIS_PASSWORD}
         command: redis-server --requirepass ${REDIS_PASSWORD} --save 60 1
         volumes:
           - redis-data:/data
         healthcheck:
-          test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+          # redis-cli nimmt REDISCLI_AUTH automatisch - kein -a-Flag nötig
+          test: ["CMD", "redis-cli", "ping"]
           interval: 5s
           timeout: 3s
           retries: 10
@@ -463,9 +550,10 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
     ### Redis testen
 
     ```bash
-    docker compose exec redis redis-cli -a "$REDIS_PASSWORD"
+    docker compose exec redis redis-cli
     ```
-    Im Redis-Prompt: `SET foo bar`, `GET foo`, `exit`.
+
+    `redis-cli` liest im Container automatisch die Env-Variable `REDISCLI_AUTH` und authentifiziert sich damit – du musst nicht `-a` + Passwort tippen. Im Redis-Prompt: `SET foo bar`, `GET foo`, `exit`.
 
     ### Postgres testen
 

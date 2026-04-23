@@ -212,14 +212,14 @@ func main() {
 ```
 module hallo
 
-go 1.22
+go 1.24
 ```
 
 #### Aufgabe
 
 Schreibe ein `Dockerfile` mit **zwei** Stages:
 
-1. **build**: `golang:1.22` → kompiliert `main.go` zu einer Binary.
+1. **build**: `golang:1.24` → kompiliert `main.go` zu einer Binary.
 2. **runtime**: `gcr.io/distroless/static-debian12` → nur die Binary.
 
 Baue, starte, öffne im Browser. Vergleiche die Image-Größe mit einem Single-Stage-Build.
@@ -233,7 +233,7 @@ Baue, starte, öffne im Browser. Vergleiche die Image-Größe mit einem Single-S
 ??? info "Gerüst zum Einstieg"
     ```dockerfile
     # ---- Stage 1: Build ----
-    FROM golang:1.22 AS build
+    FROM golang:1.24 AS build
     WORKDIR /src
     COPY go.mod ./
     COPY main.go ./
@@ -252,7 +252,7 @@ Baue, starte, öffne im Browser. Vergleiche die Image-Größe mit einem Single-S
 docker images | grep hallo
 ```
 
-Du solltest ein Image unter **10 MB** sehen. Im Vergleich zu `golang:1.22` als Runtime (800+ MB) ein **enormer** Unterschied.
+Du solltest ein Image unter **10 MB** sehen. Im Vergleich zu `golang:1.24` als Runtime (800+ MB) ein **enormer** Unterschied.
 
 ---
 
