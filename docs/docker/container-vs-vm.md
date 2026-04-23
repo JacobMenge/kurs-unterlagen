@@ -27,27 +27,27 @@ Wer das versteht, kann auch einordnen, wann eine VM **die bessere Wahl** ist als
 
 ```mermaid
 flowchart TB
-  subgraph VMS["Klassische Virtualisierung (jeder Gast hat einen eigenen Kernel)"]
+  subgraph VMS["Virtualisierung — jeder Gast mit eigenem Kernel"]
     direction TB
     HW1["Hardware"]
     HV["Hypervisor"]
-    VM1["VM 1<br/>Gast-Kernel · Libs · App"]
-    VM2["VM 2<br/>Gast-Kernel · Libs · App"]
-    VM3["VM 3<br/>Gast-Kernel · Libs · App"]
+    VM1["VM 1<br/>Kernel + App"]
+    VM2["VM 2<br/>Kernel + App"]
+    VM3["VM 3<br/>Kernel + App"]
     HW1 --> HV
     HV --> VM1
     HV --> VM2
     HV --> VM3
   end
 
-  subgraph CTS["Container (alle teilen sich einen Kernel)"]
+  subgraph CTS["Container — alle teilen einen Kernel"]
     direction TB
     HW2["Hardware"]
-    HK["Host-OS<br/>mit Linux-Kernel"]
-    DE["Container-Engine<br/>z.B. Docker"]
-    C1["Container 1<br/>Libs · App"]
-    C2["Container 2<br/>Libs · App"]
-    C3["Container 3<br/>Libs · App"]
+    HK["Host-OS + Linux-Kernel"]
+    DE["Container-Engine"]
+    C1["Container 1<br/>App"]
+    C2["Container 2<br/>App"]
+    C3["Container 3<br/>App"]
     HW2 --> HK
     HK --> DE
     DE --> C1

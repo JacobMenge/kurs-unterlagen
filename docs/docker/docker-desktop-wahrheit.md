@@ -64,17 +64,17 @@ Auf macOS ist es anders – es gibt **keinen Linux-Kernel** auf dem Host. Deshal
 flowchart TB
   subgraph MAC["macOS-Host"]
     direction TB
-    HWMac["Hardware<br/>(Apple Silicon oder Intel)"]
-    KERNM["macOS-Kernel<br/>(xnu/Darwin)"]
-    HVF["Apple Hypervisor Framework<br/>(Virtualization.framework)"]
+    HWMac["Hardware<br/>(Apple Silicon / Intel)"]
+    KERNM["macOS-Kernel"]
+    HVF["Apple HVF"]
     HWMac --> KERNM
     KERNM --> HVF
   end
 
-  subgraph VM["Linux-VM unter Docker Desktop"]
+  subgraph VM["Linux-VM (LinuxKit)"]
     direction TB
-    VMM["Linux-Kernel<br/>(LinuxKit)"]
-    DAEMONM["dockerd<br/>läuft in dieser VM"]
+    VMM["Linux-Kernel"]
+    DAEMONM["dockerd"]
     CM1["Container 1"]
     CM2["Container 2"]
     VMM --> DAEMONM
@@ -82,10 +82,10 @@ flowchart TB
     DAEMONM --> CM2
   end
 
-  CLIM["docker-CLI<br/>auf dem Mac"]
+  CLIM["docker-CLI"]
 
   HVF ==> VMM
-  CLIM -. "Unix-Socket" .-> DAEMONM
+  CLIM -. "Socket" .-> DAEMONM
 ```
 
 Schritt für Schritt:
@@ -113,16 +113,16 @@ flowchart TB
   subgraph WIN["Windows-Host"]
     direction TB
     HWW["Hardware"]
-    KERNW["Windows-Kernel (NT)"]
-    HYP["Hyper-V<br/>(Windows Hypervisor Platform)"]
+    KERNW["Windows-Kernel"]
+    HYP["Hyper-V"]
     HWW --> KERNW
     KERNW --> HYP
   end
 
-  subgraph WSL["WSL2-Linux-VM unter Docker Desktop"]
+  subgraph WSL["WSL2-Linux-VM"]
     direction TB
-    WSL2["Linux-Kernel<br/>(von Microsoft gepflegt)"]
-    DAEMONW["dockerd<br/>läuft in der WSL2-VM"]
+    WSL2["Linux-Kernel<br/>(Microsoft)"]
+    DAEMONW["dockerd"]
     CW1["Container 1"]
     CW2["Container 2"]
     WSL2 --> DAEMONW
@@ -130,10 +130,10 @@ flowchart TB
     DAEMONW --> CW2
   end
 
-  CLIW["docker-CLI<br/>auf Windows"]
+  CLIW["docker-CLI"]
 
   HYP ==> WSL2
-  CLIW -. "Unix-Socket über WSL" .-> DAEMONW
+  CLIW -. "Socket" .-> DAEMONW
 ```
 
 - Docker Desktop auf Windows nutzt **WSL2** (Windows Subsystem for Linux 2). Das ist eine von Microsoft bereitgestellte, hochoptimierte Linux-VM mit einem echten Linux-Kernel.

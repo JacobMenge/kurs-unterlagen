@@ -42,27 +42,26 @@ Das Default-Bridge ist für den Einstieg okay, aber für ernsthafte Setups **leg
 
 ```mermaid
 flowchart TB
-  subgraph BR["bridge (Default) – eigene IPs pro Container, Host mittels NAT"]
+  subgraph BR["bridge — Default, eigene IPs je Container"]
     direction LR
-    BRH["Host-Netzwerk"]
-    BRC1["Container 1<br/>IP im Bridge-Netz"]
-    BRC2["Container 2<br/>IP im Bridge-Netz"]
+    BRH["Host"]
+    BRC1["Container 1"]
+    BRC2["Container 2"]
     BRH -- "NAT" --> BRC1
     BRH -- "NAT" --> BRC2
   end
 
-  subgraph HO["host – Container teilt sich das Host-Netzwerk"]
+  subgraph HO["host — Container teilt Host-Netzwerk"]
     direction LR
-    HOH["Host-Netzwerk"]
-    HOC["Container<br/>selbe Ports wie Host"]
-    HOH === HOC
+    HOH["Host"]
+    HOC["Container"]
+    HOH --- HOC
   end
 
-  subgraph NO["none – Container hat keinen Netzzugang"]
+  subgraph NO["none — kein Netzzugang"]
     direction LR
     NOH["Host"]
-    NOC["Container<br/>isoliert (nur Loopback)"]
-    NOH -. "blockiert" .- NOC
+    NOC["Container (isoliert)"]
   end
 ```
 

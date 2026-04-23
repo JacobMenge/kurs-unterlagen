@@ -161,11 +161,14 @@ flowchart TB
   CREATED -- "docker start" --> RUNNING
   RUNNING -- "docker pause" --> PAUSED["paused"]
   PAUSED -- "docker unpause" --> RUNNING
-  RUNNING -- "docker stop<br/>(oder Prozess endet)" --> STOPPED["stopped"]
+  RUNNING -- "docker stop" --> STOPPED["stopped"]
   STOPPED -- "docker start" --> RUNNING
-  STOPPED -- "docker rm" --> END([entfernt])
-  RUNNING -- "docker rm -f" --> END
+  STOPPED -- "docker rm" --> ENDED([entfernt])
+  RUNNING -- "docker rm -f" --> ENDED
 ```
+
+!!! note "Zusätzlicher Übergang"
+    Aus `running` geht's auch nach `stopped`, wenn der **Hauptprozess des Containers selbst endet** – z.B. ein Skript, das durchläuft und beendet.
 
 Der Weg von „Image" zu „laufender Container" führt praktisch immer über `docker run`. Das ist eine **Kombination** aus `docker create` (Container erzeugen) + `docker start` (Container starten).
 
