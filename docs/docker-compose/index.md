@@ -41,6 +41,7 @@ Im [Aufbau-Block](../docker-aufbau/index.md) hast du einen Postgres-Container mi
 | [Einführung](einfuehrung.md) | Motivation, imperativ vs. deklarativ, V1 vs. V2, Befehls-Übersicht |
 | [Grundlagen](grundlagen.md) | Komplette `compose.yaml`-Syntax Schritt für Schritt |
 | [Praxis: WebApp mit Compose](praxis-webapp.md) | Der Hands-on – Flask-App + Postgres + Adminer als Compose-Stack |
+| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen |
 | [Stolpersteine](stolpersteine.md) | Typische Compose-Probleme |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung |
 

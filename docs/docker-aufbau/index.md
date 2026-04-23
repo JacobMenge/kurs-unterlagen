@@ -41,6 +41,7 @@ Im Einführungs-Block hast du einzelne Container gestartet und dein erstes eigen
 | [Umgebungsvariablen](umgebungsvariablen.md) | `-e`, `--env-file`, `.env`, Secrets-Abgrenzung | Theorie-Grundlage + Praxis Teil 1 |
 | [Docker-Netzwerke](docker-networks.md) | Bridge, User-Defined, Docker-DNS, Container-zu-Container | Theorie-Grundlage + Praxis Teil 2 |
 | [Praxis: Postgres & Adminer](praxis-multi-container.md) | Hands-on Schritt für Schritt – keine Programmier­kenntnisse nötig | Der Praxis-Teil |
+| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen | Training |
 | [Stolpersteine](stolpersteine.md) | Typische Probleme in allen drei Bereichen | Für die Gruppenarbeit und Besprechung |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung | Zum Wiederholen |
 

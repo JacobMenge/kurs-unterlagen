@@ -44,6 +44,7 @@ Dieser Block adressiert zwei Themen, die in Produktion zählen:
 |-------|--------|
 | [Dockerfile-Best-Practices](dockerfile-best-practices.md) | Multi-Stage, USER, HEALTHCHECK, Layer-Caching, CMD vs. ENTRYPOINT, Signal-Handling, Labels |
 | [Image-Optimierung](image-optimierung.md) | Basis-Image-Vergleich, Größen-Analyse mit `docker history` und `dive`, Trivy, SBOMs |
+| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen |
 | [Stolpersteine](stolpersteine.md) | Typische Probleme beim Profi-Bauen |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung |
 

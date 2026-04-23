@@ -9,5 +9,6 @@ nav:
   - "Docker installieren": installation.md
   - "Erste Schritte": erste-schritte.md
   - "Praxis: eigenes Image": praxis-eigenes-image.md
+  - "Übungen": uebungen.md
   - "Stolpersteine": stolpersteine.md
   - "Merksätze": merksaetze.md

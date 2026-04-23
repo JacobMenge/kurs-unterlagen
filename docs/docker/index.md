@@ -31,6 +31,7 @@ Genau dafür gibt es **Docker** und die Idee der **Container**.
 | [Docker installieren](installation.md) | Schritt-für-Schritt-Installation auf Windows 11, macOS, Linux inkl. Troubleshooting | Anleitung |
 | [Erste Schritte](erste-schritte.md) | `docker run` mit hello-world, nginx, httpd | Anleitung |
 | [Praxis: eigenes Image](praxis-eigenes-image.md) | Eigenes nginx-Image bauen und deployen | Anleitung |
+| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen | Training |
 | [Stolpersteine](stolpersteine.md) | Typische Fehler und ihre Lösung | Referenz |
 | [Merksätze](merksaetze.md) | Zusammenfassung | Referenz |
 

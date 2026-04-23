@@ -28,6 +28,7 @@ Die Antwort heißt **Virtualisierung**. Wir schauen zuerst, warum sie so nützli
 | [Werkzeuge im Überblick](werkzeuge-im-ueberblick.md) | Multipass, VirtualBox, UTM, Hyper-V, VMware, Parallels | Referenz |
 | [Multipass – Einstieg](multipass-einstieg.md) | Was ist Multipass? Installation pro Betriebssystem | Brücke |
 | [Praxis mit Multipass](praxis-multipass.md) | Hands-on: VM starten, betreten, stoppen, löschen | Anleitung |
+| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen | Training |
 | [Stolpersteine](stolpersteine.md) | Typische Probleme und ihre Lösungen | Referenz |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung | Referenz |
 
