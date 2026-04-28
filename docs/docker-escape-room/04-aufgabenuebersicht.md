@@ -398,6 +398,7 @@ Jede Gruppe zeigt am Ende kurz:
 - eigene Notizen
 - Terminal, Browser, Postman, curl
 - Zusammenarbeit in der Gruppe
+- **Google und KI-Tools** (ChatGPT, Claude, …) – aber bitte nur für **einzelne Fragen, an denen ihr feststeckt**. Nicht „löst mir die ganze Aufgabe": dann lernt ihr nichts. Wenn ihr die Lösung kopiert, bevor ihr verstanden habt, wofür sie da ist, raubt ihr euch selbst den Aha-Moment.
 
 ## ❌ Nicht erlaubt
 
