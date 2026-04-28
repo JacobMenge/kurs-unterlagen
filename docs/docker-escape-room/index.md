@@ -122,10 +122,8 @@ Wenn du den Block linear durcharbeitest:
 4. [Aufgaben­übersicht](04-aufgabenuebersicht.md) – eure 10 Aufgaben + Bonus
 5. [Hilfekarten](05-hilfekarten.md) – nutzt sie nur, wenn ihr feststeckt
 6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md) – was am Ende vorgezeigt wird
-7. [Trainer-Lösung](07-trainer-loesung.md) – **erst nach der Gruppenarbeit aufschlagen!**
+7. [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
 8. [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zur nächsten Einheit
-
-[Trainer-Guide](01-trainer-guide.md) ist nur für die **Kursleitung** relevant – Teilnehmende können ihn überspringen.
 
 ---
 

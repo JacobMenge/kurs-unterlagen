@@ -1,12 +1,12 @@
 ---
-title: "Trainer-Lösung"
-description: "Vollständige Lösung mit OS-Tabs für Linux, macOS und Windows. Erst nach der Gruppenarbeit aufschlagen!"
+title: "Lösung"
+description: "Vollständige Musterlösung mit OS-Tabs für Linux, macOS und Windows. Erst nach der eigenen Arbeit aufschlagen!"
 ---
 
-# Trainer-Lösung
+# Lösung
 
-!!! danger "Erst nach der Gruppenarbeit aufschlagen!"
-    Diese Seite enthält die **vollständige Lösung**. Wenn ihr noch in der Gruppenarbeit seid: [Hilfekarten](05-hilfekarten.md) sind der bessere Ort.
+!!! danger "Erst nach der eigenen Arbeit aufschlagen!"
+    Diese Seite enthält die **vollständige Musterlösung**. Wenn ihr noch in der Gruppenarbeit seid: [Hilfekarten](05-hilfekarten.md) sind der bessere Ort.
 
 Die Lösung ist plattformneutral mit **OS-Tabs** für Linux/macOS und Windows PowerShell.
 
@@ -199,7 +199,7 @@ Erwartet: erst „Database not ready yet…" für ein paar Sekunden, dann „Dat
     # Eintrag erstellen
     curl -X POST http://localhost:3000/api/entries \
       -H "Content-Type: application/json" \
-      -d '{"team":"Trainerteam","category":"pizza","name":"Container Calzone","score":42}'
+      -d '{"team":"Team Beispiel","category":"pizza","name":"Container Calzone","score":42}'
 
     # Scoreboard prüfen
     curl http://localhost:3000/api/scoreboard
@@ -216,7 +216,7 @@ Erwartet: erst „Database not ready yet…" für ein paar Sekunden, dann „Dat
       -Uri http://localhost:3000/api/entries `
       -Method POST `
       -ContentType "application/json" `
-      -Body '{"team":"Trainerteam","category":"pizza","name":"Container Calzone","score":42}'
+      -Body '{"team":"Team Beispiel","category":"pizza","name":"Container Calzone","score":42}'
 
     # Scoreboard prüfen
     Invoke-RestMethod http://localhost:3000/api/scoreboard
@@ -274,7 +274,7 @@ Der Eintrag muss noch da sein. **Das ist der Beweis für Volume-Persistenz.**
 
 ---
 
-## Typische Fehler (Trainer-Antworten)
+## Typische Fehler – und wie ihr sie löst
 
 ### Fehler 1: API nutzt `localhost` als `PGHOST`
 

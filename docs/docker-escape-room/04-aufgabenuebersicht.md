@@ -241,21 +241,30 @@ GET  http://localhost:3000/api/scoreboard
 }
 ```
 
-POST mit curl:
-```bash
-curl -X POST http://localhost:3000/api/entries \
-  -H "Content-Type: application/json" \
-  -d '{"team":"Team Alpha","category":"monster","name":"Dockerdrache","score":25}'
-```
+**POST-Beispiel:**
 
-POST mit PowerShell:
-```powershell
-Invoke-RestMethod `
-  -Uri http://localhost:3000/api/entries `
-  -Method POST `
-  -ContentType "application/json" `
-  -Body '{"team":"Team Alpha","category":"monster","name":"Dockerdrache","score":25}'
-```
+=== "macOS / Linux (curl)"
+    ```bash
+    curl -X POST http://localhost:3000/api/entries \
+      -H "Content-Type: application/json" \
+      -d '{"team":"Team Alpha","category":"monster","name":"Dockerdrache","score":25}'
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    Invoke-RestMethod `
+      -Uri http://localhost:3000/api/entries `
+      -Method POST `
+      -ContentType "application/json" `
+      -Body '{"team":"Team Alpha","category":"monster","name":"Dockerdrache","score":25}'
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    curl -X POST http://localhost:3000/api/entries ^
+      -H "Content-Type: application/json" ^
+      -d "{\"team\":\"Team Alpha\",\"category\":\"monster\",\"name\":\"Dockerdrache\",\"score\":25}"
+    ```
 
 **Tests:**
 
@@ -477,4 +486,4 @@ Aber: Keine Compose-Datei schreiben.
 
 → [Hilfekarten](05-hilfekarten.md) (10 abgestufte Hinweise)
 
-→ Trainer:in fragen
+→ Im Plenum nachfragen oder die [Musterlösung](07-loesung.md) konsultieren

@@ -1,6 +1,6 @@
 ---
 title: "Abgabe & Reflexion"
-description: "Was ihr am Ende präsentiert + Reflexionsfragen + Bewertungs-Punkte."
+description: "Was ihr am Ende präsentiert und welche Reflexionsfragen den Übungsabschluss runden."
 ---
 
 # Abgabe und Reflexion
@@ -77,41 +77,21 @@ Beantwortet kurz – mündlich in der Gruppe oder schriftlich auf dem Doku-Zette
 
 ---
 
-## Bewertung / Punkte (optional)
+## Worauf wir am Ende gemeinsam schauen
 
-Falls die Aufgabe bewertet wird, hier ein Vorschlag:
+Eine kleine Selbst-Checkliste, damit ihr für die Besprechung gut vorbereitet seid:
 
-| Aufgabe | Punkte |
-|---|---:|
-| Netzwerk erstellt | 10 |
-| PostgreSQL läuft | 10 |
-| Volume korrekt eingebunden | 15 |
-| API-Image gebaut | 15 |
-| API läuft | 15 |
-| API spricht mit Datenbank | 20 |
-| Adminer verbunden | 10 |
-| Daten angelegt und geprüft | 10 |
-| Fehler sauber dokumentiert | 10 |
-| Gute Erklärung in der Reflexion | 15 |
-| **Summe** | **130** |
+- [ ] Sind alle Bestandteile vorhanden? (Container, Netzwerk, Volume)
+- [ ] Funktioniert die Kommunikation zwischen den Containern?
+- [ ] Bleiben die Daten nach einem Container-Neustart erhalten?
+- [ ] Habt ihr mindestens **einen Fehler** dokumentiert und nachvollziehbar gelöst?
+- [ ] Könnt ihr in eigenen Worten erklären, **warum** Docker Compose im nächsten Schritt sinnvoll ist?
 
-Bonus pro Bonusaufgabe: jeweils +5 Punkte.
-
----
-
-## Was die Trainer:in beobachtet
-
-(Nur als Info für die Teilnehmenden – damit klar ist, worauf geachtet wird.)
-
-- Sind alle Bestandteile vorhanden? (Container, Netzwerk, Volume)
-- Funktioniert die Kommunikation zwischen den Containern?
-- Bleiben die Daten nach Container-Neustart erhalten?
-- Wurde mindestens ein Fehler dokumentiert und nachvollziehbar gelöst?
-- Können die Teilnehmenden in eigenen Worten erklären, **warum** Docker Compose im nächsten Schritt sinnvoll ist?
+Die Übung wird **nicht benotet**. Sie dient ausschließlich dazu, die Docker-Bausteine in eurem Kopf zu festigen, bevor wir uns Compose ansehen.
 
 ---
 
 ## Weiter
 
-- [Trainer-Lösung](07-trainer-loesung.md) – **erst nach der Gruppenarbeit aufschlagen!**
+- [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
 - [Übergang zu Compose](08-uebergang-zu-compose.md)
