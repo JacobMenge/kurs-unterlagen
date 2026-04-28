@@ -195,11 +195,24 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     docker volume ls
     ```
 
-    **Verhalten fixieren:**
-    ```bash
-    export COMPOSE_PROJECT_NAME=kurs
-    ```
-    Oder per Flag: `docker compose -p kurs up -d`.
+    **Verhalten fixieren – Projektname als Umgebungsvariable:**
+
+    === "macOS / Linux"
+        ```bash
+        export COMPOSE_PROJECT_NAME=kurs
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        $env:COMPOSE_PROJECT_NAME = "kurs"
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        set COMPOSE_PROJECT_NAME=kurs
+        ```
+
+    Oder per Flag direkt am Aufruf: `docker compose -p kurs up -d`.
 
 ??? info "External Volume – vorhandenes Volume ohne Projekt-Präfix nutzen"
     ```yaml
@@ -255,10 +268,26 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 
     **Neu:** `docker compose` mit Leerzeichen (Go, Compose V2) – **aktueller Standard**.
 
-    Wenn nur das alte installiert ist: in Docker Desktop ist inzwischen beides dabei. Auf Linux aktualisieren:
-    ```bash
-    sudo apt-get install -y docker-compose-plugin
-    ```
+    Wenn nur das alte installiert ist:
+
+    === "macOS / Windows (Docker Desktop)"
+        Docker Desktop bringt seit 2022 das Compose-V2-Plugin schon mit. Falls bei dir trotzdem nur `docker-compose` (mit Bindestrich) klappt: Docker Desktop auf die aktuelle Version aktualisieren (Wal-Icon → Check for Updates).
+
+    === "Linux (Ubuntu/Debian)"
+        ```bash
+        sudo apt-get update
+        sudo apt-get install -y docker-compose-plugin
+        ```
+
+    === "Linux (Fedora/RHEL/Rocky/Alma)"
+        ```bash
+        sudo dnf install -y docker-compose-plugin
+        ```
+
+    === "Linux (Arch)"
+        ```bash
+        sudo pacman -S docker-compose
+        ```
 
 ??? info "Mehrere Compose-Dateien layern"
     ```bash

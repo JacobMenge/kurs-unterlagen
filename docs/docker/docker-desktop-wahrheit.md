@@ -95,12 +95,21 @@ Schritt für Schritt:
 3. In dieser Linux-VM läuft ein **echter Linux-Kernel** (ein minimales Distribution namens **LinuxKit**).
 4. In der Linux-VM läuft **`dockerd`**, der Docker-Daemon.
 5. Deine Container laufen **in dieser Linux-VM** – und teilen sich deren Kernel.
-6. Deine `docker`-CLI am Mac spricht mit dem Daemon **über einen Unix-Socket** (eine datei-ähnliche Schnittstelle für Prozess-zu-Prozess-Kommunikation), der aus der VM heraus ans macOS durchgereicht wird. Deshalb fühlt es sich wie „lokal" an. Sichtbar unter `/var/run/docker.sock`:
+6. Deine `docker`-CLI am Mac spricht mit dem Daemon **über einen Unix-Socket** (eine datei-ähnliche Schnittstelle für Prozess-zu-Prozess-Kommunikation), der aus der VM heraus ans macOS durchgereicht wird. Deshalb fühlt es sich wie „lokal" an. Du kannst dir die aktive Verbindung anschauen:
 
-    ```bash
-    ls -la /var/run/docker.sock
-    docker context ls   # zeigt die aktive Verbindung
-    ```
+    === "macOS / Linux"
+        ```bash
+        ls -la /var/run/docker.sock
+        docker context ls
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        # Auf Windows ist der Endpoint kein Unix-Socket, sondern ein Named Pipe.
+        # docker context ls zeigt es:
+        docker context ls
+        # Default-Endpoint: npipe:////./pipe/docker_engine
+        ```
 
 ---
 

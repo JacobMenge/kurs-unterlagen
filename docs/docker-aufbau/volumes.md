@@ -196,11 +196,26 @@ Wenn der Host-Pfad der aktuelle Ordner ist:
 
 Wenn der Container die Daten nur **lesen**, nicht verändern soll, häng `:ro` an:
 
-```bash
-docker run -d \
-  -v $(pwd)/config.yaml:/etc/app/config.yaml:ro \
-  meine-app
-```
+=== "macOS / Linux"
+    ```bash
+    docker run -d \
+      -v $(pwd)/config.yaml:/etc/app/config.yaml:ro \
+      meine-app
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker run -d `
+      -v "${PWD}/config.yaml:/etc/app/config.yaml:ro" `
+      meine-app
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    docker run -d ^
+      -v "%cd%\config.yaml:/etc/app/config.yaml:ro" ^
+      meine-app
+    ```
 
 Das ist gute Praxis für **Konfigurations­dateien** – der Container kann nicht aus Versehen etwas kaputt­machen.
 
@@ -219,12 +234,29 @@ docker run -d --name db \
 
 Für Bind Mount:
 
-```bash
-docker run -d --name web \
-  --mount type=bind,source=$(pwd),target=/usr/share/nginx/html \
-  -p 8080:80 \
-  nginx:alpine
-```
+=== "macOS / Linux"
+    ```bash
+    docker run -d --name web \
+      --mount type=bind,source=$(pwd),target=/usr/share/nginx/html \
+      -p 8080:80 \
+      nginx:alpine
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker run -d --name web `
+      --mount "type=bind,source=${PWD},target=/usr/share/nginx/html" `
+      -p 8080:80 `
+      nginx:alpine
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    docker run -d --name web ^
+      --mount type=bind,source=%cd%,target=/usr/share/nginx/html ^
+      -p 8080:80 ^
+      nginx:alpine
+    ```
 
 **Für den Alltag reicht `-v`.** `--mount` ist vor allem nützlich, wenn du Spezialfälle brauchst (z.B. `tmpfs`-Mounts, also Speicher im RAM, der beim Stoppen des Containers verschwindet).
 
@@ -254,23 +286,59 @@ docker run -d --name web \
     `--save 60 1` sagt Redis: „mache alle 60 Sekunden einen Snapshot, wenn mindestens 1 Key geändert wurde". Der Snapshot landet in `/data`, also im Volume.
 
 ??? example "Frontend-Entwicklung mit Live-Reload"
-    ```bash
-    docker run -d --name dev \
-      -v $(pwd):/app \
-      -w /app \
-      -p 3000:3000 \
-      node:20 npm run dev
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker run -d --name dev \
+          -v $(pwd):/app \
+          -w /app \
+          -p 3000:3000 \
+          node:20 npm run dev
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker run -d --name dev `
+          -v "${PWD}:/app" `
+          -w /app `
+          -p 3000:3000 `
+          node:20 npm run dev
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker run -d --name dev ^
+          -v "%cd%:/app" ^
+          -w /app ^
+          -p 3000:3000 ^
+          node:20 npm run dev
+        ```
 
     Dein Host-Code ist im Container unter `/app`. Änderungen am Code greifen sofort – keine Rebuilds.
 
 ??? example "Config-Datei read-only ins Image legen"
-    ```bash
-    docker run -d \
-      -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro \
-      -p 8080:80 \
-      nginx:alpine
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker run -d \
+          -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro \
+          -p 8080:80 \
+          nginx:alpine
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker run -d `
+          -v "${PWD}/nginx.conf:/etc/nginx/nginx.conf:ro" `
+          -p 8080:80 `
+          nginx:alpine
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker run -d ^
+          -v "%cd%\nginx.conf:/etc/nginx/nginx.conf:ro" ^
+          -p 8080:80 ^
+          nginx:alpine
+        ```
 
     Deine eigene nginx-Konfiguration, ohne ein eigenes Image bauen zu müssen. Praktisch für Experimente.
 
@@ -283,10 +351,23 @@ docker run -d --name web \
 
     **Ursache:** Der User im Container hat eine andere User-ID als der Eigentümer des Host-Ordners. Auf Linux ist das oft spürbar, auf macOS dank Docker Desktop-Übersetzung meist unsichtbar.
 
-    **Lösung (Linux):** Den Container als deinen Host-User starten:
-    ```bash
-    docker run -u $(id -u):$(id -g) -v $(pwd):/app meine-app
-    ```
+    **Lösung:** Den Container als deinen Host-User starten:
+
+    === "macOS / Linux"
+        ```bash
+        docker run --rm -u $(id -u):$(id -g) -v $(pwd):/app meine-app
+        ```
+
+    === "Windows PowerShell"
+        Auf Windows gibt es keine UID/GID im Linux-Sinn – das Mount-Subsystem von Docker Desktop übersetzt Datei-Rechte automatisch. Falls dein Container trotzdem unter Linux-User-Rechten laufen soll, leg im Dockerfile einen User an:
+        ```dockerfile
+        RUN adduser -D appuser
+        USER appuser
+        ```
+        Oder beim Start eine **fixe** UID/GID übergeben (wenn du weißt, was im Container existiert):
+        ```powershell
+        docker run --rm -u 1000:1000 -v "${PWD}:/app" meine-app
+        ```
 
     Oder im Dockerfile einen passenden User anlegen und `USER` setzen (siehe [Dockerfile-Best-Practices](../docker-profi/dockerfile-best-practices.md)).
 
@@ -314,30 +395,70 @@ docker run -d --name web \
 ??? info "Volume-Backup: wie sichere ich ein Volume?"
     Docker hat kein eingebautes Backup-Kommando, aber ein Einzeiler reicht:
 
-    ```bash
-    docker run --rm \
-      -v postgres-daten:/data \
-      -v $(pwd):/backup \
-      alpine \
-      tar czf /backup/postgres-backup-$(date +%F).tar.gz -C /data .
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker run --rm \
+          -v postgres-daten:/data \
+          -v $(pwd):/backup \
+          alpine \
+          sh -c 'tar czf /backup/postgres-backup-$(date +%F).tar.gz -C /data .'
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        $datum = Get-Date -Format "yyyy-MM-dd"
+        docker run --rm `
+          -v postgres-daten:/data `
+          -v "${PWD}:/backup" `
+          alpine `
+          tar czf "/backup/postgres-backup-$datum.tar.gz" -C /data .
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        for /f %i in ('powershell -Command "Get-Date -Format yyyy-MM-dd"') do set DATUM=%i
+        docker run --rm ^
+          -v postgres-daten:/data ^
+          -v "%cd%:/backup" ^
+          alpine ^
+          tar czf /backup/postgres-backup-%DATUM%.tar.gz -C /data .
+        ```
 
     Was passiert:
 
     - Ein Wegwerf-Container auf `alpine`-Basis.
     - Das zu sichernde Volume als `/data` gemountet.
     - Ein Bind Mount auf dein aktuelles Verzeichnis als `/backup`.
-    - `tar` erzeugt ein Archiv mit Datum im Namen.
+    - `tar` erzeugt ein Archiv mit Datum im Namen. (Auf bash wird `$(date +%F)` **im Container** ausgeführt – wir umschließen mit `sh -c '...'`, damit die Variable nicht der Host-Shell entweicht.)
 
     Zum **Restore** umgekehrt:
 
-    ```bash
-    docker run --rm \
-      -v postgres-daten:/data \
-      -v $(pwd):/backup \
-      alpine \
-      tar xzf /backup/postgres-backup-2026-04-21.tar.gz -C /data
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker run --rm \
+          -v postgres-daten:/data \
+          -v $(pwd):/backup \
+          alpine \
+          tar xzf /backup/postgres-backup-2026-04-21.tar.gz -C /data
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker run --rm `
+          -v postgres-daten:/data `
+          -v "${PWD}:/backup" `
+          alpine `
+          tar xzf /backup/postgres-backup-2026-04-21.tar.gz -C /data
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker run --rm ^
+          -v postgres-daten:/data ^
+          -v "%cd%:/backup" ^
+          alpine ^
+          tar xzf /backup/postgres-backup-2026-04-21.tar.gz -C /data
+        ```
 
 ??? info "Wie viel Platz belegen meine Volumes?"
     ```bash

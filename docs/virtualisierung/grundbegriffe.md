@@ -82,10 +82,24 @@ Vorteil: du kannst diese Datei kopieren, sichern oder auf einen anderen Rechner 
 
     Die Verzeichnisse sind **root/Admin-geschützt**. Manipulationen von Hand bringen meist Multipass' Datenbank durcheinander – lieber Multipass-Befehle nutzen.
 
-    Gesamt­verbrauch prüfen (macOS):
-    ```bash
-    sudo du -sh "/var/root/Library/Application Support/multipassd"
-    ```
+    Gesamt­verbrauch prüfen:
+
+    === "macOS"
+        ```bash
+        sudo du -sh "/var/root/Library/Application Support/multipassd"
+        ```
+
+    === "Linux (Snap)"
+        ```bash
+        sudo du -sh /var/snap/multipass/common/data/multipassd
+        ```
+
+    === "Windows PowerShell (als Admin)"
+        ```powershell
+        Get-ChildItem -Recurse "C:\Windows\System32\config\systemprofile\AppData\Roaming\multipassd" |
+            Measure-Object -Property Length -Sum |
+            ForEach-Object { "{0:N2} MB" -f ($_.Sum / 1MB) }
+        ```
 
 ### Virtuelle Netzwerkkarte (vNIC)
 

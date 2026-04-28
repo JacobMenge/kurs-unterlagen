@@ -32,16 +32,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var glossarBase = buildGlossarBase();
 
+  // Robuste Slugify-Funktion, die zur Konvention der Glossar-Anker passt.
+  // Regeln:
+  //   - Begriff in Kleinbuchstaben
+  //   - Whitespace, Slash, Punkt und Underscore werden zu '-'
+  //   - Mehrfach-Bindestriche zusammengefasst
+  //   - Bindestriche an Anfang/Ende getrimmt
+  // Beispiele:
+  //   "CI/CD"                   -> "ci-cd"
+  //   "compose.yaml"            -> "compose-yaml"
+  //   "depends_on"              -> "depends-on"
+  //   "x86_64"                  -> "x86-64"
+  //   "Virtualization.framework"-> "virtualization-framework"
+  function slugify(term) {
+    return term
+      .trim()
+      .toLowerCase()
+      .replace(/[\s\/._]+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
   document.querySelectorAll("abbr").forEach(function (abbr) {
     // Wenn die Abkuerzung schon innerhalb eines Links liegt, nichts tun
     if (abbr.closest("a")) return;
 
-    var term = abbr.textContent.trim().toLowerCase();
-    // Sonderzeichen fuer HTML-IDs bereinigen: Leerzeichen -> Bindestrich,
-    // Schraegstriche entfernen (z.B. "CI/CD" -> "cicd")
-    var anchor = term
-      .replace(/\s+/g, "-")
-      .replace(/\//g, "");
+    var anchor = slugify(abbr.textContent);
 
     var link = document.createElement("a");
     link.href = glossarBase + anchor;

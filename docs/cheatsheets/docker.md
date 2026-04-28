@@ -5,6 +5,18 @@ description: "Die wichtigsten Docker-Befehle als Tabellen – zum schnellen Nach
 
 # Cheatsheet – Docker
 
+!!! info "Plattform-Hinweis zu den Code-Beispielen"
+    Die meisten Beispiele in diesem Cheatsheet zeigen **macOS / Linux Bash**-Syntax. Für **Windows PowerShell** musst du an drei Stellen umschreiben:
+
+    | macOS / Linux (Bash) | Windows PowerShell | Windows CMD |
+    |----------------------|--------------------|-------------|
+    | `$(docker ps -q)` | `@(docker ps -q)` oder Pipe an `ForEach-Object` | für-Schleife (`for /f`) |
+    | `$(pwd)` | `${PWD}` | `%cd%` |
+    | `export VAR=value` | `$env:VAR = "value"` | `set VAR=value` |
+    | `&> log.txt` | `*> log.txt` | `> log.txt 2>&1` |
+
+    Bei den **„Nützlichen Einzeilern"** weiter unten findest du die wichtigsten Varianten als anklickbare Tabs.
+
 ## Grundlagen
 
 | Befehl | Bedeutung |
@@ -124,7 +136,24 @@ docker run --platform linux/amd64 -it ubuntu bash
 | `docker volume inspect <name>` | Detailinfos zu Volume |
 | `docker volume rm <name>` | Volume löschen |
 | `-v <name>:/pfad` | Named Volume beim run einbinden |
-| `-v $(pwd):/app` | Bind Mount aktuellen Ordner in Container |
+| `-v <hostpfad>:/app` | Bind Mount – Hostpfad in Container einhängen |
+
+Bind Mount des **aktuellen Ordners** je Shell:
+
+=== "macOS / Linux"
+    ```bash
+    -v $(pwd):/app
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    -v "${PWD}:/app"
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    -v "%cd%:/app"
+    ```
 
 !!! note "Volumes vertiefen wir im nächsten Kursblock."
     Für den heutigen Einstieg reicht es, den Begriff zu kennen.
@@ -153,35 +182,76 @@ docker run --platform linux/amd64 -it ubuntu bash
 
 ## Nützliche Einzeiler
 
-Alle laufenden Container stoppen:
+### Alle laufenden Container stoppen
 
-```bash
-docker stop $(docker ps -q)
-```
+=== "macOS / Linux"
+    ```bash
+    docker stop $(docker ps -q)
+    ```
 
-Alle Container (auch gestoppte) entfernen:
+=== "Windows PowerShell"
+    ```powershell
+    docker ps -q | ForEach-Object { docker stop $_ }
+    ```
 
-```bash
-docker rm $(docker ps -aq)
-```
+=== "Windows CMD"
+    ```cmd
+    for /f %i in ('docker ps -q') do docker stop %i
+    ```
 
-Shell im neuesten Container:
+### Alle Container (auch gestoppte) entfernen
 
-```bash
-docker exec -it $(docker ps -q | head -1) bash
-```
+=== "macOS / Linux"
+    ```bash
+    docker rm $(docker ps -aq)
+    ```
 
-Schnell mal ein Wegwerf-Container mit Ubuntu:
+=== "Windows PowerShell"
+    ```powershell
+    docker ps -aq | ForEach-Object { docker rm $_ }
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    for /f %i in ('docker ps -aq') do docker rm %i
+    ```
+
+### Shell im neuesten Container
+
+=== "macOS / Linux"
+    ```bash
+    docker exec -it $(docker ps -q | head -1) bash
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker exec -it (docker ps -q | Select-Object -First 1) bash
+    ```
+
+### Schnell mal ein Wegwerf-Container mit Ubuntu
 
 ```bash
 docker run --rm -it ubuntu bash
 ```
 
-Alle Logs eines Containers in eine Datei:
+(plattform-unabhängig)
 
-```bash
-docker logs <name> &> container.log
-```
+### Alle Logs eines Containers in eine Datei
+
+=== "macOS / Linux"
+    ```bash
+    docker logs <name> &> container.log
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker logs <name> *> container.log
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    docker logs <name> > container.log 2>&1
+    ```
 
 ---
 

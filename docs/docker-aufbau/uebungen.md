@@ -413,9 +413,21 @@ Alle Container und beide Netzwerke entfernen.
     ```
 
     Volumes prüfen – `notes-data` ist noch da:
-    ```bash
-    docker volume ls | grep notes-data
-    ```
+
+    === "macOS / Linux"
+        ```bash
+        docker volume ls | grep notes-data
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker volume ls | Select-String "notes-data"
+        ```
+
+    === "Plattform-unabhängig"
+        ```bash
+        docker volume ls --filter "name=notes-data"
+        ```
 
     Beide Container neu starten (dieselben Befehle wie oben).
 

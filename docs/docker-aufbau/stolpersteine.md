@@ -40,10 +40,19 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     **Ursache:** Der User im Container hat eine andere UID als der Volume-Eigentümer auf Host-Seite. Kommt besonders bei Bind Mounts vor.
 
     **Lösung (häufig):**
-    ```bash
-    docker run -u $(id -u):$(id -g) -v $(pwd):/app meine-app
-    ```
-    Oder im Dockerfile (wird im [Profi-Block](../docker-profi/dockerfile-best-practices.md) behandelt).
+
+    === "macOS / Linux"
+        ```bash
+        docker run --rm -u $(id -u):$(id -g) -v $(pwd):/app meine-app
+        ```
+
+    === "Windows PowerShell"
+        Auf Windows gibt es keine Unix-UID/GID am Host. Docker Desktop übersetzt Datei-Rechte automatisch. Wenn dein Container trotzdem unter einer bestimmten UID/GID laufen soll, leg einen User im Dockerfile an oder gib eine fixe Zahl mit:
+        ```powershell
+        docker run --rm -u 1000:1000 -v "${PWD}:/app" meine-app
+        ```
+
+    Oder im Dockerfile einen unprivilegierten User anlegen (wird im [Profi-Block](../docker-profi/dockerfile-best-practices.md) behandelt).
 
 ??? info "Wie sehe ich, wie viel Platz ein Volume belegt?"
     ```bash
@@ -86,11 +95,21 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
 
 ??? info "Ich will das Passwort nicht in der Shell-History sehen"
     Statt direkt zu tippen, kannst du die Variable in der Shell ohne History setzen und dann nur den Namen an Docker geben:
-    ```bash
-    read -s POSTGRES_PASSWORD          # Passwort eingeben, wird nicht geechot
-    export POSTGRES_PASSWORD
-    docker run -d --name db -e POSTGRES_PASSWORD ... postgres:16
-    ```
+
+    === "macOS / Linux"
+        ```bash
+        read -s POSTGRES_PASSWORD          # Passwort eingeben, wird nicht geechot
+        export POSTGRES_PASSWORD
+        docker run -d --name db -e POSTGRES_PASSWORD ... postgres:16
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        $secure = Read-Host "Passwort" -AsSecureString
+        $env:POSTGRES_PASSWORD = [System.Net.NetworkCredential]::new("", $secure).Password
+        docker run -d --name db -e POSTGRES_PASSWORD ... postgres:16
+        ```
+
     Oder eine `.env`-Datei nutzen (siehe [Umgebungsvariablen](umgebungsvariablen.md)).
 
 ??? danger "Secret ist in Git gelandet"
@@ -259,10 +278,22 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     docker stop adminer db
     docker rm adminer db
     ```
-    Oder radikaler:
-    ```bash
-    docker ps -q | xargs docker stop
-    ```
+    Oder radikaler – alle laufenden Container auf einmal stoppen:
+
+    === "macOS / Linux"
+        ```bash
+        docker ps -q | xargs docker stop
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker ps -q | ForEach-Object { docker stop $_ }
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        for /f "tokens=*" %i in ('docker ps -q') do docker stop %i
+        ```
 
 ??? info "Ich will alle Docker-Reste aus diesem Kurs loswerden"
     ```bash

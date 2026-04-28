@@ -333,14 +333,25 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
     ```bash
     docker compose up -d
-    watch -n 1 docker compose ps
     ```
 
-    Auf macOS gibt's `watch` nicht standardmäßig – dann einfach:
-    ```bash
-    docker compose ps
-    ```
-    alle paar Sekunden wiederholen.
+    Status alle Sekunde aktualisieren:
+
+    === "Linux"
+        ```bash
+        watch -n 1 docker compose ps
+        ```
+
+    === "macOS"
+        Auf macOS gibt's `watch` nicht standardmäßig – entweder per `brew install watch` nachinstallieren, oder eine Bash-Schleife:
+        ```bash
+        while true; do clear; docker compose ps; sleep 1; done
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        while ($true) { Clear-Host; docker compose ps; Start-Sleep -Seconds 1 }
+        ```
 
     Du siehst nacheinander:
 
@@ -541,8 +552,26 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
     ### Starten und testen
 
+    Erstmal die `.env.example` zu deiner echten `.env` kopieren und die Werte ausfüllen:
+
+    === "macOS / Linux"
+        ```bash
+        cp .env.example .env
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        Copy-Item .env.example .env
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        copy .env.example .env
+        ```
+
+    Dann starten:
+
     ```bash
-    cp .env.example .env    # und Werte eintragen
     docker compose up -d
     docker compose ps       # alles "healthy" oder "running"?
     ```

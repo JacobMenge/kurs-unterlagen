@@ -32,11 +32,26 @@ description: "Schritt-für-Schritt: erste Ubuntu-VM starten, betreten, stoppen, 
 ??? info "Funktioniert das auch im Firmennetz mit Proxy?"
     Ja, aber mit kleinen Einstellungen. Siehe [Multipass-Einstieg → Corporate-Firmenumgebung](multipass-einstieg.md) und [Stolpersteine](stolpersteine.md). Kurzform:
 
-    ```bash
-    export HTTP_PROXY=http://proxy.firma:8080
-    export HTTPS_PROXY=http://proxy.firma:8080
-    multipass launch ...
-    ```
+    === "macOS / Linux"
+        ```bash
+        export HTTP_PROXY=http://proxy.firma:8080
+        export HTTPS_PROXY=http://proxy.firma:8080
+        multipass launch 22.04 --name demo
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        $env:HTTP_PROXY  = "http://proxy.firma:8080"
+        $env:HTTPS_PROXY = "http://proxy.firma:8080"
+        multipass launch 22.04 --name demo
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        set HTTP_PROXY=http://proxy.firma:8080
+        set HTTPS_PROXY=http://proxy.firma:8080
+        multipass launch 22.04 --name demo
+        ```
 
 ## Grundregel für Befehle auf dieser Seite
 
@@ -156,9 +171,18 @@ ubuntu@demo:~$
 
 ??? info "Wie unterscheidet sich `multipass shell` von SSH?"
     Unter der Haube nutzt Multipass einen eigenen Mechanismus zum Hineinspringen. Du kannst die VM aber auch klassisch per SSH ansprechen, wenn dir das lieber ist:
-    ```bash
-    ssh ubuntu@$(multipass info demo | awk '/IPv4/ {print $2}')
-    ```
+
+    === "macOS / Linux"
+        ```bash
+        ssh ubuntu@$(multipass info demo | awk '/IPv4/ {print $2}')
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        $ip = (multipass info demo --format json | ConvertFrom-Json).info.demo.ipv4[0]
+        ssh ubuntu@$ip
+        ```
+
     Funktional das Gleiche, beide landen als User `ubuntu` in der VM.
 
 Ein paar Befehle zur Orientierung:

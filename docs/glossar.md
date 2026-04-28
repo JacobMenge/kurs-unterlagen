@@ -16,6 +16,17 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="adminer"></span>Adminer
 : Schlanke **Web-Oberfläche zur Verwaltung von Datenbanken** wie PostgreSQL, MySQL oder SQLite. Wird als offizielles Docker-Image (`adminer`) bereitgestellt und ist damit in Sekunden startklar. Kein Setup nötig – Login-Maske öffnen, Host/User/Passwort eingeben, loslegen. In diesem Kurs nutzen wir Adminer, um in einer Postgres-Datenbank Tabellen anzulegen und Daten einzusehen.
 
+## <span id="alpine"></span><span id="slim"></span>Alpine / Slim (Basis-Images)
+: **Minimale Linux-Basis-Images für Container.**
+
+    - **Alpine** ist eine eigenständige, sehr kleine Distribution (~5 MB Basis), die `musl` statt `glibc` und `apk` als Paketmanager nutzt. Beliebt für schlanke Images. Vorsicht: manche Software (vor allem Python-Wheels mit C-Code) braucht spezielle Alpine-Builds, sonst muss kompiliert werden – das kann Build-Zeiten verlängern.
+    - **Slim** (z.B. `python:3.12-slim`, `node:20-slim`) ist eine entschlackte Variante eines klassischen Debian-basierten Images. Behält `glibc` und `apt`, lässt aber Doku, Build-Tools und seltene Pakete weg. Ein guter Kompromiss zwischen Größe und Kompatibilität.
+
+    Faustregel: **Slim** ist der sichere Default. **Alpine** wenn du wirklich jeden MB sparen willst und deine Abhängigkeiten kompatibel sind.
+
+## <span id="api"></span><span id="apis"></span>API (Application Programming Interface)
+: **Definierte Schnittstelle, über die Programme miteinander reden.** Eine Web-API beschreibt: „Schicke einen `GET /entries`-Request an diese URL, du bekommst JSON zurück". Im Kurs taucht `API` vor allem im Compose- und Escape-Room-Block auf, wo eine kleine Web-Anwendung mit der Datenbank über eine REST-API spricht. Siehe auch [REST](#rest), [GET](#get), [POST](#post), [Endpoint](#endpoint).
+
 ## <span id="apparmor"></span>AppArmor
 : **Linux-Sicherheitsmodul**, das den Zugriff eines Prozesses auf Dateien, Netzwerke und andere Ressourcen einschränkt. Ubuntu und Debian setzen AppArmor standardmäßig ein. Docker bringt ein Default-Profil mit, das für die meisten Container passt – selten Ursache von Problemen. Du erkennst AppArmor-Blockaden in `dmesg`-Logs.
 
@@ -37,14 +48,20 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="bios"></span>BIOS (Basic Input/Output System)
 : **Firmware**, die beim Starten eines Rechners als Erstes ausgeführt wird. Findet Hardware, initialisiert sie und lädt den Bootloader. BIOS ist der historische Name und weitgehend durch UEFI abgelöst – im Alltag werden beide Begriffe oft synonym verwendet.
 
-## <span id="bridge"></span>Bridge-Netzwerk
+## <span id="bridge"></span><span id="bridge-netzwerk"></span>Bridge-Netzwerk
 : **Default-Netzwerktreiber von Docker.** Alle Container, die ohne weitere Angabe gestartet werden, landen in einer virtuellen Switch („Bridge") auf dem Host. Im **User-Defined Bridge** gibt es DNS (Container finden sich per Name), im **Default-Bridge** nicht. Die Bridge ist ein virtuelles Gerät im Linux-Kernel, das Pakete zwischen Containern und der Außenwelt weiterleitet. Siehe auch [Docker-Netzwerke](docker-aufbau/docker-networks.md).
 
 ## <span id="bootloader"></span>Bootloader
 : **Kleines Programm**, das nach BIOS/UEFI gestartet wird und den Kernel des Betriebssystems in den RAM lädt und anspringt. Auf Linux häufig **GRUB** (Grand Unified Bootloader). Virtuelle Maschinen haben ihren eigenen virtuellen Bootloader, der beim VM-Start läuft.
 
+## <span id="buildx"></span>buildx
+: **Erweitertes `docker build`-Plugin** für moderne Build-Funktionen. Wird seit Docker 20.10 standardmäßig mitgeliefert. Wichtige Features: **Multi-Architektur-Builds** (`--platform linux/amd64,linux/arm64` baut beide Varianten gleichzeitig), bessere Cache-Backends (`--cache-from`, `--cache-to`) und der moderne Frontend-Mechanismus per `# syntax=docker/dockerfile:1`. Im Alltag merkst du buildx kaum – es übernimmt automatisch im Hintergrund.
+
 ## <span id="build-kontext"></span>Build-Kontext
 : Der **Ordner, der beim `docker build .` komplett an den Docker-Daemon gesendet wird**. Alle `COPY`- und `ADD`-Pfade im Dockerfile beziehen sich auf diesen Ordner. Der Punkt am Ende von `docker build -t name .` ist genau dieser Kontext. Mit einer `.dockerignore` kann man Dateien ausschließen, damit Build-Kontext und Image schlank bleiben.
+
+## <span id="cache"></span><span id="caching"></span>Cache / Caching (Docker-Layer-Cache)
+: **Zwischenspeicher zur Wiederverwendung von Daten.** Im Docker-Kontext meint „Cache" fast immer den **Layer-Cache**: Wenn `docker build` einen Schritt schon einmal mit identischem Input ausgeführt hat, nutzt es das gespeicherte Ergebnis erneut, statt neu zu bauen. Deshalb ist die Reihenfolge im Dockerfile so wichtig – selten geänderte Layer (Abhängigkeiten) **vor** häufig geänderten (eigener Code) platzieren. Cache-Verhalten erzwingen mit `--no-cache`.
 
 ## <span id="capability"></span>Capability
 : **Feinkörniges Rechte-System unter Linux**. Statt „alles oder nichts" (root/nicht-root) werden einzelne Fähigkeiten wie „darf Ports unter 1024 öffnen" oder „darf Kernel-Module laden" getrennt vergeben. Container bekommen meist nur ein reduziertes Set dieser Capabilities. Das erschwert Angreifern, aus einem kompromittierten Container auszubrechen.
@@ -67,6 +84,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="container"></span>Container
 : Eine **laufende, isolierte Anwendung** auf einem Linux-Host. Technisch ein Prozess (oder Prozess-Baum), der sich den Kernel mit dem Host teilt, aber in eigenem Namespace läuft, eigene Ressourcen-Limits (cgroups) und reduzierte Rechte (Capabilities) hat. Ein Container ist die **laufende Instanz eines Images** – du kannst aus einem Image beliebig viele Container starten. Wird der Container gelöscht (`docker rm`), ist alles, was nur in ihm lebte, weg.
 
+## <span id="containerd"></span>containerd
+: **Container-Runtime**, die Docker (und auch Kubernetes) intern nutzen, um Container tatsächlich zu starten. Sie sitzt eine Ebene unter der Docker Engine: Docker Engine (oder ein anderer Client) schickt einen API-Aufruf an containerd, das wiederum mit `runc` einzelne Linux-Container erzeugt. containerd ist ein Top-Level-Projekt der CNCF und damit unabhängig von Docker Inc.
+
 ## <span id="container-engine"></span>Container-Engine
 : **Software, die Container ausführt und verwaltet.** Docker Engine, containerd und Podman sind Beispiele. Die Engine nimmt Befehle entgegen („starte Container X"), erzeugt dann Namespaces und cgroups, entpackt das Image-Dateisystem und startet den Prozess.
 
@@ -75,6 +95,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="copy-on-write"></span>Copy-on-Write
 : **Schreibschutz-Strategie**: Erst wenn eine Datei tatsächlich geändert wird, wird sie kopiert. Bei Docker bedeutet das: alle Container teilen sich dieselben Image-Layer (read-only) und bekommen nur ihren eigenen **beschreibbaren Top-Layer** für Änderungen. Spart Platz (ein Image, viele Container) und macht Container-Starts schnell.
+
+## <span id="cve"></span>CVE (Common Vulnerabilities and Exposures)
+: **Öffentlich gepflegte Datenbank von Sicherheits­lücken** mit eindeutigen IDs der Form `CVE-2024-12345`. Tools wie Trivy gleichen die Pakete in einem Image gegen die CVE-Datenbank ab und melden bekannte Lücken. Für jede CVE gibt es einen Schweregrad (`LOW`, `MEDIUM`, `HIGH`, `CRITICAL`) und meist eine Empfehlung, auf welche Version man updaten sollte.
 
 ## <span id="cpu"></span>CPU
 : **Central Processing Unit** – der Prozessor eines Rechners, der die eigentliche Rechenarbeit macht. Moderne CPUs haben mehrere Kerne, die parallel arbeiten können. In virtuellen Maschinen und Containern werden CPU-Anteile als vCPU zugeteilt.
@@ -109,6 +132,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="detached-mode"></span>Detached Mode
 : **Container läuft im Hintergrund**, getrennt von deinem Terminal. Gestartet mit dem Flag `-d` bei `docker run`. Gegenstück ist der Vordergrund-Modus, in dem du die Logs direkt im Terminal siehst und mit `Ctrl+C` den Container beenden würdest. Im Detached Mode siehst du die Logs mit `docker logs -f name`.
 
+## <span id="distro"></span><span id="distribution"></span>Distro / Distribution
+: **Linux-Distribution** – eine konkrete Variante von Linux, die Kernel, Tools, Paketmanager und Userland zusammenpackt. Bekannte Distros: **Ubuntu, Debian, Fedora, RHEL, Rocky/AlmaLinux, Arch, Alpine, openSUSE**. Bei Docker bauen die meisten Basis-Images auf einer Distro auf (`debian:bookworm-slim`, `ubuntu:24.04`, `alpine:3.20`, …). Die Wahl beeinflusst Image-Größe, verfügbare Pakete und Sicherheit.
+
 ## <span id="dnf"></span>dnf
 : **Paketmanager** von Fedora, Rocky Linux, AlmaLinux und RHEL. Gegenstück zu `apt` auf Debian/Ubuntu. `sudo dnf install docker-ce`, `sudo dnf update`. Ältere RHEL-Systeme nutzten `yum`, das mittlerweile ein Alias für `dnf` ist.
 
@@ -118,22 +144,49 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="docker-hub"></span>Docker Hub
 : **Default-Registry von Docker Inc.** (<https://hub.docker.com>), auf der sowohl offizielle als auch Community-Images gehostet werden. Wenn du keinen Registry-Namen angibst, holt Docker das Image von dort. Offizielle Images (`nginx`, `postgres`, `python`) liegen im Namespace `library` und werden von Docker zusammen mit den Projekten gepflegt.
 
+## <span id="dockerfile-instruktionen"></span><span id="from"></span><span id="run"></span><span id="cmd"></span><span id="entrypoint"></span><span id="copy"></span><span id="add"></span><span id="workdir"></span><span id="expose"></span><span id="env"></span><span id="arg"></span><span id="user"></span>Dockerfile-Instruktionen (FROM, RUN, CMD, …)
+: **Die wichtigsten Befehle in einem Dockerfile.** Eine ausführliche Erklärung mit Beispielen findest du unter [Dockerfile – Grundlagen](docker/dockerfile-grundlagen.md). Kurzübersicht:
+
+    | Instruktion | Zweck |
+    |---|---|
+    | `FROM` | Basis-Image, auf dem das eigene Image aufbaut |
+    | `RUN` | Befehl, der **beim Build** ausgeführt wird (z.B. Pakete installieren); jedes `RUN` erzeugt einen Layer |
+    | `COPY` | Dateien aus dem Build-Kontext ins Image kopieren |
+    | `ADD` | Wie `COPY`, kann zusätzlich URLs ziehen und Tar-Archive entpacken (selten genutzt – `COPY` bevorzugen) |
+    | `CMD` | Default-Kommando bzw. Default-Argumente, wenn der Container startet |
+    | `ENTRYPOINT` | Fester Hauptprozess des Containers (oft kombiniert mit `CMD` für Argumente) |
+    | `WORKDIR` | Arbeitsverzeichnis im Image (für nachfolgende Befehle und zur Laufzeit) |
+    | `EXPOSE` | **Informativer** Hinweis, welche Ports der Container nutzt; öffnet keinen Port |
+    | `ENV` | Umgebungsvariable, die im Image gesetzt wird |
+    | `ARG` | Build-Argument, nur während `docker build` verfügbar (nicht zur Laufzeit) |
+    | `USER` | Wechselt den User für nachfolgende Befehle und zur Laufzeit |
+    | `HEALTHCHECK` | Definiert eine Bereitschafts-Prüfung (siehe [Healthcheck](#healthcheck)) |
+    | `LABEL` | Metadaten als Key-Value-Paare im Image |
+
+    **Fallstrick `CMD` vs. `ENTRYPOINT`:** `ENTRYPOINT ["/usr/bin/nginx"]` legt das Programm fest, `CMD ["-g", "daemon off;"]` legt die Argumente fest. Wer den Container mit `docker run image foo` startet, ersetzt das `CMD` (also die Argumente), nicht das `ENTRYPOINT`.
+
 ## <span id="dockerfile"></span>Dockerfile
 : **Textdatei mit Anweisungen**, wie ein Image gebaut werden soll (`FROM`, `COPY`, `RUN`, `CMD` usw.). Muss exakt so heißen: `Dockerfile`, ohne Endung. Jede Instruktion erzeugt einen Layer – die Reihenfolge im Dockerfile beeinflusst also sowohl die Build-Geschwindigkeit (Layer-Caching) als auch die Image-Größe.
 
 ## <span id="emulation"></span>Emulation
 : **Simulation einer Hardware oder Architektur in Software.** Deutlich langsamer als native Ausführung, aber ermöglicht etwa, x86_64-Programme auf einem ARM-Mac laufen zu lassen. Docker auf Apple Silicon emuliert x86_64-Images mit Rosetta 2; QEMU kann ganze Prozessor-Architekturen emulieren.
 
-## <span id="endpoint"></span>Endpoint
+## <span id="endpoint"></span><span id="endpoints"></span><span id="endpunkt"></span><span id="endpunkte"></span>Endpoint / Endpunkt
 : **Konkrete Anlaufstelle einer API** – die Kombination aus HTTP-Methode (`GET`, `POST`, …) und URL-Pfad. Beispiele: `GET /health`, `POST /api/entries`, `GET /api/scoreboard`. Eine API hat in der Regel mehrere Endpoints, jeder davon erfüllt eine bestimmte Aufgabe (Daten holen, Daten speichern, Status prüfen).
+
+## <span id="eof"></span>EOF (End Of File)
+: **Markierung für „Ende der Eingabe".** In Shells beendet `EOF` ein Here-Document: der Text zwischen `<<EOF` und einer eigenen Zeile mit `EOF` wird als Eingabe an einen Befehl gegeben oder in eine Datei geschrieben (siehe [Here-Document](#here-document)). Auf der Kommandozeile beendet `Ctrl+D` (macOS/Linux) bzw. `Ctrl+Z` (Windows) interaktive Eingaben, indem ein EOF-Signal an den Prozess geschickt wird.
 
 ## <span id="esxi"></span>ESXi
 : **Typ-1-Hypervisor von VMware** (heute Broadcom). Läuft direkt auf der Hardware, ohne klassisches Host-OS. Klassisch im Enterprise-Rechenzentrum, wo viele VMs pro Server betrieben werden sollen.
 
+## <span id="firmware"></span>Firmware
+: **Low-Level-Software**, die fest mit der Hardware verbunden ist und beim Einschalten des Rechners als Erstes startet. Klassisch das **BIOS**, heute meist **UEFI**. Sie initialisiert die Hardware, sucht den Bootloader und übergibt dann die Kontrolle ans Betriebssystem. Auch andere Geräte (Router, Festplatten, Drucker) haben ihre eigene Firmware. Bei Virtualisierung simuliert der Hypervisor eine virtuelle Firmware für den Gast.
+
 ## <span id="flask"></span>Flask
 : **Leichtgewichtiges Python-Web-Framework.** Eignet sich für kleine bis mittlere Web-Anwendungen und APIs. In diesem Kurs nutzen wir Flask im Compose-Praxisteil, um eine kleine App zu bauen, die mit einer Postgres-Datenbank spricht.
 
-## <span id="gast-os"></span>Gast / Gast-OS
+## <span id="gast-os"></span><span id="gast"></span>Gast / Gast-OS
 : **Das Betriebssystem, das innerhalb einer virtuellen Maschine läuft.** Aus Sicht des Gastes ist er auf einem echten Rechner – in Wahrheit sieht er nur virtualisierte Hardware, die der Hypervisor bereitstellt. Ein Host kann mehrere Gäste gleichzeitig betreiben.
 
 ## <span id="gatekeeper"></span>Gatekeeper
@@ -141,6 +194,19 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="gateway"></span>Gateway
 : **Netzwerk-Gerät oder -Adresse, über die dein Rechner „nach draußen" erreicht**, was nicht im lokalen Netz liegt. Zu Hause ist das meist dein Router. In einem Docker-Bridge-Netzwerk ist der Gateway eine IP wie `172.17.0.1`, die den Hostbereich repräsentiert.
+
+## <span id="git"></span>Git
+: **Verteiltes Versionsverwaltungssystem.** Jeder Entwickler hat eine vollständige Kopie der Historie auf seinem Rechner; geteilt wird über Remote-Repositories (z.B. auf GitHub). Befehle: `git init`, `git add`, `git commit`, `git push`, `git pull`. Im Kurs nutzt du Git, um die eigenen Übungen lokal zu versionieren und auf GitHub zu spiegeln.
+
+## <span id="github"></span><span id="github-actions"></span><span id="github-pages"></span>GitHub / GitHub Actions / GitHub Pages
+: **Web-Plattform** rund um Git, betrieben von Microsoft. Hostet Open-Source- und private Repositories. Drei Bausteine, die im Kurs vorkommen:
+
+    - **GitHub** als Repository-Plattform (Code-Hosting, Issues, Pull Requests).
+    - **GitHub Actions** als CI/CD-System: Workflows in YAML, getriggert durch Pushs oder Pull Requests, laufen auf von GitHub bereitgestellten Runnern (Linux/macOS/Windows). Diese Kursunterlagen werden via GitHub Actions gebaut und veröffentlicht.
+    - **GitHub Pages** für das Hosting statischer Webseiten direkt aus einem Repo. Die fertige MkDocs-Site liegt damit unter `https://<user>.github.io/kurs-unterlagen/`.
+
+## <span id="gitlab"></span>GitLab
+: **Self-hostbare Web-Plattform für Git-Repositories** mit eingebautem CI/CD, Issues, Wikis und Container-Registry. Im Kurs nicht primär genutzt, aber konzeptuell sehr ähnlich zu GitHub – Wissen ist übertragbar.
 
 ## <span id="get"></span>GET (HTTP-Methode)
 : **HTTP-Methode zum Abrufen von Daten** – ohne dass dabei etwas verändert wird. Wenn du im Browser eine Seite aufrufst, schickt der Browser einen `GET`-Request. APIs beantworten `GET`-Anfragen typischerweise mit einer Liste oder einem einzelnen Datensatz im JSON-Format. Beispiel: `GET /api/entries` liefert alle Einträge.
@@ -153,6 +219,12 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="here-document"></span>Here-Document (`<<`, `<< 'EOF'`)
 : **Shell-Technik**, um mehrzeiligen Text direkt in einen Befehl oder eine Datei zu schreiben. Beispiel: `cat > datei.txt << 'EOF'` – danach schreibst du beliebig viele Zeilen Text; das Wort `EOF` (für „End Of File") auf einer eigenen Zeile beendet den Block und alle dazwischen geschriebenen Zeilen landen in `datei.txt`. Praktisch für HTML/Konfigurations­dateien ohne Editor-Umweg. Die Anführungszeichen um `'EOF'` verhindern, dass `$variable` im Block interpretiert wird. **Windows PowerShell** hat eine eigene Syntax dafür: `@" ... "@ | Set-Content datei.txt`.
+
+## <span id="hdd"></span>HDD (Hard Disk Drive)
+: **Klassische magnetische Festplatte** mit drehenden Scheiben und beweglichen Schreib-/Leseköpfen. Deutlich langsamer als eine SSD (typisch 100–200 MB/s vs. 500–7000 MB/s), dafür preiswerter pro Gigabyte. Für aktive Docker-Images und Datenbanken ist eine SSD inzwischen Standard – HDDs nutzt man höchstens noch für Archive oder große Datenmengen.
+
+## <span id="gpg"></span>GPG (GNU Privacy Guard)
+: **Open-Source-Implementierung des OpenPGP-Standards** für digitale Signaturen und Verschlüsselung. Im Kurs taucht GPG bei der Linux-Installation von Docker und Trivy auf: ein heruntergeladener Schlüssel wird mit `gpg --dearmor` ins Binärformat gebracht und unter `/usr/share/keyrings/` abgelegt, damit `apt` Pakete aus dem Repository als authentisch erkennt.
 
 ## <span id="healthcheck"></span>Healthcheck
 : **Prüfung, die Docker regelmäßig in einem Container ausführt**, um festzustellen, ob der Dienst nicht nur läuft, sondern tatsächlich bereit ist. Definiert im Dockerfile (`HEALTHCHECK`) oder in `compose.yaml`. Status `healthy` / `unhealthy` sichtbar in `docker ps`. Beispiel: `pg_isready -U postgres` bei PostgreSQL.
@@ -208,6 +280,19 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="kvm"></span>KVM (Kernel-based Virtual Machine)
 : **Virtualisierungslösung, die direkt im Linux-Kernel steckt.** Damit quasi Typ 1, weil sie im Kernel sitzt – aber trotzdem auf einem normalen Linux-Host nutzbar. Sehr performant. Standard-Backend von Multipass auf Linux und das Herzstück vieler Cloud-Provider (AWS, GCP, Azure nutzen KVM oder Varianten).
 
+## <span id="kubernetes"></span><span id="k8s"></span><span id="pod"></span><span id="cluster"></span><span id="helm"></span>Kubernetes / K8s
+: **Container-Orchestrierungs-Plattform**, oft als „K8s" abgekürzt (acht Buchstaben zwischen K und s). Verwaltet Container über viele Hosts hinweg: Deployments, automatische Neustarts, Skalierung, Service-Discovery, rollende Updates. Während Compose nur **einen** Host bedient, ist Kubernetes für **Cluster** aus vielen Nodes gemacht.
+
+    Kernbegriffe:
+
+    - **Pod** – kleinste deploybare Einheit, ein oder mehrere eng gekoppelte Container.
+    - **Deployment** – beschreibt, wie viele Pods einer Sorte laufen sollen.
+    - **Service** – stabile Netzwerk-Adresse vor einer Gruppe von Pods.
+    - **Cluster** – Verbund aller Nodes, die zusammen Workloads tragen.
+    - **Helm** – Paketmanager für Kubernetes (versionierte „Charts" als Bündel von Manifesten).
+
+    Kubernetes ist nicht Teil dieses Kurses, aber als nächste Stufe nach Docker Compose sehr wichtig.
+
 ## <span id="layer"></span>Layer
 : **Eine Schicht in einem Docker-Image.** Jede Instruktion im Dockerfile erzeugt einen Layer, der Änderungen am Dateisystem gegenüber dem darunterliegenden Layer festhält. Layer werden zwischen Images geteilt (wenn sie identisch sind), um Platz und Bauzeit zu sparen. Beim Pullen lädt Docker nur fehlende Layer herunter.
 
@@ -226,7 +311,10 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="lts"></span>LTS (Long Term Support)
 : **Version einer Software mit lang gepflegter Unterstützung.** Bei Ubuntu alle zwei Jahre (20.04, 22.04, 24.04), jeweils fünf Jahre Pflege. LTS-Versionen sind für Produktions-Einsatz geeignet, Nicht-LTS für schnelleren Feature-Zyklus.
 
-## <span id="mount"></span>Mount / Mount-Point
+## <span id="mac"></span>MAC (Media Access Control)
+: **Eindeutige Hardware-Adresse einer Netzwerkkarte.** 48 Bit, üblich als sechs Hex-Paare geschrieben (`a4:5e:60:1f:b2:c3`). Wird vom Hersteller fest in die Karte gebrannt – im Prinzip „die Seriennummer im LAN". Switche und Router nutzen sie auf Layer 2 zum Zustellen von Paketen. Virtuelle NICs (in VMs und Containern) bekommen eine zufällige MAC-Adresse zugewiesen – die ist nicht echt, aber im virtuellen Netz eindeutig.
+
+## <span id="mount"></span><span id="mount-point"></span>Mount / Mount-Point
 : **Eine Datei, ein Ordner oder ein Gerät wird an einem bestimmten Pfad ins Dateisystem „eingehängt"**. Auf Linux ist z.B. `/mnt/usb` ein möglicher Mount-Point für einen USB-Stick. Bei Docker sind Bind Mounts und Volumes solche Einhängungen, die Host-Inhalte in den Container „einhängen".
 
 ## <span id="multi-stage-build"></span>Multi-Stage-Build
@@ -247,13 +335,16 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="nic"></span>NIC (Network Interface Card)
 : **Netzwerkkarte** – das Gerät, über das ein Rechner sich mit einem Netzwerk verbindet. Kann physisch sein (Ethernet, WLAN) oder virtuell (bei VMs und Containern). Jede NIC hat eine eigene MAC-Adresse und eine oder mehrere IP-Adressen.
 
-## <span id="netzwerkinterface"></span>Netzwerkinterface / Interface
+## <span id="netzwerkinterface"></span><span id="interface"></span>Netzwerkinterface / Interface
 : **Allgemeiner Begriff für „die Schnittstelle zum Netzwerk".** Umfasst physische NICs, virtuelle NICs, Loopback, Bridge-Interfaces und mehr. Unter Linux siehst du sie mit `ip addr` oder `ifconfig`. Im Docker-Netzwerk hat jeder Container sein eigenes virtuelles Interface (meist `eth0`).
+
+## <span id="oci"></span>OCI (Open Container Initiative)
+: **Standardisierungs­gremium** für das Container-Format. Sorgt dafür, dass Images und Runtimes verschiedener Hersteller (Docker, Podman, containerd, …) miteinander kompatibel sind. Wenn du in Logs Begriffe wie „OCI-konform", „OCI-Image-Spec" oder „OCI-Runtime-Spec" liest, geht es um genau diese Standards. `runc` ist die offizielle Referenz-Implementierung der OCI-Runtime-Spec.
 
 ## <span id="orchestrierung"></span>Orchestrierung
 : **Verwaltung vieler Container über mehrere Hosts hinweg** – Skalierung, Deployment, Health-Checks, automatische Neustarts, Service-Discovery. Prominentes Beispiel: **Kubernetes**. Docker Swarm ist eine einfachere Alternative. Compose ist **keine** Orchestrierung, weil es nur auf einem Host arbeitet.
 
-## <span id="orb-stack"></span>OrbStack
+## <span id="orbstack"></span><span id="orb-stack"></span>OrbStack
 : **Mac-native Alternative zu Docker Desktop**, entwickelt seit 2023. Schneller und ressourcen­schonender als Docker Desktop, v.a. auf Apple Silicon. Frei für Privat­nutzung, kostenpflichtig für größere kommerzielle Nutzung. Die CLI bleibt `docker`, die Integration ist nahtlos.
 
 ## <span id="os"></span>OS (Operating System)
@@ -262,7 +353,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="pacman"></span>pacman
 : **Paketmanager** von Arch Linux und seinen Varianten (Manjaro, EndeavourOS). `sudo pacman -S docker` installiert, `sudo pacman -Syu` aktualisiert das ganze System.
 
-## <span id="paketmanager"></span>Paketmanager
+## <span id="paketmanager"></span><span id="paket-manager"></span>Paketmanager
 : **Software, die Software installiert.** Holt Pakete aus Repositories, installiert sie samt Abhängigkeiten, updated oder entfernt sie sauber. Auf Linux je Distribution unterschiedlich: `apt` (Debian/Ubuntu), `dnf` (Fedora/RHEL), `pacman` (Arch), `zypper` (openSUSE). Auf macOS: Homebrew. Auf Windows: winget, Chocolatey.
 
 ## <span id="path"></span>PATH
@@ -273,6 +364,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="port-mapping"></span>Port-Mapping
 : **Weiterleitung eines Host-Ports auf einen Container-Port.** Syntax bei Docker: `-p HOST:CONTAINER`. Beispiel: `-p 8080:80` verbindet den Host-Port 8080 mit dem Container-Port 80. Der Host-Port steht **zuerst**, der Container-Port danach – häufige Fehlerquelle.
+
+## <span id="pid"></span>PID (Process ID)
+: **Eindeutige Nummer eines laufenden Prozesses** auf einem System. Vom Kernel beim Start des Prozesses vergeben, einmalig zur Laufzeit. Die `PID 1` ist auf Linux der allererste Prozess (siehe [init / PID 1](#init)). Anzeigen mit `ps aux` (Linux/macOS), `Get-Process` (PowerShell) oder `tasklist` (CMD). Bei Docker bekommst du die PID des laufenden Container-Prozesses mit `docker top <container>` oder `docker inspect --format '{{.State.Pid}}' <container>`.
 
 ## <span id="pipe"></span>Pipe (`|`)
 : **Shell-Symbol**, das die Ausgabe eines Befehls direkt als Eingabe an einen anderen Befehl weitergibt. Beispiel: `docker ps -aq | xargs docker rm` → `docker ps -aq` liefert eine Liste von Container-IDs, `xargs` übergibt sie Stück für Stück an `docker rm`. Die Pipe ist ein Grundbaustein der Unix-Shell und sehr mächtig. In Windows PowerShell funktioniert Piping ähnlich, aber leitet **Objekte** statt Text weiter.
@@ -286,7 +380,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="post"></span>POST (HTTP-Methode)
 : **HTTP-Methode zum Senden/Erstellen von Daten.** Anders als `GET` enthält ein `POST`-Request einen Body – meistens JSON oder Form-Daten. Beispiel: `POST /api/entries` mit Body `{"team":"Alpha","name":"Drache","score":25}` legt einen neuen Eintrag an. Server bestätigt typischerweise mit Status `201 Created`.
 
-## <span id="postgres"></span>PostgreSQL / Postgres
+## <span id="postgres"></span><span id="postgresql"></span>PostgreSQL / Postgres
 : **Mächtige, frei verfügbare relationale Datenbank.** Sehr ausgereift, extrem erweiterbar, in vielen Projekten die erste Wahl. In Docker als offizielles Image `postgres` verfügbar und wird in den Kurs-Praxisteilen genutzt. Der Service hört standardmäßig auf Port 5432.
 
 ## <span id="powershell"></span>PowerShell
@@ -304,7 +398,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="registry"></span>Registry
 : **Server, auf dem Docker-Images gespeichert sind.** Docker Hub ist die Default-Registry. Weitere bekannte Registries: GitHub Container Registry (`ghcr.io`), AWS ECR, GitLab Container Registry, Azure Container Registry, Harbor. In Firmen werden oft interne Registries betrieben, damit Images nicht extern wandern müssen.
 
-## <span id="repository"></span>Repository / Repo
+## <span id="repository"></span><span id="repo"></span>Repository / Repo
 : **Zentraler Ablageort für Code oder Pakete.** Bei Git: ein Repository enthält Quellcode und Historie (z.B. auf GitHub). Bei Paketmanagern: ein Repository hält Software-Pakete bereit (z.B. Debians Main-Repo). Bei Docker: ein Repository ist ein Image-Name in einer Registry (z.B. `library/nginx`), kann viele Tags haben.
 
 ## <span id="rest"></span>REST / RESTful API
@@ -313,10 +407,17 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="retry-logik"></span>Retry-Logik
 : **Mechanismus, eine fehlgeschlagene Operation mehrfach zu wiederholen** – meist mit Wartezeit zwischen den Versuchen. Sinnvoll bei Operationen, die auf einen anderen Dienst warten müssen. Beispiel aus dem Escape Room: Die API kann erst loslegen, wenn die Datenbank bereit ist. Sie versucht es 20-mal, mit 1 Sekunde Wartezeit – statt sofort aufzugeben. Praktisch in Container-Setups, wo Start­reihenfolgen nicht garantiert sind.
 
-## <span id="rosetta-2"></span>Rosetta 2
+## <span id="reverse-proxy"></span>Reverse Proxy
+: **Server, der Anfragen aus dem Netz entgegennimmt und an interne Dienste weiterreicht.** Klassiker: nginx oder Traefik vor mehreren Backend-Containern. Vorteile: zentrale TLS-Terminierung, Load Balancing, Caching, Auth-Vorprüfung. In einem Compose-Setup sieht das so aus: nginx hat den `-p 443:443`-Port nach außen, die App-Container haben **nur** interne Ports und werden vom nginx über das Compose-Netz erreicht.
+
+## <span id="rosetta"></span><span id="rosetta-2"></span>Rosetta 2
 : **Apples Übersetzer**, der x86_64-Software auf Apple-Silicon-Rechnern lauffähig macht. Relevant für Docker, wenn ein Image nur in x86_64 vorliegt und auf M-Macs laufen soll. Installation: `softwareupdate --install-rosetta --agree-to-license`. Docker Desktop ab Version 4.25 nutzt Rosetta 2 direkt für die Container-Emulation, was deutlich schneller ist als QEMU-Emulation.
 
 ## <span id="routing-tabelle"></span>Routing-Tabelle
+: **Liste, wohin Netzwerk-Pakete geschickt werden sollen.** Wenn du `google.com` aufrufst, fragt dein Betriebssystem die Routing-Tabelle: „Wie komme ich zu dieser IP?" – die Antwort ist meist der Gateway (Router). Docker-Netzwerke haben eigene Routing-Tabellen, damit Container-Pakete richtig geleitet werden.
+
+## <span id="runc"></span>runc
+: **Low-Level-Container-Runtime**, die einzelne Linux-Container tatsächlich startet. `runc` ist die Referenz-Implementierung der OCI-Runtime-Spec. Du nutzt sie nie direkt – Docker, containerd und Kubernetes rufen sie unter der Haube auf, um aus einem entpackten Image-Dateisystem einen laufenden Container zu machen.
 : **Liste, wohin Netzwerk-Pakete geschickt werden sollen.** Wenn du `google.com` aufrufst, fragt dein Betriebssystem die Routing-Tabelle: „Wie komme ich zu dieser IP?" – die Antwort ist meist der Gateway (Router). Docker-Netzwerke haben eigene Routing-Tabellen, damit Container-Pakete richtig geleitet werden.
 
 ## <span id="sbom"></span>SBOM (Software Bill of Materials)
@@ -340,6 +441,15 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="shell-redirektion"></span>Shell-Redirektion (`>`, `>>`, `|`)
 : **Umleitung** der Ein-/Ausgabe von Befehlen. `echo "text" > datei.txt` schreibt den Text in die Datei (**überschreibt** sie). `echo "text" >> datei.txt` hängt ans Ende der Datei an. `|` (Pipe) leitet die Ausgabe eines Befehls als Eingabe an einen anderen weiter. Grundlegende Technik in Bash, Zsh und PowerShell.
 
+## <span id="signal"></span><span id="sigterm"></span><span id="sigkill"></span>Signal (SIGTERM, SIGKILL, SIGINT, …)
+: **Nachrichten vom Kernel an einen Prozess**, um auf Ereignisse zu reagieren oder ihn zu beenden.
+
+    - **SIGTERM** (`kill <pid>` ohne Flags) – höfliche Aufforderung zu beenden. Der Prozess kann sie abfangen, aufräumen und sich sauber beenden. Docker schickt SIGTERM an PID 1 beim `docker stop`.
+    - **SIGKILL** (`kill -9 <pid>`) – hartes Beenden, kann **nicht** abgefangen werden. Docker schickt SIGKILL nach 10 Sekunden, wenn der Container auf SIGTERM nicht reagiert.
+    - **SIGINT** (`Ctrl+C`) – Unterbrechung, klassisch von der Shell aus.
+
+    Wichtig im Container: PID 1 ist meist die App selbst – die App muss SIGTERM behandeln, sonst dauert jedes `docker stop` zehn Sekunden.
+
 ## <span id="snap"></span>Snap
 : **Paketformat und Paketmanager von Canonical.** Snaps sind in sich abgeschlossene Pakete, die ihre Abhängigkeiten mitbringen – ähnlich wie Container, aber auf Linux-Desktop-Ebene. Auf Ubuntu vorinstalliert, auf Debian manuell nachrüstbar. Wird in diesem Kurs für die Multipass-Installation genutzt: `sudo snap install multipass`.
 
@@ -352,17 +462,35 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="ssh"></span>SSH (Secure Shell)
 : **Verschlüsseltes Netzwerk­protokoll für Fernzugriff auf Server.** Standard-Port: 22. Multipass nutzt SSH, um eine Shell in der VM zu öffnen. Man meldet sich mit Benutzername + Passwort oder (besser) mit SSH-Keys an.
 
-## <span id="subnet"></span>Subnetz / Subnet
+## <span id="snapshot"></span>Snapshot
+: **Punkt-in-Zeit-Abbild** eines Volumes, einer VM oder einer Datenbank. Erlaubt es, später auf genau diesen Zustand zurückzuspringen. Multipass kennt `multipass snapshot` für VMs; PostgreSQL und Redis können per Konfiguration regelmäßig Snapshots aufs Volume schreiben. **Achtung:** Snapshots ersetzen kein Backup – sie liegen meist auf demselben Storage und gehen mit ihm mit unter.
+
+## <span id="sha"></span><span id="sha-256"></span>SHA / SHA-256
+: **Kryptografische Hash-Funktionen**, die aus beliebigem Input einen festen Fingerabdruck erzeugen. SHA-256 erzeugt einen 256-Bit-Hash (64 Hex-Zeichen). Docker identifiziert Image- und Layer-Inhalte über SHA-256-Hashes – das ist die [Image-ID](#image-id). Wenn sich auch nur ein Byte ändert, ist der Hash komplett anders. Damit ist Manipulation an einem Image sofort erkennbar.
+
+## <span id="ssd"></span>SSD (Solid State Drive)
+: **Flash-basierte Festplatte ohne bewegliche Teile.** Deutlich schneller als eine HDD (oft Faktor 10–50) und robuster gegen Stöße. Heute Standard in Laptops und Servern. Für Docker relevant, weil Image-Pulls, Container-Starts und Build-Caches stark von der Disk-IO profitieren – auf einer SSD werden viele Operationen erst angenehm schnell.
+
+## <span id="stage"></span><span id="build-stage"></span>Stage / Build-Stage
+: **Eine `FROM`-Stufe in einem Multi-Stage-Dockerfile.** Jeder Multi-Stage-Build hat mindestens zwei Stages: eine **Build-Stage** (mit Compilern, Tools), die nur Artefakte erzeugt, und eine **Runtime-Stage**, die nur das fertige Artefakt enthält. Stages werden mit `FROM image AS name` benannt; spätere Stages kopieren Ergebnisse mit `COPY --from=name`. So wird das finale Image klein – die Build-Tools landen nicht mit drin. Siehe [Multi-Stage-Build](#multi-stage-build).
+
+## <span id="subnet"></span><span id="subnetz"></span>Subnetz / Subnet
 : **Bereich von IP-Adressen, die zum gleichen Netzwerk gehören.** Schreibweise z.B. `172.17.0.0/16` – das sind alle Adressen `172.17.*.*`. Docker-Netzwerke bekommen jeweils ein eigenes Subnetz, damit Container-IPs eindeutig sind. Zuhause hast du meist `192.168.1.0/24`.
 
 ## <span id="sudo"></span>sudo
 : **Unix/Linux-Befehl**, mit dem du einen anderen Befehl mit Administrator-Rechten (root) ausführst. Beispiel: `sudo apt update` – normale User dürfen keine Paketlisten aktualisieren, mit `sudo` schon. Meistens fragt sudo einmal nach deinem Passwort und merkt sich das für ein paar Minuten. Auf macOS und den meisten Linux-Distributionen Standard. Innerhalb von Docker-Containern oft nicht nötig, weil der Container-Prozess häufig schon als root läuft.
+
+## <span id="swarm"></span>Swarm (Docker Swarm)
+: **Dockers eigene, einfache Container-Orchestrierung.** Aus dem Docker-Daemon heraus aktivierbar (`docker swarm init`), versteht direkt `compose.yaml`-ähnliche Stacks, verteilt Services auf mehrere Hosts. Funktional weniger mächtig als Kubernetes, aber deutlich einfacher zu betreiben. In den meisten neuen Projekten wird heute zu Kubernetes gegriffen – Swarm ist trotzdem im Docker-Engine-Funktionsumfang vorhanden und für kleinere Setups eine valide Wahl.
 
 ## <span id="systemd"></span>systemd
 : **Moderner Linux-Init-Manager und Service-Manager.** Startet, stoppt und überwacht System­dienste. Auf systemd-Systemen verwaltest du den Docker-Daemon mit `sudo systemctl {start|stop|restart|status} docker`. Default in den meisten heutigen Linux-Distributionen (Ubuntu, Debian, Fedora, RHEL, openSUSE, Arch).
 
 ## <span id="tag"></span>Tag
 : **Versions- oder Varianten-Bezeichner eines Images**, hinter dem Doppelpunkt. Beispiel: `nginx:1.27.3`, `nginx:alpine`, `nginx:latest`. Tags sind nicht unveränderlich – der Publisher kann sie jederzeit auf andere Inhalte umbiegen, deshalb ist `:latest` in Produktion ein Anti-Pattern.
+
+## <span id="tls"></span><span id="ssl"></span>TLS / SSL (Transport Layer Security)
+: **Verschlüsselung für Netzwerkverbindungen.** TLS 1.2 und 1.3 sind heute Standard. „SSL" ist der historische Name (SSL 3.0 war der Vorgänger), wird aber im Sprachgebrauch oft synonym verwendet. HTTPS = HTTP über TLS. Im Container-Kontext wird TLS oft am Reverse Proxy (nginx, Traefik) terminiert; die Backend-Container kommunizieren intern unverschlüsselt im privaten Docker-Netz.
 
 ## <span id="tcp"></span>TCP (Transmission Control Protocol)
 : **Zuverlässiges Netzwerk­protokoll**, das Pakete in der richtigen Reihenfolge und ohne Verluste zustellt. Grundlage für HTTP, HTTPS, SSH, SMTP und viele andere. TCP sorgt dafür, dass eine Verbindung aufgebaut wird und Pakete bei Verlust nochmal geschickt werden – Preis dafür ist etwas Overhead.
@@ -382,7 +510,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="uefi"></span>UEFI (Unified Extensible Firmware Interface)
 : **Moderne Nachfolge-Technologie von BIOS** – Firmware, die beim Start einer Maschine (oder VM) ausgeführt wird. Schneller, flexibler, sicherer (Secure Boot). Die meisten PCs und Macs ab ca. 2010 nutzen UEFI, auch wenn sie es oft noch „BIOS" nennen.
 
-## <span id="umgebungsvariable"></span>Umgebungsvariable / Environment Variable
+## <span id="umgebungsvariable"></span><span id="umgebungsvariablen"></span>Umgebungsvariable / Environment Variable
 : **Eine Variable**, die einem Prozess beim Start übergeben wird und während seiner Laufzeit verfügbar ist. Beispiele: `PATH`, `HOME`, `DATABASE_URL`, `LOG_LEVEL`. In Docker Standard-Weg für Konfiguration: `docker run -e DB_HOST=postgres myapp`. Kann auch aus Dateien kommen (`--env-file`) oder im Dockerfile vorbelegt werden (`ENV`).
 
 ## <span id="url"></span>URL (Uniform Resource Locator)
@@ -394,7 +522,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="unix-socket"></span>Unix-Socket
 : **Datei-ähnlicher Kommunikationskanal** zwischen Prozessen auf demselben Host. Docker-CLI spricht mit dem Docker-Daemon über einen Unix-Socket unter `/var/run/docker.sock`. Schneller und sicherer als TCP – auf Docker Desktop (Mac/Win) wird der Socket aus der internen Linux-VM ans Host-System durchgereicht.
 
-## <span id="v-cpu"></span>vCPU
+## <span id="vcpu"></span><span id="v-cpu"></span>vCPU
 : **Virtuelle CPU**, die einer VM oder einem Container zugewiesen ist. Der Hypervisor teilt die echten CPU-Kerne unter den vCPUs auf. Eine vCPU ist nicht identisch mit einem physischen Kern – zwei vCPUs auf einem 8-Kern-Host können sich zeitlich abwechseln.
 
 ## <span id="virtualisierung"></span>Virtualisierung
@@ -403,20 +531,20 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="virtualization-framework"></span>Virtualization.framework
 : **Apples Virtualisierungs-API** seit macOS 11 (Big Sur), optimiert für Apple Silicon. Ersetzt die ältere `HyperKit`-Technologie. Docker Desktop, Multipass, UTM und Parallels nutzen diese Schnittstelle, was die Parallel-Nutzung mehrerer VM-Tools auf dem Mac deutlich stabiler gemacht hat.
 
-## <span id="vm"></span>VM (Virtuelle Maschine)
+## <span id="vm"></span><span id="vms"></span>VM (Virtuelle Maschine)
 : **Eine per Software emulierte „Computer-in-Software".** Hat eigene virtuelle Hardware (CPU, RAM, Disk, NIC) und ein eigenes Gast-Betriebssystem samt Kernel. Wird von einem Hypervisor verwaltet. Eine VM ist stark isoliert, braucht aber deutlich mehr Ressourcen als ein Container – jede VM schleppt ihr eigenes OS mit.
 
 ## <span id="volume"></span>Volume
 : **Persistenter Speicher für Docker-Container.** Überlebt, wenn der Container gelöscht wird, und wird von Docker selbst verwaltet (liegt meist unter `/var/lib/docker/volumes/`). Alternative zu Bind Mounts, wenn du von der konkreten Host-Pfad-Struktur unabhängig sein willst. Typischer Einsatz: Datenbank-Dateien.
 
-## <span id="wsl-2"></span>WSL2 (Windows Subsystem for Linux 2)
-: **Microsofts Linux-Runtime auf Windows.** Technisch eine hoch­optimierte Hyper-V-VM mit einem Linux-Kernel von Microsoft. Grundlage für Docker Desktop auf Windows – der Docker-Daemon läuft in WSL2, nicht direkt in Windows.
+## <span id="wsl"></span><span id="wsl2"></span><span id="wsl-2"></span>WSL / WSL2 (Windows Subsystem for Linux 2)
+: **Microsofts Linux-Runtime auf Windows.** Die ältere Variante **WSL** (auch „WSL1") übersetzte Linux-Systemcalls auf Windows – funktional, aber langsam. **WSL2** ist eine hochoptimierte Hyper-V-VM mit einem echten Linux-Kernel von Microsoft (ca. 100 MB) und ist seit 2020 Standard. Grundlage für Docker Desktop auf Windows – der Docker-Daemon läuft in WSL2, nicht direkt in Windows.
 
 ## <span id="xargs"></span>xargs
 : **Unix-Befehl**, der Ausgaben in Argumente für einen anderen Befehl umwandelt. Klassische Nutzung mit Pipe: `docker ps -aq | xargs docker rm -f`. `docker ps -aq` liefert eine Liste von Container-IDs (eine pro Zeile), `xargs` nimmt sie und hängt sie als Argumente an `docker rm -f` an – das löscht alle Container in einem Rutsch. Windows PowerShell hat ein anderes Muster, meist mit `@(...)` oder `ForEach-Object`.
 
-## <span id="x86-64"></span>x86_64 (auch amd64)
-: **64-Bit-Variante der klassischen Intel/AMD-Prozessor­architektur.** Die meisten Server, viele Laptops und ältere Macs laufen auf x86_64. Apple Silicon (M-Chips) und viele mobile Geräte nutzen stattdessen ARM. Bei Docker-Images sieht man oft `amd64` als Architektur-Tag.
+## <span id="x86-64"></span><span id="x86"></span><span id="amd64"></span>x86 / x86_64 / amd64
+: **Klassische Intel/AMD-Prozessor­architektur.** Der Begriff `x86` bezeichnet die 32-Bit-Familie ab dem Intel 80386, `x86_64` (auch `amd64`) die 64-Bit-Variante – heute Standard auf den meisten Servern, älteren Macs und vielen Laptops. Apple Silicon (M-Chips) und viele mobile Geräte nutzen stattdessen ARM. Bei Docker-Images sieht man `amd64` als Architektur-Tag; `x86_64` und `amd64` meinen exakt dasselbe.
 
 ## <span id="yaml"></span>YAML (YAML Ain't Markup Language)
 : **Menschenlesbares Datenformat.** Wird in MkDocs-Konfigurationen (`mkdocs.yml`), GitHub Actions (`deploy.yml`), Docker Compose und Kubernetes-Manifesten verwendet. Wichtig: keine Tabs, nur Leerzeichen für die Einrückung – YAML ist sehr pingelig mit Syntax.

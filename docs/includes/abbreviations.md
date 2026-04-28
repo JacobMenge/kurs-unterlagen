@@ -1,8 +1,16 @@
 *[VM]: Virtuelle Maschine – ein per Software emulierter Computer mit eigenem Gast-Betriebssystem
 *[VMs]: Virtuelle Maschinen (Plural)
 *[OS]: Operating System – Betriebssystem (z.B. Linux, macOS, Windows)
+*[API]: Application Programming Interface – definierte Schnittstelle, über die Programme miteinander reden
+*[APIs]: Application Programming Interfaces (Plural)
 *[CLI]: Command-Line Interface – textbasierte Bedienung über die Kommandozeile
 *[GUI]: Graphical User Interface – grafische Benutzeroberfläche
+*[CVE]: Common Vulnerabilities and Exposures – öffentlich bekannte Sicherheitslücke mit eindeutiger ID
+*[SHA-256]: Kryptografische Hashfunktion – erzeugt einen 256-Bit-Fingerabdruck eines Inhalts
+*[SHA]: Secure Hash Algorithm – Familie kryptografischer Hashfunktionen (SHA-1, SHA-256, …)
+*[GPG]: GNU Privacy Guard – Open-Source-Implementierung von OpenPGP für Signaturen und Verschlüsselung
+*[TLS]: Transport Layer Security – Verschlüsselung für Netzwerk­protokolle (z.B. HTTPS)
+*[SSL]: Secure Sockets Layer – Vorgänger von TLS, der Begriff wird oft synonym genutzt
 *[RAM]: Random Access Memory – Arbeitsspeicher
 *[CPU]: Central Processing Unit – Prozessor
 *[vCPU]: Virtual CPU – virtualisierte Prozessoreinheit
@@ -103,6 +111,16 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[Podman]: Container-Engine als Docker-Alternative, ohne Daemon
 *[OrbStack]: Mac-native Docker-Alternative
 *[Rosetta]: Rosetta 2 – Apples Übersetzer von x86_64 nach ARM
+*[Kubernetes]: Container-Orchestrierungs-Plattform, oft als „K8s" abgekürzt
+*[K8s]: Kubernetes – Container-Orchestrierung über mehrere Hosts
+*[containerd]: Container-Runtime, Standard-Engine unter Docker
+*[runc]: Low-Level-Container-Runtime, die einzelne Container startet
+*[OCI]: Open Container Initiative – Standardisierungs­gremium für Container-Formate
+*[Swarm]: Docker Swarm – Dockers eigenes Cluster-Tool, einfacher als Kubernetes
+*[Helm]: Paketmanager für Kubernetes
+*[Pod]: Kleinste deploybare Einheit in Kubernetes (ein oder mehrere Container)
+*[Cluster]: Verbund mehrerer Hosts, die zusammen Workloads tragen
+*[Reverse Proxy]: Server, der Anfragen von außen entgegennimmt und an interne Dienste weiterreicht
 *[Emulation]: Simulation einer Hardware oder Architektur in Software
 *[Hardware-Beschleunigung]: CPU-Feature, das Virtualisierung beschleunigt
 *[Hypervisor]: Software, die virtuelle Maschinen verwaltet
@@ -136,6 +154,35 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[nginx]: Populärer Webserver und Reverse Proxy
 *[Adminer]: Web-Oberfläche zur Datenbankverwaltung
 *[Flask]: Leichtgewichtiges Python-Web-Framework
+*[Alpine]: Minimales Linux (~5 MB), Standard-Basis für schlanke Container-Images
+*[Slim]: Variante eines Basis-Images mit reduziertem Inhalt (z.B. python:3.12-slim)
+*[Distro]: Linux-Distribution – z.B. Ubuntu, Debian, Fedora, Alpine
+*[Distribution]: Linux-Distribution – z.B. Ubuntu, Debian, Fedora, Alpine
+*[Snapshot]: Punkt-in-Zeit-Abbild eines Volumes oder einer VM
+*[Cache]: Zwischenspeicher zur Wiederverwendung von Daten
+*[Caching]: Mechanismus, der Zwischenergebnisse speichert (z.B. Docker-Layer-Cache)
+*[Stage]: Build-Stage in einem Multi-Stage-Dockerfile (FROM-Block)
+*[Build-Stage]: Eine FROM-Stufe im Multi-Stage-Build
+*[Git]: Verteiltes Versionsverwaltungssystem für Quellcode
+*[GitHub]: Beliebte Web-Plattform für Git-Repositories
+*[GitLab]: Self-hostbare Web-Plattform für Git-Repositories und CI/CD
+*[GitHub Actions]: GitHubs CI/CD-Plattform, die Workflows aus YAML-Dateien ausführt
+*[GitHub Pages]: Hosting für statische Webseiten direkt aus einem GitHub-Repository
+*[buildx]: Erweitertes `docker build`-Plugin (Multi-Architektur, Cache-Backends)
+*[Signal]: Nachricht vom Kernel an einen Prozess (SIGTERM, SIGKILL, SIGINT, …)
+*[SIGTERM]: Höfliches Beenden eines Prozesses – kann abgefangen werden
+*[SIGKILL]: Hartes Beenden eines Prozesses – kann nicht abgefangen werden
+*[ENTRYPOINT]: Dockerfile-Instruktion für den festen Hauptprozess eines Containers
+*[CMD]: Dockerfile-Instruktion für die Default-Argumente an den ENTRYPOINT
+*[FROM]: Dockerfile-Instruktion: definiert das Basis-Image
+*[COPY]: Dockerfile-Instruktion: kopiert Dateien aus dem Build-Kontext ins Image
+*[ADD]: Dockerfile-Instruktion: wie COPY, kann zusätzlich URLs und Tar-Archive
+*[RUN]: Dockerfile-Instruktion: führt während des Builds einen Befehl aus, erzeugt einen Layer
+*[WORKDIR]: Dockerfile-Instruktion: setzt das Arbeitsverzeichnis im Image
+*[EXPOSE]: Dockerfile-Instruktion: deklariert (informativ) einen Port, den der Container nutzt
+*[ARG]: Dockerfile-Instruktion: Build-Argument, nur während `docker build` verfügbar
+*[ENV]: Dockerfile-Instruktion: setzt eine Umgebungsvariable im Image
+*[USER]: Dockerfile-Instruktion: wechselt den User für nachfolgende Befehle und zur Laufzeit
 *[Gatekeeper]: Sicherheits­mechanismus von macOS für unbekannte Apps
 *[Virtualization.framework]: Apples moderne Virtualisierungs-API
 *[Typ-1-Hypervisor]: Bare-Metal-Hypervisor direkt auf Hardware

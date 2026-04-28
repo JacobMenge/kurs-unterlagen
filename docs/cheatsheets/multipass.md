@@ -82,9 +82,16 @@ multipass exec demo -- sudo apt update
 
 SSH vom Host in die VM (falls man auf Multipass-Shell verzichten möchte):
 
-```bash
-ssh ubuntu@$(multipass info demo | awk '/IPv4/ {print $2}')
-```
+=== "macOS / Linux"
+    ```bash
+    ssh ubuntu@$(multipass info demo | awk '/IPv4/ {print $2}')
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    $ip = (multipass info demo --format json | ConvertFrom-Json).info.demo.ipv4[0]
+    ssh ubuntu@$ip
+    ```
 
 ## Konfiguration und Daemon
 
@@ -118,12 +125,21 @@ multipass purge
 
 In allen laufenden VMs denselben Befehl ausführen:
 
-```bash
-for vm in $(multipass list --format csv | tail -n +2 | cut -d, -f1); do
-  echo "=== $vm ==="
-  multipass exec "$vm" -- uptime
-done
-```
+=== "macOS / Linux"
+    ```bash
+    for vm in $(multipass list --format csv | tail -n +2 | cut -d, -f1); do
+      echo "=== $vm ==="
+      multipass exec "$vm" -- uptime
+    done
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    (multipass list --format json | ConvertFrom-Json).list | ForEach-Object {
+      Write-Host "=== $($_.name) ==="
+      multipass exec $_.name -- uptime
+    }
+    ```
 
 ---
 

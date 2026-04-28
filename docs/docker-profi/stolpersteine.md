@@ -262,8 +262,32 @@ Diese Seite sammelt Probleme, die beim **professionellen Bauen** von Images auft
     Sortiert nach Größe, die dicksten Layer oben.
 
 ??? info "Dive installieren und nutzen"
+    Installation:
+
+    === "macOS (Brew)"
+        ```bash
+        brew install dive
+        ```
+
+    === "Linux (Ubuntu/Debian)"
+        ```bash
+        DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+        curl -OL "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb"
+        sudo apt install -y "./dive_${DIVE_VERSION}_linux_amd64.deb"
+        ```
+
+    === "Windows (Scoop)"
+        ```powershell
+        scoop install dive
+        ```
+
+    === "Cross-Platform (Docker)"
+        ```bash
+        docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest mein-image
+        ```
+
+    Aufruf:
     ```bash
-    brew install dive
     dive mein-image
     ```
 

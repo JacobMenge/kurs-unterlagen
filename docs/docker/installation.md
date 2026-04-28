@@ -54,11 +54,12 @@ Docker Desktop ist **für Privatpersonen, Bildung, kleinere Firmen und Open-Sour
 ## Installation auf Windows 11
 
 !!! info "Systemanforderungen Windows"
-    - **Windows 11 64-Bit** (Home, Pro, Enterprise oder Education) oder **Windows 10 64-Bit** ab Version 22H2
-    - **WSL2-Funktion** (Docker Desktop aktiviert das während der Installation, wenn nicht vorhanden)
-    - **Hardware-Virtualisierung im BIOS/UEFI** aktiviert (Intel VT-x oder AMD-V)
+    - **Windows 11** (mindestens Version 23H2, Build 22631) oder **Windows 10 64-Bit** ab Version 22H2 (Build 19045)
+    - **WSL2-Funktion** mit WSL Version **2.1.5 oder neuer** (Docker Desktop aktiviert das während der Installation, wenn nicht vorhanden)
+    - **Hardware-Virtualisierung im BIOS/UEFI** aktiviert (Intel VT-x oder AMD-V), zusätzlich **SLAT-fähige 64-Bit-CPU**
     - **Mindestens 4 GB RAM**, empfohlen 8 GB oder mehr
     - **Ca. 2 GB freier Platten­platz** für Docker Desktop selbst, dazu Raum für Images
+    - **Editionen**: offiziell unterstützt sind Pro / Enterprise / Education. **Home** funktioniert in der Praxis ebenfalls über WSL2 – Docker dokumentiert das nicht als „supported", in den meisten Fällen klappt es aber problemlos.
 
 ### Schritt 1 – Vorbereitung prüfen
 
@@ -172,8 +173,8 @@ Wenn die Begrüßung erscheint, läuft alles.
 ## Installation auf macOS
 
 !!! info "Systemanforderungen macOS"
-    - **macOS 12 (Monterey) oder neuer** (Intel) bzw. **macOS 12.5 oder neuer** (Apple Silicon, also M1/M2/M3/M4)
-    - **Apple Silicon**: zusätzlich **Rosetta 2** für manche x86_64-Images (wird auf Wunsch automatisch installiert)
+    - **macOS 13.3 (Ventura) oder neuer** – Docker unterstützt offiziell die aktuelle und die zwei vorherigen macOS-Major-Versionen. Ältere macOS-Versionen werden mit Stand 2026 nicht mehr unterstützt.
+    - **Apple Silicon (M1/M2/M3/M4)**: Rosetta 2 ist für die meisten Workflows **nicht mehr zwingend nötig**, kann aber für x86_64-Images sinnvoll sein (siehe Schritt 2).
     - **Mindestens 4 GB RAM**, empfohlen 8 GB oder mehr
     - **Ca. 2 GB Disk** für Docker Desktop plus Raum für Images
 

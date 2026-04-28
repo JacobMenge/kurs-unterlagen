@@ -379,13 +379,32 @@ Wenn du auf einem Firmenlaptop sitzt und das Firmen­netz Internet­zugriffe fil
 ??? info "HTTP-Proxy für Image-Downloads"
     Multipass nutzt die System-Proxy-Einstellungen. Wenn die VMs keine Images bekommen:
 
-    ```bash
-    export HTTP_PROXY=http://proxy.firma:8080
-    export HTTPS_PROXY=http://proxy.firma:8080
-    multipass launch ...
-    ```
+    === "macOS / Linux (bash/zsh)"
+        ```bash
+        export HTTP_PROXY=http://proxy.firma:8080
+        export HTTPS_PROXY=http://proxy.firma:8080
+        multipass launch 22.04 --name demo
+        ```
 
-    Persistent machst du das, indem du die Umgebungs­variablen in dein Shell-Profil (`~/.zshrc`, `~/.bashrc`) einträgst.
+        Persistent machst du das, indem du die Umgebungs­variablen in dein Shell-Profil (`~/.zshrc`, `~/.bashrc`) einträgst.
+
+    === "Windows PowerShell"
+        ```powershell
+        $env:HTTP_PROXY  = "http://proxy.firma:8080"
+        $env:HTTPS_PROXY = "http://proxy.firma:8080"
+        multipass launch 22.04 --name demo
+        ```
+
+        Persistent machst du das in PowerShell mit `[Environment]::SetEnvironmentVariable("HTTP_PROXY","http://proxy.firma:8080","User")` (User-Scope, ohne Admin-Rechte).
+
+    === "Windows CMD"
+        ```cmd
+        set HTTP_PROXY=http://proxy.firma:8080
+        set HTTPS_PROXY=http://proxy.firma:8080
+        multipass launch 22.04 --name demo
+        ```
+
+        Persistent über `setx HTTP_PROXY "http://proxy.firma:8080"` (wirkt erst in **neu geöffneten** CMD-Fenstern).
 
 ??? info "Zertifikats-Probleme (selbstsignierte Firmen-Root-CA)"
     Wenn die Firma einen eigenen Root-CA nutzt, den Multipass nicht kennt, schlägt der Image-Download mit SSL-Fehlern fehl. Lösung:

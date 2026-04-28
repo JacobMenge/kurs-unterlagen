@@ -442,12 +442,21 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
     **Lösung Varianten:**
 
-    1. Mit `-u $(id -u):$(id -g)` den Container als deinen Host-User starten:
-       ```bash
-       docker run --rm -u $(id -u):$(id -g) -v $(pwd):/app my-image
-       ```
+    1. Den Container als deinen Host-User starten:
+
+        === "macOS / Linux"
+            ```bash
+            docker run --rm -u $(id -u):$(id -g) -v $(pwd):/app my-image
+            ```
+
+        === "Windows PowerShell"
+            Auf Windows existieren Linux-UID/GID am Host nicht direkt – Docker Desktop übersetzt automatisch. Wenn du eine fixe UID/GID brauchst (z.B. weil sie auch im Image existiert):
+            ```powershell
+            docker run --rm -u 1000:1000 -v "${PWD}:/app" my-image
+            ```
+
     2. Im Dockerfile einen unprivilegierten User anlegen und mit `USER` wechseln.
-    3. Pfad-Besitzer oder -Rechte anpassen (schnelle Lösung, aber nicht immer sauber):
+    3. Pfad-Besitzer oder -Rechte anpassen (auf Linux/macOS):
        ```bash
        chmod -R 777 ./verzeichnis   # nur als letzter Ausweg
        ```

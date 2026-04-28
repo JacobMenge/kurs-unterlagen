@@ -301,18 +301,25 @@ Trivy installieren:
     ```
 
 === "Linux (Ubuntu/Debian)"
+    `apt-key` ist seit Ubuntu 22.04 deprecated. Wir nutzen den modernen `signed-by`-Weg:
     ```bash
-    sudo apt-get install -y wget gnupg
-    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-    echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+    sudo apt-get install -y wget gnupg lsb-release
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
+    echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
     sudo apt-get update
     sudo apt-get install -y trivy
     ```
 
-=== "Windows"
-    Siehe <https://aquasecurity.github.io/trivy/latest/getting-started/installation/> oder Trivy in einem Docker-Container laufen lassen:
+=== "Windows (Scoop)"
     ```powershell
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image <image>
+    scoop install trivy
+    ```
+
+=== "Cross-Platform (Docker)"
+    Ohne Installation, direkt im Container:
+    ```bash
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+      aquasec/trivy:latest image <image>
     ```
 
 #### Aufgabe

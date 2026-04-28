@@ -105,9 +105,7 @@ git push
 Jede Änderung, die du pushst, wird **automatisch neu deployed**:
 
 ```bash
-# Änderung machen
-vim docs/docker/warum-docker.md
-
+# Änderung machen (egal ob VSCode, vim, Notepad++, ...)
 # Lokal prüfen
 mkdocs serve
 
@@ -125,13 +123,33 @@ Nach dem Push dauert es 1–2 Minuten, bis die neue Version online ist.
 
 Einmalig eine virtuelle Umgebung anlegen und Abhängigkeiten installieren:
 
+**macOS / Linux (Bash / Zsh):**
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Dann den Entwicklungsserver starten:
+**Windows PowerShell:**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+> Falls beim Activate-Skript `running scripts is disabled` kommt: einmalig `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` ausführen, dann nochmal versuchen.
+
+**Windows CMD:**
+
+```cmd
+python -m venv .venv
+.venv\Scripts\activate.bat
+pip install -r requirements.txt
+```
+
+Dann den Entwicklungsserver starten (auf allen Plattformen gleich):
 
 ```bash
 mkdocs serve

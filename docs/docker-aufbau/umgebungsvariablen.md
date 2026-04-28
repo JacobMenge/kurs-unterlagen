@@ -296,14 +296,27 @@ docker run -e LOG_LEVEL=debug meine-app
 ## Praktische Tipps
 
 ??? tip "Gemeinsame Variablen per Shell exportieren"
-    Statt `-e` jedesmal zu tippen:
+    Statt `-e` jedesmal zu tippen, setz die Variable einmal in deiner Shell und reich nur den **Namen** an Docker durch:
 
-    ```bash
-    export DATABASE_URL=postgres://db:5432/kurs
-    docker run -e DATABASE_URL meine-app
-    ```
+    === "macOS / Linux"
+        ```bash
+        export DATABASE_URL=postgres://db:5432/kurs
+        docker run -e DATABASE_URL meine-app
+        ```
 
-    Das `-e DATABASE_URL` ohne Wert übernimmt den Wert aus der Shell.
+    === "Windows PowerShell"
+        ```powershell
+        $env:DATABASE_URL = "postgres://db:5432/kurs"
+        docker run -e DATABASE_URL meine-app
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        set DATABASE_URL=postgres://db:5432/kurs
+        docker run -e DATABASE_URL meine-app
+        ```
+
+    Das `-e DATABASE_URL` **ohne Wert** übernimmt den Wert aus der Shell.
 
 ??? tip "Mehrere Konfigurationen für Dev/Test/Prod"
     Lege dir Dateien an:

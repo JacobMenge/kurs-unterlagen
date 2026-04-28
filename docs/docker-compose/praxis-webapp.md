@@ -23,11 +23,26 @@ description: "Den Multi-Container-Stack aus der manuellen Praxis komplett mit do
 - Ca. **45–60 Minuten** Zeit für die volle Praxis.
 - Falls aus Block 3 noch Container laufen, einmal aufräumen:
 
-    ```bash
-    docker stop adminer db app 2>/dev/null
-    docker rm   adminer db app 2>/dev/null
-    docker network rm kurs-netz 2>/dev/null
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker stop adminer db app 2>/dev/null
+        docker rm   adminer db app 2>/dev/null
+        docker network rm kurs-netz 2>/dev/null
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker stop adminer db app 2>$null
+        docker rm   adminer db app 2>$null
+        docker network rm kurs-netz 2>$null
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker stop adminer db app 2>nul
+        docker rm adminer db app 2>nul
+        docker network rm kurs-netz 2>nul
+        ```
 
 ---
 
@@ -35,10 +50,23 @@ description: "Den Multi-Container-Stack aus der manuellen Praxis komplett mit do
 
 Wir starten mit einem frischen Ordner:
 
-```bash
-mkdir kurs-compose
-cd kurs-compose
-```
+=== "macOS / Linux"
+    ```bash
+    mkdir kurs-compose
+    cd kurs-compose
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    mkdir kurs-compose
+    cd kurs-compose
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    mkdir kurs-compose
+    cd kurs-compose
+    ```
 
 ---
 

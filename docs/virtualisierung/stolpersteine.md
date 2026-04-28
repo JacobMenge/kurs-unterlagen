@@ -101,16 +101,42 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
 
     1. Warte mindestens 3 Minuten – ein frisches Image ist ca. 500 MB groß.
     2. Breche mit ++ctrl+c++ ab und prüfe den Zugang:
-       ```bash
-       curl -I https://cloud-images.ubuntu.com/
-       ```
-       Kommt keine 200er Antwort, kommt dein Rechner nicht ans Ubuntu-Image.
+
+        === "macOS / Linux"
+            ```bash
+            curl -I https://cloud-images.ubuntu.com/
+            ```
+
+        === "Windows PowerShell"
+            ```powershell
+            Invoke-WebRequest -Method Head https://cloud-images.ubuntu.com/
+            ```
+
+        Kommt keine 200er Antwort, kommt dein Rechner nicht ans Ubuntu-Image.
+
     3. **Bei Firmen-Proxy:**
-       ```bash
-       export HTTP_PROXY=http://proxy.firma:8080
-       export HTTPS_PROXY=http://proxy.firma:8080
-       multipass launch 22.04 --name demo
-       ```
+
+        === "macOS / Linux"
+            ```bash
+            export HTTP_PROXY=http://proxy.firma:8080
+            export HTTPS_PROXY=http://proxy.firma:8080
+            multipass launch 22.04 --name demo
+            ```
+
+        === "Windows PowerShell"
+            ```powershell
+            $env:HTTP_PROXY  = "http://proxy.firma:8080"
+            $env:HTTPS_PROXY = "http://proxy.firma:8080"
+            multipass launch 22.04 --name demo
+            ```
+
+        === "Windows CMD"
+            ```cmd
+            set HTTP_PROXY=http://proxy.firma:8080
+            set HTTPS_PROXY=http://proxy.firma:8080
+            multipass launch 22.04 --name demo
+            ```
+
     4. Teste ggf. mit einem anderen Netz (Hotspot vom Handy), um zu isolieren, ob es am Firmen-Netz liegt.
 
 ??? warning "`multipass shell demo` hängt oder „No route to host"
@@ -171,10 +197,24 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
 
     Danach `multipass list` sollte „No instances found." zeigen.
 
-    **Prüfen, wie viel Multipass insgesamt belegt (macOS):**
-    ```bash
-    du -sh ~/Library/Application\ Support/multipassd
-    ```
+    **Prüfen, wie viel Multipass insgesamt belegt:**
+
+    === "macOS"
+        ```bash
+        sudo du -sh "/var/root/Library/Application Support/multipassd"
+        ```
+
+    === "Linux (Snap)"
+        ```bash
+        sudo du -sh /var/snap/multipass/common/data/multipassd
+        ```
+
+    === "Windows PowerShell (als Admin)"
+        ```powershell
+        Get-ChildItem -Recurse "C:\Windows\System32\config\systemprofile\AppData\Roaming\multipassd" |
+            Measure-Object -Property Length -Sum |
+            ForEach-Object { "{0:N2} MB" -f ($_.Sum / 1MB) }
+        ```
 
 ??? info "„Habe ich aus Versehen die falsche VM gelöscht, kann ich das rückgängig machen?"
     **Ja – solange du noch nicht `purge` gemacht hast.**

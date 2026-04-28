@@ -265,11 +265,26 @@ Das ist die Basis dessen, was [Docker Compose](../docker-compose/einfuehrung.md)
     **Ursachen und Lösungen:**
 
     1. **Container nicht im selben Netzwerk.** Check mit:
-       ```bash
-       docker inspect app | grep -A 5 Networks
-       docker inspect db  | grep -A 5 Networks
-       ```
-       Müssen im selben Netz sein.
+
+        === "macOS / Linux"
+            ```bash
+            docker inspect app | grep -A 5 Networks
+            docker inspect db  | grep -A 5 Networks
+            ```
+
+        === "Windows PowerShell"
+            ```powershell
+            docker inspect app | Select-String -Pattern "Networks" -Context 0,5
+            docker inspect db  | Select-String -Pattern "Networks" -Context 0,5
+            ```
+
+        === "Plattform-unabhängig (Docker-Format)"
+            ```bash
+            docker inspect -f "{{json .NetworkSettings.Networks}}" app
+            docker inspect -f "{{json .NetworkSettings.Networks}}" db
+            ```
+
+        Müssen im selben Netz sein.
     2. **Default-Bridge** statt User-Defined. Default-Bridge hat kein DNS – also lieber ein eigenes Netzwerk anlegen.
     3. **Container-Name falsch geschrieben.** `DATABASE_URL=postgres://...@DB:5432/...` mit Großbuchstaben? DNS ist case-insensitiv, aber manche Applikationen behandeln Hostnamen komisch. Kleinbuchstaben nutzen.
 
@@ -280,14 +295,17 @@ Das ist die Basis dessen, was [Docker Compose](../docker-compose/einfuehrung.md)
 
     **Lösung:**
 
-    - Auf **macOS / Windows** (Docker Desktop): Nutze `host.docker.internal` als Hostname. Docker Desktop legt einen DNS-Eintrag an, der auf den Host zeigt.
-      ```bash
-      docker run -e DATABASE_URL=postgres://user:pass@host.docker.internal:5432/db meine-app
-      ```
-    - Auf **Linux**: `host.docker.internal` gibt es inzwischen auch, aber du musst es explizit freischalten:
-      ```bash
-      docker run --add-host=host.docker.internal:host-gateway meine-app
-      ```
+    === "macOS / Windows (Docker Desktop)"
+        Nutze `host.docker.internal` als Hostname. Docker Desktop legt einen DNS-Eintrag an, der auf den Host zeigt:
+        ```bash
+        docker run -e DATABASE_URL=postgres://user:pass@host.docker.internal:5432/db meine-app
+        ```
+
+    === "Linux"
+        `host.docker.internal` gibt es inzwischen auch, aber du musst es explizit freischalten:
+        ```bash
+        docker run --add-host=host.docker.internal:host-gateway meine-app
+        ```
 
 ??? warning "Zwei Container mit denselben Namen"
     **Symptom:** `docker run --name db ...` scheitert mit „container name already in use".

@@ -134,8 +134,9 @@ Zeigt alles, was nginx seit dem Start auf Standardausgabe geschrieben hat – vo
 ```bash
 docker stop meinweb
 docker rm meinweb
-docker rm $(docker ps -aq)    # noch nicht gelöschten hello-world entfernen
 ```
+
+Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg – die Befehle dafür unterscheiden sich pro Shell:
 
 === "macOS / Linux"
     ```bash
@@ -145,6 +146,11 @@ docker rm $(docker ps -aq)    # noch nicht gelöschten hello-world entfernen
 === "Windows PowerShell"
     ```powershell
     docker rm @(docker ps -aq)
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    for /f "tokens=*" %i in ('docker ps -aq') do docker rm %i
     ```
 
 !!! success "Geschafft!"

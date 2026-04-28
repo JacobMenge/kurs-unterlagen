@@ -144,11 +144,39 @@ Du siehst sofort, welcher Layer wie schwer ist. Der `pip install`-Layer zieht 10
 
 [Dive](https://github.com/wagoodman/dive) ist ein Tool, das pro Layer das **Dateisystem** zeigt. Du siehst, welche Dateien durch welchen Layer hinzugekommen sind und wie groß jede einzelne ist.
 
-Installation (Mac mit Brew):
+Installation:
 
-```bash
-brew install dive
-```
+=== "macOS (Homebrew)"
+    ```bash
+    brew install dive
+    ```
+
+=== "Linux (Ubuntu/Debian)"
+    ```bash
+    DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    curl -OL "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.deb"
+    sudo apt install -y "./dive_${DIVE_VERSION}_linux_amd64.deb"
+    ```
+
+=== "Linux (RPM)"
+    ```bash
+    DIVE_VERSION=$(curl -sL "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+    curl -OL "https://github.com/wagoodman/dive/releases/download/v${DIVE_VERSION}/dive_${DIVE_VERSION}_linux_amd64.rpm"
+    sudo rpm -i "dive_${DIVE_VERSION}_linux_amd64.rpm"
+    ```
+
+=== "Windows (Scoop)"
+    ```powershell
+    scoop install dive
+    ```
+
+=== "Cross-Platform (Docker)"
+    Ohne Installation, direkt mit Docker:
+    ```bash
+    docker run --rm -it \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      wagoodman/dive:latest <image>
+    ```
 
 Nutzung:
 
@@ -229,11 +257,33 @@ Jedes Image erbt Sicherheits­lücken seines Basis-Image plus der Pakete, die du
 
 [Trivy](https://github.com/aquasecurity/trivy) ist das meistgenutzte Open-Source-Scan-Tool. Cross-Platform, schnell, vernünftige False-Positive-Rate.
 
-Installation (Mac):
+Installation:
 
-```bash
-brew install trivy
-```
+=== "macOS (Homebrew)"
+    ```bash
+    brew install trivy
+    ```
+
+=== "Linux (Ubuntu/Debian)"
+    ```bash
+    sudo apt-get install -y wget gnupg
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
+    echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+    sudo apt-get update
+    sudo apt-get install -y trivy
+    ```
+
+=== "Windows (Scoop)"
+    ```powershell
+    scoop install trivy
+    ```
+
+=== "Cross-Platform (Docker)"
+    Ohne Installation, direkt mit Docker:
+    ```bash
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+      aquasec/trivy:latest image <image>
+    ```
 
 Image scannen:
 

@@ -26,13 +26,30 @@ Check, dass Docker läuft:
 docker version
 ```
 
-Du solltest Block für Client und Server bekommen. Wenn nur der Client steht und der Server fehlt, läuft der Daemon nicht – starte Docker Desktop bzw. `sudo systemctl start docker` auf Linux.
+Du solltest Block für Client und Server bekommen. Wenn nur der Client steht und der Server fehlt, läuft der Daemon nicht – siehe Box direkt darunter.
 
 ??? danger "`Cannot connect to the Docker daemon`"
-    Der Daemon läuft nicht. Schnell-Fix:
+    Der Daemon läuft nicht. Schnell-Fix nach OS:
 
-    - **macOS / Windows:** Docker Desktop öffnen, auf „Engine running" warten (das Wal-Icon wird grün).
-    - **Linux:** `sudo systemctl start docker`, und prüfe, dass dein User in der `docker`-Gruppe ist (`groups | grep docker`).
+    === "macOS"
+        1. **Docker Desktop** öffnen (Spotlight `Cmd+Leertaste` → „Docker").
+        2. Warten, bis das Wal-Icon in der Menüleiste **„Engine running"** zeigt.
+        3. Im Terminal nochmal `docker version` ausführen.
+
+    === "Windows"
+        1. **Docker Desktop** über das Startmenü öffnen.
+        2. Warten, bis das Wal-Icon im Tray grün ist und „Engine running" zeigt.
+        3. **Neues** PowerShell-Fenster öffnen (das alte hat noch keinen aktiven PATH).
+        4. `docker version` ausführen.
+
+    === "Linux"
+        ```bash
+        sudo systemctl start docker
+        sudo systemctl enable docker     # Autostart beim Boot
+        groups | grep docker             # bist du in der docker-Gruppe?
+        ```
+
+        Wenn `docker` in der Gruppen-Ausgabe fehlt, hast du nach `sudo usermod -aG docker $USER` vermutlich vergessen, dich neu einzuloggen. Kurzfristig hilft `newgrp docker`.
 
     Ausführlich: [Stolpersteine → Docker startet nicht](stolpersteine.md).
 
@@ -196,10 +213,18 @@ Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
         ```
 
     5. **Firewall des Hosts** blockiert den Zugriff. Testen direkt auf dem Host:
-       ```bash
-       curl -v http://localhost:8080
-       ```
-       Kommt hier eine Antwort, liegt das Problem nur im Browser oder Netzwerk – nicht bei Docker.
+
+        === "macOS / Linux"
+            ```bash
+            curl -v http://localhost:8080
+            ```
+
+        === "Windows PowerShell"
+            ```powershell
+            Invoke-WebRequest -Uri http://localhost:8080 -UseBasicParsing
+            ```
+
+        Kommt hier eine Antwort, liegt das Problem nur im Browser oder Netzwerk – nicht bei Docker.
 
     Mehr in [Stolpersteine → Ports](stolpersteine.md).
 
