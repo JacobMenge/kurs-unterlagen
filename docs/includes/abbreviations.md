@@ -49,7 +49,7 @@
 *[SSD]: Solid State Drive – Flash-basierte Festplatte
 *[HDD]: Hard Disk Drive – klassische magnetische Festplatte
 
-Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
+<!-- Fachbegriffe (werden automatisch mit dem Glossar verlinkt) -->
 
 *[Kernel]: Der zentrale Teil eines Betriebssystems – verwaltet Hardware, Prozesse, Speicher
 *[Container]: Isolierter Prozess, der sich den Kernel mit dem Host teilt
@@ -199,7 +199,7 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[Image-ID]: SHA-256-Hash eines Images (unveränderlich)
 *[Docker Hub]: Default-Registry von Docker Inc.
 
-Shell- und System-Begriffe:
+<!-- Shell- und System-Begriffe -->
 
 *[sudo]: Unix-Präfix, um einen Befehl mit Administrator-Rechten auszuführen
 *[xargs]: Unix-Befehl, der Eingabe-Zeilen in Argumente für einen anderen Befehl umwandelt
@@ -209,7 +209,7 @@ Shell- und System-Begriffe:
 *[EOF]: End Of File – Markierung, die ein Here-Document oder Eingabe-Ende signalisiert
 *[Shell-Redirektion]: Umleitung der Ein-/Ausgabe von Befehlen mit `>`, `>>` oder `|`
 
-API- und Web-Begriffe:
+<!-- API- und Web-Begriffe -->
 
 *[GET]: HTTP-Methode zum Abrufen von Daten ohne Veränderung
 *[POST]: HTTP-Methode zum Senden / Erstellen von Daten mit JSON-Body
