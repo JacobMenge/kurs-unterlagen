@@ -44,6 +44,14 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
     [:octicons-arrow-right-24: Block 3 starten](docker-aufbau/index.md)
 
+-   :material-puzzle-outline:{ .lg .middle } __[Docker Escape Room](docker-escape-room/index.md)__
+
+    ---
+
+    **Praxis-Wiederholung in der Gruppe:** Multi-Container-Setup manuell aufbauen, **bevor** Compose kommt. Eine 90-Minuten-Challenge mit 10 Aufgaben + Bonus.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](docker-escape-room/index.md)
+
 -   :material-file-code-outline:{ .lg .middle } __[Docker Compose](docker-compose/index.md)__
 
     ---
@@ -130,6 +138,7 @@ Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://ja
     - **Block 1** – Virtualisierung (Multipass)
     - **Block 2** – Docker-Einführung (erste Container, eigenes Image)
     - **Block 3** – Docker-Aufbau (Volumes, ENV, Netzwerke)
+    - **Praxis-Block** – Docker Escape Room (Gruppen-Übung vor Compose)
     - **Block 4** – Docker Compose (nächste Einheit)
     - **Block 5** – Docker für Profis (Best Practices, Optimierung)
 

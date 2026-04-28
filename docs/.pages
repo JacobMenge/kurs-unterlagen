@@ -3,6 +3,7 @@ nav:
   - "Virtualisierung": virtualisierung
   - "Docker": docker
   - "Docker – Aufbau": docker-aufbau
+  - "Docker Escape Room": docker-escape-room
   - "Docker Compose": docker-compose
   - "Docker für Profis": docker-profi
   - "Cheatsheets": cheatsheets
