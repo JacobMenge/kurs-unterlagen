@@ -241,9 +241,18 @@ Starte **zwei** VMs gleichzeitig: `vmA` und `vmB`. Schreibe in jeder VM eine and
 
 ??? info "Beispiel für `exec`"
     ```bash
-    multipass exec vmA -- echo "Ich bin vmA" > /home/ubuntu/id.txt
+    multipass exec vmA -- sh -c 'echo "Ich bin vmA" > /home/ubuntu/id.txt'
     multipass exec vmA -- cat /home/ubuntu/id.txt
     ```
+
+    **Wichtig zu Redirect-Fallen:** Die Umleitung `>` wird **von deiner Host-Shell** ausgewertet, nicht in der VM. Würdest du
+
+    ```bash
+    multipass exec vmA -- echo "Ich bin vmA" > /home/ubuntu/id.txt
+    ```
+
+    schreiben, würde Multipass `echo "Ich bin vmA"` in der VM ausführen und die Ausgabe an deine Host-Shell zurückgeben – das `>` schreibt sie dann auf den **Host** in einen Pfad, den es dort meist gar nicht gibt. Lösung: pack die ganze Pipeline in `sh -c '...'`, damit sie **innerhalb** der VM-Shell läuft.
+
     Der Teil nach `--` ist der Befehl, der in der VM ausgeführt wird.
 
 #### Aufräumen nicht vergessen

@@ -52,6 +52,14 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
     [:octicons-arrow-right-24: Praxis-Block starten](docker-escape-room/index.md)
 
+-   :material-school-outline:{ .lg .middle } __[Docker-Vertiefung](docker-vertiefung/index.md)__
+
+    ---
+
+    **Fünf eigenständige Übungen** ohne Compose: `docker exec` als Debug-Werkzeug, Volume-Backup, Healthchecks, Restart-Policies, Image-Größen-Vergleich. Ideal nach dem Escape Room oder als Brücke zu Compose.
+
+    [:octicons-arrow-right-24: Vertiefungs-Übungen](docker-vertiefung/index.md)
+
 -   :material-file-code-outline:{ .lg .middle } __[Docker Compose](docker-compose/index.md)__
 
     ---
@@ -139,6 +147,7 @@ Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://ja
     - **Block 2** – Docker-Einführung (erste Container, eigenes Image)
     - **Block 3** – Docker-Aufbau (Volumes, ENV, Netzwerke)
     - **Praxis-Block** – Docker Escape Room (Gruppen-Übung vor Compose)
+    - **Vertiefung** – fünf zusätzliche Docker-Übungen ohne Compose
     - **Block 4** – Docker Compose (nächste Einheit)
     - **Block 5** – Docker für Profis (Best Practices, Optimierung)
 

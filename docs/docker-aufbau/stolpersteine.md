@@ -296,14 +296,31 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
         ```
 
 ??? info "Ich will alle Docker-Reste aus diesem Kurs loswerden"
-    ```bash
-    docker stop adminer db 2>/dev/null
-    docker rm adminer db 2>/dev/null
-    docker network rm kurs-netz 2>/dev/null
-    docker volume rm postgres-daten 2>/dev/null
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker stop adminer db 2>/dev/null
+        docker rm adminer db 2>/dev/null
+        docker network rm kurs-netz 2>/dev/null
+        docker volume rm postgres-daten 2>/dev/null
+        ```
 
-    Um auch die gezogenen Images loszuwerden:
+    === "Windows PowerShell"
+        ```powershell
+        docker stop adminer db 2>$null
+        docker rm adminer db 2>$null
+        docker network rm kurs-netz 2>$null
+        docker volume rm postgres-daten 2>$null
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker stop adminer db 2>nul
+        docker rm adminer db 2>nul
+        docker network rm kurs-netz 2>nul
+        docker volume rm postgres-daten 2>nul
+        ```
+
+    Um auch die gezogenen Images loszuwerden (auf allen OS gleich):
     ```bash
     docker rmi postgres:16 adminer
     ```

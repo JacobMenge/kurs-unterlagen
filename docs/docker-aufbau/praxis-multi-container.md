@@ -23,11 +23,26 @@ Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zus
 - Ein Browser.
 - Einmal grundlegend aufräumen, damit kein alter Kram stört:
 
-    ```bash
-    docker stop db adminer 2>/dev/null
-    docker rm db adminer 2>/dev/null
-    docker network rm kurs-netz 2>/dev/null
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker stop db adminer 2>/dev/null
+        docker rm db adminer 2>/dev/null
+        docker network rm kurs-netz 2>/dev/null
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker stop db adminer 2>$null
+        docker rm db adminer 2>$null
+        docker network rm kurs-netz 2>$null
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker stop db adminer 2>nul
+        docker rm db adminer 2>nul
+        docker network rm kurs-netz 2>nul
+        ```
 
     (Fehler „No such container" sind okay.)
 

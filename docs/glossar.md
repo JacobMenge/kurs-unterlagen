@@ -60,7 +60,10 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="build-kontext"></span>Build-Kontext
 : Der **Ordner, der beim `docker build .` komplett an den Docker-Daemon gesendet wird**. Alle `COPY`- und `ADD`-Pfade im Dockerfile beziehen sich auf diesen Ordner. Der Punkt am Ende von `docker build -t name .` ist genau dieser Kontext. Mit einer `.dockerignore` kann man Dateien ausschließen, damit Build-Kontext und Image schlank bleiben.
 
-## <span id="cache"></span><span id="caching"></span>Cache / Caching (Docker-Layer-Cache)
+## <span id="buildkit"></span>BuildKit
+: **Modernes Build-Backend von Docker** seit Docker 18.09, seit 23.0 Default. Bringt deutliche Verbesserungen gegenüber dem klassischen Builder: paralleles Bauen unabhängiger Build-Stages, **bessere Cache-Granularität** (Inhalt statt nur Reihenfolge), Cache-Backends in Registries (`--cache-to`, `--cache-from`), Multi-Architektur-Builds via [buildx](#buildx), Build-Secrets ohne Image-Spuren (`--mount=type=secret`). BuildKit liest spezielle `# syntax=docker/dockerfile:1`-Direktiven am Anfang eines Dockerfiles, um neue Features zu aktivieren.
+
+## <span id="cache"></span><span id="caching"></span><span id="layer-cache"></span><span id="layer-caching"></span>Cache / Caching (Docker-Layer-Cache)
 : **Zwischenspeicher zur Wiederverwendung von Daten.** Im Docker-Kontext meint „Cache" fast immer den **Layer-Cache**: Wenn `docker build` einen Schritt schon einmal mit identischem Input ausgeführt hat, nutzt es das gespeicherte Ergebnis erneut, statt neu zu bauen. Deshalb ist die Reihenfolge im Dockerfile so wichtig – selten geänderte Layer (Abhängigkeiten) **vor** häufig geänderten (eigener Code) platzieren. Cache-Verhalten erzwingen mit `--no-cache`.
 
 ## <span id="capability"></span>Capability
@@ -68,6 +71,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="compose"></span>Compose / Docker Compose
 : **Docker-Werkzeug zum deklarativen Starten und Verwalten von Multi-Container-Stacks**. Die Definition steht in einer `compose.yaml`, gestartet wird mit `docker compose up -d`. Aktuelle Version ist Compose V2 (`docker compose` mit Leerzeichen), nicht das veraltete `docker-compose` mit Bindestrich. Mit Compose beschreibst du einmal, wie dein Stack aussehen soll – statt mehrere `docker run`-Befehle einzeln zu tippen.
+
+## <span id="compose-override-yaml"></span><span id="compose.override.yaml"></span>compose.override.yaml
+: **Optionale Override-Datei**, die Compose **automatisch zusätzlich** zur `compose.yaml` lädt, wenn sie im selben Ordner liegt. Werte aus der Override-Datei überschreiben Werte aus der Basis-`compose.yaml`. Klassisches Muster: `compose.yaml` enthält den produktions­tauglichen Stack, `compose.override.yaml` bringt lokale Entwicklungs-Spezifika (Live-Mounts, Debug-Ports, andere Image-Tags). Mehrere Override-Dateien lassen sich auch explizit über `docker compose -f compose.yaml -f compose.dev.yaml up -d` kombinieren.
 
 ## <span id="compose-yaml"></span>compose.yaml
 : Die **zentrale Konfigurationsdatei für Docker Compose**. Enthält Top-Level-Blöcke `services:`, `volumes:`, `networks:` und beschreibt den kompletten Container-Stack. Das ältere `docker-compose.yml` (mit Bindestrich) wird noch gelesen, die neue Konvention ist aber `compose.yaml`.
@@ -380,6 +386,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="post"></span>POST (HTTP-Methode)
 : **HTTP-Methode zum Senden/Erstellen von Daten.** Anders als `GET` enthält ein `POST`-Request einen Body – meistens JSON oder Form-Daten. Beispiel: `POST /api/entries` mit Body `{"team":"Alpha","name":"Drache","score":25}` legt einen neuen Eintrag an. Server bestätigt typischerweise mit Status `201 Created`.
 
+## <span id="profiles"></span>profiles (Compose)
+: **Compose-Schlüssel**, der Services **optional** macht. Ein Service mit `profiles: ["debug"]` startet **nicht** bei `docker compose up -d` – nur wenn das passende Profil aktiv ist: `docker compose --profile debug up -d`. Sehr nützlich, um z.B. Adminer, Mailpit oder andere Debug-Tools im selben `compose.yaml` zu definieren, sie aber im Alltag nicht hochzufahren. Mehrere Profile pro Service sind möglich.
+
 ## <span id="postgres"></span><span id="postgresql"></span>PostgreSQL / Postgres
 : **Mächtige, frei verfügbare relationale Datenbank.** Sehr ausgereift, extrem erweiterbar, in vielen Projekten die erste Wahl. In Docker als offizielles Image `postgres` verfügbar und wird in den Kurs-Praxisteilen genutzt. Der Service hört standardmäßig auf Port 5432.
 
@@ -409,6 +418,18 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="reverse-proxy"></span>Reverse Proxy
 : **Server, der Anfragen aus dem Netz entgegennimmt und an interne Dienste weiterreicht.** Klassiker: nginx oder Traefik vor mehreren Backend-Containern. Vorteile: zentrale TLS-Terminierung, Load Balancing, Caching, Auth-Vorprüfung. In einem Compose-Setup sieht das so aus: nginx hat den `-p 443:443`-Port nach außen, die App-Container haben **nur** interne Ports und werden vom nginx über das Compose-Netz erreicht.
+
+## <span id="restart-policy"></span><span id="restartcount"></span>Restart-Policy
+: **Regel, was nach einem Container-Exit passiert.** Wird beim `docker run --restart=...` gesetzt:
+
+    | Wert | Verhalten |
+    |---|---|
+    | `no` *(Default)* | gar nichts – Container bleibt nach Crash unten |
+    | `on-failure[:N]` | startet bei Exit-Code ≠ 0 neu, optional N-mal max. |
+    | `always` | startet immer neu, auch nach Daemon-Neustart |
+    | `unless-stopped` | wie `always`, respektiert aber `docker stop` |
+
+    Im `docker inspect <container>` siehst du unter `RestartCount`, wie oft Docker den Container schon neu gestartet hat – sehr nützlich, um „der Container kommt immer wieder hoch" von „der läuft stabil" zu unterscheiden.
 
 ## <span id="rosetta"></span><span id="rosetta-2"></span>Rosetta 2
 : **Apples Übersetzer**, der x86_64-Software auf Apple-Silicon-Rechnern lauffähig macht. Relevant für Docker, wenn ein Image nur in x86_64 vorliegt und auf M-Macs laufen soll. Installation: `softwareupdate --install-rosetta --agree-to-license`. Docker Desktop ab Version 4.25 nutzt Rosetta 2 direkt für die Container-Emulation, was deutlich schneller ist als QEMU-Emulation.

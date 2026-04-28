@@ -151,8 +151,8 @@ container-quest-api:1.0
 
 **Prüft danach:**
 
-- Ist das Image vorhanden? (`docker images`)
-- Wurde es erfolgreich gebaut? (Zeile mit `Successfully tagged`)
+- Ist das Image vorhanden? (`docker images` zeigt `container-quest-api` mit Tag `1.0`)
+- Lief der Build ohne rote `ERROR`-Zeilen durch? Mit aktuellem Docker (BuildKit) endet der Output auf `naming to docker.io/library/container-quest-api:1.0` – das ist das Erfolgs­zeichen.
 
 **Docker-Fokus:** Build-Kontext, Dockerfile verwenden, Image taggen, Build-Ausgabe lesen.
 
@@ -177,7 +177,7 @@ Startet nun den API-Container. Die API braucht mehrere Informationen, um die Dat
 | `PGPASSWORD` | `questpass` |
 
 !!! warning "Achtung: localhost-Falle"
-    Überlegt **genau**, ob die API die Datenbank über `localhost` erreichen kann. (Spoiler: nein. Lies in Aufgabe 6 sorgfältig, was als `PGHOST` steht.)
+    Überlegt **genau**, ob die API die Datenbank über `localhost` erreichen kann. (Spoiler: nein. Schaut sorgfältig in die Tabelle oben, welcher Wert für `PGHOST` steht – und warum genau dieser.)
 
 **Prüft anschließend:**
 
@@ -457,7 +457,10 @@ Wenn ihr früher fertig seid:
 
 ## Bonus 1 – Anderer Host-Port
 
-Startet die API so, dass sie auf eurem Rechner über einen **anderen Port** erreichbar ist (z.B. `8080:3000`). Erklärt danach den Unterschied zwischen Host-Port und Container-Port.
+Startet die API so, dass sie auf eurem Rechner über einen **anderen Port** erreichbar ist (z.B. `9000:3000`). Erklärt danach den Unterschied zwischen Host-Port und Container-Port.
+
+!!! tip "Welche Ports sind frei?"
+    Port `8080` ist bei dieser Übung schon von **Adminer** belegt. Nehmt einen anderen freien Port (z.B. `9000`, `9090`, `5050`). Im Browser ruft ihr die API dann unter `http://localhost:<euer-port>` auf.
 
 ## Bonus 2 – Container untersuchen
 

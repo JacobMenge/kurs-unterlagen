@@ -95,3 +95,23 @@ Die Übung wird **nicht benotet**. Sie dient ausschließlich dazu, die Docker-Ba
 
 - [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
 - [Übergang zu Compose](08-uebergang-zu-compose.md)
+
+---
+
+## Wenn ihr noch Lust auf mehr habt
+
+Wir haben noch ein paar **kleinere, eigenständige Docker-Übungen** für euch vorbereitet – jede in 15–25 Minuten machbar, alle **ohne Compose**:
+
+→ **[Docker-Vertiefung – fünf Zusatzübungen](../docker-vertiefung/index.md)**
+
+Themen:
+
+- `docker exec` als Debug-Werkzeug (im laufenden Container arbeiten)
+- Volume-Backup und Restore
+- HEALTHCHECK direkt im Dockerfile
+- Restart-Policies und Crash-Recovery
+- Image-Größen vergleichen (full vs. slim vs. alpine)
+
+Alternativ als Vorbereitung auf Donnerstag könnt ihr euch schon mal den ersten **Docker-Compose**-Teil anschauen – das ist die nächste Einheit:
+
+→ **[Docker Compose – Einführung](../docker-compose/einfuehrung.md)**

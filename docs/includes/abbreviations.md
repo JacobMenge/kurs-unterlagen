@@ -161,6 +161,13 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[Snapshot]: Punkt-in-Zeit-Abbild eines Volumes oder einer VM
 *[Cache]: Zwischenspeicher zur Wiederverwendung von Daten
 *[Caching]: Mechanismus, der Zwischenergebnisse speichert (z.B. Docker-Layer-Cache)
+*[Layer-Cache]: Docker-Build-Mechanismus, der unveränderte Layer wiederverwendet
+*[Layer-Caching]: Docker-Build-Mechanismus, der unveränderte Layer wiederverwendet
+*[Restart-Policy]: Docker-Regel, was nach einem Container-Crash passiert (no/on-failure/always/unless-stopped)
+*[RestartCount]: Zähler im docker inspect, wie oft ein Container schon neu gestartet wurde
+*[BuildKit]: Modernes Docker-Build-Backend mit besserem Caching, parallelen Stages und Multi-Architektur
+*[profiles]: Compose-Schlüssel, der Services optional macht (nur via --profile gestartet)
+*[compose.override.yaml]: Optionale Override-Datei, die Compose automatisch zusätzlich zur compose.yaml lädt
 *[Stage]: Build-Stage in einem Multi-Stage-Dockerfile (FROM-Block)
 *[Build-Stage]: Eine FROM-Stufe im Multi-Stage-Build
 *[Git]: Verteiltes Versionsverwaltungssystem für Quellcode

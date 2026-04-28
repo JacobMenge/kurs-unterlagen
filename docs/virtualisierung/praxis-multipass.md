@@ -185,7 +185,10 @@ ubuntu@demo:~$
 
     Funktional das Gleiche, beide landen als User `ubuntu` in der VM.
 
-Ein paar Befehle zur Orientierung:
+!!! note "Ab hier: Befehle laufen **in der VM**"
+    Solange dein Prompt `ubuntu@demo:~$` zeigt, läuft jede Eingabe in der Ubuntu-VM. Diese Befehle sind also Linux-Bash-Syntax – egal ob dein Host macOS, Linux oder Windows ist.
+
+Ein paar Befehle zur Orientierung (in der VM):
 
 ```bash
 hostname          # zeigt: demo
@@ -209,7 +212,7 @@ Was dir auffallen sollte:
 
 Das ist Virtualisierung in Aktion: der Gast lebt in seiner eigenen Welt.
 
-Wenn du magst, installiere kurz ein kleines Paket, um zu zeigen, dass `apt` funktioniert:
+Wenn du magst, installiere kurz ein kleines Paket, um zu zeigen, dass `apt` funktioniert (immer noch **in der VM**):
 
 ```bash
 sudo apt update
