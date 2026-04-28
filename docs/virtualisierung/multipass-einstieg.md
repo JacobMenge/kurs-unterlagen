@@ -11,7 +11,7 @@ description: "Was Multipass ist, wofür es gemacht wurde, und wie du es auf macO
     - erklären, **was Multipass ist** und was es von VirtualBox oder Docker unterscheidet
     - Multipass auf **macOS, Linux oder Windows** installieren – je nach Rechner den richtigen Weg
     - die **aktuellen Fallstricke** pro Betriebssystem benennen und umgehen
-    - auf typische Installations­fehler reagieren, ohne im Dunkeln zu stochern
+    - auf typische Installationsfehler reagieren, ohne im Dunkeln zu stochern
 
 ---
 
@@ -27,27 +27,27 @@ Das bedeutet:
 - **Ein weiterer Befehl** (`multipass shell`), und du bist in der Shell dieser VM.
 - **Ein letzter Befehl** (`multipass delete && multipass purge`), und die VM ist weg.
 
-Kein Download eines ISO-Images, kein Klicken durch einen Installer, kein Einrichten eines Benutzer­kontos. Multipass erledigt das alles automatisch im Hintergrund.
+Kein Download eines ISO-Images, kein Klicken durch einen Installer, kein Einrichten eines Benutzerkontos. Multipass erledigt das alles automatisch im Hintergrund.
 
 ### Was Multipass gut kann
 
 - **Ubuntu-VMs in Sekunden** starten (nach dem ersten Image-Download, das ca. 350–500 MB groß ist).
 - **Identische CLI** auf macOS, Linux und Windows – deine Notizen funktionieren überall.
-- Cloud-Init-Support (Setup-Skripte beim Start), Datei­mounts vom Host in die VM, `multipass exec` für einmalige Befehle.
+- Cloud-Init-Support (Setup-Skripte beim Start), Dateimounts vom Host in die VM, `multipass exec` für einmalige Befehle.
 - **Kostenlos und Open Source** (Apache-Lizenz).
 
 ### Was Multipass nicht kann
 
 - Offiziell keine **anderen Distributionen** als Ubuntu (Fedora, Debian, Arch, Alpine).
 - Keine **grafischen Oberflächen**: Multipass startet Ubuntu-Server-Images, keine Ubuntu-Desktop-Images.
-- Keine **Windows-VMs** oder andere Betriebs­systeme.
+- Keine **Windows-VMs** oder andere Betriebssysteme.
 - Kein **komplexes Netzwerk-Setup** wie bei VirtualBox oder VMware.
 
 Für all das nimmst du ein anderes Werkzeug aus dem [Überblick](werkzeuge-im-ueberblick.md).
 
 ---
 
-## Vor der Installation – kurze Selbst­auskunft
+## Vor der Installation – kurze Selbstauskunft
 
 Bevor du loslegst, ein kurzer Check, welchen Weg du gehen wirst:
 
@@ -59,7 +59,7 @@ Bevor du loslegst, ein kurzer Check, welchen Weg du gehen wirst:
 
 ??? question "Wie viel Platz sollte frei sein?"
     - **Multipass selbst**: ca. 150 MB.
-    - **Pro Ubuntu-VM**: ca. 2–5 GB (Image + Arbeits­platz).
+    - **Pro Ubuntu-VM**: ca. 2–5 GB (Image + Arbeitsplatz).
     - Plane mindestens **10 GB frei** ein, wenn du ein, zwei VMs parallel betreiben willst.
 
 ??? question "Wie viel RAM brauche ich?"
@@ -81,7 +81,7 @@ Wenn du [Homebrew](https://brew.sh) installiert hast (oder gleich installierst),
 brew install --cask multipass
 ```
 
-Der Installer läuft, fragt nach deinem Mac-Passwort und richtet den Hintergrund­dienst `multipassd` ein.
+Der Installer läuft, fragt nach deinem Mac-Passwort und richtet den Hintergrunddienst `multipassd` ein.
 
 ??? info "Homebrew noch nicht installiert?"
     Einmal-Installation mit einem Befehl:
@@ -98,7 +98,7 @@ Wenn du Homebrew nicht nutzen willst:
 
 1. Installer laden: <https://multipass.run/download/macos>
 2. `.pkg`-Datei doppelklicken.
-3. Installer durch­klicken, Admin-Passwort eingeben.
+3. Installer durchklicken, Admin-Passwort eingeben.
 
 ### Prüfen, ob alles läuft
 
@@ -147,7 +147,7 @@ multipassd  1.14.0
     multipass launch <image> --name <name>
     ```
 
-    Erneut versuchen. Falls es erneut timeouts gibt, kann der Mac einen Neustart gebrauchen – manche Hintergrund­prozesse blockieren das Hypervisor-Framework.
+    Erneut versuchen. Falls es erneut timeouts gibt, kann der Mac einen Neustart gebrauchen – manche Hintergrundprozesse blockieren das Hypervisor-Framework.
 
 ??? info "Apple-Silicon-Tipp: Ressourcen großzügiger vergeben"
     Default ist 1 vCPU, 1 GB RAM, 5 GB Disk. Für ernsthaftes Arbeiten in der VM:
@@ -170,7 +170,7 @@ Der offizielle Weg für Ubuntu und die meisten Debian-basierten Distributionen:
 sudo snap install multipass
 ```
 
-Das installiert Multipass samt `multipassd`-Hintergrund­dienst und richtet die Backends (KVM) automatisch ein.
+Das installiert Multipass samt `multipassd`-Hintergrunddienst und richtet die Backends (KVM) automatisch ein.
 
 ??? info "Snap nicht installiert?"
     Auf Debian und einigen anderen Distributionen fehlt `snap` standardmäßig:
@@ -221,7 +221,7 @@ Du solltest Client- und Daemon-Versionen sehen.
        ```
 
 ??? warning "Konflikt mit VirtualBox auf Linux"
-    VirtualBox und KVM vertragen sich zwar inzwischen gut, aber gelegentlich kommt es zu Performance­problemen.
+    VirtualBox und KVM vertragen sich zwar inzwischen gut, aber gelegentlich kommt es zu Performanceproblemen.
 
     **Im Zweifel:** VirtualBox beenden, bevor Multipass startet. Oder umgekehrt.
 
@@ -291,7 +291,7 @@ Erwartete Ausgabe: Client- und Daemon-Version.
     Viele Antivirus-Produkte betrachten frisch gebaute Hypervisor-VMs mit Misstrauen. Wenn `launch` immer wieder hängt oder abbricht, prüfe:
 
     - Windows Defender Firewall: eingehenden Zugriff für Multipass erlauben.
-    - Drittanbieter-AV (McAfee, Norton, Kaspersky, …): Multipass-Installations­pfad als Ausnahme eintragen.
+    - Drittanbieter-AV (McAfee, Norton, Kaspersky, …): Multipass-Installationspfad als Ausnahme eintragen.
 
 ### <span id="windows-home"></span>Windows Home ohne Multipass – der Alternativweg
 
@@ -318,8 +318,8 @@ Wenn du Windows Home hast, kannst du die Multipass-Übungen **nicht 1:1** nachma
 Wenn du das allererste Mal `multipass launch` aufrufst, passieren einige Dinge:
 
 1. **Backend-Check**: Multipass prüft, ob das passende Backend vorhanden ist (QEMU/HVF auf macOS, KVM auf Linux, Hyper-V auf Windows).
-2. **Image-Download**: das Standard-Ubuntu-LTS-Image wird heruntergeladen. Größe: ca. **350–500 MB**. Dauert je nach Internet­leitung ein bis zwei Minuten.
-3. **Virtuelle Disk anlegen**: Multipass erzeugt eine `.qcow2`-Datei mit Standard­größe (5 GB, anpassbar mit `--disk`).
+2. **Image-Download**: das Standard-Ubuntu-LTS-Image wird heruntergeladen. Größe: ca. **350–500 MB**. Dauert je nach Internetleitung ein bis zwei Minuten.
+3. **Virtuelle Disk anlegen**: Multipass erzeugt eine `.qcow2`-Datei mit Standardgröße (5 GB, anpassbar mit `--disk`).
 4. **Cloud-Init ausführen**: ein vorgefertigtes Skript erstellt den Standard-Benutzer `ubuntu`, setzt die Sprache, richtet SSH ein.
 5. **Start**: die VM bootet, bekommt eine IP-Adresse vom virtuellen Switch, ist dann per `multipass shell` erreichbar.
 
@@ -343,7 +343,7 @@ flowchart LR
   DAEMON <-. "lädt/nutzt" .-> IMG
 ```
 
-- Die **CLI** (`multipass`) ist nur die Bedien­oberfläche.
+- Die **CLI** (`multipass`) ist nur die Bedienoberfläche.
 - Die eigentliche Arbeit macht der **Daemon** (`multipassd`), ein Hintergrund-Dienst.
 - Der Daemon spricht mit dem **Backend** (dem echten Hypervisor) über dessen native Schnittstelle.
 - **Ubuntu-Images** werden einmalig geladen und für spätere VMs gecached.
@@ -374,7 +374,7 @@ Ohne diese Flags nimmt Multipass **Defaults**: 1 CPU, 1 GB RAM, 5 GB Disk, aktue
 
 ## Corporate-Firmenumgebung: Proxy, Zertifikate
 
-Wenn du auf einem Firmenlaptop sitzt und das Firmen­netz Internet­zugriffe filtert:
+Wenn du auf einem Firmenlaptop sitzt und das Firmennetz Internetzugriffe filtert:
 
 ??? info "HTTP-Proxy für Image-Downloads"
     Multipass nutzt die System-Proxy-Einstellungen. Wenn die VMs keine Images bekommen:
@@ -386,7 +386,7 @@ Wenn du auf einem Firmenlaptop sitzt und das Firmen­netz Internet­zugriffe fil
         multipass launch 22.04 --name demo
         ```
 
-        Persistent machst du das, indem du die Umgebungs­variablen in dein Shell-Profil (`~/.zshrc`, `~/.bashrc`) einträgst.
+        Persistent machst du das, indem du die Umgebungsvariablen in dein Shell-Profil (`~/.zshrc`, `~/.bashrc`) einträgst.
 
     === "Windows PowerShell"
         ```powershell
@@ -410,7 +410,7 @@ Wenn du auf einem Firmenlaptop sitzt und das Firmen­netz Internet­zugriffe fil
     Wenn die Firma einen eigenen Root-CA nutzt, den Multipass nicht kennt, schlägt der Image-Download mit SSL-Fehlern fehl. Lösung:
 
     1. Das Firmen-Zertifikat als `.crt` vorliegen haben.
-    2. System-Keystore erweitern (macOS: Schlüsselbund­verwaltung; Linux: `/usr/local/share/ca-certificates/`; Windows: Zertifikats­speicher).
+    2. System-Keystore erweitern (macOS: Schlüsselbundverwaltung; Linux: `/usr/local/share/ca-certificates/`; Windows: Zertifikatsspeicher).
 
     Im Zweifel: IT-Support fragen – das ist Standard-Firmenproblem.
 

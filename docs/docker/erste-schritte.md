@@ -17,7 +17,7 @@ description: "Die ersten Container mit hello-world, nginx und httpd – Schritt 
 
 - **Docker Desktop** (auf Mac/Windows) oder **Docker Engine** (auf Linux) ist installiert. Wenn nicht → [Docker installieren](installation.md).
 - Docker läuft: check mit `docker version`.
-- **Internet­verbindung**, damit die Images gezogen werden können.
+- **Internetverbindung**, damit die Images gezogen werden können.
 - Ein Browser.
 
 Check, dass Docker läuft:
@@ -81,7 +81,7 @@ This message shows that your installation appears to be working correctly.
 3. Docker erzeugt einen Container aus dem Image.
 4. Docker startet den Container. Der Container führt sein `CMD` aus (ein kleines Programm, das die Begrüßung druckt) und beendet sich sofort wieder.
 
-Das ist ein komplett normaler Container-Lebens­zyklus – nur sehr kurz.
+Das ist ein komplett normaler Container-Lebenszyklus – nur sehr kurz.
 
 ### Wo ist der Container jetzt?
 
@@ -130,7 +130,7 @@ docker rm abc1
 
 ## Schritt 2 – nginx im Hintergrund starten
 
-Jetzt etwas Nützlicheres: ein Web­server.
+Jetzt etwas Nützlicheres: ein Webserver.
 
 ```bash
 docker run -d --name web -p 8080:80 nginx
@@ -229,7 +229,7 @@ Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
     Mehr in [Stolpersteine → Ports](stolpersteine.md).
 
 ??? info "Warum genau Port 8080 und nicht 80?"
-    Auf dem Host sind die Ports unter 1024 (wie 80 und 443) **privilegierte Ports**, die nur mit Admin-Rechten oder `sudo` genutzt werden können. Ports ab 1024 kann jeder normale User frei nutzen. Deshalb ist 8080 der traditionelle „Ersatz-Port für HTTP im Entwickler­alltag".
+    Auf dem Host sind die Ports unter 1024 (wie 80 und 443) **privilegierte Ports**, die nur mit Admin-Rechten oder `sudo` genutzt werden können. Ports ab 1024 kann jeder normale User frei nutzen. Deshalb ist 8080 der traditionelle „Ersatz-Port für HTTP im Entwickleralltag".
 
 **Was ist gerade passiert:**
 
@@ -453,7 +453,7 @@ Das räumt aggressiv auf – nach dem Befehl musst du alles, was du später brau
 ## Merksatz
 
 !!! success "Merksatz"
-    > **`docker run -d --name <name> -p <host>:<container> <image>` ist das Muster für 90 % aller ersten Versuche. Mit `ps`, `logs`, `stop`, `rm` hast du den ganzen Lebens­zyklus im Griff.**
+    > **`docker run -d --name <name> -p <host>:<container> <image>` ist das Muster für 90 % aller ersten Versuche. Mit `ps`, `logs`, `stop`, `rm` hast du den ganzen Lebenszyklus im Griff.**
 
 ---
 

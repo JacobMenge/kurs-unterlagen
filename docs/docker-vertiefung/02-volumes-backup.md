@@ -8,7 +8,7 @@ description: "Wie du Daten aus einem Docker-Volume sicherst und wiederherstellst
 !!! abstract "Was du in dieser Übung lernst"
     - Wie du **Daten aus einem Volume herausholst**, ohne sie zu kopieren
     - Wie du ein **Backup zurückspielst**, nachdem das Volume weg ist
-    - Warum der Wegwerf-Container­-Trick (`docker run --rm`) die saubere Lösung ist
+    - Warum der Wegwerf-Container-Trick (`docker run --rm`) die saubere Lösung ist
     - Was passiert, wenn du das Volume aus Versehen löschst
 
 **Aufwand:** ca. 20 Minuten.
@@ -315,7 +315,7 @@ Das Backup-Archiv (`demo-backup.tar.gz`) bleibt auf dem Host. Wenn du es nicht m
 ## Bonus
 
 ??? tip "Bonus 1: Backup auf einen anderen Host übertragen"
-    Ein Backup-Archiv kann via `scp`, USB-Stick, S3-Bucket oder einer Netzwerk­freigabe woanders hin. Probiere mal einen Roundtrip auf einen anderen Rechner:
+    Ein Backup-Archiv kann via `scp`, USB-Stick, S3-Bucket oder einer Netzwerkfreigabe woanders hin. Probiere mal einen Roundtrip auf einen anderen Rechner:
 
     1. Backup auf Rechner A erzeugen
     2. Datei auf Rechner B kopieren
@@ -325,7 +325,7 @@ Das Backup-Archiv (`demo-backup.tar.gz`) bleibt auf dem Host. Wenn du es nicht m
     Das demonstriert, dass Daten **portabel** sind – das Volume selbst ist nicht.
 
 ??? tip "Bonus 2: Postgres-spezifisches Backup mit `pg_dump`"
-    Das `tar`-Backup ist ein **dateibasiertes Backup**: schnell, einfach, aber Postgres muss **gestoppt** sein, damit die Datei­zustände konsistent sind. Sonst riskierst du eine kaputte Sicherung.
+    Das `tar`-Backup ist ein **dateibasiertes Backup**: schnell, einfach, aber Postgres muss **gestoppt** sein, damit die Dateizustände konsistent sind. Sonst riskierst du eine kaputte Sicherung.
 
     Das **Postgres-eigene Werkzeug** ist `pg_dump`. Es funktioniert auf einer **laufenden** Datenbank und erzeugt SQL-Statements zum Zurückspielen:
 
@@ -347,7 +347,7 @@ Das Backup-Archiv (`demo-backup.tar.gz`) bleibt auf dem Host. Wenn du es nicht m
 - Beliebige Docker-Volumes **sichern** und **zurückspielen**.
 - Den Unterschied zwischen *„Container weg, Volume bleibt"* und *„Volume weg, Daten weg"* sicher erkennen.
 - Ein **Disaster-Recovery-Szenario** spielerisch durchgehen: Volume zerstören, Backup einspielen, Daten sind wieder da.
-- Den **Wegwerf-Container­-Trick** (`docker run --rm` mit zwei Mounts) für eigene Mini-Tools nutzen.
+- Den **Wegwerf-Container-Trick** (`docker run --rm` mit zwei Mounts) für eigene Mini-Tools nutzen.
 
 ---
 

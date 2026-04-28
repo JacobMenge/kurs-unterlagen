@@ -8,10 +8,10 @@ description: "Container konfigurieren ohne Rebuild: -e, --env-file, ENV im Docke
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
 
-    - erklären, **warum Umgebungsvariablen** die Standard-Konfigurations­sprache für Container sind
+    - erklären, **warum Umgebungsvariablen** die Standard-Konfigurationssprache für Container sind
     - Variablen per `-e`, `--env-file` und im Dockerfile setzen – und weißt, wann welcher Weg sinnvoll ist
     - mit `.env`-Dateien arbeiten und ihre **Gefahren** (Git-Commit!) einschätzen
-    - **Secrets** (Passwörter, Keys) von normalen Konfigurations­werten unterscheiden und wissen, warum dieser Unterschied wichtig ist
+    - **Secrets** (Passwörter, Keys) von normalen Konfigurationswerten unterscheiden und wissen, warum dieser Unterschied wichtig ist
 
 ---
 
@@ -26,7 +26,7 @@ Dein Image sollte **unabhängig von der Umgebung** sein. Genau dasselbe Image so
 
 Würdest du für jeden dieser Werte das Image neu bauen, verlörst du den großen Docker-Vorteil: **ein Artefakt, beliebige Umgebungen**.
 
-Die Lösung ist die **12-Factor-App-Regel Nr. 3**: **Konfiguration in Umgebungs­variablen.**
+Die Lösung ist die **12-Factor-App-Regel Nr. 3**: **Konfiguration in Umgebungsvariablen.**
 
 ---
 
@@ -105,7 +105,7 @@ LOG_LEVEL=debug
 
 ### Docker Compose liest `.env` automatisch
 
-Wenn du mit Compose arbeitest, und in deinem Projekt­ordner eine `.env` liegt, wird sie vor dem Lesen der `compose.yaml` ausgewertet. Innerhalb der `compose.yaml` kannst du dann `${POSTGRES_PASSWORD}` schreiben, und dort wird der Wert aus der `.env` eingesetzt.
+Wenn du mit Compose arbeitest, und in deinem Projektordner eine `.env` liegt, wird sie vor dem Lesen der `compose.yaml` ausgewertet. Innerhalb der `compose.yaml` kannst du dann `${POSTGRES_PASSWORD}` schreiben, und dort wird der Wert aus der `.env` eingesetzt.
 
 Mehr dazu in [Docker Compose – Grundlagen](../docker-compose/grundlagen.md).
 
@@ -142,7 +142,7 @@ Mehr dazu in [Docker Compose – Grundlagen](../docker-compose/grundlagen.md).
 
 ## Wie liest mein Container die Variablen?
 
-Die Container-Anwendung liest Umgebungs­variablen wie jeder andere Prozess auch. Beispiele:
+Die Container-Anwendung liest Umgebungsvariablen wie jeder andere Prozess auch. Beispiele:
 
 === "Python"
     ```python
@@ -197,7 +197,7 @@ Praktisch, um zu prüfen, ob die Variable wirklich angekommen ist.
 
 ## Secrets – was ist der Unterschied?
 
-Normale Konfigurations­werte:
+Normale Konfigurationswerte:
 
 - Datenbank-Host: `postgres`
 - Port: `5432`
@@ -397,7 +397,7 @@ docker run -e LOG_LEVEL=debug meine-app
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Konfiguration gehört in Umgebungs­variablen, nicht ins Image. Defaults im Dockerfile mit `ENV`, spezifische Werte beim Run mit `-e` oder `--env-file`. Secrets niemals ins Image – immer erst zur Laufzeit.**
+    > **Konfiguration gehört in Umgebungsvariablen, nicht ins Image. Defaults im Dockerfile mit `ENV`, spezifische Werte beim Run mit `-e` oder `--env-file`. Secrets niemals ins Image – immer erst zur Laufzeit.**
 
 ---
 

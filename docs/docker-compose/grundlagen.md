@@ -212,7 +212,7 @@ services:
 ```
 
 !!! tip "Warum `$${...}` mit doppeltem `$`?"
-    Compose interpretiert `$VAR` als YAML-Variable. Mit `$$` schreibst du **ein** `$`, das im Container angekommt – so kann Bash die Umgebungs­variable dort auflösen. `pg_isready` kennt sonst weder User noch Datenbank, prüft Default-Postgres, und der Check wäre unzuverlässig.
+    Compose interpretiert `$VAR` als YAML-Variable. Mit `$$` schreibst du **ein** `$`, das im Container angekommt – so kann Bash die Umgebungsvariable dort auflösen. `pg_isready` kennt sonst weder User noch Datenbank, prüft Default-Postgres, und der Check wäre unzuverlässig.
 
 Was die Felder bedeuten:
 
@@ -426,7 +426,7 @@ echo "POSTGRES_PASSWORD=geheim" > .env
 docker compose up -d
 ```
 
-Läuft ein produktions­ähnlicher Stack. Alles, was in der vorigen Einheit manuell war, ist hier deklarativ.
+Läuft ein produktionsähnlicher Stack. Alles, was in der vorigen Einheit manuell war, ist hier deklarativ.
 
 ---
 
@@ -476,7 +476,7 @@ Zeigt die komplett aufgelöste YAML nach Einsetzen von `.env`-Variablen und Defa
 ??? warning "YAML-Einrückung geht schief"
     YAML ist super allergisch gegen gemischte Tabs und Leerzeichen. Immer **2 Leerzeichen** pro Ebene, keine Tabs.
 
-    **Ein Editor mit YAML-Support** (VSCode, IntelliJ, Vim mit Plugins) zeigt Einrückungs­fehler sofort.
+    **Ein Editor mit YAML-Support** (VSCode, IntelliJ, Vim mit Plugins) zeigt Einrückungsfehler sofort.
 
 ??? warning "„networks of services differ" nach Änderung"
     Wenn du die `compose.yaml` im laufenden Betrieb änderst und `docker compose up -d` machst, sagt Compose manchmal: „kann den Service nicht aktualisieren, Netzwerk unterscheidet sich".

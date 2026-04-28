@@ -34,7 +34,7 @@ Der Nachsatz ist entscheidend: **„Der Gast bringt seinen eigenen Kernel mit"**
 !!! success "Merksatz 3"
     > **Typ 1 läuft direkt auf der Hardware und ist schnell und schlank. Typ 2 läuft als Programm in einem Host-Betriebssystem und ist bequem zu installieren.**
 
-Typ 1 für Produktion und Rechen­zentren, Typ 2 für Entwicklung und Schulung – grob vereinfacht, aber belastbar.
+Typ 1 für Produktion und Rechenzentren, Typ 2 für Entwicklung und Schulung – grob vereinfacht, aber belastbar.
 
 ---
 
@@ -52,7 +52,7 @@ Es gibt kein „bestes" Tool für alle Fälle. Es gibt nur das **passende Tool f
 !!! success "Merksatz 5"
     > **`launch` – `shell` – `stop` – `delete` – `purge`. Mit diesen fünf Befehlen hast du eine VM vollständig im Griff.**
 
-Starten. Betreten. Anhalten. Entsorgen. Endgültig löschen. Fünf Verben, fünf Befehle – der ganze Lebens­zyklus.
+Starten. Betreten. Anhalten. Entsorgen. Endgültig löschen. Fünf Verben, fünf Befehle – der ganze Lebenszyklus.
 
 ---
 

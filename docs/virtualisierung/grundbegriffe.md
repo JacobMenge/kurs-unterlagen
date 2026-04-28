@@ -56,7 +56,7 @@ Wenn du in einer VM `lscpu` oder `free -h` ausführst, zeigt Linux dir eine CPU,
 
 ### vCPU (virtuelle CPU)
 
-Eine **vCPU** ist ein Anteil am physischen Prozessor. Wenn dein Laptop 8 Kerne hat und du einer VM 2 vCPUs gibst, darf die VM zwei Kerne gleichzeitig nutzen. Der Hypervisor teilt die echten Kerne unter den VMs auf, oft nach einem fairen Rotations­verfahren.
+Eine **vCPU** ist ein Anteil am physischen Prozessor. Wenn dein Laptop 8 Kerne hat und du einer VM 2 vCPUs gibst, darf die VM zwei Kerne gleichzeitig nutzen. Der Hypervisor teilt die echten Kerne unter den VMs auf, oft nach einem fairen Rotationsverfahren.
 
 ### Virtuelle Festplatte
 
@@ -82,7 +82,7 @@ Vorteil: du kannst diese Datei kopieren, sichern oder auf einen anderen Rechner 
 
     Die Verzeichnisse sind **root/Admin-geschützt**. Manipulationen von Hand bringen meist Multipass' Datenbank durcheinander – lieber Multipass-Befehle nutzen.
 
-    Gesamt­verbrauch prüfen:
+    Gesamtverbrauch prüfen:
 
     === "macOS"
         ```bash
@@ -103,7 +103,7 @@ Vorteil: du kannst diese Datei kopieren, sichern oder auf einen anderen Rechner 
 
 ### Virtuelle Netzwerkkarte (vNIC)
 
-Die VM hat eine eigene Netzwerk­karte mit eigener IP-Adresse. Meist hängt sie über ein **virtuelles Switch** am Netzwerk des Hosts. Du kannst die VM damit so behandeln, als sei sie ein eigener Rechner im Netz – inklusive Ping, `ssh` und Web­zugriff.
+Die VM hat eine eigene Netzwerkkarte mit eigener IP-Adresse. Meist hängt sie über ein **virtuelles Switch** am Netzwerk des Hosts. Du kannst die VM damit so behandeln, als sei sie ein eigener Rechner im Netz – inklusive Ping, `ssh` und Webzugriff.
 
 ### RAM
 

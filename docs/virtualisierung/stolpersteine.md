@@ -1,6 +1,6 @@
 ---
 title: "Stolpersteine Virtualisierung"
-description: "Multipass-Fehler, VM-Probleme und Hypervisor-Eigenheiten – mit Ursache, Lösung und Präventions­tipps. Alles zum schnellen Aufklappen."
+description: "Multipass-Fehler, VM-Probleme und Hypervisor-Eigenheiten – mit Ursache, Lösung und Präventionstipps. Alles zum schnellen Aufklappen."
 ---
 
 # Stolpersteine der Virtualisierung
@@ -50,7 +50,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
        ```bash
        brew upgrade multipass
        ```
-    4. Bringt nichts: Mac neu starten. Einige Hintergrund­prozesse lösen den HVF-Lock erst beim Neustart.
+    4. Bringt nichts: Mac neu starten. Einige Hintergrundprozesse lösen den HVF-Lock erst beim Neustart.
 
 ??? warning "Auf Linux: Multipass installiert, aber `multipass launch` bricht mit KVM-Fehler ab"
     **Ursache:** KVM-Modul fehlt oder Virtualisierung ist nicht aktiviert.
@@ -71,7 +71,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
 
     **Lösung:**
 
-    1. Multipass-Installations­pfad in der AV-Software als **Ausnahme** eintragen. Standard­pfad: `C:\Program Files\Multipass\`
+    1. Multipass-Installationspfad in der AV-Software als **Ausnahme** eintragen. Standardpfad: `C:\Program Files\Multipass\`
     2. Windows-Firewall für Multipass freigeben.
     3. Hilft das nicht: AV vorübergehend deaktivieren, Installation abschließen, danach AV wieder einschalten.
 
@@ -86,7 +86,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
     | **Avast / AVG** | Menu → Settings → General → Exceptions |
     | **Windows Defender** | Windows-Sicherheit → Viren- & Bedrohungsschutz → Einstellungen verwalten → Ausschlüsse → Ausschluss hinzufügen |
 
-    Füge in jedem Fall den Multipass-Installations­ordner als **Ausschluss** hinzu – nicht nur die `.exe`, sondern den ganzen Ordner.
+    Füge in jedem Fall den Multipass-Installationsordner als **Ausschluss** hinzu – nicht nur die `.exe`, sondern den ganzen Ordner.
 
     **Corporate-Laptop:** wenn dein Arbeitgeber die AV-Einstellungen verwaltet, kommst du nicht selbst dran. Dann IT-Support um eine Ausnahme bitten. Das ist ein häufiger Schritt – niemand wird überrascht sein.
 
@@ -95,7 +95,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
 ## Multipass-Launch und Shell
 
 ??? danger "`multipass launch` hängt bei „Retrieving image: ..."
-    **Ursache:** Langsame oder blockierte Internet­verbindung. Oder ein Firmen-Proxy filtert den Zugriff auf Canonicals Image-Server.
+    **Ursache:** Langsame oder blockierte Internetverbindung. Oder ein Firmen-Proxy filtert den Zugriff auf Canonicals Image-Server.
 
     **Lösung:**
 
@@ -153,7 +153,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
     3. `multipass restart demo`, dann erneut warten und `shell` versuchen.
     4. Hilft gar nichts: VM löschen und neu erzeugen (`delete` + `purge` + `launch`).
 
-??? warning "Gast hat keine Internet­verbindung"
+??? warning "Gast hat keine Internetverbindung"
     **Problem:** `multipass shell demo` klappt, aber in der VM geht `sudo apt update` nicht durch.
 
     **Ursache:** DNS- oder Routing-Problem im virtuellen Netzwerk.
@@ -223,7 +223,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
     multipass recover <name>
     ```
 
-    Die VM kommt zurück in den Status „Stopped". Nach einem `purge` ist die VM endgültig weg und nur noch aus einem Backup wieder­herstellbar.
+    Die VM kommt zurück in den Status „Stopped". Nach einem `purge` ist die VM endgültig weg und nur noch aus einem Backup wiederherstellbar.
 
 ??? warning "Laptop ist plötzlich heiß und laut"
     **Ursache:** Eine oder mehrere VMs laufen im Hintergrund und verbrauchen CPU.
@@ -264,7 +264,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
 ## VirtualBox und andere Typ-2-Hypervisoren
 
 ??? danger "VirtualBox: „VT-x is not available (VERR_VMX_NO_VMX)" auf Windows"
-    **Ursache:** Hyper-V läuft bereits und beansprucht die CPU-Virtualisierungs­funktionen. VirtualBox kommt nicht ran.
+    **Ursache:** Hyper-V läuft bereits und beansprucht die CPU-Virtualisierungsfunktionen. VirtualBox kommt nicht ran.
 
     **Lösung – drei Optionen:**
 
@@ -273,7 +273,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
        bcdedit /set hypervisorlaunchtype off
        ```
        Neu starten. Später wieder einschalten mit `bcdedit /set hypervisorlaunchtype auto`.
-    2. **VirtualBox 6.1+ nutzen**, das Hyper-V als Backend akzeptieren kann – allerdings mit Performance­einbußen.
+    2. **VirtualBox 6.1+ nutzen**, das Hyper-V als Backend akzeptieren kann – allerdings mit Performanceeinbußen.
     3. **Auf Multipass wechseln**, das mit Hyper-V zusammenarbeitet.
 
 ??? warning "VirtualBox auf Apple Silicon – Performance und Kompatibilität"
@@ -313,11 +313,11 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
     4. Falls es **gar nicht** geht: Tool deinstallieren und neu installieren.
 
 ??? info "Wenn nichts hilft: systematisch vorgehen"
-    1. **Neustart** des Hosts – bringt in ca. 40 % der Fälle die Lösung, wenn ein Backend­prozess hängt.
+    1. **Neustart** des Hosts – bringt in ca. 40 % der Fälle die Lösung, wenn ein Backendprozess hängt.
     2. **Multipass-Logs:**
         - macOS: `sudo cat /Library/Logs/Multipass/multipassd.log`
         - Linux (Snap): `sudo journalctl -u snap.multipass.multipassd`
-        - Windows: Ereignis­anzeige → Anwendungs­protokolle → Multipass
+        - Windows: Ereignisanzeige → Anwendungsprotokolle → Multipass
     3. **Multipass-GitHub-Issues:** <https://github.com/canonical/multipass/issues> – vielleicht hat jemand dein Problem schon gemeldet.
     4. **Im Kurs:** direkt fragen. Oft sehe ich am Screen in 30 Sekunden, was los ist.
 
@@ -327,7 +327,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
 
 !!! tip "Gute Gewohnheiten"
     - **`multipass purge` am Ende des Arbeitstages.** Vermeidet den „20 GB belegt, keine Ahnung wovon"-Effekt.
-    - **Immer aktuelle Multipass-Version** (mindestens jede Quartal­version testen). Viele gemeldete Bugs sind in neueren Releases schon behoben.
+    - **Immer aktuelle Multipass-Version** (mindestens jede Quartalversion testen). Viele gemeldete Bugs sind in neueren Releases schon behoben.
     - **Ressourcen im Blick behalten:** Activity Monitor (macOS), htop (Linux), Task-Manager (Windows). Eine VM zieht immer mehr Ressourcen als man denkt.
     - **Keine VM-Konfig per Hand fummeln.** Nutze Cloud-Init und `multipass launch`-Flags – dann ist die VM reproduzierbar, auch wenn du sie neu bauen musst.
-    - **Notizen zu deinen VM-Setups** an einem festen Ort (README im Projekt­ordner) – so kannst du jede VM jederzeit neu bauen, wenn sie mal kaputt geht.
+    - **Notizen zu deinen VM-Setups** an einem festen Ort (README im Projektordner) – so kannst du jede VM jederzeit neu bauen, wenn sie mal kaputt geht.

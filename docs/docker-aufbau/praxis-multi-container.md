@@ -5,7 +5,7 @@ description: "Schritt-für-Schritt-Anleitung für den heutigen Hands-on-Teil. Po
 
 # Praxis: Postgres & Adminer
 
-Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zusammen. Du brauchst **keine Programmier­kenntnisse** und **kein eigenes Dockerfile** – wir nutzen ausschließlich fertige Images aus Docker Hub.
+Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zusammen. Du brauchst **keine Programmierkenntnisse** und **kein eigenes Dockerfile** – wir nutzen ausschließlich fertige Images aus Docker Hub.
 
 !!! abstract "Ziel"
     Am Ende hast du:
@@ -87,7 +87,7 @@ docker volume ls
 Du siehst in der Liste `postgres-daten`.
 
 ??? info "Was ist ein Volume – nochmal kurz?"
-    Ein Volume ist ein Speicher­bereich, den **Docker** verwaltet, unabhängig von einzelnen Containern. Du kannst ihn in beliebige Container einhängen. Stirbt ein Container, bleibt das Volume. Details auf der [Volumes-Seite](volumes.md).
+    Ein Volume ist ein Speicherbereich, den **Docker** verwaltet, unabhängig von einzelnen Containern. Du kannst ihn in beliebige Container einhängen. Stirbt ein Container, bleibt das Volume. Details auf der [Volumes-Seite](volumes.md).
 
 ### Schritt 1.2 – Postgres starten
 
@@ -144,7 +144,7 @@ database system is ready to accept connections
 ??? warning "Container beendet sich sofort?"
     Check `docker logs db`. Häufigste Fehler:
 
-    - **Kein `POSTGRES_PASSWORD`**: Postgres verlangt ein Passwort oder eine Sonder­einstellung. Ohne crasht er.
+    - **Kein `POSTGRES_PASSWORD`**: Postgres verlangt ein Passwort oder eine Sondereinstellung. Ohne crasht er.
     - **Alte Daten im Volume passen nicht zur Image-Version**: Wenn du vorher Postgres 15 benutzt hattest, wird 16 die alten Daten nicht annehmen. Fix: Volume neu erstellen (`docker volume rm postgres-daten && docker volume create postgres-daten`). **Achtung: dann sind die Daten weg!**
 
 ---

@@ -104,7 +104,7 @@ Diese Seite sammelt Probleme, die beim **professionellen Bauen** von Images auft
 ## Layer-Caching
 
 ??? warning "Jeder Build dauert Minuten – Cache hilft nicht"
-    **Ursache:** Reihenfolge im Dockerfile ist nicht cache-freundlich. Ein oft geänderter Layer (dein App-Code) invalidiert alle darunter­liegenden.
+    **Ursache:** Reihenfolge im Dockerfile ist nicht cache-freundlich. Ein oft geänderter Layer (dein App-Code) invalidiert alle darunterliegenden.
 
     **Debug:**
     ```bash

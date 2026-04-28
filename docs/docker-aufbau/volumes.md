@@ -61,7 +61,7 @@ flowchart LR
 | **Wer verwaltet den Speicherort?** | Docker | Du selbst |
 | **Wo liegt's physisch?** | `/var/lib/docker/volumes/…` (von Docker verwaltet) | Irgendwo auf deinem Host (du bestimmst den Pfad) |
 | **Syntax beim Run** | `-v mein-volume:/pfad-im-container` | `-v /absoluter/host/pfad:/pfad-im-container` |
-| **Typischer Einsatz** | Datenbanken, App-Daten, die einfach „persistent" sein sollen | Entwicklung (Source-Code live ins Image mounten), Konfigurations­dateien |
+| **Typischer Einsatz** | Datenbanken, App-Daten, die einfach „persistent" sein sollen | Entwicklung (Source-Code live ins Image mounten), Konfigurationsdateien |
 | **Portabel zwischen Hosts?** | Mit etwas Arbeit (Backup/Restore) | Nicht wirklich – Host-Pfad ist fest |
 | **Auf Mac/Windows performant?** | Ja (läuft in der Docker-VM) | Langsamer (Übersetzung zwischen Host-FS und VM-FS) |
 
@@ -91,7 +91,7 @@ docker run -d --name db \
 Was passiert hier:
 
 1. Docker prüft, ob ein Volume `db-daten` existiert. Falls nein, wird es angelegt.
-2. Beim Container-Start wird das Volume in den Container gemountet – und zwar an `/var/lib/postgresql/data`, dem Pfad, an dem PostgreSQL seine Datenbank­dateien ablegt.
+2. Beim Container-Start wird das Volume in den Container gemountet – und zwar an `/var/lib/postgresql/data`, dem Pfad, an dem PostgreSQL seine Datenbankdateien ablegt.
 3. PostgreSQL schreibt alles in dieses Volume. Der Container-Top-Layer bleibt leer.
 
 ### Check, dass es funktioniert
@@ -217,13 +217,13 @@ Wenn der Container die Daten nur **lesen**, nicht verändern soll, häng `:ro` a
       meine-app
     ```
 
-Das ist gute Praxis für **Konfigurations­dateien** – der Container kann nicht aus Versehen etwas kaputt­machen.
+Das ist gute Praxis für **Konfigurationsdateien** – der Container kann nicht aus Versehen etwas kaputtmachen.
 
 ---
 
 ## Neuere Syntax: `--mount`
 
-Docker hat neben `-v` eine neuere, explizitere Syntax: `--mount`. Sie ist wort­reicher, aber eindeutig:
+Docker hat neben `-v` eine neuere, explizitere Syntax: `--mount`. Sie ist wortreicher, aber eindeutig:
 
 ```bash
 docker run -d --name db \
@@ -262,7 +262,7 @@ Für Bind Mount:
 
 ---
 
-## Häufige Anwendungs­fälle
+## Häufige Anwendungsfälle
 
 ??? example "PostgreSQL mit persistenten Daten"
     ```bash

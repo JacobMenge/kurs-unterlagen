@@ -12,7 +12,7 @@ Ihr arbeitet heute in Gruppen als kleines DevOps-Team. Eure Aufgabe ist es, eine
 !!! warning "Heute kein Docker Compose"
     Ihr nutzt heute bewusst **kein** Docker Compose. Ihr startet alle Container manuell mit Docker-Befehlen.
 
-    Damit wiederholt ihr alle Docker-Grundlagen: Images bauen, Container starten, Ports veröffentlichen, Container benennen, Umgebungs­variablen setzen, Netzwerke und Volumes verwenden, Logs lesen, Fehler analysieren.
+    Damit wiederholt ihr alle Docker-Grundlagen: Images bauen, Container starten, Ports veröffentlichen, Container benennen, Umgebungsvariablen setzen, Netzwerke und Volumes verwenden, Logs lesen, Fehler analysieren.
 
 ---
 
@@ -27,7 +27,7 @@ Konzentriert euch auf:
 - Ports verstehen
 - Netzwerke nutzen
 - Volumes verwenden
-- Umgebungs­variablen setzen
+- Umgebungsvariablen setzen
 - Logs lesen
 - Fehler mit Docker-Befehlen finden
 
@@ -66,7 +66,7 @@ Macht euch zuerst mit dem Projektordner vertraut. Der Code liegt im Repository u
 
 → **[github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room](https://github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room)**
 
-Wenn ihr das Repo schon lokal geklont habt, findet ihr den Ordner direkt unter `apps/docker-escape-room/` im Projekt­verzeichnis. Andernfalls vorher klonen:
+Wenn ihr das Repo schon lokal geklont habt, findet ihr den Ordner direkt unter `apps/docker-escape-room/` im Projektverzeichnis. Andernfalls vorher klonen:
 
 ```bash
 git clone https://github.com/JacobMenge/kurs-unterlagen.git
@@ -78,7 +78,7 @@ cd kurs-unterlagen/apps/docker-escape-room
 - Gibt es ein Dockerfile?
 - Welche Laufzeit wird im Dockerfile verwendet?
 - Welchen Port nutzt die App im Container?
-- Welche Umgebungs­variablen braucht die App?
+- Welche Umgebungsvariablen braucht die App?
 - Gibt es eine README-Datei?
 
 **Docker-Fokus:** Projektstruktur erkennen, Dockerfile finden, Build-Kontext verstehen.
@@ -134,7 +134,7 @@ Verwendet diese Werte:
 - Gibt es Fehlermeldungen in den Logs? (`docker logs quest-db`)
 - Ist der Container im richtigen Netzwerk? (`docker network inspect quest-net`)
 
-**Docker-Fokus:** Container starten, Container benennen, Umgebungs­variablen setzen, Volume mounten, mit Netzwerk verbinden.
+**Docker-Fokus:** Container starten, Container benennen, Umgebungsvariablen setzen, Volume mounten, mit Netzwerk verbinden.
 
 **Nicht Fokus:** SQL schreiben, PostgreSQL administrieren.
 
@@ -157,7 +157,7 @@ container-quest-api:1.0
 **Prüft danach:**
 
 - Ist das Image vorhanden? (`docker images` zeigt `container-quest-api` mit Tag `1.0`)
-- Lief der Build ohne rote `ERROR`-Zeilen durch? Mit aktuellem Docker (BuildKit) endet der Output auf `naming to docker.io/library/container-quest-api:1.0` – das ist das Erfolgs­zeichen.
+- Lief der Build ohne rote `ERROR`-Zeilen durch? Mit aktuellem Docker (BuildKit) endet der Output auf `naming to docker.io/library/container-quest-api:1.0` – das ist das Erfolgszeichen.
 
 **Docker-Fokus:** Build-Kontext, Dockerfile verwenden, Image taggen, Build-Ausgabe lesen.
 
@@ -339,7 +339,7 @@ Prüft, ob eure Daten **wirklich** erhalten bleiben.
 7. Prüft, ob der Eintrag noch vorhanden ist.
 
 ??? info "Warum muss die API neu gestartet werden?"
-    Die API hält **Datenbank­verbindungen in einem Pool** (Connection Pool). Wenn die DB hinter ihr verschwindet und neu startet, sind diese alten Verbindungen tot – die API würde Fehler werfen, bis sie neue Verbindungen aufbaut.
+    Die API hält **Datenbankverbindungen in einem Pool** (Connection Pool). Wenn die DB hinter ihr verschwindet und neu startet, sind diese alten Verbindungen tot – die API würde Fehler werfen, bis sie neue Verbindungen aufbaut.
 
     Ein einfacher `docker restart quest-api` baut alle Verbindungen frisch auf. In Produktion gibt es elegantere Lösungen (Auto-Reconnect, Healthchecks), aber für die Übung ist Restart der einfachste und ehrlichste Weg.
 
@@ -361,7 +361,7 @@ Dokumentiert während der Aufgabe **mindestens ein** Problem, das bei euch aufge
 - Port ist bereits belegt
 - Daten verschwinden
 - falsches Netzwerk
-- falsche Umgebungs­variable
+- falsche Umgebungsvariable
 - Image wurde geändert, Container nicht neu erstellt
 
 **Notiert:**
@@ -473,7 +473,7 @@ Findet heraus mit `docker inspect` und `docker network inspect quest-net`:
 
 - Welche IP-Adresse hat die API im Docker-Netzwerk?
 - Welche IP-Adresse hat die Datenbank?
-- Welche Umgebungs­variablen wurden im API-Container gesetzt?
+- Welche Umgebungsvariablen wurden im API-Container gesetzt?
 - Welche Mounts nutzt der Datenbank-Container?
 
 ## Bonus 3 – Mehrere Einträge + Scoreboard

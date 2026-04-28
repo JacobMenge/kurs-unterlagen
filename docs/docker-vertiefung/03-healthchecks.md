@@ -30,7 +30,7 @@ Das ist nützlich für:
 
 - **Debugging im Alltag:** `docker ps` zeigt sofort, welcher Container nicht antwortet.
 - **Compose mit `depends_on: condition: service_healthy`** (kommt in der nächsten Einheit – dort startet die App erst, wenn die DB `healthy` ist).
-- **Orchestrierungs­systeme** wie Swarm oder Kubernetes nehmen unhealthy Container automatisch aus dem Loadbalancer.
+- **Orchestrierungssysteme** wie Swarm oder Kubernetes nehmen unhealthy Container automatisch aus dem Loadbalancer.
 
 ---
 
@@ -72,7 +72,7 @@ HEALTHCHECK --interval=5s --timeout=3s --start-period=2s --retries=3 \
 |---|---|
 | `--interval=5s` | alle 5 Sekunden prüfen |
 | `--timeout=3s` | jede Prüfung darf maximal 3 Sek dauern, sonst Fehler |
-| `--start-period=2s` | die ersten 2 Sek nach Start nicht zählen (Anlauf­zeit) |
+| `--start-period=2s` | die ersten 2 Sek nach Start nicht zählen (Anlaufzeit) |
 | `--retries=3` | erst nach 3 Fehlversuchen in Folge wird der Container `unhealthy` |
 | `CMD wget --spider` | das eigentliche Test-Kommando – Exit-Code 0 = healthy, anders = fail |
 
@@ -224,7 +224,7 @@ docker rmi health-demo:1.0
     Das ist nützlich, wenn ein Image einen schlechten Default-Healthcheck mitbringt und du den Container temporär anders konfigurieren willst.
 
 ??? warning "Healthcheck darf nicht teuer sein"
-    Der Healthcheck läuft **alle X Sekunden, für immer**. Wenn er aufwendige Datenbank­queries macht oder externe APIs anfragt, kostet das messbar Ressourcen. Faustregel: ein Healthcheck sollte unter **1 Sekunde** laufen und nur **lokale** Ressourcen nutzen.
+    Der Healthcheck läuft **alle X Sekunden, für immer**. Wenn er aufwendige Datenbankqueries macht oder externe APIs anfragt, kostet das messbar Ressourcen. Faustregel: ein Healthcheck sollte unter **1 Sekunde** laufen und nur **lokale** Ressourcen nutzen.
 
 ---
 

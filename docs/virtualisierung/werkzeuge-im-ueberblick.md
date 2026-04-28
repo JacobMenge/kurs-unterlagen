@@ -47,7 +47,7 @@ Es gibt dutzende Tools, um VMs zu betreiben. Im Kurs konzentrieren wir uns auf *
 
 ### „Ich brauche eine Windows-VM auf einem Mac."
 
-- Auf Apple Silicon: **Parallels Desktop** (am polierten) oder **UTM** (kostenfrei, aber mehr Hand­arbeit).
+- Auf Apple Silicon: **Parallels Desktop** (am polierten) oder **UTM** (kostenfrei, aber mehr Handarbeit).
 - Auf Intel-Mac: **VMware Fusion** (frei für privat) oder **Parallels**.
 
 ### „Ich möchte Virtualisierung auf Windows lernen."
@@ -85,7 +85,7 @@ Seit Apples Wechsel auf die ARM-Architektur 2020 hat sich die VM-Welt auf macOS 
 
 ---
 
-## Kurzes Werkzeug-Entscheidungs­diagramm
+## Kurzes Werkzeug-Entscheidungsdiagramm
 
 ```mermaid
 flowchart TD

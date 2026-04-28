@@ -10,7 +10,7 @@ description: "Die Kern-Sätze aus Block 5 kompakt auf einer Seite."
 ## 1. Dockerfile-Best-Practices in einem Satz
 
 !!! success "Merksatz 1"
-    > **Multi-Stage für kleine Images. `USER` für weniger Angriffs­fläche. Layer-Caching für schnelle Builds. `HEALTHCHECK`, damit Docker weiß, ob's läuft. Exec-Form bei CMD, damit Signale ankommen.**
+    > **Multi-Stage für kleine Images. `USER` für weniger Angriffsfläche. Layer-Caching für schnelle Builds. `HEALTHCHECK`, damit Docker weiß, ob's läuft. Exec-Form bei CMD, damit Signale ankommen.**
 
 ---
 
@@ -26,14 +26,14 @@ description: "Die Kern-Sätze aus Block 5 kompakt auf einer Seite."
 !!! success "Merksatz 3"
     > **Was zum Bauen, aber nicht zur Laufzeit nötig ist, gehört nicht ins finale Image. Build-Tools in Stage 1, nur das Ergebnis in Stage 2.**
 
-Gewinn: Faktor 5–10 kleinere Images, ohne Komfort­verlust.
+Gewinn: Faktor 5–10 kleinere Images, ohne Komfortverlust.
 
 ---
 
 ## 4. USER
 
 !!! success "Merksatz 4"
-    > **Container als root laufen zu lassen ist Standard – aber nicht gut. Ein eigener User und `USER app` im Dockerfile reduziert Angriffs­fläche deutlich.**
+    > **Container als root laufen zu lassen ist Standard – aber nicht gut. Ein eigener User und `USER app` im Dockerfile reduziert Angriffsfläche deutlich.**
 
 Kommt mit Kosten: Ports < 1024 gehen nicht mehr direkt, Volume-Permissions müssen stimmen. Für Produktion trotzdem Pflicht.
 
@@ -65,7 +65,7 @@ Immer **Exec-Form** (JSON-Array), nie Shell-Form – wegen Signal-Handling.
 ## 8. Der Gesamt-Satz
 
 !!! success "Merksatz 8"
-    > **Ein Produktions­image ist klein (< 200 MB wenn möglich), läuft nicht als root, hat keine Secrets, eine fixierte Version und wird regelmäßig gescannt.**
+    > **Ein Produktionsimage ist klein (< 200 MB wenn möglich), läuft nicht als root, hat keine Secrets, eine fixierte Version und wird regelmäßig gescannt.**
 
 ---
 
@@ -92,7 +92,7 @@ flowchart LR
   OUTPUT == "COPY --from=build" ==> ARTIFACT
 ```
 
-Das ist das **Produktions­image-Muster**. Alles, was du heute gelernt hast, ist entweder im Build-Teil (Caching, Multi-Stage) oder im Runtime-Teil (USER, HEALTHCHECK, schlankes Basis-Image).
+Das ist das **Produktionsimage-Muster**. Alles, was du heute gelernt hast, ist entweder im Build-Teil (Caching, Multi-Stage) oder im Runtime-Teil (USER, HEALTHCHECK, schlankes Basis-Image).
 
 ---
 

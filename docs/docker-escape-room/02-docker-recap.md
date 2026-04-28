@@ -44,7 +44,7 @@ docker run --name mein-container -d mein-image:1.0
 | `--name` | fester Name statt zufällig |
 | `-d` | im Hintergrund (detached) |
 | `-p HOST:CONTAINER` | Port-Mapping (siehe unten) |
-| `-e KEY=VALUE` | Umgebungs­variable |
+| `-e KEY=VALUE` | Umgebungsvariable |
 | `-v VOLUME:PFAD` | Volume mounten |
 | `--network NETZ` | Container ans Netzwerk hängen |
 
@@ -131,7 +131,7 @@ Aus Sicht eines Containers zeigt `localhost` auf den **Container selbst**. Wenn 
 
 **Lösung:** Container im gemeinsamen Docker-Netzwerk → den anderen Container über seinen **Namen** ansprechen.
 
-Beispiel: API spricht Datenbank über `quest-db:5432` an, weil die Datenbank im selben Netzwerk den Containername­n als Hostnamen bekommt.
+Beispiel: API spricht Datenbank über `quest-db:5432` an, weil die Datenbank im selben Netzwerk den Containernamen als Hostnamen bekommt.
 
 ---
 

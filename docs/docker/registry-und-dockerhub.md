@@ -108,7 +108,7 @@ Docker sieht am Präfix `ghcr.io/`, dass es nicht zu Docker Hub gehört, und hol
 
 ## Images holen: `docker pull`
 
-Wenn du ein Image herunter­laden willst, ohne es gleich zu starten:
+Wenn du ein Image herunterladen willst, ohne es gleich zu starten:
 
 ```bash
 docker pull nginx:1.27-alpine
@@ -161,7 +161,7 @@ Wenn du ein **eigenes Image** in eine Registry hochladen willst, brauchst du:
 docker login
 ```
 
-Der Befehl fragt Benutzer­name und Passwort (bzw. Personal Access Token) für Docker Hub ab. Für andere Registries:
+Der Befehl fragt Benutzername und Passwort (bzw. Personal Access Token) für Docker Hub ab. Für andere Registries:
 
 ```bash
 docker login ghcr.io
@@ -213,7 +213,7 @@ Noch strikter: produzierende Setups nutzen oft den **Digest** (den SHA-Hash) sta
 docker pull nginx@sha256:abc123...def
 ```
 
-Damit ist hundert­prozentig garantiert: **exakt dieses Bitmuster, kein anderes.**
+Damit ist hundertprozentig garantiert: **exakt dieses Bitmuster, kein anderes.**
 
 ---
 

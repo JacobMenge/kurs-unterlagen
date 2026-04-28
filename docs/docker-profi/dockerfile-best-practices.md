@@ -20,9 +20,9 @@ description: "Multi-Stage-Builds, USER, HEALTHCHECK, Layer-Optimierung, ENTRYPOI
 
 Im [Einführungs-Block](../docker/dockerfile-grundlagen.md) hast du ein minimales Dockerfile geschrieben. Das reicht für Demos. Für echte Projekte gilt:
 
-- **Images werden oft gebaut** – Build-Zeit ist ein Produktivitäts­faktor.
+- **Images werden oft gebaut** – Build-Zeit ist ein Produktivitätsfaktor.
 - **Images werden verteilt** – Größe und Sicherheit zählen.
-- **Images laufen in Produktion** – Fehler wie „läuft als root mit allen Rechten" sind reale Angriffs­flächen.
+- **Images laufen in Produktion** – Fehler wie „läuft als root mit allen Rechten" sind reale Angriffsflächen.
 
 Diese Seite bringt dich auf ein Niveau, mit dem du **deinem eigenen Image im Ernstfall vertrauen** kannst.
 
@@ -34,7 +34,7 @@ Diese Seite bringt dich auf ein Niveau, mit dem du **deinem eigenen Image im Ern
 
 > **Lege in deinem Dockerfile selten geänderte Dinge nach oben, oft geänderte nach unten.**
 
-Jede Instruktion erzeugt einen Layer. Ändert sich ein Layer, werden alle darunter­liegenden **neu gebaut**. Layer darüber bleiben im Cache.
+Jede Instruktion erzeugt einen Layer. Ändert sich ein Layer, werden alle darunterliegenden **neu gebaut**. Layer darüber bleiben im Cache.
 
 ### Schlecht
 
@@ -117,7 +117,7 @@ Viele Anwendungen brauchen zum **Bauen** mehr Werkzeug als zum **Laufen**. Beisp
 - **Node.js**: Build-Tools wie webpack, TypeScript-Compiler, TS-Sources. Zur Laufzeit: nur das fertige Bundle.
 - **Java**: JDK zum Kompilieren, nur JRE zum Laufen.
 
-Einfaches Dockerfile: alles landet im finalen Image. Großes Image, große Angriffs­fläche.
+Einfaches Dockerfile: alles landet im finalen Image. Großes Image, große Angriffsfläche.
 
 ### Die Multi-Stage-Lösung
 
@@ -159,7 +159,7 @@ USER nonroot
 ENTRYPOINT ["/app"]
 ```
 
-Finales Image: **wenige MB**, kein Shell, kein Paket-Manager, kaum Angriffs­fläche. Distroless-Images sind ein eigenes Thema, siehe [Image-Optimierung](image-optimierung.md).
+Finales Image: **wenige MB**, kein Shell, kein Paket-Manager, kaum Angriffsfläche. Distroless-Images sind ein eigenes Thema, siehe [Image-Optimierung](image-optimierung.md).
 
 ### Mehrere Stages vermischen
 
@@ -286,7 +286,7 @@ Du kannst den Healthcheck **im Dockerfile** oder **in der compose.yaml** definie
 **Faustregel:**
 
 - **Im Dockerfile**, wenn der Check zum Image gehört (z.B. jeder, der das Image nutzt, will genau diesen Check).
-- **Im Compose**, wenn der Check projekt­spezifisch ist (z.B. unterschiedliche Timeouts für Dev und Prod).
+- **Im Compose**, wenn der Check projektspezifisch ist (z.B. unterschiedliche Timeouts für Dev und Prod).
 
 ---
 
@@ -351,7 +351,7 @@ Die Shell-Form führt tatsächlich `/bin/sh -c "python app.py"` aus. Das bedeute
 
 ## 7. Signal-Handling
 
-Wenn du `docker stop` machst, schickt Docker dem Haupt­prozess des Containers **SIGTERM** und wartet 10 Sekunden. Reagiert der Prozess nicht, kommt **SIGKILL**.
+Wenn du `docker stop` machst, schickt Docker dem Hauptprozess des Containers **SIGTERM** und wartet 10 Sekunden. Reagiert der Prozess nicht, kommt **SIGKILL**.
 
 Für sauberes Herunterfahren muss deine App SIGTERM verstehen:
 
@@ -541,7 +541,7 @@ Das Image ist damit **deutlich** kleiner und sicherer als die Minimal-Variante.
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Multi-Stage für kleine Images. `USER` für weniger Angriffs­fläche. Layer-Caching für schnelle Builds. `HEALTHCHECK`, damit Docker weiß, ob's läuft. Exec-Form bei CMD, damit Signale ankommen.**
+    > **Multi-Stage für kleine Images. `USER` für weniger Angriffsfläche. Layer-Caching für schnelle Builds. `HEALTHCHECK`, damit Docker weiß, ob's läuft. Exec-Form bei CMD, damit Signale ankommen.**
 
 ---
 

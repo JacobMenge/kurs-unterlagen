@@ -19,12 +19,12 @@ description: "In laufenden Containern arbeiten: ENV prüfen, Konfig-Dateien lese
 
 Wenn ein Container läuft, möchtest du oft **nachschauen, was drin passiert**, ohne ihn zu zerstören:
 
-- *Welche Umgebungs­variablen sind tatsächlich gesetzt?*
-- *Wo liegt die Konfig­datei wirklich?*
+- *Welche Umgebungsvariablen sind tatsächlich gesetzt?*
+- *Wo liegt die Konfigdatei wirklich?*
 - *Was steht in der Datei, die nginx ausliefert?*
 - *Funktioniert die DNS-Auflösung im Container?*
 
-`docker logs` zeigt dir nur, was der Container nach `stdout`/`stderr` schreibt. Für alles andere brauchst du `docker exec`. Das ist dein **Schweizer Taschen­messer**, sobald ein Container läuft.
+`docker logs` zeigt dir nur, was der Container nach `stdout`/`stderr` schreibt. Für alles andere brauchst du `docker exec`. Das ist dein **Schweizer Taschenmesser**, sobald ein Container läuft.
 
 ---
 
@@ -32,7 +32,7 @@ Wenn ein Container läuft, möchtest du oft **nachschauen, was drin passiert**, 
 
 ### Schritt 1 – Demo-Container starten
 
-Wir nehmen einen einfachen nginx, geben ihm eine Umgebungs­variable mit, und lassen ihn im Hintergrund laufen.
+Wir nehmen einen einfachen nginx, geben ihm eine Umgebungsvariable mit, und lassen ihn im Hintergrund laufen.
 
 ```bash
 docker run -d --name debug-demo -e GREETING="Hallo aus Container" nginx:alpine
@@ -46,7 +46,7 @@ Erwartet: eine Container-ID. Mit `docker ps` siehst du `debug-demo` als `Up`.
 docker exec debug-demo env
 ```
 
-Du siehst alle Umgebungs­variablen, die im Container aktiv sind. Filtere nach deinem `GREETING`:
+Du siehst alle Umgebungsvariablen, die im Container aktiv sind. Filtere nach deinem `GREETING`:
 
 === "macOS / Linux"
     ```bash
@@ -72,7 +72,7 @@ GREETING=Hallo aus Container
 docker exec debug-demo id
 ```
 
-Erwartet: `uid=0(root) gid=0(root)`. nginx läuft im offiziellen Image als `root`. Das ist erstmal kein Problem, aber für Produktions­images solltest du das im Profi-Block lernen ([USER-Direktive](../docker-profi/dockerfile-best-practices.md)).
+Erwartet: `uid=0(root) gid=0(root)`. nginx läuft im offiziellen Image als `root`. Das ist erstmal kein Problem, aber für Produktionsimages solltest du das im Profi-Block lernen ([USER-Direktive](../docker-profi/dockerfile-best-practices.md)).
 
 ### Schritt 4 – Konfig-Dateien finden und lesen
 
@@ -174,7 +174,7 @@ docker rm -f debug-demo
 1. **Welche Postgres-Version** läuft im Container? (Tipp: `psql --version`)
 2. **Welche Datenbanken** existieren? (Tipp: `psql -U postgres -c "\l"`)
 3. **Welcher User** ist beim `psql`-Aufruf aktiv?
-4. **Welche Umgebungs­variablen** sind im Container gesetzt, die mit `POSTGRES_` beginnen?
+4. **Welche Umgebungsvariablen** sind im Container gesetzt, die mit `POSTGRES_` beginnen?
 
 ??? success "Musterlösung (erst selbst probieren!)"
 

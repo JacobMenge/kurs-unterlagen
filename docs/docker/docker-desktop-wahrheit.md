@@ -174,7 +174,7 @@ Wenn du Docker Desktop installiert hast, guck dir einmal die Einstellungen an: *
 ### 3. Manche Fehler fühlen sich auf Mac/Windows anders an als auf Linux
 
 - „Port schon belegt" wirkt oft verwirrend, weil der Port auf der VM belegt ist, nicht auf dem Host.
-- **Datei-Mounts** aus macOS in einen Container laufen über eine zusätzliche Übersetzungs­schicht (VirtioFS, früher osxfs). Auf einem Linux-Host sind Bind Mounts direkt, auf macOS gehen sie durch diese Schicht – bei großen Dateimengen (z.B. `node_modules` mit tausenden kleinen Dateien) spürbar **5–10× langsamer**.
+- **Datei-Mounts** aus macOS in einen Container laufen über eine zusätzliche Übersetzungsschicht (VirtioFS, früher osxfs). Auf einem Linux-Host sind Bind Mounts direkt, auf macOS gehen sie durch diese Schicht – bei großen Dateimengen (z.B. `node_modules` mit tausenden kleinen Dateien) spürbar **5–10× langsamer**.
 
     ??? tip "Workarounds für langsame Bind Mounts auf macOS"
         - In Docker Desktop **Settings → General → File sharing implementation** → „VirtioFS" wählen (inzwischen Default, aber alte Installationen haben manchmal noch gRPC FUSE).
@@ -184,7 +184,7 @@ Wenn du Docker Desktop installiert hast, guck dir einmal die Einstellungen an: *
 
 ---
 
-## Analogie: die „Lager­halle auf einem Schiff"
+## Analogie: die „Lagerhalle auf einem Schiff"
 
 !!! tip "Bild"
     Stell dir vor, du betreibst ein Containerschiff – aber du wohnst in einer Wohnung, nicht am Hafen.
@@ -210,7 +210,7 @@ Für die **Entwicklung** ist Docker Desktop auf Mac/Windows aber **absolut ausre
 !!! success "Merksatz"
     > **Docker Desktop auf Mac und Windows ist eine Linux-VM mit sichtbarer docker-CLI am Host. Die Container laufen in dieser VM, nicht direkt auf macOS oder Windows.**
 
-Wenn du mit diesem Wissen unterwegs bist, kannst du den Gewichts­vorteil von Containern ehrlich einordnen – auf Linux 100 %, auf Mac/Windows „ab dem zweiten Container".
+Wenn du mit diesem Wissen unterwegs bist, kannst du den Gewichtsvorteil von Containern ehrlich einordnen – auf Linux 100 %, auf Mac/Windows „ab dem zweiten Container".
 
 ---
 

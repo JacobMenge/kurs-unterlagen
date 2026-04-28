@@ -25,7 +25,7 @@ Dabei nutzt ihr bewusst **kein Docker Compose**. Stattdessen alle einzelnen Baus
 - Container starten
 - Ports veröffentlichen
 - Container benennen
-- Umgebungs­variablen setzen
+- Umgebungsvariablen setzen
 - Docker-Netzwerke verwenden
 - Docker-Volumes verwenden
 - Logs lesen
@@ -36,7 +36,7 @@ Dabei nutzt ihr bewusst **kein Docker Compose**. Stattdessen alle einzelnen Baus
 
     [`apps/docker-escape-room/`](https://github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room)
 
-    Falls ihr lokal arbeitet, findet ihr den Ordner direkt im Projekt­verzeichnis. Die Anwendung ist bewusst sehr einfach gehalten und dient **nur als Testobjekt für Docker**.
+    Falls ihr lokal arbeitet, findet ihr den Ordner direkt im Projektverzeichnis. Die Anwendung ist bewusst sehr einfach gehalten und dient **nur als Testobjekt für Docker**.
 
     Ihr müsst den Code **nicht verändern** und auch **nicht vollständig verstehen**.
 
@@ -46,7 +46,7 @@ Dabei nutzt ihr bewusst **kein Docker Compose**. Stattdessen alle einzelnen Baus
     - Die Datenbank läuft in einem eigenen Container.
     - Beide Container müssen im **gleichen Docker-Netzwerk** sein.
     - Die Datenbankdaten sollen über ein **Docker-Volume** erhalten bleiben.
-    - Die API bekommt die Verbindungsdaten zur Datenbank über **Umgebungs­variablen**.
+    - Die API bekommt die Verbindungsdaten zur Datenbank über **Umgebungsvariablen**.
 
 !!! warning "Kein Docker Compose"
     In dieser Aufgabe ist Docker Compose noch **nicht erlaubt**.
@@ -119,7 +119,7 @@ Wenn du den Block linear durcharbeitest:
 1. [Technologien kurz erklärt](00-technologien-kurz-erklaert.md) – was ist Express, was ist PostgreSQL, was ist Adminer? (5 Minuten lesen, dann weiter)
 2. [Docker-Recap](02-docker-recap.md) – die Befehle, die ihr braucht
 3. [Szenario](03-szenario.md) – die Story und die Zielarchitektur
-4. [Aufgaben­übersicht](04-aufgabenuebersicht.md) – eure 10 Aufgaben + Bonus
+4. [Aufgabenübersicht](04-aufgabenuebersicht.md) – eure 10 Aufgaben + Bonus
 5. [Hilfekarten](05-hilfekarten.md) – nutzt sie nur, wenn ihr feststeckt
 6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md) – was am Ende vorgezeigt wird
 7. [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
@@ -133,4 +133,4 @@ Wenn du den Block linear durcharbeitest:
 - Container über ein **eigenes Netzwerk** miteinander reden lassen
 - **Volume-Persistenz** in der Praxis erleben
 - Typische Fehler **systematisch debuggen** (Logs, `inspect`, Netzwerk prüfen)
-- Mit Selbst­überzeugung sagen können: **„Ja, das geht ohne Compose – aber Compose nimmt mir genau diese Schritte ab."**
+- Mit Selbstüberzeugung sagen können: **„Ja, das geht ohne Compose – aber Compose nimmt mir genau diese Schritte ab."**

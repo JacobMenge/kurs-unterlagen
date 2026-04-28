@@ -46,7 +46,7 @@ description: "Den Multi-Container-Stack aus der manuellen Praxis komplett mit do
 
 ---
 
-## Schritt 1 – Projekt­ordner
+## Schritt 1 – Projektordner
 
 Wir starten mit einem frischen Ordner:
 
@@ -144,7 +144,7 @@ CMD ["python", "app.py"]
 
 ## Schritt 3 – `.env` mit Secrets
 
-Eine Datei `.env` im Projekt­ordner:
+Eine Datei `.env` im Projektordner:
 
 ```
 POSTGRES_USER=kurs

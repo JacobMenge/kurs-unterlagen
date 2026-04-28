@@ -1,6 +1,6 @@
 ---
 title: "Docker für Profis (Block 5)"
-description: "Dockerfile-Best-Practices, Multi-Stage-Builds, Image-Optimierung und Security-Scanning. Für Produktions­reife."
+description: "Dockerfile-Best-Practices, Multi-Stage-Builds, Image-Optimierung und Security-Scanning. Für Produktionsreife."
 ---
 
 # Docker für Profis (Block 5)
@@ -10,14 +10,14 @@ Du kannst jetzt Container starten, Persistenz nutzen, Multi-Container-Stacks mit
 Dieser Block adressiert zwei Themen, die in Produktion zählen:
 
 1. **Dockerfile-Best-Practices** – damit dein Image schlank, schnell gebaut und sicher ist.
-2. **Image-Optimierung und Security-Scanning** – damit du Angriffs­flächen aktiv klein hältst.
+2. **Image-Optimierung und Security-Scanning** – damit du Angriffsflächen aktiv klein hältst.
 
 !!! abstract "Was du nach diesen 3 Stunden kannst"
     - ein Dockerfile mit **Multi-Stage-Build** schreiben, das Build-Tools und Runtime trennt
     - einen Container **als unprivilegierten User** betreiben
     - **Layer-Caching** aktiv für Build-Zeit-Optimierung nutzen
     - Basis-Images (Debian/Slim/Alpine/Distroless) bewusst auswählen
-    - ein Image mit **Trivy** auf Sicherheits­lücken scannen
+    - ein Image mit **Trivy** auf Sicherheitslücken scannen
 
 ---
 

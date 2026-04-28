@@ -34,5 +34,5 @@ Beide Cheatsheets sind als **Tabellen** aufgebaut. Sie sind bewusst knapp – f�
 ## Wie diese Seiten nutzen
 
 - **Im Unterricht:** offen haben, bei Bedarf kurz nachschauen.
-- **Zu Hause:** durch­scrollen, bei einem Befehl hängen bleiben, das passende Kapitel nachlesen.
+- **Zu Hause:** durchscrollen, bei einem Befehl hängen bleiben, das passende Kapitel nachlesen.
 - **Als Ausdruck:** die Seiten sind so gestaltet, dass sie auch **gedruckt** (schwarz auf weiß) gut lesbar sind.

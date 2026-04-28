@@ -32,7 +32,7 @@ Das ist der technische Unterbau für Merksatz 1.
 !!! success "Merksatz 3"
     > **Docker Desktop auf Mac und Windows ist eine Linux-VM mit sichtbarer docker-CLI am Host. Die Container laufen in dieser VM, nicht direkt auf macOS oder Windows.**
 
-Wer das nicht weiß, hat ein falsches mentales Modell – und kommt bei Ressourcen­verbrauch und Dateizugriffen durcheinander.
+Wer das nicht weiß, hat ein falsches mentales Modell – und kommt bei Ressourcenverbrauch und Dateizugriffen durcheinander.
 
 ---
 

@@ -55,7 +55,7 @@ docker run [OPTIONS] <image> [COMMAND] [ARG...]
 | `-p <host>:<container>` | Port-Mapping |
 | `-v <host-pfad>:<container-pfad>` | Bind Mount (Host-Ordner in Container einhängen) |
 | `-v <volume-name>:<container-pfad>` | Named Volume |
-| `-e KEY=VALUE` | Umgebungs­variable setzen |
+| `-e KEY=VALUE` | Umgebungsvariable setzen |
 | `--rm` | Container nach Beenden automatisch löschen |
 | `--restart unless-stopped` | automatischer Neustart, wenn Container abstürzt |
 | `--platform linux/amd64` | Architektur erzwingen (Apple Silicon-Workaround) |
@@ -82,7 +82,7 @@ docker run --platform linux/amd64 -it ubuntu bash
 | `docker logs <name>` | Logs eines Containers |
 | `docker logs -f <name>` | Logs live mitlesen |
 | `docker logs --tail 100 <name>` | nur letzte 100 Zeilen |
-| `docker stats` | Live-Ressourcen­verbrauch aller Container |
+| `docker stats` | Live-Ressourcenverbrauch aller Container |
 | `docker top <name>` | Prozesse im Container |
 | `docker inspect <name>` | Detailinfos (JSON) |
 
@@ -106,7 +106,7 @@ docker run --platform linux/amd64 -it ubuntu bash
 | `docker pause <name>` / `unpause <name>` | Pausieren / fortsetzen |
 | `docker kill <name>` | Hart beenden (SIGKILL) |
 | `docker rm <name>` | Gestoppten Container entfernen |
-| `docker rm -f <name>` | Laufenden Container zwangs­löschen |
+| `docker rm -f <name>` | Laufenden Container zwangslöschen |
 | `docker rm $(docker ps -aq)` | Alle Container löschen |
 
 ## Eigenes Image bauen

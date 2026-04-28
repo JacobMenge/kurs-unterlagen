@@ -13,7 +13,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     - **Lösung** – was du konkret tun kannst
 
 !!! tip "Wo du genauer suchen kannst"
-    - Installations­fragen → [Docker installieren](installation.md)
+    - Installationsfragen → [Docker installieren](installation.md)
     - „Warum ist Docker Desktop auf Mac eigentlich eine VM?" → [Docker Desktop ist eine VM](docker-desktop-wahrheit.md)
     - Befehle zum Nachschlagen → [Cheatsheet Docker](../cheatsheets/docker.md)
 
@@ -27,7 +27,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     **Lösung nach Betriebssystem:**
 
     === "macOS / Windows"
-        **Docker Desktop starten.** Erkennbar am Wal-Icon in der Menü­leiste (macOS) oder im Tray (Windows).
+        **Docker Desktop starten.** Erkennbar am Wal-Icon in der Menüleiste (macOS) oder im Tray (Windows).
 
         - Ist Docker Desktop offen, aber das Icon zeigt rot/gelb: kurz warten, der Daemon braucht 10–30 Sekunden zum Hochfahren.
         - Im Dashboard ganz unten: „Engine running" = grün = alles gut.
@@ -60,9 +60,9 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 ??? danger "Docker Desktop startet nicht – Wal-Symbol bleibt grau"
     **Ursache:** Irgendwas im Docker-Desktop-Kern ist hängen geblieben.
 
-    **Lösung in Eskalations­stufen:**
+    **Lösung in Eskalationsstufen:**
 
-    1. **Docker Desktop beenden und neu starten.** In der Menü­leiste Wal-Icon → Quit Docker Desktop, dann wieder öffnen.
+    1. **Docker Desktop beenden und neu starten.** In der Menüleiste Wal-Icon → Quit Docker Desktop, dann wieder öffnen.
     2. **Rechner neu starten.** Klingt banal, löst gefühlt 40 % aller Docker-Desktop-Probleme.
     3. **Docker Desktop → Troubleshoot → Clean / Purge data.** Löscht alle Container, Images, Volumes – ist also wie ein Reset der Docker-Datenbank. Radikal, aber zuverlässig.
     4. **Letzte Option:** Docker Desktop deinstallieren und neu installieren (siehe [Installation](installation.md)).
@@ -181,7 +181,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     docker logs <container-id-oder-name>
     ```
 
-    Dort siehst du die Fehler­meldung, warum nginx crasht. Typische Ursachen: fehlerhafte Konfig im `COPY`, fehlende Datei, falscher Pfad, fehlende Berechtigung.
+    Dort siehst du die Fehlermeldung, warum nginx crasht. Typische Ursachen: fehlerhafte Konfig im `COPY`, fehlende Datei, falscher Pfad, fehlende Berechtigung.
 
 ??? warning "Wie behalte ich einen Container zum Debuggen am Leben?"
     **Szenario:** Dein Container crasht, du willst in die Umgebung schauen.
@@ -315,7 +315,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
     **Ursache:** Docker hat die Platte vollgeschrieben – Images, gestoppte Container, ungenutzte Volumes und Netzwerke summieren sich.
 
-    **Lösung – Eskalations­stufen:**
+    **Lösung – Eskalationsstufen:**
 
     === "Stufe 1 – milde"
         ```bash
@@ -378,8 +378,8 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     ```
     Unter den Gruppen sollte `docker` erscheinen.
 
-    !!! warning "Sicherheits­hinweis"
-        Mitglieder der `docker`-Gruppe können mit einem Container den ganzen Host mounten und damit effektiv Root werden. Für Entwickler­rechner okay, in Multi-User-Systemen eine Entscheidung, die dokumentiert werden sollte. Alternative: **Rootless Docker** (siehe <https://docs.docker.com/engine/security/rootless/>) oder **Podman** (läuft ohne Daemon und ohne `docker`-Gruppe).
+    !!! warning "Sicherheitshinweis"
+        Mitglieder der `docker`-Gruppe können mit einem Container den ganzen Host mounten und damit effektiv Root werden. Für Entwicklerrechner okay, in Multi-User-Systemen eine Entscheidung, die dokumentiert werden sollte. Alternative: **Rootless Docker** (siehe <https://docs.docker.com/engine/security/rootless/>) oder **Podman** (läuft ohne Daemon und ohne `docker`-Gruppe).
 
 ??? danger "Linux (Fedora/RHEL/Rocky/Alma): `permission denied` beim Bind Mount"
     **Symptom:** Dein Container crasht beim Start oder kann Dateien aus dem Mount nicht lesen – obwohl die Datei-Permissions offensichtlich passen.
@@ -435,7 +435,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     docker run --security-opt apparmor=unconfined meine-app
     ```
 
-    **Nicht in Produktion**: AppArmor ist dein Sicherheits­netz.
+    **Nicht in Produktion**: AppArmor ist dein Sicherheitsnetz.
 
 ??? warning "Volume-Mount: „permission denied" innerhalb des Containers"
     **Ursache:** Der User im Container hat nicht die Rechte für den gemounteten Host-Pfad. Oft ist der Container-User `root` und der Host-Pfad gehört einem normalen User.
@@ -519,7 +519,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
     Begrenzt auf 3 Dateien à 10 MB.
 
-    **Lösung daemon­weit (Linux):** `/etc/docker/daemon.json`:
+    **Lösung daemonweit (Linux):** `/etc/docker/daemon.json`:
 
     ```json
     {

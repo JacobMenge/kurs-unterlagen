@@ -17,8 +17,8 @@ description: "Schritt-für-Schritt: erste Ubuntu-VM starten, betreten, stoppen, 
 
 - Multipass ist installiert (siehe [Multipass – Einstieg](multipass-einstieg.md))
 - Du sitzt an einem **Host** mit macOS, Linux oder Windows (Pro+)
-- Mindestens **4 GB freier RAM** und **10 GB freier Platten­platz**
-- **Internet­verbindung**, damit das Ubuntu-Image geladen werden kann
+- Mindestens **4 GB freier RAM** und **10 GB freier Plattenplatz**
+- **Internetverbindung**, damit das Ubuntu-Image geladen werden kann
 
 ??? warning "Ich habe Windows Home – kann ich das trotzdem mitmachen?"
     Multipass braucht Hyper-V, das Windows Home fehlt. Aber du hast Alternativen:
@@ -66,7 +66,7 @@ description: "Schritt-für-Schritt: erste Ubuntu-VM starten, betreten, stoppen, 
 multipass version
 ```
 
-Du solltest eine Versions­nummer sehen. Wenn nicht, schau in [Stolpersteine](stolpersteine.md) oder installiere Multipass neu.
+Du solltest eine Versionsnummer sehen. Wenn nicht, schau in [Stolpersteine](stolpersteine.md) oder installiere Multipass neu.
 
 Optional: schau, welche Ubuntu-Images es gibt:
 
@@ -74,7 +74,7 @@ Optional: schau, welche Ubuntu-Images es gibt:
 multipass find
 ```
 
-Gekürzte Beispiel­ausgabe:
+Gekürzte Beispielausgabe:
 
 ```text
 Image                       Aliases           Version          Description
@@ -104,7 +104,7 @@ Launched: demo
 Was im Hintergrund passiert: Multipass lädt ggf. das Image herunter, legt eine virtuelle Disk an, bootet die VM. Dauer beim ersten Mal: ein bis zwei Minuten. Bei allen weiteren Starts: wenige Sekunden.
 
 ??? info "Was, wenn ich keinen Namen angebe?"
-    Dann vergibt Multipass einen zufälligen Namen wie `friendly-herald` oder `keen-swan`. Für einen Kurs­kontext lieber immer `--name` setzen, damit du weißt, welche VM du meinst.
+    Dann vergibt Multipass einen zufälligen Namen wie `friendly-herald` oder `keen-swan`. Für einen Kurskontext lieber immer `--name` setzen, damit du weißt, welche VM du meinst.
 
 ---
 
@@ -114,7 +114,7 @@ Was im Hintergrund passiert: Multipass lädt ggf. das Image herunter, legt eine 
 multipass list
 ```
 
-Beispiel­ausgabe:
+Beispielausgabe:
 
 ```text
 Name                    State             IPv4             Image
@@ -223,7 +223,7 @@ cowsay "Hallo aus der VM!"
 Du solltest eine nett sprechende Kuh sehen. Reiner Show-Effekt, aber er macht sichtbar, dass **du gerade auf einem vollwertigen Linux-System** arbeitest.
 
 ??? warning "`apt update` hängt oder liefert Fehler"
-    Siehe [Stolpersteine → Gast hat keine Internet­verbindung](stolpersteine.md). Quick-Check direkt in der VM:
+    Siehe [Stolpersteine → Gast hat keine Internetverbindung](stolpersteine.md). Quick-Check direkt in der VM:
     ```bash
     ping -c 3 8.8.8.8      # geht IP-Routing?
     ping -c 3 ubuntu.com   # geht DNS?
@@ -297,7 +297,7 @@ demo      Running   192.168.64.5    Ubuntu 22.04 LTS
 gross     Running   192.168.64.9    Ubuntu 22.04 LTS
 ```
 
-Jede VM kann für sich `apt install`, Netzwerk­tests, Experimente durchführen – ohne die andere zu beeinflussen.
+Jede VM kann für sich `apt install`, Netzwerktests, Experimente durchführen – ohne die andere zu beeinflussen.
 
 ---
 
@@ -335,7 +335,7 @@ Der Status ist **`Deleted`**, aber die Einträge sind noch da. Mit `multipass re
 multipass purge
 ```
 
-**Jetzt** sind die VMs tatsächlich weg, und der Platten­platz ist frei. Kontrolle:
+**Jetzt** sind die VMs tatsächlich weg, und der Plattenplatz ist frei. Kontrolle:
 
 ```bash
 multipass list
@@ -349,7 +349,7 @@ No instances found.
 
 ## Troubleshooting-Schnelltest
 
-Falls irgendetwas schief­geht, hier die häufigsten Fälle:
+Falls irgendetwas schiefgeht, hier die häufigsten Fälle:
 
 | Problem | Erste Maßnahme |
 |---------|----------------|

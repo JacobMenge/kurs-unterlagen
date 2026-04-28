@@ -30,21 +30,21 @@ Ein **Typ-1-Hypervisor** läuft **direkt auf der Hardware**. Es gibt kein „nor
 ### Merkmale
 
 - **Sehr performant**: keine Umwege über ein Host-OS.
-- **Hohe Isolation**: weniger Angriffs­fläche, weil kaum Software dazwischen­hängt.
-- **Typisch für Server und Rechen­zentren.**
+- **Hohe Isolation**: weniger Angriffsfläche, weil kaum Software dazwischenhängt.
+- **Typisch für Server und Rechenzentren.**
 - **Keine bunten GUIs lokal**: meist Fernwartung über eigene Konsole oder Web-Interfaces.
 
 ### Reale Produkte
 
 | Produkt | Anbieter | Typischer Einsatz |
 |---------|----------|-------------------|
-| **VMware ESXi** | Broadcom (ehem. VMware) | Unternehmens-Rechen­zentren |
+| **VMware ESXi** | Broadcom (ehem. VMware) | Unternehmens-Rechenzentren |
 | **Microsoft Hyper-V** (Server-Rolle) | Microsoft | Windows-Server-Umgebungen |
 | **KVM** | Linux-Kernel-Modul | Cloud-Provider wie AWS, Azure, GCP, Hetzner |
 | **Xen** | Linux Foundation | AWS EC2 historisch, heute noch bei einigen Providern |
 
 !!! info "Cloud-Fun-Fact"
-    Wenn du eine virtuelle Maschine bei AWS, Hetzner oder Azure mietest, läuft diese VM mit sehr hoher Wahrscheinlichkeit auf einem **Typ-1-Hypervisor** (meist KVM oder eine spezialisierte Variante davon). Cloud-Provider bauen ihre ganze Geschäfts­logik darauf, dass Typ-1-Hypervisoren viele Kundinnen und Kunden **parallel** auf denselben Server­maschinen bedienen können – ohne dass die sich gegenseitig sehen.
+    Wenn du eine virtuelle Maschine bei AWS, Hetzner oder Azure mietest, läuft diese VM mit sehr hoher Wahrscheinlichkeit auf einem **Typ-1-Hypervisor** (meist KVM oder eine spezialisierte Variante davon). Cloud-Provider bauen ihre ganze Geschäftslogik darauf, dass Typ-1-Hypervisoren viele Kundinnen und Kunden **parallel** auf denselben Servermaschinen bedienen können – ohne dass die sich gegenseitig sehen.
 
 ---
 
@@ -56,7 +56,7 @@ Ein **Typ-2-Hypervisor** läuft als **Anwendung innerhalb eines normalen Betrieb
 
 - **Bequem**: installieren wie jedes andere Programm, oft mit GUI.
 - **Weniger performant als Typ 1**: der Weg zur Hardware führt über das Host-OS.
-- **Typisch für Entwickler­rechner, Test-Laptops, Schulungen.**
+- **Typisch für Entwicklerrechner, Test-Laptops, Schulungen.**
 - **Schnell installiert und schnell wieder entfernt.**
 
 ### Reale Produkte
@@ -91,7 +91,7 @@ Für dich als Nutzer ist das schön: du verwendest **dieselben Multipass-Befehle
 
 ## Warum sich Hyper-V und VirtualBox auf Windows streiten
 
-Beide Produkte wollen auf die **Virtualisierungs­funktionen des Prozessors** (Intel VT-x oder AMD-V) zugreifen – und zwar jeweils als „Erster" auf dem Ring-0, also der privilegiertesten Stufe im Kernel. Wenn beide gleichzeitig aktiv sind, gewinnt Hyper-V, und VirtualBox meldet:
+Beide Produkte wollen auf die **Virtualisierungsfunktionen des Prozessors** (Intel VT-x oder AMD-V) zugreifen – und zwar jeweils als „Erster" auf dem Ring-0, also der privilegiertesten Stufe im Kernel. Wenn beide gleichzeitig aktiv sind, gewinnt Hyper-V, und VirtualBox meldet:
 
 > VT-x is not available
 
@@ -133,7 +133,7 @@ flowchart TB
   end
 ```
 
-Der entscheidende Unterschied liegt nicht in den VMs oben (die sehen gleich aus), sondern **darunter**: beim Typ 1 ist der Hypervisor das unterste Element, beim Typ 2 liegt noch ein komplettes Betriebs­system dazwischen.
+Der entscheidende Unterschied liegt nicht in den VMs oben (die sehen gleich aus), sondern **darunter**: beim Typ 1 ist der Hypervisor das unterste Element, beim Typ 2 liegt noch ein komplettes Betriebssystem dazwischen.
 
 ---
 

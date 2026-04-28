@@ -43,8 +43,8 @@ CMD ["python", "app.py"]
 Vier Zeilen. Was passiert hier?
 
 1. **`FROM python:3.12-slim`** – nimm das offizielle Python-3.12-Image (Slim-Variante, etwa 160 MB) als Basis.
-2. **`WORKDIR /app`** – setze das Arbeits­verzeichnis im Image auf `/app`. Wenn der Ordner nicht existiert, wird er angelegt.
-3. **`COPY app.py .`** – kopiere die Datei `app.py` vom Host (aus dem Build-Kontext) ins aktuelle Arbeits­verzeichnis des Images (also `/app`).
+2. **`WORKDIR /app`** – setze das Arbeitsverzeichnis im Image auf `/app`. Wenn der Ordner nicht existiert, wird er angelegt.
+3. **`COPY app.py .`** – kopiere die Datei `app.py` vom Host (aus dem Build-Kontext) ins aktuelle Arbeitsverzeichnis des Images (also `/app`).
 4. **`CMD ["python", "app.py"]`** – wenn aus diesem Image ein Container gestartet wird, führe diesen Befehl aus.
 
 Das war’s. Dieses Dockerfile ergibt ein lauffähiges Image.
@@ -61,17 +61,17 @@ Jedes Dockerfile **muss** mit `FROM` anfangen. Es legt fest, auf welchem Image d
 FROM nginx:1.27-alpine
 ```
 
-- Typische Basis­images: `ubuntu`, `debian`, `alpine`, `python`, `node`, `openjdk`, `golang`.
+- Typische Basisimages: `ubuntu`, `debian`, `alpine`, `python`, `node`, `openjdk`, `golang`.
 - Die **Alpine-Varianten** sind sehr klein (10–30 MB), dafür fehlen viele Tools und einige Pakete verhalten sich anders.
 - Wenn du **wirklich bei Null** anfangen willst: `FROM scratch` – ein leeres Image ohne Dateisystem. Nur für sehr spezielle Fälle.
 
-### `WORKDIR` – das Arbeits­verzeichnis
+### `WORKDIR` – das Arbeitsverzeichnis
 
 ```dockerfile
 WORKDIR /app
 ```
 
-- Setzt das Arbeits­verzeichnis für alle nachfolgenden Instruktionen.
+- Setzt das Arbeitsverzeichnis für alle nachfolgenden Instruktionen.
 - Legt den Ordner automatisch an, wenn er fehlt.
 - Kann mehrfach vorkommen. Jedes `WORKDIR` ist **relativ zum vorigen**, wenn kein absoluter Pfad angegeben ist.
 
@@ -98,7 +98,7 @@ COPY requirements.txt .
     | `ADD archive.tar.gz .` | entpackt das Tar-Archiv automatisch |
     | `ADD https://example.com/file.txt .` | lädt direkt von einer URL |
 
-    **Best Practice: nimm `COPY`**, es sei denn du brauchst explizit eine der `ADD`-Sonder­fähigkeiten. `COPY` macht sichtbar, was passiert – `ADD` versteckt Tar-/Download-Logik. Für URLs ist es sowieso robuster, `RUN curl -fsSL https://…` zu schreiben, weil du Fehler behandeln kannst.
+    **Best Practice: nimm `COPY`**, es sei denn du brauchst explizit eine der `ADD`-Sonderfähigkeiten. `COPY` macht sichtbar, was passiert – `ADD` versteckt Tar-/Download-Logik. Für URLs ist es sowieso robuster, `RUN curl -fsSL https://…` zu schreiben, weil du Fehler behandeln kannst.
 
 ### `RUN` – beim Build ausführen
 
@@ -155,17 +155,17 @@ EXPOSE 80
 
 - `EXPOSE` ist **reine Dokumentation**. Es öffnet **keinen Port**.
 - Es signalisiert Entwicklern und Orchestrierungs-Tools: „Dieses Image hört auf Port 80."
-- Die eigentliche Frei­gabe machst du beim Start mit `-p` (siehe nächste Seiten).
+- Die eigentliche Freigabe machst du beim Start mit `-p` (siehe nächste Seiten).
 
-### `ENV` – Umgebungs­variablen
+### `ENV` – Umgebungsvariablen
 
 ```dockerfile
 ENV APP_PORT=8080
 ENV PYTHONUNBUFFERED=1
 ```
 
-- Setzt Umgebungs­variablen, die **im Image und im laufenden Container** verfügbar sind.
-- Typisch für Konfigurations­flags, Sprach­einstellungen, Laufzeit-Parameter.
+- Setzt Umgebungsvariablen, die **im Image und im laufenden Container** verfügbar sind.
+- Typisch für Konfigurationsflags, Spracheinstellungen, Laufzeit-Parameter.
 - Man kann sie beim Start mit `docker run -e KEY=value` überschreiben.
 
 ---
@@ -181,7 +181,7 @@ FROM python:3.12-slim
 # 2) Metadaten (optional, aber nett)
 LABEL maintainer="jacob@jacob-decoded.de"
 
-# 3) Arbeits­verzeichnis
+# 3) Arbeitsverzeichnis
 WORKDIR /app
 
 # 4) Abhängigkeiten zuerst (für besseres Caching)
@@ -191,7 +191,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 5) Anwendungs-Code
 COPY app.py .
 
-# 6) Umgebungs­variable setzen
+# 6) Umgebungsvariable setzen
 ENV PYTHONUNBUFFERED=1
 
 # 7) Port dokumentieren
@@ -268,7 +268,7 @@ Das Dockerfile-Universum ist groß. Für den Einstieg reicht das, was oben steht
 - **`ENTRYPOINT`** – verwandt mit `CMD`, aber mit anderem Verhalten. Für Anfänger oft verwirrend.
 - **Multi-Stage-Builds** – Images kleiner machen, indem Build-Tools und Laufzeit-Umgebung getrennt werden.
 - **`ARG`** – Build-Zeit-Variablen.
-- **`HEALTHCHECK`** – automatische Gesundheits­prüfung.
+- **`HEALTHCHECK`** – automatische Gesundheitsprüfung.
 - **`USER`** – als unprivilegierter Benutzer laufen (sinnvoll für Produktion).
 
 Alles Themen für den nächsten Kursblock. Für heute: `FROM`, `WORKDIR`, `COPY`, `RUN`, `CMD`, `EXPOSE`, `ENV` reichen, um ernsthaft anzufangen.

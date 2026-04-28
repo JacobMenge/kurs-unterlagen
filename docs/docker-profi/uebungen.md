@@ -363,7 +363,7 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 ### Challenge 5 – Produktions-fertiges Flask-Dockerfile
 
 !!! abstract "Aufgabe"
-    Nimm eine kleine Flask-App und baue ein **produktions­reifes** Image, das alle relevanten Best Practices vereint.
+    Nimm eine kleine Flask-App und baue ein **produktionsreifes** Image, das alle relevanten Best Practices vereint.
 
     **Die App (gegeben)**
 

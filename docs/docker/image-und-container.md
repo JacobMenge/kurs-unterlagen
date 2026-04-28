@@ -11,7 +11,7 @@ description: "Die zwei zentralen Begriffe im Docker-Ökosystem: Image als Vorlag
     - **Image** und **Container** klar unterscheiden
     - das **Layer-Modell** eines Images beschreiben
     - erklären, was **Copy-on-Write** für laufende Container bedeutet
-    - den Lebens­zyklus eines Containers grob skizzieren
+    - den Lebenszyklus eines Containers grob skizzieren
 
 ---
 
@@ -49,7 +49,7 @@ Wichtig:
 
 - **Ein Image, viele Container**: aus demselben Image kannst du beliebig viele Container starten. Jeder ist unabhängig.
 - **Container sind flüchtig**: stoppst du einen Container und löschst ihn, sind alle Änderungen in seinem Dateisystem **weg**. Das Image bleibt unberührt.
-- **Container haben einen eigenen Lebens­zyklus**: `created` → `running` → `paused` → `stopped` → `removed`.
+- **Container haben einen eigenen Lebenszyklus**: `created` → `running` → `paused` → `stopped` → `removed`.
 
 ---
 
@@ -90,7 +90,7 @@ Jeder Layer ist **unveränderlich** (read-only). Zusammen ergeben sie das Image.
 
 **1. Wiederverwendung.** Viele Images teilen sich ihre unteren Layer. Wenn du z.B. zwei Python-Images lokal hast, die beide auf Debian 12 basieren, liegt der Debian-Layer nur **einmal** auf deiner Festplatte – er wird von beiden Images referenziert.
 
-**2. Cache beim Build.** Beim Bauen eines eigenen Images cached Docker jeden Layer. Änderst du nur den obersten Layer (z.B. deinen eigenen App-Code), werden die darunter­liegenden Layer nicht neu gebaut. Das spart enorm Zeit.
+**2. Cache beim Build.** Beim Bauen eines eigenen Images cached Docker jeden Layer. Änderst du nur den obersten Layer (z.B. deinen eigenen App-Code), werden die darunterliegenden Layer nicht neu gebaut. Das spart enorm Zeit.
 
 Du kannst die Layer eines Images so anschauen:
 
@@ -152,7 +152,7 @@ Diese Themen schauen wir uns im nächsten Kursblock an. Für heute merke dir: **
 
 ---
 
-## Der Lebens­zyklus eines Containers
+## Der Lebenszyklus eines Containers
 
 ```mermaid
 flowchart TB
@@ -180,9 +180,9 @@ Jedes Image hat:
 
 - **einen Namen mit optionalem Tag**, z.B. `nginx:1.27-alpine`
 - **eine eindeutige ID** (ein SHA-256-Hash des Inhalts)
-- **eine vollständige Herkunfts­adresse**, z.B. `docker.io/library/nginx:1.27-alpine`
+- **eine vollständige Herkunftsadresse**, z.B. `docker.io/library/nginx:1.27-alpine`
 
-Die Herkunfts­adresse zerlegen wir auf der nächsten Seite.
+Die Herkunftsadresse zerlegen wir auf der nächsten Seite.
 
 ---
 

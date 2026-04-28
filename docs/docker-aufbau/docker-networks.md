@@ -9,7 +9,7 @@ description: "Wie Container miteinander sprechen: Bridge-, Host-, None-Netzwerke
     Nach dieser Seite kannst du:
 
     - erklären, **warum Container nicht automatisch miteinander sprechen** können – und wie man das ändert
-    - die drei Standard-Netzwerk­treiber **bridge, host, none** einordnen
+    - die drei Standard-Netzwerktreiber **bridge, host, none** einordnen
     - ein **eigenes Netzwerk** anlegen und Container daran hängen
     - verstehen, was **Docker-DNS** ist: Container per Name erreichen
     - die üblichen Netzwerk-Stolpersteine (`localhost` im Container, Publisher-Probleme) durchschauen
@@ -31,14 +31,14 @@ Die richtige Antwort sind **Docker-Netzwerke**. Sie sind einfacher, als sie zun�
 Wenn du einen Container startest, **ohne** etwas zum Netzwerk zu sagen, landet er automatisch im **Default-Bridge-Netzwerk**. Dieses Netzwerk hat einige Eigenschaften, die man kennen muss:
 
 - Alle Container darin können **IP-mäßig miteinander** sprechen (wenn sie die IP des Gegenübers kennen).
-- Aber: **Keine automatische Namens­auflösung**. `ping db` im Container funktioniert **nicht**, obwohl ein Container `db` heißt.
+- Aber: **Keine automatische Namensauflösung**. `ping db` im Container funktioniert **nicht**, obwohl ein Container `db` heißt.
 - Ports nach außen müssen mit `-p` explizit gemappt werden (das kennst du schon).
 
 Das Default-Bridge ist für den Einstieg okay, aber für ernsthafte Setups **legt man immer eigene Netzwerke an**. Gleich mehr dazu.
 
 ---
 
-## Die drei Netzwerk­treiber auf einen Blick
+## Die drei Netzwerktreiber auf einen Blick
 
 ```mermaid
 flowchart TB
@@ -83,7 +83,7 @@ flowchart TB
 
 ### none – „kein Netzwerk"
 
-- Container hat **keine Netzwerk­verbindung**.
+- Container hat **keine Netzwerkverbindung**.
 - Nur das Loopback-Interface im Container selbst.
 - **Einsatz:** Isolation für Batch-Jobs, die keinen Netzzugang brauchen.
 
@@ -196,13 +196,13 @@ docker run -d --name web \
 - `db` (falls es eine gibt) im `backend-netz` kann ebenfalls `api` erreichen.
 - `web` kann `db` **nicht** direkt erreichen.
 
-Das ist ein einfaches, aber effektives **Segmentierungs­muster** für Mehr-Schicht-Architekturen.
+Das ist ein einfaches, aber effektives **Segmentierungsmuster** für Mehr-Schicht-Architekturen.
 
 ---
 
 ## Ports – was heißt „Publisher" eigentlich?
 
-Rekap aus dem Einführungs­block:
+Rekap aus dem Einführungsblock:
 
 ```bash
 docker run -d -p 8080:80 nginx
@@ -330,7 +330,7 @@ Das ist die Basis dessen, was [Docker Compose](../docker-compose/einfuehrung.md)
 
     **Lösung:** Deine Anwendung **niemals** auf feste IP-Adressen bauen. Immer über den Container-Namen.
 
-??? info "Kann ich Container in anderen Subnetz­bereich legen?"
+??? info "Kann ich Container in anderen Subnetzbereich legen?"
     Ja. Beim Anlegen des Netzwerks:
     ```bash
     docker network create --subnet 10.20.0.0/16 kurs-netz
@@ -360,7 +360,7 @@ Jetzt hast du alle drei Grundbausteine des Aufbau-Blocks:
 
 ```mermaid
 flowchart LR
-  ENV["Umgebungs­variablen<br/>(-e, .env)"]
+  ENV["Umgebungsvariablen<br/>(-e, .env)"]
   VOL[("Volume<br/>/data")]
   NET{{"Docker-Netzwerk<br/>(kurs-netz)"}}
   C(["Container<br/>App-Prozess"])
@@ -370,7 +370,7 @@ flowchart LR
   C <== "Kommunikation" ==> NET
 ```
 
-- **Umgebungs­variablen** konfigurieren den Container.
+- **Umgebungsvariablen** konfigurieren den Container.
 - **Volumes** geben ihm persistenten Speicher.
 - **Netzwerke** verbinden ihn mit anderen Containern.
 

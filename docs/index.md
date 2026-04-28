@@ -141,7 +141,7 @@ Diese Seite ist mit [MkDocs](https://www.mkdocs.org/) und [Material for MkDocs](
 Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://jacob-decoded.de).
 
 !!! note "Kurstage und Arbeitsstand"
-    Jeder Block ist auf einen **3-Stunden-Kurstag** ausgelegt – mit Theorie­anteil, Praxis und Besprechung:
+    Jeder Block ist auf einen **3-Stunden-Kurstag** ausgelegt – mit Theorieanteil, Praxis und Besprechung:
 
     - **Block 1** – Virtualisierung (Multipass)
     - **Block 2** – Docker-Einführung (erste Container, eigenes Image)

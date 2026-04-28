@@ -14,7 +14,7 @@ description: "Schritt-für-Schritt-Installation von Docker auf Windows 11, macOS
     - einen Plan B in der Hinterhand, falls Docker Desktop nicht läuft (oder aus Lizenzgründen nicht darf)
 
 !!! warning "Bevor du loslegst"
-    Schließe am besten andere VM-Tools (VirtualBox, VMware Fusion, Parallels), während Docker sich einrichtet. Einige Virtualisierungs­schichten streiten sich gern, das sparst du dir so.
+    Schließe am besten andere VM-Tools (VirtualBox, VMware Fusion, Parallels), während Docker sich einrichtet. Einige Virtualisierungsschichten streiten sich gern, das sparst du dir so.
 
 ---
 
@@ -58,7 +58,7 @@ Docker Desktop ist **für Privatpersonen, Bildung, kleinere Firmen und Open-Sour
     - **WSL2-Funktion** mit WSL Version **2.1.5 oder neuer** (Docker Desktop aktiviert das während der Installation, wenn nicht vorhanden)
     - **Hardware-Virtualisierung im BIOS/UEFI** aktiviert (Intel VT-x oder AMD-V), zusätzlich **SLAT-fähige 64-Bit-CPU**
     - **Mindestens 4 GB RAM**, empfohlen 8 GB oder mehr
-    - **Ca. 2 GB freier Platten­platz** für Docker Desktop selbst, dazu Raum für Images
+    - **Ca. 2 GB freier Plattenplatz** für Docker Desktop selbst, dazu Raum für Images
     - **Editionen**: offiziell unterstützt sind Pro / Enterprise / Education. **Home** funktioniert in der Praxis ebenfalls über WSL2 – Docker dokumentiert das nicht als „supported", in den meisten Fällen klappt es aber problemlos.
 
 ### Schritt 1 – Vorbereitung prüfen
@@ -110,7 +110,7 @@ Wähle „Download for Windows – AMD64" (für normale Intel-/AMD-PCs) oder „
 2. Den Haken bei **„Use WSL 2 instead of Hyper-V (recommended)"** aktiviert lassen.
 3. Installation durchlaufen lassen, Rechner gegebenenfalls neu starten.
 4. Docker Desktop starten. Beim ersten Start:
-    - Nutzungs­bedingungen akzeptieren (beachte die Lizenz-Hinweise oben).
+    - Nutzungsbedingungen akzeptieren (beachte die Lizenz-Hinweise oben).
     - Optional einen Docker-Account verknüpfen (nicht nötig für unseren Kurs).
 
 ### Schritt 5 – Funktion prüfen
@@ -121,7 +121,7 @@ PowerShell oder Terminal öffnen (**kein** Admin nötig):
 docker version
 ```
 
-Du solltest Blöcke für „Client" und „Server" sehen, jeweils mit Versions­nummer.
+Du solltest Blöcke für „Client" und „Server" sehen, jeweils mit Versionsnummer.
 
 Ein erster Test:
 
@@ -190,7 +190,7 @@ Zwei Varianten stehen zur Wahl:
 Wenn du unsicher bist: **Apfel-Menü → Über diesen Mac**. Steht dort „Apple M…" → Apple Chip. Steht „Intel" → Intel Chip.
 
 ??? danger "Falsche Variante heruntergeladen?"
-    Docker Desktop verweigert den Start mit einer etwas kryptischen Fehlermeldung, wenn du die falsche Architektur gewählt hast. Einfach die richtige Version runterladen und drüber­installieren.
+    Docker Desktop verweigert den Start mit einer etwas kryptischen Fehlermeldung, wenn du die falsche Architektur gewählt hast. Einfach die richtige Version runterladen und drüberinstallieren.
 
 ### Schritt 2 – Rosetta 2 installieren (nur Apple Silicon)
 
@@ -271,7 +271,7 @@ Läuft beides ohne Fehler, ist Docker einsatzbereit.
     zeigt, was den Port belegt. Ist es ein Docker-Container, stoppe ihn mit `docker stop <name>`. Ist es ein macOS-Dienst (z.B. der integrierte Webdienst), brauchst du einen anderen Port oder deaktivierst den Dienst.
 
 ??? info "Apple-Silicon-Tipp: OrbStack als schnellere Alternative zu Docker Desktop"
-    Seit 2023 gibt es [OrbStack](https://orbstack.dev/). Es ist eine Mac-native Alternative zu Docker Desktop mit spürbar schnellerem Start, weniger Ressourcenverbrauch und besserer Battery-Life auf MacBooks. Für Privat­anwender kostenfrei, die CLI heißt weiterhin `docker`. Wenn Docker Desktop auf deinem Mac zickt, ist OrbStack einen Versuch wert.
+    Seit 2023 gibt es [OrbStack](https://orbstack.dev/). Es ist eine Mac-native Alternative zu Docker Desktop mit spürbar schnellerem Start, weniger Ressourcenverbrauch und besserer Battery-Life auf MacBooks. Für Privatanwender kostenfrei, die CLI heißt weiterhin `docker`. Wenn Docker Desktop auf deinem Mac zickt, ist OrbStack einen Versuch wert.
 
 ---
 
@@ -282,7 +282,7 @@ Auf Linux bekommst du Docker **direkt**, ohne Desktop-GUI und ohne umhüllende V
 !!! info "Systemanforderungen Linux"
     - **64-Bit-Kernel**, Version 3.10 oder neuer (alle aktuellen Distributionen erfüllen das).
     - Distribution: Ubuntu 22.04 LTS oder 24.04 LTS, Debian 11 oder 12, Fedora 38+, Rocky/Alma 9+ – offiziell unterstützt.
-    - Andere Distributionen gehen auch, mit etwas mehr Hand­arbeit.
+    - Andere Distributionen gehen auch, mit etwas mehr Handarbeit.
 
 Die folgenden Schritte sind für **Ubuntu/Debian**. Für andere Distributionen findest du die Anleitung hier: <https://docs.docker.com/engine/install/>
 
@@ -346,18 +346,18 @@ sudo usermod -aG docker $USER
 ```
 
 !!! warning "Einmal ab- und wieder anmelden"
-    Die Gruppen­mitgliedschaft greift erst nach einem neuen Login. Entweder ausloggen und einloggen, oder für die aktuelle Shell:
+    Die Gruppenmitgliedschaft greift erst nach einem neuen Login. Entweder ausloggen und einloggen, oder für die aktuelle Shell:
 
     ```bash
     newgrp docker
     ```
 
-??? warning "Sicherheits­hinweis: `docker`-Gruppe = Root-Zugriff"
-    Wer in der `docker`-Gruppe ist, kann effektiv Root auf dem Host werden (z.B. indem er einen Container startet, der den ganzen Host mountet). Das ist für einen Entwickler­rechner völlig okay, aber für Mehr-Benutzer-Systeme eine bewusste Entscheidung.
+??? warning "Sicherheitshinweis: `docker`-Gruppe = Root-Zugriff"
+    Wer in der `docker`-Gruppe ist, kann effektiv Root auf dem Host werden (z.B. indem er einen Container startet, der den ganzen Host mountet). Das ist für einen Entwicklerrechner völlig okay, aber für Mehr-Benutzer-Systeme eine bewusste Entscheidung.
 
 ### Schritt 5 – Daemon starten und aktivieren
 
-Der Docker-Daemon sollte bei der Installation schon gestartet und als System­dienst aktiviert worden sein. Prüfen:
+Der Docker-Daemon sollte bei der Installation schon gestartet und als Systemdienst aktiviert worden sein. Prüfen:
 
 ```bash
 sudo systemctl status docker
@@ -377,7 +377,7 @@ docker version
 docker run hello-world
 ```
 
-Wenn die Begrüßung läuft: fertig. Glück­wunsch, du hast Docker Engine auf Linux installiert.
+Wenn die Begrüßung läuft: fertig. Glückwunsch, du hast Docker Engine auf Linux installiert.
 
 ### Fedora / RHEL / Rocky / AlmaLinux – Kurzanleitung
 
@@ -438,7 +438,7 @@ sudo usermod -aG docker $USER
     Wenn du auf einer alten Ubuntu-Version bist (18.04, 20.04 nach EOL), lädt das Docker-Repository nicht mehr zuverlässig. Entweder das Betriebssystem aktualisieren oder die offizielle Docker-Doku für ältere Versionen nutzen.
 
 ??? warning "Fehler „conflict: unable to remove repository reference"
-    Wenn du nach längerer Nutzung Platten­platz zurückholen willst und `docker rmi` verweigert wird, weil ein Container das Image noch referenziert:
+    Wenn du nach längerer Nutzung Plattenplatz zurückholen willst und `docker rmi` verweigert wird, weil ein Container das Image noch referenziert:
 
     ```bash
     docker ps -a                 # zeigt alle Container
@@ -503,7 +503,7 @@ Falls du Docker Desktop nicht installieren kannst oder willst (Lizenz, Performan
 Wenn du hier angekommen bist, solltest du:
 
 - [x] `docker version` liefert ohne Fehler Client- und Server-Block
-- [x] `docker run hello-world` gibt die Begrüßungs­meldung aus
+- [x] `docker run hello-world` gibt die Begrüßungsmeldung aus
 - [x] `docker ps -a` zeigt den gerade beendeten `hello-world`-Container
 - [x] (nur Linux) `docker`-Befehl funktioniert **ohne** `sudo`
 

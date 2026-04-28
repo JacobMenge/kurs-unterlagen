@@ -33,7 +33,7 @@ Diese fünf Übungen vertiefen das, was du in den Blöcken 2 und 3 gelernt und i
 
     ---
 
-    Daten aus einem Postgres-Volume sichern und nach einem simulierten „Disaster" wieder zurück­spielen.
+    Daten aus einem Postgres-Volume sichern und nach einem simulierten „Disaster" wieder zurückspielen.
 
     *20 Min · Schwierigkeit: 🟡 Mittel*
 

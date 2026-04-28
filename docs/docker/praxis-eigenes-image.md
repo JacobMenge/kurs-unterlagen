@@ -25,7 +25,7 @@ description: "Schritt-für-Schritt ein eigenes nginx-Image mit eigener HTML-Seit
 
 ---
 
-## Schritt 1 – Projekt­ordner anlegen
+## Schritt 1 – Projektordner anlegen
 
 Wir arbeiten in einem frischen Ordner, damit der Build-Kontext klar ist:
 
@@ -298,7 +298,7 @@ docker ps -a           # keine mein-web-Container mehr
 docker images          # keine mein-bild-Einträge mehr
 ```
 
-Falls du auch das nginx-Alpine-Basis­image loswerden willst (optional):
+Falls du auch das nginx-Alpine-Basisimage loswerden willst (optional):
 
 ```bash
 docker rmi nginx:alpine

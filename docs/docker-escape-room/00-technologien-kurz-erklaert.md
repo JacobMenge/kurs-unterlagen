@@ -27,8 +27,8 @@ Beispiele für das, was die API macht:
 - Image bauen
 - Container starten
 - Port veröffentlichen
-- Umgebungs­variablen setzen
-- Netzwerk­verbindung zur Datenbank herstellen
+- Umgebungsvariablen setzen
+- Netzwerkverbindung zur Datenbank herstellen
 
 **Nicht Fokus:**
 
@@ -40,11 +40,11 @@ Beispiele für das, was die API macht:
 
 ## Was ist Node.js?
 
-**Node.js** ist die Laufzeit­umgebung, mit der die Beispiel-API ausgeführt wird. Vergleichbar mit Python oder Java – nur eben für JavaScript-Code, der außerhalb des Browsers läuft.
+**Node.js** ist die Laufzeitumgebung, mit der die Beispiel-API ausgeführt wird. Vergleichbar mit Python oder Java – nur eben für JavaScript-Code, der außerhalb des Browsers läuft.
 
 Für euch ist nur wichtig:
 
-> Das Docker-Image enthält Node.js. Der API-Container startet damit die Beispiel­anwendung.
+> Das Docker-Image enthält Node.js. Der API-Container startet damit die Beispielanwendung.
 
 Ihr müsst Node.js **nicht selbst installieren**, wenn ihr die Anwendung per Docker startet.
 
@@ -67,14 +67,14 @@ Für euch ist nur wichtig:
 **Docker-Fokus:**
 
 - Datenbank-Container starten
-- Datenbankname, Benutzer und Passwort per Umgebungs­variablen setzen
+- Datenbankname, Benutzer und Passwort per Umgebungsvariablen setzen
 - Datenbank-Container ins richtige Netzwerk hängen
 - Volume für dauerhafte Speicherung verwenden
 
 **Nicht Fokus:**
 
 - SQL schreiben
-- Datenbank­modellierung
+- Datenbankmodellierung
 - PostgreSQL-Administration
 
 Ihr werdet keinen einzigen `SELECT`, `INSERT` oder `CREATE TABLE` schreiben müssen – die API erledigt das alles selbst.

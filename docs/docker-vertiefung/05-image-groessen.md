@@ -17,7 +17,7 @@ description: "Dieselbe App, drei Basis-Images: node:22, node:22-slim, node:22-al
 
 ## Worum geht's
 
-Wenn du `FROM node:22` schreibst, ziehst du ein Basis-Image, das von Debian-12 ausgeht und **die komplette Standard-Werkzeug­kette** mitbringt: bash, apt, GCC, Build-Tools, Locales, Manpages. Das sind über **1 GB**, bevor deine eigene App auch nur ein einziges Byte beigetragen hat.
+Wenn du `FROM node:22` schreibst, ziehst du ein Basis-Image, das von Debian-12 ausgeht und **die komplette Standard-Werkzeugkette** mitbringt: bash, apt, GCC, Build-Tools, Locales, Manpages. Das sind über **1 GB**, bevor deine eigene App auch nur ein einziges Byte beigetragen hat.
 
 Es gibt zwei sinnvolle Wege, das Image kleiner zu kriegen:
 
@@ -258,7 +258,7 @@ docker rmi node:22 node:22-slim node:22-alpine
     - **Full (Default)** nur, wenn du wirklich Build-Tools im Image brauchst – das ist **selten**.
 
 ??? info "Größe ≠ Sicherheit"
-    Ein kleineres Image ist **tendenziell** sicherer (weniger Software = weniger Angriffs­fläche), aber nicht automatisch. Was wirklich zählt: **welche Versionen** der Pakete drinstecken. Für ehrliche Aussagen darüber → [Trivy-Übung im Profi-Block](../docker-profi/uebungen.md).
+    Ein kleineres Image ist **tendenziell** sicherer (weniger Software = weniger Angriffsfläche), aber nicht automatisch. Was wirklich zählt: **welche Versionen** der Pakete drinstecken. Für ehrliche Aussagen darüber → [Trivy-Übung im Profi-Block](../docker-profi/uebungen.md).
 
 ---
 

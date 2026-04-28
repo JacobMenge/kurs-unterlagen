@@ -70,7 +70,7 @@ Ein Container ist aus Sicht des Linux-Kernels **ein normaler Prozess**. Das Beso
 
 **Namespaces** sind ein **Linux-Kernel-Feature** – sie sind also nicht „etwas, das Docker erfunden hat", sondern existieren direkt im Kernel (seit Kernel 2.6.24). Docker nutzt sie nur geschickt aus.
 
-Namespaces teilen System­ressourcen so auf, dass ein Prozess **nur das sieht, was sein Namespace enthält**. Andere Prozesse auf demselben Host können in einem anderen Namespace leben und bemerken sich gegenseitig gar nicht. Das ist der Trick, mit dem Container sich „isoliert" anfühlen, obwohl sie sich denselben Kernel teilen.
+Namespaces teilen Systemressourcen so auf, dass ein Prozess **nur das sieht, was sein Namespace enthält**. Andere Prozesse auf demselben Host können in einem anderen Namespace leben und bemerken sich gegenseitig gar nicht. Das ist der Trick, mit dem Container sich „isoliert" anfühlen, obwohl sie sich denselben Kernel teilen.
 
 Es gibt mehrere Arten von Namespaces:
 
@@ -133,7 +133,7 @@ Statt einem einzelnen Root-Account, der **alles** darf, kennt Linux **feinkörni
 - du **schnelle Start-Stop-Zyklen** brauchst (CI-Tests, Skalierung)
 - du das **Image einfach teilen** können möchtest (Registry, siehe nächste Seiten)
 
-In der Praxis mischt man oft beides: Container laufen **in VMs**, VMs laufen **in Rechen­zentren mit Typ-1-Hypervisoren**. Jede Ebene hat ihre Berechtigung.
+In der Praxis mischt man oft beides: Container laufen **in VMs**, VMs laufen **in Rechenzentren mit Typ-1-Hypervisoren**. Jede Ebene hat ihre Berechtigung.
 
 ---
 

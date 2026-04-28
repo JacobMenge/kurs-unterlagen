@@ -12,7 +12,7 @@ Wenn du dir diese Sätze einprägst, hast du die Kern-Ideen des heutigen Kurses 
 ## 1. Die drei Säulen
 
 !!! success "Merksatz 1"
-    > **Daten überleben nur in Volumes (oder Bind Mounts). Konfiguration kommt aus Umgebungs­variablen. Container reden über eigene Docker-Netzwerke miteinander – per Container-Name, nicht per IP.**
+    > **Daten überleben nur in Volumes (oder Bind Mounts). Konfiguration kommt aus Umgebungsvariablen. Container reden über eigene Docker-Netzwerke miteinander – per Container-Name, nicht per IP.**
 
 Das ist der **zentrale Satz** des ganzen Blocks. Alle weiteren Sätze sind Vertiefungen davon.
 
@@ -30,7 +30,7 @@ Konsequenz: **Nie auf das Container-Dateisystem vertrauen**. Datenbanken, Upload
 ## 3. Konfiguration
 
 !!! success "Merksatz 3"
-    > **Konfiguration gehört in Umgebungs­variablen, nicht ins Image. Secrets niemals ins Image – immer erst zur Laufzeit per `-e` oder `--env-file`.**
+    > **Konfiguration gehört in Umgebungsvariablen, nicht ins Image. Secrets niemals ins Image – immer erst zur Laufzeit per `-e` oder `--env-file`.**
 
 Konsequenz: `.env` gehört in `.gitignore`.
 
@@ -67,7 +67,7 @@ Das ist der Cliffhanger für den nächsten Block – [Docker Compose](../docker-
 
 ```mermaid
 flowchart LR
-  ENV["Umgebungs­variablen<br/>(-e / .env)"]
+  ENV["Umgebungsvariablen<br/>(-e / .env)"]
   VOL[("Volume<br/>postgres-daten")]
   NET{{"User-Defined Netzwerk<br/>kurs-netz"}}
   DB["Postgres-Container<br/>Name: db"]

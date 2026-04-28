@@ -97,7 +97,7 @@ SSH vom Host in die VM (falls man auf Multipass-Shell verzichten möchte):
 
 | Befehl | Bedeutung |
 |--------|-----------|
-| `multipass get` | Konfigurations­schlüssel anzeigen |
+| `multipass get` | Konfigurationsschlüssel anzeigen |
 | `multipass set <key>=<value>` | Konfiguration setzen |
 
 Beispiel: Standard-CPU-Anzahl für neue VMs:

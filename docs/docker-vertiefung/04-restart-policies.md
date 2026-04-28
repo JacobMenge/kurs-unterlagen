@@ -17,7 +17,7 @@ description: "Was passiert mit deinem Container, wenn er crasht? Mit der richtig
 
 ## Worum geht's
 
-Container sind Prozesse. Prozesse können crashen – aus vielen Gründen: Out-of-Memory, kaputte Konfiguration, Datenbank-Verbindungs­abbruch, Bug in der App.
+Container sind Prozesse. Prozesse können crashen – aus vielen Gründen: Out-of-Memory, kaputte Konfiguration, Datenbank-Verbindungsabbruch, Bug in der App.
 
 **Ohne Restart-Policy** bleibt ein gecrashter Container einfach im Status `Exited` liegen. Niemand startet ihn neu. In Produktion wäre das ein Ausfall.
 
@@ -220,7 +220,7 @@ Daher: für Produktions-Container ist **`unless-stopped`** in den meisten Fälle
 ## Was du danach kannst
 
 - Eine `--restart`-Policy bewusst wählen, statt Default zu fahren.
-- `RestartCount` im `docker inspect` lesen und als Indikator für „wieder­holt crashender Container" nutzen.
+- `RestartCount` im `docker inspect` lesen und als Indikator für „wiederholt crashender Container" nutzen.
 - Den Unterschied zwischen `always` und `unless-stopped` an einem konkreten Beispiel erklären.
 
 ---

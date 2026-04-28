@@ -9,7 +9,7 @@
 *[SHA-256]: Kryptografische Hashfunktion – erzeugt einen 256-Bit-Fingerabdruck eines Inhalts
 *[SHA]: Secure Hash Algorithm – Familie kryptografischer Hashfunktionen (SHA-1, SHA-256, …)
 *[GPG]: GNU Privacy Guard – Open-Source-Implementierung von OpenPGP für Signaturen und Verschlüsselung
-*[TLS]: Transport Layer Security – Verschlüsselung für Netzwerk­protokolle (z.B. HTTPS)
+*[TLS]: Transport Layer Security – Verschlüsselung für Netzwerkprotokolle (z.B. HTTPS)
 *[SSL]: Secure Sockets Layer – Vorgänger von TLS, der Begriff wird oft synonym genutzt
 *[RAM]: Random Access Memory – Arbeitsspeicher
 *[CPU]: Central Processing Unit – Prozessor
@@ -106,7 +106,7 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[Healthcheck]: Bereitschafts-Prüfung, die Docker regelmäßig ausführt
 *[Multi-Stage-Build]: Dockerfile-Technik mit mehreren FROM-Blöcken
 *[Distroless]: Basis-Image von Google ohne Shell und Paketmanager
-*[Dangling Image]: Image ohne Tag, das Platten­platz belegt
+*[Dangling Image]: Image ohne Tag, das Plattenplatz belegt
 *[Trivy]: Open-Source-Scanner für Docker-Images
 *[Podman]: Container-Engine als Docker-Alternative, ohne Daemon
 *[OrbStack]: Mac-native Docker-Alternative
@@ -115,7 +115,7 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[K8s]: Kubernetes – Container-Orchestrierung über mehrere Hosts
 *[containerd]: Container-Runtime, Standard-Engine unter Docker
 *[runc]: Low-Level-Container-Runtime, die einzelne Container startet
-*[OCI]: Open Container Initiative – Standardisierungs­gremium für Container-Formate
+*[OCI]: Open Container Initiative – Standardisierungsgremium für Container-Formate
 *[Swarm]: Docker Swarm – Dockers eigenes Cluster-Tool, einfacher als Kubernetes
 *[Helm]: Paketmanager für Kubernetes
 *[Pod]: Kleinste deploybare Einheit in Kubernetes (ein oder mehrere Container)
@@ -142,7 +142,7 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[dnf]: Paketmanager auf Fedora/RHEL
 *[pacman]: Paketmanager auf Arch Linux
 *[Homebrew]: Paketmanager für macOS
-*[Hyper-V]: Virtualisierungs­technologie von Microsoft
+*[Hyper-V]: Virtualisierungstechnologie von Microsoft
 *[Secret]: Vertrauliche Information (Passwort, API-Key)
 *[Service]: Eintrag unter services: in compose.yaml
 *[depends_on]: Compose-Schlüssel für Start-Reihenfolge
@@ -163,6 +163,8 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[Caching]: Mechanismus, der Zwischenergebnisse speichert (z.B. Docker-Layer-Cache)
 *[Layer-Cache]: Docker-Build-Mechanismus, der unveränderte Layer wiederverwendet
 *[Layer-Caching]: Docker-Build-Mechanismus, der unveränderte Layer wiederverwendet
+*[Laufzeit]: Software-Plattform, auf der eine Anwendung läuft – im Dockerfile per FROM gewählt (z.B. Node.js, Python, Java)
+*[Runtime]: Software-Plattform, auf der eine Anwendung läuft (engl. für Laufzeit)
 *[Restart-Policy]: Docker-Regel, was nach einem Container-Crash passiert (no/on-failure/always/unless-stopped)
 *[RestartCount]: Zähler im docker inspect, wie oft ein Container schon neu gestartet wurde
 *[BuildKit]: Modernes Docker-Build-Backend mit besserem Caching, parallelen Stages und Multi-Architektur
@@ -190,7 +192,7 @@ Fachbegriffe (werden automatisch mit dem Glossar verlinkt):
 *[ARG]: Dockerfile-Instruktion: Build-Argument, nur während `docker build` verfügbar
 *[ENV]: Dockerfile-Instruktion: setzt eine Umgebungsvariable im Image
 *[USER]: Dockerfile-Instruktion: wechselt den User für nachfolgende Befehle und zur Laufzeit
-*[Gatekeeper]: Sicherheits­mechanismus von macOS für unbekannte Apps
+*[Gatekeeper]: Sicherheitsmechanismus von macOS für unbekannte Apps
 *[Virtualization.framework]: Apples moderne Virtualisierungs-API
 *[Typ-1-Hypervisor]: Bare-Metal-Hypervisor direkt auf Hardware
 *[Typ-2-Hypervisor]: Hosted-Hypervisor, läuft als App im Host-OS

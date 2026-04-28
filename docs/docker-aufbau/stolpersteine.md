@@ -242,7 +242,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
        `node_modules` lebt dann in einem Volume (schnell), dein Code kommt über Bind Mount rein (langsam, aber klein).
     4. **Für wirklich große Setups:** Projekt-Verzeichnis komplett als Volume kopieren, Bind Mount nur für aktive Entwicklung zuschalten.
 
-    Auf **Linux** ist das nicht relevant – Bind Mounts sind dort direkt am Host-Dateisystem, ohne Übersetzungs­schicht.
+    Auf **Linux** ist das nicht relevant – Bind Mounts sind dort direkt am Host-Dateisystem, ohne Übersetzungsschicht.
 
 ---
 
@@ -325,7 +325,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     docker rmi postgres:16 adminer
     ```
 
-??? info "Wenn alles auseinander­bricht – Reset-Knopf"
+??? info "Wenn alles auseinanderbricht – Reset-Knopf"
     ```bash
     docker system prune -a --volumes
     ```

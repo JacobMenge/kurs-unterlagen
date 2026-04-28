@@ -10,7 +10,7 @@ description: "Alpine, Slim, Distroless – Basis-Images im Vergleich. Image-Grö
 
     - die Basis-Images **debian, debian-slim, alpine, distroless** einschätzen
     - die **Größe** eines Images analysieren (`docker history`, `docker images`, Tools wie **dive**)
-    - dein Image auf Sicherheits­lücken **scannen** (Trivy)
+    - dein Image auf Sicherheitslücken **scannen** (Trivy)
     - Kompromisse zwischen **Größe, Kompatibilität und Debugbarkeit** bewusst machen
 
 ---
@@ -20,8 +20,8 @@ description: "Alpine, Slim, Distroless – Basis-Images im Vergleich. Image-Grö
 Image-Größe wirkt sich aus auf:
 
 1. **Deployment-Geschwindigkeit**: Ein 500-MB-Image wird pro Pull fünfmal langsamer gezogen als ein 100-MB-Image.
-2. **Registry-Kosten**: Bei bezahlten Registries wächst der Speicher­bedarf mit jedem Tag.
-3. **Angriffs­fläche**: Weniger Pakete im Image = weniger potenzielle Sicherheits­lücken.
+2. **Registry-Kosten**: Bei bezahlten Registries wächst der Speicherbedarf mit jedem Tag.
+3. **Angriffsfläche**: Weniger Pakete im Image = weniger potenzielle Sicherheitslücken.
 4. **Boot-Zeit**: Kleinere Images laden schneller, z.B. in Serverless-Umgebungen (AWS Lambda, Google Cloud Run).
 5. **Scanner-Reports**: Ein schlanker Alpine-Container hat oft 20 gelistete CVEs, ein volles Debian 400. Auch wenn davon vielleicht nur 3 relevant sind – du liest eben 400 Zeilen Report.
 
@@ -79,7 +79,7 @@ FROM gcr.io/distroless/static-debian12
 
 - **Größe**: wenige MB
 - **Inhalt**: **Keine Shell, kein Paket-Manager, kein `apt`, kein `sh`**. Nur die Runtime und Zertifikate.
-- **Pro**: Kleinste mögliche Angriffs­fläche. Für Produktions-Container, die nichts außer ihrer Binary brauchen.
+- **Pro**: Kleinste mögliche Angriffsfläche. Für Produktions-Container, die nichts außer ihrer Binary brauchen.
 - **Contra**: Kein `docker exec ... sh` – Debugging ist fast unmöglich ohne weitere Tricks.
 
 **Einsatz:** Go-Binaries, Java-Jar, kompilierte Rust-Binaries. Immer mit Multi-Stage-Build, wo die erste Stage das Bauen erledigt.
@@ -227,7 +227,7 @@ Der `rm`-Teil räumt den Paket-Index (20–100 MB) weg.
 
 ### 4. `--no-install-recommends`
 
-Bei Debian/Ubuntu werden ohne diese Option die **empfohlenen** Zusatzpakete mit­installiert. Die braucht man fast nie, und sie blähen das Image auf.
+Bei Debian/Ubuntu werden ohne diese Option die **empfohlenen** Zusatzpakete mitinstalliert. Die braucht man fast nie, und sie blähen das Image auf.
 
 ### 5. Dateien nicht kopieren, die man nicht braucht
 
@@ -251,7 +251,7 @@ RUN apt-get update && \
 
 ## Sicherheit: Vulnerability-Scanning
 
-Jedes Image erbt Sicherheits­lücken seines Basis-Image plus der Pakete, die du installierst. Ein regelmäßiger Scan hilft, Lücken früh zu entdecken.
+Jedes Image erbt Sicherheitslücken seines Basis-Image plus der Pakete, die du installierst. Ein regelmäßiger Scan hilft, Lücken früh zu entdecken.
 
 ### Trivy – der Standard
 
@@ -335,7 +335,7 @@ Schlägt der Scan Hochrisiko-CVEs, bricht der Build ab. Du musst erst patchen, b
 
 ## SBOM – Software Bill of Materials
 
-Ein **SBOM** ist eine Liste aller Komponenten in deinem Image – vergleichbar mit den Zutaten­angaben auf einer Lebensmittel­verpackung.
+Ein **SBOM** ist eine Liste aller Komponenten in deinem Image – vergleichbar mit den Zutatenangaben auf einer Lebensmittelverpackung.
 
 Warum wichtig:
 

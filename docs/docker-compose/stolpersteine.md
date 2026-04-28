@@ -25,7 +25,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     ```bash
     docker compose config
     ```
-    Zeigt die geparste YAML, Fehler mit Zeilen­angabe.
+    Zeigt die geparste YAML, Fehler mit Zeilenangabe.
 
 ??? warning "`${VAR}` erscheint wörtlich statt ersetzt"
     **Ursache:** `VAR` ist weder in einer `.env` noch in der Shell-Umgebung gesetzt.
@@ -53,7 +53,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     ports:
       - "8080:80"  # als String
     ```
-    YAML interpretiert `8080:80` sonst als Sexagesimal­zahl (Base 60), was zu seltsamen Port-Werten führt.
+    YAML interpretiert `8080:80` sonst als Sexagesimalzahl (Base 60), was zu seltsamen Port-Werten führt.
 
 ??? info "`$`-Zeichen in Passwörtern"
     In `compose.yaml` wird `$` als Variable gewertet. Literal-`$` schreibst du **verdoppelt**:
@@ -188,7 +188,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     - Sonst: die Daten sind weg.
 
 ??? warning "Volume wird anders benannt als gedacht"
-    Compose pack­t dem Volume-Namen einen **Projekt-Präfix** davor. Aus `volumes: postgres-daten` wird je nach Projektordner `kurs-compose_postgres-daten`.
+    Compose packt dem Volume-Namen einen **Projekt-Präfix** davor. Aus `volumes: postgres-daten` wird je nach Projektordner `kurs-compose_postgres-daten`.
 
     **Check:**
     ```bash

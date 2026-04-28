@@ -41,7 +41,7 @@ Sauber getrennt nach „jede Komponente in eigener VM" hast du damit **vier VMs*
 | Proxy | Ubuntu | 400 MB – 1,5 GB |
 | **Summe** | | **ca. 1,6 – 6 GB nur OS** |
 
-Die Spannweite kommt daher, dass eine Ubuntu-VM **im Leerlauf** ca. 400 MB braucht, **mit laufenden System­diensten** aber schnell 1–2 GB. Siehe [Grundbegriffe der Virtualisierung](../virtualisierung/grundbegriffe.md). In beiden Fällen gilt: **mehrere GB RAM**, bevor du eine einzige Zeile eigenen Code laufen lässt. Und vier Gast-Kernels, vier Paket-Manager, vier Security-Update-Zeitplaner.
+Die Spannweite kommt daher, dass eine Ubuntu-VM **im Leerlauf** ca. 400 MB braucht, **mit laufenden Systemdiensten** aber schnell 1–2 GB. Siehe [Grundbegriffe der Virtualisierung](../virtualisierung/grundbegriffe.md). In beiden Fällen gilt: **mehrere GB RAM**, bevor du eine einzige Zeile eigenen Code laufen lässt. Und vier Gast-Kernels, vier Paket-Manager, vier Security-Update-Zeitplaner.
 
 Die naheliegende Frage:
 
@@ -66,16 +66,16 @@ Für unser Beispiel heißt das:
 | Proxy | Container | ca. 10–20 MB |
 | **Summe** | | **< 200 MB** |
 
-Statt 1,6 GB sind es jetzt deutlich unter 200 MB OS-Overhead. Das ist der **Gewichts­vorteil**, von dem immer alle reden.
+Statt 1,6 GB sind es jetzt deutlich unter 200 MB OS-Overhead. Das ist der **Gewichtsvorteil**, von dem immer alle reden.
 
 ---
 
 ## Analogie 1: Das Containerschiff
 
-!!! tip "Container­schiff"
-    Stell dir ein großes Container­schiff vor. Darauf liegen **Hunderte standardisierte Container**. Jeder Container sieht von außen gleich aus – gleiche Maße, gleiche Befestigungs­punkte, gleiche Beschriftungs­logik.
+!!! tip "Containerschiff"
+    Stell dir ein großes Containerschiff vor. Darauf liegen **Hunderte standardisierte Container**. Jeder Container sieht von außen gleich aus – gleiche Maße, gleiche Befestigungspunkte, gleiche Beschriftungslogik.
 
-    Innen hat jeder Container etwas **völlig anderes**: Bananen, Kühlschränke, Auto­teile, Kaffee.
+    Innen hat jeder Container etwas **völlig anderes**: Bananen, Kühlschränke, Autoteile, Kaffee.
 
     Das Schiff muss sich nicht um den Inhalt kümmern. Es muss nur **Container** transportieren können. Standardisierte Hülle, unterschiedlicher Inhalt.
 
@@ -92,12 +92,12 @@ Der Name „Container" ist nicht zufällig gewählt. Er kommt direkt aus dieser 
 
 ## Analogie 2: Die Lunchbox
 
-Falls dir das Container­schiff zu abstrakt ist, hilft vielleicht diese:
+Falls dir das Containerschiff zu abstrakt ist, hilft vielleicht diese:
 
 !!! tip "Lunchbox"
     Du gehst arbeiten und nimmst dein Mittagessen mit. In deiner **Lunchbox** ist alles drin, was du brauchst: Reis, Gemüse, Sauce, Löffel, Serviette. Egal wohin du gehst – Kantine, Park, Bahn – deine Lunchbox hat alles dabei.
 
-    Du musst vor Ort nichts mehr zusammen­suchen.
+    Du musst vor Ort nichts mehr zusammensuchen.
 
 Übertragen auf Software:
 
@@ -108,7 +108,7 @@ Falls dir das Container­schiff zu abstrakt ist, hilft vielleicht diese:
 
 Das Schöne: eine gepackte Lunchbox gibst du jemandem weiter, und **der andere muss nicht fragen, was drin ist** oder „wie man das isst". Alles Nötige ist dabei.
 
-Diese Analogie funktioniert besonders gut für den Kern­gedanken von Docker:
+Diese Analogie funktioniert besonders gut für den Kerngedanken von Docker:
 
 > **Anwendung + Abhängigkeiten + Konfiguration = ein Paket.**
 
@@ -124,7 +124,7 @@ Klassiker: deine Anwendung braucht Python 3.12 mit einem speziellen Paket in Ver
 
 ### 2. „Ich will die Anwendung schnell mal ausprobieren"
 
-Klassisches Setup für einen neuen Webserver: Paket-Manager aufrufen, Abhängigkeiten installieren, Konfigurations­dateien anfassen, Dienst starten. Zehn Minuten, wenn du weißt, was du tust. Eine Stunde, wenn du Pech hast.
+Klassisches Setup für einen neuen Webserver: Paket-Manager aufrufen, Abhängigkeiten installieren, Konfigurationsdateien anfassen, Dienst starten. Zehn Minuten, wenn du weißt, was du tust. Eine Stunde, wenn du Pech hast.
 
 **Mit Docker:** `docker run nginx` – und ein Webserver läuft. Nach fünf Sekunden.
 

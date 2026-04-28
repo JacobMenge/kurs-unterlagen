@@ -9,7 +9,7 @@ Im Einführungs-Block hast du einzelne Container gestartet und dein erstes eigen
 
 !!! abstract "Was du nach diesen 3 Stunden kannst"
     - Container so starten, dass Daten **einen Neustart überleben** (Volumes)
-    - Container über **Umgebungs­variablen** konfigurieren, ohne das Image neu zu bauen
+    - Container über **Umgebungsvariablen** konfigurieren, ohne das Image neu zu bauen
     - Ein eigenes **Docker-Netzwerk** anlegen und Container über ihren Namen sprechen lassen
     - Einen kleinen Multi-Container-Stack (Postgres + Adminer) **manuell** zusammenbauen
 
@@ -40,7 +40,7 @@ Im Einführungs-Block hast du einzelne Container gestartet und dein erstes eigen
 | [Volumes & Persistenz](volumes.md) | Warum Container flüchtig sind, Volumes vs. Bind Mounts, Backup-Strategien | Theorie-Grundlage + Praxis Teil 1 |
 | [Umgebungsvariablen](umgebungsvariablen.md) | `-e`, `--env-file`, `.env`, Secrets-Abgrenzung | Theorie-Grundlage + Praxis Teil 1 |
 | [Docker-Netzwerke](docker-networks.md) | Bridge, User-Defined, Docker-DNS, Container-zu-Container | Theorie-Grundlage + Praxis Teil 2 |
-| [Praxis: Postgres & Adminer](praxis-multi-container.md) | Hands-on Schritt für Schritt – keine Programmier­kenntnisse nötig | Der Praxis-Teil |
+| [Praxis: Postgres & Adminer](praxis-multi-container.md) | Hands-on Schritt für Schritt – keine Programmierkenntnisse nötig | Der Praxis-Teil |
 | [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen | Training |
 | [Stolpersteine](stolpersteine.md) | Typische Probleme in allen drei Bereichen | Für die Gruppenarbeit und Besprechung |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung | Zum Wiederholen |
