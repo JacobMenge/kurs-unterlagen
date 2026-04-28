@@ -299,17 +299,20 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
     Kubernetes ist nicht Teil dieses Kurses, aber als nächste Stufe nach Docker Compose sehr wichtig.
 
-## <span id="laufzeit"></span><span id="runtime"></span>Laufzeit / Runtime
-: **Die Software-Plattform**, in der eine Anwendung ausgeführt wird. Im Docker-Kontext meint man damit fast immer die **Sprach-Runtime** im Container: Node.js, Python, Java/JVM, .NET, Go, Ruby usw. Welche Laufzeit dein Image nutzt, siehst du an der **`FROM`-Zeile** im Dockerfile:
+## <span id="laufzeitumgebung"></span><span id="laufzeit"></span><span id="runtime"></span>Laufzeitumgebung / Runtime
+: **Die Software-Plattform, in der eine Anwendung ausgeführt wird.** Im Docker-Kontext meint man damit fast immer die **Sprach-Runtime** im Container: Node.js, Python, Java/JVM, .NET, Go, Ruby usw. Welche Laufzeitumgebung dein Image nutzt, siehst du an der **`FROM`-Zeile** im Dockerfile:
 
-    | `FROM`-Zeile | Laufzeit |
+    | `FROM`-Zeile | Laufzeitumgebung |
     |---|---|
     | `FROM node:22-alpine` | Node.js 22 |
     | `FROM python:3.12-slim` | Python 3.12 |
     | `FROM eclipse-temurin:21-jre` | Java 21 (JRE) |
     | `FROM postgres:16` | keine App-Runtime – das ist ein **Service**-Image |
 
-    Achtung Doppelbedeutung: In anderen Kontexten meint „Runtime" auch die **Container-Runtime** (containerd, runc, …) – also die Software, die Container *startet*, nicht die im Container *läuft*. Aus dem Kontext lässt sich meistens unterscheiden, welche Bedeutung gerade gemeint ist.
+    !!! note "Begriffliche Feinheit: ‚Laufzeit' vs. ‚Laufzeitumgebung'"
+        Im Deutschen wird umgangssprachlich oft **„Laufzeit"** gesagt – das ist aber mehrdeutig: „Laufzeit" kann auch die **Dauer einer Ausführung** meinen („das Skript hat 2 Sekunden Laufzeit"). Fachlich präziser ist **„Laufzeitumgebung"** (= die Plattform, auf der etwas läuft) bzw. einfach das englische **„Runtime"**. In diesen Unterlagen nutzen wir „Laufzeitumgebung" oder „Runtime", wenn die Plattform gemeint ist.
+
+    Achtung Doppelbedeutung von „Runtime": In anderen Kontexten meint „Runtime" auch die **Container-Runtime** (containerd, runc, …) – also die Software, die Container *startet*, nicht die *im* Container *läuft*. Aus dem Kontext lässt sich meistens unterscheiden, welche Bedeutung gerade gemeint ist.
 
 ## <span id="layer"></span>Layer
 : **Eine Schicht in einem Docker-Image.** Jede Instruktion im Dockerfile erzeugt einen Layer, der Änderungen am Dateisystem gegenüber dem darunterliegenden Layer festhält. Layer werden zwischen Images geteilt (wenn sie identisch sind), um Platz und Bauzeit zu sparen. Beim Pullen lädt Docker nur fehlende Layer herunter.

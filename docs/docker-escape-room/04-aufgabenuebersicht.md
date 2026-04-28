@@ -76,9 +76,9 @@ cd kurs-unterlagen/apps/docker-escape-room
 **Prüft:**
 
 - Gibt es ein Dockerfile?
-- Welche Laufzeit wird im Dockerfile verwendet?
-- Welchen Port nutzt die App im Container?
-- Welche Umgebungsvariablen braucht die App?
+- Welche **Laufzeitumgebung** (Runtime) wird im Dockerfile verwendet? Schaut auf die `FROM`-Zeile.
+- Auf welchem Port **hört** die App im Container?
+- Welche Umgebungsvariablen erwartet die App?
 - Gibt es eine README-Datei?
 
 **Docker-Fokus:** Projektstruktur erkennen, Dockerfile finden, Build-Kontext verstehen.
