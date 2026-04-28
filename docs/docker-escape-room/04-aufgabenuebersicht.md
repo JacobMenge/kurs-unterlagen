@@ -62,10 +62,15 @@ Bei kleineren Gruppen können Rollen kombiniert werden – aber **immer einer** 
 
 ## Aufgabe 1 – Projekt vorbereiten
 
-Macht euch zuerst mit dem Projektordner vertraut. Der Code liegt unter:
+Macht euch zuerst mit dem Projektordner vertraut. Der Code liegt im Repository unter:
 
-```text
-apps/docker-escape-room/
+→ **[github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room](https://github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room)**
+
+Wenn ihr das Repo schon lokal geklont habt, findet ihr den Ordner direkt unter `apps/docker-escape-room/` im Projekt­verzeichnis. Andernfalls vorher klonen:
+
+```bash
+git clone https://github.com/JacobMenge/kurs-unterlagen.git
+cd kurs-unterlagen/apps/docker-escape-room
 ```
 
 **Prüft:**
