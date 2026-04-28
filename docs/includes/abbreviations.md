@@ -153,3 +153,17 @@ Shell- und System-Begriffe:
 *[EOF]: End Of File – Markierung, die ein Here-Document oder Eingabe-Ende signalisiert
 *[Shell-Redirektion]: Umleitung der Ein-/Ausgabe von Befehlen mit `>`, `>>` oder `|`
 
+API- und Web-Begriffe:
+
+*[GET]: HTTP-Methode zum Abrufen von Daten ohne Veränderung
+*[POST]: HTTP-Methode zum Senden / Erstellen von Daten mit JSON-Body
+*[REST]: Architektur-Stil für Web-APIs auf Basis von HTTP-Methoden
+*[Endpoint]: Anlaufstelle einer API – HTTP-Methode plus URL-Pfad
+*[Endpoints]: Anlaufstellen einer API (Plural)
+*[Endpunkt]: Anlaufstelle einer API – HTTP-Methode plus URL-Pfad
+*[Endpunkte]: Anlaufstellen einer API (Plural)
+*[Pool]: Connection Pool – vorgehaltene Datenbankverbindungen
+*[Retry-Logik]: Mechanismus zur Wiederholung fehlgeschlagener Operationen
+*[SERIAL]: PostgreSQL-Datentyp für automatisch hochzählende Integer-IDs
+
+

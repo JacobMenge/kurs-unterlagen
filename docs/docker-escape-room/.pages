@@ -1,11 +1,11 @@
 nav:
   - "Überblick": index.md
   - "Technologien kurz erklärt": 00-technologien-kurz-erklaert.md
-  - "Trainer-Guide": 01-trainer-guide.md
   - "Docker-Recap": 02-docker-recap.md
   - "Szenario": 03-szenario.md
   - "Aufgabenübersicht": 04-aufgabenuebersicht.md
   - "Hilfekarten": 05-hilfekarten.md
   - "Abgabe & Reflexion": 06-abgabe-und-reflexion.md
+  - "Trainer-Guide": 01-trainer-guide.md
   - "Trainer-Lösung": 07-trainer-loesung.md
   - "Übergang zu Compose": 08-uebergang-zu-compose.md

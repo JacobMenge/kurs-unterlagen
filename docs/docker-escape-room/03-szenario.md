@@ -5,6 +5,9 @@ description: "Die Container Quest GmbH braucht euch: Story, Mission, Zielarchite
 
 # Szenario: Die Container Quest GmbH braucht euch
 
+!!! note "Hinweis"
+    Die „Container Quest GmbH" ist eine **fiktive Firma** – nur eine Geschichte, damit die Übung greifbarer wird. Das Setup, das ihr baut, ist aber sehr nahe an Setups, die in echten Projekten vorkommen.
+
 Die **Container Quest GmbH** betreibt eine kleine interne Plattform für Team-Challenges. Kurz vor einer wichtigen Demo funktioniert plötzlich nichts mehr:
 
 - Die API ist nicht erreichbar.

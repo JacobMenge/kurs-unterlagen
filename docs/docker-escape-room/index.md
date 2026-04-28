@@ -125,7 +125,7 @@ Wenn du den Block linear durcharbeitest:
 7. [Trainer-Lösung](07-trainer-loesung.md) – **erst nach der Gruppenarbeit aufschlagen!**
 8. [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zur nächsten Einheit
 
-[Trainer-Guide](01-trainer-guide.md) ist nur für die Kursleitung relevant.
+[Trainer-Guide](01-trainer-guide.md) ist nur für die **Kursleitung** relevant – Teilnehmende können ihn überspringen.
 
 ---
 

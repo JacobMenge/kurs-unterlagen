@@ -194,6 +194,14 @@ Startet nun den API-Container. Die API braucht mehrere Informationen, um die Dat
 
 Testet die wichtigsten Endpunkte der API.
 
+!!! info "Kurz: was sind GET und POST?"
+    Eine API spricht **HTTP** – das gleiche Protokoll, mit dem dein Browser eine Webseite lädt. Es gibt verschiedene HTTP-Methoden:
+
+    - **GET** = „Daten abrufen, ohne etwas zu verändern". Ein normaler Browser-Aufruf ist immer GET.
+    - **POST** = „Daten senden, Server soll etwas anlegen oder verarbeiten". Wird typischerweise mit einem **JSON-Body** kombiniert: `{"team": "Alpha", ...}`.
+
+    `GET /api/entries` heißt also: „Hol mir die Liste der Einträge". `POST /api/entries` heißt: „Hier sind neue Daten, leg einen Eintrag an."
+
 **Endpunkte:**
 
 ```text
@@ -286,6 +294,13 @@ Adminer soll im Browser erreichbar sein unter `http://localhost:8080`.
 | Passwort | `questpass` |
 | Datenbank | `questdb` |
 
+!!! warning "Auch hier: nicht `localhost` als Server eintragen"
+    Adminer läuft **im Container**. Aus Sicht des Adminer-Containers ist `localhost` der Adminer-Container selbst – dort gibt's keine Datenbank.
+
+    Adminer findet die DB über den Container-Namen `quest-db`, weil beide im Netzwerk `quest-net` hängen und Docker-DNS sie dort über den Namen erreichbar macht.
+
+    Es ist genau dieselbe Falle wie bei der API in Aufgabe 6.
+
 **Prüft danach:**
 
 - Ist Adminer im Browser erreichbar?
@@ -306,8 +321,13 @@ Prüft, ob eure Daten **wirklich** erhalten bleiben.
 3. **Stoppt** den DB-Container (`docker stop quest-db`).
 4. **Entfernt** ihn (`docker rm quest-db`).
 5. **Startet** ihn erneut – mit demselben Volume!
-6. Auch den API-Container neu starten (sonst hat er noch eine alte DB-Verbindung im Pool).
+6. Auch den API-Container neu starten (siehe Erklärung unten).
 7. Prüft, ob der Eintrag noch vorhanden ist.
+
+??? info "Warum muss die API neu gestartet werden?"
+    Die API hält **Datenbank­verbindungen in einem Pool** (Connection Pool). Wenn die DB hinter ihr verschwindet und neu startet, sind diese alten Verbindungen tot – die API würde Fehler werfen, bis sie neue Verbindungen aufbaut.
+
+    Ein einfacher `docker restart quest-api` baut alle Verbindungen frisch auf. In Produktion gibt es elegantere Lösungen (Auto-Reconnect, Healthchecks), aber für die Übung ist Restart der einfachste und ehrlichste Weg.
 
 **Ziel:**
 

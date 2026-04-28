@@ -180,10 +180,15 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
     ```bash
     docker exec -it quest-api sh
     # darin:
-    nslookup quest-db   # sollte die Container-IP zurückgeben
+    getent hosts quest-db   # zeigt die IP-Adresse von quest-db, falls DNS klappt
     ```
 
-    Wenn `nslookup` nicht funktioniert (kommt nicht in jedem Image vor), zeigt `getent hosts quest-db` dasselbe Ergebnis.
+    `getent hosts` ist im Alpine-Image (Basis von `node:22-alpine`) **vorinstalliert**. Wenn ihr ein Image mit klassischem `nslookup` habt (z.B. Debian-basiert mit `dnsutils`), funktioniert auch:
+    ```bash
+    nslookup quest-db
+    ```
+
+    **Beide** geben das Gleiche zurück: die Container-IP von `quest-db` im Netzwerk. Wenn keiner der beiden Befehle ein Ergebnis liefert, ist der Container nicht im richtigen Netzwerk.
 
 ---
 

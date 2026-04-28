@@ -124,11 +124,17 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="emulation"></span>Emulation
 : **Simulation einer Hardware oder Architektur in Software.** Deutlich langsamer als native Ausführung, aber ermöglicht etwa, x86_64-Programme auf einem ARM-Mac laufen zu lassen. Docker auf Apple Silicon emuliert x86_64-Images mit Rosetta 2; QEMU kann ganze Prozessor-Architekturen emulieren.
 
+## <span id="endpoint"></span>Endpoint
+: **Konkrete Anlaufstelle einer API** – die Kombination aus HTTP-Methode (`GET`, `POST`, …) und URL-Pfad. Beispiele: `GET /health`, `POST /api/entries`, `GET /api/scoreboard`. Eine API hat in der Regel mehrere Endpoints, jeder davon erfüllt eine bestimmte Aufgabe (Daten holen, Daten speichern, Status prüfen).
+
 ## <span id="esxi"></span>ESXi
 : **Typ-1-Hypervisor von VMware** (heute Broadcom). Läuft direkt auf der Hardware, ohne klassisches Host-OS. Klassisch im Enterprise-Rechenzentrum, wo viele VMs pro Server betrieben werden sollen.
 
 ## <span id="flask"></span>Flask
 : **Leichtgewichtiges Python-Web-Framework.** Eignet sich für kleine bis mittlere Web-Anwendungen und APIs. In diesem Kurs nutzen wir Flask im Compose-Praxisteil, um eine kleine App zu bauen, die mit einer Postgres-Datenbank spricht.
+
+## <span id="gast-os"></span>Gast / Gast-OS
+: **Das Betriebssystem, das innerhalb einer virtuellen Maschine läuft.** Aus Sicht des Gastes ist er auf einem echten Rechner – in Wahrheit sieht er nur virtualisierte Hardware, die der Hypervisor bereitstellt. Ein Host kann mehrere Gäste gleichzeitig betreiben.
 
 ## <span id="gatekeeper"></span>Gatekeeper
 : **Sicherheits­mechanismus von macOS**, der beim ersten Start einer heruntergeladenen App fragt, ob du sie wirklich öffnen willst. Bei Docker Desktop und Multipass muss man oft einmal in **Systemeinstellungen → Datenschutz & Sicherheit** bestätigen, dass die App starten darf.
@@ -136,11 +142,11 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="gateway"></span>Gateway
 : **Netzwerk-Gerät oder -Adresse, über die dein Rechner „nach draußen" erreicht**, was nicht im lokalen Netz liegt. Zu Hause ist das meist dein Router. In einem Docker-Bridge-Netzwerk ist der Gateway eine IP wie `172.17.0.1`, die den Hostbereich repräsentiert.
 
+## <span id="get"></span>GET (HTTP-Methode)
+: **HTTP-Methode zum Abrufen von Daten** – ohne dass dabei etwas verändert wird. Wenn du im Browser eine Seite aufrufst, schickt der Browser einen `GET`-Request. APIs beantworten `GET`-Anfragen typischerweise mit einer Liste oder einem einzelnen Datensatz im JSON-Format. Beispiel: `GET /api/entries` liefert alle Einträge.
+
 ## <span id="gui"></span>GUI (Graphical User Interface)
 : **Grafische Benutzeroberfläche** mit Fenstern, Knöpfen, Icons. Gegenstück zur CLI. Klicken statt Tippen.
-
-## <span id="gast-os"></span>Gast / Gast-OS
-: **Das Betriebssystem, das innerhalb einer virtuellen Maschine läuft.** Aus Sicht des Gastes ist er auf einem echten Rechner – in Wahrheit sieht er nur virtualisierte Hardware, die der Hypervisor bereitstellt. Ein Host kann mehrere Gäste gleichzeitig betreiben.
 
 ## <span id="hardware-beschleunigung"></span>Hardware-Beschleunigung
 : **Wenn der Prozessor spezielle Instruktionen hat, die eine Aufgabe direkt ausführen können** – statt sie in Software zu simulieren. Moderne Intel/AMD-CPUs haben Virtualisierungs-Beschleunigung (VT-x / AMD-V), die VMs deutlich schneller macht. Ohne diese Beschleunigung müsste die VM emuliert werden, was viel langsamer ist.
@@ -192,6 +198,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="json"></span>JSON (JavaScript Object Notation)
 : **Schlankes Datenaustausch-Format**, das sowohl Mensch als auch Maschine gut lesen können. Docker verwendet JSON unter anderem für `docker inspect`-Ausgaben und Konfigurationsdateien. Kennzeichen: geschweifte Klammern, Anführungszeichen bei Keys, Kommas zwischen Einträgen.
+
+## <span id="json-body"></span>JSON Body
+: **Daten im JSON-Format, die im Body eines HTTP-Requests** mitgesendet werden – typischerweise bei `POST` oder `PUT`. Beispiel: `{"team":"Alpha","score":25}`. Auf Server-Seite parsen Frameworks wie Express diesen Body automatisch (Middleware: `express.json()`), sodass die Anwendung darauf zugreifen kann.
 
 ## <span id="kernel"></span>Kernel
 : **Der zentrale Teil eines Betriebssystems.** Verwaltet Hardware-Zugriff, Prozesse, Speicher, Dateisystem, Netzwerk. Bei Linux: der Linux-Kernel, bei macOS: xnu/Darwin, bei Windows: NT. Virtuelle Maschinen haben jeweils einen eigenen Kernel, Container teilen sich den Kernel des Hosts – das ist der fundamentale Unterschied zwischen VM und Container.
@@ -271,6 +280,12 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="podman"></span>Podman
 : **Container-Engine von Red Hat als Alternative zu Docker.** Arbeitet ohne zentralen Daemon – Container laufen direkt unter dem aufrufenden User. Mit `alias docker=podman` meist Drop-in-Ersatz. Gut für lizenz­sensitive Umgebungen und strenge Security-Anforderungen.
 
+## <span id="pool"></span>Connection Pool / Pool
+: **Vorgehaltener Vorrat an Datenbank­verbindungen**, den eine Anwendung intern verwaltet. Statt für jede Anfrage eine neue Verbindung aufzubauen (langsam), nimmt die App eine offene Verbindung aus dem Pool, nutzt sie und gibt sie zurück. Erhöht die Performance deutlich. In der Beispiel-App des Escape Rooms macht das die `pg`-Library mit `new Pool(...)`. Wichtig: Wenn die Datenbank neu startet, sind die alten Verbindungen kaputt – die App muss neu starten oder reconnecten.
+
+## <span id="post"></span>POST (HTTP-Methode)
+: **HTTP-Methode zum Senden/Erstellen von Daten.** Anders als `GET` enthält ein `POST`-Request einen Body – meistens JSON oder Form-Daten. Beispiel: `POST /api/entries` mit Body `{"team":"Alpha","name":"Drache","score":25}` legt einen neuen Eintrag an. Server bestätigt typischerweise mit Status `201 Created`.
+
 ## <span id="postgres"></span>PostgreSQL / Postgres
 : **Mächtige, frei verfügbare relationale Datenbank.** Sehr ausgereift, extrem erweiterbar, in vielen Projekten die erste Wahl. In Docker als offizielles Image `postgres` verfügbar und wird in den Kurs-Praxisteilen genutzt. Der Service hört standardmäßig auf Port 5432.
 
@@ -292,6 +307,12 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="repository"></span>Repository / Repo
 : **Zentraler Ablageort für Code oder Pakete.** Bei Git: ein Repository enthält Quellcode und Historie (z.B. auf GitHub). Bei Paketmanagern: ein Repository hält Software-Pakete bereit (z.B. Debians Main-Repo). Bei Docker: ein Repository ist ein Image-Name in einer Registry (z.B. `library/nginx`), kann viele Tags haben.
 
+## <span id="rest"></span>REST / RESTful API
+: **Architektur-Stil für Web-APIs**, der HTTP-Methoden nutzt, um Ressourcen zu adressieren. Idee: jede Ressource hat eine URL (`/api/entries`, `/api/scoreboard`), und HTTP-Methoden (`GET`, `POST`, `PUT`, `DELETE`) drücken aus, was mit ihr passieren soll. Eine API, die diesem Stil folgt, heißt **RESTful**. Beispiel: `GET /api/entries` holt die Liste, `POST /api/entries` legt einen Eintrag an.
+
+## <span id="retry-logik"></span>Retry-Logik
+: **Mechanismus, eine fehlgeschlagene Operation mehrfach zu wiederholen** – meist mit Wartezeit zwischen den Versuchen. Sinnvoll bei Operationen, die auf einen anderen Dienst warten müssen. Beispiel aus dem Escape Room: Die API kann erst loslegen, wenn die Datenbank bereit ist. Sie versucht es 20-mal, mit 1 Sekunde Wartezeit – statt sofort aufzugeben. Praktisch in Container-Setups, wo Start­reihenfolgen nicht garantiert sind.
+
 ## <span id="rosetta-2"></span>Rosetta 2
 : **Apples Übersetzer**, der x86_64-Software auf Apple-Silicon-Rechnern lauffähig macht. Relevant für Docker, wenn ein Image nur in x86_64 vorliegt und auf M-Macs laufen soll. Installation: `softwareupdate --install-rosetta --agree-to-license`. Docker Desktop ab Version 4.25 nutzt Rosetta 2 direkt für die Container-Emulation, was deutlich schneller ist als QEMU-Emulation.
 
@@ -306,6 +327,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="secret"></span>Secret
 : **Vertrauliche Information** (Passwort, API-Key, Zertifikat), die nicht ins Image gehört und nicht in Git landen darf. Zur Laufzeit über Umgebungs­variablen, Volumes oder dedizierte Secret-Manager übergeben. Ein geleaktes Secret in Git gilt als kompromittiert – es muss rotiert werden.
+
+## <span id="serial"></span>SERIAL (PostgreSQL)
+: **Datentyp in PostgreSQL für automatisch hochzählende ganze Zahlen.** Wird typischerweise für Primary Keys verwendet: `id SERIAL PRIMARY KEY`. Bei jedem Insert wird automatisch ein neuer, eindeutiger Wert vergeben (1, 2, 3, …). So musst du dir um IDs nicht selbst kümmern. Andere Datenbanken haben ähnliche Typen (`AUTO_INCREMENT` bei MySQL, `IDENTITY` bei MS-SQL).
 
 ## <span id="service"></span>Service (Compose)
 : **In Compose ein Eintrag unter `services:`** – konzeptuell eine Container-Art, die beliebig oft instanziiert werden kann (z.B. mit `--scale`). Der Service-Name ist gleichzeitig der DNS-Name im Compose-Netzwerk: `db`, `app`, `cache`.
