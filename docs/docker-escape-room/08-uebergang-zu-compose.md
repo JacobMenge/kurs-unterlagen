@@ -105,6 +105,6 @@ In der nächsten Einheit:
 
 - [Docker Compose – Einführung](../docker-compose/einfuehrung.md)
 - [Compose – Grundlagen](../docker-compose/grundlagen.md)
-- [Praxis: Compose-WebApp](../docker-compose/praxis-webapp.md)
+- [Praxis: erste compose.yaml](../docker-compose/praxis-webapp.md)
 
-Ihr werdet **denselben Stack** wie heute – Postgres + API + Adminer – mit Compose neu aufbauen. Und ihr werdet sehen, wie wenig Tipparbeit das ist, wenn man das einmal einmal in einer Datei beschrieben hat.
+Ihr werdet **den Postgres + Adminer-Stack** als deklarative `compose.yaml` neu aufbauen. Und ihr werdet sehen, wie wenig Tipparbeit das ist, wenn man das einmal in einer Datei beschrieben hat.

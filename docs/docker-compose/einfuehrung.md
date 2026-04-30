@@ -357,4 +357,4 @@ flowchart LR
 ## Weiterlesen
 
 - [Compose – Grundlagen](grundlagen.md) – jetzt die Syntax im Detail
-- [Praxis: Compose-WebApp](praxis-webapp.md) – der Stack aus der manuellen Praxis, jetzt sauber mit Compose
+- [Praxis: erste compose.yaml](praxis-webapp.md) – der Stack aus der manuellen Praxis, jetzt sauber mit Compose (45 min)

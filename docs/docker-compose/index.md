@@ -1,6 +1,6 @@
 ---
 title: "Docker Compose (Block 4)"
-description: "Der Compose-Block: von Einzelbefehlen zu deklarativen Multi-Container-Stacks. In 3 Stunden vom ersten docker-compose up zur eigenen Compose-WebApp."
+description: "Der Compose-Block: 2 Stunden Theorie zu deklarativen Multi-Container-Stacks plus 45 Minuten Hands-on – die erste eigene compose.yaml mit Postgres und Adminer."
 ---
 
 # Docker Compose (Block 4)
@@ -11,26 +11,25 @@ Im [Aufbau-Block](../docker-aufbau/index.md) hast du einen Postgres-Container mi
 
 !!! abstract "Was du nach diesen 3 Stunden kannst"
     - erklären, **warum Compose entstanden ist** und wie es sich von `docker run` unterscheidet
-    - eine `compose.yaml` für einen Multi-Container-Stack **selbst schreiben**
-    - Services, Volumes, Netzwerke und `depends_on` mit Healthchecks deklarieren
-    - einen Stack mit einem eigenen App-Container (Dockerfile + Python + Postgres) **mit Compose bauen und starten**
+    - die `compose.yaml`-Syntax lesen und schreiben (`services`, `volumes`, `ports`, `environment`, `depends_on`, `healthcheck`)
+    - eine **eigene `compose.yaml`** für Postgres + Adminer aufsetzen und starten
+    - mit den wichtigsten Befehlen (`up`, `down`, `logs`, `ps`, `exec`) sicher umgehen
 
 ---
 
-## Zeitplan – 3 Stunden
+## Zeitplan – 3 Stunden (2h Theorie + 45 min Praxis)
 
 !!! note "Für Präsenzkurs und Selbstlerner"
-    Der folgende Zeitplan ist für den **3-Stunden-Präsenzkurs** gedacht. Selbstlerner ignorieren die Zeiten und arbeiten die Inhalte in ihrem Tempo durch – der Aufbau funktioniert beides.
+    Der folgende Zeitplan ist für den **3-Stunden-Präsenzkurs** gedacht – **2 Stunden Theorie**, dazwischen Pausen, dann **45 Minuten Hands-on**. Selbstlerner ignorieren die Zeiten und arbeiten die Inhalte in ihrem Tempo durch – der Aufbau funktioniert beides.
 
 | Zeit | Was passiert | Seite |
 |------|--------------|-------|
-| **0:00 – 0:15** | Begrüßung, Rückblick Block 3 (manuell Stress) | — |
-| **0:15 – 0:40** | Theorie-Folien: imperativ vs. deklarativ, compose.yaml, services, volumes, networks | [Einführung](einfuehrung.md) · [Grundlagen](grundlagen.md) |
-| **0:40 – 1:30** | Praxis 1: Postgres + Adminer als Compose-Stack nachbauen | [Praxis – Teil 1](praxis-webapp.md) |
-| **1:30 – 1:40** | Pause | — |
-| **1:40 – 2:20** | Praxis 2: Eigene Flask-App mit Dockerfile, per Compose integriert | [Praxis – Teil 2](praxis-webapp.md) |
-| **2:20 – 2:45** | Praxis 3: `depends_on` + Healthcheck, `.env`, Profiles | [Praxis – Teil 3](praxis-webapp.md) |
-| **2:45 – 3:00** | Probleme besprechen, Ausblick | [Stolpersteine](stolpersteine.md) · [Merksätze](merksaetze.md) |
+| **0:00 – 0:05** | Begrüßung, kurzer Rückblick auf Block 3 | — |
+| **0:05 – 1:00** | **Theorie 1**: Einführung – das Problem mit `docker run`, imperativ vs. deklarativ, V1 vs. V2, die wichtigsten Befehle | [Einführung](einfuehrung.md) |
+| **1:00 – 1:10** | Pause | — |
+| **1:10 – 2:05** | **Theorie 2**: Grundlagen – `compose.yaml`-Syntax: `services`, `image`/`build`, `ports`, `environment`, `volumes`, `depends_on`, `healthcheck`, `.env`, `profiles` | [Grundlagen](grundlagen.md) |
+| **2:05 – 2:15** | Pause + Übergang zur Praxis | — |
+| **2:15 – 3:00** | **Praxis** (45 min): die erste eigene `compose.yaml` – Postgres + Adminer als deklarativer Stack | [Praxis](praxis-webapp.md) |
 
 ---
 
@@ -40,8 +39,8 @@ Im [Aufbau-Block](../docker-aufbau/index.md) hast du einen Postgres-Container mi
 |-------|--------|
 | [Einführung](einfuehrung.md) | Motivation, imperativ vs. deklarativ, V1 vs. V2, Befehls-Übersicht |
 | [Grundlagen](grundlagen.md) | Komplette `compose.yaml`-Syntax Schritt für Schritt |
-| [Praxis: WebApp mit Compose](praxis-webapp.md) | Der Hands-on – Flask-App + Postgres + Adminer als Compose-Stack |
-| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen |
+| [Praxis: erste compose.yaml](praxis-webapp.md) | 45-Minuten-Hands-on – Postgres + Adminer als simpler Compose-Stack |
+| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen (inkl. WordPress, Flask, Tech-Stack) |
 | [Stolpersteine](stolpersteine.md) | Typische Compose-Probleme |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung |
 

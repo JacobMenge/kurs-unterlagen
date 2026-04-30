@@ -1,228 +1,144 @@
 ---
-title: "Praxis: Compose-WebApp"
-description: "Den Multi-Container-Stack aus der manuellen Praxis komplett mit docker compose neu bauen – und sehen, wie viel einfacher das Leben wird."
+title: "Praxis: erste compose.yaml"
+description: "In 45 Minuten von docker run zur eigenen compose.yaml: Postgres + Adminer als deklarativer Stack – die supersimple Einstiegs-Praxis."
 ---
 
-# Praxis: WebApp mit Docker Compose
+# Praxis: erste compose.yaml
 
 !!! abstract "Ziel"
-    Am Ende dieser Anleitung hast du:
+    In **45 Minuten** baust du den Postgres + Adminer-Stack aus Block 3 nach – diesmal **nicht** mit fünf `docker run`-Befehlen, sondern mit **einer einzigen `compose.yaml`**.
 
-    - einen Stack mit **eigener Flask-App + Postgres + Adminer** mit **einer** `compose.yaml` gebaut
-    - gelernt, wie `docker compose up`, `down`, `logs`, `ps`, `exec` im Alltag funktionieren
-    - gesehen, wie **`depends_on` + `healthcheck`** den „DB noch nicht bereit"-Fehler eliminiert
-    - ein Gefühl dafür, wie wenig Aufwand das Aufsetzen eines Stacks mit Compose ist
+    Am Ende kannst du:
+
+    - eine simple `compose.yaml` mit zwei Services lesen und schreiben
+    - einen Stack mit `docker compose up -d` starten und mit `docker compose down` abbauen
+    - Status, Logs und Container-Shells über Compose-Befehle erreichen
+    - die Persistenz eines benannten Volumes nachvollziehen
 
 !!! info "Anknüpfung an Block 3"
-    In [Block 3](../docker-aufbau/index.md) hast du mit `docker run` Postgres + Adminer zusammengeschraubt. Heute schreiben wir denselben Stack als `compose.yaml` und erweitern ihn um eine **eigene Flask-App**, die mit der Datenbank spricht.
+    In [Block 3](../docker-aufbau/praxis-multi-container.md) hast du Postgres + Adminer **manuell** zusammengeschraubt: Netzwerk anlegen, Volume anlegen, beide Container mit vielen Flags starten. Heute übersetzen wir genau diesen Stack in eine deklarative Compose-Datei. Du brauchst **kein eigenes Dockerfile**, **keinen Build**, **keine Programmierung** – nur fertige Images und eine kleine YAML-Datei.
 
 ## Voraussetzungen
 
 - Docker und `docker compose` laufen (`docker compose version` klappt). Siehe [Installation](../docker/installation.md).
-- Ein Editor.
-- Ca. **45–60 Minuten** Zeit für die volle Praxis.
+- Ein Editor (VSCode, Notepad++, vim, was du magst).
+- Ca. **45 Minuten** Zeit.
 - Falls aus Block 3 noch Container laufen, einmal aufräumen:
 
     === "macOS / Linux"
         ```bash
-        docker stop adminer db app 2>/dev/null
-        docker rm   adminer db app 2>/dev/null
+        docker stop adminer db 2>/dev/null
+        docker rm   adminer db 2>/dev/null
         docker network rm kurs-netz 2>/dev/null
         ```
 
     === "Windows PowerShell"
         ```powershell
-        docker stop adminer db app 2>$null
-        docker rm   adminer db app 2>$null
+        docker stop adminer db 2>$null
+        docker rm   adminer db 2>$null
         docker network rm kurs-netz 2>$null
         ```
 
     === "Windows CMD"
         ```cmd
-        docker stop adminer db app 2>nul
-        docker rm adminer db app 2>nul
+        docker stop adminer db 2>nul
+        docker rm adminer db 2>nul
         docker network rm kurs-netz 2>nul
         ```
 
+    (Fehler „No such container" sind okay – heißt nur, dass nichts aufzuräumen war.)
+
 ---
 
-## Schritt 1 – Projektordner
+## Was wir bauen
 
-Wir starten mit einem frischen Ordner:
+```mermaid
+flowchart LR
+  USER(["Dein Browser<br/>localhost:8080"])
+  ADMIN["Adminer<br/>Service"]
+  DB["PostgreSQL<br/>Service"]
+  VOL[("Volume<br/>postgres-daten")]
+
+  USER <== "HTTP" ==> ADMIN
+  ADMIN <== "SQL (Port 5432)" ==> DB
+  DB <-. "liest/schreibt" .-> VOL
+```
+
+**Zwei Services, ein Volume, eine `compose.yaml`** – mehr nicht.
+
+---
+
+## Schritt 1 – Projektordner anlegen
+
+Wir starten in einem frischen Ordner:
 
 === "macOS / Linux"
     ```bash
-    mkdir kurs-compose
-    cd kurs-compose
+    mkdir -p ~/kurs-compose
+    cd ~/kurs-compose
     ```
 
 === "Windows PowerShell"
     ```powershell
-    mkdir kurs-compose
-    cd kurs-compose
+    mkdir $HOME\kurs-compose
+    cd $HOME\kurs-compose
     ```
 
 === "Windows CMD"
     ```cmd
-    mkdir kurs-compose
-    cd kurs-compose
+    mkdir %USERPROFILE%\kurs-compose
+    cd %USERPROFILE%\kurs-compose
     ```
 
 ---
 
-## Schritt 2 – Python-App und Dockerfile
+## Schritt 2 – `compose.yaml` schreiben
 
-Die beiden Dateien kennst du schon aus der manuellen Einheit. Erstelle sie wieder:
-
-**`app.py`:**
-
-```python
-import os
-from flask import Flask
-import psycopg
-
-app = Flask(__name__)
-DATABASE_URL = os.environ["DATABASE_URL"]
-
-
-def init_db():
-    with psycopg.connect(DATABASE_URL) as conn:
-        with conn.cursor() as cur:
-            cur.execute("""
-                CREATE TABLE IF NOT EXISTS zaehler (
-                  id INT PRIMARY KEY,
-                  wert INT
-                );
-            """)
-            cur.execute("""
-                INSERT INTO zaehler (id, wert) VALUES (1, 0)
-                ON CONFLICT (id) DO NOTHING;
-            """)
-            conn.commit()
-
-
-@app.route("/")
-def index():
-    with psycopg.connect(DATABASE_URL) as conn:
-        with conn.cursor() as cur:
-            cur.execute("UPDATE zaehler SET wert = wert + 1 WHERE id = 1 RETURNING wert;")
-            (wert,) = cur.fetchone()
-            conn.commit()
-    return f"<h1>Hallo Kurs!</h1><p>Diese Seite wurde {wert} mal geöffnet.</p>"
-
-
-if __name__ == "__main__":
-    init_db()
-    app.run(host="0.0.0.0", port=8000)
-```
-
-**`requirements.txt`:**
-
-```text
-flask==3.0.3
-psycopg[binary]==3.2.1
-```
-
-**`Dockerfile`:**
-
-```dockerfile
-FROM python:3.12-slim
-
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY app.py .
-
-EXPOSE 8000
-
-CMD ["python", "app.py"]
-```
-
----
-
-## Schritt 3 – `.env` mit Secrets
-
-Eine Datei `.env` im Projektordner:
-
-```
-POSTGRES_USER=kurs
-POSTGRES_PASSWORD=einGutesPasswort
-POSTGRES_DB=kursdaten
-```
-
-!!! danger "Nicht in Git einchecken!"
-    Lege jetzt gleich eine `.gitignore` an mit:
-
-    ```
-    .env
-    ```
-
-    Damit die Secrets nie ins Repo wandern. Siehe [Umgebungsvariablen → .env und Git](../docker-aufbau/umgebungsvariablen.md).
-
-Zusätzlich eine `.env.example` (ohne echte Werte), die du einchecken kannst:
-
-```
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-POSTGRES_DB=
-```
-
-So sieht jeder, der das Projekt klont, welche Variablen er ausfüllen muss.
-
----
-
-## Schritt 4 – Die `compose.yaml`
-
-Jetzt der eigentliche Unterschied zu früher. Erstelle eine Datei namens `compose.yaml`:
+Lege im aktuellen Ordner eine Datei namens **`compose.yaml`** an (genau so geschrieben, ohne Bindestrich, mit `.yaml`-Endung). Inhalt:
 
 ```yaml
 services:
 
   db:
     image: postgres:16
-    restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: kurs
+      POSTGRES_PASSWORD: geheim
+      POSTGRES_DB: kursdaten
     volumes:
       - postgres-daten:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-      start_period: 10s
 
-  app:
-    build: .
-    restart: unless-stopped
-    environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+  adminer:
+    image: adminer
     ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
+      - "8080:8080"
 
 volumes:
   postgres-daten:
 ```
 
-Lass uns das durchgehen:
+Lass uns das **Zeile für Zeile** durchgehen:
 
-- **`services:`** hat zwei Einträge: `db` und `app`.
-- Die `db` nutzt `postgres:16`, hat einen Healthcheck und ein benanntes Volume.
-- Die `app` wird aus dem lokalen `Dockerfile` gebaut (`build: .`).
-- Die `${...}`-Variablen kommen aus der `.env`, die Compose automatisch liest.
-- `depends_on` mit `condition: service_healthy` sorgt dafür, dass die App **erst startet, wenn die DB gesund ist**.
-- Das Top-Level-`volumes:` deklariert `postgres-daten`, damit Compose weiß, dass das Volume von ihm verwaltet werden soll.
+| Block | Bedeutung |
+|-------|-----------|
+| `services:` | Top-Level – hier listest du deine Container auf |
+| `db:` | Service-Name (du wählst ihn frei). Gleichzeitig der **DNS-Name**, unter dem andere Services ihn finden |
+| `image: postgres:16` | offizielles Postgres-Image, Version 16 (kein eigenes Dockerfile nötig) |
+| `environment:` | drei ENV-Variablen, die Postgres beim ersten Start auswertet (User, Passwort, DB) |
+| `volumes:` *(unter `db`)* | benanntes Volume `postgres-daten` ins Datenverzeichnis von Postgres mounten |
+| `adminer:` | zweiter Service mit dem `adminer`-Image |
+| `ports:` | Host-Port `8080` → Container-Port `8080` (Adminer-Default) |
+| `volumes:` *(Top-Level)* | das benannte Volume `postgres-daten` deklarieren, damit Compose es kennt und verwaltet |
+
+!!! warning "YAML ist pingelig"
+    YAML erlaubt **keine Tabs** für Einrückung – nur **Leerzeichen**. Pro Ebene **2 Leerzeichen**. Wenn dein Editor Tabs einfügt, schalte das auf „Leerzeichen statt Tabs" um. Ein moderner Editor mit YAML-Highlighting (z.B. VSCode) zeigt Einrückungsfehler farbig an.
+
+!!! tip "Kein `ports:` bei der DB?"
+    Stimmt – Absicht. Adminer findet die Datenbank **innerhalb des Compose-Netzwerks** über den Service-Namen `db`. Nach außen (auf den Host) muss Postgres nicht erreichbar sein, also auch kein Port-Mapping. **Weniger Ports = weniger Angriffsfläche.**
 
 ---
 
-## Schritt 5 – Stack starten
+## Schritt 3 – Stack starten
 
 Ein einziger Befehl:
 
@@ -230,323 +146,283 @@ Ein einziger Befehl:
 docker compose up -d
 ```
 
-Das passiert jetzt:
+Was Compose jetzt automatisch macht:
 
-1. Compose liest die `compose.yaml`.
-2. Liest die `.env` und ersetzt `${POSTGRES_PASSWORD}` usw.
-3. Legt ein Netzwerk `kurs-compose_default` an.
-4. Legt das Volume `kurs-compose_postgres-daten` an (falls nicht schon vorhanden).
-5. Baut das App-Image aus deinem Dockerfile.
-6. Startet den `db`-Container.
-7. Wartet, bis der Healthcheck grün ist.
-8. Startet den `app`-Container.
+1. liest die `compose.yaml`
+2. legt ein **Netzwerk** `kurs-compose_default` an
+3. legt das **Volume** `kurs-compose_postgres-daten` an (falls noch nicht vorhanden)
+4. zieht die Images `postgres:16` und `adminer` (falls noch nicht lokal)
+5. startet beide Container im selben Netzwerk
+6. gibt dir die Kontrolle zurück (dank `-d` = detached)
 
-Du siehst in der Ausgabe Zeile für Zeile, was passiert. Das Ganze dauert beim ersten Mal ca. 1 Minute (wegen `pip install` im Build). Beim zweiten Mal Sekunden.
+Beim ersten Mal dauert der Pull der Images ein paar Sekunden – beim zweiten Aufruf geht alles in Sekundenbruchteilen.
 
 ---
 
-## Schritt 6 – Prüfen, was läuft
+## Schritt 4 – Status prüfen
 
 ```bash
 docker compose ps
 ```
 
-Ausgabe (gekürzt):
+Erwartete Ausgabe (gekürzt):
 
 ```text
-NAME                   IMAGE                STATUS                     PORTS
-kurs-compose-app-1     kurs-compose-app     Up 5 seconds               0.0.0.0:8000->8000/tcp
-kurs-compose-db-1      postgres:16          Up 20 seconds (healthy)    5432/tcp
+NAME                       IMAGE           STATUS         PORTS
+kurs-compose-adminer-1     adminer         Up 5 seconds   0.0.0.0:8080->8080/tcp
+kurs-compose-db-1          postgres:16     Up 5 seconds   5432/tcp
 ```
 
-Beide laufen. Der Status `(healthy)` zeigt, dass der Healthcheck greift.
+Beide Services laufen. Kein `kurs-netz` mehr von Hand anlegen, kein `--network`-Flag im `docker run`, keine vergessenen ENV-Variablen.
 
 ---
 
-## Schritt 7 – Im Browser öffnen
+## Schritt 5 – Adminer im Browser öffnen
 
-<http://localhost:8000>
+<http://localhost:8080>
 
-```
-Hallo Kurs!
-Diese Seite wurde 1 mal geöffnet.
-```
+Die Login-Maske erscheint. Felder ausfüllen:
 
-Refresh: die Zahl geht hoch.
+| Feld | Wert |
+|------|------|
+| **System** | PostgreSQL |
+| **Server** | `db` |
+| **Benutzer** | `kurs` |
+| **Passwort** | `geheim` |
+| **Datenbank** | `kursdaten` |
+
+Klick auf **Anmelden**.
+
+!!! tip "Wichtig: Server = `db`"
+    Im Server-Feld steht **`db`** – der **Service-Name** aus der `compose.yaml`. Compose hat dafür automatisch einen DNS-Eintrag im internen Netzwerk angelegt. Kein `localhost`, kein `127.0.0.1`, keine IP.
+
+Wenn der Login klappt, landest du im Adminer-Dashboard mit der leeren Datenbank `kursdaten`. **Das ist der Beweis, dass beide Services miteinander reden** – ohne dass du irgendwo eine IP eingetragen hättest.
 
 ---
 
-## Schritt 8 – Logs schauen
+## Schritt 6 – Eine Tabelle anlegen
 
-Alle Logs zusammen, farbig pro Service:
+In Adminer oben auf **SQL-Kommando** klicken und folgenden Code eintragen:
+
+```sql
+CREATE TABLE teilnehmer (
+  id SERIAL PRIMARY KEY,
+  name TEXT,
+  hobby TEXT
+);
+
+INSERT INTO teilnehmer (name, hobby) VALUES
+  ('Anna', 'Klettern'),
+  ('Ben', 'Kochen'),
+  ('Carla', 'Segeln');
+```
+
+**Ausführen** klicken. Links erscheint die Tabelle `teilnehmer`. Klick drauf → **Auswählen** → du siehst die drei Datensätze.
+
+---
+
+## Schritt 7 – Logs schauen
+
+In einem zweiten Terminal (oder neben dem Browser):
 
 ```bash
 docker compose logs -f
 ```
 
-`-f` bedeutet „follow", also live mitlesen. `Ctrl+C` beendet nur das Mitlesen, nicht die Container.
+`-f` bedeutet „follow" – live mitlesen. Du siehst die Logs **beider** Services farbig nebeneinander. `Ctrl+C` beendet nur das Mitlesen, nicht die Container.
 
-Nur die App:
+Nur die Logs von einem Service:
 
 ```bash
-docker compose logs -f app
+docker compose logs -f db
 ```
 
-Nur die DB, letzte 50 Zeilen:
+Nur die letzten 20 Zeilen von Adminer:
 
 ```bash
-docker compose logs --tail 50 db
+docker compose logs --tail 20 adminer
 ```
 
 ---
 
-## Schritt 9 – In einen Service springen
+## Schritt 8 – In einen Container reinspringen
 
-In die App:
-
-```bash
-docker compose exec app bash
-```
-
-Jetzt bist du in der App-Shell. `exit` bringt dich zurück.
-
-In die Datenbank direkt mit `psql`:
+Direkt eine Postgres-Shell öffnen:
 
 ```bash
 docker compose exec db psql -U kurs -d kursdaten
 ```
 
-In der `psql`-Shell:
+Im `psql`-Prompt:
 
 ```sql
-SELECT * FROM zaehler;
+SELECT * FROM teilnehmer;
 \q
 ```
 
+`\q` verlässt `psql`.
+
+Du kannst auch eine simple Shell im Adminer-Container öffnen:
+
+```bash
+docker compose exec adminer sh
+```
+
+`exit` bringt dich zurück.
+
 ---
 
-## Schritt 10 – Persistenz-Test (wie vorher, jetzt einfacher)
+## Schritt 9 – Persistenz-Test
 
-Wir werfen alles weg – aber **nur Container, nicht Volume**:
+Jetzt der spannende Teil. Wir werfen **die Container** weg – aber **nicht das Volume**:
 
 ```bash
 docker compose down
 ```
 
-Check, dass alles weg ist:
+Was jetzt weg ist:
+
+- beide Container
+- das `kurs-compose_default`-Netzwerk
+
+Was **noch da ist**:
 
 ```bash
 docker compose ps        # leer
-docker volume ls         # postgres-daten noch da
+docker volume ls         # postgres-daten ist noch da!
 ```
 
-Jetzt wieder hoch:
+Jetzt einfach wieder hochfahren:
 
 ```bash
 docker compose up -d
 ```
 
-Browser neu laden: der Zähler läuft beim alten Stand weiter. **Das Volume hat überlebt, Compose kennt es.**
+Browser neu laden, in Adminer einloggen – die **Tabelle `teilnehmer` ist noch da**, mit allen drei Datensätzen.
+
+!!! success "Das ist der Persistenz-Beweis"
+    Container sind neu, Volume ist dasselbe. Genau wie in Block 3 – nur dass du diesmal nicht zwei lange `docker run`-Befehle tippen musstest, sondern nur **einen** `docker compose up -d`.
 
 ---
 
-## Schritt 11 – Änderungen am App-Code
+## Schritt 10 – Aufräumen
 
-Ändere eine Zeile in `app.py`, z.B. die Begrüßung:
-
-```python
-return f"<h1>Hallo Jacob!</h1><p>Diese Seite wurde {wert} mal geöffnet.</p>"
-```
-
-Dann:
-
-```bash
-docker compose up -d --build
-```
-
-`--build` erzwingt ein neues App-Image. Der DB-Container bleibt unangetastet (keine Änderung an seinem Eintrag), nur `app` wird neu gebaut und ersetzt.
-
-Browser neu laden: die neue Begrüßung erscheint, der Zähler läuft weiter.
-
----
-
-## Schritt 12 – Komplettes Aufräumen
-
-Wenn du die Übung beendest und **alle Daten** wegräumen willst:
+Wenn du alles loswerden willst (inkl. der Daten):
 
 ```bash
 docker compose down -v
 ```
 
-Das `-v` löscht auch die Volumes. Danach `docker compose up -d` würde mit einer frischen DB starten (Zähler bei 0).
+Das `-v` löscht auch das benannte Volume. Danach ist wirklich nichts mehr von diesem Stack übrig.
 
-Falls du das App-Image auch loswerden willst:
-
-```bash
-docker rmi kurs-compose-app
-```
+!!! danger "`-v` ist endgültig"
+    Volumes weg = Daten weg. Im Alltag immer überlegen, ob du wirklich `-v` brauchst. Für unseren Übungs-Stack ist das okay – in Produktion oft fatal.
 
 ---
 
 ## Vergleich: manuell vs. Compose
 
-Was war nötig?
+Was du in Block 3 noch von Hand getippt hast – und wie viel Compose dir abnimmt:
 
-| Schritt | Manuell | Compose |
-|---------|---------|---------|
+| Schritt | Manuell (Block 3) | Compose (heute) |
+|---------|-------------------|-----------------|
 | Netzwerk anlegen | `docker network create kurs-netz` | automatisch |
-| DB starten | `docker run -d --name db --network … -v … -e … postgres:16` | in `compose.yaml` deklariert |
-| App bauen | `docker build -t kurs-app:1.0 .` | `build: .` |
-| App starten | `docker run -d --name app --network … -e … -p … kurs-app:1.0` | in `compose.yaml` deklariert |
-| Starten gesamt | 3 Befehle + Ausharren | 1 Befehl |
-| Zustand prüfen | `docker ps`, manuell filtern | `docker compose ps` |
-| Alles aufräumen | jeweils `stop` + `rm` + `network rm` | `docker compose down` |
-| Setup für Team weitergeben | Shell-Skript oder lange README | `compose.yaml` einchecken |
+| Volume anlegen | `docker volume create postgres-daten` | automatisch |
+| DB starten | `docker run -d --name db --network … -v … -e … -e … -e … postgres:16` | in `compose.yaml` deklariert |
+| Adminer starten | `docker run -d --name adminer --network … -p … adminer` | in `compose.yaml` deklariert |
+| **Starten gesamt** | **3 Befehle** + Reihenfolge merken | **1 Befehl** |
+| Status prüfen | `docker ps`, manuell filtern | `docker compose ps` |
+| Logs lesen | `docker logs db`, `docker logs adminer` einzeln | `docker compose logs -f` für alles auf einmal |
+| Aufräumen | `docker stop`, `docker rm`, `docker network rm` | `docker compose down` |
+| Setup für Team teilen | Shell-Skript oder lange README | `compose.yaml` einchecken |
 
-Der Unterschied ist nicht nur **weniger Befehle**. Er ist **eine andere Art zu denken**:
+Der Unterschied ist nicht nur **weniger tippen**. Es ist **eine andere Art zu denken**:
 
-- Beim manuellen Ansatz denkst du **in Schritten**.
-- Mit Compose denkst du **in Zuständen**.
+- Beim manuellen Ansatz denkst du **in Schritten** („zuerst dies, dann jenes").
+- Mit Compose denkst du **in Zuständen** („das soll am Ende laufen").
 
-Das ist ein fundamentaler Unterschied – und er überträgt sich in die Tools, die später kommen (Kubernetes, Terraform, Ansible). Compose ist deine sanfte Einführung in **Infrastructure as Code**.
-
----
-
-## Stolpersteine, die hier leicht passieren
-
-??? danger "`build: .` – aber kein Dockerfile im Ordner"
-    ```text
-    failed to solve: failed to read dockerfile: open Dockerfile: no such file or directory
-    ```
-
-    Du bist im falschen Ordner oder hast dein Dockerfile anders benannt.
-
-    Check, ob das Dockerfile da liegt:
-
-    === "macOS / Linux"
-        ```bash
-        ls -la | grep -i docker
-        ```
-
-    === "Windows PowerShell"
-        ```powershell
-        Get-ChildItem -Force | Where-Object Name -match docker
-        ```
-
-    === "Windows CMD"
-        ```cmd
-        dir /a | findstr /i docker
-        ```
-
-    Liegt das Dockerfile nicht da, wohin Compose guckt, dann einfach den Pfad präzisieren:
-    ```yaml
-    services:
-      app:
-        build:
-          context: ./backend
-          dockerfile: Dockerfile.app
-    ```
-
-??? warning "`.env` wird nicht gelesen"
-    **Check** – schaue dir an, was Compose nach allen Ersetzungen wirklich sieht:
-
-    === "macOS / Linux"
-        ```bash
-        docker compose config | grep POSTGRES_PASSWORD
-        ```
-
-    === "Windows PowerShell"
-        ```powershell
-        docker compose config | Select-String POSTGRES_PASSWORD
-        ```
-
-    === "Windows CMD"
-        ```cmd
-        docker compose config | findstr POSTGRES_PASSWORD
-        ```
-
-    Erscheint dort der Wert? Wenn nicht:
-
-    1. Heißt die Datei genau `.env`? (Nicht `env.txt`, nicht `.env.local`.)
-    2. Ist sie im **selben Ordner** wie die `compose.yaml`?
-    3. Sind Leerzeichen oder Anführungszeichen im Wert? Dann greift YAML-Parsing manchmal seltsam.
-
-??? warning "„is healthy"-Check wartet ewig"
-    **Symptom:** `docker compose ps` zeigt die DB dauerhaft als `starting` oder `unhealthy`.
-
-    **Mögliche Ursachen:**
-
-    1. **Healthcheck-Befehl falsch**: Check direkt im Container: `docker compose exec db pg_isready -U kurs -d kursdaten`. Kommt „accepting connections"?
-    2. **DB braucht länger beim ersten Start** (Initial-Setup). `start_period` großzügiger setzen (z.B. 30s).
-    3. **Healthcheck nutzt falschen User**: wenn die DB noch nicht ready ist, muss der Check auf dem OS-Level funktionieren, nicht als Postgres-User.
-
-??? info "Service neu starten ohne alles neu bauen"
-    ```bash
-    docker compose restart app
-    ```
-
-    Nur den App-Service rebooten, DB bleibt unangetastet.
-
-??? info "Nur ein Service neu starten **mit** Rebuild"
-    ```bash
-    docker compose up -d --build app
-    ```
-
-??? info "Scale – mehrere Instanzen eines Services starten"
-    ```bash
-    docker compose up -d --scale app=3
-    ```
-
-    Startet 3 App-Container. Für das zu funktionieren brauchst du einen Load-Balancer davor (nginx oder Traefik) – das ist ein fortgeschrittenes Thema.
+Das ist genau der Sprung von **imperativer** zu **deklarativer** Konfiguration. Spätere Tools (Kubernetes, Terraform, Ansible) funktionieren genauso – Compose ist deine sanfte Einführung.
 
 ---
 
-## Bonus: Adminer als Debug-Tool (mit Profile)
+## Typische Stolpersteine in dieser Übung
 
-Hänge in deine `compose.yaml` ans Ende:
+??? warning "Port 8080 ist belegt"
+    **Symptom:** `docker compose up -d` bricht ab mit „bind: address already in use".
 
-```yaml
-  adminer:
-    image: adminer
-    ports:
-      - "8081:8080"
-    profiles:
-      - debug
-```
+    **Lösungen:**
 
-Normaler Start lässt den aus:
+    1. Anderen Host-Port wählen, z.B. `"8081:8080"` in der `compose.yaml`.
+    2. Den Blockierer finden:
 
-```bash
-docker compose up -d
-```
+        === "macOS / Linux"
+            ```bash
+            lsof -i :8080
+            ```
 
-Mit Debug-Profile:
+        === "Windows PowerShell"
+            ```powershell
+            netstat -ano | Select-String ":8080"
+            ```
 
-```bash
-docker compose --profile debug up -d
-```
+        === "Windows CMD"
+            ```cmd
+            netstat -ano | findstr :8080
+            ```
 
-Dann öffne <http://localhost:8081>. Logge dich ein:
+??? warning "Adminer-Login: „could not translate host name 'db'"
+    **Ursache:** Etwas stimmt am Compose-Setup nicht – meist ein YAML-Einrückungsfehler, sodass `adminer` und `db` nicht im selben Netzwerk gelandet sind.
 
-- **System:** PostgreSQL
-- **Server:** `db`
-- **Benutzer:** `kurs`
-- **Passwort:** (dein Passwort)
-- **Datenbank:** `kursdaten`
+    **Diagnose:**
 
-Du siehst die Tabelle `zaehler`. So gehen Debug-Tools, ohne dass sie immer mitlaufen müssen.
+    ```bash
+    docker compose config
+    ```
+
+    Compose zeigt dir die fertig geparste YAML. Wenn da Einrückungsmüll ist, fällt es hier auf.
+
+??? warning "YAML-Fehler: „did not find expected ..."
+    **Ursache:** Tabs statt Leerzeichen, oder ungleichmäßige Einrückung.
+
+    **Lösung:** Editor auf „Leerzeichen statt Tabs" stellen, alle Einrückungen mit **2 Leerzeichen** pro Ebene neu setzen. `docker compose config` zeigt die genaue Zeile mit dem Fehler.
+
+??? danger "`docker compose down -v` aus Versehen ausgeführt"
+    Volumes sind weg, Daten sind weg. Es gibt keinen Undo. Im Alltag also: **erst denken, dann `-v`**.
+
+---
+
+## Was du jetzt kannst
+
+- eine `compose.yaml` mit zwei Services schreiben
+- den Stack mit `up -d` starten und mit `down` abbauen
+- Status, Logs und Container-Shells über Compose-Befehle abrufen
+- die Persistenz eines benannten Volumes überprüfen
+- den konzeptuellen Unterschied „imperativ vs. deklarativ" praktisch erleben
+
+---
+
+## Nächste Schritte
+
+In den [Übungen](uebungen.md) findest du vier weitere Aufgaben mit aufsteigender Schwierigkeit:
+
+- 🟢 **Übung 4.1** – noch kompakter: nur ein nginx-Service
+- 🟢 **Übung 4.2** – zwei Services und Service-zu-Service-Kommunikation
+- 🟡 **Übung 4.3** – WordPress + MariaDB
+- 🟡 **Übung 4.4** – Variablen aus `.env` ziehen
+- 🔴 **Übung 4.5** – Healthchecks und `depends_on: condition: service_healthy`
+- 🏆 **Challenge 4** – vollständiger Tech-Stack mit vier Services, Bind Mount und Profiles
 
 ---
 
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Ein Stack, der in der manuellen Einheit Dutzende Flags brauchte, steht jetzt in einer YAML-Datei. `docker compose up -d` startet ihn, `docker compose down` baut ihn ab. Persistente Daten überleben, Konfiguration kommt aus `.env`, der Rest ist deklarativ.**
+    > **Was in Block 3 mehrere `docker run`-Befehle mit vielen Flags brauchte, steht jetzt in einer kleinen YAML-Datei. `docker compose up -d` startet den Stack, `docker compose down` baut ihn ab. Das benannte Volume sorgt dafür, dass die Datenbank über `down`/`up`-Zyklen hinweg ihre Daten behält.**
 
 ---
 
 ## Weiterlesen
 
-- [Dockerfile-Best-Practices](../docker-profi/dockerfile-best-practices.md) – jetzt, wo du das Gesamtbild hast: Images richtig bauen
-- [Image-Optimierung](../docker-profi/image-optimierung.md) – kleiner und sicherer
-- [Cheatsheet Compose](../cheatsheets/compose.md)
+- [Übungen](uebungen.md) – vier Schwierigkeitsgrade zum Selbermachen
+- [Stolpersteine](stolpersteine.md) – wenn etwas hakt
+- [Cheatsheet Compose](../cheatsheets/compose.md) – alle Befehle und YAML-Snippets auf einer Seite

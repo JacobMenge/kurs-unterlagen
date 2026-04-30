@@ -561,5 +561,5 @@ Zeigt die komplett aufgelöste YAML nach Einsetzen von `.env`-Variablen und Defa
 
 ## Weiterlesen
 
-- [Praxis: Compose-WebApp](praxis-webapp.md) – jetzt bauen wir den Stack aus der manuellen Praxis mit Compose
+- [Praxis: erste compose.yaml](praxis-webapp.md) – jetzt bauen wir den Stack aus der manuellen Praxis mit Compose (45 min)
 - [Cheatsheet Docker Compose](../cheatsheets/compose.md)
