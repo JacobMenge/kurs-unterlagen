@@ -291,10 +291,28 @@ flowchart LR
 ??? danger "„no configuration file provided"-Fehler"
     **Ursache:** Compose findet keine `compose.yaml` oder `docker-compose.yml` im aktuellen Verzeichnis.
 
-    **Lösung:**
+    **Lösung 1:** Prüfen, ob die Datei wirklich im aktuellen Ordner liegt.
 
-    - Prüfen, ob die Datei wirklich im Ordner liegt: `ls -la | grep -i compose`.
-    - Oder explizit angeben: `docker compose -f pfad/zu/compose.yaml up -d`.
+    === "macOS / Linux"
+        ```bash
+        ls -la | grep -i compose
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        Get-ChildItem -Force | Where-Object Name -match compose
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        dir /a | findstr /i compose
+        ```
+
+    **Lösung 2:** Den Pfad explizit angeben (auf allen Plattformen identisch):
+
+    ```bash
+    docker compose -f pfad/zu/compose.yaml up -d
+    ```
 
 ??? warning "YAML-Fehler: „did not find expected ..."
     **Ursache:** YAML ist sehr penibel mit Einrückung. **Keine Tabs**, nur Leerzeichen. Gleiche Einrückungstiefe pro Hierarchieebene.

@@ -180,6 +180,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="endpoint"></span><span id="endpoints"></span><span id="endpunkt"></span><span id="endpunkte"></span>Endpoint / Endpunkt
 : **Konkrete Anlaufstelle einer API** – die Kombination aus HTTP-Methode (`GET`, `POST`, …) und URL-Pfad. Beispiele: `GET /health`, `POST /api/entries`, `GET /api/scoreboard`. Eine API hat in der Regel mehrere Endpoints, jeder davon erfüllt eine bestimmte Aufgabe (Daten holen, Daten speichern, Status prüfen).
 
+## <span id="env-file"></span><span id="env_file"></span>env_file (Compose)
+: **Compose-Schlüssel**, der eine externe Datei mit `KEY=VALUE`-Zeilen für einen Service einliest und daraus Umgebungsvariablen macht. Praktisch, wenn du viele Variablen sammeln willst, ohne den `services:`-Block aufzublähen, oder wenn unterschiedliche Services unterschiedliche Variablen brauchen sollen. Nicht zu verwechseln mit der `.env` neben der `compose.yaml`: diese wird **automatisch** für `${VAR}`-Ersetzungen in der YAML genutzt; `env_file:` dagegen verweist explizit auf eine (oder mehrere) Datei(en) und die Variablen landen ausschließlich im Service-Container.
+
 ## <span id="eof"></span>EOF (End Of File)
 : **Markierung für „Ende der Eingabe".** In Shells beendet `EOF` ein Here-Document: der Text zwischen `<<EOF` und einer eigenen Zeile mit `EOF` wird als Eingabe an einen Befehl gegeben oder in eine Datei geschrieben (siehe [Here-Document](#here-document)). Auf der Kommandozeile beendet `Ctrl+D` (macOS/Linux) bzw. `Ctrl+Z` (Windows) interaktive Eingaben, indem ein EOF-Signal an den Prozess geschickt wird.
 
@@ -268,6 +271,14 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="image-id"></span>Image-ID
 : **Eindeutige Identifikation eines Images**, technisch ein SHA-256-Hash seines Inhalts. Unveränderlich – im Gegensatz zu Tags, die umbewegbar sind. Beim `docker images`-Output wird meist nur die ersten 12 Zeichen angezeigt.
 
+## <span id="imperativ"></span><span id="deklarativ"></span>Imperativ / Deklarativ
+: **Zwei Arten, einem System zu sagen, was es tun soll.**
+
+    - **Imperativ** = du beschreibst die einzelnen **Schritte**: „Lege erst ein Netzwerk an, dann starte den DB-Container, dann starte den App-Container." Klassisches Beispiel: mehrere `docker run`-Befehle hintereinander.
+    - **Deklarativ** = du beschreibst den gewünschten **Zielzustand**: „Ich will einen DB-Container und einen App-Container, so konfiguriert." Das System rechnet sich aus, welche Schritte nötig sind, um vom Ist- zum Zielzustand zu kommen. Klassisches Beispiel: eine `compose.yaml` und `docker compose up -d`.
+
+    Deklarative Konfiguration ist im modernen DevOps der Standard – Docker Compose, Kubernetes, Terraform, Ansible und viele Cloud-Tools arbeiten so. Der Vorteil: die Konfigurationsdatei **ist** das Setup, statt nur eine Anleitung dazu zu sein.
+
 ## <span id="init"></span>init / PID 1
 : **Der allererste Prozess**, der in einem Linux-System (oder Container) startet und alle anderen Prozesse als „Eltern" hat. In Containern ist das der Prozess aus `CMD` oder `ENTRYPOINT`. Muss sich ordentlich um Signale (SIGTERM, SIGKILL) und verwaiste Kind-Prozesse kümmern. Für komplexe Anwendungen im Container hilft `docker run --init`, das einen kleinen Init-Prozess (tini) vorneweg startet.
 
@@ -335,6 +346,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="mac"></span>MAC (Media Access Control)
 : **Eindeutige Hardware-Adresse einer Netzwerkkarte.** 48 Bit, üblich als sechs Hex-Paare geschrieben (`a4:5e:60:1f:b2:c3`). Wird vom Hersteller fest in die Karte gebrannt – im Prinzip „die Seriennummer im LAN". Switche und Router nutzen sie auf Layer 2 zum Zustellen von Paketen. Virtuelle NICs (in VMs und Containern) bekommen eine zufällige MAC-Adresse zugewiesen – die ist nicht echt, aber im virtuellen Netz eindeutig.
 
+## <span id="mariadb"></span>MariaDB
+: **Frei verfügbare relationale Datenbank**, die als Community-Fork aus MySQL entstanden ist und in den meisten Fällen ein **Drop-in-Ersatz** für MySQL ist. Wird von der von den ursprünglichen MySQL-Entwicklern gegründeten MariaDB Foundation gepflegt. Hört wie MySQL standardmäßig auf Port `3306`. Im Kurs nutzen wir MariaDB im WordPress-Compose-Beispiel als leichtgewichtige Alternative zu MySQL. Das offizielle Image (`mariadb`) bringt seit Version 11.2 ein eingebautes Healthcheck-Skript (`healthcheck.sh --connect --innodb_initialized`) mit, das robuster ist als ein selbstgebauter Auth-basierter Check.
+
 ## <span id="mount"></span><span id="mount-point"></span>Mount / Mount-Point
 : **Eine Datei, ein Ordner oder ein Gerät wird an einem bestimmten Pfad ins Dateisystem „eingehängt"**. Auf Linux ist z.B. `/mnt/usb` ein möglicher Mount-Point für einen USB-Stick. Bei Docker sind Bind Mounts und Volumes solche Einhängungen, die Host-Inhalte in den Container „einhängen".
 
@@ -380,6 +394,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="path"></span>PATH
 : **Umgebungsvariable**, in der alle Verzeichnisse stehen, in denen das Betriebssystem nach ausführbaren Programmen sucht. Wenn du `docker` tippst, schaut dein Shell alle PATH-Einträge durch, bis sie eine Datei namens `docker` findet. `echo $PATH` (Bash/Zsh) oder `$env:PATH` (PowerShell) zeigt den aktuellen PATH.
 
+## <span id="pg-isready"></span><span id="pg_isready"></span>pg_isready
+: **Kleines Hilfsprogramm**, das im offiziellen `postgres`-Image enthalten ist und prüft, ob der Postgres-Server **schon Anfragen annimmt**. Liefert Exit-Code 0, wenn die Datenbank bereit ist, sonst einen Fehler-Exit-Code – ideal für Healthchecks. Typische Aufrufe: `pg_isready -U postgres` (Default-User) oder `pg_isready -U $POSTGRES_USER -d $POSTGRES_DB`. In `compose.yaml`-Healthchecks musst du Variablen mit doppeltem `$$` schreiben, damit Compose sie nicht selbst auflöst, sondern sie an die Shell im Container weitergibt: `pg_isready -U $${POSTGRES_USER}`.
+
 ## <span id="port"></span>Port
 : **Eine Nummer zwischen 0 und 65535**, die einen Dienst auf einem Rechner identifiziert. Webserver hören meist auf Port 80 (HTTP) oder 443 (HTTPS), PostgreSQL auf 5432, SSH auf 22. Ein Rechner kann viele Ports gleichzeitig „offen" haben – jeder Port ist ein eigener Kommunikationskanal. Ports unter 1024 sind privilegiert (nur root darf sie öffnen).
 
@@ -419,6 +436,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="ram"></span>RAM (Random Access Memory)
 : **Arbeitsspeicher.** Schneller, flüchtiger Speicher – beim Ausschalten weg. Jede VM reserviert bei ihrem Start einen Teil des Host-RAMs. Container teilen sich dagegen den Host-RAM und bekommen je nach cgroup-Konfiguration ein Limit.
 
+## <span id="redis"></span>Redis
+: **Sehr schneller In-Memory-Datenspeicher**, der vor allem als **Cache** und für Sessions, Queues und Pub/Sub eingesetzt wird. Daten liegen primär im RAM, optional werden sie regelmäßig auf Platte geschrieben (Snapshot-Datei `dump.rdb` oder Append-Only-Log). Hört standardmäßig auf Port `6379`. Im Kurs taucht Redis in der Compose-Challenge als Cache-Service auf. Per Konvention startet man Redis mit `redis-server --requirepass ...`, um Passwortschutz zu erzwingen; das offizielle `redis`-CLI nutzt automatisch die Umgebungsvariable `REDISCLI_AUTH`, sodass im `redis-cli`-Aufruf keine Klartext-Passwörter stehen müssen.
+
 ## <span id="registry"></span>Registry
 : **Server, auf dem Docker-Images gespeichert sind.** Docker Hub ist die Default-Registry. Weitere bekannte Registries: GitHub Container Registry (`ghcr.io`), AWS ECR, GitLab Container Registry, Azure Container Registry, Harbor. In Firmen werden oft interne Registries betrieben, damit Images nicht extern wandern müssen.
 
@@ -454,10 +474,12 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="runc"></span>runc
 : **Low-Level-Container-Runtime**, die einzelne Linux-Container tatsächlich startet. `runc` ist die Referenz-Implementierung der OCI-Runtime-Spec. Du nutzt sie nie direkt – Docker, containerd und Kubernetes rufen sie unter der Haube auf, um aus einem entpackten Image-Dateisystem einen laufenden Container zu machen.
-: **Liste, wohin Netzwerk-Pakete geschickt werden sollen.** Wenn du `google.com` aufrufst, fragt dein Betriebssystem die Routing-Tabelle: „Wie komme ich zu dieser IP?" – die Antwort ist meist der Gateway (Router). Docker-Netzwerke haben eigene Routing-Tabellen, damit Container-Pakete richtig geleitet werden.
 
 ## <span id="sbom"></span>SBOM (Software Bill of Materials)
 : **Maschinenlesbare Liste aller Komponenten eines Images** oder einer Software – ähnlich der Zutatenliste auf Lebensmittelverpackungen. Ermöglicht schnelles Beantworten von „welche meiner Images sind von CVE X betroffen?". Erzeugbar z.B. mit Syft.
+
+## <span id="scale"></span>scale (Compose)
+: **Compose-Flag**, das einen Service in mehreren Instanzen gleichzeitig startet: `docker compose up -d --scale app=3` startet drei `app`-Container statt einem. Praktisch für Lasttests oder einfache Demos. **Aber:** Mehrere Instanzen vor demselben Host-Port funktionieren nur, wenn ein Reverse Proxy oder Load-Balancer (nginx, Traefik) davorsitzt – sonst lehnt Docker den zweiten Container ab. Für ernsthaftes Skalieren über mehrere Hosts gibt es **Kubernetes** oder **Docker Swarm** – Compose ist und bleibt ein Single-Host-Tool.
 
 ## <span id="selinux"></span>SELinux (Security-Enhanced Linux)
 : **Linux-Sicherheitsmodul**, das regeln kann, welche Prozesse auf welche Dateien und Netzwerke zugreifen dürfen. Standardmäßig aktiv auf Fedora, RHEL, CentOS, Rocky Linux, AlmaLinux. Bei Docker-Volumes kann SELinux den Zugriff blockieren – Lösung: `:z` oder `:Z` an den Mount-Pfad anhängen, z.B. `-v ./data:/app/data:z`.
@@ -506,6 +528,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="ssd"></span>SSD (Solid State Drive)
 : **Flash-basierte Festplatte ohne bewegliche Teile.** Deutlich schneller als eine HDD (oft Faktor 10–50) und robuster gegen Stöße. Heute Standard in Laptops und Servern. Für Docker relevant, weil Image-Pulls, Container-Starts und Build-Caches stark von der Disk-IO profitieren – auf einer SSD werden viele Operationen erst angenehm schnell.
+
+## <span id="stack"></span>Stack
+: **Verbund aus mehreren Containern, die gemeinsam eine Anwendung bilden** – z.B. Web-App + Datenbank + Cache + Reverse Proxy. Im Compose-Kontext ist ein Stack alles, was in einer `compose.yaml` (oder einer Kombination aus `compose.yaml` und Override-Dateien) zusammen beschrieben wird. `docker compose up -d` startet einen Stack, `docker compose down` baut ihn ab. In Docker Swarm bekommt der Begriff einen formelleren Namen: dort verteilt `docker stack deploy` einen Stack auf mehrere Knoten. Der zentrale Gedanke: **ein Stack hat einen klar abgegrenzten Lebenszyklus** – startet, läuft, hört zusammen wieder auf.
 
 ## <span id="stage"></span><span id="build-stage"></span>Stage / Build-Stage
 : **Eine `FROM`-Stufe in einem Multi-Stage-Dockerfile.** Jeder Multi-Stage-Build hat mindestens zwei Stages: eine **Build-Stage** (mit Compilern, Tools), die nur Artefakte erzeugt, und eine **Runtime-Stage**, die nur das fertige Artefakt enthält. Stages werden mit `FROM image AS name` benannt; spätere Stages kopieren Ergebnisse mit `COPY --from=name`. So wird das finale Image klein – die Build-Tools landen nicht mit drin. Siehe [Multi-Stage-Build](#multi-stage-build).
@@ -572,6 +597,12 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="volume"></span>Volume
 : **Persistenter Speicher für Docker-Container.** Überlebt, wenn der Container gelöscht wird, und wird von Docker selbst verwaltet (liegt meist unter `/var/lib/docker/volumes/`). Alternative zu Bind Mounts, wenn du von der konkreten Host-Pfad-Struktur unabhängig sein willst. Typischer Einsatz: Datenbank-Dateien.
+
+## <span id="watch"></span><span id="compose-watch"></span>watch (Compose Watch-Mode)
+: **Compose-Funktion seit Version v2.22 (Oktober 2023)**, die Dateien auf dem Host beobachtet und Änderungen **automatisch** in den laufenden Stack einarbeitet. Im `services:`-Block beschreibt der Schlüssel `develop.watch:` Aktionen wie `sync` (Datei in den Container synchronisieren), `rebuild` (Image neu bauen) oder `sync+restart` (synchronisieren und Container neu starten). Gestartet mit `docker compose watch`. Sehr nützlich für iterative Entwicklung – ähnlich wie ein Live-Reload-Tool, aber direkt in der Compose-Welt verankert. Ersetzt im Alltag oft Bind Mounts mit File-Watchern wie `nodemon` oder `flask --debug`.
+
+## <span id="wordpress"></span>WordPress
+: **Das mit Abstand am weitesten verbreitete Content-Management-System (CMS) für Websites** – läuft auf einem signifikanten Teil aller öffentlich erreichbaren Webseiten. Technisch eine PHP-Anwendung, die eine relationale Datenbank (MySQL oder MariaDB) braucht. WordPress ist deshalb ein klassischer Compose-Anwendungsfall: ein App-Container (`wordpress:latest`) plus ein DB-Container (`mariadb:11` oder `mysql:8`) plus persistente Volumes für Datenbank-Inhalte und das `wp-content/`-Verzeichnis (Themes, Plugins, Uploads). Im Kurs taucht WordPress in den Compose-Übungen 4.3 und 4.5 auf.
 
 ## <span id="wsl"></span><span id="wsl2"></span><span id="wsl-2"></span>WSL / WSL2 (Windows Subsystem for Linux 2)
 : **Microsofts Linux-Runtime auf Windows.** Die ältere Variante **WSL** (auch „WSL1") übersetzte Linux-Systemcalls auf Windows – funktional, aber langsam. **WSL2** ist eine hochoptimierte Hyper-V-VM mit einem echten Linux-Kernel von Microsoft (ca. 100 MB) und ist seit 2020 Standard. Grundlage für Docker Desktop auf Windows – der Docker-Daemon läuft in WSL2, nicht direkt in Windows.

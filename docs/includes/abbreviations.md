@@ -103,6 +103,16 @@
 *[Repo]: Repository – zentraler Ablageort für Code oder Pakete
 *[Compose]: Docker Compose – deklaratives Multi-Container-Tool
 *[compose.yaml]: Die zentrale Compose-Konfigurationsdatei
+*[env_file]: Compose-Schlüssel, der eine externe Datei mit KEY=VALUE-Zeilen für einen Service einliest
+*[Imperativ]: Schritte beschreiben („erst dies, dann jenes") – Gegenstück zu deklarativ
+*[Deklarativ]: Zielzustand beschreiben – das System rechnet sich die Schritte selbst aus
+*[Stack]: Verbund aus mehreren Containern, die zusammen eine Anwendung bilden (z.B. via compose.yaml)
+*[scale]: Compose-Flag --scale, startet einen Service in mehreren Instanzen
+*[watch]: Compose-Watch-Mode (seit v2.22), synchronisiert oder baut bei Datei-Änderungen automatisch
+*[pg_isready]: Postgres-Hilfsprogramm, das prüft, ob der Server Anfragen annimmt – Standard in Healthchecks
+*[MariaDB]: Frei verfügbare MySQL-kompatible Datenbank, oft als Docker-Image genutzt
+*[Redis]: Sehr schneller In-Memory-Datenspeicher, oft als Cache eingesetzt
+*[WordPress]: Das verbreitetste CMS – PHP-Anwendung mit MySQL/MariaDB-Backend
 *[Healthcheck]: Bereitschafts-Prüfung, die Docker regelmäßig ausführt
 *[Multi-Stage-Build]: Dockerfile-Technik mit mehreren FROM-Blöcken
 *[Distroless]: Basis-Image von Google ohne Shell und Paketmanager

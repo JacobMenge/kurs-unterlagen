@@ -421,7 +421,22 @@ Das ist ein fundamentaler Unterschied – und er überträgt sich in die Tools, 
 
     Du bist im falschen Ordner oder hast dein Dockerfile anders benannt.
 
-    Check: `ls -la | grep -i docker`.
+    Check, ob das Dockerfile da liegt:
+
+    === "macOS / Linux"
+        ```bash
+        ls -la | grep -i docker
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        Get-ChildItem -Force | Where-Object Name -match docker
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        dir /a | findstr /i docker
+        ```
 
     Liegt das Dockerfile nicht da, wohin Compose guckt, dann einfach den Pfad präzisieren:
     ```yaml
@@ -433,10 +448,23 @@ Das ist ein fundamentaler Unterschied – und er überträgt sich in die Tools, 
     ```
 
 ??? warning "`.env` wird nicht gelesen"
-    **Check:**
-    ```bash
-    docker compose config | grep POSTGRES_PASSWORD
-    ```
+    **Check** – schaue dir an, was Compose nach allen Ersetzungen wirklich sieht:
+
+    === "macOS / Linux"
+        ```bash
+        docker compose config | grep POSTGRES_PASSWORD
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker compose config | Select-String POSTGRES_PASSWORD
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker compose config | findstr POSTGRES_PASSWORD
+        ```
+
     Erscheint dort der Wert? Wenn nicht:
 
     1. Heißt die Datei genau `.env`? (Nicht `env.txt`, nicht `.env.local`.)

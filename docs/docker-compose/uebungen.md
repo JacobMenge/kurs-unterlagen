@@ -51,6 +51,12 @@ description: "Eigene Hands-on-Übungen zum Compose-Block – vier Schwierigkeits
     cd $HOME\compose-uebung1
     ```
 
+=== "Windows CMD"
+    ```cmd
+    mkdir %USERPROFILE%\compose-uebung1
+    cd %USERPROFILE%\compose-uebung1
+    ```
+
 #### Schritt 2 – `compose.yaml` anlegen
 
 Lege eine Datei `compose.yaml` mit diesem Inhalt an:
@@ -351,6 +357,17 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
     === "Windows PowerShell"
         ```powershell
         while ($true) { Clear-Host; docker compose ps; Start-Sleep -Seconds 1 }
+        ```
+
+    === "Windows CMD"
+        Direkt als Einzeiler hat CMD keine Schleifen-Syntax – speichere die Zeilen als z.B. `watch.bat` im Projektordner und starte das Skript mit `watch.bat`. Mit `Strg + C` brichst du es ab.
+
+        ```cmd
+        :loop
+        cls
+        docker compose ps
+        timeout /t 1 >nul
+        goto loop
         ```
 
     Du siehst nacheinander:

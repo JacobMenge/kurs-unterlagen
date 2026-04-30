@@ -30,10 +30,23 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 ??? warning "`${VAR}` erscheint wörtlich statt ersetzt"
     **Ursache:** `VAR` ist weder in einer `.env` noch in der Shell-Umgebung gesetzt.
 
-    **Diagnose:**
-    ```bash
-    docker compose config | grep VAR
-    ```
+    **Diagnose** – nach den `${VAR}`-Stellen in der aufgelösten YAML suchen:
+
+    === "macOS / Linux"
+        ```bash
+        docker compose config | grep VAR
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker compose config | Select-String VAR
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker compose config | findstr VAR
+        ```
+
     Wenn dort noch `${VAR}` steht, hat Compose nichts zum Einsetzen gefunden.
 
     **Lösungen:**
@@ -259,9 +272,28 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 ??? danger "„no configuration file provided"
     **Ursache:** Du bist nicht im Ordner mit der `compose.yaml`.
 
-    **Lösung:**
-    - `ls -la | grep -i compose` – ist die Datei da?
-    - Oder explizit: `docker compose -f ../anderer/ordner/compose.yaml up -d`.
+    **Lösung 1:** Prüfen, ob die Datei wirklich im aktuellen Ordner liegt.
+
+    === "macOS / Linux"
+        ```bash
+        ls -la | grep -i compose
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        Get-ChildItem -Force | Where-Object Name -match compose
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        dir /a | findstr /i compose
+        ```
+
+    **Lösung 2:** Den Pfad explizit angeben (auf allen Plattformen identisch):
+
+    ```bash
+    docker compose -f ../anderer/ordner/compose.yaml up -d
+    ```
 
 ??? warning "`docker-compose` vs. `docker compose`"
     **Alt:** `docker-compose` mit Bindestrich (Python, Compose V1) – **veraltet**, keine Updates mehr.

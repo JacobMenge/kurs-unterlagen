@@ -419,12 +419,31 @@ volumes:
   postgres-daten:
 ```
 
-Mit dieser YAML:
+Mit dieser YAML legst du eine `.env` mit dem Passwort an und startest den Stack:
 
-```bash
-echo "POSTGRES_PASSWORD=geheim" > .env
-docker compose up -d
-```
+=== "macOS / Linux"
+    ```bash
+    echo "POSTGRES_PASSWORD=geheim" > .env
+    docker compose up -d
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    'POSTGRES_PASSWORD=geheim' | Out-File -FilePath .env -Encoding utf8
+    docker compose up -d
+    ```
+
+    !!! warning "Encoding wichtig"
+        PowerShell schreibt mit `>` standardmäßig **UTF-16 LE mit BOM**, was Compose nicht versteht. Deshalb hier `Out-File … -Encoding utf8` benutzen.
+
+=== "Windows CMD"
+    ```cmd
+    echo POSTGRES_PASSWORD=geheim> .env
+    docker compose up -d
+    ```
+
+    !!! note "Keine Anführungszeichen"
+        Unter CMD landen Anführungszeichen wörtlich in der Datei. Deshalb hier ohne `"` schreiben – und ohne Leerzeichen vor dem `>`.
 
 Läuft ein produktionsähnlicher Stack. Alles, was in der vorigen Einheit manuell war, ist hier deklarativ.
 
