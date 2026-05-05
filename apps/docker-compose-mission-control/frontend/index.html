@@ -7,40 +7,90 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div class="brand">
-        <span class="logo">▲</span>
-        <div>
-          <h1>Mission Control</h1>
-          <p class="subtitle">Aurora Station · Modul-Status-Dashboard</p>
-        </div>
-      </div>
-      <div class="status-line">
-        <span id="status-indicator" class="indicator unknown"></span>
-        <span id="status-text">Verbinde mit Backend …</span>
-        <button id="reload-btn" type="button">Neu laden</button>
-      </div>
-    </header>
+    <div class="space" aria-hidden="true">
+      <div class="stars"></div>
+      <div class="asteroid asteroid-1"></div>
+      <div class="asteroid asteroid-2"></div>
+      <div class="asteroid asteroid-3"></div>
+    </div>
 
-    <main>
-      <section class="panel">
+    <main class="console">
+      <header class="console-head">
+        <div class="brand">
+          <div class="logo-mark" aria-hidden="true">
+            <span class="logo-ring"></span>
+            <span class="logo-dot"></span>
+          </div>
+          <div class="title">
+            <h1>Mission Control</h1>
+            <p class="subtitle">Aurora Station · low earth orbit</p>
+          </div>
+        </div>
+        <div class="heartbeat" id="heartbeat" title="Live-Verbindung zum Backend">
+          <span class="pulse"></span>
+          <span class="pulse-label" id="heartbeat-label">verbinde …</span>
+        </div>
+      </header>
+
+      <section class="panel lamps-panel" aria-label="Stack-Status">
+        <div class="panel-head">
+          <h2>Stack-Status</h2>
+          <span class="panel-hint">aktualisiert sich automatisch</span>
+        </div>
+        <div class="lamps">
+          <article class="lamp-card" data-service="frontend" data-state="ok">
+            <div class="lamp" aria-hidden="true"><span class="lamp-core"></span></div>
+            <div class="lamp-meta">
+              <strong>Frontend</strong>
+              <span class="lamp-tech">nginx</span>
+              <span class="lamp-state">online</span>
+            </div>
+          </article>
+          <article class="lamp-card" data-service="backend" data-state="unknown">
+            <div class="lamp" aria-hidden="true"><span class="lamp-core"></span></div>
+            <div class="lamp-meta">
+              <strong>Backend</strong>
+              <span class="lamp-tech" id="backend-impl">–</span>
+              <span class="lamp-state" id="backend-state">unbekannt</span>
+            </div>
+          </article>
+          <article class="lamp-card" data-service="db" data-state="unknown">
+            <div class="lamp" aria-hidden="true"><span class="lamp-core"></span></div>
+            <div class="lamp-meta">
+              <strong>Datenbank</strong>
+              <span class="lamp-tech">PostgreSQL</span>
+              <span class="lamp-state" id="db-state">unbekannt</span>
+            </div>
+          </article>
+          <article class="lamp-card" data-service="adminer" data-state="unknown">
+            <div class="lamp" aria-hidden="true"><span class="lamp-core"></span></div>
+            <div class="lamp-meta">
+              <strong>Adminer</strong>
+              <span class="lamp-tech">DB-GUI</span>
+              <span class="lamp-state" id="adminer-state">unbekannt</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel modules-panel">
         <div class="panel-head">
           <h2>Stationsmodule</h2>
-          <span id="module-count" class="badge-count">–</span>
+          <span class="badge-count" id="module-count">–</span>
         </div>
-        <div id="module-grid" class="module-grid">
+        <div class="module-grid" id="module-grid">
           <!-- Module werden via JS gerendert -->
         </div>
-        <p id="empty-state" class="empty hidden">
+        <p class="empty hidden" id="empty-state">
           Keine Module vorhanden. Lege das erste Modul über das Formular unten an.
         </p>
       </section>
 
-      <section class="panel">
+      <section class="panel form-panel">
         <div class="panel-head">
           <h2>Neues Modul anlegen</h2>
         </div>
-        <form id="module-form" class="module-form">
+        <form id="module-form" class="module-form" autocomplete="off">
           <label>
             <span>Bezeichnung</span>
             <input
@@ -62,37 +112,15 @@
           </label>
           <button type="submit">Modul anlegen</button>
         </form>
-        <p id="form-feedback" class="feedback"></p>
+        <p class="feedback" id="form-feedback"></p>
       </section>
 
-      <section class="panel diag">
-        <div class="panel-head">
-          <h2>Diagnose</h2>
-        </div>
-        <ul class="diag-list">
-          <li>
-            Frontend (Nginx) erreichbar:
-            <strong id="diag-frontend">ja, du liest das hier</strong>
-          </li>
-          <li>
-            Backend antwortet auf <code>/api/health</code>:
-            <strong id="diag-health">…</strong>
-          </li>
-          <li>
-            Datenbank über das Backend erreichbar:
-            <strong id="diag-db">…</strong>
-          </li>
-          <li>
-            Backend-Implementierung:
-            <strong id="diag-impl">…</strong>
-          </li>
-        </ul>
-      </section>
+      <footer>
+        <span>Aurora Station · Mission Control · Übungs-App für Docker Compose</span>
+      </footer>
     </main>
 
-    <footer>
-      <span>Aurora Station · Mission Control · Übungs-App für Docker Compose</span>
-    </footer>
+    <div class="toasts" id="toasts" aria-live="polite"></div>
 
     <script src="app.js"></script>
   </body>

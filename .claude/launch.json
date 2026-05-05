@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mission-control",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "-p", "mc-test", "logs", "-f"],
+      "port": 8080
+    }
+  ]
+}

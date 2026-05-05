@@ -80,15 +80,76 @@ cd kurs-unterlagen/apps/docker-compose-mission-control
 - Welche Datei ist die **Vorlage** für die `.env`?
 - Welche **API-Endpunkte** stellt das Backend laut `README.md` bereit?
 
-Legt jetzt eine **leere Datei** `compose.yaml` in `apps/docker-compose-mission-control/` an. Dort baut ihr Mission für Mission auf.
+Legt jetzt eine **leere Datei** `compose.yaml` in `apps/docker-compose-mission-control/` an. Am einfachsten direkt im Editor (VS Code, Notepad++ …) anlegen und speichern. Per Terminal geht es auch:
+
+=== "macOS / Linux / Git Bash"
+    ```bash
+    cd apps/docker-compose-mission-control
+    touch compose.yaml
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    cd apps/docker-compose-mission-control
+    New-Item -ItemType File compose.yaml
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    cd apps\docker-compose-mission-control
+    type nul > compose.yaml
+    ```
+
+Dort baut ihr Mission für Mission auf.
 
 **Compose-Fokus:** Projektstruktur erkennen, Build-Kontexte verstehen, Init-Strategie der DB erkennen.
 
 ---
 
-## Mission 1 – Datenbank deklarieren und starten
+## Mission 1 – Frontend zuerst: das Kontrollzentrum hochfahren
 
-Legt den ersten Service in eurer `compose.yaml` an: **`db`**.
+Wir fangen **mit dem Frontend** an. Das ist die UI eures Mission-Control-Dashboards. Sie funktioniert auch **ganz ohne** Backend und Datenbank – sie zeigt einfach, dass die anderen Services noch fehlen.
+
+> **Warum frontend zuerst?** Weil ihr so von der ersten Minute an einen sichtbaren Erfolg habt – und weil ihr dann live mitverfolgt, wie nach und nach jede Lampe grün wird, sobald ihr in den nächsten Missionen weitere Services hinzufügt. Kein einziges Browser-Refresh nötig: das Frontend pollt alle 2 Sekunden selbständig.
+
+**Anforderungen:**
+
+| Einstellung | Wert |
+|---|---|
+| Service-Name | `frontend` |
+| Build-Kontext | `./frontend` |
+| Externer Port | `8080:80` |
+
+Das Nginx im Frontend ist bereits so konfiguriert, dass es alle `/api/*`-Anfragen an `http://backend:3000/api/*` weitergibt (siehe `frontend/nginx.conf`). Das funktioniert dann automatisch, sobald der Service `backend` in eurer `compose.yaml` existiert.
+
+**Startet den Stack:**
+
+```bash
+docker compose up -d --build
+```
+
+**Prüft anschließend:**
+
+- `docker compose ps` zeigt `frontend` als `Up`?
+- Im Browser: <http://localhost:8080>
+- Seht ihr das Mission-Control-Dashboard mit dem Sternenhimmel?
+- Wie viele der vier Lampen leuchten grün?
+
+!!! tip "Erwartung am Ende von Mission 1"
+    - 🟢 Frontend (das seht ihr ja, also läuft es)
+    - 🔴 Backend (gibt es noch nicht – Lampe ist rot)
+    - 🔴 Datenbank (das Backend könnte sie zwar erreichen, aber das Backend gibt's noch nicht)
+    - 🔴 Adminer (gibt es noch nicht)
+
+    Oben rechts steht „warte auf backend …". Das ist **gewollt** – im Laufe der Aufgabe werden alle Lampen grün.
+
+**Compose-Fokus:** allererster Service, `build:`, `ports:` mit Port-Mapping. Kein `depends_on` – das Frontend läuft autark.
+
+---
+
+## Mission 2 – Datenbank starten
+
+Fügt den Service **`db`** hinzu.
 
 **Anforderungen:**
 
@@ -105,7 +166,7 @@ Legt den ersten Service in eurer `compose.yaml` an: **`db`**.
 
 Vergesst nicht, das Volume `aurora-data` auch im Top-Level-Block `volumes:` zu deklarieren.
 
-**Startet den Stack:**
+**Startet den Stack neu:**
 
 ```bash
 docker compose up -d
@@ -115,17 +176,24 @@ docker compose up -d
 
 - `docker compose ps` zeigt `db` als `Up`?
 - `docker compose logs db` enthält die Zeile **„database system is ready to accept connections"**?
-- `docker compose exec db psql -U aurora -d auroradb -c "SELECT name, status FROM modules;"` zeigt die sechs Beispiel-Module?
+- Sind die sechs Beispiel-Module aus `init.sql` schon in der Tabelle? Test:
 
-Falls ja: Init-SQL hat funktioniert. Wunderbar.
+    ```bash
+    docker compose exec db psql -U aurora -d auroradb -c "SELECT name, status FROM modules"
+    ```
 
-**Compose-Fokus:** erstes `services:`, `image:`, `environment:`, `volumes:` (benannt + Bind-Mount), Top-Level-`volumes:`-Block.
+    Erwartet: eine Tabelle mit sechs Zeilen (Life Support, Power Grid, …).
+
+!!! tip "Im Frontend ändert sich noch nichts"
+    Die DB-Lampe bleibt rot, obwohl die DB läuft. Das ist okay: das Frontend kann die DB nur **über das Backend** prüfen – und das Backend kommt erst in Mission 3. Die DB-Lampe wird also gleichzeitig mit der Backend-Lampe grün.
+
+**Compose-Fokus:** zweiter Service, `image:`, `environment:`, `volumes:` (benannt + Bind-Mount), Top-Level-`volumes:`-Block.
 
 ---
 
-## Mission 2 – Backend starten und mit der DB verbinden
+## Mission 3 – Backend dranhängen und mit der DB verbinden
 
-Fügt den Service **`backend`** hinzu.
+Fügt den Service **`backend`** hinzu. Das ist der Moment, in dem zwei Lampen gleichzeitig grün werden.
 
 **Anforderungen:**
 
@@ -151,48 +219,25 @@ Stack neu starten und Image bauen:
 docker compose up -d --build
 ```
 
-**Prüft anschließend:**
+**Schaut jetzt im Frontend zu:**
+
+- Innerhalb von 2–3 Sekunden poppen oben rechts Toasts auf:
+    - **„Backend ist online (node-express)."**
+    - **„Datenbank ist verbunden."**
+- Die Backend- und DB-Lampen werden grün.
+- Die sechs Beispielmodule erscheinen automatisch im Modul-Grid.
+
+**Prüft zusätzlich:**
 
 - `docker compose ps` zeigt `backend` als `Up`?
-- `docker compose logs backend` zeigt zuerst „Database not ready yet …" (kurz), dann „Database connection established." und „Listening on port 3000"?
-
-Falls das Backend zunächst nicht startet: das ist normal beim ersten Start, weil die DB-Initialisierung etwas dauert. Die Retry-Logik im Backend fängt das ab. **Wenn nach 30 Sekunden immer noch nichts geht:** Logs lesen, in den Hilfekarten 1–4 nachschauen.
-
-**Compose-Fokus:** `build:` statt `image:`, Service-Namen als DNS-Hostname, einfaches `depends_on`.
-
----
-
-## Mission 3 – Frontend starten und API-Aufrufe routen
-
-Fügt den Service **`frontend`** hinzu.
-
-**Anforderungen:**
-
-| Einstellung | Wert |
-|---|---|
-| Service-Name | `frontend` |
-| Build-Kontext | `./frontend` |
-| Externer Port | `8080:80` |
-| `depends_on` | `backend` |
-
-Das Nginx im Frontend ist bereits so konfiguriert, dass es alle `/api/*`-Anfragen an `http://backend:3000/api/*` weitergibt (siehe `frontend/nginx.conf`). Das funktioniert nur, wenn der Service in eurer `compose.yaml` exakt `backend` heißt.
-
-Stack neu starten:
-
-```bash
-docker compose up -d --build
-```
-
-**Prüft anschließend:**
-
-- Im Browser: <http://localhost:8080>
-- Seht ihr das Mission-Control-Dashboard mit den sechs vorgeladenen Modulen?
-- Steht oben rechts „Backend online" mit grünem Indikator?
+- `docker compose logs backend` zeigt „Database connection established." und „Listening on port 3000"?
 - Funktioniert „Modul anlegen"?
 - Funktioniert „Status ändern" (Dropdown auf einer Karte)?
 - Funktioniert „Entfernen"?
 
-**Compose-Fokus:** mehrstufiges Routing zwischen Containern, Port-Veröffentlichung nur dort, wo nötig.
+Falls das Backend zunächst nicht startet: das ist normal beim ersten Start, weil die DB-Initialisierung etwas dauert. Die Retry-Logik im Backend fängt das ab. **Wenn nach 30 Sekunden immer noch nichts geht:** Logs lesen, in den Hilfekarten 1–4 nachschauen.
+
+**Compose-Fokus:** `build:` mit eigenem Dockerfile, Service-Namen als DNS-Hostname, einfaches `depends_on`.
 
 ---
 
@@ -213,6 +258,8 @@ Stack neu starten:
 ```bash
 docker compose up -d
 ```
+
+**Im Frontend:** binnen Sekunden ploppt der Toast **„Adminer ist online (Port 8081)."** auf, die Adminer-Lampe wird grün. Damit sind alle vier Lampen oben grün.
 
 **Adminer öffnen:** <http://localhost:8081>
 
@@ -347,7 +394,7 @@ Der finale Test: bleiben eure Daten beim Restart erhalten?
     docker compose up -d
     ```
 
-4. Browser neu laden. **Sind eure eigenen Module noch da?** Sie sollten es sein – die Daten leben im Volume `aurora-data`, das von `down` nicht angefasst wird.
+4. Im Frontend zuschauen: kurze rote Lampen, dann gehen sie wieder grün. **Sind eure eigenen Module noch da?** Sie sollten es sein – die Daten leben im Volume `aurora-data`, das von `down` nicht angefasst wird.
 
 5. Jetzt der harte Test:
 
@@ -387,9 +434,17 @@ backend-fastapi/
     docker compose up -d --build
     ```
 
-- Im Frontend nachschauen: oben rechts sollte jetzt „Backend online · python-fastapi" stehen (statt `node-express`).
+    !!! info "Erster FastAPI-Build dauert länger"
+        Das FastAPI-Image installiert beim ersten Build seine Python-Pakete (FastAPI, uvicorn, psycopg). Rechnet mit **1–3 Minuten** Build-Zeit beim allerersten Mal.
 
-> Ergebnis: das Frontend hat sich **nicht** geändert. Das Backend ist eine andere Sprache, eine andere Library, ein anderes Image – aber die Schnittstelle bleibt gleich. Das ist die Stärke von Container-basierten Systemen.
+- Lasst das Frontend offen und schaut zu, was passiert:
+    - Während des Rebuilds wird die Backend-Lampe **kurz rot**, ein Toast meldet **„Backend nicht mehr erreichbar."**
+    - Sobald der neue Container läuft: Toast **„Backend gewechselt: node-express → python-fastapi"**.
+    - Backend-Lampe ist wieder grün, im Status-Panel steht jetzt `python-fastapi` statt `node-express`.
+
+> Ergebnis: das Frontend hat sich **nicht** geändert, die Datenbank auch nicht (gleiche Tabelle, gleiche Module). Das Backend ist eine andere Sprache, eine andere Library, ein anderes Image – aber die Schnittstelle bleibt gleich. Das ist die Stärke von Container-basierten Systemen.
+
+**Zurück zu Node:** einfach den `build:`-Pfad wieder auf `./backend-node` setzen, `docker compose up -d --build` – Lampen blinken wieder kurz, dann zeigt das Frontend wieder `node-express`.
 
 **Profi-Variante** (optional):
 
@@ -418,10 +473,12 @@ Findet heraus:
 - Welche IP-Adressen haben eure Services im Compose-Netzwerk?
     - `docker compose exec backend getent hosts db`
 - Wie heißt das benannte Volume **wirklich**?
-    - `docker volume ls | grep aurora`
+    - `docker volume ls`  (sucht nach Einträgen mit `aurora-data`)
 - Welche Umgebungsvariablen sind im Backend-Container gesetzt?
-    - `docker compose exec backend env | sort`
+    - `docker compose exec backend env`
 - Was zeigt `docker compose top` an?
+- Welche Netzwerke hat Compose angelegt?
+    - `docker network ls`
 
 ---
 

@@ -33,6 +33,9 @@ Ihr schreibt dafür eine **eigene `compose.yaml`** und nutzt die wichtigsten Com
 - `healthcheck` für die Datenbank
 - Logs lesen, Container in den Stack hineinschauen
 
+!!! tip "Live-Status statt Browser-Refresh"
+    Das Frontend ist als kleines **Mission-Control-Cockpit** gebaut: oben hat es vier **Status-Lampen** (Frontend, Backend, Datenbank, Adminer), die ihr Schritt für Schritt aufleuchten seht. Sobald ihr einen Service hinzufügt oder austauscht, ploppt oben rechts ein **Toast** auf („Backend ist online (node-express)") – kein manuelles Reload nötig. Auch beim Bonus-Tausch Node→FastAPI seht ihr live, wie das Frontend den neuen Implementierungs-Namen anzeigt.
+
 !!! info "Code zur Aufgabe"
     Der Code für die Beispielanwendung liegt im Repository unter:
 

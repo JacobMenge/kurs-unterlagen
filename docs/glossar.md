@@ -189,6 +189,12 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="esxi"></span>ESXi
 : **Typ-1-Hypervisor von VMware** (heute Broadcom). Läuft direkt auf der Hardware, ohne klassisches Host-OS. Klassisch im Enterprise-Rechenzentrum, wo viele VMs pro Server betrieben werden sollen.
 
+## <span id="express"></span>Express
+: **Leichtes Web-Framework für [Node.js](#nodejs)**. Express bietet eine schlanke API zum Definieren von HTTP-Endpunkten (`app.get('/foo', handler)`) und ist im Node-Ökosystem das Standard-Tool für kleine APIs und Web-Server. In diesem Kurs nutzen wir Express in den Backend-Containern der Praxis-Blöcke (Escape Room und Mission Control). Ihr müsst Express nicht im Detail verstehen – nur wissen, dass das Backend damit auf Anfragen wie `/api/health` antwortet.
+
+## <span id="fastapi"></span>FastAPI
+: **Modernes Python-Web-Framework** für HTTP-APIs, basierend auf [Pydantic](#pydantic) und [Uvicorn](#uvicorn). Bietet automatische Datenvalidierung über Type-Hints und automatisch generierte OpenAPI-Doku. Das Pendant zu [Express](#express) auf der Python-Seite. In diesem Kurs taucht FastAPI in der Mission-Control-Praxis als alternatives Backend auf – es zeigt, dass die Schnittstelle eines Containers (HTTP-Endpunkte, JSON) wichtiger ist als seine innere Sprache.
+
 ## <span id="firmware"></span>Firmware
 : **Low-Level-Software**, die fest mit der Hardware verbunden ist und beim Einschalten des Rechners als Erstes startet. Klassisch das **BIOS**, heute meist **UEFI**. Sie initialisiert die Hardware, sucht den Bootloader und übergibt dann die Kontrolle ans Betriebssystem. Auch andere Geräte (Router, Festplatten, Drucker) haben ihre eigene Firmware. Bei Virtualisierung simuliert der Hypervisor eine virtuelle Firmware für den Gast.
 
@@ -365,7 +371,10 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Technik, die mehrere interne IP-Adressen hinter einer einzigen externen verbirgt.** Dein Heimrouter macht das, damit alle Geräte im Heimnetz über eine einzige öffentliche IP ins Internet können. Docker nutzt NAT im Bridge-Netzwerk: Der Host hat eine Gateway-IP, alle Container hängen dahinter und werden übersetzt, wenn sie nach draußen sprechen.
 
 ## <span id="nginx"></span>nginx
-: **Sehr populärer Webserver**, der statische Seiten ausliefert und als Reverse Proxy vor anderen Diensten eingesetzt wird. Schnell, ressourcenschonend, gut konfigurierbar. In Docker als offizielles Image `nginx` verfügbar – wird im Kurs oft als „schnell einen Webserver haben"-Beispiel genutzt.
+: **Sehr populärer Webserver**, der statische Seiten ausliefert und als Reverse Proxy vor anderen Diensten eingesetzt wird. Schnell, ressourcenschonend, gut konfigurierbar. In Docker als offizielles Image `nginx` verfügbar – wird im Kurs oft als „schnell einen Webserver haben"-Beispiel genutzt. Siehe auch [proxy_pass](#proxy_pass) für die Reverse-Proxy-Direktive.
+
+## <span id="nodejs"></span><span id="node"></span>Node.js
+: **JavaScript-Laufzeitumgebung außerhalb des Browsers**, basierend auf der V8-Engine von Chrome. Damit lässt sich JavaScript für Server-Anwendungen, CLI-Tools oder Build-Pipelines verwenden. Mit dem Paketmanager **npm** oder **pnpm** zieht man Bibliotheken nach (z.B. [Express](#express) für eine kleine API). In diesem Kurs taucht Node.js in den Beispiel-Backends auf – als Image `node:22-alpine` oder `node:20-slim`. Ihr müsst Node nicht selbst installieren, das macht das Image.
 
 ## <span id="nic"></span>NIC (Network Interface Card)
 : **Netzwerkkarte** – das Gerät, über das ein Rechner sich mit einem Netzwerk verbindet. Kann physisch sein (Ethernet, WLAN) oder virtuell (bei VMs und Containern). Jede NIC hat eine eigene MAC-Adresse und eine oder mehrere IP-Adressen.
@@ -421,11 +430,17 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="profiles"></span>profiles (Compose)
 : **Compose-Schlüssel**, der Services **optional** macht. Ein Service mit `profiles: ["debug"]` startet **nicht** bei `docker compose up -d` – nur wenn das passende Profil aktiv ist: `docker compose --profile debug up -d`. Sehr nützlich, um z.B. Adminer, Mailpit oder andere Debug-Tools im selben `compose.yaml` zu definieren, sie aber im Alltag nicht hochzufahren. Mehrere Profile pro Service sind möglich.
 
+## <span id="proxy_pass"></span>proxy_pass (nginx)
+: **Direktive in der nginx-Konfiguration**, die ankommende Anfragen an einen anderen Server weiterleitet (Reverse-Proxy-Verhalten). Beispiel: `proxy_pass http://backend:3000/api/;` heißt: alles, was an diese `location` kommt, wird intern an `http://backend:3000/api/...` geschickt. In Compose-Setups ist der Hostname rechts oft ein **Service-Name** aus der `compose.yaml`, sodass nginx den anderen Container über den Compose-internen DNS findet. Wichtig in dynamischen Setups: nginx mit einem `resolver`-Block kombinieren und den Hostnamen über eine Variable einsetzen, damit nicht beim Start einmalig gecacht wird. Siehe auch [nginx](#nginx) und [Reverse Proxy](#reverse-proxy).
+
 ## <span id="postgres"></span><span id="postgresql"></span>PostgreSQL / Postgres
 : **Mächtige, frei verfügbare relationale Datenbank.** Sehr ausgereift, extrem erweiterbar, in vielen Projekten die erste Wahl. In Docker als offizielles Image `postgres` verfügbar und wird in den Kurs-Praxisteilen genutzt. Der Service hört standardmäßig auf Port 5432.
 
 ## <span id="powershell"></span>PowerShell
 : **Die moderne Shell von Microsoft**, plattformübergreifend (Windows/macOS/Linux). Objekt-orientiert statt text-orientiert wie Bash: Befehle liefern Objekte, nicht Strings. Mächtig, aber mit anderer Syntax als Bash – in diesem Kurs zeigen wir wichtige Varianten, wo sich die Befehle unterscheiden.
+
+## <span id="pydantic"></span>Pydantic
+: **Python-Bibliothek zur Daten-Validierung über Type-Hints.** Eine Klasse beschreibt das erwartete Datenmodell (Felder, Typen, Constraints), Pydantic prüft beim Erzeugen automatisch und meldet Fehler. Wird intensiv von [FastAPI](#fastapi) genutzt, um eingehende Requests zu validieren – passt das JSON nicht zum Modell, gibt es automatisch eine `422`-Antwort mit Erklärung.
 
 ## <span id="prozess"></span>Prozess
 : **Ein laufendes Programm**, das der Kernel verwaltet. Hat eine PID (Prozess-ID), einen eigenen Speicherbereich, kann Kind-Prozesse starten. Siehst du auf Linux mit `ps aux` oder `htop`. Jeder Container ist technisch ein Prozess (oder eine Prozess-Gruppe) auf dem Host-Kernel.
@@ -576,6 +591,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="url"></span>URL (Uniform Resource Locator)
 : **Eine Web-Adresse**, z.B. `https://jacob-decoded.de`. Besteht aus Schema (`https`), Host (`jacob-decoded.de`), optional Port und Pfad.
+
+## <span id="uvicorn"></span>Uvicorn
+: **Schneller ASGI-Server für Python**, mit dem [FastAPI](#fastapi)- und andere asynchrone Web-Apps tatsächlich ausgeführt werden. Übernimmt die Rolle, die `node` für Express oder Gunicorn für Flask spielt: er nimmt HTTP-Anfragen entgegen, ruft die Anwendung auf und schickt die Antwort zurück. Im Container startet man eine FastAPI-App typischerweise mit `uvicorn main:app --host 0.0.0.0 --port 3000`.
 
 ## <span id="utm"></span>UTM
 : **Freie Virtualisierungs-App für macOS** (auch Apple Silicon), basiert intern auf QEMU. Stark für ARM-native Gäste und exotische Architekturen – kann z.B. einen Raspberry-Pi-Kernel auf dem Mac emulieren.

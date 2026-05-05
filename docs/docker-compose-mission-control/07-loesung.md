@@ -33,24 +33,70 @@ Prüfen, dass alle Bauteile da sind:
 
 Falls noch keine `compose.yaml` existiert: leere Datei anlegen.
 
-```bash
-touch compose.yaml      # macOS/Linux/Git Bash
-```
+=== "macOS / Linux / Git Bash"
+    ```bash
+    touch compose.yaml
+    ```
 
-oder unter PowerShell:
+=== "Windows PowerShell"
+    ```powershell
+    New-Item -ItemType File compose.yaml
+    ```
 
-```powershell
-New-Item -ItemType File compose.yaml
-```
+=== "Windows CMD"
+    ```cmd
+    type nul > compose.yaml
+    ```
 
 ---
 
-## Schritt 1 – Datenbank-Service `db`
+## Schritt 1 – Frontend-Service
 
-Erste Version der `compose.yaml`:
+Wir starten mit dem **Frontend**, damit ihr von der ersten Sekunde an etwas im Browser seht. Erste Version der `compose.yaml`:
 
 ```yaml
 services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+```
+
+Image bauen + starten:
+
+```bash
+docker compose up -d --build
+```
+
+Check:
+
+```bash
+docker compose ps
+```
+
+Im Browser: <http://localhost:8080>
+
+Erwartet:
+
+- Mission-Control-Konsole mit Sternenhimmel
+- **Frontend-Lampe grün**, alle anderen rot
+- Heartbeat oben rechts schreibt „warte auf backend …"
+- Modul-Grid leer (Backend liefert nichts, weil's noch nicht existiert)
+
+---
+
+## Schritt 2 – Datenbank-Service
+
+DB hinzufügen:
+
+```yaml
+services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+
   db:
     image: postgres:16-alpine
     environment:
@@ -75,20 +121,27 @@ Check:
 
 ```bash
 docker compose ps
-docker compose logs db | tail -20
-docker compose exec db psql -U aurora -d auroradb -c "SELECT name, status FROM modules;"
+docker compose logs --tail 20 db
+docker compose exec db psql -U aurora -d auroradb -c "SELECT name, status FROM modules"
 ```
 
 Erwartetes Ergebnis: sechs Beispiel-Module aus dem `init.sql`.
 
+> Hinweis: Im Frontend bleibt die DB-Lampe **noch rot**, weil das Frontend die DB nur über das Backend prüfen kann. Erst Mission 3 (Backend) macht beide Lampen grün.
+
 ---
 
-## Schritt 2 – Backend-Service
+## Schritt 3 – Backend-Service
 
-Dazu nehmen:
+Backend dazu nehmen:
 
 ```yaml
 services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
 
   db:
     # ... wie oben
@@ -123,52 +176,19 @@ docker compose logs -f backend
 
 (Mit `Ctrl+C` aus dem Live-Log raus.)
 
-API-Test direkt im Backend-Container:
+**Schaut jetzt im Frontend zu:**
+
+- Toasts oben rechts: „Backend ist online (node-express)" + „Datenbank ist verbunden."
+- Backend- und DB-Lampe werden grün
+- Sechs Module poppen ins Grid
+
+API-Test direkt im Backend-Container (optional):
 
 ```bash
 docker compose exec backend wget -qO- http://localhost:3000/api/health
 ```
 
-oder aus einem Terminal **außerhalb** der Container heraus geht (noch) **nicht**, weil der Backend-Service bewusst keinen externen Port hat.
-
----
-
-## Schritt 3 – Frontend-Service
-
-```yaml
-services:
-
-  db:
-    # ...
-
-  backend:
-    # ...
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "8080:80"
-    depends_on:
-      - backend
-
-volumes:
-  aurora-data:
-```
-
-Image bauen + starten:
-
-```bash
-docker compose up -d --build
-```
-
-Im Browser: <http://localhost:8080>
-
-Erwartet:
-
-- Mission-Control-Header sichtbar
-- Status-Indikator oben rechts grün, "Backend online · node-express"
-- Sechs Module aus dem `init.sql` als Karten
-- Modul anlegen, Status ändern, Modul entfernen funktioniert
+Aus einem Terminal **außerhalb** der Container heraus geht das **nicht**, weil der Backend-Service bewusst keinen externen Port hat – das Frontend übernimmt das Routing.
 
 ---
 
@@ -177,13 +197,13 @@ Erwartet:
 ```yaml
 services:
 
+  frontend:
+    # ...
+
   db:
     # ...
 
   backend:
-    # ...
-
-  frontend:
     # ...
 
   adminer:
@@ -202,6 +222,8 @@ Stack neu starten:
 ```bash
 docker compose up -d
 ```
+
+**Im Frontend:** Toast „Adminer ist online (Port 8081)." + Adminer-Lampe wird grün. Alle vier Lampen jetzt grün.
 
 Adminer öffnen: <http://localhost:8081>
 
@@ -396,6 +418,13 @@ Hier die fertige `compose.yaml` zum Vergleichen:
 ```yaml
 services:
 
+  frontend:
+    build: ./frontend
+    ports:
+      - "${FRONTEND_PORT}:80"
+    # Bewusst kein depends_on: das Frontend läuft auch ohne andere
+    # Services und zeigt im Dashboard, was noch fehlt.
+
   db:
     image: postgres:16-alpine
     environment:
@@ -424,13 +453,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "${FRONTEND_PORT}:80"
-    depends_on:
-      - backend
 
   adminer:
     image: adminer:latest
@@ -521,9 +543,20 @@ role "${POSTGRES_USER}" does not exist
 
 **Diagnose:**
 
-```bash
-docker compose config | grep POSTGRES
-```
+=== "macOS / Linux / Git Bash"
+    ```bash
+    docker compose config | grep POSTGRES
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker compose config | Select-String POSTGRES
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    docker compose config | findstr POSTGRES
+    ```
 
 Wenn dort weiterhin `${...}` steht, hat Compose nichts ersetzt.
 

@@ -73,9 +73,20 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
     !!! tip "Nur Variablen prüfen"
         Wenn ihr nur sehen wollt, ob die `.env` korrekt geladen wird:
 
-        ```bash
-        docker compose config | grep POSTGRES
-        ```
+        === "macOS / Linux / Git Bash"
+            ```bash
+            docker compose config | grep POSTGRES
+            ```
+
+        === "Windows PowerShell"
+            ```powershell
+            docker compose config | Select-String POSTGRES
+            ```
+
+        === "Windows CMD"
+            ```cmd
+            docker compose config | findstr POSTGRES
+            ```
 
 ---
 
@@ -93,9 +104,20 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
     **Diagnose:**
 
-    ```bash
-    docker compose config | grep -i postgres
-    ```
+    === "macOS / Linux / Git Bash"
+        ```bash
+        docker compose config | grep -i postgres
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker compose config | Select-String -Pattern postgres -CaseSensitive:$false
+        ```
+
+    === "Windows CMD"
+        ```cmd
+        docker compose config | findstr /i postgres
+        ```
 
     Wenn dort weiterhin `${...}` steht: Compose hat nichts zum Einsetzen gefunden. Variable in `.env` setzen oder Pfad/Dateinamen korrigieren.
 

@@ -30,10 +30,10 @@ mission-...-adminer-1         adminer:latest           Up                  0.0.0
 ### 2. Volume
 
 ```bash
-docker volume ls | grep aurora
+docker volume ls
 ```
 
-`aurora-data` ist sichtbar, mit Compose-Projekt-Präfix.
+`aurora-data` (mit Compose-Projekt-Präfix, z.B. `docker-compose-mission-control_aurora-data`) ist in der Liste sichtbar.
 
 ### 3. Frontend
 

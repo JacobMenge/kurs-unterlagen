@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import os
 import time
+from contextlib import asynccontextmanager
 from typing import Literal
 
 import psycopg
@@ -31,7 +32,28 @@ PG_CONFIG = {
 VALID_STATUSES = ("online", "offline", "critical", "maintenance")
 StatusLiteral = Literal["online", "offline", "critical", "maintenance"]
 
-app = FastAPI(title=APP_NAME)
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    print(f"[backend] Starting {APP_NAME}", flush=True)
+    print(
+        "[backend] DB target:",
+        {
+            "host": PG_CONFIG["host"],
+            "port": PG_CONFIG["port"],
+            "database": PG_CONFIG["dbname"],
+            "user": PG_CONFIG["user"],
+        },
+        flush=True,
+    )
+    wait_for_database()
+    ensure_schema()
+    print(f"[backend] Listening on port {PORT}", flush=True)
+    yield
+    print("[backend] Shutting down.", flush=True)
+
+
+app = FastAPI(title=APP_NAME, lifespan=lifespan)
 
 
 def get_conn():
@@ -184,22 +206,4 @@ def delete_module(module_id: int) -> Response:
     return Response(status_code=204)
 
 
-# ------------------- Boot -------------------
-
-
-@app.on_event("startup")
-def on_startup() -> None:
-    print(f"[backend] Starting {APP_NAME}", flush=True)
-    print(
-        "[backend] DB target:",
-        {
-            "host": PG_CONFIG["host"],
-            "port": PG_CONFIG["port"],
-            "database": PG_CONFIG["dbname"],
-            "user": PG_CONFIG["user"],
-        },
-        flush=True,
-    )
-    wait_for_database()
-    ensure_schema()
-    print(f"[backend] Listening on port {PORT}", flush=True)
+# Boot-Logik steht oben im lifespan-Context-Manager.
