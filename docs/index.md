@@ -68,6 +68,14 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
     [:octicons-arrow-right-24: Block 4 starten](docker-compose/index.md)
 
+-   :material-satellite-variant:{ .lg .middle } __[Mission Control (Compose-Praxis)](docker-compose-mission-control/index.md)__
+
+    ---
+
+    **Praxis-Wiederholung in der Gruppe** – diesmal mit Compose: Vier Services (Frontend, Backend, DB, Adminer), `.env`, Healthcheck, optionaler Backend-Tausch. 90-Minuten-Mission rund um die Aurora Station.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](docker-compose-mission-control/index.md)
+
 -   :material-rocket-launch-outline:{ .lg .middle } __[Docker für Profis](docker-profi/index.md)__
 
     ---
@@ -149,6 +157,7 @@ Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://ja
     - **Praxis-Block** – Docker Escape Room (Gruppen-Übung vor Compose)
     - **Vertiefung** – fünf zusätzliche Docker-Übungen ohne Compose
     - **Block 4** – Docker Compose (nächste Einheit)
+    - **Praxis-Block II** – Mission Control (Compose-Gruppenübung nach Block 4)
     - **Block 5** – Docker für Profis (Best Practices, Optimierung)
 
     Weitere Einheiten (Kubernetes, CI/CD, Monitoring) kommen später dazu.

@@ -1,0 +1,14 @@
+{
+  "name": "mission-control-backend-node",
+  "version": "1.0.0",
+  "description": "Mission Control – Node.js/Express Backend (Übungs-App für Docker Compose).",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.13.0"
+  }
+}

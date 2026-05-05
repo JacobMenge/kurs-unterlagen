@@ -6,6 +6,7 @@ nav:
   - "Docker Escape Room": docker-escape-room
   - "Docker-Vertiefung": docker-vertiefung
   - "Docker Compose": docker-compose
+  - "Mission Control (Compose-Praxis)": docker-compose-mission-control
   - "Docker für Profis": docker-profi
   - "Cheatsheets": cheatsheets
   - "Glossar": glossar.md

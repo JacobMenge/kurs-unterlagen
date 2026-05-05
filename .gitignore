@@ -19,3 +19,11 @@ env/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Compose (Studierende erzeugen ihre eigene compose.yaml + .env)
+apps/docker-compose-mission-control/compose.yaml
+apps/docker-compose-mission-control/compose.*.yaml
+apps/docker-compose-mission-control/.env
+
+# Node-Artefakte falls jemand lokal probiert
+apps/**/node_modules/

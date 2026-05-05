@@ -1,0 +1,10 @@
+nav:
+  - "Überblick": index.md
+  - "Technologien kurz erklärt": 00-technologien-kurz-erklaert.md
+  - "Compose-Recap": 02-compose-recap.md
+  - "Szenario": 03-szenario.md
+  - "Aufgabenübersicht": 04-aufgabenuebersicht.md
+  - "Hilfekarten": 05-hilfekarten.md
+  - "Abgabe & Reflexion": 06-abgabe-und-reflexion.md
+  - "Lösung": 07-loesung.md
+  - "Rückblick & Ausblick": 08-rueckblick.md

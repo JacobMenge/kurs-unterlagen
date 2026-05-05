@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mission Control – Aurora Station</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">▲</span>
+        <div>
+          <h1>Mission Control</h1>
+          <p class="subtitle">Aurora Station · Modul-Status-Dashboard</p>
+        </div>
+      </div>
+      <div class="status-line">
+        <span id="status-indicator" class="indicator unknown"></span>
+        <span id="status-text">Verbinde mit Backend …</span>
+        <button id="reload-btn" type="button">Neu laden</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Stationsmodule</h2>
+          <span id="module-count" class="badge-count">–</span>
+        </div>
+        <div id="module-grid" class="module-grid">
+          <!-- Module werden via JS gerendert -->
+        </div>
+        <p id="empty-state" class="empty hidden">
+          Keine Module vorhanden. Lege das erste Modul über das Formular unten an.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Neues Modul anlegen</h2>
+        </div>
+        <form id="module-form" class="module-form">
+          <label>
+            <span>Bezeichnung</span>
+            <input
+              type="text"
+              name="name"
+              placeholder="z.B. Solar Array B"
+              required
+              maxlength="80"
+            />
+          </label>
+          <label>
+            <span>Status</span>
+            <select name="status" required>
+              <option value="online">online</option>
+              <option value="offline">offline</option>
+              <option value="critical">critical</option>
+              <option value="maintenance">maintenance</option>
+            </select>
+          </label>
+          <button type="submit">Modul anlegen</button>
+        </form>
+        <p id="form-feedback" class="feedback"></p>
+      </section>
+
+      <section class="panel diag">
+        <div class="panel-head">
+          <h2>Diagnose</h2>
+        </div>
+        <ul class="diag-list">
+          <li>
+            Frontend (Nginx) erreichbar:
+            <strong id="diag-frontend">ja, du liest das hier</strong>
+          </li>
+          <li>
+            Backend antwortet auf <code>/api/health</code>:
+            <strong id="diag-health">…</strong>
+          </li>
+          <li>
+            Datenbank über das Backend erreichbar:
+            <strong id="diag-db">…</strong>
+          </li>
+          <li>
+            Backend-Implementierung:
+            <strong id="diag-impl">…</strong>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <span>Aurora Station · Mission Control · Übungs-App für Docker Compose</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
