@@ -1,6 +1,6 @@
 ---
 title: "Stolpersteine CI/CD"
-description: "Typische Probleme bei GitHub Actions, Container-Builds, Registry-Pushes und Pipeline-Logik mit konkreten Lösungswegen."
+description: "Typische Probleme bei GitHub Actions, YAML-Syntax, Permissions, Pipeline-Logik und Logs lesen."
 ---
 
 # Stolpersteine CI/CD
@@ -53,7 +53,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     tags: "app:1.0"     # ✓
     ```
 
-    Allgemein: **Tag-Strings, Image-Refs, Pfade mit `:`** immer in Anführungszeichen.
+    Allgemein: **Strings mit `:`** immer in Anführungszeichen.
 
 ??? warning "Tabs statt Leerzeichen"
     YAML erlaubt **keine** Tabs für Einrückung. Editor auf „Leerzeichen statt Tabs" stellen, alle Einrückungen mit **2 Leerzeichen** pro Ebene neu setzen.
@@ -76,50 +76,28 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
         tags-ignore: ["**"]   # explizit alle Tags ausschließen
     ```
 
+??? warning "`Run workflow`-Knopf erscheint nicht"
+    Der manuelle Knopf für `workflow_dispatch:` ist nur sichtbar, wenn die Workflow-Datei mindestens einmal auf dem Default-Branch (meist `main`) gelandet ist. Erstmal pushen, dann erscheint er.
+
 ---
 
 ## Permissions, Secrets und Tokens
 
-??? danger "„resource not accessible by integration" beim Push in GHCR"
-    Drei Dinge müssen zusammenpassen:
-
-    1. **Im Workflow**:
-        ```yaml
-        permissions:
-          contents: read
-          packages: write
-        ```
-
-    2. **In den Repo-Settings**: Settings → Actions → General → **Workflow permissions** auf **„Read and write permissions"**.
-    3. **Image-Pfad** korrekt: `ghcr.io/<owner>/<repo>` mit **Kleinbuchstaben**. GHCR akzeptiert keine Großbuchstaben.
-
-??? danger "„repository name must be lowercase" beim Push in GHCR"
-    GHCR akzeptiert **nur Kleinbuchstaben** im Image-Pfad. GitHub-Usernames können aber Großbuchstaben enthalten (z.B. `JacobMenge`). Wenn du `${{ github.repository }}` direkt in den Tag schreibst, bricht der Push mit dieser Fehlermeldung ab.
-
-    **Lösung 1, einfacher Lowercase-Step (empfohlen):**
+??? danger "„resource not accessible by integration"
+    Der `GITHUB_TOKEN` hat **standardmäßig** keine Schreibrechte. Wenn dein Workflow z.B. Pakete pushen oder Releases anlegen will, muss er explizit Rechte anfordern:
 
     ```yaml
-    - id: lcrepo
-      run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-
-    - uses: docker/build-push-action@v6
-      with:
-        push: true
-        tags: |
-          ghcr.io/${{ steps.lcrepo.outputs.REPO }}:${{ github.sha }}
-          ghcr.io/${{ steps.lcrepo.outputs.REPO }}:latest
+    permissions:
+      contents: read
+      packages: write
     ```
 
-    `${VAR,,}` ist Bash-Lowercase-Expansion. Funktioniert auf allen GitHub-gehosteten Linux-Runnern.
-
-    **Lösung 2, `docker/metadata-action` nutzen:**
-
-    Die Action konvertiert Tags und Image-Pfade meist automatisch zu Kleinbuchstaben. In Edge-Cases ist Lösung 1 robuster. Beide kombinieren ist okay.
+    Plus in den **Repo-Settings**: Settings → Actions → General → **Workflow permissions** auf **„Read and write permissions"**.
 
 ??? warning "PR aus Fork hat keinen Zugriff auf Secrets"
     Das ist **Absicht** von GitHub. Forks können Repository-Secrets nicht lesen, sonst wäre jeder Fork ein Datendiebstahl-Vektor.
 
-    **Lösung:** Für PRs nur Build und Test ausführen (ohne Secrets). Push/Deploy nur auf `push:` triggern.
+    **Lösung:** Für PRs nur Build und Test ausführen (ohne Secrets). Push und Deploy nur auf `push:` triggern.
 
     ```yaml
     publish:
@@ -139,45 +117,9 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
 
     - GHCR-Pushes (mit `packages: write`)
     - Releases (mit `contents: write`)
-    - Issues/PRs kommentieren
+    - Issues und PRs kommentieren
 
     PAT brauchst du erst, wenn du **Cross-Repo**-Aktionen machen willst (z.B. von Repo A in Repo B pushen).
-
----
-
-## Docker-Builds in GitHub Actions
-
-??? warning "Build dauert immer 5+ Minuten, obwohl wenig sich ändert"
-    **Cache wird nicht genutzt.** Prüf:
-
-    1. **`cache-from` und `cache-to`** in der `build-push-action` gesetzt?
-        ```yaml
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-        ```
-    2. **Layer-Reihenfolge im Dockerfile** stimmt? Selten geänderte Dinge oben, oft geänderte unten. Mehr dazu: [Dockerfile-Best-Practices](../docker-profi/dockerfile-best-practices.md#1-layer-caching-aktiv-nutzen).
-
-??? warning "„exec format error" beim Run auf einem ARM-Server"
-    Du hast nur `linux/amd64` gebaut, aber willst auf `linux/arm64` (Apple Silicon, Graviton) ausführen.
-
-    **Lösung:** Multi-Arch-Build mit `setup-qemu-action` + `platforms: linux/amd64,linux/arm64`. Siehe [Übung 6.3](uebungen.md#uebung-63-multi-arch-image-linuxamd64--linuxarm64).
-
-??? danger "`load: true` und Multi-Arch widersprechen sich"
-    `load: true` lädt das Image in den lokalen Daemon, **aber nur eine Architektur**. Wenn du `platforms:` mit zwei Plattformen plus `load: true` setzt, schlägt der Build fehl mit „docker exporter does not currently support exporting manifest lists".
-
-    **Lösung:**
-
-    - Build-Job (lokal, mit Test): `load: true`, **eine** Plattform.
-    - Push-Job: `push: true`, mehrere Plattformen.
-
-??? warning "Tests laufen nicht im Container, weil pytest nicht da ist"
-    Häufiges Symptom in Multi-Stage-Builds: das **finale Image** (Runtime-Stage) hat `pytest` nicht, weil das nur im Build-Image war.
-
-    **Drei Lösungen:**
-
-    1. **Tests in einer eigenen Phase**, nicht im Runtime-Image. Direkt auf dem Runner mit `pytest` außerhalb von Docker (siehe [Übung 6.2](uebungen.md#uebung-62-tests-in-einem-eigenen-job)).
-    2. **Tests im Build-Stage**, als Schritt **innerhalb** des Dockerfile mit `RUN pytest`. Bricht dann den Build, wenn rot.
-    3. **Test-Image**, eigene Image-Variante, die Test-Tools enthält (`docker build --target test -t app-test .`).
 
 ---
 
@@ -198,7 +140,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     ```yaml
     publish:
       runs-on: ubuntu-latest
-      needs: [build-and-test]    # blockt, bis Build + Tests grün sind
+      needs: [build-and-test]    # blockt, bis Build und Tests grün sind
       steps: ...
     ```
 
@@ -224,43 +166,6 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
 
 ---
 
-## Docker-Build im Container vs. auf dem Runner
-
-??? info "`docker run` im Workflow funktioniert, `docker compose up` nicht"
-    Der Standard-Runner (`ubuntu-latest`) hat Docker, aber **nicht** Compose Plugin in allen Versionen direkt verfügbar.
-
-    **Test:**
-
-    ```yaml
-    - run: docker compose version
-    ```
-
-    Wenn das schiefgeht, Compose installieren. Meist reicht:
-
-    ```yaml
-    - run: |
-        sudo apt-get update
-        sudo apt-get install -y docker-compose-plugin
-    ```
-
-    Aktuelle GitHub-Runner haben Compose V2 typischerweise dabei. Falls doch nicht, ist der Lauf trivial nachzuinstallieren.
-
-??? warning "Service-Container vs. self-hosted Runner"
-    GitHub Actions kann **Service Container** parallel zum Job laufen lassen (z.B. Postgres für Integration-Tests):
-
-    ```yaml
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_PASSWORD: test
-        ports: ["5432:5432"]
-    ```
-
-    Das funktioniert auf **GitHub-gehosteten Runnern**, aber nicht auf jeder self-hosted Variante. Wenn du einen self-hosted Runner nutzt, prüf zuerst die Doku.
-
----
-
 ## Logs lesen lernen
 
 ??? info "Workflow ist rot, ich finde die Stelle nicht"
@@ -275,12 +180,13 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     Das untere Ende der Logs ist meist Folgefehler.
 
 ??? info "Logs sind kryptisch, viel Rauschen"
-    Standardmäßig druckt `actions/checkout` und Co. viele Zeilen. Du kannst **Step-Output gruppieren**:
+    Standardmäßig drucken `actions/checkout` und andere Actions viele Zeilen. Du kannst **Step-Output gruppieren**:
 
     ```yaml
     - run: |
-        echo "::group::Build logs"
-        docker build -t app .
+        echo "::group::Eigener Block"
+        echo "Zeile A"
+        echo "Zeile B"
         echo "::endgroup::"
     ```
 
@@ -291,20 +197,44 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
 
 ---
 
+## Lokale Probleme
+
+??? info "Push klappt nicht: „authentication failed"
+    Beim ersten Push mit HTTPS verlangt Git Anmeldedaten. **Username** ist dein GitHub-Name, **Passwort** ist ein **Personal Access Token**, nicht das normale Passwort.
+
+    PAT erstellen: GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token. Mindestens das Recht **`repo`** anhaken, eine sinnvolle Ablaufzeit setzen, **Token kopieren** (du siehst ihn nur einmal).
+
+    Beim nächsten `git push` Username + Token eingeben. Git Credential Manager merkt sich das auf den meisten Systemen.
+
+??? info "Workflow-Datei nicht im Repo nach `git push`"
+    Hast du die Datei zum Commit hinzugefügt?
+
+    ```bash
+    git status
+    ```
+
+    Steht sie unter „Untracked files" oder „Changes not staged for commit"? Dann:
+
+    ```bash
+    git add .github/workflows/<datei>.yml
+    git commit -m "Workflow hinzugefügt"
+    git push
+    ```
+
+---
+
 ## Wenn nichts hilft
 
 ??? info "Systematisches Debugging"
-    1. **Lokal reproduzieren**: führst du den Build oder Test lokal genau so aus wie in der Pipeline?
-    2. **`act`** als lokales Replikat:
+    1. **Workflow auf das Minimum reduzieren**: alles auskommentieren bis auf den problematischen Step. Dann Schritt für Schritt wieder ergänzen.
+    2. **Debug-Logging einschalten**: Repo → Settings → Secrets → `ACTIONS_RUNNER_DEBUG=true` als Secret. Pipeline neu laufen lassen.
+    3. **`act`** als lokales Replikat (für Fortgeschrittene):
         ```bash
         act push -W .github/workflows/ci.yml
         ```
-    3. **Debug-Logging einschalten**: Repo → Settings → Secrets → `ACTIONS_RUNNER_DEBUG=true` als Secret. Pipeline neu laufen lassen.
-    4. **Workflow auf das Minimum reduzieren**: alles auskommentieren bis auf den problematischen Step. Dann Schritt für Schritt wieder ergänzen.
-    5. **Andere Aktion zum Vergleich**: Hat jemand schon ein Beispiel veröffentlicht? GitHub-Marketplace und Awesome-Lists sind voll mit Vorbildern.
+    4. **Anderen Workflow zum Vergleich**: GitHub-Marketplace und Awesome-Listen sind voll mit Beispielen.
 
 !!! tip "Vorbeugend"
     - **Action-Versionen pinnen** (`@v4`, nicht `@main`).
-    - **`mkdocs build --strict` lokal**, bevor du pushst.
-    - **Cache-Keys auf Datei-Hashes basieren** (`hashFiles('requirements.txt')`).
-    - **`if:` für Push-Jobs** stets explizit setzen, nicht implizit darauf vertrauen.
+    - **YAML lokal validieren** mit `yamllint` oder einem Editor mit Schema-Support.
+    - **Trigger explizit setzen** (`branches:`, `paths-ignore:`), nicht implizit auf alles laufen lassen.

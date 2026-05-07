@@ -5,278 +5,267 @@ description: "Eigene Hands-on-Übungen zum CI/CD-Block in zwei Schwierigkeitsgra
 
 # Übungen: CI/CD mit GitHub Actions
 
-Diese Übungen vertiefen den [Praxis-Teil](praxis-erste-pipeline.md). Sie sind **aufeinander aufbauend**: jede neue Stufe nimmt etwas mit, das du in der vorigen gelernt hast.
+Die Übungen bauen auf dem **Repo aus der [Praxis](praxis-erste-pipeline.md)** auf (`mein-erster-workflow`). Jede Übung legt eine neue Workflow-Datei unter `.github/workflows/` an, sodass dein Hello-World-Workflow daneben weiterläuft.
 
 !!! abstract "Die zwei Stufen"
     - 🟢 **Einsteiger**: jeder Schritt bis ins Detail
     - 🟡 **Mittel**: weniger Hand-Holding
 
-## Voraussetzungen für alle Übungen
+## Voraussetzung für alle Übungen
 
 - Du hast die [Praxis-Übung](praxis-erste-pipeline.md) durchgespielt.
-- Dein `cicd-demo`-Repo ist auf GitHub und die Pipeline ist mindestens einmal grün gelaufen.
-- Du kannst die GitHub-Actions-**Logs** lesen.
+- Dein Repo `mein-erster-workflow` ist auf GitHub und mindestens ein Lauf war grün.
+- Du kannst den **Actions-Tab** öffnen und Logs lesen.
 
 ---
 
 ## 🟢 Einsteiger
 
-### Übung 6.1: Mini-Pipeline ohne Build
+### Übung 6.1: Bedingte Steps mit `if:`
 
 !!! info "Was du lernst"
-    - Workflow-Datei in `.github/workflows/` anlegen
-    - Trigger `on: push` und `workflow_dispatch`
-    - Ein `run:`-Schritt ohne `uses:`
-
-#### Worum geht's
-
-Bevor du Docker baust, schreibst du den **kleinstmöglichen** Workflow: ein Step, der „Hello World" auf den Runner schreibt. Das ist der Sanity-Check, dass dein Setup überhaupt funktioniert.
+    - einen Step nur unter bestimmten Bedingungen ausführen
+    - Kontextvariablen wie `github.event_name` und `github.ref` nutzen
+    - das Verhalten bei Push und manueller Auslösung unterscheiden
 
 #### Aufgabe
 
-Lege im Repo eine Datei `.github/workflows/hello.yml` an, die:
+Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderungen:
 
-1. Bei jedem Push **und** auf manuellen Knopfdruck startet.
-2. Auf `ubuntu-latest` läuft.
-3. Einen Step `echo "Hello aus der Pipeline, Commit $GITHUB_SHA"` ausführt.
+1. Trigger: `push` und `workflow_dispatch`.
+2. Ein Job `info` auf `ubuntu-latest`.
+3. Steps:
+    - **Immer**: ein `echo` mit dem Auslöser (`Push` oder `Manuell`).
+    - **Nur bei Push**: ein `echo` mit dem Branch-Namen.
+    - **Nur bei manueller Auslösung**: ein `echo` mit „Du hast den Knopf gedrückt".
 
-Push die Datei. Im Actions-Tab klickst du auf den neuen Workflow → den letzten Lauf → den Step → du solltest die Begrüßung mit deinem Commit-SHA sehen.
+#### Hinweise
+
+- Der Auslöser steht in `${{ github.event_name }}` und ist `push` oder `workflow_dispatch`.
+- Der Branch-Name steht in `${{ github.ref_name }}`.
+- `if:` direkt unter dem Step-Namen entscheidet, ob der Step läuft.
 
 ??? success "Musterlösung"
-
     ```yaml
-    # .github/workflows/hello.yml
-    name: Hello
+    name: Bedingungen
 
     on:
       push:
       workflow_dispatch:
 
     jobs:
-      say-hello:
+      info:
         runs-on: ubuntu-latest
         steps:
-          - run: echo "Hello aus der Pipeline, Commit $GITHUB_SHA"
+          - name: Auslöser anzeigen
+            run: echo "Auslöser= ${{ github.event_name }}"
+
+          - name: Nur bei Push
+            if: github.event_name == 'push'
+            run: echo "Branch ist ${{ github.ref_name }}"
+
+          - name: Nur bei manueller Auslösung
+            if: github.event_name == 'workflow_dispatch'
+            run: echo "Du hast den Knopf gedrückt"
     ```
 
-    `$GITHUB_SHA` ist eine vom Runner bereitgestellte Umgebungsvariable. Alternativ in YAML-Syntax: `${{ github.sha }}`.
+    Push erzeugt zwei Log-Zeilen, Klick auf **Run workflow** ebenfalls zwei, jeweils nur die passenden.
 
 ---
 
-### <span id="uebung-62-tests-in-einem-eigenen-job"></span>Übung 6.2: Tests in einem eigenen Job
+### Übung 6.2: Zwei Jobs mit Abhängigkeit
 
 !!! info "Was du lernst"
-    - Mehrere Jobs in einem Workflow
-    - `needs:` für Abhängigkeiten
-    - `actions/setup-python` und `pip install`
+    - mehrere Jobs in einem Workflow definieren
+    - mit `needs:` eine Reihenfolge erzwingen
+    - dass jeder Job auf einer **eigenen frischen** Runner-VM läuft
 
 #### Aufgabe
 
-Im `cicd-demo`-Repo: schreibe einen Workflow, der Tests **außerhalb** eines Containers laufen lässt, direkt auf dem Runner. Ohne Docker.
+Lege die Datei `.github/workflows/zwei-jobs.yml` an:
 
-Anforderungen:
+1. Trigger: `push` und `workflow_dispatch`.
+2. Job `vorbereiten`: gibt eine Begrüßung aus.
+3. Job `arbeiten`: läuft **erst nach** `vorbereiten` und gibt eine zweite Meldung aus.
 
-- Workflow-Datei `tests-only.yml`.
-- Trigger: `push` und `pull_request`.
-- Job `tests`, läuft auf `ubuntu-latest`.
-- Steps:
-    1. `actions/checkout@v4`
-    2. `actions/setup-python@v5` mit Python 3.12 und `cache: pip`
-    3. `pip install -r requirements.txt`
-    4. `pytest -v`
+Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst startet, wenn `vorbereiten` grün ist.
 
-Ziel: deutlich **schneller** als der Container-Build, weil weder Docker-Build noch Image gepullt wird.
+#### Hinweise
+
+- `needs: vorbereiten` direkt unter `runs-on:` reicht.
+- Beide Jobs laufen auf `ubuntu-latest`.
 
 ??? success "Musterlösung"
-
     ```yaml
-    # .github/workflows/tests-only.yml
-    name: Tests
+    name: Zwei Jobs
 
     on:
       push:
-      pull_request:
+      workflow_dispatch:
 
     jobs:
-      tests:
+      vorbereiten:
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v4
+          - run: echo "Job 1: Vorbereitung läuft"
 
-          - uses: actions/setup-python@v5
-            with:
-              python-version: "3.12"
-              cache: pip
-
-          - run: pip install -r requirements.txt
-
-          - run: pytest -v
+      arbeiten:
+        runs-on: ubuntu-latest
+        needs: vorbereiten
+        steps:
+          - run: echo "Job 2: Arbeit beginnt jetzt"
     ```
 
-    Beim ersten Lauf: vielleicht 30 Sekunden. Bei jedem Folgelauf: Cache trifft, 10–15 Sekunden. Im Vergleich zum Container-Build mit 60–90 Sekunden ist das ein deutlicher Unterschied.
+    !!! warning "Jobs teilen keine Dateien"
+        Jeder Job startet auf einer **frischen** VM. Wenn `vorbereiten` eine Datei erzeugt, ist sie in `arbeiten` nicht da. Um Dateien weiterzugeben, gibt es `actions/upload-artifact` und `actions/download-artifact`. Mehr dazu im [Cheatsheet](../cheatsheets/github-actions.md#artefakte-zwischen-jobs).
 
 ---
 
 ## 🟡 Mittel
 
-### <span id="uebung-63-multi-arch-image-linuxamd64--linuxarm64"></span>Übung 6.3: Multi-Arch-Image (linux/amd64 + linux/arm64)
+### Übung 6.3: Code aus dem Repo nutzen
 
 !!! info "Was du lernst"
-    - QEMU-Emulation für Multi-Plattform-Builds
-    - `platforms:`-Parameter der `build-push-action`
-
-#### Worum geht's
-
-Apple-Silicon-Macs (M1/M2/M3/M4) und viele Server (AWS Graviton) sind ARM. Wenn dein Image nur für `linux/amd64` gebaut ist, schmeißt Docker auf ARM-Maschinen einen `exec format error`. Lösung: **Multi-Arch-Build**.
-
-#### Aufgabe
-
-Erweitere die Pipeline aus dem Praxis-Teil so, dass das Image für **beide** Architekturen gebaut und gepusht wird.
-
-#### Hinweise
-
-- Du brauchst `docker/setup-qemu-action@v3` **vor** dem `setup-buildx-action`.
-- Im `build-push-action` zusätzlich `platforms: linux/amd64,linux/arm64`.
-- Beim **lokalen** Test (mit `load: true`) geht Multi-Arch nicht. `load:` lädt nur **eine** Architektur in den Daemon. Für den **Push-Job** (mit `push: true`) ist Multi-Arch ohne Probleme.
-
-??? success "Musterlösung: nur die geänderten Stellen"
-
-    ```yaml
-    publish:
-      runs-on: ubuntu-latest
-      needs: build-and-test
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      steps:
-        - uses: actions/checkout@v4
-
-        - uses: docker/setup-qemu-action@v3        # NEU
-          with:
-            platforms: linux/amd64,linux/arm64
-
-        - uses: docker/setup-buildx-action@v3
-
-        - uses: docker/login-action@v3
-          with:
-            registry: ghcr.io
-            username: ${{ github.actor }}
-            password: ${{ secrets.GITHUB_TOKEN }}
-
-        - id: lcrepo
-          run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-
-        - uses: docker/build-push-action@v6
-          with:
-            context: .
-            push: true
-            platforms: linux/amd64,linux/arm64    # NEU
-            tags: |
-              ghcr.io/${{ steps.lcrepo.outputs.REPO }}:${{ github.sha }}
-              ghcr.io/${{ steps.lcrepo.outputs.REPO }}:latest
-            cache-from: type=gha
-            cache-to: type=gha,mode=max
-    ```
-
-    Im GHCR-UI siehst du danach unter dem Tag „Manifest" zwei Architekturen.
-
-    !!! warning "Multi-Arch ist langsamer"
-        ARM-Builds laufen unter QEMU, also emuliert. Erwartet 2- bis 5-fache Build-Zeit. Cache-Tuning lohnt sich.
-
----
-
-### <span id="uebung-64-versionstags-mit-semver"></span>Übung 6.4: Versions-Tags mit Semver
-
-!!! info "Was du lernst"
-    - Git-Tag-Trigger
-    - Mehrere `tags:` mit `docker/metadata-action`
+    - die wichtigste Action überhaupt: `actions/checkout`
+    - Dateien aus dem Repo im Workflow verwenden
+    - dass der Runner den Code **nicht** automatisch kennt
 
 #### Szenario
 
-Dein Image soll nicht nur SHA und `latest` haben, sondern auch **Semver-Tags** wie `v1.4.2`. Wenn jemand `git tag v1.4.2 && git push --tags` macht, soll die Pipeline zusätzlich Image-Tags `1.4.2`, `1.4`, `1` und `latest` setzen.
+Bisher hat unser Workflow nur Befehle ausgeführt. Wenn du auf den **Code im Repo** zugreifen willst, musst du ihn zuerst auf den Runner holen. Das macht die Action `actions/checkout`.
 
 #### Aufgabe
 
-Erweitere den Workflow:
+1. Lege eine Datei `hallo.txt` ins Repo-Root mit Inhalt `Hallo aus dem Repo`.
+2. Lege `.github/workflows/checkout-test.yml` an, der:
+    - bei Push und manuell läuft
+    - **ohne** Checkout versucht, `cat hallo.txt` zu lesen (das soll fehlschlagen)
+    - **mit** Checkout danach `cat hallo.txt` erfolgreich liest
 
-1. Trigger zusätzlich auf `tags: ["v*.*.*"]`.
-2. Statt manuelle `tags:`-Liste die Action `docker/metadata-action@v5` nutzen, die aus Trigger und Refs automatisch sinnvolle Tags ableitet.
+Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow nicht abbricht und du beide Steps im Log sehen kannst.
 
 ??? success "Musterlösung"
-
     ```yaml
-    name: CI
+    name: Checkout-Test
 
     on:
       push:
-        branches: [main]
-        tags: ["v*.*.*"]
-      pull_request:
       workflow_dispatch:
 
-    permissions:
-      contents: read
-      packages: write
-
     jobs:
-      build-and-push:
+      checkout-vergleich:
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v4
+          - name: Ohne Checkout, sollte scheitern
+            continue-on-error: true
+            run: cat hallo.txt
 
-          - uses: docker/setup-buildx-action@v3
+          - name: Code holen
+            uses: actions/checkout@v4
 
-          - uses: docker/login-action@v3
-            if: github.event_name != 'pull_request'
-            with:
-              registry: ghcr.io
-              username: ${{ github.actor }}
-              password: ${{ secrets.GITHUB_TOKEN }}
-
-          - id: lcrepo
-            run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-
-          - id: meta
-            uses: docker/metadata-action@v5
-            with:
-              images: ghcr.io/${{ steps.lcrepo.outputs.REPO }}
-              tags: |
-                type=sha
-                type=ref,event=branch
-                type=semver,pattern={{version}}
-                type=semver,pattern={{major}}.{{minor}}
-                type=semver,pattern={{major}}
-                type=raw,value=latest,enable={{is_default_branch}}
-
-          - uses: docker/build-push-action@v6
-            with:
-              context: .
-              push: ${{ github.event_name != 'pull_request' }}
-              tags: ${{ steps.meta.outputs.tags }}
-              labels: ${{ steps.meta.outputs.labels }}
-              cache-from: type=gha
-              cache-to: type=gha,mode=max
+          - name: Mit Checkout, funktioniert
+            run: cat hallo.txt
     ```
 
-    !!! info "Warum auch hier `lcrepo`?"
-        `docker/metadata-action` lowered Tags meist automatisch. Aber ein vorgeschalteter Lowercase-Step ist die robuste Variante: er funktioniert garantiert auch dann, wenn der GitHub-Username Großbuchstaben enthält oder die Action in einer Edge-Case-Konstellation nicht greift.
+    Im Log:
 
-    Test: ein Tag setzen und pushen:
+    - Step 1 zeigt `cat: hallo.txt: No such file or directory`. Trotzdem grün, weil `continue-on-error: true`.
+    - Step 2 zieht das Repo auf den Runner.
+    - Step 3 gibt den Inhalt von `hallo.txt` aus.
 
-    ```bash
-    git tag v1.0.0
-    git push origin v1.0.0
+    **Lehrsatz:** ohne `actions/checkout@v4` ist dein Repo auf dem Runner **nicht da**. Praktisch jeder echte Workflow startet mit diesem Step.
+
+---
+
+### Übung 6.4: Matrix-Build mit mehreren Versionen
+
+!!! info "Was du lernst"
+    - einen Job parallel mit verschiedenen Parametern laufen lassen
+    - die `strategy.matrix`-Syntax
+    - typisches Muster für Library-Tests
+
+#### Szenario
+
+Wenn du eine Bibliothek oder ein Tool für mehrere Sprach-Versionen unterstützen willst (Python 3.10, 3.11, 3.12), willst du nicht drei Workflows. Du willst **einen** Workflow, der drei Mal parallel läuft.
+
+#### Aufgabe
+
+Lege `.github/workflows/matrix.yml` an, der:
+
+1. bei Push und manuell läuft
+2. einen Job `python-versionen` enthält
+3. den Job parallel für Python 3.10, 3.11 und 3.12 ausführt
+4. in jedem Lauf `python --version` und `echo "Läuft auf Python ${{ matrix.python }}"` ausgibt
+
+Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, einer pro Python-Version.
+
+#### Hinweise
+
+- Im Job-Block:
+    ```yaml
+    strategy:
+      matrix:
+        python: ["3.10", "3.11", "3.12"]
+    ```
+- Python installieren mit:
+    ```yaml
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python }}
     ```
 
-    In GHCR landet danach `cicd-demo:1.0.0`, `cicd-demo:1.0`, `cicd-demo:1`, `cicd-demo:latest` und der Branch-Tag.
+??? success "Musterlösung"
+    ```yaml
+    name: Matrix-Build
+
+    on:
+      push:
+      workflow_dispatch:
+
+    jobs:
+      python-versionen:
+        runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            python: ["3.10", "3.11", "3.12"]
+        steps:
+          - name: Python installieren
+            uses: actions/setup-python@v5
+            with:
+              python-version: ${{ matrix.python }}
+
+          - name: Version prüfen
+            run: python --version
+
+          - name: Eigenes Echo
+            run: echo "Läuft auf Python ${{ matrix.python }}"
+    ```
+
+    Im Actions-Tab siehst du den Job dreimal, mit Klammern: `python-versionen (3.10)`, `python-versionen (3.11)`, `python-versionen (3.12)`. Alle drei laufen parallel auf eigenen Runner-VMs.
+
+    !!! tip "Matrix mit zwei Achsen"
+        Du kannst die Matrix beliebig erweitern. Beispiel: drei Python-Versionen × drei Betriebssysteme = neun parallele Läufe:
+
+        ```yaml
+        strategy:
+          matrix:
+            python: ["3.10", "3.11", "3.12"]
+            os: [ubuntu-latest, windows-latest, macos-latest]
+        ```
+
+        Eine Achse `os:` braucht dann `runs-on: ${{ matrix.os }}`.
 
 ---
 
 ## Was du nach diesen Übungen kannst
 
-- Workflows mit mehreren Jobs schreiben
-- Tests sauber vom Build trennen
-- **Multi-Arch-Images** für `amd64` und `arm64` bauen
-- **Tagging** mit Semver-Logik betreiben
-- Pipelines **debuggen**, ohne in Panik zu geraten
+- **Bedingte Steps** mit `if:` schreiben
+- **Mehrere Jobs** mit `needs:` verketten
+- **Code aus dem Repo** auf den Runner holen (`actions/checkout`)
+- **Matrix-Builds** für parallele Läufe nutzen
+- **Logs** lesen und Fehler einordnen
+
+Damit hast du das Vokabular, um die meisten realen GitHub-Actions-Workflows zu lesen und kleinere selbst zu schreiben.
 
 ---
 

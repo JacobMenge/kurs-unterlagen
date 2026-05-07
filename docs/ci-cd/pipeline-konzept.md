@@ -125,7 +125,7 @@ flowchart TB
 |----------|-------------------|-------|-------------------|
 | **Unit-Tests** | Einzelne Funktionen, isoliert | Millisekunden | hunderte bis tausende |
 | **Integration-Tests** | Mehrere Module zusammen, oft mit DB / API | Sekunden bis Minuten | dutzende |
-| **End-to-End-Tests** | Komplette Anwendung wie User:in | Minuten | wenige |
+| **End-to-End-Tests** | Komplette Anwendung wie ein User | Minuten | wenige |
 
 ### Was sonst noch in die Test-Phase gehört
 
@@ -269,7 +269,7 @@ Eine Pipeline ist also **kein einmaliges Setup**, sondern ein **lebendiger Proze
 ## Stolpersteine
 
 ??? warning "Pipeline ist langsam, niemand wartet auf sie"
-    **Symptom:** Build dauert 25 Minuten. Entwickler:innen mergen, ohne auf Grün zu warten.
+    **Symptom:** Build dauert 25 Minuten. Entwickler mergen, ohne auf Grün zu warten.
 
     **Lösung:** Cache nutzen (Image-Layer, Dependencies), Tests parallelisieren, langsame Tests in eigenen nächtlichen Job auslagern.
 

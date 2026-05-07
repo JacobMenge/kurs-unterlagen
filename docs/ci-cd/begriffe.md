@@ -11,7 +11,7 @@ description: "Continuous Integration, Continuous Delivery und Continuous Deploym
     - **Continuous Integration**, **Continuous Delivery** und **Continuous Deployment** klar voneinander abgrenzen
     - im Gespräch erkennen, wenn jemand „CI/CD" sagt und dabei eigentlich nur eine der drei Stufen meint
     - eine Tabelle aufzeichnen, die die Begriffe nach **Reife** sortiert
-    - typische Missverständnisse zwischen Entwickler:innen und Vorgesetzten benennen
+    - typische Missverständnisse zwischen Entwicklern und Vorgesetzten benennen
 
 ---
 
@@ -41,7 +41,7 @@ CI ist die **älteste** der drei Ideen. Schon vor dem Container-Zeitalter (Mitte
 
 ### Was CI konkret bedeutet
 
-- Entwickler:innen **mergen häufig** (mehrmals am Tag) in einen gemeinsamen Branch.
+- Entwickler **mergen häufig** (mehrmals am Tag) in einen gemeinsamen Branch.
 - Jeder Merge **triggert** einen Build-Lauf auf einem zentralen Server.
 - Der Server **kompiliert/baut** die Software und führt **automatisierte Tests** aus.
 - Schlägt etwas fehl, wird der **Branch als kaputt markiert**. Das Team weiß sofort Bescheid.
@@ -113,15 +113,15 @@ Continuous **Deployment** ist der ehrgeizigste Modus: **Push → Build → Test 
 ### Was Deployment voraussetzt
 
 - **Sehr gute Tests**: Unit-, Integration-, End-to-End-Tests, oft auch Performance- und Security-Tests in der Pipeline.
-- **Saubere Deployment-Strategie**: das Update darf Nutzer:innen nicht direkt umlegen, wenn die neue Version Probleme hat.
+- **Saubere Deployment-Strategie**: das Update darf Nutzer nicht direkt umlegen, wenn die neue Version Probleme hat.
 - **Schnelles Rollback**: wenn etwas schiefgeht, muss die Vorgängerversion in Sekunden wieder da sein.
 - **Monitoring + Alerting**: damit überhaupt jemand merkt, dass die letzte Version Probleme macht.
-- **Feature Flags** für Funktionen, die zwar deployt sind, aber noch nicht für alle Nutzer:innen sichtbar.
+- **Feature Flags** für Funktionen, die zwar deployt sind, aber noch nicht für alle Nutzer sichtbar.
 
 ### Wer das macht
 
 - **Web-Produkte mit hoher Frequenz**: Amazon, Etsy, Netflix, tausende Deploys pro Tag.
-- **SaaS-Produkte**, deren Nutzer:innen sehr ähnliche Workloads fahren.
+- **SaaS-Produkte**, deren Nutzer sehr ähnliche Workloads fahren.
 - **Interne Tools**, wo das Risiko klein und das Tempo wichtig ist.
 
 ```mermaid

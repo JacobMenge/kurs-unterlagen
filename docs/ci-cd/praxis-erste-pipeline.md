@@ -1,38 +1,32 @@
 ---
 title: "Praxis: erste GitHub-Actions-Pipeline"
-description: "Schritt-für-Schritt-Anleitung von einem fertigen Docker-Projekt zur eigenen Workflow-Datei: Build, Test und Push in die GitHub Container Registry."
+description: "Schritt-für-Schritt-Anleitung: Repo anlegen, Workflow-Datei schreiben, Hello-World laufen lassen und die wichtigsten Bausteine eines GitHub-Actions-Workflows kennenlernen."
 ---
 
 # Praxis: erste GitHub-Actions-Pipeline
 
 !!! abstract "Ziel"
-    In **etwa einer Stunde** schreibst du deine erste eigene GitHub-Actions-Workflow-Datei. Sie:
-
-    - **baut** ein Docker-Image bei jedem Push auf `main` und bei jedem Pull-Request
-    - führt die **Tests** automatisch aus (Bezug **3.6.1**)
-    - **pusht** das Image bei Pushes auf `main` zusätzlich nach **GHCR** (GitHub Container Registry)
+    In **etwa einer Stunde** schreibst du deine erste eigene GitHub-Actions-Workflow-Datei. Sie tut nichts Spektakuläres: sie sagt „Hello". Aber genau dabei lernst du die Bausteine, aus denen jeder größere Workflow zusammengesetzt ist.
 
     Am Ende kannst du:
 
-    - eine Workflow-Datei in `.github/workflows/ci.yml` lesen, schreiben und debuggen
-    - die Logs im Actions-Tab interpretieren
-    - dein eigenes Image in der Registry sehen
-
-!!! info "Anknüpfung"
-    In [Block 5](../docker-profi/dockerfile-best-practices.md) hast du gelernt, wie ein gutes Dockerfile aussieht. Dieses Praxis-Projekt bringt **genau** so ein Dockerfile mit. Jetzt geht es nur noch darum, den Bau-Prozess zu automatisieren.
+    - ein **GitHub-Repo** anlegen und lokal damit arbeiten
+    - eine **Workflow-Datei** unter `.github/workflows/` erstellen
+    - die Bausteine **`name`**, **`on`**, **`jobs`**, **`runs-on`**, **`steps`** sicher einsetzen
+    - den Workflow im **Actions-Tab** beobachten und Logs lesen
+    - einen Workflow um **mehrere Schritte** und **Bedingungen** erweitern
 
 ---
 
 ## Voraussetzungen
 
-- **Docker** lokal funktionsfähig (`docker version`).
-- **Git** lokal (`git --version`).
+- **Git** lokal (`git --version` muss klappen).
 - Ein **GitHub-Account**.
-- Ein **Editor**.
+- Ein **Editor** deiner Wahl (VSCode, Notepad++, vim, …).
 - Etwa **eine Stunde** Zeit.
 
-!!! tip "Lokal vorab funktionsfähig?"
-    Bevor du die Pipeline schreibst, sollte das Projekt **lokal** sauber bauen und testen. Diese Übung debuggt dir sonst zwei Probleme gleichzeitig: dein Code und deine Pipeline.
+!!! info "Kein Docker, keine Programmierung"
+    Für diese Übung brauchst du weder Docker noch Programmierkenntnisse. Wir schreiben nur eine YAML-Datei und schauen, was GitHub damit macht.
 
 ---
 
@@ -41,128 +35,62 @@ description: "Schritt-für-Schritt-Anleitung von einem fertigen Docker-Projekt z
 ```mermaid
 flowchart LR
   Push["git push"] --> GH{{"GitHub Actions"}}
-  GH --> Build["docker build"]
-  Build --> Test["docker run pytest"]
-  Test -->|"main only"| Login["docker login GHCR"]
-  Login --> PushImg["docker push<br/>SHA + latest"]
-  PushImg --> Done(["Image in GHCR"])
-  Test -.->|"PR"| Done2(["nur Build geprüft"])
+  GH --> Step1["echo 'Hallo'"]
+  Step1 --> Step2["weitere Steps"]
+  Step2 --> Done(["✓ grün im Actions-Tab"])
 ```
 
-Die fertige Pipeline läuft auf jedem **Push** und jedem **PR**, aber **pusht nur auf `main`**. Das ist ein gängiges Muster: PRs sollen geprüft werden, aber keine Pakete in deine Registry drücken.
+Ein Workflow, der bei jedem Push läuft und ein paar Texte ins Log schreibt. Klein, harmlos, aber **vollständig**: Trigger, Job, Steps, Logs.
 
 ---
 
-## Schritt 1: Projekt holen
+## Schritt 1: GitHub-Repo anlegen
 
-In den Kursunterlagen liegt eine **fertige Demo-App** unter `apps/cicd-demo/`. Sie besteht aus:
+1. Auf GitHub einloggen und <https://github.com/new> öffnen.
+2. **Repository name**: `mein-erster-workflow`.
+3. **Public** auswählen (kostenlos, einfacher).
+4. **Add a README file** anhaken (damit das Repo nicht leer ist).
+5. **Create repository** klicken.
 
-```text
-apps/cicd-demo/
-├── Dockerfile
-├── .dockerignore
-├── README.md
-├── app.py            # kleine Flask-App: GET / und GET /api/sum
-├── test_app.py       # vier pytest-Tests (inkl. Fehlerfall)
-└── requirements.txt  # flask + pytest
-```
+Du landest auf der Repo-Startseite mit einer leeren `README.md`.
 
-Für die Übung kopierst du den Ordner in **dein eigenes Repository**. Damit du frei pushen kannst, ohne das Kurs-Repo zu beeinflussen.
+---
 
-### 1.1 Lokales Verzeichnis einrichten
+## Schritt 2: Repo lokal klonen
+
+Auf der Repo-Seite oben rechts den **Code**-Button klicken und die HTTPS-URL kopieren. Dann lokal:
 
 === "macOS / Linux"
     ```bash
-    mkdir -p ~/cicd-demo
-    cd ~/cicd-demo
-    git init -b main
+    cd ~
+    git clone https://github.com/<DEIN-USERNAME>/mein-erster-workflow.git
+    cd mein-erster-workflow
     ```
 
 === "Windows PowerShell"
     ```powershell
-    New-Item -ItemType Directory -Force -Path $HOME\cicd-demo | Out-Null
-    Set-Location $HOME\cicd-demo
-    git init -b main
+    Set-Location $HOME
+    git clone https://github.com/<DEIN-USERNAME>/mein-erster-workflow.git
+    Set-Location mein-erster-workflow
     ```
 
 === "Windows CMD"
     ```cmd
-    if not exist "%USERPROFILE%\cicd-demo" md "%USERPROFILE%\cicd-demo"
-    cd /d "%USERPROFILE%\cicd-demo"
-    git init -b main
+    cd /d "%USERPROFILE%"
+    git clone https://github.com/<DEIN-USERNAME>/mein-erster-workflow.git
+    cd mein-erster-workflow
     ```
 
-!!! info "Git-Version"
-    `git init -b main` braucht **Git 2.28+** (Juli 2020). Auf modernen Systemen Standard. Falls du eine ältere Version hast: `git init` und danach `git checkout -b main`.
+`<DEIN-USERNAME>` durch deinen GitHub-Namen ersetzen.
 
-### 1.2 Demo-Dateien hineinkopieren
-
-Kopiere alle Dateien aus dem Kurs-Repo `apps/cicd-demo/` in deinen neuen Ordner. Es sollte hinterher so aussehen:
-
-```text
-cicd-demo/
-├── Dockerfile
-├── .dockerignore
-├── README.md
-├── app.py
-├── test_app.py
-└── requirements.txt
-```
-
-### 1.3 Lokal probieren
-
-Bevor du irgendeine Pipeline schreibst, prüf, dass das Projekt **lokal funktioniert**:
-
-```bash
-docker build -t cicd-demo .
-docker run --rm -p 8000:8000 cicd-demo
-```
-
-Browser: <http://localhost:8000>. Du solltest „CI/CD-Demo läuft" sehen.
-
-In einem zweiten Terminal die Tests im Container laufen lassen:
-
-```bash
-docker run --rm cicd-demo pytest -v
-```
-
-Erwartet: alle vier Tests grün. Wenn das **lokal** klappt, wird die Pipeline später nicht an Code-Problemen scheitern.
-
-`Strg+C` beendet den ersten `docker run`.
+!!! tip "Login klappt nicht?"
+    Beim ersten Push verlangt Git Anmeldedaten. **Username** ist dein GitHub-Name, **Passwort** ist ein **Personal Access Token** (PAT), nicht dein normales Passwort. PAT erstellen: GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token. Mindestens das Recht **`repo`** anhaken.
 
 ---
 
-## Schritt 2: GitHub-Repo anlegen
+## Schritt 3: Workflow-Ordner anlegen
 
-1. Auf GitHub: <https://github.com/new>.
-2. Name: `cicd-demo`.
-3. Sichtbarkeit: **Public** (für GHCR-Pushes mit `GITHUB_TOKEN` ist das am einfachsten).
-4. **Keine** README, `.gitignore` oder License mitanlegen, dein Ordner enthält bereits Dateien.
-5. **Create repository** klicken.
-
-### 2.1 Lokales Repo verbinden
-
-```bash
-git add .
-git commit -m "Initial: Demo-App fuer CI/CD-Block"
-git remote add origin https://github.com/<DEIN-USERNAME>/cicd-demo.git
-git push -u origin main
-```
-
-Auf GitHub solltest du jetzt deine Dateien sehen.
-
----
-
-## Schritt 3: Erste Workflow-Datei schreiben
-
-Lege im Repo den Pfad an:
-
-```text
-cicd-demo/
-└── .github/
-    └── workflows/
-        └── ci.yml
-```
+Workflows liegen in einem festen Pfad: **`.github/workflows/`**. GitHub schaut nirgendwo sonst.
 
 === "macOS / Linux"
     ```bash
@@ -179,416 +107,321 @@ cicd-demo/
     if not exist ".github\workflows" md ".github\workflows"
     ```
 
-Die Datei `ci.yml` mit folgendem Inhalt:
+Der Punkt am Anfang von `.github` ist Absicht. Versteckte Ordner werden auf Linux und macOS standardmäßig ausgeblendet, auf Windows je nach Einstellung.
+
+---
+
+## Schritt 4: Erste Workflow-Datei schreiben
+
+Lege im Editor die Datei **`.github/workflows/hallo.yml`** an. Inhalt:
 
 ```yaml
-name: CI
+name: Hallo Welt
 
 on:
   push:
-    branches: [main]
-  pull_request:
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
 
 jobs:
-  build-and-test:
+  sag-hallo:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up BuildKit
-        uses: docker/setup-buildx-action@v3
-
-      - name: Image bauen (lokal in den Runner)
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          load: true
-          tags: cicd-demo:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Tests im Container laufen lassen
-        run: docker run --rm cicd-demo:${{ github.sha }} pytest -v
-
-  publish:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up BuildKit
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login zu GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Repository-Pfad in Kleinbuchstaben (GHCR verlangt lowercase)
-        id: lcrepo
-        run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-
-      - name: Image pushen
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ steps.lcrepo.outputs.REPO }}:${{ github.sha }}
-            ghcr.io/${{ steps.lcrepo.outputs.REPO }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Begrüßung
+        run: echo "Hallo aus GitHub Actions!"
 ```
 
-### Was hier passiert, Schritt für Schritt
+Das war's. Sechs Zeilen Code. Speichern.
 
-| Block | Bedeutung |
+### Was bedeutet jede Zeile?
+
+| Zeile | Bedeutung |
 |-------|-----------|
-| `name: CI` | Anzeigename im Actions-Tab |
-| `on: push / pull_request / workflow_dispatch` | Pipeline läuft bei Push, PR und manueller Auslösung |
-| `permissions: packages: write` | Workflow darf in GHCR pushen |
-| Job `build-and-test` | Baut das Image und führt im Container `pytest` aus |
-| Job `publish` | Loggt sich in GHCR ein und pusht das Image, nur auf `main` |
-| `needs: build-and-test` | `publish` startet erst, wenn Build + Tests grün sind |
-| `if:` | Filter, der den Job auf `push` nach `main` einschränkt |
-| Step `lcrepo` | Wandelt `owner/repo` in **lowercase** um. GHCR akzeptiert keine Großbuchstaben (z.B. `JacobMenge` würde brechen). Die Bash-Expansion `${VAR,,}` übernimmt die Umwandlung in einer Zeile. |
+| `name: Hallo Welt` | Anzeigename des Workflows. Taucht im Actions-Tab auf. |
+| `on:` | Wann läuft der Workflow? |
+| `  push:` | Bei jedem Push in jeden Branch. |
+| `jobs:` | Liste der Jobs (kann mehrere geben). |
+| `  sag-hallo:` | Job-Name. Du wählst ihn frei. |
+| `    runs-on: ubuntu-latest` | Auf welcher Maschine läuft der Job? Hier eine frische Ubuntu-VM. |
+| `    steps:` | Liste der Schritte innerhalb des Jobs. |
+| `      - name: Begrüßung` | Anzeigename des Steps. |
+| `        run: echo "..."` | Was der Step ausführt: ein Shell-Befehl. |
 
-!!! warning "Zwei separate Jobs sind Absicht"
-    Wir hätten alles in **einem** Job machen können. Aber: zwei Jobs trennen **prüfen** und **veröffentlichen** sauber. Wenn der Push fehlschlägt (etwa wegen Permissions), erfährst du das in einem eigenen, klar markierten Job, ohne dass der Build-Status verfälscht wird.
+!!! warning "YAML ist pingelig"
+    YAML reagiert empfindlich auf **Einrückung**. Pro Ebene **zwei Leerzeichen**, keine Tabs. Dein Editor sollte „Insert spaces" statt „Insert tabs" eingestellt haben (in VSCode unten rechts erkennbar).
 
 ---
 
-## Schritt 4: Pushen und Pipeline beobachten
+## Schritt 5: Pushen und im Actions-Tab beobachten
 
 ```bash
-git add .github/workflows/ci.yml
-git commit -m "feat: erste GitHub-Actions-Pipeline"
+git add .github/workflows/hallo.yml
+git commit -m "Erster Workflow: Hallo Welt"
 git push
 ```
 
-Auf GitHub im Tab **Actions**:
+Auf GitHub den **Actions**-Tab oben in deinem Repo öffnen. Du siehst:
 
-1. Du siehst „CI" mit dem Commit-Titel.
-2. Klick rein → die Jobs `build-and-test` und `publish` werden gelistet.
-3. Der erste Lauf dauert 1–3 Minuten (frischer Cache).
+1. Einen neuen Eintrag „Hallo Welt" (der Workflow-Name).
+2. Mit dem Commit-Titel „Erster Workflow: Hallo Welt".
+3. Status zuerst gelb (läuft), nach 5 bis 15 Sekunden grün (fertig).
 
-Wenn alles grün ist:
+Klick auf den Eintrag, dann auf den Job `sag-hallo`, dann auf den Step `Begrüßung`. Im Log:
 
-- **Image** liegt in GHCR. Auf der Repo-Hauptseite rechts unter **Packages** sollte `cicd-demo` auftauchen.
-- Klickst du auf das Paket, siehst du beide Tags: `latest` und die Commit-SHA.
+```
+Hallo aus GitHub Actions!
+```
 
-!!! tip "Image lokal von GHCR ziehen"
-    Sobald das Paket existiert und (für öffentliche Repos) public ist, kannst du es überall ziehen:
-
-    ```bash
-    docker pull ghcr.io/<DEIN-USERNAME>/cicd-demo:latest
-    docker run --rm -p 8000:8000 ghcr.io/<DEIN-USERNAME>/cicd-demo:latest
-    ```
-
-    Der erste Schritt zum echten Deploy. Der **Server** würde im realen Setup genau diesen `pull` + `up -d` machen.
+!!! success "Geschafft"
+    Du hast deinen ersten GitHub-Actions-Workflow geschrieben und ausgeführt. Was du jetzt verstehst, ist die Grundstruktur jeder Pipeline: ein Trigger, ein Job auf einer Maschine, ein paar Steps mit Befehlen.
 
 ---
 
-## Schritt 5: Pipeline „kaputt" machen, um sie zu verstehen
+## Schritt 6: Mehrere Steps hinzufügen
 
-Eine grüne Pipeline ist gut. **Eine rote Pipeline lehrt mehr.** Probier:
-
-### 5.1 Test bewusst kaputt machen
-
-Öffne `test_app.py` und ändere:
-
-```python
-def test_sum_basic(client):
-    res = client.get("/api/sum?a=2&b=3")
-    assert res.status_code == 200
-    assert res.get_json() == {"a": 2, "b": 3, "sum": 5}
-```
-
-Zu:
-
-```python
-def test_sum_basic(client):
-    res = client.get("/api/sum?a=2&b=3")
-    assert res.status_code == 200
-    assert res.get_json() == {"a": 2, "b": 3, "sum": 6}   # ← kaputt
-```
-
-Push:
-
-```bash
-git commit -am "broken test"
-git push
-```
-
-Im Actions-Tab: der `build-and-test`-Job wird **rot**. Im Log siehst du genau die Test-Zeile mit der fehlgeschlagenen Assertion.
-
-**Wichtig:** Der `publish`-Job läuft **nicht** los, weil `needs: build-and-test` ihn blockt. Genau so soll es sein. Kaputter Code soll nicht in der Registry landen.
-
-Mach den Test wieder heile, push erneut, grün.
-
-### 5.2 YAML-Syntaxfehler einfügen
-
-Im `ci.yml` einen Doppelpunkt entfernen oder Einrückung verzerren. Push.
-
-Im Actions-Tab steht: **„Workflow file isn't valid"** mit Zeilen-Hinweis. Das ist die Erfahrung, die du brauchst, damit dich diese Fehler später nicht überraschen.
-
-### 5.3 Fehlende Permissions simulieren
-
-Entferne den `permissions:`-Block oben. Push. Der `publish`-Job stirbt mit „resource not accessible by integration".
-
-→ Lehrt: **Permissions sind keine Kosmetik**, sie sind Voraussetzung.
-
-Mach alles wieder heil, bevor du weitermachst.
-
----
-
-## Schritt 6: Pipeline erweitern (optional)
-
-Wenn du noch Zeit hast oder die Übung zu Hause vertiefen willst, sind das die natürlichen Erweiterungen:
-
-### 6.1 Trivy-Scan einbauen
-
-Direkt nach dem Build, vor dem Push:
+Ein Step ist langweilig. Schreib die Datei um:
 
 ```yaml
-      - name: Trivy-Scan
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: cicd-demo:${{ github.sha }}
-          format: table
-          exit-code: 1
-          severity: CRITICAL,HIGH
-          ignore-unfixed: true
+name: Hallo Welt
+
+on:
+  push:
+
+jobs:
+  sag-hallo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Begrüßung
+        run: echo "Hallo aus GitHub Actions!"
+
+      - name: Datum und Uhrzeit
+        run: date
+
+      - name: Welche Maschine?
+        run: |
+          echo "Betriebssystem:"
+          uname -a
+          echo ""
+          echo "Aktuelles Verzeichnis:"
+          pwd
+
+      - name: Verfügbare Tools prüfen
+        run: |
+          git --version
+          docker --version
+          python3 --version
+          node --version
 ```
 
-Damit fällt die Pipeline um, wenn das Image hohe oder kritische CVEs enthält. Zur Theorie: [Image-Optimierung, Trivy](../docker-profi/image-optimierung.md#trivy-images-auf-cves-scannen).
+Pushen:
 
-### 6.2 Pull-Request-Builds beschleunigen
+```bash
+git commit -am "Mehrere Steps"
+git push
+```
 
-Pull-Requests müssen nicht das ganze Cache-Spiel durchziehen. Mit `if:` kannst du den Push-Job für PRs überspringen (machst du oben schon mit `if: github.event_name == 'push'`, Beispiel als Erinnerung).
+Im Actions-Tab den neuen Lauf öffnen. Du siehst jetzt **vier Steps** unter dem Job. Jeder mit eigenem Log. Klick durch und schau, was die Runner-VM alles mitbringt.
 
-### 6.3 Tag-Strategie verbessern
-
-Statt nur `latest` und Commit-SHA: einen `v*.*.*`-Trigger einführen, der zusätzlich Versions-Tags pusht. Das ist Stoff für [Übung 6.4](uebungen.md#uebung-64-versionstags-mit-semver).
+!!! tip "Mehrzeilige Befehle mit `|`"
+    Der senkrechte Strich `|` nach `run:` sagt YAML: „Was folgt, ist ein **mehrzeiliger Block**." Praktisch, wenn du mehrere Befehle in einem Step ausführen willst, ohne `&&` zu verketten.
 
 ---
 
-## <span id="musterloesung"></span>Musterlösung
+## Schritt 7: Manueller Trigger einbauen
 
-??? success "Komplette Musterlösung: `ci.yml`"
+Bisher läuft der Workflow nur beim Push. Wir wollen ihn auch **per Knopfdruck** starten können. Erweitere den `on:`-Block:
+
+```yaml
+on:
+  push:
+  workflow_dispatch:
+```
+
+Das war's. Zwei Trigger nebeneinander. Pushen, kurz warten, dann im Actions-Tab den Workflow „Hallo Welt" links auswählen. Oben rechts erscheint der Knopf **„Run workflow"**. Klicken, **Run workflow** im Popup bestätigen.
+
+Der Workflow läuft, ohne dass du etwas committet hast.
+
+!!! info "Wofür ist das gut?"
+    Manuelle Trigger sind nützlich für **Operationen, die nicht zu jedem Push gehören**: ein Deploy auf Knopfdruck, ein Daten-Export, ein Cleanup-Job. Du bekommst auch einen Knopf für jeden Branch separat.
+
+---
+
+## Schritt 8: Eingaben beim manuellen Trigger
+
+`workflow_dispatch` kann **Eingabefelder** haben. Erweitere den Block:
+
+```yaml
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Wen soll ich begrüßen?"
+        required: true
+        default: "Welt"
+```
+
+Und ändere den ersten Step:
+
+```yaml
+      - name: Begrüßung
+        run: echo "Hallo, ${{ inputs.name }}!"
+```
+
+Pushen, dann im Actions-Tab erneut **Run workflow** klicken. Diesmal erscheint ein Eingabefeld mit dem Default „Welt". Trag deinen Namen ein und klick **Run workflow**.
+
+Im Log steht jetzt: `Hallo, <dein Name>!`
+
+!!! tip "Was bedeuten die `${{ ... }}`?"
+    Das ist die **Expression-Syntax** von GitHub Actions. Sie wird zur Laufzeit ersetzt. `${{ inputs.name }}` greift auf das Eingabefeld zu, `${{ github.actor }}` auf den ausführenden User, `${{ secrets.MY_TOKEN }}` auf ein hinterlegtes Secret. Mehr dazu in den [Grundlagen](github-actions-grundlagen.md#variablen-kontexte-und-secrets).
+
+---
+
+## Schritt 9: Workflow bewusst kaputt machen
+
+Eine grüne Pipeline ist gut. Eine rote Pipeline lehrt mehr. Füge einen Step ein, der scheitert:
+
+```yaml
+      - name: Absichtlich falsch
+        run: dieser-befehl-existiert-nicht
+```
+
+Pushen. Im Actions-Tab wird der Lauf **rot**. Klick rein:
+
+- Der Job ist mit einem **roten X** markiert.
+- Der Step `Absichtlich falsch` ist rot.
+- Im Log steht etwas wie `dieser-befehl-existiert-nicht: command not found` und `Process completed with exit code 127`.
+
+**Wichtig:** alle Steps **nach** einem fehlgeschlagenen Step werden **übersprungen**. GitHub geht davon aus, dass weiterzumachen sinnlos ist.
+
+Mach den Step wieder weg (oder kommentiere ihn aus), pushen, grün.
+
+!!! tip "Schritte trotz Fehler weiterlaufen lassen"
+    Wenn ein Step fehlschlagen darf, ohne den Job rot zu machen, schreibe `continue-on-error: true` an den Step. Das ist die Ausnahme, nicht die Regel: meistens willst du, dass Fehler den Job stoppen.
+
+---
+
+## Schritt 10: Trigger einschränken
+
+Aktuell läuft der Workflow bei jedem Push in **jeden** Branch. Oft willst du das nicht. Beschränke ihn auf den Hauptzweig:
+
+```yaml
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+```
+
+Push-Events auf andere Branches lösen den Workflow jetzt nicht mehr aus. Pull-Requests und Tags ebenfalls nicht.
+
+Andere häufige Filter:
+
+```yaml
+on:
+  push:
+    branches: [main, develop]      # zwei Branches
+    tags: ["v*.*.*"]               # zusätzlich bei Versions-Tags
+    paths-ignore: ["**.md"]        # nicht bei reinen Markdown-Änderungen
+  pull_request:                    # zusätzlich bei PRs
+```
+
+---
+
+## Was du jetzt verstehst
+
+- **Workflows** sind YAML-Dateien unter `.github/workflows/`.
+- Eine Workflow-Datei hat **`name`**, **`on`**, **`jobs`**.
+- Jeder Job hat **`runs-on`** (eine Runner-VM) und **`steps`**.
+- Steps haben einen **`name`** und eine Aktion: meistens **`run:`** mit einem Shell-Befehl.
+- **Trigger** sind Ereignisse: `push`, `pull_request`, `workflow_dispatch`, `schedule`, …
+- **Mehrzeilige Befehle** schreibt man mit `run: |`.
+- **Logs** stehen im Actions-Tab, pro Step aufklappbar.
+- **Fehler** stoppen den Job. Folgesteps werden übersprungen.
+- **Eingaben** für manuelle Trigger gibt es über `workflow_dispatch.inputs`.
+
+Das sind die Bausteine. Alles, was später kommt (Docker, Tests, Deploy), nutzt genau diese Bausteine in unterschiedlicher Kombination.
+
+---
+
+## Komplette Endversion der Workflow-Datei
+
+??? success "`.github/workflows/hallo.yml` zum Vergleich"
     ```yaml
-    name: CI
+    name: Hallo Welt
 
     on:
       push:
         branches: [main]
-      pull_request:
       workflow_dispatch:
-
-    permissions:
-      contents: read
-      packages: write
+        inputs:
+          name:
+            description: "Wen soll ich begrüßen?"
+            required: true
+            default: "Welt"
 
     jobs:
-      build-and-test:
+      sag-hallo:
         runs-on: ubuntu-latest
         steps:
-          - name: Checkout
-            uses: actions/checkout@v4
+          - name: Begrüßung
+            run: echo "Hallo, ${{ inputs.name || 'Welt' }}!"
 
-          - name: Set up BuildKit
-            uses: docker/setup-buildx-action@v3
+          - name: Datum und Uhrzeit
+            run: date
 
-          - name: Image bauen (lokal in den Runner)
-            uses: docker/build-push-action@v6
-            with:
-              context: .
-              load: true
-              tags: cicd-demo:${{ github.sha }}
-              cache-from: type=gha
-              cache-to: type=gha,mode=max
+          - name: Welche Maschine?
+            run: |
+              echo "Betriebssystem:"
+              uname -a
+              echo ""
+              echo "Aktuelles Verzeichnis:"
+              pwd
 
-          - name: Tests im Container laufen lassen
-            run: docker run --rm cicd-demo:${{ github.sha }} pytest -v
-
-      publish:
-        runs-on: ubuntu-latest
-        needs: build-and-test
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        steps:
-          - name: Checkout
-            uses: actions/checkout@v4
-
-          - name: Set up BuildKit
-            uses: docker/setup-buildx-action@v3
-
-          - name: Login zu GHCR
-            uses: docker/login-action@v3
-            with:
-              registry: ghcr.io
-              username: ${{ github.actor }}
-              password: ${{ secrets.GITHUB_TOKEN }}
-
-          - name: Repository-Pfad in Kleinbuchstaben (GHCR verlangt lowercase)
-            id: lcrepo
-            run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-
-          - name: Image pushen
-            uses: docker/build-push-action@v6
-            with:
-              context: .
-              push: true
-              tags: |
-                ghcr.io/${{ steps.lcrepo.outputs.REPO }}:${{ github.sha }}
-                ghcr.io/${{ steps.lcrepo.outputs.REPO }}:latest
-              cache-from: type=gha
-              cache-to: type=gha,mode=max
+          - name: Verfügbare Tools prüfen
+            run: |
+              git --version
+              docker --version
+              python3 --version
+              node --version
     ```
 
-??? success "Mit Trivy-Scan (Bonus)"
-    ```yaml
-    name: CI
-
-    on:
-      push:
-        branches: [main]
-      pull_request:
-      workflow_dispatch:
-
-    permissions:
-      contents: read
-      packages: write
-
-    jobs:
-      build-and-test:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v4
-          - uses: docker/setup-buildx-action@v3
-
-          - name: Image bauen
-            uses: docker/build-push-action@v6
-            with:
-              context: .
-              load: true
-              tags: cicd-demo:${{ github.sha }}
-              cache-from: type=gha
-              cache-to: type=gha,mode=max
-
-          - name: Tests
-            run: docker run --rm cicd-demo:${{ github.sha }} pytest -v
-
-          - name: Trivy-Scan
-            uses: aquasecurity/trivy-action@0.28.0
-            with:
-              image-ref: cicd-demo:${{ github.sha }}
-              format: table
-              exit-code: 1
-              severity: CRITICAL,HIGH
-              ignore-unfixed: true
-
-      publish:
-        runs-on: ubuntu-latest
-        needs: build-and-test
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        steps:
-          - uses: actions/checkout@v4
-          - uses: docker/setup-buildx-action@v3
-
-          - uses: docker/login-action@v3
-            with:
-              registry: ghcr.io
-              username: ${{ github.actor }}
-              password: ${{ secrets.GITHUB_TOKEN }}
-
-          - id: lcrepo
-            run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-
-          - uses: docker/build-push-action@v6
-            with:
-              context: .
-              push: true
-              tags: |
-                ghcr.io/${{ steps.lcrepo.outputs.REPO }}:${{ github.sha }}
-                ghcr.io/${{ steps.lcrepo.outputs.REPO }}:latest
-              cache-from: type=gha
-              cache-to: type=gha,mode=max
-    ```
+    Beachte das `|| 'Welt'`: bei einem Push (ohne Eingabefeld) ist `inputs.name` leer. Das `||` setzt den Default „Welt", wenn `inputs.name` nicht gesetzt ist.
 
 ---
 
-## Häufige Fehler in der Praxis-Phase
+## Häufige Fehler
 
-??? danger "Tests passen lokal, schlagen in CI fehl"
-    **Häufigste Ursachen:**
+??? warning "Workflow läuft nicht"
+    Drei Dinge prüfen:
 
-    1. Lokales **Cache-Verzeichnis** beeinflusst Test (z.B. `__pycache__` mit altem Code). In CI nicht vorhanden.
-    2. **Pfade** unterschiedlich (Windows-Backslash vs. Linux-Forward-Slash).
-    3. **Locale** unterschiedlich (Tests, die auf Sprache reagieren).
-    4. **Tests sind zeitabhängig** und in CI langsamer.
+    1. Liegt die Datei wirklich unter `.github/workflows/`? Nicht in `github/workflows/`, nicht im Repo-Root.
+    2. Ist die Endung `.yml` oder `.yaml`?
+    3. Stimmt die YAML-Syntax? GitHub zeigt Parser-Fehler im **Actions-Tab** rechts oben in einem gelben Kasten.
 
-    **Lösung:** Tests müssen reproduzierbar sein. Ein guter Anhalt: in einer **frischen** lokalen Umgebung (frischer Build-Container, ohne Caches) reproduzieren. Dann findest du die Diskrepanz.
+??? warning "YAML-Fehler: „mapping values are not allowed"
+    Du hast vermutlich Tabs statt Leerzeichen, oder die Einrückung passt nicht. Editor auf „Insert spaces" stellen, alles mit zwei Leerzeichen pro Ebene neu setzen.
 
-??? warning "GHCR-Push schlägt mit „denied: permission_denied" fehl"
-    Die häufigsten Punkte:
+??? warning "`Run workflow`-Knopf erscheint nicht"
+    Der Knopf ist nur sichtbar, wenn `workflow_dispatch:` im `on:`-Block steht **und** die Workflow-Datei schon mindestens einmal auf dem Default-Branch (meist `main`) lag. Sprich: einmal pushen, dann erscheint der Knopf.
 
-    1. `permissions: packages: write` im Workflow vergessen.
-    2. Repo-Setting **„Workflow permissions"** steht auf „Read repository contents permission" (read-only). Unter Repo → Settings → Actions → General → Workflow permissions auf **„Read and write permissions"** stellen.
-    3. Image-Pfad falsch: muss `ghcr.io/<owner>/<repo>` lauten, mit Kleinbuchstaben.
-
-??? warning "Workflow läuft, aber `docker pull` von GHCR scheitert"
-    GHCR-Pakete sind **standardmäßig privat**, auch wenn das Repo public ist. Lösung: auf der Paket-Seite (rechts oben unter **Packages** im Repo) → **Package settings** → **Change visibility** → public. Oder beim ersten Pull lokal einloggen:
-
-    ```bash
-    echo "<PAT>" | docker login ghcr.io -u <USER> --password-stdin
-    ```
-
-??? info "Pipeline läuft endlos / hängt"
-    Sehr selten. Häufiger: ein Step wartet auf etwas, das nie kommt (z.B. eine interaktive Eingabe). GitHub hat ein hartes Job-Timeout von 6 Stunden, aber so weit sollte es nie kommen. Schau in den Step-Logs: meist ist erkennbar, was der Lauf gerade tut.
+??? warning "Step bleibt einfach ohne Ausgabe"
+    Manche Befehle schreiben nichts, wenn alles funktioniert (`exit 0`). Wenn du sehen willst, dass ein Step gelaufen ist, schreib ein `echo` davor oder dahinter.
 
 ---
 
-## Was du jetzt geschafft hast
+## Aufräumen oder weitermachen
 
-- Eine **Demo-App** lokal gebaut und getestet.
-- Ein **GitHub-Repo** angelegt, Code gepusht.
-- Eine **Workflow-Datei** geschrieben, die bei jedem Push baut, testet und (auf `main`) pusht.
-- Die Pipeline einmal **bewusst kaputt** gemacht und wieder repariert. Damit kennst du die häufigsten Fehlersignaturen.
-- Ein eigenes **Image in GHCR** liegen.
-
----
-
-## Was als nächstes?
-
-In der [Übungs-Sammlung](uebungen.md) findest du vier weitere Aufgaben mit aufsteigender Schwierigkeit:
-
-- 🟢 **Übung 6.1**: Mini-Pipeline ohne Tests, nur Hello-World
-- 🟢 **Übung 6.2**: Tests separat im eigenen Job
-- 🟡 **Übung 6.3**: Multi-Architektur-Image (linux/amd64 + linux/arm64)
-- 🟡 **Übung 6.4**: Versions-Tags mit Semver-Trigger
+Du kannst das Repo **behalten** und in den [Übungen](uebungen.md) weiterbauen. Oder löschen: **Settings** → ganz nach unten → **Delete this repository**. GitHub fragt zwei Mal nach.
 
 ---
 
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Erst lokal, dann CI. Erst klein, dann erweitert. `needs:` und `if:` strukturieren, was wann läuft. PRs bauen, `main` veröffentlicht. Logs lesen, nicht raten.**
+    > **Workflow = YAML in `.github/workflows/`. Trigger oben, Jobs in der Mitte, Steps innen. Pushen, im Actions-Tab anschauen, Logs lesen. Mehr ist es konzeptuell nicht.**
 
 ---
 
 ## Weiterlesen
 
+- [Übungen](uebungen.md): vier Aufgaben, die auf dem Workflow von hier aufbauen
 - [Stolpersteine](stolpersteine.md): wenn etwas hakt
 - [Cheatsheet GitHub Actions](../cheatsheets/github-actions.md): Befehle und Snippets auf einer Seite
