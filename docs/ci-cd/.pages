@@ -1,12 +1,10 @@
 nav:
-  - "Überblick & Zeitplan": index.md
+  - "Überblick": index.md
   - "Warum CI/CD?": warum-cicd.md
   - "Begriffe: CI, CD, CD": begriffe.md
   - "Pipeline-Konzept": pipeline-konzept.md
-  - "Deployment-Strategien": deployment-strategien.md
   - "GitHub Actions – Grundlagen": github-actions-grundlagen.md
   - "Praxis: erste Pipeline": praxis-erste-pipeline.md
   - "Übungen": uebungen.md
   - "Stolpersteine": stolpersteine.md
   - "Merksätze": merksaetze.md
-  - "Ausblick": ausblick.md

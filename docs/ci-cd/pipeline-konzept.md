@@ -1,6 +1,6 @@
 ---
 title: "Pipeline-Konzept"
-description: "Eine Pipeline besteht aus Phasen: Trigger, Build, Test, Publish, Deploy. Diese Seite zeigt, was in jeder Phase passiert, und ordnet die Phasen den Softwareverteilungsprozessen aus dem Rahmenplan zu."
+description: "Eine Pipeline besteht aus vier Phasen: Trigger, Build, Test, Publish. Diese Seite zeigt, was in jeder Phase passiert, und ordnet sie den Softwareverteilungsprozessen aus dem Rahmenplan zu."
 ---
 
 # Pipeline-Konzept: Was läuft eigentlich Schritt für Schritt?
@@ -8,7 +8,7 @@ description: "Eine Pipeline besteht aus Phasen: Trigger, Build, Test, Publish, D
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
 
-    - eine Pipeline in **fünf Phasen** zerlegen: Trigger, Build, Test, Publish, Deploy
+    - eine Pipeline in **vier Phasen** zerlegen: Trigger, Build, Test, Publish
     - die Phasen einer Pipeline in den Softwareverteilungsprozess **2.3.1** des Rahmenplans einordnen
     - die Begriffe **Job**, **Stage**, **Step** und **Artefakt** sauber unterscheiden
     - eine kleine Pipeline auf Papier skizzieren, ohne ein konkretes Tool zu kennen
@@ -27,17 +27,16 @@ Diese Seite adressiert Punkt **2.3.1** des Rahmenplans:
 
 ## Das Phasen-Modell
 
-Jede CI/CD-Pipeline läuft durch dieselben **fünf Phasen**:
+Jede CI/CD-Pipeline für Container-Anwendungen läuft durch dieselben **vier Phasen**:
 
 ```mermaid
 flowchart LR
   T["1. Trigger"] --> B["2. Build"]
   B --> Te["3. Test"]
   Te --> P["4. Publish"]
-  P --> D["5. Deploy"]
 ```
 
-Nicht jede Pipeline hat **alle** fünf – aber kein Schritt darf vor seinem Vorgänger laufen. Der Reihenfolge ist nicht beliebig, sie ist **kausal**.
+Nicht jede Pipeline hat **alle** vier – aber kein Schritt darf vor seinem Vorgänger laufen. Die Reihenfolge ist nicht beliebig, sie ist **kausal**.
 
 | Phase | Was passiert | Typische Dauer |
 |-------|--------------|---------------|
@@ -45,7 +44,8 @@ Nicht jede Pipeline hat **alle** fünf – aber kein Schritt darf vor seinem Vor
 | **Build** | Code wird kompiliert/gebaut, Image wird erstellt. | 1–10 Minuten |
 | **Test** | Automatische Tests laufen (Unit, Integration, Lint, Security). | 1–30 Minuten |
 | **Publish** | Build-Ergebnis wird veröffentlicht (Registry, Artifact-Store). | Sekunden bis Minuten |
-| **Deploy** | Das veröffentlichte Artefakt wird auf Server/Cluster ausgerollt. | Sekunden bis Stunden |
+
+Auf das fertige Artefakt in der Registry folgt typischerweise noch ein **Deploy** auf einen Server oder ein Cluster. Das hängt aber stark von der Zielplattform ab und ist Stoff für eine separate Einheit.
 
 ---
 
@@ -74,7 +74,7 @@ on:
 
 !!! tip "Trigger sauber wählen"
     - **Pull Requests** sollten **immer** mindestens Build + Test triggern. Sonst sieht niemand vor dem Merge, ob der Code überhaupt baut.
-    - **Push auf main** sollte nur dann automatisch deployen, wenn ihr **Continuous Deployment** wirklich wollt – sonst Trigger zusätzlich auf Tags binden.
+    - **Push auf main** sollte nur dann automatisch deployen, wenn du **Continuous Deployment** wirklich willst – sonst Trigger zusätzlich auf Tags binden.
 
 ---
 
@@ -179,22 +179,6 @@ ghcr.io/jacobmenge/cicd-demo:2026-05-07.142          # Zeit + Build-Nummer
 
 !!! danger "`:latest` allein ist gefährlich"
     Wer nur `:latest` pusht, verliert die Möglichkeit zum **gezielten Rollback**. Der Tag wandert immer auf die neueste Version. **Immer zusätzlich** ein unveränderliches Tag (Commit-SHA oder Semver) pushen.
-
----
-
-## Phase 5: Deploy
-
-Das eigentliche Aufspielen auf einen Server oder ein Cluster. Hier divergieren die Welten:
-
-| Plattform | Deploy-Mechanismus |
-|-----------|---------------------|
-| **Einzelner VPS** | SSH + `docker compose pull && up -d` |
-| **Docker Swarm** | `docker stack deploy` |
-| **Kubernetes** | `kubectl apply -f manifest.yaml` oder `helm upgrade` |
-| **PaaS (Render, Fly, Heroku)** | Plattform-spezifisches Deploy-Kommando |
-| **Serverless (Lambda)** | `aws lambda update-function-code` |
-
-In **diesem** Block bauen wir die Pipeline bis Phase 4 (Publish in GHCR). Phase 5 ist Stoff für [Folgeblöcke](ausblick.md), weil dort eine eigene Plattform-Diskussion läuft.
 
 ---
 
@@ -308,7 +292,7 @@ Eine Pipeline ist also **kein einmaliges Setup**, sondern ein **lebendiger Proze
 
 ## Was du jetzt wissen solltest
 
-- Eine Pipeline läuft durch **fünf Phasen**: Trigger, Build, Test, Publish, Deploy.
+- Eine Pipeline läuft durch **vier Phasen**: Trigger, Build, Test, Publish.
 - Nicht jede Pipeline hat alle Phasen – aber niemals ist die Reihenfolge beliebig.
 - **Trigger** sind Ereignisse (Push, Tag, Schedule, Manual). Wähl sie bewusst.
 - **Tests** sind das Sicherheitsnetz; eine Pipeline ohne Tests bringt nur Tempo, keine Qualität.
@@ -320,11 +304,11 @@ Eine Pipeline ist also **kein einmaliges Setup**, sondern ein **lebendiger Proze
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Pipeline = Trigger → Build → Test → Publish → Deploy. Jede Phase eine klare Aufgabe, jede Phase mit Logs, jede Phase prüfbar. Kein Schritt vor seinem Vorgänger, und kein Publish ohne grüne Tests.**
+    > **Pipeline = Trigger → Build → Test → Publish. Jede Phase eine klare Aufgabe, jede Phase mit Logs, jede Phase prüfbar. Kein Schritt vor seinem Vorgänger, und kein Publish ohne grüne Tests.**
 
 ---
 
 ## Weiterlesen
 
-- [Deployment-Strategien](deployment-strategien.md) – wie Phase 5 in der Realität abläuft
 - [GitHub Actions – Grundlagen](github-actions-grundlagen.md) – jetzt die konkrete Syntax
+- [Praxis: erste Pipeline](praxis-erste-pipeline.md) – das Konzept in einer eigenen Workflow-Datei

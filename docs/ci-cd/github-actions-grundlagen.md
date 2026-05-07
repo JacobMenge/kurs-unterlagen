@@ -1,6 +1,6 @@
 ---
 title: "GitHub Actions – Grundlagen"
-description: "Wie eine GitHub-Actions-Workflow-Datei aufgebaut ist: on, jobs, runs-on, steps, uses, run, Secrets und der GITHUB_TOKEN. Mit Live-Demo-Workflow, der ein Docker-Image baut."
+description: "Wie eine GitHub-Actions-Workflow-Datei aufgebaut ist: on, jobs, runs-on, steps, uses, run, Secrets und der GITHUB_TOKEN. Mit einem vollständigen Beispiel-Workflow, der ein Docker-Image baut."
 ---
 
 # GitHub Actions – Grundlagen
@@ -12,7 +12,7 @@ description: "Wie eine GitHub-Actions-Workflow-Datei aufgebaut ist: on, jobs, ru
     - **`on`**, **`jobs`**, **`runs-on`**, **`steps`**, **`uses`** und **`run`** sicher einsetzen
     - **vorgefertigte Actions** (z.B. `actions/checkout`, `docker/build-push-action`) nutzen
     - **Secrets** und den eingebauten `GITHUB_TOKEN` korrekt verwenden
-    - eine kleine Live-Demo-Pipeline lesen, die ein Docker-Image baut
+    - einen kompletten Beispiel-Workflow lesen, der ein Docker-Image baut
 
 ---
 
@@ -394,9 +394,9 @@ Für **Docker-Builds** geht das eleganter direkt in der Build-Action:
 
 ---
 
-## Live-Demo-Workflow: Image bauen
+## Beispiel-Workflow: Image bauen und pushen
 
-Das ist der Workflow, den wir im Kurs **live** zeigen. Klein, vollständig, lehrreich:
+Ein vollständiger, kleiner Workflow, der die Bausteine von oben kombiniert:
 
 ```yaml
 # .github/workflows/build-image.yml

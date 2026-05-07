@@ -84,11 +84,11 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
     [:octicons-arrow-right-24: Block 5 starten](docker-profi/index.md)
 
--   :material-source-branch:{ .lg .middle } __[CI/CD mit GitHub Actions](ci-cd/index.md)__
+-   :material-source-branch:{ .lg .middle } __[CI/CD – Einführung](ci-cd/index.md)__
 
     ---
 
-    Vom manuellen `docker push` zur automatischen Pipeline: Begriffe, Deployment-Strategien, GitHub-Actions-Syntax und eine eigene Workflow-Datei, die ein Image baut, testet und in GHCR pusht.
+    Vom manuellen `docker push` zur automatischen Pipeline: Begriffe, GitHub-Actions-Syntax und eine eigene Workflow-Datei, die ein Image baut, testet und in GHCR pusht.
 
     [:octicons-arrow-right-24: Block 6 starten](ci-cd/index.md)
 
@@ -167,6 +167,6 @@ Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://ja
     - **Block 4** – Docker Compose (nächste Einheit)
     - **Praxis-Block II** – Mission Control (Compose-Gruppenübung nach Block 4)
     - **Block 5** – Docker für Profis (Best Practices, Optimierung)
-    - **Block 6** – CI/CD mit GitHub Actions (Pipeline, Deployment-Strategien, eigene Workflow-Datei)
+    - **Block 6** – CI/CD-Einführung mit GitHub Actions (Pipeline, eigene Workflow-Datei)
 
     Weitere Einheiten (Kubernetes, Monitoring) kommen später dazu.

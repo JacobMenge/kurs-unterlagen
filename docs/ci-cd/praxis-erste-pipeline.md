@@ -1,12 +1,12 @@
 ---
 title: "Praxis: erste GitHub-Actions-Pipeline"
-description: "In 45 Minuten von einem fertigen Docker-Projekt zur eigenen Workflow-Datei: Build, Test und (optional) Push in die GitHub Container Registry."
+description: "Schritt-für-Schritt-Anleitung von einem fertigen Docker-Projekt zur eigenen Workflow-Datei: Build, Test und Push in die GitHub Container Registry."
 ---
 
 # Praxis: erste GitHub-Actions-Pipeline
 
 !!! abstract "Ziel"
-    In **45 Minuten** schreibst du deine erste eigene GitHub-Actions-Workflow-Datei. Sie:
+    In **etwa einer Stunde** schreibst du deine erste eigene GitHub-Actions-Workflow-Datei. Sie:
 
     - **baut** ein Docker-Image bei jedem Push auf `main` und bei jedem Pull-Request
     - führt die **Tests** automatisch aus (Bezug **3.6.1**)
@@ -29,7 +29,7 @@ description: "In 45 Minuten von einem fertigen Docker-Projekt zur eigenen Workfl
 - **Git** lokal (`git --version`).
 - Ein **GitHub-Account**.
 - Ein **Editor**.
-- Etwa **45 Minuten** Zeit.
+- Etwa **eine Stunde** Zeit.
 
 !!! tip "Lokal vorab funktionsfähig?"
     Bevor du die Pipeline schreibst, sollte das Projekt **lokal** sauber bauen und testen. Diese Übung debuggt dir sonst zwei Probleme gleichzeitig: dein Code und deine Pipeline.
@@ -560,7 +560,7 @@ Statt nur `latest` und Commit-SHA: einen `v*.*.*`-Trigger einführen, der zusät
 
 ---
 
-## Was du in 45 Minuten geschafft hast
+## Was du jetzt geschafft hast
 
 - Eine **Demo-App** lokal gebaut und getestet.
 - Ein **GitHub-Repo** angelegt, Code gepusht.
@@ -572,14 +572,12 @@ Statt nur `latest` und Commit-SHA: einen `v*.*.*`-Trigger einführen, der zusät
 
 ## Was als nächstes?
 
-In der [Übungs-Sammlung](uebungen.md) findest du:
+In der [Übungs-Sammlung](uebungen.md) findest du vier weitere Aufgaben mit aufsteigender Schwierigkeit:
 
 - 🟢 **Übung 6.1** – Mini-Pipeline ohne Tests, nur Hello-World
 - 🟢 **Übung 6.2** – Tests separat im eigenen Job
 - 🟡 **Übung 6.3** – Multi-Architektur-Image (linux/amd64 + linux/arm64)
 - 🟡 **Übung 6.4** – Versions-Tags mit Semver-Trigger
-- 🔴 **Übung 6.5** – Trivy-Scan + Linter, parallel
-- 🏆 **Challenge 6** – Vollständige Release-Pipeline mit ChangeLog, Tag, Image und SBOM
 
 ---
 
@@ -594,4 +592,3 @@ In der [Übungs-Sammlung](uebungen.md) findest du:
 
 - [Stolpersteine](stolpersteine.md) – wenn etwas hakt
 - [Cheatsheet GitHub Actions](../cheatsheets/github-actions.md) – Befehle und Snippets auf einer Seite
-- [Ausblick](ausblick.md) – wo die Reise weitergeht (Kubernetes, ArgoCD, GitOps)

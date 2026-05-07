@@ -188,7 +188,7 @@ flowchart LR
   P --> Done(["Image bereit<br/>zum Deploy"])
 ```
 
-Klein, aber vollständig. Der **Trigger** (`push`), der **Build** (`docker build`), die **Tests**, das **Publishing** in eine Registry. Den Schritt von „Image in Registry" zu „läuft auf einem Server" lassen wir **bewusst** offen – das ist eine eigene Diskussion (Kubernetes, ArgoCD, klassisches SSH-Deploy) und kommt im [Ausblick](ausblick.md).
+Klein, aber vollständig. Der **Trigger** (`push`), der **Build** (`docker build`), die **Tests**, das **Publishing** in eine Registry. Den Schritt von „Image in Registry" zu „läuft auf einem Server" lassen wir bewusst offen – das ist eine eigene Diskussion (Kubernetes, klassisches SSH-Deploy) und gehört nicht zu den Grundlagen.
 
 ---
 

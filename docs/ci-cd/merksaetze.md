@@ -3,7 +3,7 @@ title: "Merksätze – CI/CD-Block"
 description: "Die Kern-Sätze aus Block 6 kompakt auf einer Seite."
 ---
 
-# Merksätze – CI/CD mit GitHub Actions (Block 6)
+# Merksätze – CI/CD-Einführung mit GitHub Actions (Block 6)
 
 ---
 
@@ -25,50 +25,41 @@ Mehr dazu: [Begriffe](begriffe.md)
 
 ---
 
-## 3. Pipeline = fünf Phasen
+## 3. Pipeline = vier Phasen
 
 !!! success "Merksatz 3"
-    > **Trigger → Build → Test → Publish → Deploy. Nicht jede Pipeline hat alle fünf, aber kein Schritt vor seinem Vorgänger. Tests sind das Sicherheitsnetz – ohne sie ist „grün" bedeutungslos.**
+    > **Trigger → Build → Test → Publish. Nicht jede Pipeline hat alle vier, aber kein Schritt vor seinem Vorgänger. Tests sind das Sicherheitsnetz – ohne sie ist „grün" bedeutungslos.**
 
 Mehr dazu: [Pipeline-Konzept](pipeline-konzept.md)
 
 ---
 
-## 4. Deployment-Strategien sind kein Selbstzweck
+## 4. GitHub Actions in einem Satz
 
 !!! success "Merksatz 4"
-    > **Recreate für simple Setups, Rolling für Standard-Web-Apps, Blue/Green für instantes Rollback, Canary für maximale Risiko-Kontrolle. Die richtige Strategie ist die, die zur Plattform passt.**
-
-Mehr dazu: [Deployment-Strategien](deployment-strategien.md)
-
----
-
-## 5. GitHub Actions in einem Satz
-
-!!! success "Merksatz 5"
     > **Workflows liegen in `.github/workflows/`. Aufbau: `on:`-Trigger, `jobs:`-Liste, je Job `runs-on:` und `steps:`. Steps sind entweder `run:` (Shell) oder `uses:` (vorgefertigte Action).**
 
 Mehr dazu: [GitHub Actions – Grundlagen](github-actions-grundlagen.md)
 
 ---
 
-## 6. Tags sind Pflicht – `latest` allein ist gefährlich
+## 5. Tags sind Pflicht – `latest` allein ist gefährlich
 
-!!! success "Merksatz 6"
+!!! success "Merksatz 5"
     > **Jedes Image bekommt mindestens zwei Tags: einen unveränderlichen (Commit-SHA oder Semver) und einen gleitenden (`latest`). Ohne unveränderlichen Tag gibt es keinen sauberen Rollback.**
 
 ---
 
-## 7. PR baut, `main` veröffentlicht
+## 6. PR baut, `main` veröffentlicht
 
-!!! success "Merksatz 7"
+!!! success "Merksatz 6"
     > **Pull Requests sollen bauen und testen, aber nicht in die Registry pushen. Nur Pushes auf `main` (oder Versions-Tags) lösen Publish aus. `if: github.event_name == 'push'` ist dafür der Standard-Filter.**
 
 ---
 
-## 8. Secrets gehören in die Settings, nicht ins YAML
+## 7. Secrets gehören in die Settings, nicht ins YAML
 
-!!! success "Merksatz 8"
+!!! success "Merksatz 7"
     > **Niemals Tokens, Passwörter oder Keys ins Workflow-YAML. Repo → Settings → Secrets and variables → Actions. Im Workflow nur über `${{ secrets.NAME }}` zugreifen. Für GHCR reicht der eingebaute `GITHUB_TOKEN` mit `permissions: packages: write`.**
 
 ---
@@ -81,26 +72,11 @@ flowchart LR
   Push --> Trigger{{"GitHub Actions<br/>liest .github/workflows/*.yml"}}
 
   Trigger --> Build["Build<br/>(docker build)"]
-  Build --> Test["Test<br/>(pytest, lint, scan)"]
+  Build --> Test["Test<br/>(pytest)"]
   Test -->|"Erfolg + main"| Publish["Publish<br/>(docker push GHCR)"]
   Test -.->|"PR oder rot"| Stop(["kein Push"])
   Publish --> Reg[("GHCR<br/>:sha + :latest")]
-  Reg -.-> Deploy(["Deploy<br/>(Server / Cluster)"])
 ```
-
----
-
-## Ausblick
-
-Was jetzt noch offen ist:
-
-- **Vom Image zur Produktion**: Klassisches SSH-Deploy oder eine Plattform wie Kubernetes mit ArgoCD – Stoff für [Ausblick](ausblick.md).
-- **Cross-Repo-Workflows**: wenn ein Workflow in Repo A einen Workflow in Repo B auslöst.
-- **Self-hosted Runner**: für besondere Hardware oder Compliance.
-- **Andere CI-Systeme**: GitLab CI, Jenkins, Azure DevOps – ähnliche Konzepte, andere Syntax.
-- **GitOps**: Code im Repo beschreibt nicht nur die App, sondern auch ihren **Soll-Zustand auf dem Cluster**. ArgoCD/Flux gleichen Soll und Ist ab.
-
-Aber: **eine vollständige CI-Pipeline mit Test, Build und Push läuft.** Das ist die Grundlage für alles, was danach kommt.
 
 ---
 

@@ -66,7 +66,7 @@ flowchart LR
 - Keine Garantie, dass die Software funktioniert: nur, dass die **Tests** durchgelaufen sind.
 
 !!! tip "Daumenregel: jedes Repo darf CI haben"
-    Selbst wenn ihr **nichts deployt** (z.B. ein internes Tool, das einer manuell installiert), ist CI sinnvoll. Tests, die nicht laufen, sind keine Tests. CI macht aus dem „läuft hoffentlich" ein „läuft nachweisbar".
+    Selbst wenn **nichts deployt wird** (z.B. ein internes Tool, das jemand manuell installiert), ist CI sinnvoll. Tests, die nicht laufen, sind keine Tests. CI macht aus dem „läuft hoffentlich" ein „läuft nachweisbar".
 
 ---
 
@@ -86,7 +86,7 @@ Der entscheidende Punkt: **Der letzte Schritt – das tatsächliche Aufspielen i
 
 - **Jeder Commit** könnte produktionsreif sein – die Maschine sagt: ja, gebaut, getestet, paketiert.
 - **Veröffentlichungs-Entscheidung** ist eine Geschäftsentscheidung, keine technische: „Lassen wir Feature X heute schon raus, oder erst nach dem Marketing-Plan?"
-- **Reproduzierbar**: Wenn ihr drei Wochen alten Stand veröffentlichen wollt, nehmt ihr den entsprechenden Build aus der Registry.
+- **Reproduzierbar**: Wenn du einen drei Wochen alten Stand veröffentlichen willst, nimmst du den entsprechenden Build aus der Registry.
 
 ```mermaid
 flowchart LR
@@ -113,7 +113,7 @@ Continuous **Deployment** ist der ehrgeizigste Modus: **Push → Build → Test 
 ### Was Deployment voraussetzt
 
 - **Sehr gute Tests** – Unit-, Integration-, End-to-End-Tests, oft auch Performance- und Security-Tests in der Pipeline.
-- **Saubere Deployment-Strategie** – Rolling, Blue/Green oder Canary, sodass eine fehlerhafte Version Nutzer:innen nicht direkt umlegt. Mehr dazu: [Deployment-Strategien](deployment-strategien.md).
+- **Saubere Deployment-Strategie** – das Update darf Nutzer:innen nicht direkt umlegen, wenn die neue Version Probleme hat.
 - **Schnelles Rollback** – wenn etwas schiefgeht, muss die Vorgängerversion in Sekunden wieder da sein.
 - **Monitoring + Alerting** – damit überhaupt jemand merkt, dass die letzte Version Probleme macht.
 - **Feature Flags** für Funktionen, die zwar deployt sind, aber noch nicht für alle Nutzer:innen sichtbar.
@@ -167,7 +167,7 @@ flowchart LR
   Push2 --> Hum(["fertig zum<br/>(manuellen) Deploy"])
 ```
 
-Continuous **Deployment** in Produktion bauen wir nicht – das braucht entweder Kubernetes + ArgoCD oder einen klassischen SSH-Deploy mit deutlich mehr Setup-Aufwand. Beides ist Thema im [Ausblick](ausblick.md).
+Continuous **Deployment** in Produktion bauen wir nicht – das braucht entweder Kubernetes oder einen klassischen SSH-Deploy mit deutlich mehr Setup-Aufwand und gehört nicht zu den Grundlagen.
 
 ---
 
@@ -204,4 +204,4 @@ Continuous **Deployment** in Produktion bauen wir nicht – das braucht entweder
 ## Weiterlesen
 
 - [Pipeline-Konzept](pipeline-konzept.md) – wie das in Phasen zerlegt wird
-- [Deployment-Strategien](deployment-strategien.md) – warum Continuous Deployment ohne Strategie gefährlich ist
+- [GitHub Actions – Grundlagen](github-actions-grundlagen.md) – das konkrete Werkzeug
