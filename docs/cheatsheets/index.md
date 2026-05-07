@@ -27,6 +27,12 @@ Beide Cheatsheets sind als **Tabellen** aufgebaut. Sie sind bewusst knapp – f�
 
     Up, Down, Logs, Build, Exec – plus alle wichtigen YAML-Snippets für `compose.yaml`.
 
+-   :material-source-branch:{ .lg .middle } __[GitHub Actions](github-actions.md)__
+
+    ---
+
+    Trigger, Jobs, Steps, Docker-Snippets, Multi-Arch und Release – das Pipeline-Spickblatt.
+
 </div>
 
 ---

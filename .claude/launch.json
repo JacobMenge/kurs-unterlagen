@@ -6,6 +6,12 @@
       "runtimeExecutable": "docker",
       "runtimeArgs": ["compose", "-p", "mc-test", "logs", "-f"],
       "port": 8080
+    },
+    {
+      "name": "mkdocs",
+      "runtimeExecutable": ".venv/Scripts/mkdocs",
+      "runtimeArgs": ["serve", "--dev-addr=127.0.0.1:8765"],
+      "port": 8765
     }
   ]
 }

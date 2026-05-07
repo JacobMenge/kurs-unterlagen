@@ -211,7 +211,50 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 8 – Init-SQL hat nicht ausgeführt
+## Hilfekarte 8 – „password authentication failed for user …" (DB-Volume-Falle)
+
+??? danger "Aufklappen – häufigste Ursache nach Mission 5"
+    Symptom: das Backend protokolliert in einer Endlos-Schleife:
+
+    ```text
+    [backend] Database not ready (attempt N/30): password authentication failed for user "aurora"
+    ...
+    [backend] Startup failed: Database connection failed after multiple attempts.
+    ```
+
+    **Was passiert:**
+
+    > Das offizielle `postgres`-Image liest `POSTGRES_USER`, `POSTGRES_PASSWORD` und `POSTGRES_DB` **nur beim allerersten Start eines frischen Volumes** ein. Beim zweiten Start ignoriert es diese Variablen komplett – die DB läuft mit User/Passwort, die beim allerersten Mal gesetzt wurden.
+
+    **Typischer Auslöser:**
+
+    - Ihr habt in Mission 1–4 hartkodierte Werte in der `compose.yaml` gehabt.
+    - In Mission 5 habt ihr auf `.env` umgestellt, dabei aber einen Tippfehler im Variablen-Namen oder einen anderen Wert gewählt.
+    - Oder: die `.env` lag nicht im richtigen Ordner → Compose hat eine leere Variable eingesetzt → Postgres-Image hat das Default-Passwort genommen → Backend kennt das nicht.
+
+    Das alte Volume hat noch das alte Passwort, das Backend schickt das neue. **Zack: Auth-Loop.**
+
+    **Lösung – Volume zurücksetzen:**
+
+    ```bash
+    docker compose down -v
+    docker compose up -d --build
+    ```
+
+    Das `-v` löscht das benannte Volume, beim nächsten Start initialisiert sich Postgres frisch mit dem aktuellen `POSTGRES_PASSWORD` aus eurer `.env`. Init-SQL läuft auch wieder, ihr habt die sechs Beispiel-Module zurück.
+
+    !!! danger "Achtung – `-v` löscht Daten"
+        `docker compose down -v` löscht **alle** benannten Volumes dieses Compose-Projekts. Selbst angelegte Module sind danach weg.
+
+    **Vorbeugung:**
+
+    1. Vor `up` immer `docker compose config` aufrufen – stehen `POSTGRES_USER` und `POSTGRES_PASSWORD` sauber aufgelöst da?
+    2. `.env` muss im **selben Ordner** wie die `compose.yaml` liegen.
+    3. Wenn ihr `POSTGRES_PASSWORD` ändert, müsst ihr immer auch das Volume neu anlegen.
+
+---
+
+## Hilfekarte 9 – Init-SQL hat nicht ausgeführt
 
 ??? info "Aufklappen"
     Symptom: ihr seht im Frontend keine Module, oder `docker compose exec db psql -U aurora -d auroradb -c "\dt"` zeigt **keine Tabelle `modules`**.
@@ -239,7 +282,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 9 – Port ist bereits belegt
+## Hilfekarte 10 – Port ist bereits belegt
 
 ??? info "Aufklappen"
     Symptom: `docker compose up -d` bricht ab mit:

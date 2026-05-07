@@ -253,7 +253,7 @@ RUN apt-get update && \
 
 Jedes Image erbt Sicherheitslücken seines Basis-Image plus der Pakete, die du installierst. Ein regelmäßiger Scan hilft, Lücken früh zu entdecken.
 
-### Trivy – der Standard
+### <span id="trivy-images-auf-cves-scannen"></span>Trivy – der Standard
 
 [Trivy](https://github.com/aquasecurity/trivy) ist das meistgenutzte Open-Source-Scan-Tool. Cross-Platform, schnell, vernünftige False-Positive-Rate.
 

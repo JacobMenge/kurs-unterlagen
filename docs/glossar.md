@@ -30,6 +30,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="apparmor"></span>AppArmor
 : **Linux-Sicherheitsmodul**, das den Zugriff eines Prozesses auf Dateien, Netzwerke und andere Ressourcen einschränkt. Ubuntu und Debian setzen AppArmor standardmäßig ein. Docker bringt ein Default-Profil mit, das für die meisten Container passt – selten Ursache von Problemen. Du erkennst AppArmor-Blockaden in `dmesg`-Logs.
 
+## <span id="argocd"></span>ArgoCD
+: **GitOps-Controller für Kubernetes.** Liest fortlaufend einen Git-Branch mit Cluster-Manifesten und gleicht den **Soll-Zustand aus dem Repo** mit dem **Ist-Zustand im Cluster** ab. Drift wird automatisch korrigiert, jeder Cluster-Stand ist auf einen Git-Commit zurückführbar. Ein typisches Setup: die CI-Pipeline pusht ein neues Image in die Registry und ändert die Image-Referenz in einem GitOps-Repo; ArgoCD bemerkt den Commit und rollt aus. Alternative Tools: Flux, Argo Rollouts (für Blue/Green und Canary).
+
 ## <span id="apt"></span>apt / apt-get
 : **Paketmanager** der Debian- und Ubuntu-Linux-Distributionen. Damit installierst, aktualisierst und entfernst du Software: `sudo apt install docker-ce`, `sudo apt update`, `sudo apt remove foo`. Der neuere Befehl ist `apt`, der ältere `apt-get` – funktional fast identisch, `apt` hat eine schönere Ausgabe.
 
@@ -44,6 +47,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="bind-mount"></span>Bind Mount
 : Ein **Host-Verzeichnis wird direkt** in einen Container eingehängt. Änderungen im Container sind sofort auf dem Host sichtbar und umgekehrt. Typisch beim Entwickeln: den Quellcode vom Host in den Container mounten, damit Änderungen ohne Rebuild sichtbar werden. Im Gegensatz zu Volumes kennst du den Host-Pfad direkt und kannst ihn mit anderen Tools (Editor, Git) bearbeiten.
+
+## <span id="blue-green"></span><span id="blue-green-deployment"></span>Blue/Green Deployment
+: **Deployment-Strategie**, bei der zwei vollständige Umgebungen parallel existieren: **Blau** ist live, **Grün** wird mit der neuen Version vorbereitet. Smoke-Tests laufen gegen Grün, ohne dass User:innen Traffic sehen. Beim Switch leitet der Load Balancer alles auf Grün um – Blau bleibt für **instantes Rollback** stehen. Vorteil: sofortiger Roll-back, klares mentales Modell. Nachteil: doppelter Ressourcenverbrauch während des Switches. Siehe [Deployment-Strategien](ci-cd/deployment-strategien.md).
 
 ## <span id="bios"></span>BIOS (Basic Input/Output System)
 : **Firmware**, die beim Starten eines Rechners als Erstes ausgeführt wird. Findet Hardware, initialisiert sie und lädt den Bootloader. BIOS ist der historische Name und weitgehend durch UEFI abgelöst – im Alltag werden beide Begriffe oft synonym verwendet.
@@ -66,6 +72,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="cache"></span><span id="caching"></span><span id="layer-cache"></span><span id="layer-caching"></span>Cache / Caching (Docker-Layer-Cache)
 : **Zwischenspeicher zur Wiederverwendung von Daten.** Im Docker-Kontext meint „Cache" fast immer den **Layer-Cache**: Wenn `docker build` einen Schritt schon einmal mit identischem Input ausgeführt hat, nutzt es das gespeicherte Ergebnis erneut, statt neu zu bauen. Deshalb ist die Reihenfolge im Dockerfile so wichtig – selten geänderte Layer (Abhängigkeiten) **vor** häufig geänderten (eigener Code) platzieren. Cache-Verhalten erzwingen mit `--no-cache`.
 
+## <span id="canary"></span><span id="canary-deployment"></span>Canary Deployment
+: **Deployment-Strategie**, bei der eine neue Version zuerst nur einen kleinen Teil der Nutzer:innen erreicht (oft 5 %). Wenn Metriken stabil bleiben (Fehlerrate, Latenz), wird der Anteil schrittweise erhöht. Ein Bug trifft so anfangs nur einen Bruchteil der Nutzer:innen; bei Auffälligkeit wird der Anteil sofort zurückgesetzt. Voraussetzung: feinkörniger Traffic-Splitter (Service Mesh, Feature-Flag-System) und gute Observability. Siehe [Deployment-Strategien](ci-cd/deployment-strategien.md).
+
 ## <span id="capability"></span>Capability
 : **Feinkörniges Rechte-System unter Linux**. Statt „alles oder nichts" (root/nicht-root) werden einzelne Fähigkeiten wie „darf Ports unter 1024 öffnen" oder „darf Kernel-Module laden" getrennt vergeben. Container bekommen meist nur ein reduziertes Set dieser Capabilities. Das erschwert Angreifern, aus einem kompromittierten Container auszubrechen.
 
@@ -81,8 +90,14 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="cgroup"></span>cgroup (Control Group)
 : **Linux-Kernel-Feature**, mit dem festgelegt wird, wie viele Ressourcen (CPU, RAM, I/O) ein Prozess verbrauchen darf. Docker setzt damit Limits für jeden Container, damit ein ausufernder Container nicht den ganzen Host auffrisst. Es gibt zwei Major-Versionen: **cgroups v1** (älter) und **cgroups v2** (neuer, ab Fedora 31, Ubuntu 21.10, Debian 11 Default). Docker ab Version 20.10 funktioniert auf beiden.
 
-## <span id="ci-cd"></span>CI/CD (Continuous Integration / Deployment)
-: **Automatisierte Software-Auslieferung.** Bei jedem Commit werden automatisch Tests und Builds ausgeführt; bei Erfolg wandert die Software in die nächste Stufe bis hin zur Produktion. Docker ist in CI/CD sehr beliebt, weil Images in der Pipeline gebaut und gescannt werden können – reproduzierbar und unabhängig vom lokalen Rechner. Bekannte CI/CD-Systeme: GitHub Actions, GitLab CI, Jenkins.
+## <span id="ci-cd"></span><span id="continuous-integration"></span><span id="continuous-delivery"></span><span id="continuous-deployment"></span>CI/CD (Continuous Integration / Delivery / Deployment)
+: **Automatisierte Software-Auslieferung in drei aufeinander aufbauenden Stufen.** Wer „CI/CD" sagt, meint je nach Kontext eine oder mehrere davon:
+
+    - **Continuous Integration (CI)** – bei jedem Push in den Hauptzweig baut ein Server den Code und führt Tests aus. Schlägt etwas fehl, gilt der Branch als kaputt und das Team wird sofort gewarnt.
+    - **Continuous Delivery (CD)** – jede grüne CI-Version wird automatisch **paketiert** (z.B. als Docker-Image in eine Registry gepusht), sodass sie jederzeit ausrollbar ist. Den finalen **Veröffentlichungs-Klick** macht aber ein Mensch.
+    - **Continuous Deployment (CD)** – jede grüne Version wird ohne menschliches Zutun in Produktion ausgerollt. Setzt sehr gute Tests, Rollback-Pfad und Monitoring voraus.
+
+    Achtung: „CD" ist mehrdeutig und bezeichnet sowohl Delivery als auch Deployment. Im Zweifel nachfragen. Docker passt zu allen drei Stufen, weil Images in der Pipeline reproduzierbar gebaut werden. Bekannte CI/CD-Systeme: GitHub Actions, GitLab CI, Jenkins, CircleCI, Azure DevOps. Siehe [CI/CD-Block](ci-cd/index.md).
 
 ## <span id="cli"></span>CLI (Command-Line Interface)
 : **Textbasierte Bedienung** eines Programms oder Systems über die Kommandozeile. Gegenstück zum GUI. Du tippst Befehle ein wie `docker run nginx` oder `ls -la` und bekommst Textausgaben zurück. CLI-Tools lassen sich leicht automatisieren, in Skripte einbauen und per SSH auf entfernten Rechnern nutzen – deshalb sind sie in der IT so verbreitet.
@@ -213,15 +228,19 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="git"></span>Git
 : **Verteiltes Versionsverwaltungssystem.** Jeder Entwickler hat eine vollständige Kopie der Historie auf seinem Rechner; geteilt wird über Remote-Repositories (z.B. auf GitHub). Befehle: `git init`, `git add`, `git commit`, `git push`, `git pull`. Im Kurs nutzt du Git, um die eigenen Übungen lokal zu versionieren und auf GitHub zu spiegeln.
 
-## <span id="github"></span><span id="github-actions"></span><span id="github-pages"></span>GitHub / GitHub Actions / GitHub Pages
-: **Web-Plattform** rund um Git, betrieben von Microsoft. Hostet Open-Source- und private Repositories. Drei Bausteine, die im Kurs vorkommen:
+## <span id="github"></span><span id="github-actions"></span><span id="github-pages"></span><span id="ghcr"></span><span id="github-container-registry"></span>GitHub / GitHub Actions / GitHub Pages / GHCR
+: **Web-Plattform** rund um Git, betrieben von Microsoft. Hostet Open-Source- und private Repositories. Vier Bausteine, die im Kurs vorkommen:
 
     - **GitHub** als Repository-Plattform (Code-Hosting, Issues, Pull Requests).
-    - **GitHub Actions** als CI/CD-System: Workflows in YAML, getriggert durch Pushs oder Pull Requests, laufen auf von GitHub bereitgestellten Runnern (Linux/macOS/Windows). Diese Kursunterlagen werden via GitHub Actions gebaut und veröffentlicht.
+    - **GitHub Actions** als CI/CD-System: Workflows in YAML, getriggert durch Pushs oder Pull Requests, laufen auf von GitHub bereitgestellten Runnern (Linux/macOS/Windows). Diese Kursunterlagen werden via GitHub Actions gebaut und veröffentlicht. Siehe [Block 6](ci-cd/index.md).
     - **GitHub Pages** für das Hosting statischer Webseiten direkt aus einem Repo. Die fertige MkDocs-Site liegt damit unter `https://<user>.github.io/kurs-unterlagen/`.
+    - **GHCR (GitHub Container Registry)** – Container-Registry unter `ghcr.io`, integriert in GitHub. Ein Workflow kann mit dem eingebauten `GITHUB_TOKEN` Images pushen, sofern `permissions: packages: write` gesetzt ist. Public Repos erhalten kostenlosen Speicher.
 
 ## <span id="gitlab"></span>GitLab
 : **Self-hostbare Web-Plattform für Git-Repositories** mit eingebautem CI/CD, Issues, Wikis und Container-Registry. Im Kurs nicht primär genutzt, aber konzeptuell sehr ähnlich zu GitHub – Wissen ist übertragbar.
+
+## <span id="gitops"></span>GitOps
+: **Betriebsmodell, bei dem der Soll-Zustand der Infrastruktur (Manifeste, Konfiguration) komplett in einem Git-Repo liegt** und ein Operator im Cluster diesen Stand fortlaufend mit der Realität abgleicht. Ein typischer Ablauf: CI-Pipeline pusht ein neues Image und ändert die Image-Referenz im GitOps-Repo; ein Operator wie [ArgoCD](#argocd) oder Flux bemerkt den Commit und rollt aus. Vorteile: jede Cluster-Änderung ist ein Commit (auditierbar, rollbackbar), Drift-Detection korrigiert manuelle Eingriffe automatisch.
 
 ## <span id="get"></span>GET (HTTP-Methode)
 : **HTTP-Methode zum Abrufen von Daten** – ohne dass dabei etwas verändert wird. Wenn du im Browser eine Seite aufrufst, schickt der Browser einen `GET`-Request. APIs beantworten `GET`-Anfragen typischerweise mit einer Liste oder einem einzelnen Datensatz im JSON-Format. Beispiel: `GET /api/entries` liefert alle Einträge.
@@ -415,6 +434,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="pid"></span>PID (Process ID)
 : **Eindeutige Nummer eines laufenden Prozesses** auf einem System. Vom Kernel beim Start des Prozesses vergeben, einmalig zur Laufzeit. Die `PID 1` ist auf Linux der allererste Prozess (siehe [init / PID 1](#init)). Anzeigen mit `ps aux` (Linux/macOS), `Get-Process` (PowerShell) oder `tasklist` (CMD). Bei Docker bekommst du die PID des laufenden Container-Prozesses mit `docker top <container>` oder `docker inspect --format '{{.State.Pid}}' <container>`.
 
+## <span id="pipeline"></span><span id="ci-pipeline"></span>Pipeline (CI/CD)
+: **Automatisierte Folge von Phasen, die nach einem Trigger ablaufen.** Klassische Phasen: **Trigger → Build → Test → Publish → Deploy**. Jede Phase hat klare Inputs und Outputs; Folge-Phasen laufen nur bei grünem Vorgänger. In GitHub Actions wird eine Pipeline durch eine YAML-Datei in `.github/workflows/` beschrieben, die einen [Workflow](#workflow) bildet. Siehe [Pipeline-Konzept](ci-cd/pipeline-konzept.md).
+
 ## <span id="pipe"></span>Pipe (`|`)
 : **Shell-Symbol**, das die Ausgabe eines Befehls direkt als Eingabe an einen anderen Befehl weitergibt. Beispiel: `docker ps -aq | xargs docker rm` → `docker ps -aq` liefert eine Liste von Container-IDs, `xargs` übergibt sie Stück für Stück an `docker rm`. Die Pipe ist ein Grundbaustein der Unix-Shell und sehr mächtig. In Windows PowerShell funktioniert Piping ähnlich, aber leitet **Objekte** statt Text weiter.
 
@@ -446,7 +468,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Ein laufendes Programm**, das der Kernel verwaltet. Hat eine PID (Prozess-ID), einen eigenen Speicherbereich, kann Kind-Prozesse starten. Siehst du auf Linux mit `ps aux` oder `htop`. Jeder Container ist technisch ein Prozess (oder eine Prozess-Gruppe) auf dem Host-Kernel.
 
 ## <span id="qemu"></span>QEMU
-: **Quelloffener Maschinen-Emulator**, der oft als Virtualisierungs-Backend genutzt wird – etwa von Multipass auf macOS. Kann sowohl emulieren (langsam, flexibel, auch fremde Architekturen) als auch mit Hardware-Beschleunigung virtualisieren (schnell, nur native Architektur).
+: **Quelloffener Maschinen-Emulator**, der oft als Virtualisierungs-Backend genutzt wird – etwa von Multipass auf macOS. Kann sowohl emulieren (langsam, flexibel, auch fremde Architekturen) als auch mit Hardware-Beschleunigung virtualisieren (schnell, nur native Architektur). In CI-Pipelines wird QEMU über `docker/setup-qemu-action@v3` aktiviert, um auf einem `x86_64`-Runner auch `linux/arm64`-Images bauen zu können – langsamer als nativ, aber das einzige Mittel auf den GitHub-gehosteten Standard-Runnern.
 
 ## <span id="ram"></span>RAM (Random Access Memory)
 : **Arbeitsspeicher.** Schneller, flüchtiger Speicher – beim Ausschalten weg. Jede VM reserviert bei ihrem Start einen Teil des Host-RAMs. Container teilen sich dagegen den Host-RAM und bekommen je nach cgroup-Konfiguration ein Limit.
@@ -466,6 +488,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="retry-logik"></span>Retry-Logik
 : **Mechanismus, eine fehlgeschlagene Operation mehrfach zu wiederholen** – meist mit Wartezeit zwischen den Versuchen. Sinnvoll bei Operationen, die auf einen anderen Dienst warten müssen. Beispiel aus dem Escape Room: Die API kann erst loslegen, wenn die Datenbank bereit ist. Sie versucht es 20-mal, mit 1 Sekunde Wartezeit – statt sofort aufzugeben. Praktisch in Container-Setups, wo Startreihenfolgen nicht garantiert sind.
 
+## <span id="recreate"></span>Recreate (Deployment-Strategie)
+: **Einfachste Deployment-Strategie**: alle alten Instanzen stoppen, dann neue starten. Akzeptiert eine kurze **Downtime** im Update-Fenster, dafür kein Mischbetrieb zweier Versionen, keine besondere Infrastruktur nötig. In Compose ist das de-facto der Default beim `docker compose up -d` mit neuem Image. Sinnvoll bei kleinen, internen Apps oder bei Schema-Änderungen, die Versions-kompatibel nicht möglich sind. Siehe [Deployment-Strategien](ci-cd/deployment-strategien.md).
+
 ## <span id="reverse-proxy"></span>Reverse Proxy
 : **Server, der Anfragen aus dem Netz entgegennimmt und an interne Dienste weiterreicht.** Klassiker: nginx oder Traefik vor mehreren Backend-Containern. Vorteile: zentrale TLS-Terminierung, Load Balancing, Caching, Auth-Vorprüfung. In einem Compose-Setup sieht das so aus: nginx hat den `-p 443:443`-Port nach außen, die App-Container haben **nur** interne Ports und werden vom nginx über das Compose-Netz erreicht.
 
@@ -484,8 +509,14 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="rosetta"></span><span id="rosetta-2"></span>Rosetta 2
 : **Apples Übersetzer**, der x86_64-Software auf Apple-Silicon-Rechnern lauffähig macht. Relevant für Docker, wenn ein Image nur in x86_64 vorliegt und auf M-Macs laufen soll. Installation: `softwareupdate --install-rosetta --agree-to-license`. Docker Desktop ab Version 4.25 nutzt Rosetta 2 direkt für die Container-Emulation, was deutlich schneller ist als QEMU-Emulation.
 
+## <span id="rolling-update"></span><span id="rolling"></span>Rolling Update (Deployment-Strategie)
+: **Deployment-Strategie**, bei der Instanzen einer App in kleinen Wellen ausgetauscht werden: alte stoppen, neue starten, Healthcheck warten, nächste Welle. Während des gesamten Updates läuft die App weiter (kein Downtime), aber kurzzeitig sind **alte und neue Version parallel** aktiv. Standard-Modus von Kubernetes-Deployments. Voraussetzung: die neue Version muss kurzzeitig **API-kompatibel** zur alten sein. Siehe [Deployment-Strategien](ci-cd/deployment-strategien.md).
+
 ## <span id="routing-tabelle"></span>Routing-Tabelle
 : **Liste, wohin Netzwerk-Pakete geschickt werden sollen.** Wenn du `google.com` aufrufst, fragt dein Betriebssystem die Routing-Tabelle: „Wie komme ich zu dieser IP?" – die Antwort ist meist der Gateway (Router). Docker-Netzwerke haben eigene Routing-Tabellen, damit Container-Pakete richtig geleitet werden.
+
+## <span id="runner"></span><span id="self-hosted-runner"></span>Runner (CI/CD)
+: **Maschine, auf der ein Pipeline-Job ausgeführt wird.** Bei GitHub Actions sind das standardmäßig **GitHub-gehostete Runner** (frische Ubuntu-/Windows-/macOS-VMs, neu pro Job). Alternativ lassen sich **self-hosted Runner** registrieren – eigene Server, an die GitHub Jobs verteilt. Self-hosted Runner braucht man bei besonderer Hardware (GPU, ARM, viel RAM), Compliance-Anforderungen oder hohem Lauf-Volumen. Andere CI-Systeme nennen die Komponente **Agent** (Jenkins) oder **Runner** (GitLab). Im Kurs nutzen wir nur GitHub-gehostete Runner.
 
 ## <span id="runc"></span>runc
 : **Low-Level-Container-Runtime**, die einzelne Linux-Container tatsächlich startet. `runc` ist die Referenz-Implementierung der OCI-Runtime-Spec. Du nutzt sie nie direkt – Docker, containerd und Kubernetes rufen sie unter der Haube auf, um aus einem entpackten Image-Dateisystem einen laufenden Container zu machen.
@@ -500,7 +531,19 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Linux-Sicherheitsmodul**, das regeln kann, welche Prozesse auf welche Dateien und Netzwerke zugreifen dürfen. Standardmäßig aktiv auf Fedora, RHEL, CentOS, Rocky Linux, AlmaLinux. Bei Docker-Volumes kann SELinux den Zugriff blockieren – Lösung: `:z` oder `:Z` an den Mount-Pfad anhängen, z.B. `-v ./data:/app/data:z`.
 
 ## <span id="secret"></span>Secret
-: **Vertrauliche Information** (Passwort, API-Key, Zertifikat), die nicht ins Image gehört und nicht in Git landen darf. Zur Laufzeit über Umgebungsvariablen, Volumes oder dedizierte Secret-Manager übergeben. Ein geleaktes Secret in Git gilt als kompromittiert – es muss rotiert werden.
+: **Vertrauliche Information** (Passwort, API-Key, Zertifikat), die nicht ins Image gehört und nicht in Git landen darf. Zur Laufzeit über Umgebungsvariablen, Volumes oder dedizierte Secret-Manager übergeben. Ein geleaktes Secret in Git gilt als kompromittiert – es muss rotiert werden. In **GitHub Actions** liegen Secrets unter Settings → Secrets and variables → Actions; im Workflow zugreifbar über `${{ secrets.NAME }}`. GitHub maskiert die Werte automatisch in den Logs als `***`.
+
+## <span id="github-token"></span>GITHUB\_TOKEN
+: **Automatisch erzeugter Token pro GitHub-Actions-Workflow-Lauf.** Erlaubt dem Workflow den Zugriff auf das Repo, ohne dass du einen eigenen Personal Access Token (PAT) anlegen musst. Default-Berechtigungen sind seit 2023 schreibgeschützt; mit `permissions:` im Workflow lassen sich gezielt mehr Rechte einräumen (`contents: write`, `packages: write`, `id-token: write`). Der Token läuft nach Ende des Jobs sofort ab. Reicht für die meisten Aufgaben (GHCR-Push, Release-Anlage, Issue-Kommentare). Eigene PATs braucht man erst bei Cross-Repo-Aktionen.
+
+## <span id="semver"></span><span id="semantic-versioning"></span>Semver / Semantic Versioning
+: **Versions-Schema in der Form `MAJOR.MINOR.PATCH`** (z.B. `1.4.2`). Die drei Stellen haben feste Bedeutungen:
+
+    - **MAJOR** wird erhöht, wenn es **brechende Änderungen** gibt.
+    - **MINOR** wird erhöht, wenn neue Features **rückwärtskompatibel** dazu kommen.
+    - **PATCH** wird erhöht bei Bugfixes ohne API-Änderung.
+
+    In CI-Pipelines wird Semver oft via Git-Tag (`v1.4.2`) ausgelöst – die `docker/metadata-action` leitet daraus automatisch Image-Tags `1.4.2`, `1.4`, `1` und `latest` ab. So kann ein Konsument sich ans gewünschte Stabilitäts-Niveau binden (`:1` heißt „beliebige 1.x-Version").
 
 ## <span id="serial"></span>SERIAL (PostgreSQL)
 : **Datentyp in PostgreSQL für automatisch hochzählende ganze Zahlen.** Wird typischerweise für Primary Keys verwendet: `id SERIAL PRIMARY KEY`. Bei jedem Insert wird automatisch ein neuer, eindeutiger Wert vergeben (1, 2, 3, …). So musst du dir um IDs nicht selbst kümmern. Andere Datenbanken haben ähnliche Typen (`AUTO_INCREMENT` bei MySQL, `IDENTITY` bei MS-SQL).
@@ -522,6 +565,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
     - **SIGINT** (`Ctrl+C`) – Unterbrechung, klassisch von der Shell aus.
 
     Wichtig im Container: PID 1 ist meist die App selbst – die App muss SIGTERM behandeln, sonst dauert jedes `docker stop` zehn Sekunden.
+
+## <span id="smoke-test"></span>Smoke Test
+: **Sehr kurzer, rein funktionaler Test direkt nach einem Deploy**: läuft das System überhaupt, antwortet der Health-Endpoint, gibt die Startseite eine 200 zurück? Keine Tiefe, kein Edge-Case-Coverage – nur „rauchts oder rauchts nicht". In Blue/Green-Deployments laufen Smoke-Tests gegen die noch nicht live geschaltete Umgebung, bevor der Traffic-Switch erfolgt. Klassische Werkzeuge: `curl`, ein paar HTTP-Requests in einem Skript, oder ein dedizierter Tool wie `k6` für leichte Last-Smoke-Tests.
 
 ## <span id="snap"></span>Snap
 : **Paketformat und Paketmanager von Canonical.** Snaps sind in sich abgeschlossene Pakete, die ihre Abhängigkeiten mitbringen – ähnlich wie Container, aber auf Linux-Desktop-Ebene. Auf Ubuntu vorinstalliert, auf Debian manuell nachrüstbar. Wird in diesem Kurs für die Multipass-Installation genutzt: `sudo snap install multipass`.
@@ -571,6 +617,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="tcp"></span>TCP (Transmission Control Protocol)
 : **Zuverlässiges Netzwerkprotokoll**, das Pakete in der richtigen Reihenfolge und ohne Verluste zustellt. Grundlage für HTTP, HTTPS, SSH, SMTP und viele andere. TCP sorgt dafür, dass eine Verbindung aufgebaut wird und Pakete bei Verlust nochmal geschickt werden – Preis dafür ist etwas Overhead.
 
+## <span id="trigger"></span><span id="ci-trigger"></span>Trigger (CI/CD)
+: **Ereignis, das eine Pipeline auslöst.** Typische Trigger: ein **Push** in einen Branch, ein **Pull-Request**, ein **Tag** (z.B. `v1.4.2`), ein **Cron-Schedule** (täglich 3 Uhr) oder ein **manueller Knopf** (`workflow_dispatch`). In GitHub Actions stehen Trigger im `on:`-Block der Workflow-Datei. Mehrere Trigger lassen sich kombinieren – ein Workflow kann z.B. bei Push **und** PR **und** auf manuellen Knopfdruck laufen.
+
 ## <span id="trivy"></span>Trivy
 : **Open-Source-Scanner für Docker-Images** (und mehr). Prüft Images auf bekannte Sicherheitslücken (CVEs) in Systempaketen und Anwendungsabhängigkeiten. Standard-Werkzeug in CI/CD-Pipelines für Security-Gating: `trivy image nginx:1.27.3`.
 
@@ -615,6 +664,29 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="volume"></span>Volume
 : **Persistenter Speicher für Docker-Container.** Überlebt, wenn der Container gelöscht wird, und wird von Docker selbst verwaltet (liegt meist unter `/var/lib/docker/volumes/`). Alternative zu Bind Mounts, wenn du von der konkreten Host-Pfad-Struktur unabhängig sein willst. Typischer Einsatz: Datenbank-Dateien.
+
+## <span id="workflow"></span><span id="job"></span><span id="step"></span>Workflow / Job / Step (GitHub Actions)
+: **Drei Hierarchie-Begriffe einer GitHub-Actions-Pipeline.**
+
+    - **Workflow** – eine YAML-Datei in `.github/workflows/`, die einen kompletten automatisierten Ablauf beschreibt. Hat einen Namen, Trigger und mindestens einen Job.
+    - **Job** – eine geordnete Folge von Steps, die zusammen auf **einer eigenen Runner-VM** laufen. Jobs eines Workflows laufen standardmäßig parallel; mit `needs:` lässt sich eine Reihenfolge erzwingen.
+    - **Step** – eine einzelne Aktion innerhalb eines Jobs. Entweder ein Shell-Befehl (`run:`) oder eine vorgefertigte [Action](#github) (`uses:`). Innerhalb eines Jobs laufen Steps strikt sequenziell.
+
+    Andere CI-Systeme nutzen ähnliche Begriffe: GitLab kennt zusätzlich **Stages**, Jenkins **Pipelines** und **Stages**. Die Konzepte sind tool-übergreifend.
+
+## <span id="webhook"></span>Webhook
+: **HTTP-Aufruf**, den ein System bei einem definierten Ereignis an eine vorab konfigurierte URL absetzt. GitHub schickt z.B. bei jedem Push einen Webhook an seinen eigenen Actions-Service – das ist der Mechanismus, der Pipelines auslöst. Du kannst Webhooks auch nutzen, um aus eigenem Code andere Systeme zu triggern: Slack-Nachrichten, Build-Server, Monitoring. Typische Form: `POST <URL>` mit JSON-Body, der den Event beschreibt.
+
+## <span id="matrix"></span><span id="matrix-build"></span>Matrix-Build
+: **GitHub-Actions-Konstrukt, mit dem ein Job parallel mit mehreren Parametern läuft.** Beispiel: Tests auf Python 3.10, 3.11 und 3.12 gleichzeitig:
+
+    ```yaml
+    strategy:
+      matrix:
+        python: ["3.10", "3.11", "3.12"]
+    ```
+
+    Jede Kombination erzeugt einen eigenen Sub-Job mit eigenem Runner. Wichtig vor allem für **Bibliotheken**, die mehrere Versions-Kombinationen unterstützen müssen. Bei Anwendungs-Pipelines selten nötig, weil dort meist nur eine Ziel-Plattform produktiv läuft.
 
 ## <span id="watch"></span><span id="compose-watch"></span>watch (Compose Watch-Mode)
 : **Compose-Funktion seit Version v2.22 (Oktober 2023)**, die Dateien auf dem Host beobachtet und Änderungen **automatisch** in den laufenden Stack einarbeitet. Im `services:`-Block beschreibt der Schlüssel `develop.watch:` Aktionen wie `sync` (Datei in den Container synchronisieren), `rebuild` (Image neu bauen) oder `sync+restart` (synchronisieren und Container neu starten). Gestartet mit `docker compose watch`. Sehr nützlich für iterative Entwicklung – ähnlich wie ein Live-Reload-Tool, aber direkt in der Compose-Welt verankert. Ersetzt im Alltag oft Bind Mounts mit File-Watchern wie `nodemon` oder `flask --debug`.

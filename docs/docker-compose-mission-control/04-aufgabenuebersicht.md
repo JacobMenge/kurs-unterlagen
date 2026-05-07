@@ -311,6 +311,16 @@ Aktuell stehen Username, Passwort und DB-Name **hart kodiert** in eurer `compose
     docker compose up -d
     ```
 
+!!! danger "Wenn das Backend plötzlich „password authentication failed" loggt"
+    Das passiert, wenn sich `POSTGRES_USER` oder `POSTGRES_PASSWORD` zwischen den Stack-Starts geändert haben. Postgres setzt diese Werte nur **beim allerersten Start eines frischen Volumes** und ignoriert sie danach. Lösung: Volume zurücksetzen.
+
+    ```bash
+    docker compose down -v
+    docker compose up -d
+    ```
+
+    Details und Vorbeugung: [Hilfekarte 8](05-hilfekarten.md#hilfekarte-8-password-authentication-failed-for-user-db-volume-falle).
+
 !!! tip "Profi-Tipp: zwei Quellen für die DB-Variablen"
     Das DB-Image braucht `POSTGRES_*`. Das Backend-Image braucht `PG*`. **Beide** Servies können sich aus den **gleichen** `.env`-Variablen bedienen – ihr müsst sie nur in der jeweiligen `environment:`-Sektion entsprechend abbilden:
 

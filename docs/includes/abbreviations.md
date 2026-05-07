@@ -188,6 +188,31 @@
 *[GitLab]: Self-hostbare Web-Plattform für Git-Repositories und CI/CD
 *[GitHub Actions]: GitHubs CI/CD-Plattform, die Workflows aus YAML-Dateien ausführt
 *[GitHub Pages]: Hosting für statische Webseiten direkt aus einem GitHub-Repository
+*[GHCR]: GitHub Container Registry – Image-Registry unter ghcr.io, integriert in GitHub
+*[GitHub Container Registry]: Image-Registry unter ghcr.io, integriert in GitHub
+*[ArgoCD]: GitOps-Controller, der Kubernetes-Cluster mit einem Git-Repo synchronisiert
+*[Argo Rollouts]: ArgoCD-Erweiterung für Blue/Green- und Canary-Deployments in Kubernetes
+*[Flux]: GitOps-Controller (CNCF), Alternative zu ArgoCD
+*[GitOps]: Betriebsmodell, bei dem der Soll-Zustand der Infrastruktur in einem Git-Repo liegt und automatisch ausgerollt wird
+*[Workflow]: YAML-Datei in .github/workflows/, die einen GitHub-Actions-Ablauf beschreibt
+*[Runner]: Maschine, auf der ein CI-Job ausgeführt wird (GitHub-gehostet oder self-hosted)
+*[Self-hosted Runner]: Eigener Server, der GitHub-Actions-Jobs ausführt
+*[Pipeline]: Automatisierte Folge von Phasen (Trigger, Build, Test, Publish, Deploy)
+*[CI]: Continuous Integration – automatisches Bauen und Testen bei jedem Push
+*[Continuous Integration]: Automatisches Bauen und Testen bei jedem Push
+*[Continuous Delivery]: Jede grüne Version wird automatisch paketiert; Veröffentlichen bleibt ein Knopfdruck
+*[Continuous Deployment]: Jede grüne Version wird ohne menschliches Zutun in Produktion ausgerollt
+*[Trigger]: Ereignis, das eine CI-Pipeline auslöst (Push, Tag, Schedule, Manual)
+*[Rolling Update]: Deployment-Strategie, bei der Instanzen wellenweise auf die neue Version umgestellt werden
+*[Blue/Green]: Deployment-Strategie mit zwei parallelen Umgebungen und Traffic-Switch
+*[Canary]: Deployment-Strategie, bei der eine neue Version graduell für einen wachsenden Anteil von Nutzern aktiviert wird
+*[Recreate]: Einfachste Deployment-Strategie: alles stoppen, neu starten – akzeptiert Downtime
+*[OIDC]: OpenID Connect – Identitätsprotokoll, mit dem GitHub Actions ohne Langzeit-Tokens zu Cloud-Anbietern authentifizieren kann
+*[PaaS]: Platform as a Service – Cloud-Plattform, die Infrastruktur, Routing und Skalierung übernimmt
+*[PAT]: Personal Access Token – persönlicher GitHub-Token für API-Zugriffe
+*[GHA]: GitHub Actions
+*[Trivy-Action]: Vorgefertigte GitHub-Action für CVE-Scans (aquasecurity/trivy-action)
+*[BuildKit-Cache]: Layer-Cache des modernen Docker-Build-Backends, in CI oft mit type=gha
 *[buildx]: Erweitertes `docker build`-Plugin (Multi-Architektur, Cache-Backends)
 *[Signal]: Nachricht vom Kernel an einen Prozess (SIGTERM, SIGKILL, SIGINT, …)
 *[SIGTERM]: Höfliches Beenden eines Prozesses – kann abgefangen werden
