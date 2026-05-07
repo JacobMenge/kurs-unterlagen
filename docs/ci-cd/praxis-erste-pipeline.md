@@ -46,13 +46,19 @@ Ein Workflow, der bei jedem Push läuft und ein paar Texte ins Log schreibt. Kle
 
 ## Schritt 1: GitHub-Repo anlegen
 
+Du brauchst ein **neues, leeres Repo** auf GitHub. Falls du noch nie eins angelegt hast, ist das jetzt der richtige Moment.
+
 1. Auf GitHub einloggen und <https://github.com/new> öffnen.
 2. **Repository name**: `mein-erster-workflow`.
-3. **Public** auswählen (kostenlos, einfacher).
-4. **Add a README file** anhaken (damit das Repo nicht leer ist).
-5. **Create repository** klicken.
+3. Optional: Beschreibung eintragen (z.B. „Mein erstes GitHub-Actions-Setup").
+4. **Public** auswählen. Das ist für Übungszwecke einfacher: GitHub Actions sind auf öffentlichen Repos uneingeschränkt kostenlos und du kannst die Logs später auch ohne Login zeigen.
+5. **Add a README file** anhaken. Sonst ist das Repo komplett leer und du kannst es nicht klonen.
+6. **Create repository** klicken.
 
-Du landest auf der Repo-Startseite mit einer leeren `README.md`.
+Du landest auf der Repo-Startseite mit einer einzelnen Datei `README.md`.
+
+!!! tip "Workflow-Permissions prüfen (optional, für später)"
+    Klick im Repo auf **Settings → Actions → General**. Scroll runter zu **Workflow permissions**. Standard ist „Read repository contents and packages permissions". Für unseren Hello-World-Workflow reicht das. Wenn du später Pakete pushen oder Releases anlegen willst, stell hier auf „Read and write permissions" um.
 
 ---
 
@@ -235,9 +241,19 @@ on:
   workflow_dispatch:
 ```
 
-Das war's. Zwei Trigger nebeneinander. Pushen, kurz warten, dann im Actions-Tab den Workflow „Hallo Welt" links auswählen. Oben rechts erscheint der Knopf **„Run workflow"**. Klicken, **Run workflow** im Popup bestätigen.
+Das war's. Zwei Trigger nebeneinander. Pushen:
+
+```bash
+git commit -am "Manueller Trigger"
+git push
+```
+
+Im Actions-Tab links den Workflow „Hallo Welt" auswählen. Direkt nach dem Push erscheint oben rechts der Knopf **„Run workflow"**. Klicken, im Popup auf **Run workflow** klicken.
 
 Der Workflow läuft, ohne dass du etwas committet hast.
+
+!!! info "Knopf taucht nicht auf?"
+    Der Knopf erscheint **nur**, wenn die Workflow-Datei mit `workflow_dispatch:` schon auf dem Default-Branch (meist `main`) liegt. Heißt: einmal mit Push committen reicht. Wenn der Knopf trotzdem fehlt, die Seite neu laden.
 
 !!! info "Wofür ist das gut?"
     Manuelle Trigger sind nützlich für **Operationen, die nicht zu jedem Push gehören**: ein Deploy auf Knopfdruck, ein Daten-Export, ein Cleanup-Job. Du bekommst auch einen Knopf für jeden Branch separat.
@@ -263,7 +279,7 @@ Und ändere den ersten Step:
 
 ```yaml
       - name: Begrüßung
-        run: echo "Hallo, ${{ inputs.name }}!"
+        run: echo "Hallo, ${{ inputs.name || 'Welt' }}!"
 ```
 
 Pushen, dann im Actions-Tab erneut **Run workflow** klicken. Diesmal erscheint ein Eingabefeld mit dem Default „Welt". Trag deinen Namen ein und klick **Run workflow**.
@@ -272,6 +288,11 @@ Im Log steht jetzt: `Hallo, <dein Name>!`
 
 !!! tip "Was bedeuten die `${{ ... }}`?"
     Das ist die **Expression-Syntax** von GitHub Actions. Sie wird zur Laufzeit ersetzt. `${{ inputs.name }}` greift auf das Eingabefeld zu, `${{ github.actor }}` auf den ausführenden User, `${{ secrets.MY_TOKEN }}` auf ein hinterlegtes Secret. Mehr dazu in den [Grundlagen](github-actions-grundlagen.md#variablen-kontexte-und-secrets).
+
+!!! warning "Warum `|| 'Welt'`?"
+    Bei einem **manuellen** Lauf gibt es ein Eingabefeld. Bei einem **Push** dagegen existiert das `inputs.name`-Feld nicht und ist ein leerer String. Ohne Fallback würde im Log nach einem Push `Hallo, !` stehen.
+
+    Der Operator `||` setzt den **rechten Wert ein, wenn der linke leer ist**. Mit `${{ inputs.name || 'Welt' }}` zeigt der Push-Lauf `Hallo, Welt!` und der manuelle Lauf den eingegebenen Namen.
 
 ---
 

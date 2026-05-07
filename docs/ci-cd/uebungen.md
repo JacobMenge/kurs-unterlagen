@@ -136,7 +136,14 @@ Bisher hat unser Workflow nur Befehle ausgeführt. Wenn du auf den **Code im Rep
 
 #### Aufgabe
 
-1. Lege eine Datei `hallo.txt` ins Repo-Root mit Inhalt `Hallo aus dem Repo`.
+1. Lege im Repo-Root eine Datei `hallo.txt` an mit dem Inhalt `Hallo aus dem Repo`. Im Editor erstellen, speichern, dann committen und pushen:
+
+    ```bash
+    git add hallo.txt
+    git commit -m "Test-Datei"
+    git push
+    ```
+
 2. Lege `.github/workflows/checkout-test.yml` an, der:
     - bei Push und manuell läuft
     - **ohne** Checkout versucht, `cat hallo.txt` zu lesen (das soll fehlschlagen)
@@ -186,7 +193,7 @@ Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow n
 
 #### Szenario
 
-Wenn du eine Bibliothek oder ein Tool für mehrere Sprach-Versionen unterstützen willst (Python 3.10, 3.11, 3.12), willst du nicht drei Workflows. Du willst **einen** Workflow, der drei Mal parallel läuft.
+Wenn du eine Bibliothek oder ein Tool für mehrere Sprach-Versionen unterstützen willst (Python 3.11, 3.12, 3.13), willst du nicht drei Workflows. Du willst **einen** Workflow, der drei Mal parallel läuft.
 
 #### Aufgabe
 
@@ -194,7 +201,7 @@ Lege `.github/workflows/matrix.yml` an, der:
 
 1. bei Push und manuell läuft
 2. einen Job `python-versionen` enthält
-3. den Job parallel für Python 3.10, 3.11 und 3.12 ausführt
+3. den Job parallel für Python 3.11, 3.12 und 3.13 ausführt
 4. in jedem Lauf `python --version` und `echo "Läuft auf Python ${{ matrix.python }}"` ausgibt
 
 Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, einer pro Python-Version.
@@ -205,7 +212,7 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
     ```yaml
     strategy:
       matrix:
-        python: ["3.10", "3.11", "3.12"]
+        python: ["3.11", "3.12", "3.13"]
     ```
 - Python installieren mit:
     ```yaml
@@ -227,7 +234,7 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
         runs-on: ubuntu-latest
         strategy:
           matrix:
-            python: ["3.10", "3.11", "3.12"]
+            python: ["3.11", "3.12", "3.13"]
         steps:
           - name: Python installieren
             uses: actions/setup-python@v5
@@ -241,19 +248,20 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
             run: echo "Läuft auf Python ${{ matrix.python }}"
     ```
 
-    Im Actions-Tab siehst du den Job dreimal, mit Klammern: `python-versionen (3.10)`, `python-versionen (3.11)`, `python-versionen (3.12)`. Alle drei laufen parallel auf eigenen Runner-VMs.
+    Im Actions-Tab siehst du den Job dreimal, mit Klammern: `python-versionen (3.11)`, `python-versionen (3.12)`, `python-versionen (3.13)`. Alle drei laufen parallel auf eigenen Runner-VMs.
 
     !!! tip "Matrix mit zwei Achsen"
         Du kannst die Matrix beliebig erweitern. Beispiel: drei Python-Versionen × drei Betriebssysteme = neun parallele Läufe:
 
         ```yaml
+        runs-on: ${{ matrix.os }}
         strategy:
           matrix:
-            python: ["3.10", "3.11", "3.12"]
+            python: ["3.11", "3.12", "3.13"]
             os: [ubuntu-latest, windows-latest, macos-latest]
         ```
 
-        Eine Achse `os:` braucht dann `runs-on: ${{ matrix.os }}`.
+        Wichtig: bei mehreren OS muss `runs-on:` auf `${{ matrix.os }}` zeigen, sonst läuft alles auf demselben Linux.
 
 ---
 
