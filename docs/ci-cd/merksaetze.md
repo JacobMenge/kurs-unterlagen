@@ -1,9 +1,9 @@
 ---
-title: "Merksätze – CI/CD-Block"
+title: "Merksätze: CI/CD-Block"
 description: "Die Kern-Sätze aus Block 6 kompakt auf einer Seite."
 ---
 
-# Merksätze – CI/CD-Einführung mit GitHub Actions (Block 6)
+# Merksätze: CI/CD-Einführung mit GitHub Actions (Block 6)
 
 ---
 
@@ -19,7 +19,7 @@ Mehr dazu: [Warum CI/CD?](warum-cicd.md)
 ## 2. CI ≠ CD ≠ CD
 
 !!! success "Merksatz 2"
-    > **Continuous Integration = bauen + testen. Continuous Delivery = paketieren und bereitlegen. Continuous Deployment = automatisch veröffentlichen. Drei Stufen, zwei Bedeutungen für „CD" – im Zweifel nachfragen.**
+    > **Continuous Integration = bauen + testen. Continuous Delivery = paketieren und bereitlegen. Continuous Deployment = automatisch veröffentlichen. Drei Stufen, zwei Bedeutungen für „CD". Im Zweifel nachfragen.**
 
 Mehr dazu: [Begriffe](begriffe.md)
 
@@ -28,7 +28,7 @@ Mehr dazu: [Begriffe](begriffe.md)
 ## 3. Pipeline = vier Phasen
 
 !!! success "Merksatz 3"
-    > **Trigger → Build → Test → Publish. Nicht jede Pipeline hat alle vier, aber kein Schritt vor seinem Vorgänger. Tests sind das Sicherheitsnetz – ohne sie ist „grün" bedeutungslos.**
+    > **Trigger → Build → Test → Publish. Nicht jede Pipeline hat alle vier, aber kein Schritt vor seinem Vorgänger. Tests sind das Sicherheitsnetz. Ohne sie ist „grün" bedeutungslos.**
 
 Mehr dazu: [Pipeline-Konzept](pipeline-konzept.md)
 
@@ -39,11 +39,11 @@ Mehr dazu: [Pipeline-Konzept](pipeline-konzept.md)
 !!! success "Merksatz 4"
     > **Workflows liegen in `.github/workflows/`. Aufbau: `on:`-Trigger, `jobs:`-Liste, je Job `runs-on:` und `steps:`. Steps sind entweder `run:` (Shell) oder `uses:` (vorgefertigte Action).**
 
-Mehr dazu: [GitHub Actions – Grundlagen](github-actions-grundlagen.md)
+Mehr dazu: [Grundlagen von GitHub Actions](github-actions-grundlagen.md)
 
 ---
 
-## 5. Tags sind Pflicht – `latest` allein ist gefährlich
+## 5. Tags sind Pflicht, `latest` allein ist gefährlich
 
 !!! success "Merksatz 5"
     > **Jedes Image bekommt mindestens zwei Tags: einen unveränderlichen (Commit-SHA oder Semver) und einen gleitenden (`latest`). Ohne unveränderlichen Tag gibt es keinen sauberen Rollback.**
@@ -88,4 +88,4 @@ Eine Pipeline ist **lebendig**. Was heute funktioniert, hat morgen vielleicht ei
 - **Action-Versionen halbjährlich** auf neue Major-Versions heben.
 - Pipeline-Code wie **Anwendungscode** behandeln: in Reviews mit-checken, refactoren, verständlich halten.
 
-Eine schlecht gepflegte Pipeline ist gefährlich – weil sie das **falsche** Vertrauen geben kann.
+Eine schlecht gepflegte Pipeline ist gefährlich, weil sie das **falsche** Vertrauen geben kann.

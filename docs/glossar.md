@@ -216,6 +216,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="flask"></span>Flask
 : **Leichtgewichtiges Python-Web-Framework.** Eignet sich für kleine bis mittlere Web-Anwendungen und APIs. In diesem Kurs nutzen wir Flask im Compose-Praxisteil, um eine kleine App zu bauen, die mit einer Postgres-Datenbank spricht.
 
+## <span id="formatter"></span>Formatter
+: **Werkzeug, das Code automatisch formatiert** also Einrückung, Zeilenlänge, Anführungszeichen und Klammer-Stil vereinheitlicht. Bekannte Vertreter: `prettier` für JavaScript, TypeScript, CSS und HTML, `black` für Python, `gofmt` für Go, `rustfmt` für Rust. Anders als ein [Linter](#linter) bewertet ein Formatter nichts. Er schreibt um. In CI laufen oft beide nacheinander: erst Format-Check, dann Lint.
+
 ## <span id="gast-os"></span><span id="gast"></span>Gast / Gast-OS
 : **Das Betriebssystem, das innerhalb einer virtuellen Maschine läuft.** Aus Sicht des Gastes ist er auf einem echten Rechner – in Wahrheit sieht er nur virtualisierte Hardware, die der Hypervisor bereitstellt. Ein Host kann mehrere Gäste gleichzeitig betreiben.
 
@@ -352,6 +355,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="layer"></span>Layer
 : **Eine Schicht in einem Docker-Image.** Jede Instruktion im Dockerfile erzeugt einen Layer, der Änderungen am Dateisystem gegenüber dem darunterliegenden Layer festhält. Layer werden zwischen Images geteilt (wenn sie identisch sind), um Platz und Bauzeit zu sparen. Beim Pullen lädt Docker nur fehlende Layer herunter.
+
+## <span id="linter"></span><span id="lint"></span><span id="linting"></span>Linter / Lint / Linting
+: **Werkzeug, das Quellcode statisch prüft** also ohne ihn auszuführen. Sucht nach typischen Bugs, schlechtem Stil und gefährlichen Mustern. Bekannte Vertreter: `eslint` für JavaScript und TypeScript, `pylint` und `ruff` für Python, `golangci-lint` für Go, `rubocop` für Ruby. Linter laufen meistens schon im Editor und nochmal in der CI. Wenn etwas auffällt, gibt es eine Meldung mit Datei, Zeile und oft einem Auto-Fix-Vorschlag. „Lint" ist die Sammelbezeichnung für die gefundenen Probleme. „Linting" beschreibt das aktive Prüfen.
 
 ## <span id="linux"></span>Linux
 : **Open-Source-Betriebssystem.** Sehr flexibel, auf unzähligen Geräten vom Smartphone (Android basiert auf Linux) bis zum Supercomputer. Der **Linux-Kernel** ist die Grundlage. Populäre Distributionen: Ubuntu, Debian, Fedora, Arch, openSUSE. Alle Docker-Container brauchen letztlich einen Linux-Kernel zum Laufen.
@@ -590,6 +596,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="ssd"></span>SSD (Solid State Drive)
 : **Flash-basierte Festplatte ohne bewegliche Teile.** Deutlich schneller als eine HDD (oft Faktor 10–50) und robuster gegen Stöße. Heute Standard in Laptops und Servern. Für Docker relevant, weil Image-Pulls, Container-Starts und Build-Caches stark von der Disk-IO profitieren – auf einer SSD werden viele Operationen erst angenehm schnell.
 
+## <span id="static-analysis"></span><span id="statische-analyse"></span>Static Analysis (Statische Code-Analyse)
+: **Untersuchung von Quellcode ohne ihn auszuführen.** Oberbegriff für [Linter](#linter), [Formatter](#formatter), [Type-Checker](#type-checker) und Security-Scanner. Static Analysis findet typische Probleme früh und billig. Ein Editor-Hinweis ist günstiger als ein roter Test in der CI und der wiederum günstiger als ein Bug in Produktion. In CI-Pipelines steht Static Analysis meistens vor den Tests: zuerst sieht der Code überhaupt sauber aus, dann läuft er.
+
 ## <span id="stack"></span>Stack
 : **Verbund aus mehreren Containern, die gemeinsam eine Anwendung bilden** – z.B. Web-App + Datenbank + Cache + Reverse Proxy. Im Compose-Kontext ist ein Stack alles, was in einer `compose.yaml` (oder einer Kombination aus `compose.yaml` und Override-Dateien) zusammen beschrieben wird. `docker compose up -d` startet einen Stack, `docker compose down` baut ihn ab. In Docker Swarm bekommt der Begriff einen formelleren Namen: dort verteilt `docker stack deploy` einen Stack auf mehrere Knoten. Der zentrale Gedanke: **ein Stack hat einen klar abgegrenzten Lebenszyklus** – startet, läuft, hört zusammen wieder auf.
 
@@ -622,6 +631,9 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="trivy"></span>Trivy
 : **Open-Source-Scanner für Docker-Images** (und mehr). Prüft Images auf bekannte Sicherheitslücken (CVEs) in Systempaketen und Anwendungsabhängigkeiten. Standard-Werkzeug in CI/CD-Pipelines für Security-Gating: `trivy image nginx:1.27.3`.
+
+## <span id="type-checker"></span><span id="type-check"></span>Type-Checker / Type-Check
+: **Werkzeug, das Datentypen im Code prüft, ohne ihn auszuführen.** Bei statisch typisierten Sprachen (Java, Go, Rust) ist das Teil des Compilers. Bei dynamisch typisierten Sprachen kommt der Type-Checker als eigenes Werkzeug obendrauf: `mypy` für Python, `tsc` für TypeScript. Ein guter Type-Check fängt eine ganze Klasse von Fehlern (vertippt, falscher Datentyp, vergessenes Argument) noch vor dem ersten Test ab. Gehört zur [Static Analysis](#static-analysis).
 
 ## <span id="typ-1-hypervisor"></span>Typ-1-Hypervisor
 : **„Bare-Metal"-Hypervisor**, der direkt auf der Hardware läuft. Beispiele: ESXi, KVM, Xen. Typisch in Rechenzentren und Clouds. Kein Host-OS nötig, alle Ressourcen direkt verwaltet.

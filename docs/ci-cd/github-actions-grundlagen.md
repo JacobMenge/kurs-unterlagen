@@ -1,9 +1,9 @@
 ---
-title: "GitHub Actions – Grundlagen"
+title: "Grundlagen von GitHub Actions"
 description: "Wie eine GitHub-Actions-Workflow-Datei aufgebaut ist: on, jobs, runs-on, steps, uses, run, Secrets und der GITHUB_TOKEN. Mit einem vollständigen Beispiel-Workflow, der ein Docker-Image baut."
 ---
 
-# GitHub Actions – Grundlagen
+# Grundlagen von GitHub Actions
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
@@ -22,7 +22,7 @@ Diese Seite + die folgende Praxis adressieren Punkt **2.3.3**:
 
 > **Produkte zur Softwareverteilung installieren und konfigurieren.**
 
-GitHub Actions ist genau so ein „Produkt zur Softwareverteilung". Wir konfigurieren es nicht durch eine GUI, sondern durch eine YAML-Datei im Repository – das ist der moderne **Konfigurationsstil**: deklarativ, versioniert, code-gleich.
+GitHub Actions ist genau so ein „Produkt zur Softwareverteilung". Wir konfigurieren es nicht durch eine GUI, sondern durch eine YAML-Datei im Repository. Das ist der moderne **Konfigurationsstil**: deklarativ, versioniert, code-gleich.
 
 ---
 
@@ -70,7 +70,7 @@ mein-projekt/
 Jede `.yml`-Datei in `.github/workflows/` ist ein **eigener Workflow**. Der Dateiname ist beliebig, das Suffix ist `.yml` oder `.yaml`.
 
 !!! tip "Strikt im richtigen Pfad"
-    GitHub schaut **nur** in `.github/workflows/`. `.gitlab-ci/`, `ci/`, `workflow.yml` im Repo-Root – alles wird ignoriert. Der Pfad ist hart kodiert.
+    GitHub schaut **nur** in `.github/workflows/`. `.gitlab-ci/`, `ci/`, `workflow.yml` im Repo-Root, alles wird ignoriert. Der Pfad ist hart kodiert.
 
 ---
 
@@ -107,7 +107,7 @@ name: CI
 
 Der Anzeigename des Workflows, wie er im **Actions-Tab** auf GitHub erscheint. Optional, aber empfohlen.
 
-#### `on:` – die Trigger
+#### `on:`: die Trigger
 
 ```yaml
 on:
@@ -132,7 +132,7 @@ on:
   workflow_dispatch:          # manueller Knopf im Actions-Tab
 ```
 
-#### `jobs:` – die Liste der Jobs
+#### `jobs:`: die Liste der Jobs
 
 ```yaml
 jobs:
@@ -142,9 +142,9 @@ jobs:
       ...
 ```
 
-Unter `jobs:` listest du alle Jobs deines Workflows. Jeder Job-Name (`build:`) ist ein **Schlüssel**, den du frei wählst – er taucht im Actions-Tab auf.
+Unter `jobs:` listest du alle Jobs deines Workflows. Jeder Job-Name (`build:`) ist ein **Schlüssel**, den du frei wählst. Er taucht im Actions-Tab auf.
 
-#### `runs-on:` – auf welchem Runner
+#### `runs-on:`: auf welchem Runner
 
 ```yaml
 runs-on: ubuntu-latest
@@ -162,7 +162,7 @@ Der **GitHub-gehostete Standard-Runner**. Alternativen:
 
 Der Runner ist **frisch** für jeden Job: keine Vorinstallationen, kein Cache, keine Reste vom letzten Lauf.
 
-#### `steps:` – die einzelnen Aktionen
+#### `steps:`: die einzelnen Aktionen
 
 ```yaml
 steps:
@@ -174,8 +174,8 @@ steps:
 
 Jeder Step ist entweder:
 
-- **`uses:`** – nutzt eine **vorgefertigte Action** (aus einem anderen Repo).
-- **`run:`** – führt einen **Shell-Befehl** auf dem Runner aus.
+- **`uses:`** nutzt eine **vorgefertigte Action** (aus einem anderen Repo).
+- **`run:`** führt einen **Shell-Befehl** auf dem Runner aus.
 
 `name:` ist optional, aber super hilfreich für die Logs.
 
@@ -210,7 +210,7 @@ Du **kannst** schreiben:
 uses: actions/checkout@main      # immer aktueller Stand der Action
 uses: actions/checkout@v4        # neueste v4.x
 uses: actions/checkout@v4.1.7    # exakte Version
-uses: actions/checkout@8e5e7e5…  # SHA – die sicherste Form
+uses: actions/checkout@8e5e7e5…  # SHA, die sicherste Form
 ```
 
 !!! warning "Major-Version reicht meist"
@@ -327,7 +327,7 @@ permissions:
   packages: write
 ```
 
-Default-Berechtigungen variieren je nach Repo-Einstellung – der `permissions:`-Block ist die sichere Variante.
+Default-Berechtigungen variieren je nach Repo-Einstellung. Der `permissions:`-Block ist die sichere Variante.
 
 ---
 
@@ -360,7 +360,7 @@ jobs:
 
 `needs:` gibt eine **Abhängigkeit** an. Wenn der Vorgänger-Job fehlschlägt, **läuft der abhängige Job gar nicht**.
 
-`if:` ist eine **Bedingung** – hier: der `publish`-Job läuft nur, wenn der Workflow auf `main` ausgeführt wird.
+`if:` ist eine **Bedingung**: hier läuft der `publish`-Job nur, wenn der Workflow auf `main` ausgeführt wird.
 
 ---
 
@@ -455,9 +455,9 @@ jobs:
    - Repo holen.
    - BuildKit aktivieren.
    - Bei `push`/`workflow_dispatch` (nicht bei PR): in GHCR einloggen.
-   - Owner in Kleinbuchstaben umwandeln – GHCR verlangt das.
+   - Owner in Kleinbuchstaben umwandeln, GHCR verlangt das.
    - Image bauen, bei Nicht-PR auch pushen, mit GHCR-Cache.
-4. **Tags**: zwei Tags – einer mit Commit-SHA (unveränderlich), einer mit `latest` (gleitend).
+4. **Tags**: zwei Tags, einer mit Commit-SHA (unveränderlich), einer mit `latest` (gleitend).
 
 !!! warning "GHCR akzeptiert nur Kleinbuchstaben"
     GitHub-Usernames können Großbuchstaben enthalten (z.B. `JacobMenge`), aber GHCR-Image-Pfade sind **case-sensitiv** und müssen lowercase sein. Der `lcowner`-Step wandelt den Owner mit Bash-Expansion `${VAR,,}` zur Laufzeit um. Ohne diesen Step bricht der Push mit „repository name must be lowercase" ab.
@@ -481,7 +481,7 @@ Schreib **erst** einen Workflow, der nur `echo "hello"` macht. Push, schau, ob e
 act push
 ```
 
-(Nicht alles funktioniert lokal – Secrets, Dienste, Marketplace-Actions, die spezifische Cloud-APIs nutzen, klappen nicht.)
+(Nicht alles funktioniert lokal: Secrets, Dienste, Marketplace-Actions, die spezifische Cloud-APIs nutzen, klappen nicht.)
 
 ### 3. Logs lesen, nicht raten
 
@@ -518,15 +518,15 @@ GitHub kennzeichnet **veraltete Actions** im UI. Mindestens halbjährlich Versio
 ??? warning "Mein Workflow läuft beim Push gar nicht los"
     Häufige Ursachen:
 
-    1. **Datei nicht in `.github/workflows/`** – nicht in `workflows/` oder `github/workflows/`.
-    2. **YAML-Fehler** – die Datei wird ignoriert, aber kein Fehler im UI angezeigt; im **Actions-Tab** prüfen.
-    3. **Branch-Filter passt nicht** – `branches: [main]` fängt nur Pushes nach `main` ab. Pushes nach `feature/x` triggern dann gar nichts.
+    1. **Datei nicht in `.github/workflows/`**, sondern in `workflows/` oder `github/workflows/`.
+    2. **YAML-Fehler**: die Datei wird ignoriert, aber kein Fehler im UI angezeigt; im **Actions-Tab** prüfen.
+    3. **Branch-Filter passt nicht**: `branches: [main]` fängt nur Pushes nach `main` ab. Pushes nach `feature/x` triggern dann gar nichts.
 
 ??? warning "Secrets sind im Log sichtbar"
-    Sollten sie **nicht** sein – GitHub maskiert sie automatisch zu `***`. Wenn sie es trotzdem sind: meistens hat jemand sie ungewollt zerlegt (mit `cut`, `awk`, …) und an anderer Stelle ausgegeben. Diese Stelle finden und entfernen. Im Verdachtsfall: **Secret rotieren** (auf der Quelle den Wert ändern).
+    Sollten sie **nicht** sein. GitHub maskiert sie automatisch zu `***`. Wenn sie es trotzdem sind: meistens hat jemand sie ungewollt zerlegt (mit `cut`, `awk`, …) und an anderer Stelle ausgegeben. Diese Stelle finden und entfernen. Im Verdachtsfall: **Secret rotieren** (auf der Quelle den Wert ändern).
 
 ??? info "PRs aus Forks haben eingeschränkten Zugriff auf Secrets"
-    Aus Sicherheitsgründen bekommen PRs aus **Forks** keinen Zugriff auf Repository-Secrets. Das ist Absicht – sonst könnte jeder Fork die Secrets exfiltrieren. Lösung: Nur auf `push:` Secrets nutzen, im PR nur build + test ohne Secret-Zugriff laufen lassen.
+    Aus Sicherheitsgründen bekommen PRs aus **Forks** keinen Zugriff auf Repository-Secrets. Das ist Absicht. Sonst könnte jeder Fork die Secrets exfiltrieren. Lösung: Nur auf `push:` Secrets nutzen, im PR nur build + test ohne Secret-Zugriff laufen lassen.
 
 ---
 
@@ -552,5 +552,5 @@ GitHub kennzeichnet **veraltete Actions** im UI. Mindestens halbjährlich Versio
 
 ## Weiterlesen
 
-- [Praxis: erste Pipeline](praxis-erste-pipeline.md) – jetzt selbst bauen
-- [Cheatsheet GitHub Actions](../cheatsheets/github-actions.md) – die Befehle und Snippets auf einer Seite
+- [Praxis: erste Pipeline](praxis-erste-pipeline.md): jetzt selbst bauen
+- [Cheatsheet GitHub Actions](../cheatsheets/github-actions.md): die Befehle und Snippets auf einer Seite

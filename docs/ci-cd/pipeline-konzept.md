@@ -1,6 +1,6 @@
 ---
 title: "Pipeline-Konzept"
-description: "Eine Pipeline besteht aus vier Phasen: Trigger, Build, Test, Publish. Diese Seite zeigt, was in jeder Phase passiert, und ordnet sie den Softwareverteilungsprozessen aus dem Rahmenplan zu."
+description: "Eine Pipeline besteht aus vier Phasen: Trigger, Build, Test, Publish. Diese Seite zeigt, was in jeder Phase passiert und ordnet sie den Softwareverteilungsprozessen aus dem Rahmenplan zu."
 ---
 
 # Pipeline-Konzept: Was läuft eigentlich Schritt für Schritt?
@@ -21,7 +21,7 @@ Diese Seite adressiert Punkt **2.3.1** des Rahmenplans:
 
 > **Softwareverteilungsprozesse analysieren, planen, einführen und pflegen.**
 
-„Pipeline" ist genau das: ein **Softwareverteilungsprozess** in maschinenlesbarer Form. Was wir hier konzeptuell aufbauen, ist die Grundlage für jede Pipeline-Implementierung – egal ob mit GitHub Actions, GitLab CI, Jenkins oder Azure DevOps.
+„Pipeline" ist genau das: ein **Softwareverteilungsprozess** in maschinenlesbarer Form. Was wir hier konzeptuell aufbauen, ist die Grundlage für jede Pipeline-Implementierung, egal ob mit GitHub Actions, GitLab CI, Jenkins oder Azure DevOps.
 
 ---
 
@@ -36,7 +36,7 @@ flowchart LR
   Te --> P["4. Publish"]
 ```
 
-Nicht jede Pipeline hat **alle** vier – aber kein Schritt darf vor seinem Vorgänger laufen. Die Reihenfolge ist nicht beliebig, sie ist **kausal**.
+Nicht jede Pipeline hat **alle** vier, aber kein Schritt darf vor seinem Vorgänger laufen. Die Reihenfolge ist nicht beliebig, sie ist **kausal**.
 
 | Phase | Was passiert | Typische Dauer |
 |-------|--------------|---------------|
@@ -53,12 +53,12 @@ Auf das fertige Artefakt in der Registry folgt typischerweise noch ein **Deploy*
 
 Eine Pipeline reagiert auf **Ereignisse**. Die häufigsten:
 
-- **Push** – Code wird in den Hauptzweig gemerged.
-- **Pull Request** – jemand schlägt eine Änderung vor; die Pipeline prüft sie, bevor jemand sie reviewt.
-- **Tag** – ein **Release-Tag** (z.B. `v1.4.2`) wird gesetzt – das löst eine Release-Pipeline aus.
-- **Cron / Schedule** – nachts um drei laufen z.B. Security-Scans.
-- **Manual** – ein Mensch klickt einen Button („Deploy zu Production").
-- **Webhook** – ein anderes System (z.B. ein DB-Schema-Update) löst eine Pipeline aus.
+- **Push**: Code wird in den Hauptzweig gemerged.
+- **Pull Request**: jemand schlägt eine Änderung vor; die Pipeline prüft sie, bevor jemand sie reviewt.
+- **Tag**: ein **Release-Tag** (z.B. `v1.4.2`) wird gesetzt. Das löst eine Release-Pipeline aus.
+- **Cron / Schedule**: nachts um drei laufen z.B. Security-Scans.
+- **Manual**: ein Mensch klickt einen Button („Deploy zu Production").
+- **Webhook**: ein anderes System (z.B. ein DB-Schema-Update) löst eine Pipeline aus.
 
 In GitHub Actions sieht das so aus:
 
@@ -74,7 +74,7 @@ on:
 
 !!! tip "Trigger sauber wählen"
     - **Pull Requests** sollten **immer** mindestens Build + Test triggern. Sonst sieht niemand vor dem Merge, ob der Code überhaupt baut.
-    - **Push auf main** sollte nur dann automatisch deployen, wenn du **Continuous Deployment** wirklich willst – sonst Trigger zusätzlich auf Tags binden.
+    - **Push auf main** sollte nur dann automatisch deployen, wenn du **Continuous Deployment** wirklich willst. Sonst Trigger zusätzlich auf Tags binden.
 
 ---
 
@@ -90,7 +90,7 @@ Der eigentliche **Bau** des Artefakts. Beispiele:
 | Python | `pip install -r requirements.txt` |
 | **Containerisiert** | `docker build -t app:tag .` |
 
-In containerisierten Pipelines wird der Build oft **selbst in einem Container** ausgeführt – damit das Build-Environment auf jedem Runner identisch ist:
+In containerisierten Pipelines wird der Build oft **selbst in einem Container** ausgeführt, damit das Build-Environment auf jedem Runner identisch ist:
 
 ```mermaid
 flowchart LR
@@ -102,7 +102,7 @@ flowchart LR
 
 - **Reproduzierbar**: Gleiche Inputs → gleiche Outputs. Keine zufälligen Build-Nummern, keine zufälligen Zeitstempel im Image-Hash.
 - **Schnell**: Layer-Caching nutzen, Dependencies cachen. Mehr dazu in den [Best-Practices aus Block 5](../docker-profi/dockerfile-best-practices.md#1-layer-caching-aktiv-nutzen).
-- **Versioniert**: Das Ergebnis hat einen **eindeutigen Tag** – meist die Git-Commit-SHA oder der Git-Tag.
+- **Versioniert**: Das Ergebnis hat einen **eindeutigen Tag**, meist die Git-Commit-SHA oder den Git-Tag.
 
 ---
 
@@ -131,7 +131,7 @@ flowchart TB
 
 Nicht nur Code-Tests! Auch:
 
-- **Linter** (`eslint`, `pylint`, `golangci-lint`) – Stil und einfache Fehler.
+- **Linter** (`eslint`, `pylint`, `golangci-lint`) für Stil und einfache Fehler.
 - **Type-Checks** (`tsc`, `mypy`).
 - **Security-Scanner** wie [`trivy`](../docker-profi/image-optimierung.md#trivy-images-auf-cves-scannen) für Container-Images oder `npm audit` / `pip-audit` für Abhängigkeiten.
 - **Format-Checks** (`prettier --check`, `gofmt`).
@@ -149,7 +149,7 @@ Genau das ist die Test-Phase. Wir gehen das in der [Praxis](praxis-erste-pipelin
 
 ## Phase 4: Publish
 
-Hier wird das Ergebnis **nutzbar gemacht** – damit es entweder direkt deployt werden kann oder zumindest jemand es manuell verteilen kann.
+Hier wird das Ergebnis **nutzbar gemacht**, damit es entweder direkt deployt werden kann oder zumindest jemand es manuell verteilen kann.
 
 Bei Container-basierten Setups heißt „Publish" praktisch immer: **Image in eine Registry pushen**.
 
@@ -158,12 +158,12 @@ Bei Container-basierten Setups heißt „Publish" praktisch immer: **Image in ei
 | Registry | Hosting | Authentifizierung in CI |
 |----------|---------|------------------------|
 | **Docker Hub** | docker.com | Login mit User + Token |
-| **GitHub Container Registry (GHCR)** | ghcr.io – integriert in GitHub | `GITHUB_TOKEN` reicht |
+| **GitHub Container Registry (GHCR)** | ghcr.io, integriert in GitHub | `GITHUB_TOKEN` reicht |
 | **GitLab Container Registry** | im GitLab-Projekt | Job-Token |
 | **AWS ECR / Azure ACR / Google GCR** | Cloud-spezifisch | OIDC / IAM |
 | **Harbor** | Self-hosted | LDAP, Robot-Accounts |
 
-In diesem Block nutzen wir **GHCR** – weil es ohne extra Account funktioniert, kostenlos für öffentliche Repos ist und mit dem `GITHUB_TOKEN` automatisch authentifiziert ist.
+In diesem Block nutzen wir **GHCR**. Es funktioniert ohne extra Account, ist kostenlos für öffentliche Repos und wird mit dem `GITHUB_TOKEN` automatisch authentifiziert.
 
 ### Tagging-Strategien
 
@@ -216,7 +216,7 @@ jobs:
       - run: pytest
 ```
 
-GitHub Actions kennt **kein eigenes „Stage"-Konzept** – Stages werden über `needs:` zwischen Jobs nachgebaut. Andere Tools (GitLab, Jenkins) haben eine explizite `stage:`-Direktive.
+GitHub Actions kennt **kein eigenes „Stage"-Konzept**. Stages werden über `needs:` zwischen Jobs nachgebaut. Andere Tools (GitLab, Jenkins) haben eine explizite `stage:`-Direktive.
 
 ---
 
@@ -247,11 +247,11 @@ Job "publish"  (needs: [build, test], nur auf main):
   - docker push ...:latest
 ```
 
-Das ist fast schon der Workflow, den wir in der [Praxis](praxis-erste-pipeline.md) bauen. Erst die Logik klären, **dann** das YAML schreiben – nicht umgekehrt.
+Das ist fast schon der Workflow, den wir in der [Praxis](praxis-erste-pipeline.md) bauen. Erst die Logik klären, **dann** das YAML schreiben. Nicht umgekehrt.
 
 ---
 
-## Bezug zu 2.3.1 – Softwareverteilungsprozesse
+## Bezug zu 2.3.1: Softwareverteilungsprozesse
 
 Der Rahmenplan zerlegt den Softwareverteilungsprozess in vier Aufgaben: **analysieren, planen, einführen, pflegen**. Eine Pipeline ist die Antwort auf alle vier:
 
@@ -262,24 +262,24 @@ Der Rahmenplan zerlegt den Softwareverteilungsprozess in vier Aufgaben: **analys
 | **einführen** | Workflow-Datei schreiben, Secrets konfigurieren, ersten Lauf prüfen. |
 | **pflegen** | Logs auswerten, fehlschlagende Jobs debuggen, Pipeline an neue Anforderungen anpassen, Versionen der Actions aktualisieren. |
 
-Eine Pipeline ist also **kein einmaliges Setup**, sondern ein **lebendiger Prozess**, der gepflegt werden will – genauso wie Code.
+Eine Pipeline ist also **kein einmaliges Setup**, sondern ein **lebendiger Prozess**, der gepflegt werden will, genauso wie Code.
 
 ---
 
 ## Stolpersteine
 
-??? warning "Pipeline ist langsam – niemand wartet auf sie"
+??? warning "Pipeline ist langsam, niemand wartet auf sie"
     **Symptom:** Build dauert 25 Minuten. Entwickler:innen mergen, ohne auf Grün zu warten.
 
     **Lösung:** Cache nutzen (Image-Layer, Dependencies), Tests parallelisieren, langsame Tests in eigenen nächtlichen Job auslagern.
 
-??? warning "Pipeline ist flaky – mal grün, mal rot"
+??? warning "Pipeline ist flaky, mal grün, mal rot"
     **Symptom:** Bei der dritten Wiederholung wird's grün. Niemand weiß warum.
 
     **Lösung:** Flaky Tests **markieren und reparieren**, nicht ignorieren. Häufigste Ursachen: Zeitabhängigkeiten (`sleep`-basierte Tests), externe Services ohne Mock, Race-Conditions.
 
 ??? warning "Pipeline tut zu viel auf einmal"
-    **Symptom:** Ein einziger Job für Build + Test + Lint + Security-Scan + Publish – wenn der Lint fehlschlägt, fällt alles um, und du verlierst Build-Cache.
+    **Symptom:** Ein einziger Job für Build + Test + Lint + Security-Scan + Publish. Wenn der Lint fehlschlägt, fällt alles um und du verlierst Build-Cache.
 
     **Lösung:** **Trennen.** Jeder Job sollte eine klare Aufgabe haben. Mit `needs:` baust du die Reihenfolge.
 
@@ -293,10 +293,10 @@ Eine Pipeline ist also **kein einmaliges Setup**, sondern ein **lebendiger Proze
 ## Was du jetzt wissen solltest
 
 - Eine Pipeline läuft durch **vier Phasen**: Trigger, Build, Test, Publish.
-- Nicht jede Pipeline hat alle Phasen – aber niemals ist die Reihenfolge beliebig.
+- Nicht jede Pipeline hat alle Phasen. Niemals ist die Reihenfolge beliebig.
 - **Trigger** sind Ereignisse (Push, Tag, Schedule, Manual). Wähl sie bewusst.
 - **Tests** sind das Sicherheitsnetz; eine Pipeline ohne Tests bringt nur Tempo, keine Qualität.
-- **Tagging-Strategie** zählt – `latest` allein ist ein Anti-Pattern.
+- **Tagging-Strategie** zählt: `latest` allein ist ein Anti-Pattern.
 - Die Begriffe **Job, Step, Stage, Runner, Artefakt** sind tool-übergreifend nützlich.
 
 ---
@@ -304,11 +304,11 @@ Eine Pipeline ist also **kein einmaliges Setup**, sondern ein **lebendiger Proze
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Pipeline = Trigger → Build → Test → Publish. Jede Phase eine klare Aufgabe, jede Phase mit Logs, jede Phase prüfbar. Kein Schritt vor seinem Vorgänger, und kein Publish ohne grüne Tests.**
+    > **Pipeline = Trigger → Build → Test → Publish. Jede Phase eine klare Aufgabe, jede Phase mit Logs, jede Phase prüfbar. Kein Schritt vor seinem Vorgänger und kein Publish ohne grüne Tests.**
 
 ---
 
 ## Weiterlesen
 
-- [GitHub Actions – Grundlagen](github-actions-grundlagen.md) – jetzt die konkrete Syntax
-- [Praxis: erste Pipeline](praxis-erste-pipeline.md) – das Konzept in einer eigenen Workflow-Datei
+- [Grundlagen von GitHub Actions](github-actions-grundlagen.md): jetzt die konkrete Syntax
+- [Praxis: erste Pipeline](praxis-erste-pipeline.md): das Konzept in einer eigenen Workflow-Datei

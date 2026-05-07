@@ -3,7 +3,7 @@ nav:
   - "Warum CI/CD?": warum-cicd.md
   - "Begriffe: CI, CD, CD": begriffe.md
   - "Pipeline-Konzept": pipeline-konzept.md
-  - "GitHub Actions – Grundlagen": github-actions-grundlagen.md
+  - "Grundlagen von GitHub Actions": github-actions-grundlagen.md
   - "Praxis: erste Pipeline": praxis-erste-pipeline.md
   - "Übungen": uebungen.md
   - "Stolpersteine": stolpersteine.md

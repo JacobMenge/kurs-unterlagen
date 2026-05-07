@@ -1,12 +1,12 @@
 ---
-title: "Cheatsheet – GitHub Actions"
-description: "Die wichtigsten GitHub-Actions-Bausteine als Tabellen und Snippets – zum schnellen Nachschlagen."
+title: "Cheatsheet: GitHub Actions"
+description: "Die wichtigsten GitHub-Actions-Bausteine als Tabellen und Snippets zum schnellen Nachschlagen."
 ---
 
-# Cheatsheet – GitHub Actions
+# Cheatsheet: GitHub Actions
 
 !!! info "Bezug zum Block"
-    Die Erklärungen findest du in [GitHub Actions – Grundlagen](../ci-cd/github-actions-grundlagen.md), die Hands-on-Praxis in [Praxis: erste Pipeline](../ci-cd/praxis-erste-pipeline.md).
+    Die Erklärungen findest du in [Grundlagen von GitHub Actions](../ci-cd/github-actions-grundlagen.md), die Hands-on-Praxis in [Praxis: erste Pipeline](../ci-cd/praxis-erste-pipeline.md).
 
 ## Speicherort von Workflows
 
@@ -190,7 +190,7 @@ permissions:
   pull-requests: write # PR kommentieren
 ```
 
-Standardberechtigungen sind seit 2023 schreibgeschützt – `permissions:` explizit setzen, sobald geschrieben werden soll.
+Standardberechtigungen sind seit 2023 schreibgeschützt. `permissions:` explizit setzen, sobald geschrieben werden soll.
 
 ## Caching (Standard)
 
@@ -248,7 +248,7 @@ test:
     username: ${{ github.actor }}
     password: ${{ secrets.GITHUB_TOKEN }}
 
-# GHCR akzeptiert nur Kleinbuchstaben – Bash macht das in einer Zeile:
+# GHCR akzeptiert nur Kleinbuchstaben, Bash macht das in einer Zeile:
 - id: lcrepo
   run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
 
@@ -412,7 +412,7 @@ act push -W .github/workflows/ci.yml
 
 ---
 
-## Häufige Fehler – Express-Lösung
+## Häufige Fehler: Express-Lösung
 
 | Fehler | Erste Maßnahme |
 |--------|----------------|
@@ -459,5 +459,5 @@ Für ausführlichere Erklärungen:
 
 - [Warum CI/CD?](../ci-cd/warum-cicd.md)
 - [Pipeline-Konzept](../ci-cd/pipeline-konzept.md)
-- [GitHub Actions – Grundlagen](../ci-cd/github-actions-grundlagen.md)
+- [Grundlagen von GitHub Actions](../ci-cd/github-actions-grundlagen.md)
 - [Stolpersteine](../ci-cd/stolpersteine.md)

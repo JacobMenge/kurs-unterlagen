@@ -1,15 +1,15 @@
 ---
 title: "Übungen"
-description: "Eigene Hands-on-Übungen zum CI/CD-Block – vier Schwierigkeitsgrade plus Challenge."
+description: "Eigene Hands-on-Übungen zum CI/CD-Block in zwei Schwierigkeitsgraden."
 ---
 
-# Übungen – CI/CD mit GitHub Actions
+# Übungen: CI/CD mit GitHub Actions
 
 Diese Übungen vertiefen den [Praxis-Teil](praxis-erste-pipeline.md). Sie sind **aufeinander aufbauend**: jede neue Stufe nimmt etwas mit, das du in der vorigen gelernt hast.
 
 !!! abstract "Die zwei Stufen"
-    - 🟢 **Einsteiger** – jeder Schritt bis ins Detail
-    - 🟡 **Mittel** – weniger Hand-Holding
+    - 🟢 **Einsteiger**: jeder Schritt bis ins Detail
+    - 🟡 **Mittel**: weniger Hand-Holding
 
 ## Voraussetzungen für alle Übungen
 
@@ -21,7 +21,7 @@ Diese Übungen vertiefen den [Praxis-Teil](praxis-erste-pipeline.md). Sie sind *
 
 ## 🟢 Einsteiger
 
-### Übung 6.1 – Mini-Pipeline ohne Build
+### Übung 6.1: Mini-Pipeline ohne Build
 
 !!! info "Was du lernst"
     - Workflow-Datei in `.github/workflows/` anlegen
@@ -38,7 +38,7 @@ Lege im Repo eine Datei `.github/workflows/hello.yml` an, die:
 
 1. Bei jedem Push **und** auf manuellen Knopfdruck startet.
 2. Auf `ubuntu-latest` läuft.
-3. Einen Step `echo "Hello aus der Pipeline – Commit $GITHUB_SHA"` ausführt.
+3. Einen Step `echo "Hello aus der Pipeline, Commit $GITHUB_SHA"` ausführt.
 
 Push die Datei. Im Actions-Tab klickst du auf den neuen Workflow → den letzten Lauf → den Step → du solltest die Begrüßung mit deinem Commit-SHA sehen.
 
@@ -56,14 +56,14 @@ Push die Datei. Im Actions-Tab klickst du auf den neuen Workflow → den letzten
       say-hello:
         runs-on: ubuntu-latest
         steps:
-          - run: echo "Hello aus der Pipeline – Commit $GITHUB_SHA"
+          - run: echo "Hello aus der Pipeline, Commit $GITHUB_SHA"
     ```
 
     `$GITHUB_SHA` ist eine vom Runner bereitgestellte Umgebungsvariable. Alternativ in YAML-Syntax: `${{ github.sha }}`.
 
 ---
 
-### <span id="uebung-62-tests-in-einem-eigenen-job"></span>Übung 6.2 – Tests in einem eigenen Job
+### <span id="uebung-62-tests-in-einem-eigenen-job"></span>Übung 6.2: Tests in einem eigenen Job
 
 !!! info "Was du lernst"
     - Mehrere Jobs in einem Workflow
@@ -72,7 +72,7 @@ Push die Datei. Im Actions-Tab klickst du auf den neuen Workflow → den letzten
 
 #### Aufgabe
 
-Im `cicd-demo`-Repo: schreibe einen Workflow, der Tests **außerhalb** eines Containers laufen lässt – direkt auf dem Runner. Ohne Docker.
+Im `cicd-demo`-Repo: schreibe einen Workflow, der Tests **außerhalb** eines Containers laufen lässt, direkt auf dem Runner. Ohne Docker.
 
 Anforderungen:
 
@@ -119,7 +119,7 @@ Ziel: deutlich **schneller** als der Container-Build, weil weder Docker-Build no
 
 ## 🟡 Mittel
 
-### <span id="uebung-63-multi-arch-image-linuxamd64--linuxarm64"></span>Übung 6.3 – Multi-Arch-Image (linux/amd64 + linux/arm64)
+### <span id="uebung-63-multi-arch-image-linuxamd64--linuxarm64"></span>Übung 6.3: Multi-Arch-Image (linux/amd64 + linux/arm64)
 
 !!! info "Was du lernst"
     - QEMU-Emulation für Multi-Plattform-Builds
@@ -137,9 +137,9 @@ Erweitere die Pipeline aus dem Praxis-Teil so, dass das Image für **beide** Arc
 
 - Du brauchst `docker/setup-qemu-action@v3` **vor** dem `setup-buildx-action`.
 - Im `build-push-action` zusätzlich `platforms: linux/amd64,linux/arm64`.
-- Beim **lokalen** Test (mit `load: true`) geht Multi-Arch nicht – `load:` lädt nur **eine** Architektur in den Daemon. Für den **Push-Job** (mit `push: true`) ist Multi-Arch ohne Probleme.
+- Beim **lokalen** Test (mit `load: true`) geht Multi-Arch nicht. `load:` lädt nur **eine** Architektur in den Daemon. Für den **Push-Job** (mit `push: true`) ist Multi-Arch ohne Probleme.
 
-??? success "Musterlösung – nur die geänderten Stellen"
+??? success "Musterlösung: nur die geänderten Stellen"
 
     ```yaml
     publish:
@@ -179,11 +179,11 @@ Erweitere die Pipeline aus dem Praxis-Teil so, dass das Image für **beide** Arc
     Im GHCR-UI siehst du danach unter dem Tag „Manifest" zwei Architekturen.
 
     !!! warning "Multi-Arch ist langsamer"
-        ARM-Builds laufen unter QEMU – also emuliert. Erwartet 2- bis 5-fache Build-Zeit. Cache-Tuning lohnt sich.
+        ARM-Builds laufen unter QEMU, also emuliert. Erwartet 2- bis 5-fache Build-Zeit. Cache-Tuning lohnt sich.
 
 ---
 
-### <span id="uebung-64-versionstags-mit-semver"></span>Übung 6.4 – Versions-Tags mit Semver
+### <span id="uebung-64-versionstags-mit-semver"></span>Übung 6.4: Versions-Tags mit Semver
 
 !!! info "Was du lernst"
     - Git-Tag-Trigger
@@ -282,5 +282,5 @@ Erweitere den Workflow:
 
 ## Weiterlesen
 
-- [Stolpersteine](stolpersteine.md) – wenn etwas hakt
+- [Stolpersteine](stolpersteine.md): wenn etwas hakt
 - [Cheatsheet GitHub Actions](../cheatsheets/github-actions.md)

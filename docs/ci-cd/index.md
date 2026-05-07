@@ -1,13 +1,13 @@
 ---
-title: "CI/CD – Einführung mit GitHub Actions (Block 6)"
-description: "Vom manuellen docker push zur automatisierten Pipeline: Warum CI/CD, was eine Pipeline tut, und die erste eigene GitHub-Actions-Workflow-Datei."
+title: "Einführung in CI/CD mit GitHub Actions (Block 6)"
+description: "Vom manuellen docker push zur automatisierten Pipeline: Warum CI/CD, was eine Pipeline tut und die erste eigene GitHub-Actions-Workflow-Datei."
 ---
 
-# CI/CD – Einführung mit GitHub Actions (Block 6)
+# Einführung in CI/CD mit GitHub Actions (Block 6)
 
-In den vorigen Blöcken hast du Container gebaut, Stacks beschrieben und Images optimiert. Die ehrliche Frage am Ende von Block 5 war: **„Schön, mein Image ist klein und sicher – aber wie kommt es jetzt eigentlich auf den Server?"**
+In den vorigen Blöcken hast du Container gebaut, Stacks beschrieben und Images optimiert. Die ehrliche Frage am Ende von Block 5 war: **„Schön, mein Image ist klein und sicher. Aber wie kommt es jetzt eigentlich auf den Server?"**
 
-Genau diese Lücke schließt **CI/CD**. Statt jedes Mal von Hand `docker build`, `docker push`, SSH auf den Server, `docker pull`, `docker compose up` zu tippen, beschreibst du den Ablauf einmal als **Pipeline** – und ein Push auf `main` reicht, damit alles automatisch passiert.
+Genau diese Lücke schließt **CI/CD**. Statt jedes Mal von Hand `docker build`, `docker push`, SSH auf den Server, `docker pull`, `docker compose up` zu tippen, beschreibst du den Ablauf einmal als **Pipeline**. Ein Push auf `main` reicht, damit alles automatisch passiert.
 
 !!! abstract "Was du in diesem Block lernst"
     - erklären, **welches Problem CI/CD löst** und wo manuelle Auslieferung kippt
@@ -25,7 +25,7 @@ Dieser Block adressiert drei Punkte aus dem Rahmenplan:
 | Punkt | Inhalt | Wo abgedeckt |
 |-------|--------|--------------|
 | **2.3.1** | Softwareverteilungsprozesse (Analyse, Planung, Einführung, Pflege) | [Pipeline-Konzept](pipeline-konzept.md) |
-| **2.3.3** | Installation und Konfiguration von Produkten zur Softwareverteilung | [GitHub Actions – Grundlagen](github-actions-grundlagen.md) + [Praxis](praxis-erste-pipeline.md) |
+| **2.3.3** | Installation und Konfiguration von Produkten zur Softwareverteilung | [Grundlagen von GitHub Actions](github-actions-grundlagen.md) + [Praxis](praxis-erste-pipeline.md) |
 | **3.6.1** | automatisierte Testausführung (mitwirken) | [Praxis](praxis-erste-pipeline.md) |
 
 ---
@@ -37,8 +37,8 @@ Dieser Block adressiert drei Punkte aus dem Rahmenplan:
 | [Warum CI/CD?](warum-cicd.md) | Manuelles Deployment, typische Fehler, „works on my machine" | Theorie |
 | [Begriffe: CI, CD, CD](begriffe.md) | Continuous Integration, Continuous Delivery, Continuous Deployment | Theorie |
 | [Pipeline-Konzept](pipeline-konzept.md) | Trigger → Build → Test → Publish, Jobs, Steps, Artefakte | Theorie |
-| [GitHub Actions – Grundlagen](github-actions-grundlagen.md) | YAML-Syntax, `on`, `jobs`, `steps`, `uses`, `run`, Runner, Secrets | Theorie |
-| [Praxis: erste Pipeline](praxis-erste-pipeline.md) | Hands-on – Workflow für ein Docker-Projekt schreiben (ca. 60 Minuten) | Praxis |
+| [Grundlagen von GitHub Actions](github-actions-grundlagen.md) | YAML-Syntax, `on`, `jobs`, `steps`, `uses`, `run`, Runner, Secrets | Theorie |
+| [Praxis: erste Pipeline](praxis-erste-pipeline.md) | Hands-on: Workflow für ein Docker-Projekt schreiben (ca. 60 Minuten) | Praxis |
 | [Übungen](uebungen.md) | 🟢🟡 Vier Schwierigkeitsgrade zum Vertiefen | Training |
 | [Stolpersteine](stolpersteine.md) | Typische Fehler in Workflows, YAML, Secrets, Runner | Referenz |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung | Referenz |
@@ -50,10 +50,10 @@ Dieser Block adressiert drei Punkte aus dem Rahmenplan:
 - Eine **funktionierende Docker-Installation**. Siehe [Docker installieren](../docker/installation.md).
 - Ein **GitHub-Account** und ein Repository, auf das du pushen darfst (kann ein Test-Repo sein).
 - **Git lokal** verfügbar (`git --version` klappt). Auf Windows: [Git for Windows](https://git-scm.com/download/win).
-- Idealerweise [Block 5 (Docker für Profis)](../docker-profi/index.md) durchgearbeitet – wir gehen davon aus, dass du ein Dockerfile lesen und schreiben kannst.
+- Idealerweise [Block 5 (Docker für Profis)](../docker-profi/index.md) durchgearbeitet. Wir gehen davon aus, dass du ein Dockerfile lesen und schreiben kannst.
 
 !!! info "Kein eigener Server nötig"
-    Für diesen Block brauchst du **keinen** Produktions-Server. Wir bauen Images bis in eine Registry – das ist genug, um das Konzept vollständig zu verstehen.
+    Für diesen Block brauchst du **keinen** Produktions-Server. Wir bauen Images bis in eine Registry. Das ist genug, um das Konzept vollständig zu verstehen.
 
 ---
 
@@ -68,12 +68,12 @@ flowchart LR
   TEST --> PUBL["Publish<br/>(docker push → Registry)"]
 ```
 
-Die vier Phasen – Trigger, Build, Test, Publish – sind das **Modell**, an dem jede Pipeline hängt. Nicht jede Pipeline hat alle vier, aber kein Schritt kommt vor seinem Vorgänger.
+Die vier Phasen Trigger, Build, Test und Publish sind das **Modell**, an dem jede Pipeline hängt. Nicht jede Pipeline hat alle vier, aber kein Schritt kommt vor seinem Vorgänger.
 
 ---
 
 ## Leitfrage
 
-> **Wie kommt eine Code-Änderung von „auf meinem Laptop committet" automatisch, reproduzierbar und prüfbar in eine veröffentlichte Version – ohne dass jemand manuell Befehle tippt?**
+> **Wie kommt eine Code-Änderung von „auf meinem Laptop committet" automatisch, reproduzierbar und prüfbar in eine veröffentlichte Version, ohne dass jemand manuell Befehle tippt?**
 
 Am Ende dieses Blocks hast du diese Frage praktisch beantwortet. Mit deiner ersten eigenen Workflow-Datei.

@@ -19,7 +19,7 @@ description: "Schritt-für-Schritt-Anleitung von einem fertigen Docker-Projekt z
     - dein eigenes Image in der Registry sehen
 
 !!! info "Anknüpfung"
-    In [Block 5](../docker-profi/dockerfile-best-practices.md) hast du gelernt, wie ein gutes Dockerfile aussieht. Dieses Praxis-Projekt bringt **genau** so ein Dockerfile mit – jetzt geht es nur noch darum, den Bau-Prozess zu automatisieren.
+    In [Block 5](../docker-profi/dockerfile-best-practices.md) hast du gelernt, wie ein gutes Dockerfile aussieht. Dieses Praxis-Projekt bringt **genau** so ein Dockerfile mit. Jetzt geht es nur noch darum, den Bau-Prozess zu automatisieren.
 
 ---
 
@@ -53,7 +53,7 @@ Die fertige Pipeline läuft auf jedem **Push** und jedem **PR**, aber **pusht nu
 
 ---
 
-## Schritt 1 – Projekt holen
+## Schritt 1: Projekt holen
 
 In den Kursunterlagen liegt eine **fertige Demo-App** unter `apps/cicd-demo/`. Sie besteht aus:
 
@@ -118,7 +118,7 @@ docker build -t cicd-demo .
 docker run --rm -p 8000:8000 cicd-demo
 ```
 
-Browser: <http://localhost:8000> – du solltest „CI/CD-Demo läuft" sehen.
+Browser: <http://localhost:8000>. Du solltest „CI/CD-Demo läuft" sehen.
 
 In einem zweiten Terminal die Tests im Container laufen lassen:
 
@@ -132,12 +132,12 @@ Erwartet: alle vier Tests grün. Wenn das **lokal** klappt, wird die Pipeline sp
 
 ---
 
-## Schritt 2 – GitHub-Repo anlegen
+## Schritt 2: GitHub-Repo anlegen
 
 1. Auf GitHub: <https://github.com/new>.
 2. Name: `cicd-demo`.
 3. Sichtbarkeit: **Public** (für GHCR-Pushes mit `GITHUB_TOKEN` ist das am einfachsten).
-4. **Keine** README, `.gitignore` oder License mitanlegen – dein Ordner enthält bereits Dateien.
+4. **Keine** README, `.gitignore` oder License mitanlegen, dein Ordner enthält bereits Dateien.
 5. **Create repository** klicken.
 
 ### 2.1 Lokales Repo verbinden
@@ -153,7 +153,7 @@ Auf GitHub solltest du jetzt deine Dateien sehen.
 
 ---
 
-## Schritt 3 – Erste Workflow-Datei schreiben
+## Schritt 3: Erste Workflow-Datei schreiben
 
 Lege im Repo den Pfad an:
 
@@ -252,7 +252,7 @@ jobs:
           cache-to: type=gha,mode=max
 ```
 
-### Was hier passiert – Schritt für Schritt
+### Was hier passiert, Schritt für Schritt
 
 | Block | Bedeutung |
 |-------|-----------|
@@ -260,17 +260,17 @@ jobs:
 | `on: push / pull_request / workflow_dispatch` | Pipeline läuft bei Push, PR und manueller Auslösung |
 | `permissions: packages: write` | Workflow darf in GHCR pushen |
 | Job `build-and-test` | Baut das Image und führt im Container `pytest` aus |
-| Job `publish` | Loggt sich in GHCR ein und pusht das Image – nur auf `main` |
+| Job `publish` | Loggt sich in GHCR ein und pusht das Image, nur auf `main` |
 | `needs: build-and-test` | `publish` startet erst, wenn Build + Tests grün sind |
 | `if:` | Filter, der den Job auf `push` nach `main` einschränkt |
-| Step `lcrepo` | Wandelt `owner/repo` in **lowercase** um – GHCR akzeptiert keine Großbuchstaben (z.B. `JacobMenge` würde brechen). Die Bash-Expansion `${VAR,,}` übernimmt die Umwandlung in einer Zeile. |
+| Step `lcrepo` | Wandelt `owner/repo` in **lowercase** um. GHCR akzeptiert keine Großbuchstaben (z.B. `JacobMenge` würde brechen). Die Bash-Expansion `${VAR,,}` übernimmt die Umwandlung in einer Zeile. |
 
 !!! warning "Zwei separate Jobs sind Absicht"
     Wir hätten alles in **einem** Job machen können. Aber: zwei Jobs trennen **prüfen** und **veröffentlichen** sauber. Wenn der Push fehlschlägt (etwa wegen Permissions), erfährst du das in einem eigenen, klar markierten Job, ohne dass der Build-Status verfälscht wird.
 
 ---
 
-## Schritt 4 – Pushen und Pipeline beobachten
+## Schritt 4: Pushen und Pipeline beobachten
 
 ```bash
 git add .github/workflows/ci.yml
@@ -301,7 +301,7 @@ Wenn alles grün ist:
 
 ---
 
-## Schritt 5 – Pipeline „kaputt" machen, um sie zu verstehen
+## Schritt 5: Pipeline „kaputt" machen, um sie zu verstehen
 
 Eine grüne Pipeline ist gut. **Eine rote Pipeline lehrt mehr.** Probier:
 
@@ -334,15 +334,15 @@ git push
 
 Im Actions-Tab: der `build-and-test`-Job wird **rot**. Im Log siehst du genau die Test-Zeile mit der fehlgeschlagenen Assertion.
 
-**Wichtig:** Der `publish`-Job läuft **nicht** los, weil `needs: build-and-test` ihn blockt. Genau so soll es sein – kaputter Code soll nicht in der Registry landen.
+**Wichtig:** Der `publish`-Job läuft **nicht** los, weil `needs: build-and-test` ihn blockt. Genau so soll es sein. Kaputter Code soll nicht in der Registry landen.
 
-Mach den Test wieder heile, push erneut – grün.
+Mach den Test wieder heile, push erneut, grün.
 
 ### 5.2 YAML-Syntaxfehler einfügen
 
 Im `ci.yml` einen Doppelpunkt entfernen oder Einrückung verzerren. Push.
 
-Im Actions-Tab steht: **„Workflow file isn't valid"** – mit Zeilen-Hinweis. Das ist die Erfahrung, die du brauchst, damit dich diese Fehler später nicht überraschen.
+Im Actions-Tab steht: **„Workflow file isn't valid"** mit Zeilen-Hinweis. Das ist die Erfahrung, die du brauchst, damit dich diese Fehler später nicht überraschen.
 
 ### 5.3 Fehlende Permissions simulieren
 
@@ -354,7 +354,7 @@ Mach alles wieder heil, bevor du weitermachst.
 
 ---
 
-## Schritt 6 – Pipeline erweitern (optional)
+## Schritt 6: Pipeline erweitern (optional)
 
 Wenn du noch Zeit hast oder die Übung zu Hause vertiefen willst, sind das die natürlichen Erweiterungen:
 
@@ -373,11 +373,11 @@ Direkt nach dem Build, vor dem Push:
           ignore-unfixed: true
 ```
 
-Damit fällt die Pipeline um, wenn das Image hohe oder kritische CVEs enthält. Zur Theorie: [Image-Optimierung – Trivy](../docker-profi/image-optimierung.md#trivy-images-auf-cves-scannen).
+Damit fällt die Pipeline um, wenn das Image hohe oder kritische CVEs enthält. Zur Theorie: [Image-Optimierung, Trivy](../docker-profi/image-optimierung.md#trivy-images-auf-cves-scannen).
 
 ### 6.2 Pull-Request-Builds beschleunigen
 
-Pull-Requests müssen nicht das ganze Cache-Spiel durchziehen. Mit `if:` kannst du den Push-Job für PRs überspringen (machst du oben schon mit `if: github.event_name == 'push'` – Beispiel als Erinnerung).
+Pull-Requests müssen nicht das ganze Cache-Spiel durchziehen. Mit `if:` kannst du den Push-Job für PRs überspringen (machst du oben schon mit `if: github.event_name == 'push'`, Beispiel als Erinnerung).
 
 ### 6.3 Tag-Strategie verbessern
 
@@ -387,7 +387,7 @@ Statt nur `latest` und Commit-SHA: einen `v*.*.*`-Trigger einführen, der zusät
 
 ## <span id="musterloesung"></span>Musterlösung
 
-??? success "Komplette Musterlösung – `ci.yml`"
+??? success "Komplette Musterlösung: `ci.yml`"
     ```yaml
     name: CI
 
@@ -539,14 +539,14 @@ Statt nur `latest` und Commit-SHA: einen `v*.*.*`-Trigger einführen, der zusät
     3. **Locale** unterschiedlich (Tests, die auf Sprache reagieren).
     4. **Tests sind zeitabhängig** und in CI langsamer.
 
-    **Lösung:** Tests müssen reproduzierbar sein. Ein guter Anhalt: in einer **frischen** lokalen Umgebung (frischer Build-Container, ohne Caches) reproduzieren – dann findest du die Diskrepanz.
+    **Lösung:** Tests müssen reproduzierbar sein. Ein guter Anhalt: in einer **frischen** lokalen Umgebung (frischer Build-Container, ohne Caches) reproduzieren. Dann findest du die Diskrepanz.
 
 ??? warning "GHCR-Push schlägt mit „denied: permission_denied" fehl"
     Die häufigsten Punkte:
 
     1. `permissions: packages: write` im Workflow vergessen.
     2. Repo-Setting **„Workflow permissions"** steht auf „Read repository contents permission" (read-only). Unter Repo → Settings → Actions → General → Workflow permissions auf **„Read and write permissions"** stellen.
-    3. Image-Pfad falsch: muss `ghcr.io/<owner>/<repo>` lauten – mit Kleinbuchstaben.
+    3. Image-Pfad falsch: muss `ghcr.io/<owner>/<repo>` lauten, mit Kleinbuchstaben.
 
 ??? warning "Workflow läuft, aber `docker pull` von GHCR scheitert"
     GHCR-Pakete sind **standardmäßig privat**, auch wenn das Repo public ist. Lösung: auf der Paket-Seite (rechts oben unter **Packages** im Repo) → **Package settings** → **Change visibility** → public. Oder beim ersten Pull lokal einloggen:
@@ -565,7 +565,7 @@ Statt nur `latest` und Commit-SHA: einen `v*.*.*`-Trigger einführen, der zusät
 - Eine **Demo-App** lokal gebaut und getestet.
 - Ein **GitHub-Repo** angelegt, Code gepusht.
 - Eine **Workflow-Datei** geschrieben, die bei jedem Push baut, testet und (auf `main`) pusht.
-- Die Pipeline einmal **bewusst kaputt** gemacht und wieder repariert – damit kennst du die häufigsten Fehlersignaturen.
+- Die Pipeline einmal **bewusst kaputt** gemacht und wieder repariert. Damit kennst du die häufigsten Fehlersignaturen.
 - Ein eigenes **Image in GHCR** liegen.
 
 ---
@@ -574,10 +574,10 @@ Statt nur `latest` und Commit-SHA: einen `v*.*.*`-Trigger einführen, der zusät
 
 In der [Übungs-Sammlung](uebungen.md) findest du vier weitere Aufgaben mit aufsteigender Schwierigkeit:
 
-- 🟢 **Übung 6.1** – Mini-Pipeline ohne Tests, nur Hello-World
-- 🟢 **Übung 6.2** – Tests separat im eigenen Job
-- 🟡 **Übung 6.3** – Multi-Architektur-Image (linux/amd64 + linux/arm64)
-- 🟡 **Übung 6.4** – Versions-Tags mit Semver-Trigger
+- 🟢 **Übung 6.1**: Mini-Pipeline ohne Tests, nur Hello-World
+- 🟢 **Übung 6.2**: Tests separat im eigenen Job
+- 🟡 **Übung 6.3**: Multi-Architektur-Image (linux/amd64 + linux/arm64)
+- 🟡 **Übung 6.4**: Versions-Tags mit Semver-Trigger
 
 ---
 
@@ -590,5 +590,5 @@ In der [Übungs-Sammlung](uebungen.md) findest du vier weitere Aufgaben mit aufs
 
 ## Weiterlesen
 
-- [Stolpersteine](stolpersteine.md) – wenn etwas hakt
-- [Cheatsheet GitHub Actions](../cheatsheets/github-actions.md) – Befehle und Snippets auf einer Seite
+- [Stolpersteine](stolpersteine.md): wenn etwas hakt
+- [Cheatsheet GitHub Actions](../cheatsheets/github-actions.md): Befehle und Snippets auf einer Seite

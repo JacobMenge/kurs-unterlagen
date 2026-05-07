@@ -1,6 +1,6 @@
 ---
 title: "Stolpersteine CI/CD"
-description: "Typische Probleme bei GitHub Actions, Container-Builds, Registry-Pushes und Pipeline-Logik – mit konkreten Lösungswegen."
+description: "Typische Probleme bei GitHub Actions, Container-Builds, Registry-Pushes und Pipeline-Logik mit konkreten Lösungswegen."
 ---
 
 # Stolpersteine CI/CD
@@ -17,9 +17,9 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
 ??? danger "Workflow erscheint gar nicht im Actions-Tab"
     **Häufigste Ursachen:**
 
-    1. **Falscher Pfad** – die Datei muss in `.github/workflows/` liegen, **nicht** in `github/workflows/` oder `.github/workflow/`.
-    2. **Falsche Endung** – `.yml` oder `.yaml`, sonst nichts.
-    3. **YAML-Parser-Fehler** – GitHub zeigt das oben in **Actions → links neben dem Workflow-Namen**. Wenn dort kein Workflow steht, hast du einen Parse-Fehler.
+    1. **Falscher Pfad**: die Datei muss in `.github/workflows/` liegen, **nicht** in `github/workflows/` oder `.github/workflow/`.
+    2. **Falsche Endung**: `.yml` oder `.yaml`, sonst nichts.
+    3. **YAML-Parser-Fehler**: GitHub zeigt das oben in **Actions → links neben dem Workflow-Namen**. Wenn dort kein Workflow steht, hast du einen Parse-Fehler.
 
     **Diagnose:**
 
@@ -44,7 +44,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     YAML hat Probleme mit Werten, die selbst Doppelpunkte enthalten. Beispiel:
 
     ```yaml
-    tags: app:1.0       # ❌ – YAML denkt, das sei ein neuer Schlüssel
+    tags: app:1.0       # ❌ YAML denkt, das sei ein neuer Schlüssel
     ```
 
     Lösung: Anführungszeichen um den Wert legen:
@@ -96,7 +96,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
 ??? danger "„repository name must be lowercase" beim Push in GHCR"
     GHCR akzeptiert **nur Kleinbuchstaben** im Image-Pfad. GitHub-Usernames können aber Großbuchstaben enthalten (z.B. `JacobMenge`). Wenn du `${{ github.repository }}` direkt in den Tag schreibst, bricht der Push mit dieser Fehlermeldung ab.
 
-    **Lösung 1 – einfacher Lowercase-Step (empfohlen):**
+    **Lösung 1, einfacher Lowercase-Step (empfohlen):**
 
     ```yaml
     - id: lcrepo
@@ -112,9 +112,9 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
 
     `${VAR,,}` ist Bash-Lowercase-Expansion. Funktioniert auf allen GitHub-gehosteten Linux-Runnern.
 
-    **Lösung 2 – `docker/metadata-action` nutzen:**
+    **Lösung 2, `docker/metadata-action` nutzen:**
 
-    Die Action konvertiert Tags und Image-Pfade meist automatisch zu Kleinbuchstaben. In Edge-Cases ist Lösung 1 robuster – beide kombinieren ist okay.
+    Die Action konvertiert Tags und Image-Pfade meist automatisch zu Kleinbuchstaben. In Edge-Cases ist Lösung 1 robuster. Beide kombinieren ist okay.
 
 ??? warning "PR aus Fork hat keinen Zugriff auf Secrets"
     Das ist **Absicht** von GitHub. Forks können Repository-Secrets nicht lesen, sonst wäre jeder Fork ein Datendiebstahl-Vektor.
@@ -127,12 +127,12 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     ```
 
 ??? warning "Secret in den Logs sichtbar"
-    Sollte nicht sein – GitHub maskiert Secrets automatisch. Wenn doch:
+    Sollte nicht sein. GitHub maskiert Secrets automatisch. Wenn doch:
 
     1. Hast du das Secret in **Stücke zerlegt** (z.B. `${SECRET:0:5}`)? GitHub maskiert nur den Gesamt-String.
     2. Hast du es **anders kodiert** (Base64, JSON-Wrap)? Dann ist die kodierte Form nicht erkannt.
 
-    **Reaktion:** Secret als kompromittiert betrachten und an der Quelle rotieren – nicht abwarten.
+    **Reaktion:** Secret als kompromittiert betrachten und an der Quelle rotieren, nicht abwarten.
 
 ??? info "Eigene PAT (Personal Access Token) statt `GITHUB_TOKEN`?"
     Brauchst du **selten**. `GITHUB_TOKEN` reicht für:
@@ -175,9 +175,9 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
 
     **Drei Lösungen:**
 
-    1. **Tests in einer eigenen Phase** – nicht im Runtime-Image. Direkt auf dem Runner mit `pytest` außerhalb von Docker (siehe [Übung 6.2](uebungen.md#uebung-62-tests-in-einem-eigenen-job)).
-    2. **Tests im Build-Stage** – als Schritt **innerhalb** des Dockerfile mit `RUN pytest`. Bricht dann den Build, wenn rot.
-    3. **Test-Image** – eigene Image-Variante, die Test-Tools enthält (`docker build --target test -t app-test .`).
+    1. **Tests in einer eigenen Phase**, nicht im Runtime-Image. Direkt auf dem Runner mit `pytest` außerhalb von Docker (siehe [Übung 6.2](uebungen.md#uebung-62-tests-in-einem-eigenen-job)).
+    2. **Tests im Build-Stage**, als Schritt **innerhalb** des Dockerfile mit `RUN pytest`. Bricht dann den Build, wenn rot.
+    3. **Test-Image**, eigene Image-Variante, die Test-Tools enthält (`docker build --target test -t app-test .`).
 
 ---
 
@@ -189,7 +189,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     ```yaml
     publish:
       runs-on: ubuntu-latest
-      # ohne needs: – läuft parallel zu test!
+      # ohne needs: läuft parallel zu test!
       steps: ...
     ```
 
@@ -235,7 +235,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     - run: docker compose version
     ```
 
-    Wenn das schiefgeht, Compose installieren – meist reicht:
+    Wenn das schiefgeht, Compose installieren. Meist reicht:
 
     ```yaml
     - run: |
@@ -243,7 +243,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
         sudo apt-get install -y docker-compose-plugin
     ```
 
-    Aktuelle GitHub-Runner haben Compose V2 typischerweise dabei – falls doch nicht, ist der Lauf trivial nachzuinstallieren.
+    Aktuelle GitHub-Runner haben Compose V2 typischerweise dabei. Falls doch nicht, ist der Lauf trivial nachzuinstallieren.
 
 ??? warning "Service-Container vs. self-hosted Runner"
     GitHub Actions kann **Service Container** parallel zum Job laufen lassen (z.B. Postgres für Integration-Tests):
@@ -267,7 +267,7 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
     Systematisch:
 
     1. Im Actions-Tab den **roten Lauf** öffnen.
-    2. Die **Liste der Jobs** ist links – der rote Job ist mit X markiert.
+    2. Die **Liste der Jobs** ist links, der rote Job ist mit X markiert.
     3. Den Job öffnen, die **Liste der Steps** durchsehen. Wieder ist der rote Step mit X markiert.
     4. Den **roten Step** aufklappen.
     5. Im Log-Output **nach oben** scrollen, bis du den **ersten** Fehler siehst (oft eine `error: …`-Zeile, oder einen Stacktrace).
@@ -284,10 +284,10 @@ Diese Seite sammelt **CI/CD-spezifische** Probleme. Allgemeine Docker-Probleme f
         echo "::endgroup::"
     ```
 
-    `::group::` und `::endgroup::` sind GitHub-Actions-Befehle – sie machen aufklappbare Sektionen im Log.
+    `::group::` und `::endgroup::` sind GitHub-Actions-Befehle. Sie machen aufklappbare Sektionen im Log.
 
 ??? info "Re-run hilft nicht"
-    GitHub erlaubt „Re-run failed jobs". Sinnvoll bei **transienten Fehlern** (Netzwerk-Timeouts beim Image-Pull). Bei **logischen** Fehlern (Test rot) hilft kein Re-run – Code muss repariert werden.
+    GitHub erlaubt „Re-run failed jobs". Sinnvoll bei **transienten Fehlern** (Netzwerk-Timeouts beim Image-Pull). Bei **logischen** Fehlern (Test rot) hilft kein Re-run, Code muss repariert werden.
 
 ---
 

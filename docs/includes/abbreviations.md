@@ -213,6 +213,22 @@
 *[GHA]: GitHub Actions
 *[Trivy-Action]: Vorgefertigte GitHub-Action für CVE-Scans (aquasecurity/trivy-action)
 *[BuildKit-Cache]: Layer-Cache des modernen Docker-Build-Backends, in CI oft mit type=gha
+*[Linter]: Werkzeug, das Quellcode statisch auf Stilprobleme und typische Bugs prüft
+*[Lint]: Sammelbezeichnung für die von einem Linter gefundenen Probleme
+*[Linting]: Aktives Prüfen von Code mit einem Linter
+*[Formatter]: Werkzeug, das Code automatisch formatiert (Einrückung, Zeilenlänge, Anführungszeichen)
+*[Static Analysis]: Untersuchung von Quellcode ohne Ausführung (Linter, Type-Checker, Scanner)
+*[Type-Checker]: Werkzeug, das Datentypen im Code prüft, ohne ihn auszuführen (mypy, tsc)
+*[Type-Check]: Prüfung von Datentypen im Code ohne Ausführung
+*[ruff]: Sehr schneller Python-Linter und Formatter in Rust geschrieben
+*[eslint]: Linter für JavaScript und TypeScript
+*[pylint]: Linter für Python
+*[golangci-lint]: Sammlung von Linter-Aggregator für Go
+*[prettier]: Formatter für JavaScript, TypeScript, CSS und HTML
+*[black]: Formatter für Python
+*[gofmt]: Standard-Formatter für Go
+*[mypy]: Type-Checker für Python
+*[tsc]: TypeScript-Compiler, prüft auch Typen ohne Ausführung
 *[buildx]: Erweitertes `docker build`-Plugin (Multi-Architektur, Cache-Backends)
 *[Signal]: Nachricht vom Kernel an einen Prozess (SIGTERM, SIGKILL, SIGINT, …)
 *[SIGTERM]: Höfliches Beenden eines Prozesses – kann abgefangen werden
