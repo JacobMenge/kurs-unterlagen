@@ -27,3 +27,6 @@ apps/docker-compose-mission-control/.env
 
 # Node-Artefakte falls jemand lokal probiert
 apps/**/node_modules/
+
+# Lokale Hilfs-/Arbeitsordner (nicht ins Repo)
+.claude/
