@@ -10,10 +10,12 @@ Die Übungen bauen auf dem **Repo aus der [Praxis](praxis-erste-pipeline.md)** a
 Die Übungen sind so geordnet, dass du **Schritt für Schritt** Technik dazulernst: erst die kleinen GitHub-Actions-Bausteine, dann der erste eigene Docker-Build in der Pipeline, dann das Pushen in eine Registry und am Ende ein **Multi-Container-Stack**, der komplett über die Pipeline gestartet und getestet wird. Jede neue Aufgabe baut auf einer Technik der vorherigen auf.
 
 !!! abstract "Die vier Stufen"
-    - 🟢 **Einsteiger**. Jeder Schritt bis ins Detail.
-    - 🟡 **Mittel**. Weniger Hand-Holding.
-    - 🔴 **Fortgeschritten**. Hinweise statt Rezepte.
-    - 🏆 **Challenge**. Aufgabe ohne Anleitung. Musterlösung aufklappbar.
+    Alle Übungen haben eine **Aufgabe**, eine ausklappbare **Schritt-für-Schritt-Anleitung** und eine ausklappbare **Musterlösung**. Die Stufen unterscheiden sich beim **Thema** und der **Tiefe**:
+
+    - 🟢 **Einsteiger**. Die ersten GitHub-Actions-Bausteine (Bedingungen, Job-Abhängigkeiten).
+    - 🟡 **Mittel**. Mehr Bausteine im Werkzeugkasten (Checkout, Matrix, Variablen, Artefakte).
+    - 🔴 **Fortgeschritten**. Docker in der Pipeline (bauen, cachen, in eine Registry pushen).
+    - 🏆 **Challenge**. Ein Multi-Container-Stack komplett in CI. Offen formulierte Aufgabe ohne Schritt-Anleitung. Eine Musterlösung mit Erklärung gibt es trotzdem zum Aufklappen.
 
 ## Voraussetzung für alle Übungen
 
@@ -1209,19 +1211,23 @@ Lege drei Dateien an:
               docker stop demo-test
     ```
 
+    !!! info "Warum überhaupt eine Retry-Schleife?"
+        Ein Webserver wie nginx ist **nicht sofort bereit** wenn der Container hochkommt. Vom Start des Prozesses bis zum „ich nehme HTTP-Anfragen entgegen" vergehen ein paar hundert Millisekunden. Würden wir direkt nach `docker run` ein `curl` machen, kämen wir oft auf einen halb-fertigen Server und bekämen Fehler wie `Empty reply from server`. Die Retry-Schleife sagt: „versuch es bis zu 5 Mal, wenn es klappt, raus, sonst eine Sekunde warten". Das ist ein **klassisches Pattern in CI**: Dienste brauchen Bereitschaftszeit, der Test muss tolerant sein. Genau dasselbe machen wir in der Challenge gleich mit dem `/health`-Endpoint.
+
     Zeile für Zeile:
 
     - `docker run -d --rm --name demo-test -p 8080:80 demo:${{ github.sha }}` startet den Container.
         - `-d` heißt detached: im Hintergrund. Sonst würde der Step nie weiterkommen.
         - `--rm` löscht den Container automatisch, wenn er stoppt.
         - `--name demo-test` gibt ihm einen festen Namen, damit wir ihn später mit `docker stop demo-test` adressieren können.
-        - `-p 8080:80` ist das **Port-Mapping**. Anfragen auf Port 8080 vom Runner werden an Port 80 im Container weitergeleitet.
-    - `for i in 1 2 3 4 5; do ... done` ist eine kleine **Retry-Schleife**. Bis zu 5 Versuche, mit 1 Sekunde Pause dazwischen.
+        - `-p 8080:80` ist das [Port-Mapping](../glossar.md#port-mapping). Anfragen auf Port 8080 vom Runner werden an Port 80 im Container weitergeleitet. **Wichtig: der Host-Port steht zuerst**, der Container-Port danach.
+    - `for i in 1 2 3 4 5; do ... done` ist eine **Bash-Zählschleife**. Die Variable `i` nimmt nacheinander die Werte 1 bis 5 an. Der Block zwischen `do` und `done` wird fünfmal ausgeführt. Das ist also die Retry-Schleife: bis zu 5 Versuche, mit 1 Sekunde Pause dazwischen.
     - `curl --fail --silent http://localhost:8080 > /tmp/out.html` holt die Startseite und schreibt sie in `/tmp/out.html`.
-        - `--fail` bedeutet: gibt nginx einen HTTP-Fehler zurück (z.B. 502), endet curl mit Fehler. Sonst würde curl die Fehlerseite als „erfolg" zurückgeben.
+        - `--fail` bedeutet: gibt nginx einen HTTP-Fehler zurück (z.B. Status 4xx oder 5xx), endet curl mit Fehler. Sonst würde curl die Fehlerseite als „erfolg" zurückgeben.
         - `--silent` unterdrückt den Fortschrittsbalken im Log.
-    - `&& break` heißt: klappt curl, raus aus der Schleife.
-    - `head -5 /tmp/out.html` schreibt die ersten 5 Zeilen ins Log, damit du siehst: es ist wirklich deine HTML.
+        - `>` ist die [Shell-Umleitung](../glossar.md#shell-redirektion): alles was curl normalerweise auf den Bildschirm schreiben würde (also den HTML-Inhalt), landet stattdessen in der Datei `/tmp/out.html`. `/tmp/` ist auf Linux ein temporärer Ordner, in dem jeder schreiben darf – perfekt für kurzlebige Dateien.
+    - `&& break` heißt: klappt curl (Exit-Code 0), brich die Schleife sofort ab. Wir haben unsere Antwort.
+    - `head -5 /tmp/out.html` schreibt die ersten 5 Zeilen der gespeicherten HTML ins Log, damit du siehst: es ist wirklich deine HTML.
     - `docker stop demo-test` stoppt den Container. Durch `--rm` wird er automatisch gelöscht.
 
     **Schritt 9: Pushen**
@@ -1462,7 +1468,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
     git push
     ```
 
-    `--allow-empty` lässt dich ohne Datei-Änderungen committen. So triggerst du den Workflow erneut.
+    `--allow-empty` lässt dich ohne Datei-Änderungen committen. Normalerweise würde Git mit der Meldung „nothing to commit" abbrechen, weil sich nichts geändert hat. Das Flag umgeht diese Prüfung und erzeugt einen leeren Commit. Beim anschließenden `git push` triggert der frische Commit den Workflow erneut.
 
     Im neuen Lauf siehst du im Build-Step neben den Schichten die Meldung **`CACHED`**. BuildKit hat die Layer aus dem gha-Cache geholt, statt sie neu zu bauen.
 
@@ -1825,7 +1831,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     **Der Stack:**
 
-    - Mindestens zwei Container, die miteinander reden. Einer davon ist deine eigene App (eigenes Image, eigenes Dockerfile aus dem Repo). Der zweite kommt aus einem **offiziellen Image** (z.B. Redis, Postgres, MariaDB. Such dir was Sinnvolles aus).
+    - Mindestens zwei Container, die miteinander reden. Einer davon ist deine eigene App (eigenes Image, eigenes Dockerfile aus dem Repo). Der zweite kommt aus einem **offiziellen Image** (z.B. [Redis](../glossar.md#redis), Postgres, [MariaDB](../glossar.md#mariadb). Such dir was Sinnvolles aus).
     - „Miteinander reden" heißt: ohne den zweiten Container funktioniert die App **nicht** richtig. Sie muss den zweiten wirklich nutzen.
 
     **Die Pipeline:**
@@ -1850,7 +1856,15 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     - Soll die Pipeline einen oder mehrere Jobs haben? Beide Wege funktionieren. Bei einem Job hast du Compose-Stack und Push im selben Lauf. Bei zwei Jobs musst du das Image zwischen Jobs weitergeben.
     - Wie verhinderst du, dass das Image gepusht wird, wenn der Test rot ist? GitHub Actions stoppt im Default einen Job bei rotem Step. Du musst nur die Push-Steps **nach** den Test-Steps platzieren. Und ohne `if: always()` laufen lassen.
 
-    Versuch die Pipeline **selbst zu schreiben**. Erst wenn du fest hängst. Ein Blick in die Musterlösung. Sie zeigt **eine** mögliche Lösung. Deine Variante darf abweichen. Solange sie die Anforderungen erfüllt.
+    Versuch die Pipeline **selbst zu schreiben**. Erst wenn du fest hängst, ein Blick in die Musterlösung. Sie zeigt **eine** mögliche Lösung. Deine Variante darf abweichen, solange sie die Anforderungen erfüllt.
+
+!!! info "Kurz-Wiederholung: wie Compose Container verbindet"
+    Diese Übung setzt voraus, dass du [Docker Compose](../glossar.md#compose) aus Block 4 kennst. Falls du das vergessen hast, hier die wichtigsten Konzepte in Kurzform:
+
+    - Eine **`compose.yaml`** ist eine YAML-Datei, in der du **mehrere Container** auf einmal beschreibst. Jeden Container nennt man **Service**.
+    - Compose legt beim `docker compose up -d` automatisch ein **eigenes Netzwerk** für deinen Stack an. Innerhalb dieses Netzwerks finden sich alle Services über **ihren Service-Namen als Hostname**. Steht in der `compose.yaml` ein Service `cache`, dann erreicht die Flask-App den Redis unter `cache:6379`. Das übernimmt der interne [DNS](../glossar.md#dns) von Docker. Keine IPs nötig.
+    - Mit **`depends_on:`** sagt man Compose: starte erst Service A, dann Service B. **Aber Achtung:** Compose wartet damit nur auf das **Starten** des Containers, nicht auf seine **Bereitschaft**. Dass Redis schon Anfragen annimmt, garantiert das nicht. Deswegen brauchen wir später im Workflow eine Retry-Schleife auf `/health`.
+    - Mit **`docker compose down -v`** fährst du den Stack runter. Das `-v` löscht zusätzlich die [Volumes](../glossar.md#volume), in denen Datenbanken und Caches ihre Daten speichern. Im CI-Lauf ist das richtig (frische Umgebung), in Produktion gefährlich (Daten weg).
 
 ??? success "Musterlösung"
 
@@ -1947,7 +1961,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     ### `compose.yaml`
 
-    Zwei Services, automatisches Compose-Netzwerk, automatisches DNS. Wichtig: der **Service-Name `cache`** ist gleichzeitig der **Hostname**, unter dem die Flask-App den Redis-Container erreicht. `REDIS_HOST: cache` zeigt also genau auf den Container-DNS-Eintrag, den Compose intern erzeugt.
+    Zwei [Services](../glossar.md#service), automatisches Compose-Netzwerk, automatisches DNS. Wichtig: der **Service-Name `cache`** ist gleichzeitig der **Hostname**, unter dem die Flask-App den Redis-Container erreicht. `REDIS_HOST: cache` zeigt also genau auf den Container-DNS-Eintrag, den Compose intern erzeugt. `depends_on:` legt zusätzlich die Startreihenfolge fest: erst `cache`, dann `web`. (Wartet aber nur auf den Container-Start, nicht auf die Redis-Bereitschaft. Deshalb die Retry-Schleife im Workflow.)
 
     ```yaml
     services:
@@ -1985,8 +1999,8 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     3. **Stack hochfahren** mit `docker compose up -d`.
     4. **Warten auf `/health`**. Kleine Retry-Schleife, weil Container ein paar Sekunden brauchen.
     5. **Smoke-Test**. Zwei `curl /`-Aufrufe vergleichen. Wenn der Counter zählt, ist Redis bewiesen erreichbar.
-    6. **Logs und Cleanup mit `if: always()`**. Läuft auch nach einem fehlgeschlagenen Step. Sonst sind die Container-Logs für die Fehlersuche weg und der Runner-Status ist dreckig.
-    7. **Login und Push nach GHCR**. Nur wenn die Steps 1 bis 5 grün waren (Standard-Verhalten ohne `if:`). Der zweite Build mit `push: true` nutzt den gha-Cache aus Schritt 2 mit, baut also kaum echte Arbeit.
+    6. **Logs und Cleanup mit `if: always()`**. Hier kommt eine wichtige GA-Eigenschaft ins Spiel: **GitHub überspringt im Standardfall alle weiteren Steps, sobald ein vorheriger Step rot wird**. Wenn also Phase 4 oder 5 fehlschlägt, werden `docker compose logs` und `docker compose down -v` normalerweise gar nicht mehr ausgeführt. Damit ständen wir bei einem Fehler ohne Logs da und mit hängenden Containern im Runner. `if: always()` zwingt einen Step trotzdem zu laufen, auch wenn vorher etwas schief ging. Perfekt für Cleanup und Diagnose.
+    7. **Login und Push nach GHCR**. Genau **ohne** `if: always()`. So nutzt diese Phase wieder das Standard-Verhalten: läuft nur, wenn alle vorherigen Steps grün waren. Heißt: bei rotem Test wird **kein** kaputtes Image veröffentlicht. Der zweite Build mit `push: true` nutzt den gha-Cache aus Schritt 2 mit, baut also kaum echte Arbeit.
 
     ```yaml
     name: Multi-Container-Stack
