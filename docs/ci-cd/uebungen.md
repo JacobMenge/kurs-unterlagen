@@ -1,6 +1,6 @@
 ---
 title: "Übungen"
-description: "Eigene Hands-on-Übungen zum CI/CD-Block in vier Schwierigkeitsgraden – von einfachen GitHub-Actions-Bausteinen bis zur Multi-Container-Anwendung in der Pipeline."
+description: "Eigene Hands-on-Übungen zum CI/CD-Block in vier Schwierigkeitsgraden. Von einfachen GitHub-Actions-Bausteinen bis zur Multi-Container-Anwendung in der Pipeline."
 ---
 
 # Übungen: CI/CD mit GitHub Actions
@@ -10,17 +10,17 @@ Die Übungen bauen auf dem **Repo aus der [Praxis](praxis-erste-pipeline.md)** a
 Die Übungen sind so geordnet, dass du **Schritt für Schritt** Technik dazulernst: erst die kleinen GitHub-Actions-Bausteine, dann der erste eigene Docker-Build in der Pipeline, dann das Pushen in eine Registry und am Ende ein **Multi-Container-Stack**, der komplett über die Pipeline gestartet und getestet wird. Jede neue Aufgabe baut auf einer Technik der vorherigen auf.
 
 !!! abstract "Die vier Stufen"
-    - 🟢 **Einsteiger** – jeder Schritt bis ins Detail
-    - 🟡 **Mittel** – weniger Hand-Holding
-    - 🔴 **Fortgeschritten** – Hinweise statt Rezepte
-    - 🏆 **Challenge** – Aufgabe ohne Anleitung, Musterlösung aufklappbar
+    - 🟢 **Einsteiger**. Jeder Schritt bis ins Detail.
+    - 🟡 **Mittel**. Weniger Hand-Holding.
+    - 🔴 **Fortgeschritten**. Hinweise statt Rezepte.
+    - 🏆 **Challenge**. Aufgabe ohne Anleitung. Musterlösung aufklappbar.
 
 ## Voraussetzung für alle Übungen
 
 - Du hast die [Praxis-Übung](praxis-erste-pipeline.md) durchgespielt.
 - Dein Repo `mein-erster-workflow` ist auf GitHub und mindestens ein Lauf war grün.
 - Du kannst den **Actions-Tab** öffnen und Logs lesen.
-- Ab Übung 6.7 brauchst du außerdem ein lokal funktionierendes Docker (`docker version` muss klappen) – nicht zwingend für die Pipeline selbst, aber gut, um die Ergebnisse später zu prüfen.
+- Ab Übung 6.7 brauchst du außerdem ein lokal funktionierendes Docker (`docker version` muss klappen). Nicht zwingend für die Pipeline selbst. Aber gut um die Ergebnisse später zu prüfen.
 
 ---
 
@@ -50,17 +50,17 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
 - Der Branch-Name steht in `${{ github.ref_name }}`.
 - `if:` direkt unter dem Step-Namen entscheidet, ob der Step läuft.
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Schritt 1 – Datei anlegen**
+    **Schritt 1: Datei anlegen**
 
-    Öffne deinen Editor (VSCode, Notepad++, was du nutzt). In deinem Repo gibt es schon den Ordner `.github/workflows/` mit der `hallo.yml` aus der Praxis. Leg daneben eine neue Datei an:
+    Öffne deinen Editor. Das kann VSCode sein. Oder Notepad++. Egal was. In deinem Repo gibt es schon den Ordner `.github/workflows/`. Dort liegt die `hallo.yml` aus der Praxis. Leg daneben eine neue Datei an:
 
     `.github/workflows/bedingungen.yml`
 
-    Der Punkt vor `.github` ist Absicht – das ist ein versteckter Ordner, und GitHub schaut **nur** dort nach Workflow-Dateien.
+    Der Punkt vor `.github` ist Absicht. Das ist ein versteckter Ordner. GitHub schaut **nur** dort nach Workflow-Dateien.
 
-    **Schritt 2 – Den Workflow-Kopf schreiben**
+    **Schritt 2: Den Workflow-Kopf schreiben**
 
     Pack diese vier Zeilen ganz oben rein:
 
@@ -74,12 +74,12 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
 
     Was passiert hier?
 
-    - `name:` – der Anzeigename, den du später im Actions-Tab als Überschrift siehst.
-    - `on:` – legt fest, **wann** der Workflow läuft.
-    - `push:` – bei jedem Push (also wenn du etwas auf GitHub hochlädst).
-    - `workflow_dispatch:` – schaltet einen **„Run workflow"-Knopf** im Actions-Tab frei. Damit kannst du den Workflow auch starten, ohne etwas zu pushen.
+    - `name:` ist der Anzeigename. Den siehst du später im Actions-Tab als Überschrift.
+    - `on:` legt fest. **Wann** läuft der Workflow.
+    - `push:` heißt: bei jedem Push (wenn du etwas auf GitHub hochlädst).
+    - `workflow_dispatch:` schaltet einen **„Run workflow"-Knopf** im Actions-Tab frei. Damit kannst du den Workflow auch ohne Push starten.
 
-    **Schritt 3 – Den Job-Rahmen schreiben**
+    **Schritt 3: Den Job-Rahmen schreiben**
 
     Darunter:
 
@@ -90,12 +90,12 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
         steps:
     ```
 
-    - `jobs:` – ist der Block, in dem alle Jobs stehen. (Ein Workflow kann mehrere Jobs haben, wir nehmen einen.)
-    - `info:` – der Name unseres Jobs. Den darfst du frei wählen.
-    - `runs-on: ubuntu-latest` – GitHub soll dir für diesen Job eine frische Ubuntu-Maschine („Runner") aufmachen.
-    - `steps:` – darunter kommen jetzt die einzelnen Aktionen, eine Liste.
+    - `jobs:` ist der Block. Hier stehen alle Jobs. Wir nehmen einen.
+    - `info:` ist der Name unseres Jobs. Den darfst du frei wählen.
+    - `runs-on: ubuntu-latest` heißt: GitHub macht dir für diesen Job eine frische Ubuntu-Maschine auf. So eine Maschine nennt sich **Runner**.
+    - `steps:` listet die einzelnen Aktionen. Die kommen jetzt.
 
-    **Schritt 4 – Step 1: Auslöser anzeigen (läuft immer)**
+    **Schritt 4: Step 1 (läuft immer)**
 
     Direkt unter `steps:` einrücken und schreiben:
 
@@ -104,14 +104,14 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
             run: echo "Auslöser= ${{ github.event_name }}"
     ```
 
-    - Der Bindestrich `-` macht das zum Listenelement, also einem eigenen Step.
-    - `name:` – Anzeigename des Steps, taucht im Log auf.
-    - `run:` – führt einen Shell-Befehl aus. `echo` schreibt einfach Text ins Log.
-    - `${{ github.event_name }}` ist ein **Platzhalter**, den GitHub zur Laufzeit ersetzt: bei einem Push steht da `push`, bei manuellem Start steht da `workflow_dispatch`.
+    - Der Bindestrich `-` macht das zum Listenelement. Also einem eigenen Step.
+    - `name:` ist der Anzeigename des Steps. Taucht im Log auf.
+    - `run:` führt einen Shell-Befehl aus. `echo` schreibt einfach Text ins Log.
+    - `${{ github.event_name }}` ist ein **Platzhalter**. GitHub ersetzt ihn zur Laufzeit. Bei einem Push steht da `push`. Bei manuellem Start steht da `workflow_dispatch`.
 
-    **Schritt 5 – Step 2: Nur bei Push**
+    **Schritt 5: Step 2 (nur bei Push)**
 
-    Auf der gleichen Einrückungsebene wie Step 1:
+    Auf der gleichen Einrückung wie Step 1:
 
     ```yaml
           - name: Nur bei Push
@@ -119,15 +119,15 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
             run: echo "Branch ist ${{ github.ref_name }}"
     ```
 
-    Der entscheidende Teil: `if: github.event_name == 'push'`. Das ist die **Bedingung**. Nur wenn sie wahr ist (Auslöser = `push`), läuft der Step. Sonst wird er übersprungen.
+    Der entscheidende Teil ist `if: github.event_name == 'push'`. Das ist die **Bedingung**. Nur wenn der Auslöser `push` ist, läuft der Step. Sonst wird er übersprungen.
 
-    Innerhalb von `if:` brauchst du **keine** geschweiften Klammern `${{ }}` – beides geht, ohne ist üblich.
+    Innerhalb von `if:` brauchst du **keine** geschweiften Klammern `${{ }}`. Beides geht. Ohne ist üblich.
 
-    `${{ github.ref_name }}` ist der **Branch-Name**, also normalerweise `main`.
+    `${{ github.ref_name }}` ist der **Branch-Name**. Also normalerweise `main`.
 
-    **Schritt 6 – Step 3: Nur bei manueller Auslösung**
+    **Schritt 6: Step 3 (nur bei manueller Auslösung)**
 
-    Und nochmal einer, auf gleicher Einrückung:
+    Und nochmal einer. Auf gleicher Einrückung:
 
     ```yaml
           - name: Nur bei manueller Auslösung
@@ -135,11 +135,11 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
             run: echo "Du hast den Knopf gedrückt"
     ```
 
-    Selbes Prinzip, andere Bedingung.
+    Selbes Prinzip. Andere Bedingung.
 
-    **Schritt 7 – Speichern, committen, pushen**
+    **Schritt 7: Speichern. Committen. Pushen.**
 
-    Speicher die Datei. Im Terminal (egal ob Mac/Linux/Windows):
+    Speichere die Datei. Im Terminal:
 
     ```
     git add .github/workflows/bedingungen.yml
@@ -147,22 +147,22 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
     git push
     ```
 
-    Damit landet die Datei auf GitHub. Weil im `on:`-Block `push:` steht, startet der Workflow direkt nach dem Push automatisch.
+    Damit landet die Datei auf GitHub. Im `on:`-Block steht `push:`. Also startet der Workflow direkt nach dem Push automatisch.
 
-    **Schritt 8 – Im Actions-Tab anschauen**
+    **Schritt 8: Im Actions-Tab anschauen**
 
     1. Auf GitHub in dein Repo gehen.
     2. Oben auf **„Actions"** klicken.
     3. Du siehst den neuen Workflow „Bedingungen" mit deinem Commit-Titel.
-    4. Klick rein, dann auf den Job `info`, dann jeden Step aufklappen.
+    4. Klick rein. Dann auf den Job `info`. Dann jeden Step aufklappen.
 
-    Erwartung: Step 1 und 2 sind grün (Häkchen). Step 3 hat ein graues Symbol und wenn du ihn aufklappst, steht da die Meldung „**This step has been skipped**" – weil die Bedingung nicht zutraf.
+    Erwartung: Step 1 und 2 sind grün (Häkchen). Step 3 hat ein graues Symbol. Wenn du ihn aufklappst, steht da die Meldung „**This step has been skipped**". Die Bedingung traf nicht zu.
 
-    **Schritt 9 – Manuell starten und Unterschied sehen**
+    **Schritt 9: Manuell starten und Unterschied sehen**
 
-    Im Actions-Tab links auf „Bedingungen" klicken. Oben rechts erscheint der **„Run workflow"**-Knopf (kommt nur, wenn die Datei schon auf `main` liegt – das ist nach Schritt 7 erfüllt). Drauf klicken, im Popup nochmal „Run workflow".
+    Im Actions-Tab links auf „Bedingungen" klicken. Oben rechts erscheint der **„Run workflow"**-Knopf. Der Knopf kommt nur. Wenn die Datei schon auf `main` liegt. Das ist nach Schritt 7 erfüllt. Drauf klicken. Im Popup nochmal „Run workflow".
 
-    Nach ein paar Sekunden erscheint ein zweiter Lauf. Diesmal umgekehrt: Step 1 grün, Step 2 übersprungen, Step 3 grün. Damit hast du **beide Pfade** der `if:`-Logik bewiesen.
+    Nach ein paar Sekunden erscheint ein zweiter Lauf. Diesmal umgekehrt: Step 1 grün. Step 2 übersprungen. Step 3 grün. Damit hast du **beide Pfade** der `if:`-Logik bewiesen.
 
 ??? success "Musterlösung"
     ```yaml
@@ -214,15 +214,15 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
 - `needs: vorbereiten` direkt unter `runs-on:` reicht.
 - Beide Jobs laufen auf `ubuntu-latest`.
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Schritt 1 – Neue Datei anlegen**
+    **Schritt 1: Neue Datei anlegen**
 
     Im Editor eine neue Datei erstellen:
 
     `.github/workflows/zwei-jobs.yml`
 
-    **Schritt 2 – Workflow-Kopf schreiben**
+    **Schritt 2: Workflow-Kopf schreiben**
 
     Genauso wie in 6.1:
 
@@ -236,12 +236,12 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
 
     Erklärung in Kurzform:
 
-    - `name:` – Anzeigename.
-    - `on:` – wann der Workflow läuft. Bei jedem Push und auf Knopfdruck.
+    - `name:` ist der Anzeigename.
+    - `on:` legt fest. Wann läuft der Workflow. Bei jedem Push und auf Knopfdruck.
 
-    **Schritt 3 – Den ersten Job schreiben**
+    **Schritt 3: Den ersten Job schreiben**
 
-    Unter `jobs:` einrücken. Erster Job heißt `vorbereiten`:
+    Unter `jobs:` einrücken. Der erste Job heißt `vorbereiten`:
 
     ```yaml
     jobs:
@@ -251,13 +251,13 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
           - run: echo "Job 1: Vorbereitung läuft"
     ```
 
-    - `vorbereiten:` ist der Name des Jobs. Frei wählbar, aber er taucht später im Actions-Tab und bei `needs:` wieder auf – also einen sprechenden Namen nehmen.
-    - `runs-on: ubuntu-latest` – frische Ubuntu-Maschine.
-    - `- run: echo "..."` – ein Step, der nur eine Textzeile ins Log schreibt.
+    - `vorbereiten:` ist der Name des Jobs. Frei wählbar. Aber er taucht später bei `needs:` wieder auf. Also einen sprechenden Namen nehmen.
+    - `runs-on: ubuntu-latest` öffnet eine frische Ubuntu-Maschine.
+    - `- run: echo "..."` ist ein Step. Schreibt eine Textzeile ins Log.
 
-    **Schritt 4 – Den zweiten Job schreiben**
+    **Schritt 4: Den zweiten Job schreiben**
 
-    Direkt darunter, auf derselben Einrückung wie `vorbereiten:` (also zwei Leerzeichen rein, nicht vier):
+    Direkt darunter. Auf derselben Einrückung wie `vorbereiten:`. Also zwei Leerzeichen rein. Nicht vier:
 
     ```yaml
       arbeiten:
@@ -267,12 +267,12 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
           - run: echo "Job 2: Arbeit beginnt jetzt"
     ```
 
-    Der entscheidende Teil ist `needs: vorbereiten`. Das ist eine **Abhängigkeit**: GitHub startet den `arbeiten`-Job erst, wenn `vorbereiten` durchgelaufen UND grün ist. Wenn `vorbereiten` rot wird, startet `arbeiten` gar nicht erst.
+    Der entscheidende Teil ist `needs: vorbereiten`. Das ist eine **Abhängigkeit**. GitHub startet den `arbeiten`-Job erst, wenn `vorbereiten` durchgelaufen und grün ist. Wird `vorbereiten` rot, startet `arbeiten` gar nicht erst.
 
     !!! warning "Achtung Einrückung"
-        Die Job-Namen `vorbereiten:` und `arbeiten:` stehen auf **derselben** Einrückungs-Ebene (zwei Leerzeichen unter `jobs:`). Verschachtelung ist hier falsch – wenn `arbeiten:` weiter eingerückt wäre, hieße das „arbeiten ist ein Schlüssel von vorbereiten", und GitHub bringt einen YAML-Fehler.
+        Die Job-Namen `vorbereiten:` und `arbeiten:` stehen auf **derselben** Einrückungs-Ebene. Beide zwei Leerzeichen unter `jobs:`. Wäre `arbeiten:` weiter eingerückt, hieße das „arbeiten ist ein Schlüssel von vorbereiten". Dann bringt GitHub einen YAML-Fehler.
 
-    **Schritt 5 – Pushen**
+    **Schritt 5: Pushen**
 
     ```
     git add .github/workflows/zwei-jobs.yml
@@ -280,21 +280,21 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
     git push
     ```
 
-    **Schritt 6 – Im Actions-Tab beobachten**
+    **Schritt 6: Im Actions-Tab beobachten**
 
-    1. GitHub → Repo → **Actions**.
-    2. Neuen Lauf „Zwei Jobs" öffnen.
-    3. Links siehst du **beide Jobs** als Kästen. Die sind mit einer Linie verbunden: vorbereiten → arbeiten.
-    4. Nach dem Start läuft erst `vorbereiten`. Während `vorbereiten` läuft, ist `arbeiten` mit einem grauen Status („Waiting") markiert – wartet auf den Vorgänger.
-    5. Sobald `vorbereiten` grün ist (Häkchen), springt `arbeiten` auf gelb (läuft) und dann auf grün.
+    1. Auf GitHub ins Repo. Reiter **Actions**.
+    2. Den neuen Lauf „Zwei Jobs" öffnen.
+    3. Links siehst du **beide Jobs** als Kästen. Sie sind mit einer Linie verbunden. `vorbereiten` zeigt auf `arbeiten`.
+    4. Nach dem Start läuft erst `vorbereiten`. Während dieser Zeit hat `arbeiten` den grauen Status „Waiting". Wartet also auf den Vorgänger.
+    5. Sobald `vorbereiten` grün wird (Häkchen). Springt `arbeiten` auf gelb (läuft). Und dann auf grün.
 
-    Wenn du beide gleichzeitig starten lassen wolltest, dann würdest du `needs: vorbereiten` weglassen – probier das gerne in einem zweiten Workflow aus.
+    Willst du beide gleichzeitig starten lassen? Dann lass `needs: vorbereiten` weg. Probier das gerne in einem zweiten Workflow aus.
 
-    **Was hier wichtig zu verstehen ist:**
+    **Was hier wichtig ist:**
 
-    Jeder Job läuft auf einer **eigenen, frischen** Ubuntu-VM. Es ist nicht so, dass beide Jobs die gleiche Maschine teilen. `vorbereiten` startet auf VM A, läuft fertig, VM A wird weggeschmissen. Dann startet `arbeiten` auf einer komplett neuen VM B.
+    Jeder Job läuft auf einer **eigenen** frischen Ubuntu-VM. Die beiden Jobs teilen sich nicht dieselbe Maschine. `vorbereiten` startet auf VM A. Läuft fertig. VM A wird weggeschmissen. Dann startet `arbeiten` auf einer komplett neuen VM B.
 
-    Folge daraus: wenn `vorbereiten` eine Datei erzeugt, ist sie für `arbeiten` weg. Genau diese Lücke schließt Übung 6.6 mit Artefakten.
+    Folge daraus: erzeugt `vorbereiten` eine Datei, ist sie für `arbeiten` weg. Genau diese Lücke schließt Übung 6.6 mit Artefakten.
 
 ??? success "Musterlösung"
     ```yaml
@@ -352,13 +352,13 @@ Bisher hat unser Workflow nur Befehle ausgeführt. Wenn du auf den **Code im Rep
 
 Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow nicht abbricht und du beide Steps im Log sehen kannst.
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Schritt 1 – Test-Datei erstellen**
+    **Schritt 1: Test-Datei erstellen**
 
-    Im Editor eine neue Datei im **Repo-Root** anlegen (also nicht in `.github/workflows/`, sondern direkt eine Ebene höher):
+    Im Editor eine neue Datei im **Repo-Root** anlegen. Also nicht in `.github/workflows/`. Eine Ebene höher.
 
-    `hallo.txt` mit dem Inhalt:
+    Die Datei heißt `hallo.txt`. Inhalt:
 
     ```
     Hallo aus dem Repo
@@ -366,7 +366,7 @@ Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow n
 
     Speichern.
 
-    **Schritt 2 – Test-Datei pushen**
+    **Schritt 2: Test-Datei pushen**
 
     ```
     git add hallo.txt
@@ -374,9 +374,9 @@ Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow n
     git push
     ```
 
-    Wichtig: Datei muss zuerst gepusht sein, sonst kann der Workflow sie später nicht finden, selbst mit Checkout. Der Runner zieht das Repo von GitHub – nicht von deinem Rechner.
+    Wichtig: die Datei muss zuerst gepusht sein. Sonst findet der Workflow sie später nicht. Auch nicht mit Checkout. Der Runner zieht das Repo nämlich von GitHub. Nicht von deinem Rechner.
 
-    **Schritt 3 – Workflow-Datei anlegen**
+    **Schritt 3: Workflow-Datei anlegen**
 
     Neue Datei: `.github/workflows/checkout-test.yml`. Wieder mit dem Standardkopf:
 
@@ -393,7 +393,7 @@ Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow n
         steps:
     ```
 
-    **Schritt 4 – Erster Step: ohne Checkout (soll absichtlich scheitern)**
+    **Schritt 4: Erster Step (soll absichtlich scheitern)**
 
     Unter `steps:`:
 
@@ -405,30 +405,30 @@ Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow n
 
     Erklärung:
 
-    - `cat hallo.txt` ist ein Linux-Befehl, der einfach den Datei-Inhalt ins Log schreibt. Wenn die Datei nicht da ist, kommt eine Fehlermeldung und der Shell-Befehl liefert einen **Exit-Code ungleich 0** – das würde den Step rot werden lassen.
-    - `continue-on-error: true` sagt GitHub: „Auch wenn dieser Step rot wird, mach trotzdem mit dem nächsten weiter." Damit kannst du beide Steps im Log sehen.
+    - `cat hallo.txt` ist ein Linux-Befehl. Er schreibt den Datei-Inhalt ins Log. Ist die Datei nicht da, kommt eine Fehlermeldung und der Shell-Befehl liefert einen **Exit-Code ungleich 0**. Das würde den Step rot werden lassen.
+    - `continue-on-error: true` sagt GitHub: „auch wenn dieser Step rot wird, mach mit dem nächsten weiter". So sehen wir beide Steps im Log.
 
-    **Schritt 5 – Zweiter Step: das Repo holen**
+    **Schritt 5: Zweiter Step (Repo holen)**
 
     ```yaml
           - name: Code holen
             uses: actions/checkout@v4
     ```
 
-    Statt `run:` (eigener Befehl) nutzen wir hier `uses:` (vorgefertigte Action). `actions/checkout@v4` ist die offizielle Action von GitHub, die dein Repo auf den Runner zieht. Das `@v4` ist die Versionsangabe – pin dich nicht zu fest, eine Major-Version reicht für Stabilität und neue Bugfixes.
+    Statt `run:` (eigener Befehl) nutzen wir hier `uses:` (vorgefertigte Action). `actions/checkout@v4` ist die offizielle Action von GitHub. Sie zieht dein Repo auf den Runner. Das `@v4` ist die Versionsangabe. Eine Major-Version reicht für Stabilität und neue Bugfixes.
 
-    Du gibst dieser Action keine Parameter mit (`with:`-Block fehlt) – sie nimmt dann sinnvolle Defaults: aktueller Branch, neuester Commit.
+    Wir geben dieser Action keine Parameter mit. Kein `with:`-Block. Dann nimmt sie sinnvolle Defaults: aktueller Branch. Neuester Commit.
 
-    **Schritt 6 – Dritter Step: mit Checkout funktioniert es**
+    **Schritt 6: Dritter Step (mit Checkout)**
 
     ```yaml
           - name: Mit Checkout, funktioniert
             run: cat hallo.txt
     ```
 
-    Genau derselbe `cat`-Befehl wie in Step 1. Diesmal aber **nach** dem Checkout, also ist die Datei da.
+    Genau derselbe `cat`-Befehl wie in Step 1. Diesmal aber **nach** dem Checkout. Also ist die Datei da.
 
-    **Schritt 7 – Pushen und beobachten**
+    **Schritt 7: Pushen und beobachten**
 
     ```
     git add .github/workflows/checkout-test.yml
@@ -438,13 +438,13 @@ Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow n
 
     Im Actions-Tab:
 
-    - Step 1 zeigt ein **gelbes Warndreieck** und im Log den Fehler `cat: hallo.txt: No such file or directory`. Der Job läuft trotzdem weiter, weil wir `continue-on-error: true` gesetzt haben.
-    - Step 2 zeigt im Log, wie GitHub das Repo auspackt.
-    - Step 3 ist grün und zeigt im Log: `Hallo aus dem Repo`.
+    - Step 1 zeigt ein **gelbes Warndreieck**. Im Log steht der Fehler `cat: hallo.txt: No such file or directory`. Der Job läuft trotzdem weiter. Wegen `continue-on-error: true`.
+    - Step 2 zeigt im Log. Wie GitHub das Repo auspackt.
+    - Step 3 ist grün. Im Log steht: `Hallo aus dem Repo`.
 
     **Was du dir merken sollst:**
 
-    Ohne `actions/checkout@v4` ist dein Repo auf dem Runner **nicht da**. Der Runner ist eine komplett neue, leere Linux-VM, der nichts über dein Projekt weiß. Praktisch jeder reale Workflow startet daher mit diesem Step.
+    Ohne `actions/checkout@v4` ist dein Repo auf dem Runner **nicht da**. Der Runner ist eine komplett neue. Leere Linux-VM. Sie weiß nichts über dein Projekt. Praktisch jeder reale Workflow startet daher mit diesem Step.
 
 ??? success "Musterlösung"
     ```yaml
@@ -516,19 +516,19 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
         python-version: ${{ matrix.python }}
     ```
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
     **Was eine Matrix ist**
 
-    Stell dir vor, du willst denselben Job mit unterschiedlichen Parametern laufen lassen – z.B. „teste meinen Code mit Python 3.11, 3.12 und 3.13". Du könntest dafür drei separate Workflows schreiben. Oder du nutzt eine **Matrix**: ein Job mit einer Liste von Werten, GitHub macht daraus automatisch mehrere parallele Läufe.
+    Stell dir vor: du willst denselben Job mit unterschiedlichen Parametern laufen lassen. Zum Beispiel „teste meinen Code mit Python 3.11. Mit 3.12. Mit 3.13". Du könntest dafür drei separate Workflows schreiben. Oder du nutzt eine **Matrix**. Das ist ein Job mit einer Liste von Werten. GitHub macht daraus automatisch mehrere parallele Läufe.
 
-    **Schritt 1 – Datei anlegen**
+    **Schritt 1: Datei anlegen**
 
     Neue Workflow-Datei:
 
     `.github/workflows/matrix.yml`
 
-    **Schritt 2 – Kopf wie immer**
+    **Schritt 2: Kopf wie immer**
 
     ```yaml
     name: Matrix-Build
@@ -538,7 +538,7 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
       workflow_dispatch:
     ```
 
-    **Schritt 3 – Job mit Matrix-Block**
+    **Schritt 3: Job mit Matrix-Block**
 
     ```yaml
     jobs:
@@ -553,10 +553,10 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
     Was passiert hier?
 
     - `strategy:` und darunter `matrix:` sind die Schlüssel für die Matrix-Funktion.
-    - `python: ["3.11", "3.12", "3.13"]` – das ist eine Liste mit drei Werten. GitHub macht aus dem einen Job **drei parallele Läufe**: einer pro Listeneintrag.
-    - In den Steps kannst du dann mit `${{ matrix.python }}` auf den jeweils aktuellen Wert zugreifen.
+    - `python: ["3.11", "3.12", "3.13"]` ist eine Liste mit drei Werten. GitHub macht aus dem einen Job **drei parallele Läufe**. Einen pro Listeneintrag.
+    - In den Steps kannst du mit `${{ matrix.python }}` auf den jeweils aktuellen Wert zugreifen.
 
-    **Schritt 4 – Python installieren**
+    **Schritt 4: Python installieren**
 
     Unter `steps:`:
 
@@ -567,11 +567,11 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
               python-version: ${{ matrix.python }}
     ```
 
-    - `actions/setup-python@v5` ist eine fertige Action, die Python in einer bestimmten Version auf dem Runner installiert.
-    - `with:` ist die Möglichkeit, dieser Action Parameter mitzugeben. Hier sagen wir „nimm die Version, die gerade in matrix.python steht".
-    - In Lauf 1 ist `matrix.python` gleich `3.11`, in Lauf 2 `3.12`, in Lauf 3 `3.13`.
+    - `actions/setup-python@v5` ist eine fertige Action. Sie installiert Python in einer bestimmten Version auf dem Runner.
+    - `with:` ist der Block für Parameter an die Action. Hier sagen wir: „nimm die Version aus matrix.python".
+    - In Lauf 1 ist `matrix.python` gleich `3.11`. In Lauf 2 dann `3.12`. In Lauf 3 dann `3.13`.
 
-    **Schritt 5 – Version prüfen + Echo**
+    **Schritt 5: Version prüfen plus Echo**
 
     ```yaml
           - name: Version prüfen
@@ -581,9 +581,9 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
             run: echo "Läuft auf Python ${{ matrix.python }}"
     ```
 
-    `python --version` ist ein Shell-Befehl, der die installierte Python-Version zeigt. Das `echo` ist nur zur Demonstration, dass `${{ matrix.python }}` zur Laufzeit ersetzt wird.
+    `python --version` zeigt die installierte Python-Version. Das `echo` ist nur zur Demonstration. Damit du siehst: `${{ matrix.python }}` wird zur Laufzeit ersetzt.
 
-    **Schritt 6 – Pushen**
+    **Schritt 6: Pushen**
 
     ```
     git add .github/workflows/matrix.yml
@@ -591,19 +591,19 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
     git push
     ```
 
-    **Schritt 7 – Im Actions-Tab anschauen**
+    **Schritt 7: Im Actions-Tab anschauen**
 
-    Im Actions-Tab den Lauf „Matrix-Build" öffnen. Du siehst **drei Job-Kästchen** statt einem, mit Klammern hinter dem Namen:
+    Im Actions-Tab den Lauf „Matrix-Build" öffnen. Du siehst **drei Job-Kästchen** statt einem. Mit Klammern hinter dem Namen:
 
     - `python-versionen (3.11)`
     - `python-versionen (3.12)`
     - `python-versionen (3.13)`
 
-    Alle drei laufen **parallel** auf je einer eigenen Ubuntu-VM. Beim Aufklappen siehst du in jedem die Python-Version aus diesem Lauf.
+    Alle drei laufen **parallel**. Auf je einer eigenen Ubuntu-VM. Beim Aufklappen siehst du in jedem die Python-Version aus diesem Lauf.
 
     **Was dahintersteckt**
 
-    Matrix-Builds sind das Standard-Pattern, wenn du **Bibliotheken** oder **Tools** unterstützen musst, die mit mehreren Versionen funktionieren sollen. Bei normalen App-Pipelines (z.B. dein Docker-Image) brauchst du normalerweise keine Matrix – da gibt's nur **eine** Ziel-Version.
+    Matrix-Builds sind das Standard-Pattern, wenn du **Bibliotheken** oder **Tools** unterstützen musst, die mit mehreren Versionen funktionieren sollen. Bei normalen App-Pipelines brauchst du normalerweise keine Matrix. Da gibt es nur **eine** Ziel-Version.
 
 ??? success "Musterlösung"
     ```yaml
@@ -657,7 +657,7 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
     - Wie eine Variable in einem Step die Job-Variable **überschreibt**
     - Mehrere Werte für mehrere Steps sauber zentralisieren
 
-#### Worum geht's – Kontext
+#### Worum geht's
 
 Eine [Umgebungsvariable](../glossar.md#umgebungsvariable) ist ein benannter Wert, der einem laufenden Prozess (hier: deinem Shell-Befehl im Step) zur Verfügung steht. In jedem Workflow tauchen Werte mehrfach auf: ein Image-Name, eine Versionsnummer, ein Pfad. Statt sie an fünf Stellen zu wiederholen, definierst du sie **einmal** als Umgebungsvariable im `env:`-Block. GitHub Actions kennt diesen Block **auf drei Ebenen**:
 
@@ -692,13 +692,13 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
 - `env:` auf Step-Ebene steht unter `name:` und vor `run:`.
 - In `run:` darfst du beide Schreibweisen mischen, sie zeigen aber **denselben** Wert.
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Schritt 1 – Datei anlegen**
+    **Schritt 1: Datei anlegen**
 
     Neue Workflow-Datei: `.github/workflows/env-variablen.yml`
 
-    **Schritt 2 – Workflow-weite Variable setzen**
+    **Schritt 2: Workflow-weite Variable setzen**
 
     Schreib oben:
 
@@ -713,9 +713,9 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
       APP_NAME: demo-app
     ```
 
-    Wichtig: das `env:` steht **außerhalb** von `jobs:`, auf gleicher Einrückung wie `on:`. Damit gilt `APP_NAME` für **alle** Jobs und Steps in diesem Workflow.
+    Wichtig: das `env:` steht **außerhalb** von `jobs:`. Auf gleicher Einrückung wie `on:`. Damit gilt `APP_NAME` für **alle** Jobs und Steps in diesem Workflow.
 
-    **Schritt 3 – Job mit eigener Variable**
+    **Schritt 3: Job mit eigener Variable**
 
     Direkt darunter:
 
@@ -728,9 +728,9 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
         steps:
     ```
 
-    Hier kommt ein **zweiter `env:`-Block** ins Spiel, diesmal auf **Job-Ebene** (eingerückt unter dem Job-Namen). `APP_VERSION` ist damit nur in diesem Job sichtbar. Wenn du später einen zweiten Job dazunimmst, hat der die Variable nicht – aber `APP_NAME` von oben hätte er.
+    Hier kommt ein **zweiter `env:`-Block** ins Spiel. Diesmal auf **Job-Ebene**, eingerückt unter dem Job-Namen. `APP_VERSION` ist damit nur in diesem Job sichtbar. Nimmst du später einen zweiten Job dazu, hat der die Variable nicht. `APP_NAME` von oben hätte er aber schon.
 
-    **Schritt 4 – Step A: mit Shell-Syntax (`$VAR`)**
+    **Schritt 4: Step A (mit Shell-Syntax `$VAR`)**
 
     Unter `steps:`:
 
@@ -744,9 +744,9 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
     Erklärung:
 
     - `run: |` mit dem senkrechten Strich erlaubt **mehrzeilige Befehle**.
-    - `$APP_NAME` wird **von der Shell** auf dem Runner ersetzt, weil GitHub die `env:`-Werte automatisch als echte Umgebungsvariablen in den Shell-Prozess hängt. Das ist klassische Bash-Syntax.
+    - `$APP_NAME` wird **von der Shell** auf dem Runner ersetzt. GitHub hängt die `env:`-Werte automatisch als echte Umgebungsvariablen in den Shell-Prozess. Das ist klassische Bash-Syntax.
 
-    **Schritt 5 – Step B: mit GA-Expression (`${{ env.VAR }}`)**
+    **Schritt 5: Step B (mit GA-Expression `${{ env.VAR }}`)**
 
     ```yaml
           - name: Step B – GA-Expression
@@ -755,9 +755,9 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
               echo "APP_VERSION=${{ env.APP_VERSION }}"
     ```
 
-    Hier wird der Platzhalter `${{ env.APP_NAME }}` **schon vor** dem Start des Shells durch GitHub ersetzt. Das Endergebnis im Log ist dasselbe wie in Step A. Beide Wege funktionieren – warum beide kennen? Sobald du den Wert in einem `with:`-Block einer Action brauchst, geht **nur** die GA-Expression-Variante, nicht `$VAR`.
+    Hier wird der Platzhalter `${{ env.APP_NAME }}` **schon vor** dem Start der Shell durch GitHub ersetzt. Das Endergebnis im Log ist dasselbe wie in Step A. Beide Wege funktionieren. Warum dann beide kennen? Sobald du den Wert in einem `with:`-Block einer Action brauchst, geht **nur** die GA-Expression-Variante. Nicht `$VAR`.
 
-    **Schritt 6 – Step C: lokal überschreiben**
+    **Schritt 6: Step C (lokal überschreiben)**
 
     ```yaml
           - name: Step C – Step-Override
@@ -766,18 +766,18 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
             run: echo "Innerhalb dieses Steps APP_VERSION=$APP_VERSION"
     ```
 
-    Dritter `env:`-Block, diesmal **direkt am Step** (auf gleicher Einrückung wie `name:` und `run:`). Innerhalb dieses Steps ist `APP_VERSION` jetzt `2.0.0-beta`. Außerhalb (in anderen Steps) bleibt sie auf dem Job-Wert `1.0.0`.
+    Ein dritter `env:`-Block. Diesmal **direkt am Step**, auf gleicher Einrückung wie `name:` und `run:`. Innerhalb dieses Steps ist `APP_VERSION` jetzt `2.0.0-beta`. Außerhalb (in anderen Steps) bleibt sie auf dem Job-Wert `1.0.0`.
 
-    **Schritt 7 – Step D: Beweis, dass der Override lokal war**
+    **Schritt 7: Step D (Beweis dass der Override lokal war)**
 
     ```yaml
           - name: Step D – Vergleich nach dem Override
             run: echo "Außerhalb wieder APP_VERSION=$APP_VERSION"
     ```
 
-    Kein eigener `env:`-Block – also fällt die Step-Ebene weg, und es greift wieder der Job-Wert.
+    Kein eigener `env:`-Block. Also fällt die Step-Ebene weg. Es greift wieder der Job-Wert.
 
-    **Schritt 8 – Pushen und Logs prüfen**
+    **Schritt 8: Pushen und Logs prüfen**
 
     ```
     git add .github/workflows/env-variablen.yml
@@ -791,7 +791,7 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
     - Step C zeigt `APP_VERSION=2.0.0-beta`.
     - Step D zeigt wieder `APP_VERSION=1.0.0`.
 
-    Damit hast du alle drei Ebenen praktisch durchgespielt: Workflow (APP_NAME), Job (APP_VERSION), Step (lokaler Override).
+    Damit hast du alle drei Ebenen praktisch durchgespielt. Workflow für `APP_NAME`. Job für `APP_VERSION`. Step für den lokalen Override.
 
 ??? success "Musterlösung"
     ```yaml
@@ -833,7 +833,7 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
 
     - Step A und B zeigen denselben Wert (`1.0.0`).
     - Step C zeigt `2.0.0-beta` (nur in diesem Step).
-    - Step D zeigt wieder `1.0.0` – Step-Overrides leben **nur** im eigenen Step.
+    - Step D zeigt wieder `1.0.0`. Step-Overrides leben **nur** im eigenen Step.
 
     !!! tip "`$VAR` oder `${{ env.VAR }}`?"
         - **`$VAR`**: wird **vom Shell** auf dem Runner ersetzt, nachdem GitHub den Step gestartet hat.
@@ -846,16 +846,16 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
 ### Übung 6.6: Artefakte zwischen Jobs übergeben
 
 !!! info "Was du lernst"
-    - dass jeder Job auf einer **eigenen frischen VM** läuft – Dateien sind nicht automatisch geteilt
+    - dass jeder Job auf einer **eigenen frischen VM** läuft. Dateien sind nicht automatisch geteilt.
     - mit `actions/upload-artifact` und `actions/download-artifact` Dateien zwischen Jobs weitergeben
     - wie der Pfad in beiden Actions zusammenpassen muss
     - dass Artefakte auch nach dem Lauf zum manuellen Download bereitstehen
 
-#### Worum geht's – Kontext
+#### Worum geht's
 
 In Übung 6.2 hast du gesehen, dass `needs:` Jobs verkettet. Was du **noch nicht** gesehen hast: jeder Job startet auf einer **neuen, leeren Ubuntu-VM**. Dateien, die `job-a` erzeugt, sind in `job-b` weg. Das ist Absicht (saubere Trennung), aber unpraktisch, sobald du z.B. ein gebautes Binary, einen Test-Report oder ein Docker-Image-Tarball weitergeben willst.
 
-Die Lösung sind [Artefakte (Artifacts)](../glossar.md#artifact): GitHub speichert die Datei vorübergehend in seinem eigenen Storage und macht sie für nachfolgende Jobs verfügbar. Standard-Aufbewahrungszeit: **90 Tage**. Außerdem siehst du jedes Artefakt im **Actions-Tab** unter dem jeweiligen Workflow-Lauf bei „Artifacts" – du kannst es dort als `.zip` herunterladen, auch wenn du gar keinen zweiten Job hast.
+Die Lösung sind [Artefakte (Artifacts)](../glossar.md#artifact). GitHub speichert die Datei vorübergehend in seinem eigenen Storage. Und macht sie für nachfolgende Jobs verfügbar. Standard-Aufbewahrungszeit: **90 Tage**. Außerdem siehst du jedes Artefakt im **Actions-Tab** unter dem jeweiligen Workflow-Lauf bei „Artifacts". Du kannst es dort als `.zip` herunterladen. Auch wenn du gar keinen zweiten Job hast.
 
 ```mermaid
 flowchart LR
@@ -865,7 +865,7 @@ flowchart LR
   DN --> J2["Job 'verwenden'<br/>liest build.txt"]
 ```
 
-!!! info "Artefakt vs. Cache – nicht verwechseln"
+!!! info "Artefakt und Cache nicht verwechseln"
     Beides speichert Daten in der GitHub-Cloud, aber für **unterschiedliche Zwecke**:
 
     - **Artefakt** = explizit benannte Datei/Ordner, der von einem Job zum nächsten **weitergereicht** wird oder den ein Mensch nach dem Lauf herunterlädt.
@@ -884,18 +884,18 @@ Lege `.github/workflows/artefakte.yml` an mit:
 3. Job `verwenden` (`needs: bauen`):
     - Lädt das Artefakt herunter (nach `output/` oder einem Ordner deiner Wahl).
     - Liest den Inhalt von `build.txt` mit `cat` aus.
-    - Zeigt einen Fehler-Vergleich: ein Step ganz am Anfang versucht **ohne** `download-artifact`, die Datei zu lesen (`cat output/build.txt`) – das soll fehlschlagen. Damit der Workflow trotzdem weiterläuft, gib dem Step `continue-on-error: true` mit (siehe Übung 6.3).
+    - Zeigt einen Fehler-Vergleich: ein Step ganz am Anfang versucht **ohne** `download-artifact` die Datei zu lesen (`cat output/build.txt`). Das soll fehlschlagen. Damit der Workflow trotzdem weiterläuft. Gib dem Step `continue-on-error: true` mit. Siehe Übung 6.3.
 
 #### Hinweise
 
-- Die Action heißt `actions/upload-artifact@v4`, das Gegenstück `actions/download-artifact@v4`. **Wichtig:** beide müssen `@v4` haben – `v3` und `v4` sind untereinander **nicht** kompatibel und liefern verwirrende Fehler, wenn man sie mischt.
+- Die Action heißt `actions/upload-artifact@v4`. Das Gegenstück `actions/download-artifact@v4`. **Wichtig:** beide müssen `@v4` haben. `v3` und `v4` sind untereinander **nicht** kompatibel. Liefern verwirrende Fehler wenn man sie mischt.
 - Mit `with: name: …, path: …` legst du Artefakt-Name und Datei-/Ordnerpfad fest.
 - `path:` darf einen einzelnen Pfad **oder** mehrere Pfade (jeweils eigene Zeile mit `-`) enthalten.
 - Ohne `path:` beim Download landet die Datei im **aktuellen Verzeichnis** (oft auch fein, aber dann musst du wissen wohin).
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Schritt 1 – Datei anlegen**
+    **Schritt 1: Datei anlegen**
 
     Neue Workflow-Datei: `.github/workflows/artefakte.yml`. Kopf wie üblich:
 
@@ -907,7 +907,7 @@ Lege `.github/workflows/artefakte.yml` an mit:
       workflow_dispatch:
     ```
 
-    **Schritt 2 – Job 1 „bauen": Datei erzeugen**
+    **Schritt 2: Job 1 „bauen" (Datei erzeugen)**
 
     ```yaml
     jobs:
@@ -924,13 +924,13 @@ Lege `.github/workflows/artefakte.yml` an mit:
 
     Was passiert in den Shell-Zeilen?
 
-    - `mkdir -p output` – erzeugt einen Ordner `output/`. Das `-p` heißt: kein Fehler, wenn er schon existiert.
-    - `echo "Build von SHA ${{ github.sha }}" > output/build.txt` – schreibt die Zeile in eine neue Datei. Das `>` ist die **Shell-Umleitung**: alles, was `echo` ausgibt, landet in `build.txt` statt im Log.
-    - Die letzten zwei `echo` und `cat` sind nur zur Anzeige im Log, damit du siehst, dass die Datei wirklich erzeugt wurde.
+    - `mkdir -p output` erzeugt einen Ordner `output/`. Das `-p` heißt: kein Fehler. Wenn er schon existiert.
+    - `echo "Build von SHA ${{ github.sha }}" > output/build.txt` schreibt die Zeile in eine neue Datei. Das `>` ist die **Shell-Umleitung**. Alles was `echo` ausgibt. Landet in `build.txt` statt im Log.
+    - Die letzten zwei Zeilen `echo` und `cat` sind nur zur Anzeige im Log. Damit du siehst: die Datei wurde wirklich erzeugt.
 
-    **Schritt 3 – Job 1: Datei als Artefakt hochladen**
+    **Schritt 3: Job 1 (Datei als Artefakt hochladen)**
 
-    Direkt unter dem Step „Datei erzeugen", auf derselben Einrückung:
+    Direkt unter dem Step „Datei erzeugen". Auf derselben Einrückung:
 
     ```yaml
           - name: Artefakt hochladen
@@ -940,11 +940,11 @@ Lege `.github/workflows/artefakte.yml` an mit:
               path: output/
     ```
 
-    - `uses:` statt `run:`, weil wir eine fertige Action benutzen.
-    - `name:` ist der **Artefakt-Name**, unter dem es in GitHub gespeichert wird. Beim Download referenzierst du genau diesen Namen.
-    - `path:` ist der Pfad zur Datei oder zum Ordner, der hochgeladen werden soll. `output/` (Trailing-Slash) heißt: der ganze Ordner-Inhalt.
+    - `uses:` statt `run:`. Weil wir eine fertige Action benutzen.
+    - `name:` ist der **Artefakt-Name**. Unter diesem Namen wird das Artefakt in GitHub gespeichert. Beim Download referenzierst du genau diesen Namen.
+    - `path:` ist der Pfad zur Datei oder zum Ordner. `output/` mit Schrägstrich am Ende heißt: der ganze Ordner-Inhalt.
 
-    **Schritt 4 – Job 2 „verwenden": Schlechter Versuch ohne Download**
+    **Schritt 4: Job 2 „verwenden" (schlechter Versuch ohne Download)**
 
     Auf gleicher Einrückungsebene wie `bauen:`:
 
@@ -958,10 +958,10 @@ Lege `.github/workflows/artefakte.yml` an mit:
             run: cat output/build.txt
     ```
 
-    - `needs: bauen` – startet erst, wenn Job „bauen" grün ist.
-    - Der `cat`-Versuch schlägt fehl, weil die VM frisch ist und keine `output/`-Datei kennt. Mit `continue-on-error: true` macht der Workflow trotzdem weiter.
+    - `needs: bauen` startet erst. Wenn Job „bauen" grün ist.
+    - Der `cat`-Versuch schlägt fehl. Die VM ist frisch und kennt keine `output/`-Datei. Mit `continue-on-error: true` macht der Workflow trotzdem weiter.
 
-    **Schritt 5 – Job 2: Artefakt herunterladen**
+    **Schritt 5: Job 2 (Artefakt herunterladen)**
 
     ```yaml
           - name: Artefakt herunterladen
@@ -974,16 +974,16 @@ Lege `.github/workflows/artefakte.yml` an mit:
     Spiegelbildlich zum Upload:
 
     - `name: build-output` muss exakt zum Upload-Namen passen.
-    - `path: output/` – wo das Artefakt im aktuellen Job entpackt werden soll. Hier wieder `output/`, damit derselbe Pfad funktioniert.
+    - `path: output/` legt fest. Wohin das Artefakt im aktuellen Job entpackt werden soll. Hier wieder `output/`. Damit derselbe Pfad funktioniert.
 
-    **Schritt 6 – Job 2: jetzt klappt der Lesezugriff**
+    **Schritt 6: Job 2 (jetzt klappt der Lesezugriff)**
 
     ```yaml
           - name: Mit Download lesen (funktioniert)
             run: cat output/build.txt
     ```
 
-    **Schritt 7 – Pushen und prüfen**
+    **Schritt 7: Pushen und prüfen**
 
     ```
     git add .github/workflows/artefakte.yml
@@ -993,14 +993,14 @@ Lege `.github/workflows/artefakte.yml` an mit:
 
     Im Actions-Tab den Lauf öffnen. Du siehst:
 
-    1. Job `bauen` läuft, erzeugt die Datei, lädt sie hoch.
-    2. Job `verwenden` startet auf neuer VM. Erster Step zeigt ein **gelbes Warndreieck** und im Log `No such file or directory`. Der Job läuft trotzdem weiter, weil `continue-on-error: true` gesetzt ist.
+    1. Job `bauen` läuft. Erzeugt die Datei. Lädt sie hoch.
+    2. Job `verwenden` startet auf neuer VM. Erster Step zeigt ein **gelbes Warndreieck**. Im Log steht `No such file or directory`. Der Job läuft trotzdem weiter. Wegen `continue-on-error: true`.
     3. Zweiter Step zieht das Artefakt aus dem GitHub-Storage zurück.
-    4. Dritter Step liest die Datei – ergibt z.B. `Build von SHA abcd1234...`.
+    4. Dritter Step liest die Datei. Ergebnis ist z.B. `Build von SHA abcd1234...`.
 
     **Bonus: das Artefakt manuell herunterladen**
 
-    Im Actions-Tab beim gleichen Lauf ganz nach unten scrollen. Dort gibt es eine Sektion **„Artifacts"** mit deinem `build-output` als `.zip`. Klick drauf, das `.zip` lädt herunter. Praktisch z.B. für Test-Reports oder Build-Artefakte, die du dir nachträglich anschauen willst.
+    Im Actions-Tab beim gleichen Lauf ganz nach unten scrollen. Dort gibt es eine Sektion **„Artifacts"** mit deinem `build-output` als `.zip`. Klick drauf. Das `.zip` lädt herunter. Praktisch für Test-Reports oder Build-Artefakte. Die du dir nachträglich anschauen willst.
 
 ??? success "Musterlösung"
     ```yaml
@@ -1050,11 +1050,11 @@ Lege `.github/workflows/artefakte.yml` an mit:
     1. Job `bauen` läuft, erzeugt `output/build.txt`, lädt sie hoch.
     2. Job `verwenden` startet auf neuer VM. Erster Step scheitert mit `No such file or directory` (Step bleibt aber grün wegen `continue-on-error`).
     3. Zweiter Step zieht das Artefakt aus dem GitHub-Storage.
-    4. Dritter Step liest die Datei – ergibt z.B. `Build von SHA abcd1234...`.
+    4. Dritter Step liest die Datei. Ergebnis ist zum Beispiel `Build von SHA abcd1234...`.
 
     !!! tip "Wann lohnen sich Artefakte?"
         - Ein **Build-Output** (Binary, Image-Tarball, dist-Ordner), der von einem Test-Job genutzt werden soll.
-        - Ein **Test-Report**, den du nach dem Lauf herunterladen willst – Artefakte sind im Actions-Tab pro Workflow-Run unter „Artifacts" anklickbar.
+        - Ein **Test-Report**, den du nach dem Lauf herunterladen willst. Artefakte sind im Actions-Tab pro Workflow-Run unter „Artifacts" anklickbar.
         - Achtung: für **echte** Docker-Images zwischen Jobs ist `cache-from: type=gha` in der `docker/build-push-action` praktischer (siehe Übung 6.8).
 
 ---
@@ -1069,9 +1069,9 @@ Lege `.github/workflows/artefakte.yml` an mit:
     - dass der [Build-Kontext](../glossar.md#build-kontext) der **Repo-Wurzel** entspricht, sobald `actions/checkout` lief
     - das Image lokal auf dem Runner mit `docker run` zur Probe starten ([Smoke-Test](../glossar.md#smoke-test))
 
-#### Worum geht's – Kontext
+#### Worum geht's
 
-Bis hierher war jede Pipeline reine Text-Ausgabe. Jetzt machen wir den Schritt zur **echten Software-Verteilung**: ein [Dockerfile](../glossar.md#dockerfile) im Repo, ein `docker build` in der Pipeline, ein `docker run` zur Probe. **Kein Push** in eine [Registry](../glossar.md#registry) – das kommt in 6.9. Erst soll der Bau funktionieren.
+Bis hierher war jede Pipeline reine Text-Ausgabe. Jetzt machen wir den Schritt zur **echten Software-Verteilung**: ein [Dockerfile](../glossar.md#dockerfile) im Repo. Ein `docker build` in der Pipeline. Ein `docker run` zur Probe. **Kein Push** in eine [Registry](../glossar.md#registry). Das kommt in 6.9. Erst soll der Bau funktionieren.
 
 ```mermaid
 flowchart LR
@@ -1081,7 +1081,7 @@ flowchart LR
 ```
 
 !!! info "Was bedeutet ‚Build-Kontext'?"
-    Der **Build-Kontext** ist der **Ordner, den `docker build .` komplett an den Docker-Daemon schickt**. Alle `COPY`- und `ADD`-Pfade im Dockerfile beziehen sich auf diesen Ordner. Der Punkt `.` am Ende von `docker build -t name .` ist genau dieser Kontext. Im Runner ist nach `actions/checkout@v4` automatisch das **Repo-Root** das aktuelle Verzeichnis – `.` zeigt also dorthin.
+    Der **Build-Kontext** ist der **Ordner, den `docker build .` komplett an den Docker-Daemon schickt**. Alle `COPY`- und `ADD`-Pfade im Dockerfile beziehen sich auf diesen Ordner. Der Punkt `.` am Ende von `docker build -t name .` ist genau dieser Kontext. Im Runner ist nach `actions/checkout@v4` automatisch das **Repo-Root** das aktuelle Verzeichnis. Der Punkt zeigt also dorthin.
 
 #### Aufgabe
 
@@ -1089,19 +1089,19 @@ Lege drei Dateien an:
 
 1. Im Repo-Root: ein **`Dockerfile`**, das vom Basis-Image `nginx:alpine` ausgeht und eine eigene `index.html` an den nginx-Standard-Pfad kopiert.
 2. Im Repo-Root: eine **`index.html`** mit einer beliebigen Begrüßungs-Seite.
-3. Unter `.github/workflows/`: einen Workflow **`docker-build.yml`**, der bei Push und manuell läuft, den Code holt, das Image mit dem Tag `demo:${{ github.sha }}` baut und es danach mit einem kleinen **Smoke-Test** (`docker run` + `curl`) prüft – **ohne Push** in eine Registry.
+3. Unter `.github/workflows/`: einen Workflow **`docker-build.yml`**. Der bei Push und manuell läuft. Den Code holt. Das Image mit dem Tag `demo:${{ github.sha }}` baut. Und es danach mit einem kleinen **Smoke-Test** prüft (`docker run` plus `curl`). **Ohne Push** in eine Registry.
 
 #### Hinweise
 
-- Auf `ubuntu-latest`-Runnern ist Docker schon installiert – kein extra Setup nötig.
+- Auf `ubuntu-latest`-Runnern ist Docker schon installiert. Kein extra Setup nötig.
 - `docker run -d --rm --name X -p 8080:80 …` startet den Container im Hintergrund. Ohne `-d` würde die Pipeline an dieser Stelle hängen.
 - Direkt nach dem Start kann nginx eine Millisekunde brauchen, bis er antwortet. Eine kleine Retry-Schleife mit `curl --fail --silent` und `sleep 1` ist robuster als ein fixes `sleep N`.
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Schritt 1 – `index.html` anlegen**
+    **Schritt 1: `index.html` anlegen**
 
-    Im Editor eine Datei `index.html` direkt im **Repo-Root** (nicht im `.github/`-Ordner!) erstellen:
+    Im Editor eine Datei `index.html` direkt im **Repo-Root** erstellen. Also nicht im `.github/`-Ordner:
 
     ```html
     <!DOCTYPE html>
@@ -1114,11 +1114,11 @@ Lege drei Dateien an:
     </html>
     ```
 
-    Die Style-Attribute machen einfach nur eine schwarze Seite mit grüner Schrift – Inhalt egal, Hauptsache es ist eine erkennbare Seite.
+    Die Style-Attribute machen einfach nur eine schwarze Seite mit grüner Schrift. Inhalt egal. Hauptsache es ist eine erkennbare Seite.
 
-    **Schritt 2 – `Dockerfile` anlegen**
+    **Schritt 2: `Dockerfile` anlegen**
 
-    Im **selben Ordner** (Repo-Root) eine Datei namens `Dockerfile` (ohne Endung, mit Groß-D):
+    Im **selben Ordner** eine Datei namens `Dockerfile`. Ohne Endung. Mit Groß-D:
 
     ```dockerfile
     FROM nginx:alpine
@@ -1127,12 +1127,12 @@ Lege drei Dateien an:
 
     Was passiert hier?
 
-    - `FROM nginx:alpine` – wir bauen auf dem offiziellen nginx-Image auf. Die `alpine`-Variante ist nur ca. 20 MB groß.
-    - `COPY index.html /usr/share/nginx/html/index.html` – kopiert deine HTML-Datei genau dorthin, wo nginx seine Startseite ausliefert. Damit ersetzt deine Datei die Default-„Welcome to nginx!"-Seite.
+    - `FROM nginx:alpine` heißt: wir bauen auf dem offiziellen nginx-Image auf. Die `alpine`-Variante ist nur etwa 20 MB groß.
+    - `COPY index.html /usr/share/nginx/html/index.html` kopiert deine HTML-Datei genau dorthin. An den Pfad wo nginx seine Startseite ausliefert. Damit ersetzt deine Datei die Standard-Seite „Welcome to nginx!".
 
-    Mehr brauchst du im Dockerfile nicht – nginx startet sich selbst (das ist im Basis-Image schon gesetzt).
+    Mehr brauchst du im Dockerfile nicht. nginx startet sich selbst. Das ist im Basis-Image schon gesetzt.
 
-    **Schritt 3 – Beide Dateien pushen**
+    **Schritt 3: Beide Dateien pushen**
 
     ```
     git add Dockerfile index.html
@@ -1140,9 +1140,9 @@ Lege drei Dateien an:
     git push
     ```
 
-    Wichtig: erst pushen, dann den Workflow schreiben. Sonst läuft der Workflow ins Leere, weil die Dateien noch nicht auf GitHub liegen.
+    Wichtig: erst pushen. Dann den Workflow schreiben. Sonst läuft der Workflow ins Leere. Die Dateien liegen ja noch nicht auf GitHub.
 
-    **Schritt 4 – Workflow-Datei anlegen**
+    **Schritt 4: Workflow-Datei anlegen**
 
     Neue Datei: `.github/workflows/docker-build.yml`. Erst der Standard-Kopf:
 
@@ -1159,7 +1159,7 @@ Lege drei Dateien an:
         steps:
     ```
 
-    **Schritt 5 – Step: Code holen**
+    **Schritt 5: Step (Code holen)**
 
     Unter `steps:`:
 
@@ -1168,18 +1168,18 @@ Lege drei Dateien an:
             uses: actions/checkout@v4
     ```
 
-    Wie in Übung 6.3: ohne diesen Step hat der Runner deinen Code nicht – und ohne Code kein Dockerfile zum Bauen.
+    Wie in Übung 6.3: ohne diesen Step hat der Runner deinen Code nicht. Und ohne Code kein Dockerfile zum Bauen.
 
-    **Schritt 6 – Step: Docker prüfen (optional, aber lehrreich)**
+    **Schritt 6: Step (Docker prüfen)**
 
     ```yaml
           - name: Verfügbares Docker prüfen
             run: docker --version
     ```
 
-    Dieser Step gibt nur die Docker-Version aus. Damit siehst du im Log, dass Docker auf dem Runner schon installiert ist – du musst es nicht selbst nachinstallieren.
+    Dieser Step gibt nur die Docker-Version aus. So siehst du im Log: Docker ist auf dem Runner schon installiert. Du musst es nicht nachinstallieren.
 
-    **Schritt 7 – Step: Image bauen**
+    **Schritt 7: Step (Image bauen)**
 
     ```yaml
           - name: Image bauen
@@ -1188,13 +1188,13 @@ Lege drei Dateien an:
 
     Was passiert?
 
-    - `docker build` – startet den Bau aus dem Dockerfile.
-    - `-t demo:${{ github.sha }}` – gibt dem Image den **Tag** `demo:<commit-hash>`. `${{ github.sha }}` wird zur Laufzeit durch den Commit-Hash ersetzt (lange Zeichenkette). Vorteil: jedes Image ist eindeutig einem Commit zugeordnet.
-    - Der **Punkt** am Ende ist der Build-Kontext (siehe Info-Box oben) – also „bau aus dem aktuellen Verzeichnis".
+    - `docker build` startet den Bau aus dem Dockerfile.
+    - `-t demo:${{ github.sha }}` gibt dem Image den **Tag** `demo:<commit-hash>`. `${{ github.sha }}` wird zur Laufzeit durch den Commit-Hash ersetzt (eine lange Zeichenkette). Vorteil: jedes Image ist eindeutig einem Commit zugeordnet.
+    - Der **Punkt** am Ende ist der Build-Kontext (siehe Info-Box oben). Heißt: „bau aus dem aktuellen Verzeichnis".
 
-    **Schritt 8 – Step: Smoke-Test**
+    **Schritt 8: Step (Smoke-Test)**
 
-    Der spannendste Step. Er startet das frisch gebaute Image und prüft, dass es tatsächlich eine Webseite liefert:
+    Der spannendste Step. Er startet das frisch gebaute Image. Und prüft: liefert es wirklich eine Webseite aus?
 
     ```yaml
           - name: Smoke-Test – Container kurz starten und prüfen
@@ -1211,20 +1211,20 @@ Lege drei Dateien an:
 
     Zeile für Zeile:
 
-    - `docker run -d --rm --name demo-test -p 8080:80 demo:${{ github.sha }}` – startet den Container.
-        - `-d` (detached): im Hintergrund, sonst würde der Step hier nie weiterkommen.
-        - `--rm`: Container automatisch löschen, wenn er stoppt.
-        - `--name demo-test`: Container-Name, damit wir ihn später einfach mit `docker stop demo-test` adressieren können.
-        - `-p 8080:80`: **Port-Mapping**. Anfragen auf Port 8080 vom Runner werden an Port 80 im Container weitergeleitet.
-    - `for i in 1 2 3 4 5; do … done` – kleine **Retry-Schleife**. Bis zu 5 Versuche, mit 1 Sekunde Pause dazwischen.
-    - `curl --fail --silent http://localhost:8080 > /tmp/out.html` – holt die Startseite, schreibt sie in `/tmp/out.html`.
-        - `--fail`: falls nginx einen HTTP-Fehler zurückgibt (z.B. 502), beendet curl mit Fehler. Sonst würde curl die Fehlerseite trotzdem als „erfolg" zurückgeben.
-        - `--silent`: kein Fortschrittsbalken im Log.
-    - `&& break` – wenn curl klappt, raus aus der Schleife.
-    - `head -5 /tmp/out.html` – die ersten 5 Zeilen ins Log, damit du siehst, dass es wirklich deine HTML ist.
-    - `docker stop demo-test` – Container stoppen (und durch `--rm` automatisch löschen).
+    - `docker run -d --rm --name demo-test -p 8080:80 demo:${{ github.sha }}` startet den Container.
+        - `-d` heißt detached: im Hintergrund. Sonst würde der Step nie weiterkommen.
+        - `--rm` löscht den Container automatisch, wenn er stoppt.
+        - `--name demo-test` gibt ihm einen festen Namen, damit wir ihn später mit `docker stop demo-test` adressieren können.
+        - `-p 8080:80` ist das **Port-Mapping**. Anfragen auf Port 8080 vom Runner werden an Port 80 im Container weitergeleitet.
+    - `for i in 1 2 3 4 5; do ... done` ist eine kleine **Retry-Schleife**. Bis zu 5 Versuche, mit 1 Sekunde Pause dazwischen.
+    - `curl --fail --silent http://localhost:8080 > /tmp/out.html` holt die Startseite und schreibt sie in `/tmp/out.html`.
+        - `--fail` bedeutet: gibt nginx einen HTTP-Fehler zurück (z.B. 502), endet curl mit Fehler. Sonst würde curl die Fehlerseite als „erfolg" zurückgeben.
+        - `--silent` unterdrückt den Fortschrittsbalken im Log.
+    - `&& break` heißt: klappt curl, raus aus der Schleife.
+    - `head -5 /tmp/out.html` schreibt die ersten 5 Zeilen ins Log, damit du siehst: es ist wirklich deine HTML.
+    - `docker stop demo-test` stoppt den Container. Durch `--rm` wird er automatisch gelöscht.
 
-    **Schritt 9 – Pushen**
+    **Schritt 9: Pushen**
 
     ```
     git add .github/workflows/docker-build.yml
@@ -1232,23 +1232,23 @@ Lege drei Dateien an:
     git push
     ```
 
-    **Schritt 10 – Im Actions-Tab beobachten**
+    **Schritt 10: Im Actions-Tab beobachten**
 
-    1. Repo → Actions.
+    1. Repo. Actions.
     2. Lauf „Docker bauen" öffnen.
-    3. Job `build` aufklappen, dann die einzelnen Steps.
+    3. Job `build` aufklappen. Dann die einzelnen Steps.
 
     Erwartung im Log:
 
-    - `docker --version`: zeigt eine Version wie `Docker version 24.0.x, build ...`.
-    - `docker build`: lädt das nginx-Basis-Image, kopiert die HTML und schließt mit einem Hinweis ab, dass das Tag `demo:<sha>` gesetzt wurde. (Die genaue Wortwahl hängt von der Docker-Version ab – mit BuildKit siehst du z.B. einen kurzen Layer-Bericht und am Ende einen Pfad mit deinem Tag.)
-    - Smoke-Test: einer der Retry-Versuche klappt (meist der erste), die ersten 5 Zeilen deiner `index.html` erscheinen im Log, der Container stoppt.
+    - `docker --version` zeigt eine Version wie `Docker version 24.0.x, build ...`.
+    - `docker build` lädt das nginx-Basis-Image. Kopiert die HTML. Schließt mit einem Hinweis ab. Das Tag `demo:<sha>` wurde gesetzt. (Die genaue Wortwahl hängt von der Docker-Version ab. Mit BuildKit siehst du einen kurzen Layer-Bericht. Und am Ende einen Pfad mit deinem Tag.)
+    - Smoke-Test: einer der Retry-Versuche klappt. Meist der erste. Die ersten 5 Zeilen deiner `index.html` erscheinen im Log. Der Container stoppt.
 
     !!! success "Geschafft!"
-        Du hast in einer Pipeline ein Docker-Image gebaut und als Container gestartet. Damit hast du die Brücke zwischen Docker und CI/CD geschlossen. Push in eine Registry kommt in 6.9.
+        Du hast in einer Pipeline ein Docker-Image gebaut. Und als Container gestartet. Damit hast du die Brücke zwischen Docker und CI/CD geschlossen. Push in eine Registry kommt in 6.9.
 
     ??? warning "Was ist mit `curl: (52) Empty reply from server`?"
-        Genau dieser Fehler tritt auf, wenn man zu schnell nach dem Start eine Antwort verlangt – nginx ist noch nicht durch mit dem Initialisieren. Die Retry-Schleife oben fängt das ab. Falls du in eigenen Workflows trotzdem einmal direkt mit `sleep N` arbeitest: lieber etwas großzügiger schätzen (5 statt 2 Sekunden) und in der Pipeline-Logik dafür sorgen, dass der Step bei dauerhafter Nicht-Antwort scheitert, statt endlos zu hängen.
+        Dieser Fehler tritt auf, wenn man zu schnell nach dem Start eine Antwort verlangt. nginx ist noch nicht durch mit dem Initialisieren. Die Retry-Schleife oben fängt das ab. Falls du in eigenen Workflows trotzdem mit `sleep N` arbeitest: lieber etwas großzügiger schätzen (5 statt 2 Sekunden). Und in der Pipeline-Logik dafür sorgen, dass der Step bei dauerhafter Nicht-Antwort scheitert. Nicht endlos hängt.
 
 ??? success "Musterlösung"
 
@@ -1316,20 +1316,20 @@ Lege drei Dateien an:
     - [Layer-Cache](../glossar.md#cache) zwischen Workflow-Läufen über den [GitHub Actions Cache](../glossar.md#github-actions-cache) (`type=gha`)
     - ein gebautes Image in den Docker-[Daemon](../glossar.md#daemon) **laden** statt zu pushen
 
-#### Worum geht's – Kontext
+#### Worum geht's
 
 In 6.7 hast du `docker build` direkt aufgerufen. Das funktioniert, ist aber für reale Pipelines zu spartanisch:
 
-- Kein **Layer-Cache** zwischen Läufen – jeder Build lädt nginx neu.
+- Kein **Layer-Cache** zwischen Läufen. Jeder Build lädt nginx neu.
 - Kein **Multi-Plattform**-Support (z.B. `linux/amd64` + `linux/arm64` parallel).
 - Keine sauberen **Build-Argumente** und **Labels**.
 
 Die Standard-Lösung in GitHub Actions besteht aus zwei Bausteinen:
 
-1. **`docker/setup-buildx-action@v3`** – aktiviert auf dem Runner einen **Buildx-Builder**, der mit der modernen Engine [BuildKit](../glossar.md#buildkit) arbeitet. BuildKit ist seit Docker 23 der Standard und kann Schichten parallel bauen, besser cachen und Multi-Arch-Images erzeugen.
-2. **`docker/build-push-action@v6`** – die offizielle Action zum Bauen (und optional Pushen). Sie verpackt `docker build` und `docker push` mit zusätzlichen Features (Cache-Steuerung, Tag-Listen, Plattformen).
+1. **`docker/setup-buildx-action@v3`** aktiviert auf dem Runner einen **Buildx-Builder**. Der mit der modernen Engine [BuildKit](../glossar.md#buildkit) arbeitet. BuildKit ist seit Docker 23 der Standard. Kann Schichten parallel bauen. Besser cachen. Und Multi-Arch-Images erzeugen.
+2. **`docker/build-push-action@v6`** ist die offizielle Action zum Bauen. Und optional Pushen. Sie verpackt `docker build` und `docker push` mit zusätzlichen Features (Cache-Steuerung, Tag-Listen, Plattformen).
 
-Wenn du das gebaute Image **nur testen** willst (wie hier), setzt du `load: true`. Das Image wandert dann in den Docker-Daemon des Runners und du kannst es mit `docker run` starten. `push: true` schließt sich mit `load: true` aus – ein Build geht entweder in den Daemon **oder** in eine Registry.
+Wenn du das gebaute Image **nur testen** willst (wie hier). Setzt du `load: true`. Das Image wandert dann in den Docker-Daemon des Runners. Und du kannst es mit `docker run` starten. `push: true` schließt sich mit `load: true` aus. Ein Build geht entweder in den Daemon **oder** in eine Registry.
 
 ```mermaid
 flowchart LR
@@ -1358,14 +1358,14 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 #### Hinweise
 
 - Du nutzt **dieselbe** `Dockerfile`/`index.html` aus Übung 6.7. Kein Neuanlegen.
-- `load: true` und `push: true` schließen sich aus – das Image kann nur entweder in den Daemon oder in die Registry.
-- Beim **zweiten** Push (ohne Code-Änderung am Image) solltest du im Log die Meldung `CACHED` sehen – das ist der gha-Cache, der die Layer wiederverwendet.
+- `load: true` und `push: true` schließen sich aus. Das Image kann nur entweder in den Daemon oder in die Registry.
+- Beim **zweiten** Push (ohne Code-Änderung am Image) solltest du im Log die Meldung `CACHED` sehen. Das ist der gha-Cache, der die Layer wiederverwendet.
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Schritt 1 – Neue Workflow-Datei**
+    **Schritt 1: Neue Workflow-Datei**
 
-    Du nutzt die **gleichen** Repo-Dateien (`Dockerfile` und `index.html`) wie in Übung 6.7. Es kommt nur eine neue Workflow-Datei hinzu:
+    Du nutzt die **gleichen** Repo-Dateien wie in Übung 6.7. `Dockerfile` und `index.html`. Es kommt nur eine neue Workflow-Datei hinzu:
 
     `.github/workflows/docker-build-buildx.yml`
 
@@ -1384,7 +1384,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
         steps:
     ```
 
-    **Schritt 2 – Code holen**
+    **Schritt 2: Code holen**
 
     ```yaml
           - name: Code holen
@@ -1393,7 +1393,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
     Standard.
 
-    **Schritt 3 – BuildKit aktivieren**
+    **Schritt 3: BuildKit aktivieren**
 
     Hier kommt die erste Neuheit:
 
@@ -1402,9 +1402,9 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
             uses: docker/setup-buildx-action@v3
     ```
 
-    Diese Action richtet auf dem Runner einen **Buildx-Builder** ein. Buildx ist eine Erweiterung von `docker build` und nutzt im Hintergrund die moderne Build-Engine **BuildKit**. Das brauchen wir, damit der nächste Step funktioniert. Du musst hier keine Parameter angeben – die Action wählt sinnvolle Defaults.
+    Diese Action richtet auf dem Runner einen **Buildx-Builder** ein. Buildx ist eine Erweiterung von `docker build`. Sie nutzt im Hintergrund die moderne Build-Engine **BuildKit**. Das brauchen wir. Damit der nächste Step funktioniert. Du musst hier keine Parameter angeben. Die Action wählt sinnvolle Defaults.
 
-    **Schritt 4 – Image mit der build-push-action bauen**
+    **Schritt 4: Image mit der build-push-action bauen**
 
     Statt `docker build` per `run:` (wie in 6.7) nutzen wir jetzt eine fertige Action:
 
@@ -1421,13 +1421,13 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
     Was bedeuten die Parameter?
 
-    - `context: .` – Build-Kontext, hier wieder das Repo-Root. Gleicher Punkt wie bei `docker build .`.
-    - `load: true` – das fertige Image landet im Docker-Daemon des Runners. Mit `docker images` würdest du es sehen. **Kein Push** in eine Registry. Würden wir `push: true` schreiben, würde es zur Registry gehen – aber beides geht nicht gleichzeitig.
-    - `tags: demo:${{ github.sha }}` – derselbe Tag-Stil wie vorher.
-    - `cache-from: type=gha` – beim Bauen schau in den GitHub-Actions-Cache, ob du Layer wiederverwenden kannst.
-    - `cache-to: type=gha,mode=max` – speichere am Ende **alle** Build-Layer in diesen Cache. `mode=max` ist wichtig: ohne speichert Docker nur das finale Image, das hilft beim nächsten Build wenig. Mit `max` werden auch Zwischen-Layer gespeichert, sodass selbst bei kleinen Änderungen viel wiederverwendet wird.
+    - `context: .` ist der Build-Kontext. Hier wieder das Repo-Root. Gleicher Punkt wie bei `docker build .`.
+    - `load: true` heißt: das fertige Image landet im Docker-Daemon des Runners. Mit `docker images` würdest du es sehen. **Kein Push** in eine Registry. Würden wir stattdessen `push: true` schreiben, ginge es zur Registry. Beides geht nicht gleichzeitig.
+    - `tags: demo:${{ github.sha }}` ist derselbe Tag-Stil wie vorher.
+    - `cache-from: type=gha` heißt: beim Bauen in den GitHub-Actions-Cache schauen. Layer wiederverwenden falls möglich.
+    - `cache-to: type=gha,mode=max` heißt: am Ende **alle** Build-Layer in diesen Cache speichern. `mode=max` ist wichtig. Ohne speichert Docker nur das finale Image. Das hilft beim nächsten Build wenig. Mit `max` werden auch Zwischen-Layer gespeichert. So wird selbst bei kleinen Änderungen viel wiederverwendet.
 
-    **Schritt 5 – Smoke-Test**
+    **Schritt 5: Smoke-Test**
 
     Genauso wie in 6.7:
 
@@ -1443,7 +1443,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
               docker stop demo-test
     ```
 
-    **Schritt 6 – Erster Push: Cache wird angelegt**
+    **Schritt 6: Erster Push (Cache wird angelegt)**
 
     ```
     git add .github/workflows/docker-build-buildx.yml
@@ -1451,11 +1451,11 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
     git push
     ```
 
-    Im Actions-Tab den Lauf öffnen, den Build-Step aufklappen. Du siehst, wie BuildKit die Layer baut. Beim ersten Lauf ist der gha-Cache noch leer, und BuildKit gibt eine **harmlose Warnung** dazu aus (etwa `WARNING: failed to get cache: ... cache key not found`). Das ist normal und kein Fehler – beim ersten Mal gibt's noch nichts zum Wiederverwenden. Am Ende meldet der Step `exporting cache to GitHub Actions Cache` – das ist der Cache, der jetzt gefüllt wird.
+    Im Actions-Tab den Lauf öffnen. Den Build-Step aufklappen. Du siehst: BuildKit baut die Layer. Beim ersten Lauf ist der gha-Cache noch leer. BuildKit gibt eine **harmlose Warnung** dazu aus. Etwa `WARNING: failed to get cache: ... cache key not found`. Das ist normal. Kein Fehler. Beim ersten Mal gibt es nichts zum Wiederverwenden. Am Ende meldet der Step `exporting cache to GitHub Actions Cache`. Der Cache wird jetzt gefüllt.
 
-    **Schritt 7 – Zweiter Lauf: jetzt wird gecached**
+    **Schritt 7: Zweiter Lauf (jetzt wird gecached)**
 
-    Für einen klaren Vergleich machst du einen leeren Commit und pushst nochmal. Das ist Absicht – wir wollen ohne Code-Änderung sehen, wie schnell der Build wird:
+    Für einen klaren Vergleich machst du einen leeren Commit. Und pushst nochmal. Wir wollen ohne Code-Änderung sehen: wie schnell wird der Build?
 
     ```
     git commit --allow-empty -m "Cache-Test"
@@ -1464,11 +1464,11 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
     `--allow-empty` lässt dich ohne Datei-Änderungen committen. So triggerst du den Workflow erneut.
 
-    Im neuen Lauf, im Build-Step, siehst du neben den Schichten die Meldung **`CACHED`**. BuildKit hat die Layer aus dem gha-Cache geholt, statt sie neu zu bauen.
+    Im neuen Lauf siehst du im Build-Step neben den Schichten die Meldung **`CACHED`**. BuildKit hat die Layer aus dem gha-Cache geholt. Statt sie neu zu bauen.
 
     **Hinweis zum Mess-Effekt**
 
-    Bei diesem winzigen 2-Zeilen-Dockerfile (nur `FROM nginx:alpine` + `COPY index.html`) ist der Zeitgewinn klein – wenige Sekunden. Der **eigentliche** Cache-Effekt wird erst dann spürbar, wenn du längere `RUN`-Schritte hast (z.B. `RUN pip install` oder `RUN npm install` mit vielen Paketen). Da spart der gha-Cache pro Lauf locker **Minuten**. Daher: das Pattern in 6.8 lernst du jetzt, der Nutzen kommt mit größeren Images.
+    Bei diesem winzigen 2-Zeilen-Dockerfile (nur `FROM nginx:alpine` plus `COPY index.html`) ist der Zeitgewinn klein. Wenige Sekunden. Der **eigentliche** Cache-Effekt wird erst dann spürbar. Wenn du längere `RUN`-Schritte hast. Zum Beispiel `RUN pip install` oder `RUN npm install` mit vielen Paketen. Da spart der gha-Cache pro Lauf locker **Minuten**. Das Pattern in 6.8 lernst du jetzt. Der Nutzen kommt mit größeren Images.
 
 ??? success "Musterlösung"
     ```yaml
@@ -1508,7 +1508,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
               docker stop demo-test
     ```
 
-    **Erster Lauf**: Build dauert wie gewohnt 10–30 Sekunden, lädt das nginx-Image.
+    **Erster Lauf**: Build dauert wie gewohnt 10 bis 30 Sekunden. Lädt das nginx-Image.
 
     **Zweiter Lauf** (z.B. nach einem leeren Commit `git commit --allow-empty -m "Cache-Test"` + `git push`): du siehst `CACHED` neben den Build-Steps. Der Build ist deutlich schneller.
 
@@ -1531,12 +1531,12 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
     - warum der Owner-Name in **Kleinbuchstaben** sein muss
     - mit einem Step-Output (`$GITHUB_OUTPUT`) Werte zwischen Steps weiterreichen
 
-#### Worum geht's – Kontext
+#### Worum geht's
 
-Bisher liegt dein Image nur im Daemon des Runners – nach dem Job ist es weg. Damit jemand anders es ziehen und starten kann, muss es in eine [Registry](../glossar.md#registry). GitHub bringt eine eigene direkt mit: **`ghcr.io`**. Vorteile:
+Bisher liegt dein Image nur im Daemon des Runners. Nach dem Job ist es weg. Damit jemand anders es ziehen und starten kann. Muss es in eine [Registry](../glossar.md#registry). GitHub bringt eine eigene direkt mit: **`ghcr.io`**. Vorteile:
 
-- **Kein extra Account**, keine extra Credentials – der eingebaute [GITHUB\_TOKEN](../glossar.md#github-token) reicht.
-- **Pro Repo** verlinkt – das Image taucht im Repo unter „Packages" auf.
+- **Kein extra Account**, keine extra Credentials. Der eingebaute [GITHUB\_TOKEN](../glossar.md#github-token) reicht.
+- **Pro Repo** verlinkt. Das Image taucht im Repo unter „Packages" auf.
 - **Kostenlos** für öffentliche Repos.
 
 ```mermaid
@@ -1577,22 +1577,22 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     - `GITHUB_REPOSITORY_OWNER` ist eine eingebaute Umgebungsvariable des Runners (z.B. `JacobMenge`).
     - `${VAR,,}` ist Bash-Syntax für „kompletter String in Kleinbuchstaben" (also `jacobmenge`).
     - `>> "$GITHUB_OUTPUT"` hängt die Zeile an eine spezielle Datei an, die GitHub Actions als **Step-Output** auswertet. Alles in der Form `KEY=VALUE` wird zu `steps.<step-id>.outputs.KEY` für nachfolgende Steps.
-    - Das `id: lcowner` macht diesen Step adressierbar – die `OWNER`-Variable holst du dir später mit `${{ steps.lcowner.outputs.OWNER }}`.
+    - Das `id: lcowner` macht diesen Step adressierbar. Die `OWNER`-Variable holst du dir später mit `${{ steps.lcowner.outputs.OWNER }}`.
 
     Diese „Step-Output"-Technik ist das Standard-Mittel, um in GitHub Actions Werte aus einem Step in andere zu reichen.
 
 - Der **Repo-Name** ist `mein-erster-workflow` (oder wie du das Praxis-Repo genannt hast).
 - Damit `packages: write` greift: Repo → **Settings → Actions → General → Workflow permissions** muss auf **„Read and write permissions"** stehen. Falls nicht: einmalig umstellen, sonst kommt der Fehler `resource not accessible by integration`. Mehr dazu im Glossar unter [permissions](../glossar.md#permissions).
 
-??? tip "Schritt für Schritt – wie du die Übung löst"
+??? tip "Schritt für Schritt: wie du die Übung löst"
 
-    **Vorbereitung – Repo-Einstellung checken**
+    **Vorbereitung: Repo-Einstellung checken**
 
-    Bevor du loslegst: einmal in dein Repo auf GitHub gehen → **Settings → Actions → General**, ganz nach unten zu **„Workflow permissions"** scrollen. Wenn dort die **„Read repository contents permission"**-Option (oder ähnlich, read-only) aktiviert ist, schalte um auf **„Read and write permissions"** und klick **Save**. Sonst scheitert der Push später mit `resource not accessible by integration`.
+    Bevor du loslegst: einmal in dein Repo auf GitHub gehen. **Settings → Actions → General**. Ganz nach unten zu **„Workflow permissions"** scrollen. Steht dort die read-only-Option, umstellen auf **„Read and write permissions"** und **Save** klicken. Sonst scheitert der Push später mit `resource not accessible by integration`.
 
-    **Schritt 1 – Neue Workflow-Datei**
+    **Schritt 1: Neue Workflow-Datei**
 
-    `.github/workflows/ghcr-push.yml`. Erst der Kopf, diesmal mit eingeschränktem Trigger:
+    `.github/workflows/ghcr-push.yml`. Erst der Kopf. Diesmal mit eingeschränktem Trigger:
 
     ```yaml
     name: Image zu GHCR pushen
@@ -1603,11 +1603,11 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
       workflow_dispatch:
     ```
 
-    Hier ist `push:` nicht mehr roh, sondern mit `branches: [main]`. Damit läuft der Workflow nur, wenn du auf `main` pushst – nicht bei jedem Branch. Das ist sinnvoll für Push-in-Registry-Workflows: in Feature-Branches willst du das normalerweise nicht.
+    Hier ist `push:` nicht mehr roh, sondern mit `branches: [main]`. Damit läuft der Workflow nur, wenn du auf `main` pushst. Nicht bei jedem Branch. Das ist sinnvoll für Push-in-Registry-Workflows. In Feature-Branches willst du das normalerweise nicht.
 
-    **Schritt 2 – Permissions setzen**
+    **Schritt 2: Permissions setzen**
 
-    Direkt unter dem `on:`-Block, auf gleicher Einrückung:
+    Direkt unter dem `on:`-Block. Auf gleicher Einrückung:
 
     ```yaml
     permissions:
@@ -1615,9 +1615,9 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
       packages: write
     ```
 
-    Das ist eine **Erlaubnis** für den eingebauten `GITHUB_TOKEN` (mehr im Glossar: [GITHUB\_TOKEN](../glossar.md#github-token)). Standardmäßig darf der Token nur lesen. Mit `packages: write` darf er auch Container-Images in GHCR pushen. `contents: read` ist sowieso Default, aber expliziter ist klarer.
+    Das ist eine **Erlaubnis** für den eingebauten `GITHUB_TOKEN` (mehr im Glossar: [GITHUB\_TOKEN](../glossar.md#github-token)). Standardmäßig darf der Token nur lesen. Mit `packages: write` darf er auch Container-Images in GHCR pushen. `contents: read` ist sowieso Default. Aber expliziter ist klarer.
 
-    **Schritt 3 – Job + Code holen + BuildKit**
+    **Schritt 3: Job plus Code holen plus BuildKit**
 
     ```yaml
     jobs:
@@ -1631,9 +1631,9 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
             uses: docker/setup-buildx-action@v3
     ```
 
-    Drei bekannte Bausteine aus den vorigen Übungen, nichts Neues.
+    Drei bekannte Bausteine aus den vorigen Übungen. Nichts Neues.
 
-    **Schritt 4 – Bei GHCR einloggen**
+    **Schritt 4: Bei GHCR einloggen**
 
     ```yaml
           - name: Login zu GHCR
@@ -1646,13 +1646,13 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     Die Action `docker/login-action@v3` macht einen `docker login` in der Pipeline. Sie braucht drei Angaben:
 
-    - `registry: ghcr.io` – wir loggen uns bei GitHub Container Registry ein, nicht bei Docker Hub.
-    - `username: ${{ github.actor }}` – das ist der Benutzer, der das Event ausgelöst hat (also du).
-    - `password: ${{ secrets.GITHUB_TOKEN }}` – der eingebaute Token. Den brauchst du dir nicht selbst zu beschaffen, GitHub erzeugt ihn pro Workflow-Lauf automatisch.
+    - `registry: ghcr.io` heißt: wir loggen uns bei GitHub Container Registry ein. Nicht bei Docker Hub.
+    - `username: ${{ github.actor }}` ist der Benutzer, der das Event ausgelöst hat. Also du.
+    - `password: ${{ secrets.GITHUB_TOKEN }}` ist der eingebaute Token. Den brauchst du dir nicht zu beschaffen. GitHub erzeugt ihn pro Workflow-Lauf automatisch.
 
-    **Schritt 5 – Owner-Namen in Kleinbuchstaben umwandeln**
+    **Schritt 5: Owner-Namen in Kleinbuchstaben umwandeln**
 
-    GHCR-Pfade müssen komplett klein geschrieben sein. Wenn dein GitHub-Username Großbuchstaben hat (`JacobMenge`), musst du das vorher in Kleinbuchstaben umwandeln. Dieser Step macht das:
+    GHCR-Pfade müssen komplett klein geschrieben sein. Hat dein GitHub-Username Großbuchstaben (z.B. `JacobMenge`), musst du das vorher in Kleinbuchstaben umwandeln. Dieser Step macht das:
 
     ```yaml
           - name: Owner in Kleinbuchstaben umwandeln
@@ -1662,14 +1662,14 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     Erklärung der Bash-Magie:
 
-    - `GITHUB_REPOSITORY_OWNER` – diese Umgebungsvariable setzt der Runner für dich. Sie enthält den Owner-Namen, z.B. `JacobMenge`.
-    - `${VAR,,}` – Bash-Syntax: „nimm den Wert von VAR, mach alles klein". Aus `JacobMenge` wird `jacobmenge`.
-    - `>> "$GITHUB_OUTPUT"` – schreibt das Ergebnis in eine spezielle Datei. Alles, was du im Format `KEY=VALUE` dort reinschreibst, wird zu einem **Step-Output**, den nachfolgende Steps lesen können.
-    - `id: lcowner` – gibt diesem Step einen Namen, damit die folgenden ihn referenzieren können.
+    - `GITHUB_REPOSITORY_OWNER` ist eine Umgebungsvariable, die der Runner für dich setzt. Sie enthält den Owner-Namen, zum Beispiel `JacobMenge`.
+    - `${VAR,,}` ist Bash-Syntax: „nimm den Wert von VAR, mach alles klein". Aus `JacobMenge` wird `jacobmenge`.
+    - `>> "$GITHUB_OUTPUT"` schreibt das Ergebnis in eine spezielle Datei. Alles im Format `KEY=VALUE` wird zu einem **Step-Output**, den nachfolgende Steps lesen können.
+    - `id: lcowner` gibt diesem Step einen Namen, damit die folgenden ihn referenzieren können.
 
     Später greifst du dann mit `${{ steps.lcowner.outputs.OWNER }}` auf den klein geschriebenen Namen zu.
 
-    **Schritt 6 – Bauen und pushen**
+    **Schritt 6: Bauen und pushen**
 
     ```yaml
           - name: Image bauen und pushen
@@ -1684,16 +1684,16 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
               cache-to: type=gha,mode=max
     ```
 
-    Genau wie in Übung 6.8, **aber**:
+    Genau wie in Übung 6.8, aber:
 
-    - `push: true` statt `load: true` – das Image geht in die Registry, nicht in den Daemon.
+    - `push: true` statt `load: true`. Das Image geht in die Registry, nicht in den Daemon.
     - `tags:` mit dem senkrechten Strich `|` für eine **Liste** von Tags. Wir geben dem Image zwei Tags gleichzeitig:
-        - `ghcr.io/<owner>/mein-erster-workflow:${{ github.sha }}` – mit dem unveränderlichen Commit-Hash. Den findest du immer wieder, auch wenn `latest` weiterzieht.
-        - `ghcr.io/<owner>/mein-erster-workflow:latest` – der gleitende Tag. Der zeigt immer auf den neuesten Push.
+        - `ghcr.io/<owner>/mein-erster-workflow:${{ github.sha }}` mit dem unveränderlichen Commit-Hash. Den findest du immer wieder, auch wenn `latest` weiterzieht.
+        - `ghcr.io/<owner>/mein-erster-workflow:latest` ist der gleitende Tag, der immer auf den neuesten Push zeigt.
 
-    `mein-erster-workflow` ist der Repo-Name. Falls dein Repo anders heißt, hier anpassen.
+    `mein-erster-workflow` ist der Repo-Name. Heißt dein Repo anders, hier anpassen.
 
-    **Schritt 7 – Pushen, beobachten**
+    **Schritt 7: Pushen und beobachten**
 
     ```
     git add .github/workflows/ghcr-push.yml
@@ -1703,17 +1703,17 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     Im Actions-Tab den Lauf öffnen. Wenn alles klappt:
 
-    - Login-Step: grün, Meldung `Login Succeeded`.
+    - Login-Step: grün. Meldung `Login Succeeded`.
     - Owner-Step: gibt die kleine Schreibweise ins Log.
-    - Build+Push-Step: zeigt zum Schluss einen Block mit `pushing manifest for ghcr.io/.../mein-erster-workflow:<sha>` und denselben Hinweis für `:latest`. Step ist grün.
+    - Build+Push-Step: zeigt zum Schluss einen Block mit `pushing manifest for ghcr.io/.../mein-erster-workflow:<sha>`. Und denselben Hinweis für `:latest`. Step ist grün.
 
-    **Schritt 8 – Auf GitHub das Image anschauen**
+    **Schritt 8: Auf GitHub das Image anschauen**
 
-    Auf der Repo-Seite ist rechts in der Sidebar jetzt ein neuer Eintrag **„Packages"**. Klick drauf, du siehst dein `mein-erster-workflow`-Image mit den beiden Tags.
+    Auf der Repo-Seite ist jetzt rechts in der Sidebar ein neuer Eintrag **„Packages"**. Klick drauf. Du siehst dein `mein-erster-workflow`-Image mit den beiden Tags.
 
-    Beim ersten Mal ist das Image standardmäßig privat. Wenn du es **public** machen willst (sodass jeder es ohne Login pullen kann): auf der Package-Seite rechts „Package settings" → ganz nach unten „Change visibility" → Public.
+    Beim ersten Mal ist das Image standardmäßig privat. Willst du es **public** machen (damit jeder es ohne Login pullen kann), gehst du auf der Package-Seite rechts auf „Package settings", scrollst ganz nach unten zu „Change visibility" und wählst Public.
 
-    **Schritt 9 – Das Image lokal ausprobieren**
+    **Schritt 9: Das Image lokal ausprobieren**
 
     Auf deinem Rechner kannst du das Image jetzt ziehen:
 
@@ -1727,7 +1727,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
         docker run -d --rm -p 8080:80 ghcr.io/<owner-lower>/mein-erster-workflow:latest
         ```
 
-    `<owner-lower>` durch deinen klein geschriebenen GitHub-Namen ersetzen. Wenn das Image privat ist, musst du dich vorher einloggen – siehe die Info-Box „Privates Image? Erst einloggen" in der Musterlösung.
+    `<owner-lower>` durch deinen klein geschriebenen GitHub-Namen ersetzen. Ist das Image privat, musst du dich vorher einloggen. Siehe die Info-Box „Privates Image? Erst einloggen" in der Musterlösung.
 
     Im Browser <http://localhost:8080> sollte deine HTML-Seite stehen, die von der Pipeline gebaut wurde.
 
@@ -1818,25 +1818,25 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
 ## 🏆 Challenge
 
-### Challenge 6 – Multi-Container-Anwendung in der Pipeline
+### Challenge 6: Multi-Container-Anwendung in der Pipeline
 
 !!! abstract "Mission"
-    Baue eine Pipeline, die einen **Multi-Container-Stack** in der Cloud startet, **beweist** dass er funktioniert, und das eigene Image veröffentlicht. Hier gibt es bewusst **keine Schritt-für-Schritt-Anleitung** – das WIE bist du. Die folgenden Vorgaben sagen, **was am Ende erfüllt sein muss**:
+    Baue eine Pipeline, die einen **Multi-Container-Stack** in der Cloud startet, **beweist** dass er funktioniert, und das eigene Image veröffentlicht. Hier gibt es bewusst **keine Schritt-für-Schritt-Anleitung**. Das WIE bist du. Die folgenden Vorgaben sagen, **was am Ende erfüllt sein muss**:
 
     **Der Stack:**
 
-    - Mindestens zwei Container, die miteinander reden. Einer davon ist deine eigene App (eigenes Image, eigenes Dockerfile aus dem Repo). Der zweite kommt aus einem **offiziellen Image** (z.B. Redis, Postgres, MariaDB – such dir was Sinnvolles aus).
+    - Mindestens zwei Container, die miteinander reden. Einer davon ist deine eigene App (eigenes Image, eigenes Dockerfile aus dem Repo). Der zweite kommt aus einem **offiziellen Image** (z.B. Redis, Postgres, MariaDB. Such dir was Sinnvolles aus).
     - „Miteinander reden" heißt: ohne den zweiten Container funktioniert die App **nicht** richtig. Sie muss den zweiten wirklich nutzen.
 
     **Die Pipeline:**
 
     | Anforderung | Erklärung |
     |---|---|
-    | Trigger: `push` auf `main` und manuell | Im Alltag der Standard – nichts Wildes, nur die main-Branch und der manuelle Knopf |
+    | Trigger: `push` auf `main` und manuell | Im Alltag der Standard. Nur die main-Branch und der manuelle Knopf |
     | Stack komplett in CI starten | mit `docker compose up -d` aus der `compose.yaml` |
-    | Smoke-Test muss BEWEISEN, dass die Container reden | Ein Test, der „App antwortet" zeigt, reicht **nicht** – es muss klar sein, dass auch der zweite Container angesprochen wird |
+    | Smoke-Test muss BEWEISEN, dass die Container reden | Ein Test der „App antwortet" zeigt reicht **nicht**. Es muss klar sein. Auch der zweite Container wird angesprochen |
     | Bei Fehler: Logs aller Container sichtbar | sonst stehst du nach einem Pipeline-Crash im Dunkeln |
-    | Bei jedem Lauf: aufräumen | egal ob grün oder rot – sonst bleiben Volumes/Container im Runner liegen |
+    | Bei jedem Lauf: aufräumen | egal ob grün oder rot. Sonst bleiben Volumes und Container im Runner liegen |
     | Bei Erfolg: eigenes Image zu GHCR pushen | mit mindestens einem **unveränderlichen** Tag (z.B. Commit-SHA) |
     | Build-Cache nutzen | beim zweiten Lauf soll der Build deutlich schneller sein |
 
@@ -1844,20 +1844,20 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     **Tipps zum Selberdenken:**
 
-    - Du brauchst Anleihen aus 6.5 ([env](../glossar.md#umgebungsvariable)), 6.6 (Datei-Weitergabe – brauchst du sie?), 6.7 (`docker build`), 6.8 ([BuildKit](../glossar.md#buildkit) + [gha-Cache](../glossar.md#github-actions-cache)) und 6.9 ([GHCR](../glossar.md#github) + [permissions](../glossar.md#permissions)).
-    - Wie beweist man im Test, dass zwei Container reden? Hinweis: ein Counter, eine Datenbank-Zeile, ein Cache-Eintrag – irgendwas, was sich **verändert**.
+    - Du brauchst Anleihen aus 6.5 ([env](../glossar.md#umgebungsvariable)), 6.6 (Datei-Weitergabe. Brauchst du sie?), 6.7 (`docker build`), 6.8 ([BuildKit](../glossar.md#buildkit) plus [gha-Cache](../glossar.md#github-actions-cache)) und 6.9 ([GHCR](../glossar.md#github) plus [permissions](../glossar.md#permissions)).
+    - Wie beweist man im Test, dass zwei Container reden? Hinweis: ein Counter, eine Datenbank-Zeile, ein Cache-Eintrag. Irgendwas was sich **verändert**.
     - Wie räumst du auf, wenn ein vorheriger Step rot ist? Stichwort: [`if: always()`](https://docs.github.com/en/actions/learn-github-actions/expressions#always).
-    - Soll die Pipeline einen oder mehrere Jobs haben? Beide Wege funktionieren – bei einem Job hast du Compose-Stack und Push im selben Lauf, bei zwei Jobs musst du das Image zwischen Jobs weitergeben.
-    - Wie verhinderst du, dass das Image gepusht wird, wenn der Test rot ist? GitHub Actions stoppt im Default einen Job bei rotem Step – du musst nur die Push-Steps **nach** den Test-Steps platzieren und ohne `if: always()` laufen lassen.
+    - Soll die Pipeline einen oder mehrere Jobs haben? Beide Wege funktionieren. Bei einem Job hast du Compose-Stack und Push im selben Lauf. Bei zwei Jobs musst du das Image zwischen Jobs weitergeben.
+    - Wie verhinderst du, dass das Image gepusht wird, wenn der Test rot ist? GitHub Actions stoppt im Default einen Job bei rotem Step. Du musst nur die Push-Steps **nach** den Test-Steps platzieren. Und ohne `if: always()` laufen lassen.
 
-    Versuch die Pipeline **selbst zu schreiben**. Erst wenn du fest hängst, ein Blick in die Musterlösung. Sie zeigt **eine** mögliche Lösung – deine Variante darf abweichen, solange sie die Anforderungen erfüllt.
+    Versuch die Pipeline **selbst zu schreiben**. Erst wenn du fest hängst. Ein Blick in die Musterlösung. Sie zeigt **eine** mögliche Lösung. Deine Variante darf abweichen. Solange sie die Anforderungen erfüllt.
 
 ??? success "Musterlösung"
 
-    Die folgende Lösung nimmt **Flask + Redis** und beweist die Kommunikation über einen **Besucherzähler**: jeder Aufruf von `/` erhöht eine Zahl in Redis und gibt sie zurück. Im Smoke-Test ruft die Pipeline zweimal `/` auf und vergleicht die zwei Antworten – sind sie gleich, ist Redis nicht beteiligt, und der Test schlägt fehl.
+    Die folgende Lösung nimmt **Flask plus Redis** und beweist die Kommunikation über einen **Besucherzähler**. Jeder Aufruf von `/` erhöht eine Zahl in Redis und gibt sie zurück. Im Smoke-Test ruft die Pipeline zweimal `/` auf. Und vergleicht die zwei Antworten. Sind sie gleich. Dann ist Redis nicht beteiligt. Und der Test schlägt fehl.
 
     !!! warning "Alte Dateien aus 6.7/6.8 entfernen"
-        In Übungen 6.7 und 6.8 hast du im Repo-Root ein **nginx**-`Dockerfile` und eine `index.html` angelegt. Für die Challenge **ersetzt** du das `Dockerfile` durch das untenstehende Python-Dockerfile. Die alten Workflow-Dateien `docker-build.yml` und `docker-build-buildx.yml` würden bei jedem Push scheitern, weil sie ein nginx-Image erwarten – lösch sie oder kommentiere ihren `on:`-Trigger aus, sonst hast du immer einen roten Workflow neben dem grünen.
+        In Übungen 6.7 und 6.8 hast du im Repo-Root ein **nginx**-`Dockerfile` und eine `index.html` angelegt. Für die Challenge **ersetzt** du das `Dockerfile` durch das untenstehende Python-Dockerfile. Die alten Workflow-Dateien `docker-build.yml` und `docker-build-buildx.yml` würden bei jedem Push scheitern. Weil sie ein nginx-Image erwarten. Lösch sie. Oder kommentiere ihren `on:`-Trigger aus. Sonst hast du immer einen roten Workflow neben dem grünen.
 
     !!! tip "Vorgehen"
         Erst die Anwendung **lokal** zum Laufen bringen (`docker compose up -d`, im Browser prüfen). Erst danach an die Pipeline gehen. So weißt du, dass ein Pipeline-Fehler an der Pipeline liegt und nicht an einem App-Bug.
@@ -1890,9 +1890,9 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     Die eigentliche Web-App. Drei Sachen sind hier wichtig:
 
-    1. `cache = redis.Redis(host=…)` – die Verbindung zum Redis-Container. Der Hostname kommt aus der Umgebungsvariable `REDIS_HOST`; im Compose-Stack wird das später der **Service-Name** `cache` sein.
-    2. `cache.incr("hits")` – atomare Operation in Redis: erhöht den Wert von `hits` um 1 und gibt den neuen Wert zurück. **Genau das nutzen wir im Smoke-Test als Beweis, dass Redis angesprochen wird.**
-    3. `/health` – getrennter Endpoint, der nur `cache.ping()` macht. Praktisch, um in der Pipeline auf Bereitschaft zu warten, ohne den Counter zu verändern.
+    1. `cache = redis.Redis(host=…)` ist die Verbindung zum Redis-Container. Der Hostname kommt aus der Umgebungsvariable `REDIS_HOST`. Im Compose-Stack wird das später der **Service-Name** `cache` sein.
+    2. `cache.incr("hits")` ist eine atomare Operation in Redis. Erhöht den Wert von `hits` um 1. Und gibt den neuen Wert zurück. **Genau das nutzen wir im Smoke-Test als Beweis. Redis wird angesprochen.**
+    3. `/health` ist ein getrennter Endpoint. Macht nur `cache.ping()`. Praktisch um in der Pipeline auf Bereitschaft zu warten. Ohne den Counter zu verändern.
 
     ```python
     import os
@@ -1924,8 +1924,6 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     ### `Dockerfile`
 
-    ### `Dockerfile`
-
     Das Rezept für das eigene Web-Image. Die Reihenfolge ist bewusst: erst `requirements.txt` kopieren und installieren, **dann erst** den App-Code. So wird der teure `pip install`-Layer gecached, solange sich die Requirements nicht ändern. Eine Änderung an `app.py` löst dann nur den schnellen `COPY app/`-Layer neu aus.
 
     ```dockerfile
@@ -1945,7 +1943,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     ```
 
     !!! warning "Hinweis zum Übungsumfang"
-        Dieses Dockerfile ist bewusst **schlicht** gehalten, damit die Pipeline-Logik im Vordergrund steht. In Produktion würde man zusätzlich einen Multi-Stage-Build, einen Non-Root-User, einen Healthcheck und ein schlankeres Basis-Image verwenden – siehe [Docker für Profis](../docker-profi/index.md).
+        Dieses Dockerfile ist bewusst **schlicht** gehalten. Damit die Pipeline-Logik im Vordergrund steht. In Produktion würde man zusätzlich einen Multi-Stage-Build verwenden. Einen Non-Root-User. Einen Healthcheck. Und ein schlankeres Basis-Image. Siehe [Docker für Profis](../docker-profi/index.md).
 
     ### `compose.yaml`
 
@@ -1972,23 +1970,23 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
         # Kein Port-Mapping nach außen – nur intern im Compose-Netz erreichbar
     ```
 
-    !!! info "`build:` und `image:` zusammen – warum beides?"
+    !!! info "`build:` und `image:` zusammen. Warum beides?"
         - **Lokal** (`docker compose up -d` ohne vorigen Build): Compose **baut** das Image aus dem Dockerfile und taggt es mit `demo-web:ci`.
         - **In der Pipeline**: wir bauen das Image vorher mit `docker/build-push-action` und laden es mit `load: true` in den Daemon. Compose sieht dann das bereits vorhandene Tag `demo-web:ci` und überspringt den Build.
 
-        Beides geht mit derselben Datei – clever, weil dieselbe `compose.yaml` lokal und in CI funktioniert.
+        Beides geht mit derselben Datei. Clever. Weil dieselbe `compose.yaml` lokal und in CI funktioniert.
 
     ### `.github/workflows/stack.yml`
 
     Das Herzstück. Die Pipeline läuft als **ein Job** mit sieben aufeinander aufbauenden Phasen:
 
-    1. **Code holen + BuildKit aktivieren** – Standard-Vorbereitung.
-    2. **Web-Image bauen (`load: true`)** – Image landet im Daemon des Runners, noch kein Push.
+    1. **Code holen plus BuildKit aktivieren**. Standard-Vorbereitung.
+    2. **Web-Image bauen (`load: true`)**. Image landet im Daemon des Runners. Noch kein Push.
     3. **Stack hochfahren** mit `docker compose up -d`.
-    4. **Warten auf `/health`** – kleine Retry-Schleife, weil Container ein paar Sekunden brauchen.
-    5. **Smoke-Test** – zwei `curl /`-Aufrufe vergleichen. Wenn der Counter zählt, ist Redis bewiesen erreichbar.
-    6. **Logs + Cleanup mit `if: always()`** – läuft auch nach einem fehlgeschlagenen Step. Sonst sind die Container-Logs für die Fehlersuche weg und der Runner-Status ist dreckig.
-    7. **Login + Push nach GHCR** – nur, wenn die Steps 1–5 grün waren (Standard-Verhalten ohne `if:`). Der zweite Build mit `push: true` nutzt den gha-Cache aus Schritt 2 mit, baut also kaum echte Arbeit.
+    4. **Warten auf `/health`**. Kleine Retry-Schleife. Container brauchen ein paar Sekunden.
+    5. **Smoke-Test**. Zwei `curl /`-Aufrufe vergleichen. Wenn der Counter zählt. Ist Redis bewiesen erreichbar.
+    6. **Logs plus Cleanup mit `if: always()`**. Läuft auch nach einem fehlgeschlagenen Step. Sonst sind die Container-Logs für die Fehlersuche weg. Und der Runner-Status ist dreckig.
+    7. **Login plus Push nach GHCR**. Nur wenn die Steps 1 bis 5 grün waren (Standard-Verhalten ohne `if:`). Der zweite Build mit `push: true` nutzt den gha-Cache aus Schritt 2 mit. Baut also kaum echte Arbeit.
 
     ```yaml
     name: Multi-Container-Stack
@@ -2107,8 +2105,8 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     ## Lokal starten
 
     - `docker compose up -d`
-    - `curl http://localhost:5000/` – zählt hoch
-    - `docker compose down -v` – stoppen + Volumes wegräumen
+    - `curl http://localhost:5000/` zählt hoch
+    - `docker compose down -v` stoppt und räumt Volumes weg
 
     ## Was die Pipeline tut
 
@@ -2117,18 +2115,18 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     1. Web-Image bauen (mit Cache).
     2. Stack hochfahren.
     3. Auf `/health` warten.
-    4. Smoke-Test: zwei Aufrufe von `/` – muss unterschiedliche Counter zeigen.
+    4. Smoke-Test: zwei Aufrufe von `/`. Muss unterschiedliche Counter zeigen.
     5. Container-Logs ins Pipeline-Log.
     6. Stack stoppen.
     7. Image zu `ghcr.io/<owner>/mein-erster-workflow:<sha>` und `:latest` pushen.
 
     ## Das gepushte Image lokal benutzen
 
-    Am einfachsten direkt mit Compose im Repo (`docker compose up -d`) – Compose findet aus
-    `build: .` heraus dasselbe Image selbst nach. Wenn du **explizit das aus GHCR**
-    nehmen willst, ändere in `compose.yaml` die `image:`-Zeile auf
-    `ghcr.io/<owner-lower>/mein-erster-workflow:latest` und entferne `build:`.
-    Dann holt `docker compose up -d` das fertige Image aus der Registry – das ist
+    Am einfachsten direkt mit Compose im Repo (`docker compose up -d`). Compose findet aus
+    `build: .` heraus dasselbe Image selbst nach. Willst du **explizit das aus GHCR**
+    nehmen. Ändere in `compose.yaml` die `image:`-Zeile auf
+    `ghcr.io/<owner-lower>/mein-erster-workflow:latest`. Und entferne `build:`.
+    Dann holt `docker compose up -d` das fertige Image aus der Registry. Das ist
     der typische „Konsument"-Workflow auf einem Server.
     ```
 
@@ -2137,7 +2135,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     | Technik aus | Verwendet in Schritt |
     |-------------|----------------------|
     | Übung 6.1 (`if:`)            | `if: always()` für Logs und Cleanup |
-    | Übung 6.2 (`needs:`)         | hier nicht nötig – ein Job reicht, da der Smoke-Test direkt im Build-Job läuft |
+    | Übung 6.2 (`needs:`)         | hier nicht nötig. Ein Job reicht. Der Smoke-Test läuft direkt im Build-Job |
     | Übung 6.3 (`actions/checkout`) | erster Step |
     | Übung 6.5 (`env:` / `${{ … }}`) | überall, wo SHA, Owner, Image-Name vorkommen |
     | Übung 6.7 (`docker build`)   | hinter den Kulissen der build-push-action |
@@ -2147,11 +2145,11 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     ### Häufige Stolperstellen
 
-    ??? warning "App findet Redis nicht – `ConnectionError`"
+    ??? warning "App findet Redis nicht (`ConnectionError`)"
         Im Container heißt der Redis-Host **so wie der Service in `compose.yaml`**, also `cache`. Wenn `REDIS_HOST` auf `localhost` oder `redis` zeigt, scheitert die Verbindung. Compose erzeugt automatisch DNS-Einträge je Service-Name.
 
     ??? warning "`docker compose: command not found` auf dem Runner"
-        Sehr alte Runner-Bilder hatten nur `docker-compose` (mit Bindestrich). Aktuelle `ubuntu-latest`-Runner bringen das Plugin mit – `docker compose version` muss klappen. Falls nicht: Runner-Image neu rollen lassen, oder `docker compose` durch `docker-compose` ersetzen.
+        Sehr alte Runner-Bilder hatten nur `docker-compose` (mit Bindestrich). Aktuelle `ubuntu-latest`-Runner bringen das Plugin mit. `docker compose version` muss klappen. Falls nicht: Runner-Image neu rollen lassen. Oder `docker compose` durch `docker-compose` ersetzen.
 
     ??? warning "Smoke-Test schlägt fehl, Counter immer 1"
         Dann zählt die App nicht in Redis, sondern in einer lokalen Variable. Logs prüfen: kommt eine Redis-Exception? Falls ja: `cache`-Container läuft nicht oder die Env-Variablen sind falsch. `docker compose logs cache` zeigt's.
