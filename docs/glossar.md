@@ -33,6 +33,24 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="argocd"></span>ArgoCD
 : **GitOps-Controller für Kubernetes.** Liest fortlaufend einen Git-Branch mit Cluster-Manifesten und gleicht den **Soll-Zustand aus dem Repo** mit dem **Ist-Zustand im Cluster** ab. Drift wird automatisch korrigiert, jeder Cluster-Stand ist auf einen Git-Commit zurückführbar. Ein typisches Setup: die CI-Pipeline pusht ein neues Image in die Registry und ändert die Image-Referenz in einem GitOps-Repo; ArgoCD bemerkt den Commit und rollt aus. Alternative Tools: Flux, Argo Rollouts (für Blue/Green und Canary).
 
+## <span id="artifact"></span><span id="artefakt"></span><span id="upload-artifact"></span><span id="download-artifact"></span>Artifact / Artefakt (GitHub Actions)
+: **Datei oder Ordner, den ein Job am Ende hochlädt, damit ein nachfolgender Job (oder du selbst nach dem Lauf) darauf zugreifen kann.** Hintergrund: jeder GitHub-Actions-Job startet auf einer **eigenen, frischen Runner-VM** – Dateien aus dem vorigen Job sind weg. Mit `actions/upload-artifact@v4` schickt ein Job seine Dateien in den GitHub-Storage, mit `actions/download-artifact@v4` zieht ein späterer Job sie wieder herunter:
+
+    ```yaml
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build-output
+        path: dist/
+
+    # In einem späteren Job mit `needs:`:
+    - uses: actions/download-artifact@v4
+      with:
+        name: build-output
+        path: dist/
+    ```
+
+    Artifacts sind außerdem im Actions-Tab pro Workflow-Lauf unter „Artifacts" zum manuellen Download sichtbar. Sie werden **standardmäßig 90 Tage aufbewahrt** und gelten danach als verworfen (konfigurierbar über `retention-days`). Für reine Docker-Image-Layer ist `cache-from: type=gha` in der `docker/build-push-action` meistens praktischer als Artifacts (siehe [GitHub Actions Cache](#github-actions-cache)). Begrifflich nicht zu verwechseln mit „Build-Artefakt" im allgemeinen Sprachgebrauch – dort meint Artefakt einfach das **Ergebnis eines Builds** (Binary, Image, .zip).
+
 ## <span id="apt"></span>apt / apt-get
 : **Paketmanager** der Debian- und Ubuntu-Linux-Distributionen. Damit installierst, aktualisierst und entfernst du Software: `sudo apt install docker-ce`, `sudo apt update`, `sudo apt remove foo`. Der neuere Befehl ist `apt`, der ältere `apt-get` – funktional fast identisch, `apt` hat eine schönere Ausgabe.
 
@@ -70,7 +88,22 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Modernes Build-Backend von Docker** seit Docker 18.09, seit 23.0 Default. Bringt deutliche Verbesserungen gegenüber dem klassischen Builder: paralleles Bauen unabhängiger Build-Stages, **bessere Cache-Granularität** (Inhalt statt nur Reihenfolge), Cache-Backends in Registries (`--cache-to`, `--cache-from`), Multi-Architektur-Builds via [buildx](#buildx), Build-Secrets ohne Image-Spuren (`--mount=type=secret`). BuildKit liest spezielle `# syntax=docker/dockerfile:1`-Direktiven am Anfang eines Dockerfiles, um neue Features zu aktivieren.
 
 ## <span id="cache"></span><span id="caching"></span><span id="layer-cache"></span><span id="layer-caching"></span>Cache / Caching (Docker-Layer-Cache)
-: **Zwischenspeicher zur Wiederverwendung von Daten.** Im Docker-Kontext meint „Cache" fast immer den **Layer-Cache**: Wenn `docker build` einen Schritt schon einmal mit identischem Input ausgeführt hat, nutzt es das gespeicherte Ergebnis erneut, statt neu zu bauen. Deshalb ist die Reihenfolge im Dockerfile so wichtig – selten geänderte Layer (Abhängigkeiten) **vor** häufig geänderten (eigener Code) platzieren. Cache-Verhalten erzwingen mit `--no-cache`.
+: **Zwischenspeicher zur Wiederverwendung von Daten.** Im Docker-Kontext meint „Cache" fast immer den **Layer-Cache**: Wenn `docker build` einen Schritt schon einmal mit identischem Input ausgeführt hat, nutzt es das gespeicherte Ergebnis erneut, statt neu zu bauen. Deshalb ist die Reihenfolge im Dockerfile so wichtig – selten geänderte Layer (Abhängigkeiten) **vor** häufig geänderten (eigener Code) platzieren. Cache-Verhalten erzwingen mit `--no-cache`. In einer Pipeline kann dieser Layer-Cache zwischen Workflow-Läufen geteilt werden – siehe [GitHub Actions Cache](#github-actions-cache).
+
+## <span id="github-actions-cache"></span><span id="gha-cache"></span>GitHub Actions Cache (`type=gha`)
+: **Speicher-Backend für Build-Caches, das GitHub jedem Repo kostenlos bereitstellt.** In der `docker/build-push-action` aktivierst du es mit zwei Zeilen:
+
+    ```yaml
+    - uses: docker/build-push-action@v6
+      with:
+        context: .
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    ```
+
+    `type=gha` ist die Adresse des Speichers, `mode=max` sagt: „speichere **alle** Zwischenlayer, nicht nur den finalen". Beim nächsten Lauf zieht BuildKit unveränderte Layer aus diesem Cache, statt sie neu zu bauen – im Log siehst du `CACHED` neben den entsprechenden Build-Schritten. Pro Repo gibt es **10 GB Cache-Kontingent**; älteste Einträge werden automatisch verdrängt, wenn das Kontingent voll ist. Unverändert seit 7 Tagen nicht angefasste Einträge werden ohnehin gelöscht.
+
+    Konzeptionell verwandt, aber **nicht dasselbe** wie [Artefakte](#artifact): Cache ist für Build-Wiederverwendung optimiert und beliebig nachladbar; Artefakte sind explizit benannte Dateien zwischen zwei Jobs.
 
 ## <span id="canary"></span><span id="canary-deployment"></span>Canary Deployment
 : **Deployment-Strategie**, bei der eine neue Version zuerst nur einen kleinen Teil der Nutzer erreicht (oft 5 %). Wenn Metriken stabil bleiben (Fehlerrate, Latenz), wird der Anteil schrittweise erhöht. Ein Bug trifft so anfangs nur einen Bruchteil der Nutzer; bei Auffälligkeit wird der Anteil sofort zurückgesetzt. Voraussetzung: feinkörniger Traffic-Splitter (Service Mesh, Feature-Flag-System) und gute Observability.
@@ -427,6 +460,28 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="path"></span>PATH
 : **Umgebungsvariable**, in der alle Verzeichnisse stehen, in denen das Betriebssystem nach ausführbaren Programmen sucht. Wenn du `docker` tippst, schaut dein Shell alle PATH-Einträge durch, bis sie eine Datei namens `docker` findet. `echo $PATH` (Bash/Zsh) oder `$env:PATH` (PowerShell) zeigt den aktuellen PATH.
+
+## <span id="pat"></span><span id="personal-access-token"></span>Personal Access Token (PAT)
+: **Persönlicher Zugriffs-Token bei GitHub**, der ein Passwort beim Aufruf von Git- oder API-Befehlen ersetzt. Wird in den GitHub-Settings unter **Developer settings → Personal access tokens** angelegt. Zwei Varianten:
+
+    - **Tokens (classic)** – freie Scope-Auswahl (`repo`, `read:packages`, …), unbegrenzt lange gültig.
+    - **Fine-grained tokens** – pro Repo zugeschnitten, mit Ablaufdatum.
+
+    Brauchst du **nicht**, wenn du nur in deinem eigenen Repo aus einem GitHub-Actions-Workflow auf das Repo, GHCR-Pakete oder Releases zugreifst – dafür reicht der eingebaute [GITHUB\_TOKEN](#github-token). PATs werden erst nötig bei: HTTPS-Pushes aus dem Terminal, dem **manuellen** Pullen eines privaten GHCR-Images (`docker login ghcr.io -u <user> --password-stdin` mit Scope `read:packages`), oder Cross-Repo-Aktionen (von Repo A in Repo B pushen). **Sicherheitshinweis:** PATs sind so sensibel wie Passwörter – nie ins Repo committen, beim Anlegen ein **Ablaufdatum** setzen, nur die nötigen Scopes anhaken.
+
+## <span id="permissions"></span>permissions (GitHub Actions)
+: **YAML-Block, mit dem du dem [GITHUB\_TOKEN](#github-token) für die Dauer eines Workflows oder Jobs gezielt Schreibrechte einräumst.** Seit 2023 sind die Default-Rechte des Tokens auf „read" reduziert; willst du z.B. ein Image nach GHCR pushen oder einen Release anlegen, musst du das explizit erlauben:
+
+    ```yaml
+    permissions:
+      contents: read       # Code lesen (Default)
+      packages: write      # GHCR pushen
+      contents: write      # Releases anlegen, Tags pushen
+      id-token: write      # OIDC für Cloud-Login
+      pull-requests: write # PR kommentieren
+    ```
+
+    Der Block darf **auf Workflow- oder Job-Ebene** stehen. Job-Ebene gewinnt, wenn beides gesetzt ist. Zusätzlich muss in den Repo-Settings unter **Settings → Actions → General → Workflow permissions** mindestens **„Read and write permissions"** ausgewählt sein, sonst ignoriert GitHub den Block und meldet `resource not accessible by integration` beim Push.
 
 ## <span id="pg-isready"></span><span id="pg_isready"></span>pg_isready
 : **Kleines Hilfsprogramm**, das im offiziellen `postgres`-Image enthalten ist und prüft, ob der Postgres-Server **schon Anfragen annimmt**. Liefert Exit-Code 0, wenn die Datenbank bereit ist, sonst einen Fehler-Exit-Code – ideal für Healthchecks. Typische Aufrufe: `pg_isready -U postgres` (Default-User) oder `pg_isready -U $POSTGRES_USER -d $POSTGRES_DB`. In `compose.yaml`-Healthchecks musst du Variablen mit doppeltem `$$` schreiben, damit Compose sie nicht selbst auflöst, sondern sie an die Shell im Container weitergibt: `pg_isready -U $${POSTGRES_USER}`.
