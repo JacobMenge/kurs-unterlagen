@@ -40,6 +40,7 @@ Dieser Block adressiert drei Punkte aus dem Rahmenplan:
 | [Grundlagen von GitHub Actions](github-actions-grundlagen.md) | YAML-Syntax, `on`, `jobs`, `steps`, `uses`, `run`, Runner, Secrets | Theorie |
 | [Praxis: erste Pipeline](praxis-erste-pipeline.md) | Hands-on: Workflow für ein Docker-Projekt schreiben (ca. 60 Minuten) | Praxis |
 | [Übungen](uebungen.md) | 🟢🟡 Vier Schwierigkeitsgrade zum Vertiefen | Training |
+| [Praxisbeispiele zum Mitnehmen](praxis-beispiele.md) | Vier komplette Workflows aus dem Alltag: Python-CI, geplanter Check, Auto-Release, Docker-Pipeline | Vorlagen |
 | [Stolpersteine](stolpersteine.md) | Typische Fehler in Workflows, YAML, Secrets, Runner | Referenz |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung | Referenz |
 
