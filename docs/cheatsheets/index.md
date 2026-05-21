@@ -27,6 +27,12 @@ Beide Cheatsheets sind als **Tabellen** aufgebaut. Sie sind bewusst knapp – f�
 
     Up, Down, Logs, Build, Exec – plus alle wichtigen YAML-Snippets für `compose.yaml`.
 
+-   :material-source-fork:{ .lg .middle } __[Git](git.md)__
+
+    ---
+
+    Init, Add, Commit, Status, Log, Diff, Branches, Merge, Remote, Push, Pull, PR-Workflow – alle wichtigen Befehle.
+
 -   :material-source-branch:{ .lg .middle } __[GitHub Actions](github-actions.md)__
 
     ---
