@@ -584,7 +584,7 @@ git branch -d feature/lese-modus
 
 ## Aufräumen oder weitermachen
 
-Du brauchst dein Repo für [Praxis 3](praxis-merge-konflikt.md), also lass es bitte stehen. Falls du es trotzdem löschen willst, siehe die Anleitung am Ende von [Praxis 1](praxis-erste-schritte.md#aufrumen-oder-weitermachen).
+Du brauchst dein Repo für [Praxis 3](praxis-merge-konflikt.md), also lass es bitte stehen. Falls du es trotzdem löschen willst, siehe die Anleitung am Ende von [Praxis 1](praxis-erste-schritte.md#aufraumen-oder-weitermachen).
 
 ---
 

@@ -707,7 +707,7 @@ Auf einem GitHub-Repo deiner Wahl (am einfachsten `mein-erstes-remote-repo`):
 
 #### Hinweise
 
-- Eine kontrollierte Variante des Konflikts aus [Praxis 4](praxis-github-neu.md#schritt-8-was-wenn-beide-seiten-etwas-gendert-haben), nur diesmal vor dem Hintergrund eines offenen PRs.
+- Eine kontrollierte Variante des Konflikts aus [Praxis 4](praxis-github-neu.md#schritt-8-was-wenn-beide-seiten-etwas-geandert-haben), nur diesmal vor dem Hintergrund eines offenen PRs.
 
 ??? tip "Schritt für Schritt"
     **Schritt 1: Ausgangsstand sicherstellen**

@@ -384,7 +384,7 @@ Du brauchst das Repo nicht für die nächsten Praxis-Seiten – wir benutzen wie
 Falls du löschen willst:
 
 - **Auf GitHub**: Repo → Settings → ganz nach unten → **Delete this repository**.
-- **Lokal**: den Ordner löschen, siehe Anleitung am Ende von [Praxis 1](praxis-erste-schritte.md#aufrumen-oder-weitermachen).
+- **Lokal**: den Ordner löschen, siehe Anleitung am Ende von [Praxis 1](praxis-erste-schritte.md#aufraumen-oder-weitermachen).
 
 ---
 

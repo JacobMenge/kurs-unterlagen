@@ -407,7 +407,7 @@ Setzt euch in der Gruppe zusammen und sprecht durch:
 Wenn ihr das Repo nicht mehr braucht:
 
 - **Host**: Repo → Settings → ganz nach unten → **Delete this repository**.
-- **Alle**: den lokalen Ordner löschen, siehe Anleitung am Ende von [Praxis 1](praxis-erste-schritte.md#aufrumen-oder-weitermachen).
+- **Alle**: den lokalen Ordner löschen, siehe Anleitung am Ende von [Praxis 1](praxis-erste-schritte.md#aufraumen-oder-weitermachen).
 
 Wenn ihr das Repo behalten wollt (z.B. als Spielfeld für weitere Experimente), könnt ihr es einfach liegen lassen. Nimmt nichts weg.
 
