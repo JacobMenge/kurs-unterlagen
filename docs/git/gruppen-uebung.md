@@ -73,7 +73,7 @@ Danach setzt ihr euch zusammen und besprecht typische Stolperstellen.
 1. Auf <https://github.com/new> ein neues Repo anlegen.
 2. **Repository name**: `team-projekt`.
 3. **Public** wählen (einfacher für die Gruppenarbeit).
-4. **Add a README file** anhaken.
+4. Unter **Initialize this repository with** den Schieberegler **„Add a README file"** nach rechts schieben (aktivieren).
 5. **Create repository**.
 
 Auf der Repo-Startseite muss die initiale `README.md` mit folgendem Inhalt liegen. Falls automatisch generierte Inhalte abweichen, **direkt im Web-Editor anpassen** (Stift-Symbol an der `README.md` → Inhalt ersetzen → Commit):

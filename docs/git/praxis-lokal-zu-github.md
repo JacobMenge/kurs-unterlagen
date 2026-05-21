@@ -129,9 +129,9 @@ Wichtig: diesmal **wirklich leer**. Keine README, kein `.gitignore`, keine Licen
 2. **Repository name**: `mein-zweites-projekt` (am einfachsten gleicher Name wie lokal).
 3. **Description** (optional): „lokal angefangen, jetzt auf GitHub gespiegelt".
 4. **Public** lassen.
-5. **`Add a README file` NICHT anhaken.** Wichtig!
-6. **`Add .gitignore` NICHT auswählen.**
-7. **`Choose a license` NICHT auswählen.**
+5. Unter **Initialize this repository with** den Schieberegler **„Add a README file"** **aus lassen** (nach links). Wichtig!
+6. **`Add .gitignore`** auf „None" lassen.
+7. **`Add a license`** auf „None" lassen.
 8. **Create repository** klicken.
 
 GitHub bringt dich auf eine besondere Seite: das Repo ist leer, und du siehst einen großen Block mit Vorschlägen, was du als Nächstes tun kannst. In etwa so:
@@ -342,7 +342,7 @@ Wenn du noch ganz am Anfang stehst, ist es oft am einfachsten, das GitHub-Repo z
 
 1. Auf GitHub Repo → Settings → unten → **Delete this repository**.
 2. Repo-Namen eingeben, bestätigen.
-3. <https://github.com/new>, diesmal **`Add a README file` NICHT anhaken**.
+3. <https://github.com/new>, diesmal den **`Add a README file`-Schieberegler aus lassen**.
 4. Zurück zu [Schritt 3](#schritt-3-remote-verbinden), aber `git remote add origin` reicht nicht, weil du den Remote schon hast.
 
     Stattdessen die URL aktualisieren oder den alten Remote entfernen und neu hinzufügen:

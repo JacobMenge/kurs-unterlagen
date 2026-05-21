@@ -48,9 +48,9 @@ flowchart LR
 2. **Repository name**: `mein-erstes-remote-repo`.
 3. **Description** (optional): „Übungs-Repo aus dem Git-Block.".
 4. **Public** lassen. Public-Repos sind für unsere Übungszwecke einfacher: keine Limitierungen, du kannst die URL teilen.
-5. **Add a README file** anhaken. Damit wird das Repo nicht komplett leer angelegt, sondern mit einer initialen `README.md`. Das ist wichtig, damit `git clone` etwas zu klonen hat.
-6. **Add .gitignore** kannst du leer lassen.
-7. **Choose a license** kannst du leer lassen.
+5. Unter **Initialize this repository with** den Schieberegler **„Add a README file"** nach rechts schieben (aktivieren). Damit wird das Repo nicht komplett leer angelegt, sondern mit einer initialen `README.md`. Das ist wichtig, damit `git clone` etwas zu klonen hat.
+6. **Add .gitignore** auf „None" lassen.
+7. **Add a license** auf „None" lassen.
 8. **Create repository** klicken.
 
 Du landest auf der Repo-Startseite. Sieht ungefähr so aus:
