@@ -270,6 +270,28 @@ Hier siehst du alle Bestandteile eines Commits, die in den [Grundbegriffen](grun
 
 - **`HEAD -> main`** – der HEAD-Zeiger steht auf `main`, und `main` zeigt auf diesen Commit. Genau das mentale Modell, das wir uns angeschaut haben.
 
+!!! warning "Wie komme ich aus `git log` wieder raus?"
+    Sobald du mehrere Commits hast, zeigt `git log` die Historie in einem **Pager** an (meistens das Programm `less`). Statt eines normalen Prompts steht unten am Bildschirmrand `:` oder `(END)`. Du kannst:
+
+    - mit **Pfeiltasten** oder **Leertaste** scrollen
+    - **`q`** drücken, um den Pager zu verlassen
+
+    Das **`q`** ist der wichtigste Tastendruck der Welt. Es funktioniert auch bei `git diff`, `git show`, `git blame` und vielen anderen Befehlen, die einen Pager öffnen.
+
+    Wenn dich der Pager nervt, kannst du ihn pro Befehl unterdrücken:
+
+    ```bash
+    git --no-pager log
+    ```
+
+    Oder dauerhaft für alle Git-Befehle deaktivieren:
+
+    ```bash
+    git config --global core.pager ""
+    ```
+
+    Empfehlung: lass den Pager an und gewöhn dich an `q`. Bei langen Logs ist er sehr nützlich.
+
 !!! tip "Kompakter mit `--oneline`"
     ```bash
     git log --oneline

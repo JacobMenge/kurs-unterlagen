@@ -8,6 +8,16 @@ description: "Die wichtigsten Git-Befehle als Tabellen und Snippets zum schnelle
 !!! info "Bezug zum Block"
     Die Erklärungen findest du im [Git-Block](../git/index.md), die Hands-on-Praxis in [Praxis 1–6](../git/praxis-erste-schritte.md).
 
+!!! warning "Notausgänge"
+    | Wo du feststeckst | Raus mit |
+    |---|---|
+    | Pager bei `git log`, `git diff`, `git show` | **`q`** |
+    | Vim (`git commit` ohne `-m`) ohne speichern | `Esc` → `:q!` → `Enter` |
+    | Vim mit speichern | `Esc` → `:wq` → `Enter` |
+    | Nano | `Strg+O` → `Enter` → `Strg+X` |
+    | Befehl hängt nach offenem Anführungszeichen (`>` am Zeilenanfang) | **`Strg+C`** |
+    | Merge mitten in der Auflösung abbrechen | `git merge --abort` |
+
 ## Konfiguration (einmalig)
 
 ```bash

@@ -60,6 +60,104 @@ Diese Seite sammelt typische Git-Probleme – nach Themen sortiert. Bei jedem St
 
 ---
 
+## Aus interaktiven Tools rauskommen
+
+Viele Git-Befehle öffnen unsichtbar einen **Pager** (`less`) oder einen **Editor** (auf Standard-Linux/macOS oft `vim`). Wer das nicht weiß, sitzt manchmal hilflos vor einem fremden Bildschirm. Diese Sektion ist dein Fluchtweg.
+
+??? info "`git log` öffnet sich, ich kann nichts mehr tippen"
+    Du bist im **Pager** (`less`). Unten am Bildschirmrand steht `:`, `(END)` oder ein Doppelpunkt.
+
+    **Raus mit:**
+
+    - **`q`** drücken → Pager schließt sich, du bist zurück im Terminal.
+
+    **Während du drin bist, kannst du:**
+
+    - mit **Pfeiltasten** oder **Leertaste** scrollen,
+    - **`/`** + Suchwort + `Enter` für Suche,
+    - **`g`** zum Anfang, **`G`** ans Ende.
+
+    Auch `git diff`, `git show`, `git blame` und `git branch -a` (bei vielen Branches) öffnen den Pager. Die Taste `q` funktioniert überall.
+
+    Wenn du den Pager generell loswerden willst:
+
+    ```bash
+    git --no-pager log     # nur für diesen einen Befehl
+    git config --global core.pager ""    # dauerhaft für alle Befehle
+    ```
+
+??? danger "Editor öffnet sich beim Commit und ich kann nicht raus"
+    Klassiker. Vim ist offen, du hast vorher keinen Editor konfiguriert. Tastendrücke schreiben nichts, sondern werden als Befehle interpretiert. Atmen, dann:
+
+    **Vim verlassen ohne Speichern:**
+
+    1. **`Esc`** drücken (eventuell zweimal).
+    2. **`:q!`** tippen.
+    3. **`Enter`**.
+
+    **Vim verlassen mit Speichern (z.B. wenn Commit-Message okay ist):**
+
+    1. **`Esc`** drücken.
+    2. **`:wq`** tippen.
+    3. **`Enter`**.
+
+    Bei **nano** (manche Linux-Systeme nutzen das als Default):
+
+    - **`Strg+O`** → `Enter` zum Speichern
+    - **`Strg+X`** zum Verlassen
+
+    **Damit das nicht nochmal passiert**, setze deinen Lieblings-Editor als Default:
+
+    ```bash
+    git config --global core.editor "code --wait"      # VSCode
+    git config --global core.editor "notepad"          # Windows Notepad
+    git config --global core.editor "nano"             # Nano
+    ```
+
+    Details und mehr Editoren in [Git installieren → Editor festlegen](installation.md#editor-festlegen).
+
+??? info "Ich habe `git commit` ohne `-m` getippt – Editor öffnet sich"
+    Genau dafür ist der Editor da: du sollst die **Commit-Message tippen** und speichern.
+
+    1. Im Editor die Message in die erste Zeile schreiben.
+    2. Optional eine Leerzeile, dann ausführlichere Beschreibung.
+    3. Speichern und schließen (siehe oben für vim/nano/VSCode).
+
+    Wenn du es dir anders überlegst und **gar nicht** committen willst: Editor mit leerer Datei verlassen. Git bricht den Commit dann mit `Aborting commit due to empty commit message` ab.
+
+??? info "Bei `git pull` oder `git merge` öffnet sich plötzlich ein Editor"
+    Das ist die **Merge-Commit-Message**. Git hat schon eine Default-Message vorbereitet (z.B. `Merge branch 'feature/...' into main`). Meistens reicht es:
+
+    1. Message akzeptieren.
+    2. Speichern und schließen.
+
+    Bei VSCode (`code --wait`): einfach den Tab im VSCode-Fenster schließen, das beendet den Editor.
+
+    Wenn du den Merge **abbrechen** willst, statt den Editor zu schließen:
+
+    ```bash
+    git merge --abort
+    ```
+
+??? warning "Im Terminal steht plötzlich nur ein `>` und nichts tut sich"
+    Du hast in einem Befehl ein **Anführungszeichen nicht geschlossen**, typischerweise bei einer Commit-Message. Die Shell wartet darauf, dass du den String beendest.
+
+    **Beispiel-Auslöser:**
+
+    ```bash
+    git commit -m "Fixed bug
+    ```
+
+    Der **schließende Anführungszeichen-Strich** fehlt. Die Shell hängt im Wartemodus, angezeigt durch `>` am Zeilenanfang.
+
+    **Raus mit:**
+
+    - **`Strg+C`** → bricht den aktuellen Befehl ab.
+
+    Dann nochmal sauber tippen, beide Anführungszeichen setzen.
+
+---
+
 ## Erste Commits, Staging
 
 ??? warning "`nothing to commit, working tree clean`, obwohl du Änderungen gemacht hast"
