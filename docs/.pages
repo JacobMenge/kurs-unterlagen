@@ -8,6 +8,7 @@ nav:
   - "Docker Compose": docker-compose
   - "Mission Control (Compose-Praxis)": docker-compose-mission-control
   - "Docker für Profis": docker-profi
+  - "Git und GitHub": git
   - "CI/CD-Einführung": ci-cd
   - "Cheatsheets": cheatsheets
   - "Glossar": glossar.md

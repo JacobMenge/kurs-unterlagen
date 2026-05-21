@@ -84,6 +84,14 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
     [:octicons-arrow-right-24: Block 5 starten](docker-profi/index.md)
 
+-   :material-source-fork:{ .lg .middle } __[Git und GitHub](git/index.md)__
+
+    ---
+
+    Versionskontrolle von den Basics bis zum Pull Request: Repository, Commits, Branches, Merge, Konflikte und Remote-Arbeit mit GitHub und GitLab. Mit Gruppen-Übung am gemeinsamen Repo.
+
+    [:octicons-arrow-right-24: Git-Block starten](git/index.md)
+
 -   :material-source-branch:{ .lg .middle } __[CI/CD-Einführung](ci-cd/index.md)__
 
     ---
@@ -167,6 +175,7 @@ Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://ja
     - **Block 4** – Docker Compose (nächste Einheit)
     - **Praxis-Block II** – Mission Control (Compose-Gruppenübung nach Block 4)
     - **Block 5** – Docker für Profis (Best Practices, Optimierung)
+    - **Git-Block** – Versionskontrolle, Branches, Merge, GitHub, Pull Requests, Gruppenübung
     - **Block 6**: CI/CD-Einführung mit GitHub Actions (Pipeline, eigene Workflow-Datei)
 
     Weitere Einheiten (Kubernetes, Monitoring) kommen später dazu.

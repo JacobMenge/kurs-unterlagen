@@ -262,7 +262,101 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Netzwerk-Gerät oder -Adresse, über die dein Rechner „nach draußen" erreicht**, was nicht im lokalen Netz liegt. Zu Hause ist das meist dein Router. In einem Docker-Bridge-Netzwerk ist der Gateway eine IP wie `172.17.0.1`, die den Hostbereich repräsentiert.
 
 ## <span id="git"></span>Git
-: **Verteiltes Versionsverwaltungssystem.** Jeder Entwickler hat eine vollständige Kopie der Historie auf seinem Rechner; geteilt wird über Remote-Repositories (z.B. auf GitHub). Befehle: `git init`, `git add`, `git commit`, `git push`, `git pull`. Im Kurs nutzt du Git, um die eigenen Übungen lokal zu versionieren und auf GitHub zu spiegeln.
+: **Verteiltes Versionsverwaltungssystem.** Jeder Entwickler hat eine vollständige Kopie der Historie auf seinem Rechner; geteilt wird über Remote-Repositories (z.B. auf GitHub). Geschrieben 2005 von Linus Torvalds für die Linux-Kernel-Entwicklung, heute Standard in praktisch jedem ernsthaften Software-Projekt. Im Kurs lernst du Git im eigenen [Git-Block](git/index.md) komplett von den Grundlagen bis zum PR-Workflow.
+
+    Die wichtigsten Befehle im Überblick:
+
+    | Befehl | Zweck |
+    |--------|-------|
+    | `git init` | Ordner zum Repository machen |
+    | `git add <datei>` | Datei stagen (auf den Vorbereitungstisch legen) |
+    | `git commit -m "..."` | Stand als neuen Commit archivieren |
+    | `git status` | aktuellen Zustand anzeigen |
+    | `git log` | Historie ansehen |
+    | `git diff` | Änderungen vergleichen |
+    | `git switch <branch>` | Branch wechseln |
+    | `git merge <branch>` | anderen Branch in den aktuellen mergen |
+    | `git clone <URL>` | Remote-Repo lokal holen |
+    | `git push` | lokale Commits zum Remote schieben |
+    | `git pull` | neue Commits vom Remote holen + mergen |
+
+    Mehr im [Cheatsheet Git](cheatsheets/git.md).
+
+## <span id="repository"></span><span id="repo"></span>Repository (Git)
+: **Komplette Verwaltungseinheit eines Git-Projekts.** Technisch: ein Ordner mit einem versteckten `.git`-Unterordner, der die gesamte Historie, alle Branches, Tags und Konfiguration enthält. **Lokales Repository** liegt auf deinem Rechner, **Remote-Repository** auf einem Server (z.B. GitHub). Beide haben dieselbe Struktur und tauschen Daten über `git push` und `git pull` aus.
+
+## <span id="commit"></span>Commit
+: **Vollständiger Schnappschuss deines Projekts zu einem bestimmten Zeitpunkt**, plus Autor, Zeitstempel und eine Beschreibung (Commit-Message). Jeder Commit hat eine eindeutige **SHA-ID** (40-stelliger Hash, oft abgekürzt auf 7 Zeichen) und referenziert seinen Vorgänger – daraus entsteht die Kette der Historie. Erzeugt mit `git commit -m "..."`. Siehe auch [Grundbegriffe](git/grundbegriffe.md#commit).
+
+## <span id="working-tree"></span><span id="working-directory"></span>Working Tree / Working Directory
+: **Die ganz normalen Dateien in deinem Projektordner**, so wie sie aktuell auf der Festplatte liegen. Änderungen hier sind „in Arbeit" – Git sieht sie, aber sie sind noch nicht zum Commit vorgemerkt. Erst mit `git add` wandern sie in die [Staging-Area](#staging-area).
+
+## <span id="staging-area"></span><span id="staging"></span><span id="index-git"></span>Staging-Area / Index
+: **Vorbereitungstisch zwischen Working Tree und Repository.** Hier sammelst du mit `git add` die Änderungen, die du im **nächsten Commit** zusammenfassen willst. Damit kannst du gezielt steuern, was in einen Commit kommt – statt alle parallelen Änderungen in einen Topf zu werfen. Auch „Index" genannt.
+
+## <span id="head"></span>HEAD (Git)
+: **Zeiger auf den Commit, auf dem du gerade stehst.** Normalerweise zeigt HEAD auf den neuesten Commit deines aktuellen Branches. Beim Commit rückt HEAD automatisch einen Schritt weiter, beim Branch-Wechsel hängt HEAD auf den neuen Branch um. Praktisch dein „du bist hier"-Schild in der Historie.
+
+## <span id="branch"></span>Branch (Git)
+: **Eigene Entwicklungslinie** in Git. Technisch nur ein **Name, der auf einen Commit zeigt** – nicht mehr. Branches sind extrem leichtgewichtig: Anlegen, Wechseln und Löschen dauert Sekundenbruchteile. Standard-Branch heißt heute praktisch überall `main` (früher `master`, das wurde seit ca. 2020 schrittweise umbenannt). Anlegen mit `git switch -c <name>`, Wechseln mit `git switch <name>`. Siehe [Branches und Merge](git/branches-und-merge.md).
+
+## <span id="merge"></span><span id="merge-commit"></span>Merge / Merge-Commit
+: **Zwei Git-Branches zu einem zusammenführen.** Zwei Hauptfälle:
+
+    - **Fast-Forward Merge**: wenn auf dem Ziel-Branch seit dem Abzweig nichts dazugekommen ist, schiebt Git den Branch-Zeiger einfach weiter. Kein neuer Commit.
+    - **Echter Merge-Commit**: wenn beide Linien parallel gewachsen sind, erzeugt Git einen besonderen Commit mit **zwei Eltern**. So bleibt in der Historie sichtbar, dass es einen Branch gab.
+
+    Befehl: `git merge <branch>`. Mit `--no-ff` lässt sich der Fast-Forward unterdrücken und immer ein Merge-Commit erzwingen. Siehe [Branches und Merge](git/branches-und-merge.md#merge-zwei-linien-wieder-zusammenfuhren).
+
+## <span id="merge-konflikt"></span>Merge-Konflikt
+: **Situation, in der Git beim Mergen nicht entscheiden kann, welche Version gilt** – weil dieselbe Stelle in derselben Datei in beiden Branches unterschiedlich geändert wurde. Git markiert die konkurrierenden Zeilen in der Datei mit `<<<<<<<`, `=======`, `>>>>>>>` und überlässt die Auflösung dem Menschen. Vorgehen: Datei bearbeiten, Marker entfernen, gewünschte Version hinschreiben, `git add`, `git commit`. Komplettes Beispiel in [Praxis 3](git/praxis-merge-konflikt.md). Abbrechen mit `git merge --abort`.
+
+## <span id="remote"></span><span id="remote-repository"></span>Remote-Repository
+: **Git-Repository, das auf einem anderen Rechner liegt** – typischerweise einem Server wie GitHub, GitLab oder einem self-hosted Gitea. Dein lokales Repo kennt jeden Remote unter einem **Namen**, per Konvention heißt der wichtigste `origin`. Befehle: `git remote add origin <URL>` zum Verknüpfen, `git remote -v` zum Anzeigen, `git push` zum Schieben, `git pull` zum Holen.
+
+## <span id="pull-request"></span><span id="pr"></span><span id="merge-request"></span><span id="mr"></span>Pull Request / Merge Request (PR / MR)
+: **Vorschlag, einen Branch in einen anderen zu mergen** – mit Diskussionsraum, Reviews und CI-Checks drumherum. Auf GitHub und Bitbucket heißt das **Pull Request**, auf GitLab **Merge Request**. Beides ist konzeptuell dasselbe.
+
+    **Wichtig**: ein PR ist **kein Git-Konzept**. Git selbst kennt nur Branches und Merges. Pull Requests sind eine Erfindung der Plattformen, um den Merge-Prozess mit Reviews zu strukturieren. Typischer Ablauf: Branch lokal anlegen, pushen, auf GitHub PR öffnen, ggf. Review-Kommentare mit weiteren Commits beantworten, mergen, Branch aufräumen. Komplettes Beispiel in [Praxis 6](git/praxis-pull-request.md).
+
+## <span id="fast-forward"></span>Fast-Forward (Merge)
+: **Einfachster Fall eines Merges**: wenn auf dem Ziel-Branch seit dem Abzweig keine eigenen Commits hinzugekommen sind, schiebt Git den Branch-Zeiger einfach an die Spitze des anderen Branches. **Kein neuer Commit** wird angelegt. Die Historie bleibt dadurch linear, aber die Information „hier gab es einen Branch" geht verloren. Mit `git merge --no-ff` kann man Fast-Forward unterdrücken und immer einen Merge-Commit erzwingen.
+
+## <span id="git-clone"></span>git clone
+: **Befehl zum Holen eines Remote-Repositories** auf den eigenen Rechner. `git clone <URL>` legt einen neuen Ordner an, lädt die komplette Historie, richtet den Remote `origin` ein und checkt den Default-Branch aus. Einer der häufigsten Git-Befehle überhaupt – nach einem Klon ist alles fertig konfiguriert.
+
+## <span id="git-push"></span>git push
+: **Schiebt deine lokalen Commits zum Remote.** Standardform: `git push`. Beim ersten Push eines neuen Branches: `git push -u origin <branch>` – das `-u` setzt zugleich das **Tracking-Verhältnis**, sodass folgende Pushs ohne Argumente reichen. Wenn der Remote weiter ist als du erwartest, lehnt Git ab und schützt vor Datenverlust.
+
+## <span id="git-pull"></span>git pull
+: **Holt neue Commits vom Remote** und mergt sie in deinen aktuellen Branch. Unter der Haube: `git fetch` + `git merge`. Bei abweichenden lokalen Änderungen kann es zu Konflikten kommen – die werden wie beim normalen Merge gelöst.
+
+## <span id="git-fetch"></span>git fetch
+: **Holt neue Commits vom Remote**, ohne sie in deinen aktuellen Branch zu mergen. Praktisch, wenn du **erst sehen** willst, was es Neues gibt, bevor du integrierst. Die geholten Commits landen in den [Tracking-Branches](#tracking-branch) (z.B. `origin/main`).
+
+## <span id="tracking-branch"></span><span id="tracking-branches"></span>Tracking-Branch
+: **Lokale Kopie eines Remote-Branches**, benannt nach dem Schema `<remote>/<branch>` – also `origin/main` für den `main`-Branch auf `origin`. Tracking-Branches werden mit `git fetch` aktualisiert und repräsentieren den **Stand des Remotes, wie er beim letzten Fetch war**. `git status` vergleicht deinen lokalen Branch mit dem Tracking-Branch und zeigt Zeilen wie „Your branch is ahead of 'origin/main' by 2 commits".
+
+## <span id="git-stash"></span>git stash
+: **Zwischenparkplatz für nicht-committete Änderungen.** Mit `git stash` legst du den Working Tree weg, sodass `git status` „clean" zeigt – die Änderungen sind aber auf einem Stapel sicher abgelegt. Praktisch, wenn du **mitten in einer Arbeit** bist und kurz auf einen anderen Branch wechseln musst. Mit `git stash pop` holst du sie zurück und entfernst sie vom Stapel.
+
+## <span id="gitignore"></span>.gitignore (Git)
+: **Datei im Repository-Root, die festlegt, welche Dateien und Ordner Git ignorieren soll.** Eine Zeile pro Muster, Wildcards erlaubt:
+
+    ```text
+    *.log              # alle .log-Dateien
+    node_modules/      # ganzer Ordner
+    .env               # einzelne Datei
+    !wichtig.log       # Ausnahme
+    ```
+
+    Wird selbst ins Repository commitet, damit alle Beteiligten dieselben Filterregeln haben. Vorlagen für viele Sprachen unter <https://github.com/github/gitignore>. Nicht zu verwechseln mit Dockers [.dockerignore](#dockerignore).
+
+## <span id="commit-message"></span>Commit-Message
+: **Beschreibung eines Commits, in der ersten Zeile knapp**, ggf. mit ausführlicherem Body danach. Gute Faustregel: die erste Zeile sollte den Satz „Wenn ich diesen Commit anwende, dann …" sinnvoll vervollständigen. Beispiele: `Login: E-Mail-Validierung ergänzen`, `Crash bei leerem Eingabefeld beheben`, `README: Tippfehler korrigieren`. Setzt man mit `git commit -m "..."`; nachträglich änderbar mit `git commit --amend` (nur vor dem Push, sonst Hash-Konflikt).
+
+## <span id="personal-access-token"></span><span id="pat"></span>Personal Access Token (PAT)
+: **Passwort-Ersatz für GitHub-Operationen über HTTPS.** Seit 2021 akzeptiert GitHub keine normalen Passwörter mehr für Git-Operationen. Stattdessen erstellst du in **Settings → Developer settings → Personal access tokens** einen Token mit gezielten Rechten (mindestens `repo` für Push/Pull) und einer Laufzeit. Beim ersten `git push` gibst du den Token statt des Passworts ein; der Git Credential Manager merkt ihn sich. Mehr in [Praxis 4 → Schritt 5](git/praxis-github-neu.md#schritt-5-pushen-und-das-token-setup).
 
 ## <span id="github"></span><span id="github-actions"></span><span id="github-pages"></span><span id="ghcr"></span><span id="github-container-registry"></span>GitHub / GitHub Actions / GitHub Pages / GHCR
 : **Web-Plattform** rund um Git, betrieben von Microsoft. Hostet Open-Source- und private Repositories. Vier Bausteine, die im Kurs vorkommen:
@@ -273,7 +367,13 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
     - **GHCR (GitHub Container Registry)** – Container-Registry unter `ghcr.io`, integriert in GitHub. Ein Workflow kann mit dem eingebauten `GITHUB_TOKEN` Images pushen, sofern `permissions: packages: write` gesetzt ist. Public Repos erhalten kostenlosen Speicher.
 
 ## <span id="gitlab"></span>GitLab
-: **Self-hostbare Web-Plattform für Git-Repositories** mit eingebautem CI/CD, Issues, Wikis und Container-Registry. Im Kurs nicht primär genutzt, aber konzeptuell sehr ähnlich zu GitHub – Wissen ist übertragbar.
+: **Web-Plattform für Git-Repositories**, sowohl als gehosteter Dienst (<https://gitlab.com>) als auch self-hosted in eigenen Rechenzentren. Bringt CI/CD, Issues, Wikis und Container-Registry direkt mit. Pull Requests heißen hier **Merge Requests**, sonst sind die Konzepte identisch zu GitHub. Besonders beliebt in Unternehmen und Behörden, weil sich GitLab on-premise installieren lässt und Daten so nicht das eigene Netzwerk verlassen. Konzeptionell sehr ähnlich zu GitHub – das Wissen ist übertragbar.
+
+## <span id="bitbucket"></span>Bitbucket
+: **Git-Plattform von Atlassian.** Enge Integration mit Jira und Confluence – beliebt in Teams, die ohnehin im Atlassian-Universum unterwegs sind. Funktional sehr nah an GitHub/GitLab, bringt eigenes CI/CD-System („Bitbucket Pipelines") mit. Wer GitHub kann, lernt Bitbucket in einer halben Stunde.
+
+## <span id="gitea"></span>Gitea
+: **Leichtgewichtige Open-Source-Git-Plattform**, in Go geschrieben, läuft auf einer kleinen VM oder einem Heimserver. Erinnert in der Oberfläche an GitHub, lässt sich aber komplett selbst hosten. Beliebt für private Server, Studierende, kleinere Teams und alle, die ihre Daten nicht in der Cloud haben wollen.
 
 ## <span id="gitops"></span>GitOps
 : **Betriebsmodell, bei dem der Soll-Zustand der Infrastruktur (Manifeste, Konfiguration) komplett in einem Git-Repo liegt** und ein Operator im Cluster diesen Stand fortlaufend mit der Realität abgleicht. Ein typischer Ablauf: CI-Pipeline pusht ein neues Image und ändert die Image-Referenz im GitOps-Repo; ein Operator wie [ArgoCD](#argocd) oder Flux bemerkt den Commit und rollt aus. Vorteile: jede Cluster-Änderung ist ein Commit (auditierbar, rollbackbar), Drift-Detection korrigiert manuelle Eingriffe automatisch.
