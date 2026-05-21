@@ -1,0 +1,17 @@
+nav:
+  - "Überblick": index.md
+  - "Warum Git?": warum-git.md
+  - "Grundbegriffe": grundbegriffe.md
+  - "Branches und Merge": branches-und-merge.md
+  - "Remote und GitHub": remote-und-github.md
+  - "Git installieren": installation.md
+  - "Praxis 1: erste Schritte lokal": praxis-erste-schritte.md
+  - "Praxis 2: Branches anlegen und mergen": praxis-branches.md
+  - "Praxis 3: Merge-Konflikt lösen": praxis-merge-konflikt.md
+  - "Praxis 4: Repo auf GitHub erstellen und klonen": praxis-github-neu.md
+  - "Praxis 5: lokales Repo zu GitHub bringen": praxis-lokal-zu-github.md
+  - "Praxis 6: Pull Request über Branch": praxis-pull-request.md
+  - "Übungen": uebungen.md
+  - "Gruppenübung: Repo gemeinsam nutzen": gruppen-uebung.md
+  - "Stolpersteine": stolpersteine.md
+  - "Merksätze": merksaetze.md
