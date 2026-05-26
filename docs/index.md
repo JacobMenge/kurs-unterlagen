@@ -100,6 +100,14 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
     [:octicons-arrow-right-24: Block 6 starten](ci-cd/index.md)
 
+-   :material-lan:{ .lg .middle } __[Netzwerke](netzwerke/index.md)__
+
+    ---
+
+    Das Fundament für Systemintegration: vom OSI-Modell über IP-Adressierung, Subnetting, Routing und DNS bis hin zu Industrie- und IoT-Protokollen (OPC UA, MQTT) sowie Netzwerk-Sicherheit. Reine Theorie, in einfacher Sprache.
+
+    [:octicons-arrow-right-24: Theorie-Block starten](netzwerke/index.md)
+
 -   :material-view-dashboard-outline:{ .lg .middle } __[Cheatsheets](cheatsheets/index.md)__
 
     ---
