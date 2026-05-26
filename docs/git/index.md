@@ -50,8 +50,10 @@ Wenn du den CI/CD-Block schon angefangen hast: die Schritte „GitHub-Repo anleg
 | [Praxis 4: Repo auf GitHub erstellen und klonen](praxis-github-neu.md) | Der „GitHub zuerst, dann clone"-Weg | Praxis |
 | [Praxis 5: lokales Repo zu GitHub bringen](praxis-lokal-zu-github.md) | Der „lokal zuerst, dann remote add"-Weg | Praxis |
 | [Praxis 6: Pull Request über Branch](praxis-pull-request.md) | Feature-Branch pushen, PR öffnen, mergen, Branch aufräumen | Praxis |
+| [Typische Workflows in der Praxis](workflows.md) | Drei häufige Muster: detached HEAD, Feature-Branch alleine, das `rejected`-Push-Drama – mit Solo-Übungen | Theorie + Praxis |
 | [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Vertiefen | Training |
 | [Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md) | Vier Teilnehmer, ein Repo, ein provozierter Konflikt – 60 Minuten Gruppenarbeit | Training |
+| [Praxis: Feature-Workflow im Team (45 Min)](praxis-team-workflow.md) | Vier bis fünf Teilnehmer, jeder eigene Feature-Branch, `[rejected]`-Fehler im Team erleben | Training |
 | [Stolpersteine](stolpersteine.md) | Typische Fehler bei Git, Branches, Push, Pull, Konflikten | Referenz |
 | [Merksätze](merksaetze.md) | Die Kern-Sätze des Blocks auf einer Seite | Referenz |
 

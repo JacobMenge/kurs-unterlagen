@@ -11,7 +11,9 @@ nav:
   - "Praxis 4: Repo auf GitHub erstellen und klonen": praxis-github-neu.md
   - "Praxis 5: lokales Repo zu GitHub bringen": praxis-lokal-zu-github.md
   - "Praxis 6: Pull Request über Branch": praxis-pull-request.md
+  - "Typische Workflows in der Praxis": workflows.md
   - "Übungen": uebungen.md
   - "Gruppenübung: Repo gemeinsam nutzen": gruppen-uebung.md
+  - "Praxis: Feature-Workflow im Team (45 Min)": praxis-team-workflow.md
   - "Stolpersteine": stolpersteine.md
   - "Merksätze": merksaetze.md
