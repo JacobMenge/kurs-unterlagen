@@ -426,7 +426,7 @@ Setzt euch zusammen und sprecht durch:
 
 | Frage | Antwort/Hintergrund |
 |---|---|
-| Wer hat in Schritt 3.3 als erster gepusht? | Diese Person ist durchgekommen, weil sie schneller war als die Merges des Maintainers oder vor den anderen Devs. Glück, keine Strategie. |
+| Warum haben **alle** Devs in Schritt 3.3 den `[rejected]` gesehen? | Weil alle drei einen lokalen Commit gemacht haben, bevor sie die drei Merge-Commits des Maintainers gepullt haben. **Jeder** lokale `main` war veraltet. Git lehnt jeden Push ab, der den Remote-Stand nicht enthält. |
 | Was wäre die **saubere** Reihenfolge gewesen, anstatt zu pushen und auf `[rejected]` zu warten? | `git switch main` → **`git pull`** → dann erst die Notiz-Datei anlegen, committen, pushen. Reihenfolge sicher zu wissen: was auf Remote ist, war zuletzt da. |
 | Warum wäre `git push --force` hier eine Katastrophe gewesen? | Es hätte die drei Merge-Commits des Maintainers **überschrieben**. Die Section-Einträge aller Devs wären weg, niemand hätte gemerkt wo. Die anderen müssten ihre Arbeit aus dem `reflog` rekonstruieren oder neu machen. |
 | Wann darf man `--force` nutzen? | Nur in einem Repo, an dem **niemand sonst** arbeitet. Z.B. in einem persönlichen Sandbox-Repo. Im Team-Repo: niemals ohne Absprache. Wenn doch nötig, dann `--force-with-lease`. |
