@@ -326,6 +326,49 @@ In Firmen mit hohen Sicherheitsanforderungen Standard. Im Heim-Netz nicht üblic
 
 ---
 
+## Monitoring – ohne Sicht keine Sicherheit
+
+Bevor wir zum SIEM kommen, ein kurzer Blick auf das **klassische Netzwerk-Monitoring**. Ohne aktive Überwachung kannst du weder Sicherheits-Vorfälle erkennen, noch Performance-Probleme rechtzeitig sehen.
+
+### Was wird überwacht?
+
+| Bereich | Beispiele |
+|---------|-----------|
+| **Verfügbarkeit** | Ist der Webserver erreichbar? Antwortet die Datenbank? Pingt der Router? |
+| **Performance** | CPU-Auslastung, RAM, Bandbreite, Antwortzeiten |
+| **Logs** | Was schreibt die Anwendung? Was sagt die Firewall? |
+| **Sicherheits-Ereignisse** | Fehlgeschlagene Logins, Port-Scans, ungewöhnlicher Traffic |
+
+### Wichtige Protokolle und Werkzeuge
+
+| Werkzeug / Protokoll | Wofür |
+|----------------------|-------|
+| **SNMP** (Simple Network Management Protocol) | klassisches Abfrage-Protokoll für Switches, Router, Drucker – fragt: „Wie ist deine Auslastung? Sind alle Ports up?" |
+| **ICMP / Ping** | einfachster Erreichbarkeits-Test |
+| **Syslog** | standardisiertes Log-Sammel-Protokoll, oft auf Port 514 |
+| **NetFlow / sFlow / IPFIX** | Verkehrs-Statistiken auf Router/Switch-Ebene |
+| **Prometheus + Grafana** | moderner Open-Source-Stack für Metriken + Dashboards |
+| **Zabbix, Nagios, Icinga** | etablierte Monitoring-Plattformen mit Alarmierung |
+| **PRTG, SolarWinds** | kommerzielle Komplettpakete |
+| **ELK / Loki** | Log-Aggregation und -Auswertung |
+
+### Drei Reife-Stufen des Monitorings
+
+1. **„Es funktioniert"** – jemand merkt, wenn etwas ausfällt, ruft an. Reaktiv, nicht skalierend.
+2. **„Wir haben ein Dashboard"** – Werte sichtbar, jemand schaut regelmäßig drauf. Besser, aber abhängig vom Aufmerksamkeits-Niveau.
+3. **„Wir haben Alarme + Eskalation"** – Schwellwerte definiert, automatische Benachrichtigung bei Verstoß, klare Eskalations-Wege. Das ist Profi-Niveau.
+
+Die meisten Firmen sind in Stufe 2 unterwegs, das Ziel sollte Stufe 3 sein. Ohne Alarmierung ist das beste Dashboard wertlos, wenn niemand hinschaut.
+
+### Was du als Berufsspezialist beachten musst
+
+- **Was überwachst du?** Nicht alles – sondern das, was wirklich kritisch ist.
+- **Wer wird benachrichtigt?** Klare Eskalations-Kette: erst Tagestechniker, dann Bereitschaft, dann Geschäftsführung.
+- **Wie verhinderst du Alarm-Müdigkeit?** Sinnvolle Schwellwerte, keine Fehlalarme.
+- **Wie sicherst du das Monitoring selbst?** Ein Monitoring-Server, der ausfällt, ist die schlimmste Stille.
+
+---
+
 ## SIEM – das zentrale Auge
 
 Ein **SIEM** (Security Information and Event Management) sammelt **Logs aus allen Systemen** an einer Stelle und korreliert sie:
@@ -357,6 +400,61 @@ Ein SIEM erkennt Muster, die in einzelnen Logs nicht auffallen würden. Beispiel
 - Klassische Angriffe: **MITM, DDoS, ARP-Spoofing, DNS-Hijacking, Port-Scanning, Brute-Force**. Jeder hat seine Schutzmaßnahmen.
 - **Verschlüsselung** ist heute Standard, in transit und at rest.
 - **NAC** entscheidet, wer überhaupt ans Netz darf. **SIEM** sammelt und korreliert alle Sicherheits-Logs.
+
+---
+
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Ein Mitarbeiter klickt auf einen Phishing-Link, sein Notebook wird kompromittiert. Wie verhindert eine gute Sicherheits-Architektur, dass der Angreifer sich im Firmennetz ausbreitet?"
+    Mehrere Schichten zusammen:
+
+    - **Netzwerk-Segmentierung (VLANs):** der PC sieht nur den Office-Bereich, nicht den Server-Raum
+    - **Host-Firewalls auf Servern:** akzeptieren nur Verbindungen von explizit erlaubten Quellen
+    - **Least Privilege:** der Account hat nur Rechte, die er wirklich braucht
+    - **MFA für alle Anmeldungen:** das gestohlene Passwort allein reicht nicht
+    - **IDS/IPS:** erkennt ungewöhnliches Verhalten (z.B. Port-Scans aus dem Office-VLAN)
+    - **Zero-Trust:** auch Geräte im internen Netz müssen sich permanent ausweisen
+
+    Genau das ist **Defense in Depth**. Eine einzelne Maßnahme reicht nicht.
+
+??? question "Frage 2: Was unterscheidet eine Stateful Firewall von einer Application Firewall (WAF), und wann brauchst du welche?"
+    - **Stateful Firewall (Layer 3/4):** filtert nach IP, Port und Verbindungs-Zustand. Sehr schnell, deckt 80 % aller Anwendungsfälle ab. Erste Verteidigungslinie.
+    - **WAF (Layer 7):** versteht **HTTP-Verkehr** und kann Anwendungs-Angriffe wie SQL-Injection, XSS oder unerwartete API-Aufrufe erkennen und blockieren.
+
+    Faustregel: **Stateful für alle**, **WAF zusätzlich vor öffentlich erreichbaren Webanwendungen**. Cloud-Anbieter haben WAFs als Service (AWS WAF, Cloudflare).
+
+??? question "Frage 3: Du sollst ein ISMS für eine Firma einführen. Welche Standards und Bausteine sind die wichtigsten?"
+    Zentrale Standards:
+
+    - **ISO/IEC 27001** – internationaler Standard für Informationssicherheits-Management
+    - **BSI-Grundschutz** – deutsche Variante mit konkreten Bausteinen und Maßnahmen
+    - **NIS2-Richtlinie** – für kritische Infrastruktur in der EU
+
+    Wichtige Bausteine eines ISMS:
+
+    - **Risikomanagement** (Risiken identifizieren, bewerten, behandeln)
+    - **Sicherheitsrichtlinien** (Passwörter, Zugriff, Datenschutz)
+    - **Audits und Reviews** (interne und externe)
+    - **Mitarbeiter-Schulung** (Awareness)
+    - **Incident-Response-Plan** (was tun bei einem Vorfall)
+    - **kontinuierliche Verbesserung** (PDCA-Zyklus)
+
+??? question "Frage 4: Ein DDoS-Angriff legt eure Webseite lahm. Welche Maßnahmen helfen mittel- und langfristig?"
+    Kurzfristig (während des Angriffs):
+
+    - **DDoS-Schutz-Dienst** vorschalten (Cloudflare, AWS Shield, Akamai)
+    - die angegriffenen IPs **blockieren**
+    - Provider informieren, ggf. Anycast-Verteilung nutzen
+
+    Mittel- und langfristig:
+
+    - **dauerhafter DDoS-Schutz** als CDN-Service
+    - **Rate Limiting** auf der Anwendungsebene
+    - **Auto-Scaling** in der Cloud, damit Spitzen abgefangen werden
+    - **Monitoring + Alarmierung**, damit Angriffe schneller erkannt werden
+    - **Incident-Response-Plan**, wer was tut
+
+    Wichtig: ein DDoS-Angriff lässt sich technisch nie ganz verhindern, aber **die Auswirkungen** lassen sich stark reduzieren.
 
 ---
 

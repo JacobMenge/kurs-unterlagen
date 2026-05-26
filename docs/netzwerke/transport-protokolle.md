@@ -288,6 +288,43 @@ Sehr nützlich, wenn du wissen willst: „Auf welchen Ports lauscht mein System?
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Für welches der folgenden Szenarien würdest du UDP statt TCP einsetzen – Datei-Synchronisation, Online-Videospiel, Banktransaktion, VoIP-Telefonie?"
+    - **Datei-Synchronisation:** TCP. Jedes Byte muss korrekt ankommen.
+    - **Online-Videospiel:** UDP. Verlorene Position-Updates sind in 50 ms eh überholt – Echtzeit zählt mehr als Vollständigkeit.
+    - **Banktransaktion:** TCP. Kein Cent darf verloren gehen.
+    - **VoIP-Telefonie:** UDP. Verlorene Audio-Samples nachzuliefern wäre sinnlos – das Gespräch ist schon weiter.
+
+    Faustregel: **Echtzeit = UDP, Datenintegrität = TCP**.
+
+??? question "Frage 2: Ein Webserver soll erreichbar sein, antwortet aber von außen nicht. Auf welchen Port-Aspekt prüfst du als erstes?"
+    1. **Lauscht** der Server überhaupt auf dem richtigen Port? (`ss -tuln` oder `netstat -an`)
+    2. Ist er an die **richtige Adresse** gebunden? (oft Fehler: nur an `127.0.0.1` statt `0.0.0.0`)
+    3. Blockt eine **lokale Firewall** den Port? (Windows-Defender-Firewall, `iptables`, `ufw`)
+    4. Blockt eine **Netzwerk-Firewall** dazwischen?
+    5. Stimmen die **NAT/Port-Forwarding-Regeln** auf dem Router?
+
+    In dieser Reihenfolge prüfen.
+
+??? question "Frage 3: Welche typischen Well-Known-Ports solltest du im Kopf haben – mindestens fünf?"
+    Pflicht: **22 (SSH)**, **53 (DNS)**, **80 (HTTP)**, **443 (HTTPS)**, **25 (SMTP)**.
+
+    Sehr nützlich zusätzlich: **587 (SMTP Submission)**, **993 (IMAPS)**, **3389 (RDP)**, **3306 (MySQL)**, **5432 (PostgreSQL)**.
+
+??? question "Frage 4: Warum existiert QUIC, und was unterscheidet es von TCP?"
+    QUIC läuft technisch über **UDP**, bringt aber die **Zuverlässigkeit, Reihenfolge und Verschlüsselung** mit, für die man sonst TCP + TLS bräuchte – und zwar in einem einzigen Protokoll-Stack.
+
+    Vorteile:
+
+    - schnellerer Verbindungsaufbau (weniger Round-Trips als TCP + TLS)
+    - bessere Reaktion bei Netzwerkwechseln (z.B. WLAN zu Mobilfunk)
+    - kein „Head-of-Line-Blocking" wie bei TCP
+
+    QUIC ist die Basis von **HTTP/3** und verbreitet sich seit etwa 2020 stark.
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"

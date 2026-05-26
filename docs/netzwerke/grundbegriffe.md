@@ -316,6 +316,35 @@ Modernes Ethernet ist **vollduplex** – Sender und Empfänger nutzen getrennte 
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Du planst die Vernetzung eines neuen Bürogebäudes mit zwei Etagen. Welche Topologie nimmst du vermutlich – und warum?"
+    **Eine Baum-Topologie** (Mischung aus mehreren Sternen). Konkret: pro Etage ein **Access-Switch**, an dem die Arbeitsplätze sternförmig hängen. Die Etagen-Switches gehen wiederum sternförmig zu einem zentralen **Core-Switch** im Serverraum.
+
+    Vorteile: einfach erweiterbar, einzelne Ausfälle bleiben lokal begrenzt, klare Verkabelungs-Struktur.
+
+??? question "Frage 2: Eine Videokonferenz ruckelt. Du misst 100 Mbit/s Bandbreite und 200 ms Latenz mit hoher Schwankung. Worauf tippst du?"
+    Die hohe **Latenz allein** ist für Sprache schon grenzwertig. Die **Schwankung** (Jitter) ist aber das Hauptproblem – bei Videokonferenzen brauchst du **konstante** kleine Verzögerungen, nicht „mal 50, mal 300 ms".
+
+    Lösung: nicht mehr Bandbreite einkaufen (würde nichts bringen), sondern Ursache des Jitters finden – z.B. überlastetes WLAN, schlechte Leitung zum Provider, QoS-Konfiguration prüfen.
+
+??? question "Frage 3: Welche Daten-'Päckchen-Namen' findest du auf welcher OSI-Schicht – und in welcher Reihenfolge werden sie ineinander verpackt?"
+    Von oben nach unten beim Senden:
+
+    - Layer 4 (Transport): **Segment** (TCP) oder **Datagramm** (UDP)
+    - Layer 3 (Vermittlung): **Paket**
+    - Layer 2 (Sicherung): **Frame**
+    - Layer 1 (Physisch): **Bits**
+
+    Beim Senden wird jede Schicht in die darunterliegende verpackt (**Encapsulation**), beim Empfangen wird Schicht für Schicht ausgepackt.
+
+??? question "Frage 4: Du betreibst ein Klassen-C-Heimnetz (192.168.1.0/24). Wie viele Geräte können maximal IP-Adressen bekommen?"
+    **254 nutzbare Hostadressen.** Mathematisch wären es 256 (2⁸), aber `.0` ist die Netzadresse und `.255` ist die Broadcast-Adresse – beide nicht nutzbar.
+
+    In der Praxis hat man oft noch weniger frei, weil **Router**, **statische Server** und ggf. **Reservierungen** schon Adressen belegen.
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"

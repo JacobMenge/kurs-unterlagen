@@ -330,6 +330,54 @@ In **größeren Firmen** wird das mehrfach redundant aufgebaut, mit zwei Routern
 
 ---
 
+## Speicher im Netzwerk: SAN, NAS und iSCSI
+
+Server und Anwendungen brauchen Speicher. Den kann man **direkt im Server** verbauen (DAS – Direct Attached Storage), oder man **bindet Speicher über das Netzwerk an**. Letzteres ist im professionellen Umfeld der Normalfall.
+
+### NAS – Network Attached Storage
+
+Ein **NAS** ist ein Gerät, das Dateien (z.B. PDFs, Videos, Office-Dokumente) **über das Netzwerk freigibt**. Klingt einfach, ist es auch.
+
+- Typische Protokolle: **SMB** (Windows), **NFS** (Unix/Linux), **AFP** (Apple, veraltet)
+- Du siehst es als **gemounteten Ordner** oder Netzlaufwerk
+- Bekannte Anbieter: Synology, QNAP, NetApp
+
+**Wofür?** Klassische Datei-Freigaben: Firmenlaufwerk, Backup-Ziel, Foto-Archiv.
+
+### SAN – Storage Area Network
+
+Ein **SAN** ist etwas anderes: hier wird Speicher **blockweise** über das Netzwerk angeboten, **nicht** als Datei.
+
+- Der Server sieht eine **virtuelle Festplatte**, als wäre sie lokal eingebaut
+- Erst der Server entscheidet, wie er sie formatiert (NTFS, ext4, ZFS, …)
+- Sehr hohe Performance, oft mit dedizierten Glasfaser-Netzen
+- Typische Protokolle: **Fibre Channel** (FC), **FCoE**, **iSCSI** (siehe unten)
+
+**Wofür?** Datenbanken, Virtualisierungs-Cluster, alles wo viele schnelle Zugriffe nötig sind.
+
+### iSCSI – SAN über normales Ethernet
+
+**iSCSI** (Internet Small Computer System Interface) bringt SAN-artigen Blockspeicher über **normales TCP/IP-Netzwerk**, statt über teure Glasfaser-FC-Hardware.
+
+- läuft typisch auf **Port 3260**
+- Funktioniert über jedes Standard-Ethernet, im Idealfall mit dediziertem 10-Gbit/s-Netz
+- Sehr verbreitet in kleineren Rechenzentren, weil deutlich günstiger als FC
+
+### NAS vs. SAN – das wichtigste Unterscheidungsmerkmal
+
+| Aspekt | NAS | SAN |
+|--------|-----|-----|
+| **Was wird angeboten?** | ganze Dateien | rohe Blöcke |
+| **Wie sieht es der Server?** | als Netzlaufwerk / gemounteter Ordner | wie eine eingebaute Festplatte |
+| **Typische Nutzung** | File-Sharing, Backups | Datenbanken, Virtualisierungs-Cluster |
+| **Performance** | gut, aber durch Datei-System-Overhead begrenzt | sehr hoch |
+| **Komplexität** | gering | hoch |
+
+!!! info "Hyperkonvergente Infrastruktur (HCI) – der moderne Trend"
+    In modernen Rechenzentren verschwimmen die Grenzen. **HCI-Systeme** (z.B. VMware vSAN, Nutanix) kombinieren Compute, Storage und Netzwerk auf denselben Knoten. Statt eines separaten SAN nutzen alle Server lokal verbaute SSDs, die sich über das Netzwerk **gegenseitig spiegeln** und ein virtuelles SAN bilden. Sehr flexibel, sehr beliebt, aber komplex zu betreiben.
+
+---
+
 ## Hardware vs. Software – wo ist die Grenze?
 
 Vieles, was früher in dedizierter Hardware lief, läuft heute auch als **Software** auf normalen Servern:
@@ -361,6 +409,59 @@ Für **kleine Setups** kann ein Mini-PC mit pfSense alles ersetzen, was früher 
 - **Load Balancer:** verteilt Anfragen auf mehrere Server. Layer 4 oder Layer 7.
 - **Gateway:** Sammelbegriff – immer kontextabhängig.
 - Vieles davon gibt es heute auch als **Software** – aber für sehr hohe Leistung bleibt Hardware oft Pflicht.
+
+---
+
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Du planst die Netzwerk-Infrastruktur für ein Bürogebäude mit 80 Mitarbeitern auf drei Etagen. Was wählst du an Hardware?"
+    Typische Auslegung:
+
+    - **Pro Etage** ein **Access-Switch** mit ~24–48 Ports, PoE-fähig (für Telefone, APs, IP-Kameras)
+    - **Im Serverraum** ein **Core-Switch** (oder Layer-3-Switch), an dem die Etagen-Switches sternförmig hängen
+    - **Mehrere Access Points** pro Etage, zentral verwaltet über einen WLAN-Controller
+    - **Firewall** als Perimeter zum Internet
+    - **Router/Modem** vom Provider mit getrennter Anbindung
+    - **Patch-Panel** und **strukturierte Verkabelung** (Cat6 oder Cat6a für 10 Gbit/s zukunftssicher)
+
+    Verbindung Access-Switch ↔ Core über **Glasfaser** (10 Gbit/s) für genug Durchsatz.
+
+??? question "Frage 2: Worin unterscheidet sich NAS von SAN, und wann nimmst du was?"
+    **NAS** (Network Attached Storage): bietet **Dateien** über das Netz (SMB, NFS). Sieht aus wie ein Netzlaufwerk. **Wofür?** Datei-Freigaben, Backups, Archive.
+
+    **SAN** (Storage Area Network): bietet **rohe Blöcke** über das Netz (Fibre Channel oder iSCSI). Sieht aus wie eine eingebaute Festplatte. **Wofür?** Datenbanken, Virtualisierungs-Cluster, hohe Performance-Anforderungen.
+
+    Faustregel: **NAS für Menschen** (Datei-Zugriff), **SAN für Server** (Performance).
+
+??? question "Frage 3: Du sollst entscheiden, ob Hardware-Firewall oder Software-Firewall (z.B. pfSense auf eigener Hardware). Welche Aspekte sprechen wofür?"
+    **Hardware-Firewall** (Fortinet, Palo Alto, Sophos):
+
+    - sehr hohe Performance, dedizierte ASICs
+    - Hersteller-Support
+    - oft Pflicht in regulierten Branchen
+    - **teurer**, Lizenzkosten
+
+    **Software-Firewall** (pfSense, OPNsense, Linux-iptables):
+
+    - flexibel, läuft auf Standard-Hardware
+    - kostengünstig (oft Open Source)
+    - Performance reicht für kleine bis mittlere Netze
+    - **mehr Eigen-Verantwortung** bei Konfiguration und Pflege
+
+    Faustregel: kleine Firmen kommen mit Software-Lösungen sehr weit, große Firmen wollen Vendor-Support und entscheiden für Hardware.
+
+??? question "Frage 4: Ein Access Point überträgt laut Datenblatt 'bis zu 9,6 Gbit/s'. Warum erreichst du diesen Wert in der Praxis nie?"
+    Die Datenblatt-Angabe ist die **theoretische Brutto-Geschwindigkeit** unter Idealbedingungen: Sichtkontakt, kein Interferenz-Störer, alle Antennen optimal genutzt, ein Client mit Maximal-Standard.
+
+    Realität:
+
+    - Wände, Möbel, Türen dämpfen das Signal
+    - andere Netze auf demselben Kanal stören
+    - die Geschwindigkeit teilen sich **alle Clients** im AP
+    - der schwächste Client begrenzt oft das ganze WLAN
+    - **WLAN ist halbduplex** – nur einer kann zur gleichen Zeit auf einem Kanal senden
+
+    Praktische Faustregel: rechne mit **20–30 %** der Datenblatt-Werte unter realen Bedingungen.
 
 ---
 

@@ -308,6 +308,42 @@ Nützlich, wenn du eine veraltete oder falsche Lease loswerden willst.
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Ein Drucker im Büro hat regelmäßig eine andere IP – Mitarbeiter beklagen, dass sie ihn nicht mehr finden. Was machst du?"
+    Der Drucker bekommt jedes Mal eine neue IP aus dem DHCP-Pool. Lösung: **DHCP-Reservierung** für die MAC-Adresse des Druckers einrichten.
+
+    So bekommt er **dynamisch immer dieselbe Adresse**, ohne dass du am Drucker selbst eine statische IP konfigurieren musst. Vorteil: bei einem Drucker-Tausch kannst du die Reservierung einfach auf die neue MAC umstellen.
+
+??? question "Frage 2: Du hast eine Firma mit drei VLANs, aber nur einem DHCP-Server. Wie löst du das?"
+    Du konfigurierst **DHCP-Relay** auf dem Router/Layer-3-Switch, der zwischen den VLANs vermittelt.
+
+    Wenn ein Client in VLAN B einen DISCOVER-Broadcast schickt, fängt der Router den ab und leitet ihn als Unicast an den DHCP-Server im VLAN A weiter. Antwort geht denselben Weg zurück.
+
+    So kann **ein** DHCP-Server **alle drei VLANs** versorgen – ohne dass du drei separate Server brauchst.
+
+??? question "Frage 3: Warum vergibt man Drucker, Server und Router statt dynamisch besser per Reservierung oder statisch?"
+    Weil **andere Geräte sich auf ihre Adressen verlassen**:
+
+    - Computer haben Drucker-Treiber, die auf eine feste IP zeigen
+    - Backup-Software adressiert Server fest
+    - Anwendungen kennen Datenbank-Server unter bestimmter IP
+    - Router-Adressen sind in Routing-Tabellen anderer Geräte eingetragen
+
+    Wenn ein solches Gerät plötzlich eine neue IP bekommt, fallen viele Verbindungen weg.
+
+    Empfehlung: **dynamische Vergabe** nur für Endgeräte (PCs, Notebooks, Handys). **Statische IP oder Reservierung** für alles, was Server-Charakter hat.
+
+??? question "Frage 4: Erkläre den DORA-Ablauf in eigenen Worten."
+    1. **Discover:** Der Client sendet einen Broadcast: „Suche DHCP-Server, wer ist da?"
+    2. **Offer:** Ein DHCP-Server antwortet: „Hier wäre eine IP für dich, plus Maske, Gateway, DNS."
+    3. **Request:** Der Client wählt ein Angebot und sagt allen Servern (per Broadcast): „Ich nehme dieses Angebot."
+    4. **Acknowledge:** Der gewählte Server bestätigt: „Bestätigt, die Adresse gehört dir für X Stunden."
+
+    Danach kann der Client kommunizieren. Vor Ablauf der Lease verlängert er per kurzem Renew-Vorgang.
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"

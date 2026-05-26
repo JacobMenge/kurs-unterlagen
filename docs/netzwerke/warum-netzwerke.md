@@ -87,6 +87,50 @@ Auch hier ist Netzwerkwissen der **harte Kern** der Migration.
 
 ---
 
+## Drei Cloud-Modelle, die du kennen musst
+
+Wenn dein Auftraggeber sagt „wir gehen in die Cloud", reicht das als Information nicht. Die nächste Frage ist immer: **welche Cloud-Art?** Drei Modelle sind heute Standard.
+
+### Public vs. Private vs. Hybrid Cloud
+
+| Modell | Wer betreibt die Hardware? | Wer nutzt sie? | Typisches Beispiel |
+|--------|---------------------------|----------------|--------------------|
+| **Public Cloud** | großer Anbieter (AWS, Azure, Google) | viele Kunden teilen sich dieselbe physische Infrastruktur, logisch getrennt | klassische Web-Anwendung in der AWS |
+| **Private Cloud** | das Unternehmen selbst oder ein dedizierter Dienstleister | nur die eigene Organisation | Banken, Behörden, Krankenhäuser, kritische Industrie |
+| **Hybrid Cloud** | Mischung aus beidem | Teile in der Public Cloud, sensible Teile im eigenen Rechenzentrum | typische Firma: SAP intern, Web-Shop in der Cloud |
+
+**Hybrid ist der Normalfall** in deutschen Unternehmen – fast niemand macht „alles in der Public Cloud" oder „alles selbst". Genau diese Kombination zu planen, ist eine der Kernaufgaben des Berufsspezialisten.
+
+### Die drei Service-Modelle: IaaS, PaaS, SaaS
+
+Eine zweite Dimension – **was genau** vom Anbieter kommt:
+
+| Modell | Was du bekommst | Was du selbst machst | Beispiel |
+|--------|----------------|--------------------|----------|
+| **IaaS** (Infrastructure as a Service) | virtuelle Server, Netzwerk, Speicher | Betriebssystem, alle Software, Konfiguration | AWS EC2, Azure VM, Hetzner Cloud |
+| **PaaS** (Platform as a Service) | komplette Laufzeitumgebung (Datenbank, App-Server) | nur deine Anwendung | Heroku, Azure App Service, Google App Engine |
+| **SaaS** (Software as a Service) | fertige Anwendung, im Browser nutzbar | nur Daten und Nutzer | Microsoft 365, Salesforce, Slack |
+
+!!! tip "Eselsbrücke"
+    Von **IaaS** zu **SaaS** nimmt die **Verantwortung des Kunden ab** – und die Bequemlichkeit zu. Wer flexibel und kontrollierend bleiben will, nimmt **IaaS**. Wer nur „nutzen" will, nimmt **SaaS**.
+
+### Was das fürs Netzwerk bedeutet
+
+- **Public Cloud:** das Firmennetz endet an deinem Provider-Anschluss, die Cloud ist eine **separate Welt**, verbunden über VPN, dediziertes Direct Connect oder die öffentliche Internet-API.
+- **Private Cloud:** das ist im Kern dein eigenes Rechenzentrum, nur „cloud-ähnlich" automatisiert (z.B. mit OpenStack oder VMware vCloud).
+- **Hybrid:** du brauchst eine sehr klare **Adress- und Routing-Planung**, damit beide Welten konsistent bleiben.
+
+Praktisch: jedes Mal, wenn du eine Anwendung in die Public Cloud bringst, fragst du dich:
+
+- Wie kommt der Verkehr **sicher** hin? (VPN, Direct Connect, Private Link)
+- Wer darf **was erreichen**? (Firewall-Regeln, Security Groups)
+- Welche **Latenz** ist akzeptabel? (Standort der Cloud-Region wählen)
+- Was passiert, wenn der **Provider Ärger hat**? (Multi-Region-Strategie, Backup-Pläne)
+
+Genau diese Fragen sind der Kern der Cloud-Integration.
+
+---
+
 ## Was passiert, wenn du eine URL eintippst?
 
 Eine kleine Übung im Kopf. Du tippst `https://github.com` in den Browser. Was passiert, bis die Seite erscheint? Hier die **stark vereinfachte** Variante – am Ende des Blocks kennst du jede Station im Detail.
@@ -193,6 +237,37 @@ Reihenfolge wie immer: **erst verstehen, warum**, dann **wie der Aufbau aussieht
 - Klassische Office-IT und Industrie-Vernetzung folgen unterschiedlichen Spielregeln. Du sollst beide kennen.
 - Beim Aufrufen einer URL passieren mindestens **sechs Schritte** im Hintergrund – jeder davon ist ein eigenes Thema.
 - Netzwerke sind weder das Internet noch WLAN noch Magie. Sie sind technische Systeme mit klaren Regeln.
+
+---
+
+## Beispielfragen zur Selbstkontrolle
+
+Beantworte die Fragen erst für dich, schau dann in den Aufklapper.
+
+??? question "Frage 1: Ein Kunde sagt 'wir wollen in die Cloud'. Welche drei Rückfragen stellst du als erstes?"
+    Sinnvolle Rückfragen:
+
+    1. **Welches Cloud-Modell?** Public, Private oder Hybrid? Davon hängen Datenschutz, Kosten und Verantwortung ab.
+    2. **Welches Service-Modell?** Wollt ihr Server selbst betreiben (IaaS), eine Plattform nutzen (PaaS) oder gleich eine fertige Anwendung (SaaS)?
+    3. **Was bleibt on-Premise?** Praktisch nie geht *alles* in die Cloud – kritische Daten, Backups oder Industrie-Steuerungen bleiben oft lokal.
+
+    Optional zusätzlich: Welcher Anbieter (Azure, AWS, Google, Hetzner), welche Region (Datenschutz!) und welche Verbindungsart (VPN, Direct Connect)?
+
+??? question "Frage 2: Warum ist Netzwerkwissen ein Querschnittsthema und kein Spezialgebiet?"
+    Weil **jedes andere IT-Thema** Netzwerke voraussetzt: Container-Anwendungen, Cloud-Migrationen, Backup-Strategien, IT-Sicherheit, Monitoring, Industrie-Vernetzung. Ein Berufsspezialist, der Netzwerke nicht versteht, kann keinen der anderen Bereiche fundiert planen oder umsetzen.
+
+??? question "Frage 3: Worin unterscheiden sich klassische Office-IT und Industrie-Vernetzung (OT) in den Werten am stärksten?"
+    Office-IT priorisiert **Vertraulichkeit der Daten**. OT priorisiert **Verfügbarkeit der Anlagen und Safety der Personen**. Daraus folgen direkt:
+
+    - andere Patch-Zyklen (OT viel seltener, weil Stillstand teuer)
+    - andere Lebensdauern (OT 15–30 Jahre, IT 3–5)
+    - andere Protokolle (OPC UA, Profinet statt HTTP)
+    - andere akzeptable Latenzen (OT oft < 1 ms, IT oft 50–200 ms ausreichend)
+
+??? question "Frage 4: Was wäre der Vorteil von SaaS gegenüber IaaS aus Sicht eines kleinen Mittelständlers?"
+    Bei **SaaS** muss der Mittelständler weder Server, noch Betriebssystem, noch die Anwendung selbst betreiben – nur Daten und Nutzer pflegen. Das spart Personal und reduziert das Risiko von Fehlkonfigurationen. Nachteil: weniger Kontrolle über Daten und Verfügbarkeit, abhängig vom Anbieter.
+
+    Bei **IaaS** bekommt er nur die virtuelle Hardware, alle Software inkl. Betriebssystem und Patches muss er selbst pflegen. Das ist flexibler, aber teurer im Betrieb.
 
 ---
 

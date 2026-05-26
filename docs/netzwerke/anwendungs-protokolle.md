@@ -391,6 +391,52 @@ Eine handliche Tabelle zum Nachschlagen:
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Du sollst einer Firma die Daten-Übertragung zwischen zwei Servern absichern. Sie nutzt aktuell noch FTP. Was empfiehlst du?"
+    **FTP komplett ablösen.** FTP überträgt Anmeldedaten **im Klartext** und ist heute nicht mehr vertretbar.
+
+    Sinnvolle Alternativen:
+
+    - **SFTP** (über SSH, Port 22) – wenn interaktive Übertragung oder Datei-Verwaltung gefragt ist
+    - **SCP** – für einfache einmalige Kopien
+    - **rsync über SSH** – für Synchronisation großer Verzeichnisse
+    - Notfalls **FTPS** (FTP über TLS), wenn ein Legacy-System nichts anderes kann
+
+    Bei Auswahl auf Schlüsselauthentifizierung statt Passwort setzen.
+
+??? question "Frage 2: Eine Webseite zeigt im Browser HTTP-Status 502. Was bedeutet das, und wo liegt der Fehler?"
+    **502 Bad Gateway:** ein zwischengeschalteter Server (typisch ein **Reverse Proxy** wie Nginx oder ein Load Balancer) kann den eigentlichen Webserver dahinter nicht erreichen oder bekommt keine sinnvolle Antwort.
+
+    Mögliche Ursachen:
+
+    - Backend-Server ist abgestürzt oder überlastet
+    - falsche Konfiguration im Reverse Proxy (falscher Backend-Port)
+    - Firewall blockt zwischen Proxy und Backend
+    - Backend antwortet langsamer als das Timeout des Proxys
+
+    Diagnose immer am **Backend-Server** und an den **Proxy-Logs** beginnen.
+
+??? question "Frage 3: Warum landen E-Mails von einer neu eingerichteten Domain oft im Spam-Ordner, obwohl die Adresse vertrauenswürdig aussieht?"
+    Weil die Empfänger-Server prüfen, ob die Mail **legitim** verschickt wurde. Drei Kriterien:
+
+    - **SPF:** Darf diese IP für die Domain Mails verschicken? DNS-TXT-Record sagt's.
+    - **DKIM:** Ist die Mail kryptographisch signiert von einem Schlüssel, der zur Domain gehört?
+    - **DMARC:** Was soll der Empfänger tun, wenn SPF/DKIM fehlschlagen?
+
+    Wer eine neue Domain einrichtet und **alle drei DNS-Einträge vergisst**, verschickt zwar Mails, sie landen aber bei den meisten Empfängern im Spam-Filter.
+
+??? question "Frage 4: SSH-Zugang zu einem Server – warum solltest du Schlüsselpaare statt Passwörter nutzen, und wie funktioniert das technisch?"
+    Vorteile von Schlüsselpaaren:
+
+    - **kein Passwort über das Netz** (Schlüssel-Beweis statt Passwort-Übertragung)
+    - **resistent gegen Brute-Force**, weil Schlüssel viel länger sind als Passwörter
+    - **revozierbar pro Schlüssel**: ein abhanden gekommener Mitarbeiter-Schlüssel kann einzeln entfernt werden, ohne dass alle ihr Passwort ändern müssen
+
+    Technisch: du erzeugst ein **Paar** aus privatem (geheim, bleibt bei dir) und öffentlichem Schlüssel. Den öffentlichen kopierst du in `~/.ssh/authorized_keys` auf dem Server. Beim Login beweist dein Client mit dem privaten Schlüssel, dass er dazugehört, **ohne ihn zu übertragen**.
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"

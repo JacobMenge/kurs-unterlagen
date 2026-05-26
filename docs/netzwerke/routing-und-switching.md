@@ -341,6 +341,49 @@ Du kannst deine eigene Routing-Tabelle ansehen mit `ip route` (Linux), `route pr
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Du sollst zwei Standorte einer Firma verbinden. Die Server in Standort A sollen die Drucker in Standort B erreichen. Welche Geräte und Konfigurationen brauchst du?"
+    Du brauchst mindestens:
+
+    - **Router** in beiden Standorten (oder eine Firewall mit Routing-Funktion)
+    - eine **Verbindung** zwischen beiden – z.B. Site-to-Site-VPN über das Internet
+    - **Routen** in beiden Routing-Tabellen, die das jeweils andere Subnetz kennen
+    - **Firewall-Regeln**, die den Drucker-Verkehr passieren lassen
+    - ggf. **DNS-Einträge**, damit die Drucker per Namen erreichbar sind
+
+    Ohne mindestens **statische Routen** oder ein dynamisches Routing-Protokoll (z.B. OSPF zwischen den Sites) wissen die Router nicht, wohin sie Pakete schicken sollen.
+
+??? question "Frage 2: Welche Rolle spielt das Default Gateway, und was passiert ohne korrekt konfiguriertes Default Gateway?"
+    Das **Default Gateway** ist die IP-Adresse des Routers, an den dein Computer alle Pakete schickt, deren Ziel **nicht im lokalen Subnetz** liegt.
+
+    Ohne Default Gateway:
+
+    - lokale Kommunikation funktioniert weiter (Switch reicht)
+    - **Internet ist unerreichbar**
+    - andere Subnetze (z.B. Druck-Netz) sind unerreichbar
+    - DNS-Server außerhalb des LANs sind unerreichbar
+
+    Ergebnis: der Rechner ist in seinem eigenen Subnetz „eingesperrt".
+
+??? question "Frage 3: Du machst 'traceroute github.com' und siehst nach 5 Hops nur noch Sterne (*). Was bedeutet das?"
+    Möglichkeiten:
+
+    1. Der Router an dieser Stelle **antwortet absichtlich nicht** auf ICMP-Pakete (häufig bei Backbone-Routern aus Sicherheitsgründen). Das ist normal, dein Paket kommt aber trotzdem an.
+    2. Der Router **ist tatsächlich nicht erreichbar** – dann brechen Pings durch.
+    3. Eine **Firewall** zwischen euch blockiert die TTL-Expired-Antworten.
+
+    Wenn die Webseite trotzdem lädt, ist es Fall 1 (kein Problem). Wenn nicht, ist da wirklich Verbindungs-Probleme.
+
+??? question "Frage 4: Welches Routing-Protokoll würdest du intern in einem Firmen-Netz mit 50 Routern einsetzen – und welches nicht?"
+    **Sinnvoll:** **OSPF** (Open Shortest Path First) – schnell, skaliert gut für mittlere bis große Netze, herstellerunabhängig.
+
+    **Auch möglich:** EIGRP (nur in Cisco-Umgebungen) oder IS-IS (sehr große Provider-Netze).
+
+    **Eher nicht:** **RIP** (zu alt, max. 15 Hops) und **BGP** (BGP nutzt man zwischen Autonomous Systems, nicht intern – obwohl es auch interne BGP-Varianten gibt für Spezialfälle).
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"

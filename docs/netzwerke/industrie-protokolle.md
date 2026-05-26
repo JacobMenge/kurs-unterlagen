@@ -358,6 +358,91 @@ Zwischen den Schichten stehen typischerweise **Firewalls** oder **Daten-Dioden**
 
 ---
 
+## Alarmierungs- und Benachrichtigungs-Strategie
+
+In Industrie-Anlagen reicht es nicht, **Daten zu sammeln** – man muss auch **rechtzeitig reagieren**, wenn etwas aus dem Ruder läuft. Genau dafür gibt es die **Alarmierungs-Strategie**.
+
+### Grundprinzip
+
+Für jeden wichtigen Messwert (Temperatur, Druck, Strom, Drehzahl, Vibration, …) gibt es einen **Sollbereich**. Verlässt der Messwert diesen Bereich, soll **etwas passieren**.
+
+Klassische Alarmstufen:
+
+| Stufe | Bedeutung | Reaktion |
+|-------|-----------|----------|
+| **Warnung** | Wert verlässt den optimalen Bereich, aber noch nicht kritisch | Eintrag im Log, ggf. E-Mail an Schicht-Leiter |
+| **Alarm** | Wert ist deutlich außerhalb, Eingriff nötig | Sirene, SMS an Bereitschaftsdienst, Display am HMI rot |
+| **Notabschaltung** | Wert gefährdet die Anlage oder Personen | Anlage stoppt automatisch, Eskalation an Sicherheitsverantwortliche |
+
+### Wo wird das umgesetzt?
+
+- **In der PLC** selbst (für sehr schnelle, sicherheitsrelevante Reaktionen wie Notabschaltung)
+- **Im SCADA-System** (für die Operator-Sicht und die Eskalation)
+- **Im darüber liegenden MES oder einem dedizierten Alarm-Management-System** (für Auswertung, Schichtübergaben, Reports)
+
+### Typische Anti-Patterns
+
+- **Alarm-Müdigkeit:** zu viele unwichtige Alarme führen dazu, dass Operatoren sie ignorieren – und den einen kritischen verpassen.
+- **Doppelte Alarme:** ein Sensor löst aus, daraufhin meldet sich der nachgelagerte – beide alarmieren parallel, ohne Mehrwert.
+- **Fehlende Eskalation:** wenn niemand auf den Alarm reagiert, sollte er nach X Minuten an die nächste Ebene eskaliert werden. Wird oft vergessen.
+
+Eine **gute Alarmierungs-Strategie** ist deshalb mindestens so wertvoll wie die Sensoren selbst. Sie unterscheidet eine Anlage, die im Notfall korrekt reagiert, von einer, in der Operatoren im Logfile-Sturm untergehen.
+
+---
+
+## Datenanalyse, Big Data und Predictive Maintenance
+
+Die Maschinendaten landen aus den Sensoren in der Cloud oder in einer **Historian-Datenbank**. Aber Daten allein sind nutzlos – sie müssen **ausgewertet** werden. Dafür gibt es heute eine ganze Werkzeugkette.
+
+### Was wird analysiert?
+
+- **Trends:** wie verändert sich die Vibration des Motors über Wochen?
+- **Korrelationen:** steigt der Stromverbrauch immer dann, wenn die Hallen-Temperatur über 28 °C geht?
+- **Ausreißer:** wann gab es ungewöhnliche Spitzen? Was ist da passiert?
+- **Muster:** welche Sequenz von Werten geht typischerweise einem Ausfall voraus?
+
+### Werkzeuge
+
+| Werkzeug-Klasse | Beispiele | Typische Nutzung |
+|-----------------|-----------|------------------|
+| **Time-Series-Datenbanken** | InfluxDB, TimescaleDB, Prometheus | Messwerte effizient speichern und abfragen |
+| **Visualisierung** | Grafana, Power BI, Tableau | Dashboards für Operator und Management |
+| **Big-Data-Plattformen** | Azure Synapse, AWS Redshift, Databricks | sehr große Datenmengen analytisch auswerten |
+| **Machine-Learning-Plattformen** | Azure ML, AWS SageMaker, Google Vertex AI | Modelle trainieren und Vorhersagen automatisieren |
+
+### Predictive Maintenance – vorausschauende Wartung
+
+Der heilige Gral der Industrie 4.0: **Ausfälle vorhersagen, bevor sie passieren.**
+
+Klassischer Wartungs-Ablauf:
+
+- **Reaktiv:** Maschine geht kaputt, dann reparieren. Teuer wegen ungeplantem Stillstand.
+- **Präventiv:** alle X Betriebsstunden wechseln, egal ob nötig. Teuer wegen unnötigem Teile-Tausch.
+- **Predictive:** Sensor-Daten + ML-Modell sagen voraus, **wann** ein Teil tatsächlich auszufallen droht. **Genau dann** wird gewechselt.
+
+Wie funktioniert das technisch?
+
+1. **Daten sammeln** über lange Zeiträume (Vibration, Strom, Temperatur, …).
+2. **Historische Ausfälle** im Datensatz markieren.
+3. **ML-Modell trainieren**, das die Muster vor einem Ausfall erkennt.
+4. **Im Live-Betrieb** wird das Modell mit neuen Daten gefüttert und gibt Wahrscheinlichkeiten aus: „Lager wird in den nächsten 3 Wochen ausfallen, Wahrscheinlichkeit 87 %."
+
+Vorteile:
+
+- weniger ungeplante Stillstände
+- effizienterer Teile-Einsatz
+- bessere Plan-Sicherheit für Wartungsteams
+
+Voraussetzung:
+
+- **Sehr gute Datenbasis** (Monate bis Jahre an Messwerten)
+- **Stabile Vernetzung** der Maschinen ins zentrale Datensystem
+- **Datenwissenschaftler** oder fertige ML-Plattformen für die Modell-Pflege
+
+In der Praxis ist Predictive Maintenance in **großen Anlagen** (Kraftwerke, Großmaschinen) inzwischen Standard, in **mittelständischen Betrieben** noch eher die Ausnahme – aber stark im Kommen.
+
+---
+
 ## Die typische Architektur „IT trifft OT"
 
 Ein häufiger Auftrag in der Praxis: **„Wir wollen die Maschinendaten in die Cloud schicken."**
@@ -399,6 +484,47 @@ So bleibt das Produktionsnetz **abgeschottet**, und die Maschinendaten sind trot
 - **AMQP** ist die Enterprise-Variante mit mehr Features, oft im Backend.
 - **SCADA-Systeme** überwachen und steuern technische Anlagen – ihr Schutz ist kritisch.
 - **IoT-Gateways** sind die typische Brücke zwischen geschütztem Produktionsnetz und Cloud.
+
+---
+
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Ein Auftrag: alle Maschinendaten einer Halle in die Cloud bringen, damit Ingenieure sie auswerten können. Wie planst du das?"
+    Schrittweise:
+
+    1. **Bestandsaufnahme:** Welche Maschinen, welche Protokolle? (Profinet, OPC UA, Modbus, …)
+    2. **IoT-Gateway** auswählen, das die Maschinen-Protokolle liest und in ein modernes Format übersetzt
+    3. Vom Gateway zur Cloud: **MQTT** zu einem Broker (z.B. Azure IoT Hub, AWS IoT Core) – verschlüsselt über TLS
+    4. **Klare Netzwerk-Trennung:** Produktionsnetz und das Gateway nur durch eine Firewall verbunden, keine direkten Verbindungen Maschine ↔ Internet
+    5. **Daten-Speicherung** in einer Time-Series-Datenbank (z.B. InfluxDB, TimescaleDB)
+    6. **Visualisierung** mit Grafana oder Power BI
+    7. **Optional: ML-Modell** für Predictive Maintenance
+
+??? question "Frage 2: Warum reicht in einer industriellen Anlage normales HTTPS oft nicht als Protokoll – auch nicht zwischen den PLCs und der Steuerung?"
+    HTTPS ist für **Web-Anwendungen** optimiert: Request-Response, variable Antwortzeiten, akzeptierte Latenzen im Bereich 50–200 ms.
+
+    In Produktionsanlagen brauchst du:
+
+    - **Echtzeit-Fähigkeit** (oft < 1 ms Reaktionszeit)
+    - **Determinismus** (garantierte maximale Antwortzeiten)
+    - **stabile Cycle Times** (z.B. alle 4 ms)
+    - **kompakte Frames** mit minimalem Overhead
+
+    Genau dafür gibt es **Profinet IRT** (Isochronous Real Time) oder **EtherCAT** – mit kleinen Frames und garantierten Zyklen. HTTPS würde diese Anforderungen weit verfehlen.
+
+??? question "Frage 3: Welche Aufgabe hat ein SCADA-System, und warum ist seine Absicherung besonders kritisch?"
+    Ein **SCADA**-System (Supervisory Control And Data Acquisition) sammelt Sensordaten von PLCs, zeigt sie auf grafischen HMI-Bedienoberflächen, ermöglicht **manuelle Eingriffe** in den Prozess, alarmiert bei Grenzwert-Überschreitungen und speichert Historie für spätere Auswertung.
+
+    Absicherung ist kritisch, weil SCADA **direkten Einfluss auf physische Anlagen** hat: Pumpen, Ventile, Förderbänder, Roboter. Ein kompromittiertes SCADA kann **echte materielle und körperliche Schäden** verursachen.
+
+    Der berühmte **Stuxnet** (2010) sabotierte gezielt SCADA-Komponenten in iranischen Anreicherungsanlagen und beschädigte Zentrifugen.
+
+??? question "Frage 4: Wann nimmst du MQTT, wann AMQP – und wann normales HTTP?"
+    - **MQTT:** viele kleine Geräte, häufige kurze Nachrichten, oft IoT/Industrie-Telemetrie. Sehr schlank, Publish/Subscribe-Modell, Broker als Mittelpunkt.
+    - **AMQP:** komplexe Backend-Workflows mit feinerem Routing, Queues und Garantien. Eher Enterprise-Backend (Finanz, Versicherung) als IoT.
+    - **HTTP/REST:** wenn du **Anfrage-Antwort-Logik** brauchst (z.B. „hol mir den aktuellen Zustand der Maschine"). Gut für gelegentliche Befehle, schlecht für viele kleine Push-Daten.
+
+    Eine moderne Industrie-Architektur nutzt oft **MQTT für Sensordaten** und **HTTP/REST für gezielte Steuerbefehle und Konfiguration**.
 
 ---
 

@@ -350,6 +350,47 @@ Wenn dort ein Eintrag passt, wird **DNS gar nicht gefragt**. Das ist:
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Ein Kunde sagt: 'Unsere Webseite ist seit dem Domain-Umzug für manche Besucher noch immer nicht erreichbar.' Was vermutest du?"
+    Die alten DNS-Einträge sind in den **Caches** verschiedener Resolver weltweit noch nicht abgelaufen. Solange ihr **TTL** hoch war (z.B. 24 h), kann es **bis zu einen Tag** dauern, bis alle Caches die neue IP übernommen haben.
+
+    Lösung: Geduld haben. In Zukunft **vor dem Umzug** die TTL eine Weile (z.B. eine Woche vorher) auf 300 Sekunden senken – dann sind alte Einträge maximal 5 Min später weg.
+
+??? question "Frage 2: Welche DNS-Records musst du anlegen, damit eine neue Domain (z.B. firma-xy.de) erreichbar ist und E-Mails empfängt?"
+    Minimum für Web + Mail:
+
+    - **NS-Records** beim Registrar setzen, damit die Domain auf deine DNS-Server zeigt (oft schon vorausgewählt)
+    - **A-Record** (oder AAAA für IPv6) für `firma-xy.de` und `www.firma-xy.de`
+    - **MX-Record**, der den zuständigen Mailserver nennt
+    - **SPF-, DKIM-, DMARC-TXT-Records**, damit deine Mails nicht im Spam-Filter landen
+
+    Optional: **CNAME-Records** für weitere Subdomains.
+
+??? question "Frage 3: Im Browser kommt 'DNS_PROBE_FINISHED_NXDOMAIN'. Was bedeutet das, und was tust du?"
+    NXDOMAIN heißt: **die angefragte Domain existiert nicht** (laut DNS).
+
+    Mögliche Ursachen:
+
+    1. Tippfehler in der URL
+    2. DNS-Resolver erreicht den autoritativen Server nicht
+    3. Die Domain ist tatsächlich nicht (mehr) registriert
+
+    Schnelldiagnose: `ping 8.8.8.8` (Internet allgemein da?), dann `nslookup firma-xy.de` und `nslookup firma-xy.de 8.8.8.8` (anderer Resolver). Wenn beide NXDOMAIN sagen, ist die Domain tatsächlich nicht da.
+
+??? question "Frage 4: Warum nutzen moderne Browser DNS over HTTPS (DoH) statt klassisches DNS?"
+    Klassisches DNS ist **unverschlüsselt**. Der Internet-Provider und jeder, der den Traffic mitliest, sieht alle Anfragen.
+
+    **DoH** versteckt DNS-Anfragen in normalem HTTPS-Verkehr. Vorteile:
+
+    - der Provider kann nicht mehr einfach mitlesen, welche Seiten du aufrufst
+    - manche Filter-Versuche werden umgangen
+    - Schutz vor manipulierten Antworten in unsicheren Netzen (z.B. öffentliches WLAN)
+
+    Nachteile: schwerer für Firmen-Administratoren, die DNS-Filter zur Malware-Abwehr einsetzen. Darum schalten viele Firmen DoH in ihren Browsern wieder aus.
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"

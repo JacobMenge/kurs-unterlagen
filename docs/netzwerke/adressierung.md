@@ -384,6 +384,51 @@ arp -a              # zeigt deinen ARP-Cache
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Du sollst ein Subnetz für eine Abteilung mit 100 Mitarbeitern planen. Welche CIDR-Maske wählst du, und warum?"
+    Du brauchst mindestens **100 nutzbare Hostadressen**.
+
+    - `/25` hat 2⁷ − 2 = 126 nutzbare Adressen → reicht ✓
+    - `/26` hat 2⁶ − 2 = 62 → zu klein
+
+    Antwort: **`/25`**. Bei sehr engem Aufkommen könntest du eng kalkulieren, in der Praxis nimmt man oft eine Stufe größer (`/24` mit 254 Hosts), um Drucker, Telefone und Reserve unterzubringen.
+
+??? question "Frage 2: Sind 192.168.1.50 und 192.168.1.100 im selben Subnetz, wenn die Maske /26 ist?"
+    `/26` heißt: 6 Hostbits, also Subnetz-Größe = 64.
+
+    Die Subnetze beginnen bei `.0`, `.64`, `.128`, `.192`.
+
+    - `.50` liegt in `.0` bis `.63`
+    - `.100` liegt in `.64` bis `.127`
+
+    Antwort: **Nein**, sie liegen in unterschiedlichen Subnetzen. Trotz gleicher Anfangsbytes sehen sie sich gegenseitig nur über einen Router.
+
+??? question "Frage 3: Du sollst entscheiden, ob eine Anwendung im LAN private IP-Adressen bekommt oder eine öffentliche braucht. Wie entscheidest du?"
+    - **Private IP reicht**, wenn die Anwendung **nur intern** genutzt wird. Sie kommt dann über NAT ins Internet, wenn nötig.
+    - **Öffentliche IP nötig**, wenn die Anwendung von außen **direkt erreichbar** sein muss (z.B. Webserver, Mailserver). Auch dann landet sie meistens in einer DMZ, nicht im internen Netz.
+
+    Faustregel: private Adressen sind das **Default**. Öffentliche Adressen sind die **Ausnahme**, brauchen einen klaren Grund.
+
+??? question "Frage 4: Was machst du, wenn dein Computer eine 169.254.x.x-Adresse anzeigt?"
+    Das ist eine **APIPA-Adresse**, die der Computer sich selbst vergibt, wenn er **keinen DHCP-Server erreichen** kann.
+
+    Diagnose-Schritte:
+
+    1. Kabel/WLAN-Verbindung prüfen (Layer 1)
+    2. DHCP-Server (z.B. der Router) erreichbar? Eingeschaltet?
+    3. DHCP-Lease erzwingen: `ipconfig /release && ipconfig /renew` (Windows) oder `dhclient` (Linux)
+    4. Falls weiterhin kein Erfolg: DHCP-Server-Logs prüfen, ist der Pool erschöpft?
+
+??? question "Frage 5: Welche Aufgabe hat ARP – und warum ist es kein Routing-Protokoll?"
+    ARP findet im **lokalen Netz** die **MAC-Adresse** zu einer gegebenen IP heraus. Es operiert nur auf **Layer 2/3** und **nur innerhalb desselben LAN-Segments**.
+
+    Routing-Protokolle dagegen (OSPF, BGP) tauschen Informationen über **ganze Netzwerke und Wege zu ihnen** aus – das passiert auf Layer 3 und global.
+
+    Ohne ARP funktioniert kein LAN. Ohne Routing-Protokolle funktioniert kein größeres Netz.
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"

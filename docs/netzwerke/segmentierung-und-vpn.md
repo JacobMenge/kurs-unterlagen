@@ -304,6 +304,56 @@ Anwendungen:
 
 ---
 
+## Standort-Redundanz und Geo-Cluster
+
+Wenn ein **ganzer Standort** ausfällt – Stromausfall, Brand, Sabotage, Naturkatastrophe – darf das Geschäft nicht stillstehen. Genau dafür baut man **Standort-Redundanz** auf, oft als **Geo-Cluster**.
+
+### Die zwei Varianten
+
+| Modell | Wie es funktioniert | Wann sinnvoll |
+|--------|---------------------|----------------|
+| **Aktiv-Passiv (Hot Standby)** | ein Standort arbeitet, der zweite läuft parallel mit, übernimmt nur im Notfall | klassischer Disaster-Recovery-Standard |
+| **Aktiv-Aktiv** | beide Standorte arbeiten gleichzeitig, der Traffic verteilt sich, beim Ausfall übernimmt der andere die volle Last | wenn Skalierung gefragt ist und das Backup-System nicht „herumliegen" soll |
+
+### Was so ein Geo-Cluster netzwerktechnisch braucht
+
+- **Schnelle und stabile Verbindung** zwischen den Standorten – meistens **dedizierte Glasfaser** oder Hochleistungs-VPN
+- **Synchrone oder asynchrone Replikation** der Daten (synchron heißt: jede Änderung muss am anderen Standort bestätigt sein, bevor sie als geschrieben gilt – sicher, aber latenz-empfindlich)
+- **Gemeinsames Routing** über die Standorte hinweg, oft mit BGP
+- **DNS-Failover** oder **Global Server Load Balancer (GSLB)**, der die Kunden zum funktionierenden Standort lenkt
+- **Klare Replikations-Strategie** auch für Konfiguration, nicht nur für Anwendungsdaten
+
+### Begriffe rund um Verfügbarkeit
+
+Du wirst diese Werte regelmäßig in Anforderungs-Dokumenten sehen:
+
+| Begriff | Bedeutung |
+|---------|-----------|
+| **RTO** (Recovery Time Objective) | wie lange darf der Ausfall maximal dauern, bis alles wieder läuft? |
+| **RPO** (Recovery Point Objective) | wie viele Daten dürfen verloren gehen (z.B. „maximal 15 Minuten") |
+| **MTBF** (Mean Time Between Failures) | mittlere Zeit zwischen zwei Ausfällen |
+| **SLA** (Service Level Agreement) | vertraglich zugesicherte Verfügbarkeit, oft als „99,9 %" („three nines"), „99,99 %" („four nines") usw. |
+
+!!! info "Was bedeutet '99,99 % Verfügbarkeit'?"
+    - 99 % = ca. 87,6 Stunden Ausfall pro Jahr (3,7 Tage)
+    - 99,9 % = ca. 8,8 Stunden pro Jahr
+    - 99,99 % = ca. 52 Minuten pro Jahr
+    - 99,999 % = ca. 5 Minuten pro Jahr
+
+    Pro 9 wird es **zehnmal teurer**. Wer „five nines" zusichert, baut **doppelte Standorte mit Aktiv-Aktiv-Replikation, redundanten Internet-Anbindungen und permanentem Monitoring**.
+
+### Praktisch in der Cloud
+
+Cloud-Anbieter bieten das als **Regionen und Availability Zones** an:
+
+- **Region** = großer geographischer Bereich (z.B. „Frankfurt", „Dublin")
+- **Availability Zone (AZ)** = einzelnes Rechenzentrum innerhalb einer Region (typisch 3 AZs pro Region)
+- **Cross-Region-Setup** = der Härtegrad „auch der Komplettausfall einer Region wird überlebt"
+
+Für die meisten Anwendungen reicht **Multi-AZ in einer Region**. Wer wirklich kritisch ist (Banken, Gesundheitsdaten, Behörden), geht **Multi-Region**.
+
+---
+
 ## Cloud-VPN und Zero-Trust
 
 Zwei neuere Trends, die hier auftauchen:
@@ -343,6 +393,52 @@ Diese Modelle gehen davon aus, dass auch das interne Netz **kein vertrauenswürd
 - Wichtige VPN-Protokolle: **IPsec** (Standard), **OpenVPN**, **WireGuard** (modern). **PPTP** vermeiden.
 - **Tunneling** ist das allgemeine Prinzip – ein Protokoll in einem anderen.
 - **Zero-Trust** verändert die Spielregeln: nicht mehr „Tunnel ins Netz", sondern „jede Verbindung einzeln prüfen".
+
+---
+
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Eine Firma hat 50 Mitarbeiter im Büro, 10 Produktions-Maschinen in der Halle, 5 IP-Kameras und ein Gäste-WLAN. Wie segmentierst du das Netz sinnvoll?"
+    Mindestens **vier VLANs**:
+
+    - **VLAN 10: Office** – PCs, Drucker, Telefone
+    - **VLAN 20: Produktion** – Maschinen, PLCs (komplett vom Office getrennt)
+    - **VLAN 30: Kameras** – mit eigenen Firewall-Regeln, nur erreicht von Aufzeichnungs-Server
+    - **VLAN 40: Gäste** – nur Internet-Zugang, kein Zugriff auf interne Systeme
+    - **VLAN 99: Management** – für Switche, APs, Server-Management
+
+    Zwischen den VLANs nur **gezielte Firewall-Regeln**: z.B. Office darf NICHT auf Produktion, Gäste-WLAN sieht NUR Internet.
+
+??? question "Frage 2: Warum reicht für eine moderne Hybrid-Architektur (Cloud + On-Premise) ein klassisches VPN oft nicht mehr aus?"
+    Klassisches VPN funktioniert nach dem **Tunnel-Prinzip**: einmal authentifiziert, hat der Nutzer Zugang ins ganze Firmennetz. Probleme:
+
+    - Wenn ein Mitarbeiter-Notebook gehackt wird, ist der Angreifer **mit drin**
+    - VPN-Konzentratoren werden zu **Single Points of Failure**
+    - Cloud-Anwendungen liegen ohnehin nicht „im Netz", sondern beim Provider
+
+    **Zero-Trust** löst das, indem **jede einzelne Verbindung** authentifiziert wird – egal ob aus dem Office, aus dem Home-Office oder von unterwegs. Es gibt kein „innerhalb" und „außerhalb" mehr.
+
+??? question "Frage 3: Ein Kunde fragt: 'Wir haben 99,9 % Verfügbarkeit zugesichert bekommen. Reicht das?' Was antwortest du?"
+    Rechnen lassen: **99,9 % Verfügbarkeit = ca. 8,8 Stunden Ausfall pro Jahr.**
+
+    Für viele Anwendungen ist das in Ordnung. Aber:
+
+    - für **Online-Shops** mit Saison-Geschäft sind 8,8 h pro Jahr ein Risiko (vor allem zur Hauptzeit)
+    - für **medizinische Systeme** oder **kritische Infrastruktur** ist das **deutlich zu wenig**
+    - für **interne Anwendungen** ohne externes Risiko ist es meist mehr als genug
+
+    Frage zurück: **Was passiert, wenn euer System für 8 Stunden ausfällt?** Wenn das schmerzhaft wird, brauchst du eher 99,99 % (≈ 52 Min/Jahr) oder höher – und das bedeutet doppelte Standorte, redundante Provider und doppeltes Budget.
+
+??? question "Frage 4: Welches VPN-Protokoll würdest du heute für ein neues Setup empfehlen – und warum nicht PPTP?"
+    Empfehlung: **WireGuard** für neue Setups (schlank, schnell, sicher, modernes Krypto-Verfahren). Alternativ **IPsec**, wenn es ein bestehendes Enterprise-Setup gibt.
+
+    **PPTP** wird seit Jahren nicht mehr empfohlen, weil:
+
+    - es **bekannt unsichere Krypto-Verfahren** verwendet
+    - Angreifer es mit überschaubarem Aufwand brechen können
+    - moderne Betriebssysteme es teils gar nicht mehr unterstützen
+
+    Wer noch PPTP einsetzt, sollte das **dringend ersetzen** – auch wenn „es ja noch läuft".
 
 ---
 

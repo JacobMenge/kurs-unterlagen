@@ -282,6 +282,42 @@ Im Berufsjargon wird oft einfach „Switch" gesagt, wenn ein Layer-2-Switch geme
 
 ---
 
+## Beispielfragen zur Selbstkontrolle
+
+??? question "Frage 1: Ein Kollege sagt: 'Mein Netzwerk geht nicht.' Wie gehst du systematisch vor?"
+    Schicht für Schicht von unten nach oben:
+
+    - **Layer 1:** Kabel eingesteckt? Leuchtet die LED am Switch und am Gerät?
+    - **Layer 2:** Bekommt das Gerät überhaupt ein Frame, eine MAC-Adresse? Im richtigen VLAN?
+    - **Layer 3:** Hat es eine IP, ein Default Gateway, einen DNS-Server? Geht `ping`?
+    - **Layer 4:** Ist der Ziel-Port erreichbar (`telnet ziel port`)? Blockt eine Firewall?
+    - **Layer 7:** Reagiert die Anwendung selbst? Was sagen ihre Logs?
+
+    Wer von unten nach oben durchgeht, findet 80 % aller Probleme im unteren Bereich.
+
+??? question "Frage 2: Wo liegt der Unterschied zwischen einem Layer-2-Switch und einem Layer-3-Switch in der Praxis?"
+    Ein **Layer-2-Switch** kann nur **MAC-Adressen** lesen und Frames innerhalb eines Netzes weiterleiten. Er kann **nicht zwischen Subnetzen routen**.
+
+    Ein **Layer-3-Switch** kann zusätzlich **IP-Adressen** lesen und **wie ein Router** zwischen verschiedenen Subnetzen vermitteln. Praktisch ist das eine Switch-Router-Kombination in einem Gerät, oft mit Hardware-Beschleunigung und sehr hoher Performance. In modernen Rechenzentren ersetzt der Layer-3-Switch oft den klassischen Router.
+
+??? question "Frage 3: Eine Anwendung läuft auf dem Server, aber Kunden können sie über das Internet nicht erreichen. Wo könnte das Problem liegen?"
+    Mehrere Möglichkeiten in verschiedenen Schichten:
+
+    - **Layer 3:** Default Gateway fehlt am Server, Route fehlt im Router, NAT-Regel im Router falsch
+    - **Layer 4:** Firewall blockt den Port, Anwendung lauscht auf falschem Port oder nur auf localhost
+    - **Layer 7:** DNS-Eintrag fehlt oder zeigt auf falsche IP, Anwendung gibt 500-Fehler
+
+    Lösung: Schicht für Schicht testen, am Anfang vom Server aus, dann von außen.
+
+??? question "Frage 4: Wofür gibt es überhaupt zwei Modelle (OSI und TCP/IP), wenn doch das eine das andere ersetzt?"
+    Sie ersetzen sich nicht – sie ergänzen sich. **OSI** ist das **didaktisch saubere Referenz-Modell** mit sieben Schichten, sehr fein granuliert. Es eignet sich, um Aufgaben präzise zu verorten („das ist ein Layer-4-Problem").
+
+    **TCP/IP** ist das **real existierende Modell** der Praxis. Es hat nur vier Schichten, weil die Ingenieure damals einige der OSI-Schichten zu einer zusammengefasst haben. **Beide Modelle reden über dasselbe Internet** – nur mit anderem Detail-Grad.
+
+    Im Berufsalltag nennst du Schichten mit den OSI-Nummern und Protokolle mit dem TCP/IP-Verständnis. Du brauchst beide.
+
+---
+
 ## Merksatz
 
 !!! success "Merksatz"
