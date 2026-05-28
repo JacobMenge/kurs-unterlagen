@@ -189,14 +189,14 @@ Wenn ein Paket von einem Router zum nächsten reist, passiert auf jedem Sprung d
 **Wichtig:** die **IP-Adressen im Paket ändern sich nicht** während der Reise. Die **MAC-Adressen im Frame ändern sich aber bei jedem Sprung**, weil sie nur lokal gelten.
 
 ```mermaid
-flowchart LR
+flowchart TB
   A["PC<br/>IP: 192.168.1.50"]
   R1(("Router 1"))
   R2(("Router 2"))
   B["Server<br/>IP: 140.82.121.4"]
   A -- "IP-Paket: 192.168.1.50 → 140.82.121.4<br/>Frame-MAC: PC → R1" --> R1
-  R1 -- "IP-Paket: 192.168.1.50 → 140.82.121.4<br/>Frame-MAC: R1 → R2" --> R2
-  R2 -- "IP-Paket: 192.168.1.50 → 140.82.121.4<br/>Frame-MAC: R2 → Server" --> B
+  R1 -- "IP bleibt gleich<br/>Frame-MAC: R1 → R2" --> R2
+  R2 -- "IP bleibt gleich<br/>Frame-MAC: R2 → Server" --> B
 ```
 
 **IP bleibt konstant, MAC ändert sich pro Hop.**
