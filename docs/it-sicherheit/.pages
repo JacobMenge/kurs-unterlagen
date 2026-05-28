@@ -1,0 +1,8 @@
+title: "IT-Sicherheit & Risiko"
+nav:
+  - "Überblick": index.md
+  - "Grundlagen & Schutzziele": grundlagen.md
+  - "Risikomanagement": risikomanagement.md
+  - "ISMS & Standards": isms.md
+  - "Sicherheitsvorfälle": sicherheitsvorfaelle.md
+  - "Beweissicherung & Prävention": beweissicherung-und-praevention.md

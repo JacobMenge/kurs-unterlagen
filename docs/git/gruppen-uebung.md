@@ -1,11 +1,26 @@
 ---
-title: "Gruppenübung: Repo gemeinsam nutzen"
-description: "60 Minuten interaktive Gruppenübung. Drei bis vier Personen arbeiten am selben GitHub-Repo, machen parallel Branches, provozieren absichtlich einen Merge-Konflikt, lösen ihn gemeinsam und üben Pull Requests im echten Mehrbenutzer-Setup."
+title: "Gruppenübung 1: Merge-Konflikt im Team lösen (60 Min)"
+description: "Erste der beiden Git-Gruppenübungen. 60 Minuten am selben GitHub-Repo, drei bis vier Personen, jeder mit eigenem Feature-Branch. Zwei Personen ändern absichtlich dieselbe Stelle in derselben Datei - ihr provoziert einen Merge-Konflikt und löst ihn gemeinsam."
 ---
 
-# Gruppenübung: Repo gemeinsam nutzen
+# Gruppenübung 1: Merge-Konflikt im Team lösen
 
-Willkommen zur **Git-Praxis-Wiederholung in der Gruppe**.
+!!! warning "Bevor ihr loslegt – welche Gruppenübung ist das?"
+    Im Git-Block gibt es **zwei** verschiedene Gruppenübungen mit unterschiedlichem Schwerpunkt. Stellt sicher, dass **alle in der Gruppe wissen, welche ihr gerade macht** – sonst arbeiten Teilnehmer aneinander vorbei.
+
+    | | **Gruppenübung 1** (diese hier) | **[Gruppenübung 2](praxis-team-workflow.md)** |
+    |---|---|---|
+    | **Dauer** | 60 Minuten | 45 Minuten |
+    | **Fokus** | **Merge-Konflikt** auflösen | **Workflow** und `[rejected]`-Fehler |
+    | **Wer ändert was?** | mehrere ändern **dieselbe Stelle in derselben Datei** | jeder ändert seine **eigene Section** |
+    | **Wer wird Konflikt erleben?** | gewollt: Konflikt zwischen zwei Devs | kein Merge-Konflikt; dafür `[rejected]`-Fehler beim Push |
+    | **Wann nehmen?** | wenn ihr Konflikt-Auflösung im Team üben wollt | wenn ihr den sauberen Team-Workflow üben wollt |
+
+    **Wenn ihr beide Übungen machen wollt:** macht **Gruppenübung 2 zuerst** (sie ist freundlicher und vermittelt die Routine), **danach Gruppenübung 1** (anspruchsvoller, mit gewolltem Konflikt). Bei Unsicherheit: fragt euren Dozenten.
+
+---
+
+Willkommen zur **Git-Praxis-Wiederholung in der Gruppe – mit Konflikt-Fokus**.
 
 In den Praxis-Seiten hast du alle Bausteine schon einzeln gemacht – Branches, Merges, Konflikte, Pull Requests. Heute spielt ihr das **gemeinsam an einem Repo** durch. **In Gruppen, in 60 Minuten, mit einem absichtlich provozierten Konflikt.**
 

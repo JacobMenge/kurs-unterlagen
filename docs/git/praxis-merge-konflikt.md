@@ -631,4 +631,4 @@ git branch -D feature/abbruch
 
 - [Praxis 4: Repo auf GitHub erstellen und klonen](praxis-github-neu.md): jetzt geht's ins Netz
 - [Stolpersteine](stolpersteine.md): wenn Merge-Sachen klemmen
-- [Gruppenübung](gruppen-uebung.md): in einer echten Mehr-Personen-Situation einen Konflikt provozieren und lösen
+- [Gruppenübung 1: Merge-Konflikt im Team lösen](gruppen-uebung.md): in einer echten Mehr-Personen-Situation einen Konflikt provozieren und lösen

@@ -56,6 +56,11 @@ Der **Switch** ist das **wichtigste LAN-Gerät**. Er arbeitet auf **Layer 2** mi
 
 Mehr zur Funktionsweise: [Routing und Switching](routing-und-switching.md).
 
+<figure markdown="span">
+![Netzwerk-Switch mit zahlreichen Ethernet-Ports und angeschlossenen Patchkabeln](https://images.unsplash.com/photo-1750711731797-25c3f2551ff8?w=1600&q=80&auto=format&fit=crop){ loading=lazy }
+<figcaption>Ein Switch mit seinen Ethernet-Ports – jedes Patchkabel führt zu genau einem Gerät im LAN.<span class="bildnachweis">Foto: User_Pascal / Unsplash</span></figcaption>
+</figure>
+
 ### Switch-Klassen
 
 | Typ | Was er kann | Wo eingesetzt |
@@ -88,7 +93,7 @@ Manche Switches können **Strom über das Netzwerkkabel** liefern. Das ist sehr 
 - **IP-Kameras**
 - **kleine IoT-Geräte**
 
-PoE gibt's in mehreren Klassen (Type 1: 15 W, Type 4 / PoE++: bis 90 W). Bei der Planung musst du das Gesamt-Watt-Budget des Switches im Auge behalten.
+PoE gibt's in mehreren Klassen (Type 1: 15 W, Type 4 / PoE++: bis ~90 W am Switch-Port (~71 W am Gerät)). Bei der Planung musst du das Gesamt-Watt-Budget des Switches im Auge behalten.
 
 ---
 

@@ -1,0 +1,8 @@
+title: "Betrieb & Verfügbarkeit"
+nav:
+  - "Überblick": index.md
+  - "Monitoring & Betrieb": monitoring.md
+  - "Backup & Recovery": backup-und-recovery.md
+  - "Hochverfügbarkeit & Redundanz": hochverfuegbarkeit.md
+  - "Betriebsdaten analysieren": betriebsdaten-analysieren.md
+  - "Incident Response & Business Continuity": incident-und-bcm.md

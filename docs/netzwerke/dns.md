@@ -101,19 +101,18 @@ flowchart TB
   R -- "8. 140.82.121.4 (wird gecached)" --> C
 ```
 
-In Worten:
+In Worten – die **acht Schritte aus dem Diagramm** (du hast `www.github.com` eingetippt, der Cache ist leer):
 
-1. **Du tippst** `www.github.com` in den Browser.
-2. Dein Computer fragt seinen konfigurierten **DNS-Server** (Resolver) – meistens den Router zu Hause oder einen öffentlichen Resolver.
-3. Der Resolver schaut in seinem **Cache**: kenne ich `www.github.com` schon? Wenn nein:
-4. Er fragt einen **Root-Server**: „Wer ist für `.com` zuständig?"
-5. Root-Server antwortet mit der Adresse des **`.com`-TLD-Servers**.
-6. Resolver fragt den TLD-Server: „Wer ist für `github.com` zuständig?"
-7. TLD-Server antwortet mit den **Authoritativen Servern** für `github.com` (in den **NS-Records**).
-8. Resolver fragt den Authoritativen Server: „Was ist die IP von `www.github.com`?"
-9. Authoritativer Server antwortet mit `140.82.121.4`.
-10. Resolver speichert die Antwort im **Cache** (mit Ablaufzeit) und schickt sie an deinen Computer.
-11. Dein Browser kann jetzt die TCP-Verbindung aufbauen.
+1. **Dein Computer fragt** seinen Resolver (z. B. den Router oder `8.8.8.8`): „Wo ist `www.github.com`?"
+2. Der Resolver kennt sie nicht und fragt einen **Root-Server**: „Wer ist für `.com` zuständig?"
+3. Der Root-Server antwortet: „Frag den **`.com`-TLD-Server**" (und nennt dessen Adresse).
+4. Der Resolver fragt den **TLD-Server**: „Wer ist für `github.com` zuständig?"
+5. Der TLD-Server nennt die **Authoritativen Server** für `github.com` (aus den **NS-Records**).
+6. Der Resolver fragt den **Authoritativen Server**: „Was ist die IP von `www.github.com`?"
+7. Der Authoritative Server antwortet: **`140.82.121.4`**.
+8. Der Resolver **speichert die Antwort im Cache** (mit Ablaufzeit) und gibt sie an deinen Computer zurück.
+
+Erst jetzt baut dein Browser die eigentliche **TCP-Verbindung** zu `140.82.121.4` auf – die DNS-Auflösung war nur der Wegweiser davor.
 
 **Insgesamt:** typisch 4 bis 6 Anfragen, die meist in **wenigen Millisekunden** erledigt sind – wenn alles ohne Cache laufen müsste. **Mit Caching** geht es oft in **unter einer Millisekunde**.
 
@@ -236,7 +235,7 @@ Wenn dein Internet-Provider dir keinen Resolver gibt oder du nicht vertraust:
 
 | Anbieter | IPv4 | IPv6 |
 |----------|------|------|
-| **Google Public DNS** | `8.8.8.8`, `8.8.4.4` | `2001:4860:4860::8888` |
+| **Google Public DNS** | `8.8.8.8`, `8.8.4.4` | `2001:4860:4860::8888`, `2001:4860:4860::8844` |
 | **Cloudflare** | `1.1.1.1`, `1.0.0.1` | `2606:4700:4700::1111` |
 | **Quad9** | `9.9.9.9` | `2620:fe::fe` |
 | **OpenDNS** | `208.67.222.222` | `2620:119:35::35` |

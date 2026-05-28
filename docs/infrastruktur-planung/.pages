@@ -1,0 +1,8 @@
+title: "Infrastruktur & Architektur"
+nav:
+  - "Überblick": index.md
+  - "Anforderungen & Sollkonzept": anforderungen-und-sollkonzept.md
+  - "Architekturen: zentral, dezentral, Cloud": architekturen.md
+  - "Speicherlösungen": speicherloesungen.md
+  - "Ressourcen planen": ressourcen-planen.md
+  - "Lizenzmodelle": lizenzmodelle.md

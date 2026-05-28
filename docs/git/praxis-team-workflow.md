@@ -1,21 +1,28 @@
 ---
-title: "Praxis: Feature-Workflow im Team (45 Min Gruppenübung)"
-description: "45-Minuten-Gruppenübung für 4 bis 5 Teilnehmer am gemeinsamen GitHub-Repo. Jeder arbeitet auf einem eigenen Feature-Branch, alle pushen, alle öffnen PRs. Die Übung produziert absichtlich den 'rejected, non-fast-forward'-Fehler, damit alle den Pull-Push-Workflow im Team erleben."
+title: "Gruppenübung 2: Feature-Workflow im Team (45 Min)"
+description: "Zweite der beiden Git-Gruppenübungen. 45 Minuten am gemeinsamen GitHub-Repo, 4 bis 5 Teilnehmer. Jeder arbeitet auf einem eigenen Feature-Branch in seiner eigenen README-Section. Die Übung produziert absichtlich den 'rejected, non-fast-forward'-Fehler, damit alle den Pull-Push-Workflow im Team erleben - ohne Merge-Konflikt."
 ---
 
-# Praxis: Feature-Workflow im Team (45 Min Gruppenübung)
+# Gruppenübung 2: Feature-Workflow im Team
+
+!!! warning "Bevor ihr loslegt – welche Gruppenübung ist das?"
+    Im Git-Block gibt es **zwei** verschiedene Gruppenübungen mit unterschiedlichem Schwerpunkt. Stellt sicher, dass **alle in der Gruppe wissen, welche ihr gerade macht** – sonst arbeiten Teilnehmer aneinander vorbei.
+
+    | | **[Gruppenübung 1](gruppen-uebung.md)** | **Gruppenübung 2** (diese hier) |
+    |---|---|---|
+    | **Dauer** | 60 Minuten | 45 Minuten |
+    | **Fokus** | **Merge-Konflikt** auflösen | **Workflow** und `[rejected]`-Fehler |
+    | **Wer ändert was?** | mehrere ändern **dieselbe Stelle in derselben Datei** | jeder ändert seine **eigene Section** |
+    | **Wer wird Konflikt erleben?** | gewollt: Konflikt zwischen zwei Devs | kein Merge-Konflikt; dafür `[rejected]`-Fehler beim Push |
+    | **Wann nehmen?** | wenn ihr Konflikt-Auflösung im Team üben wollt | wenn ihr den sauberen Team-Workflow üben wollt |
+
+    **Wenn ihr beide Übungen machen wollt:** macht **Gruppenübung 2 zuerst** (diese hier, sie ist freundlicher und vermittelt die Routine), **danach Gruppenübung 1** (anspruchsvoller, mit gewolltem Konflikt). Bei Unsicherheit: fragt euren Dozenten.
+
+---
 
 Willkommen zur **Workflow-Gruppenübung**.
 
 Ihr habt auf der Seite [Typische Git-Workflows in der Praxis](workflows.md) drei Muster alleine durchgespielt. Jetzt erlebt ihr **denselben Stoff zu viert oder fünft** – am gemeinsamen Repo, mit echten Mehrbenutzer-Effekten.
-
-!!! info "Wie diese Übung sich von der anderen Gruppenübung unterscheidet"
-    Es gibt zwei Gruppenübungen in diesem Block:
-
-    - **[Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md)** (60 Min) provoziert absichtlich einen **Merge-Konflikt**. Fokus: Konflikt-Auflösung im Team.
-    - **Diese Übung** (45 Min) fokussiert auf den **sauberen Feature-Workflow** mit dem `[rejected]`-Fehler aus Workflow 3. Kein erzwungener Merge-Konflikt, dafür das Push-Drama, das jede Person im Team kennt.
-
-    Wenn ihr beides macht, bietet sich diese hier zuerst an – sie ist kürzer, freundlicher und vermittelt die Routine. Die Konflikt-Übung kommt dann als nächster Schritt.
 
 ---
 
@@ -56,7 +63,7 @@ Verteilt am Anfang die Rollen. Die Standardbesetzung sind **vier Personen**:
 **Bei fünf Personen** kommt **Dev D** dazu mit Section D – sonst genau derselbe Ablauf. **Lieber Vierergruppen** als gemischte Gruppen mit fünft, weil bei fünft die Phase 3 etwas zäh wird – aber wenn die Gruppengröße sich nicht teilen lässt, ist Fünft okay.
 
 !!! info "Warum getrennte Sections?"
-    Anders als in der [60-Min-Gruppenübung](gruppen-uebung.md) ändert hier **jeder Dev seine eigene Section in der README**. Damit treten **keine** Merge-Konflikte zwischen den Devs auf. Der Lerneffekt kommt nicht aus dem Konflikt selbst, sondern aus der **`[rejected]`-Situation** in Phase 3.
+    Anders als in [Gruppenübung 1](gruppen-uebung.md) ändert hier **jeder Dev seine eigene Section in der README**. Damit treten **keine** Merge-Konflikte zwischen den Devs auf. Der Lerneffekt kommt nicht aus dem Konflikt selbst, sondern aus der **`[rejected]`-Situation** in Phase 3.
 
 ---
 
@@ -595,7 +602,7 @@ Diese Sammlung deckt die häufigsten Stolperstellen der 45 Minuten ab. Wenn etwa
 
 Wenn ihr die 45 Minuten überlebt habt und Lust auf eine längere Variante habt:
 
-- **[Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md)** (60 Min) – mit absichtlich provoziertem Merge-Konflikt.
+- **[Gruppenübung 1: Merge-Konflikt im Team lösen](gruppen-uebung.md)** (60 Min) – die andere Gruppenübung mit absichtlich provoziertem Merge-Konflikt.
 - **Rollentausch:** dieselbe Übung nochmal, jeder spielt eine andere Rolle. Wer war Maintainer, ist jetzt Dev. So lernt jeder beide Seiten.
 - **Branch Protection einbauen:** im Repo Settings → Branches → „Require a pull request before merging" anhaken. Dann darf niemand direkt auf `main` pushen, auch nicht der Maintainer – alles muss über PRs.
 
@@ -611,6 +618,6 @@ Wenn ihr die 45 Minuten überlebt habt und Lust auf eine längere Variante habt:
 ## Weiterlesen
 
 - [Typische Git-Workflows in der Praxis](workflows.md): die drei Workflows hier nochmal als Solo-Übungen
-- [Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md): die längere Version mit Merge-Konflikt-Fokus
+- [Gruppenübung 1: Merge-Konflikt im Team lösen](gruppen-uebung.md): die andere Gruppenübung, mit Merge-Konflikt-Fokus
 - [Stolpersteine](stolpersteine.md): wenn etwas im Team-Workflow hakt
 - [Merksätze](merksaetze.md): die Kern-Sätze des ganzen Blocks

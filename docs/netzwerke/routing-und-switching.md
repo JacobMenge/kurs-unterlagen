@@ -30,7 +30,7 @@ Ein **Switch** ist ein Gerät, das auf **Layer 2** arbeitet. Er kennt nur **MAC-
 
 ### Was ein Switch tut
 
-Stell dir vor, du hast acht Computer, die an einem Switch hängen. Ein Computer (Port 1) will an einen anderen (Port 5) ein Frame schicken.
+Stell dir vor, du hast fünf Computer, die an einem Switch hängen. Ein Computer (Port 1) will an einen anderen (Port 5) ein Frame schicken.
 
 ```mermaid
 flowchart LR
@@ -262,22 +262,14 @@ Lass uns ein durchgängiges Beispiel anschauen: dein PC zu Hause ruft `github.co
 ```mermaid
 flowchart LR
   PC["PC<br/>192.168.1.50"]
-  SW(("Switch<br/>im Heimrouter"))
-  R1(("Router<br/>Heim-Gateway<br/>192.168.1.1"))
-  R2(("ISP-Router<br/>z.B. Telekom"))
-  R3(("...mehrere Internet-Router..."))
-  R4(("GitHub-Router"))
+  SW(("Switch"))
+  R1(("Heim-Router<br/>192.168.1.1"))
+  NET(("Internet<br/>viele Router"))
   WEB["GitHub-Server<br/>140.82.121.4"]
-  
-  PC -- "1. an 140.82.121.4" --> SW
-  SW -- "2. Frame an R1<br/>(Layer 2)" --> R1
-  R1 -- "3. Routing-Entscheidung<br/>schicke an ISP" --> R2
-  R2 --> R3
-  R3 --> R4
-  R4 -- "Layer 2 wieder<br/>im GitHub-LAN" --> WEB
+  PC --> SW --> R1 --> NET --> WEB
 ```
 
-Schritt für Schritt:
+Im **LAN** (PC → Switch → Heim-Router) wird per **MAC-Adresse** zugestellt, **zwischen** den Routern wird per **IP-Adresse geroutet** – die Details Schritt für Schritt:
 
 1. **PC erkennt:** `140.82.121.4` ist nicht in `192.168.1.0/24`. Also an das **Default Gateway** schicken.
 2. **PC fragt per ARP:** „Wer hat 192.168.1.1?" → Router antwortet mit seiner MAC.
@@ -305,7 +297,7 @@ Auf dem **Rückweg** läuft alles in umgekehrter Reihenfolge, und die meisten Ro
 
 ## Hop-Limit und Pakete im Kreis
 
-Was passiert, wenn ein Paket durch falsche Routing-Konfiguration **im Kreis** läuft? Damit das nicht ewig dauert, hat jedes IP-Paket ein **TTL** (Time To Live) im Header – bei IPv4 typischerweise 64 oder 128.
+Was passiert, wenn ein Paket durch falsche Routing-Konfiguration **im Kreis** läuft? Damit das nicht ewig dauert, hat jedes IP-Paket ein **TTL** (Time To Live) im Header – der Startwert hängt vom Betriebssystem ab – Linux/macOS setzen 64, Windows 128.
 
 Bei **jedem Hop** zieht der Router 1 von der TTL ab. **Wenn TTL bei 0 angekommen ist**, verwirft der Router das Paket und sendet eine **ICMP-Nachricht** zurück: „TTL exceeded".
 
@@ -373,7 +365,7 @@ Du kannst deine eigene Routing-Tabelle ansehen mit `ip route` (Linux), `route pr
     2. Der Router **ist tatsächlich nicht erreichbar** – dann brechen Pings durch.
     3. Eine **Firewall** zwischen euch blockiert die TTL-Expired-Antworten.
 
-    Wenn die Webseite trotzdem lädt, ist es Fall 1 (kein Problem). Wenn nicht, ist da wirklich Verbindungs-Probleme.
+    Wenn die Webseite trotzdem lädt, ist es Fall 1 (kein Problem). Wenn nicht, hast du wirklich ein Verbindungs-Problem.
 
 ??? question "Frage 4: Welches Routing-Protokoll würdest du intern in einem Firmen-Netz mit 50 Routern einsetzen – und welches nicht?"
     **Sinnvoll:** **OSPF** (Open Shortest Path First) – schnell, skaliert gut für mittlere bis große Netze, herstellerunabhängig.

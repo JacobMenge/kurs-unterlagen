@@ -135,6 +135,18 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="cli"></span>CLI (Command-Line Interface)
 : **Textbasierte Bedienung** eines Programms oder Systems über die Kommandozeile. Gegenstück zum GUI. Du tippst Befehle ein wie `docker run nginx` oder `ls -la` und bekommst Textausgaben zurück. CLI-Tools lassen sich leicht automatisieren, in Skripte einbauen und per SSH auf entfernten Rechnern nutzen – deshalb sind sie in der IT so verbreitet.
 
+## <span id="collaborator"></span><span id="collaboratorin"></span>Collaborator (GitHub)
+: **Person, die zu einem privaten oder öffentlichen GitHub-Repository als Mitwirkende eingeladen wurde.** Collaborators dürfen je nach vergebener Rolle Branches pushen, Pull Requests öffnen, Issues bearbeiten oder mergen. Eingeladen werden sie unter **Settings → Collaborators → Add people**.
+
+    Vier typische Rollenstufen auf GitHub:
+
+    - **Read** – nur Lesezugriff
+    - **Triage** – darf Issues und PRs verwalten, aber nicht pushen
+    - **Write** – darf pushen, Branches anlegen, PRs öffnen (Standard für Mitwirkende)
+    - **Maintain** / **Admin** – darf zusätzlich Konfiguration und Berechtigungen ändern (siehe [Maintainer](#maintainer))
+
+    **Wichtig:** Eine **Einladung muss explizit angenommen** werden, bevor jemand pushen kann. Solange die Einladung offen ist, sieht der Eingeladene das Repo zwar (wenn es privat ist, oft erst nach Annahme), kann aber noch nichts ändern.
+
 ## <span id="container"></span>Container
 : Eine **laufende, isolierte Anwendung** auf einem Linux-Host. Technisch ein Prozess (oder Prozess-Baum), der sich den Kernel mit dem Host teilt, aber in eigenem Namespace läuft, eigene Ressourcen-Limits (cgroups) und reduzierte Rechte (Capabilities) hat. Ein Container ist die **laufende Instanz eines Images** – du kannst aus einem Image beliebig viele Container starten. Wird der Container gelöscht (`docker rm`), ist alles, was nur in ihm lebte, weg.
 
@@ -322,6 +334,20 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="fast-forward"></span>Fast-Forward (Merge)
 : **Einfachster Fall eines Merges**: wenn auf dem Ziel-Branch seit dem Abzweig keine eigenen Commits hinzugekommen sind, schiebt Git den Branch-Zeiger einfach an die Spitze des anderen Branches. **Kein neuer Commit** wird angelegt. Die Historie bleibt dadurch linear, aber die Information „hier gab es einen Branch" geht verloren. Mit `git merge --no-ff` kann man Fast-Forward unterdrücken und immer einen Merge-Commit erzwingen.
 
+## <span id="fork"></span><span id="forken"></span>Fork (Git / GitHub)
+: **Eigene Kopie eines bestehenden Git-Repositories auf einer Plattform wie GitHub oder GitLab.** Mit einem Klick auf „Fork" entsteht in deinem eigenen Account eine vollständige, eigenständige Kopie eines fremden Repos. Du kannst darin frei pushen, Branches anlegen, experimentieren – ohne Schreibrechte auf das Original zu brauchen.
+
+    **Typischer Open-Source-Workflow:**
+
+    1. Du forkst ein Projekt auf GitHub.
+    2. Klonst deinen Fork lokal (`git clone <DEIN-FORK-URL>`).
+    3. Fügst optional das Original als Remote `upstream` hinzu (`git remote add upstream <ORIGINAL-URL>`).
+    4. Arbeitest auf einem Feature-Branch, pushst zu deinem Fork.
+    5. Öffnest einen **Pull Request** vom Branch deines Forks gegen das Original-Repo.
+    6. Die Maintainer des Originals können den PR mergen.
+
+    **Wichtig:** Ein Fork ist eine Plattform-Funktion (GitHub, GitLab, Gitea), kein eigenständiger Git-Befehl. Technisch ist ein Fork einfach ein Klon, der auf der Plattform mit dem Original verknüpft bleibt. Siehe auch [Origin](#origin), [Upstream](#upstream) und [Pull Request](#pull-request).
+
 ## <span id="git-clone"></span>git clone
 : **Befehl zum Holen eines Remote-Repositories** auf den eigenen Rechner. `git clone <URL>` legt einen neuen Ordner an, lädt die komplette Historie, richtet den Remote `origin` ein und checkt den Default-Branch aus. Einer der häufigsten Git-Befehle überhaupt – nach einem Klon ist alles fertig konfiguriert.
 
@@ -339,6 +365,18 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="git-stash"></span>git stash
 : **Zwischenparkplatz für nicht-committete Änderungen.** Mit `git stash` legst du den Working Tree weg, sodass `git status` „clean" zeigt – die Änderungen sind aber auf einem Stapel sicher abgelegt. Praktisch, wenn du **mitten in einer Arbeit** bist und kurz auf einen anderen Branch wechseln musst. Mit `git stash pop` holst du sie zurück und entfernst sie vom Stapel.
+
+## <span id="git-switch"></span><span id="git-checkout"></span>git switch / git checkout
+: **Befehle zum Wechseln des Branches.** `git switch <branch>` ist seit Git 2.23 (2019) der **moderne** Befehl. `git switch -c <neuer-branch>` legt einen neuen Branch an und wechselt direkt darauf. Mit `git switch -` springst du zum vorherigen Branch zurück.
+
+    Der ältere `git checkout` macht dasselbe und noch viel mehr – er kann auch Dateien aus alten Commits wiederherstellen, in einen [Detached HEAD](#detached-head) wechseln, und Vieles mehr. Genau diese Vielfalt wurde als historisch verwirrend empfunden, weshalb `switch` (nur für Branches) und `restore` (nur für Dateien) eingeführt wurden. Für Anfänger ist `switch` klarer; `checkout` läuft aber bis heute und ist in vielen Anleitungen Standard.
+
+## <span id="detached-head"></span><span id="losloesen"></span>Detached HEAD
+: **Zustand, in dem HEAD direkt auf einen Commit zeigt – statt auf einen Branch.** Tritt auf, wenn du mit `git checkout <sha>` (oder `git switch --detach <sha>`) auf einen Commit aus der Historie springst, der nicht der oberste eines Branches ist.
+
+    **Gefahr:** Commits, die du in diesem Zustand machst, **hängen an keinem Branch**. Wenn du dann mit `git switch main` zurück wechselst, sind sie nur noch über `git reflog` erreichbar. Git warnt aber bei beiden Schritten deutlich.
+
+    **Lösung:** Wenn du im Detached HEAD Commits machen willst, gleich am Anfang `git switch -c neuer-branch` ausführen – dann sind die Commits an einem Branch festgemacht und überleben. Mehr dazu in [Workflows](git/workflows.md#workflow-1-zuruck-zu-einem-alten-commit-und-von-dort-neu-starten).
 
 ## <span id="gitignore"></span>.gitignore (Git)
 : **Datei im Repository-Root, die festlegt, welche Dateien und Ordner Git ignorieren soll.** Eine Zeile pro Muster, Wildcards erlaubt:
@@ -510,6 +548,17 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="mac"></span>MAC (Media Access Control)
 : **Eindeutige Hardware-Adresse einer Netzwerkkarte.** 48 Bit, üblich als sechs Hex-Paare geschrieben (`a4:5e:60:1f:b2:c3`). Wird vom Hersteller fest in die Karte gebrannt – im Prinzip „die Seriennummer im LAN". Switche und Router nutzen sie auf Layer 2 zum Zustellen von Paketen. Virtuelle NICs (in VMs und Containern) bekommen eine zufällige MAC-Adresse zugewiesen – die ist nicht echt, aber im virtuellen Netz eindeutig.
 
+## <span id="maintainer"></span>Maintainer
+: **Person mit erweiterten Rechten in einem Git-Repository**, typischerweise auf GitHub oder GitLab. Maintainer dürfen:
+
+    - Pull Requests annehmen oder ablehnen und in den Hauptbranch mergen
+    - Branches schützen (Branch Protection Rules setzen)
+    - Mitwirkende (Collaborator) einladen oder entfernen
+    - Releases anlegen
+    - das Repository umkonfigurieren
+
+    Auf GitHub wird die Rolle technisch über die Repository-Rechte vergeben (`Maintain` oder `Admin`). In Open-Source-Projekten ist „Maintainer" oft eine Selbstbezeichnung für aktive Pflege-Personen. Siehe auch [Collaborator](#collaborator).
+
 ## <span id="mariadb"></span>MariaDB
 : **Frei verfügbare relationale Datenbank**, die als Community-Fork aus MySQL entstanden ist und in den meisten Fällen ein **Drop-in-Ersatz** für MySQL ist. Wird von der von den ursprünglichen MySQL-Entwicklern gegründeten MariaDB Foundation gepflegt. Hört wie MySQL standardmäßig auf Port `3306`. Im Kurs nutzen wir MariaDB im WordPress-Compose-Beispiel als leichtgewichtige Alternative zu MySQL. Das offizielle Image (`mariadb`) bringt seit Version 11.2 ein eingebautes Healthcheck-Skript (`healthcheck.sh --connect --innodb_initialized`) mit, das robuster ist als ein selbstgebauter Auth-basierter Check.
 
@@ -548,6 +597,13 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="orbstack"></span><span id="orb-stack"></span>OrbStack
 : **Mac-native Alternative zu Docker Desktop**, entwickelt seit 2023. Schneller und ressourcenschonender als Docker Desktop, v.a. auf Apple Silicon. Frei für Privatnutzung, kostenpflichtig für größere kommerzielle Nutzung. Die CLI bleibt `docker`, die Integration ist nahtlos.
+
+## <span id="origin"></span>origin (Git)
+: **Standard-Name für den ersten Remote eines Git-Repositories.** Wenn du ein Repo mit `git clone <URL>` holst, legt Git automatisch einen Remote namens `origin` an, der auf diese URL zeigt. Ab dann meint `git push` ohne weitere Angabe meistens „nach origin pushen".
+
+    **Wichtig:** `origin` ist nur eine **Konvention**, kein Sonderwort. Technisch könntest du ihn umbenennen (`git remote rename origin meinremote`) oder mehrere Remotes haben (`origin`, `upstream`, `backup`, …). In >99 % der Repos ist `origin` aber genau das, was du erwartest: dein Haupt-Remote, typischerweise auf GitHub, GitLab oder einem firmeninternen Git-Server.
+
+    Anzeigen mit `git remote -v`, hinzufügen mit `git remote add origin <URL>`, ändern mit `git remote set-url origin <URL>`. Siehe auch [Remote-Repository](#remote-repository) und [Upstream](#upstream).
 
 ## <span id="os"></span>OS (Operating System)
 : **Betriebssystem**, z.B. Linux, macOS, Windows. Verwaltet Hardware, bietet Diensten wie Prozess-Isolation, Dateisystem, Netzwerk.
@@ -651,6 +707,31 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="recreate"></span>Recreate (Deployment-Strategie)
 : **Einfachste Deployment-Strategie**: alle alten Instanzen stoppen, dann neue starten. Akzeptiert eine kurze **Downtime** im Update-Fenster, dafür kein Mischbetrieb zweier Versionen, keine besondere Infrastruktur nötig. In Compose ist das de-facto der Default beim `docker compose up -d` mit neuem Image. Sinnvoll bei kleinen, internen Apps oder bei Schema-Änderungen, die Versions-kompatibel nicht möglich sind.
+
+## <span id="rebase"></span>Rebase (Git)
+: **Alternative zum klassischen Merge.** Statt zwei Branches mit einem Merge-Commit zusammenzuführen, baut Rebase deine Commits auf einen anderen Branch **um** – als wären sie dort direkt entstanden. Ergebnis: **lineare Historie** ohne Merge-Commits.
+
+    Befehl: `git rebase main` (auf einem Feature-Branch). Git nimmt deine Feature-Commits, setzt den Branch auf den aktuellen `main`-Stand zurück und spielt deine Commits einzeln darauf ab.
+
+    **Vorteil:** sehr aufgeräumte Historie. **Nachteil:** ändert die SHAs deiner Commits (neue Commits, die alten gibt es technisch nicht mehr) – nach einem Rebase brauchst du `git push --force-with-lease`. Faustregel: **nie auf einen Branch rebasen, den andere schon haben** – das schreibt deren Historie um. Lokal auf Feature-Branches ist Rebase aber sehr nützlich.
+
+## <span id="reflog"></span>Reflog (Git)
+: **Aufzeichnung jeder HEAD-Bewegung deines Repositories.** Während die normale Historie (`git log`) zeigt, wo dein Branch jetzt steht, zeigt `git reflog` zusätzlich **wo HEAD überall war** – Commits, Checkouts, Resets, Merges, Rebases.
+
+    Praktisch zur **Rettung**: hast du versehentlich Commits mit `git reset --hard` weggeworfen, einen Branch gelöscht oder bist im [Detached HEAD](#detached-head) etwas verloren – `git reflog` zeigt die SHAs der verlorenen Commits, du kannst sie mit `git branch rettung <sha>` zurückholen.
+
+    **Aufbewahrung:** Reflog-Einträge zu noch erreichbaren Commits halten standardmäßig 90 Tage, Einträge zu unerreichbaren Commits 30 Tage. Danach kann `git gc` sie wegräumen.
+
+## <span id="git-reset"></span><span id="reset-git"></span>git reset
+: **Befehl zum Verschieben des aktuellen Branches auf einen anderen Commit.** Drei Varianten:
+
+    - `git reset --soft <commit>` – Branch verschieben, **Staging und Working Tree unverändert lassen**. Alle Änderungen liegen weiter zum Commit bereit.
+    - `git reset --mixed <commit>` (Default) – Branch + Staging zurücksetzen, Working Tree unverändert. Änderungen werden „uncommitted und unstaged".
+    - `git reset --hard <commit>` – Branch, Staging **und Working Tree** auf den Zielzustand setzen. **Alle nicht-committeten Änderungen sind weg.**
+
+    **Vorsicht bei `--hard`:** danach gibt es kein Undo der Working-Tree-Änderungen außer aus dem [Reflog](#reflog). Erst Backup machen, dann zurücksetzen.
+
+    **Niemals reset auf gepushte Commits**, wenn andere darauf zugreifen – das überschreibt deren Historie. Im Solo-Repo dagegen ist es ein normales Werkzeug, z.B. zum Korrigieren eines verfrühten Commits.
 
 ## <span id="reverse-proxy"></span>Reverse Proxy
 : **Server, der Anfragen aus dem Netz entgegennimmt und an interne Dienste weiterreicht.** Klassiker: nginx oder Traefik vor mehreren Backend-Containern. Vorteile: zentrale TLS-Terminierung, Load Balancing, Caching, Auth-Vorprüfung. In einem Compose-Setup sieht das so aus: nginx hat den `-p 443:443`-Port nach außen, die App-Container haben **nur** interne Ports und werden vom nginx über das Compose-Netz erreicht.
@@ -757,6 +838,13 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="stack"></span>Stack
 : **Verbund aus mehreren Containern, die gemeinsam eine Anwendung bilden** – z.B. Web-App + Datenbank + Cache + Reverse Proxy. Im Compose-Kontext ist ein Stack alles, was in einer `compose.yaml` (oder einer Kombination aus `compose.yaml` und Override-Dateien) zusammen beschrieben wird. `docker compose up -d` startet einen Stack, `docker compose down` baut ihn ab. In Docker Swarm bekommt der Begriff einen formelleren Namen: dort verteilt `docker stack deploy` einen Stack auf mehrere Knoten. Der zentrale Gedanke: **ein Stack hat einen klar abgegrenzten Lebenszyklus** – startet, läuft, hört zusammen wieder auf.
 
+## <span id="squash"></span><span id="squash-merge"></span>Squash / Squash-Merge
+: **Variante des Mergens, bei der alle Commits eines Branches zu einem einzigen zusammengefasst werden.** Statt eines Merge-Commits mit zwei Eltern (klassischer Merge) entsteht ein einzelner neuer Commit auf dem Ziel-Branch, der alle Änderungen des Feature-Branches enthält. Die ursprüngliche Commit-Historie des Feature-Branches geht dabei verloren.
+
+    **Wann sinnvoll?** Bei langen Feature-Branches mit vielen kleinen „WIP"-Commits, die in `main` nicht hilfreich sind. Auf GitHub wählst du das beim Mergen eines Pull Requests unter **„Squash and merge"**.
+
+    **Nachteil:** Nach dem Squash-Merge erkennt Git den Feature-Branch nicht mehr als „vollständig gemergt" über seine Commits – `git branch -d` lehnt das Löschen ab, du brauchst `git branch -D`. Auch lässt sich ein einzelner Bug nicht mehr auf einen feineren Commit zurückführen.
+
 ## <span id="stage"></span><span id="build-stage"></span>Stage / Build-Stage
 : **Eine `FROM`-Stufe in einem Multi-Stage-Dockerfile.** Jeder Multi-Stage-Build hat mindestens zwei Stages: eine **Build-Stage** (mit Compilern, Tools), die nur Artefakte erzeugt, und eine **Runtime-Stage**, die nur das fertige Artefakt enthält. Stages werden mit `FROM image AS name` benannt; spätere Stages kopieren Ergebnisse mit `COPY --from=name`. So wird das finale Image klein – die Build-Tools landen nicht mit drin. Siehe [Multi-Stage-Build](#multi-stage-build).
 
@@ -804,6 +892,11 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 
 ## <span id="umgebungsvariable"></span><span id="umgebungsvariablen"></span>Umgebungsvariable / Environment Variable
 : **Eine Variable**, die einem Prozess beim Start übergeben wird und während seiner Laufzeit verfügbar ist. Beispiele: `PATH`, `HOME`, `DATABASE_URL`, `LOG_LEVEL`. In Docker Standard-Weg für Konfiguration: `docker run -e DB_HOST=postgres myapp`. Kann auch aus Dateien kommen (`--env-file`) oder im Dockerfile vorbelegt werden (`ENV`).
+
+## <span id="upstream"></span><span id="upstream-branch"></span>Upstream (Git)
+: **Der Remote-Branch, mit dem dein lokaler Branch verknüpft ist.** Wenn du `git push -u origin main` machst, setzt das `-u` (kurz für `--set-upstream`) die Verknüpfung: ab dann weiß dein lokaler `main`, dass `origin/main` sein Upstream ist. Beim nächsten Mal reicht `git push` ohne Argumente. Auch `git status` vergleicht deinen Branch mit dem Upstream und zeigt z.B. „Your branch is ahead of 'origin/main' by 2 commits".
+
+    **Begrifflicher Spezialfall:** In Projekten mit **Forks** wird der Begriff doppelt benutzt – das **ursprüngliche Repo** (von dem du geforkt hast) wird oft als Remote namens `upstream` hinzugefügt, damit du Änderungen von dort holen kannst. Dein eigenes Fork-Remote heißt dann `origin`, das Ursprungsrepo `upstream`. Siehe auch [Fork](#fork) und [Origin](#origin).
 
 ## <span id="url"></span>URL (Uniform Resource Locator)
 : **Eine Web-Adresse**, z.B. `https://jacob-decoded.de`. Besteht aus Schema (`https`), Host (`jacob-decoded.de`), optional Port und Pfad.

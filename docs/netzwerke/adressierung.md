@@ -197,7 +197,7 @@ Früher wurden IPv4-Adressen in **Klassen** eingeteilt:
 
 | Klasse | Erstes Byte | Standard-Maske | CIDR | Typische Verwendung |
 |--------|------------|----------------|------|---------------------|
-| **A** | 1–126     | `255.0.0.0`     | `/8`  | sehr große Netze (z.B. Telekommunikations-Anbieter) |
+| **A** | 1–126     | `255.0.0.0`     | `/8`  | sehr große Netze; **127 ist für Loopback reserviert** |
 | **B** | 128–191   | `255.255.0.0`   | `/16` | mittlere Netze (große Firmen) |
 | **C** | 192–223   | `255.255.255.0` | `/24` | kleine Netze (typisches Heim-/Kleinbüro-LAN) |
 | **D** | 224–239   | –               | –     | Multicast |
@@ -253,7 +253,7 @@ Gegeben: `192.168.10.45` mit Maske `/26`. Frage: liegt `192.168.10.70` im gleich
 **Vorgehen:**
 
 1. `/26` heißt: 26 Bit Netz, 6 Bit Host. Die Maske ist `255.255.255.192` (weil das vierte Byte = `11000000` = 192).
-2. Das vierte Oktett hat **6 Hostbits**, also kann das Host-Anteil-Wert 0 bis 63 sein. Die Subnetz-Größe ist **64**.
+2. Das vierte Oktett hat **6 Hostbits** → **Blockgröße 64**: die Subnetze starten bei 0, 64, 128, 192.
 3. Die Subnetze beginnen also bei: `.0`, `.64`, `.128`, `.192`.
 4. **`.45`** liegt im Subnetz `.0` bis `.63`.
 5. **`.70`** liegt im Subnetz `.64` bis `.127`.

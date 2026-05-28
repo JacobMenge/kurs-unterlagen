@@ -177,10 +177,10 @@ Dein Heim-Router macht das ständig.
 ```mermaid
 flowchart LR
   PC["PC<br/>192.168.1.50"]
-  R(("Router<br/>WAN: 84.123.45.67<br/>LAN: 192.168.1.1"))
+  R(("Router<br/>WAN 84.123.45.67<br/>LAN 192.168.1.1"))
   WEB["Webserver<br/>140.82.121.4"]
-  PC -- "Quelle:<br/>192.168.1.50:50001<br/>Ziel: 140.82.121.4:443" --> R
-  R -- "Quelle umgeschrieben:<br/>84.123.45.67:60123<br/>Ziel: 140.82.121.4:443" --> WEB
+  PC -- "Quelle: 192.168.1.50 (privat)" --> R
+  R -- "Quelle → 84.123.45.67 (öffentlich)" --> WEB
 ```
 
 Ablauf:
@@ -208,7 +208,7 @@ flowchart LR
   R(("Router<br/>WAN: 84.123.45.67"))
   WEB["Interner Webserver<br/>192.168.1.100:80"]
   EXT -- "Ziel: 84.123.45.67:80" --> R
-  R -- "umgeschrieben:<br/>Ziel: 192.168.1.100:80" --> WEB
+  R -- "Ziel → 192.168.1.100:80" --> WEB
 ```
 
 Im Heim-Router heißt das **Port-Weiterleitung**. „Wenn jemand auf meinem WAN-Port 80 ankommt, leite das zu 192.168.1.100:80."

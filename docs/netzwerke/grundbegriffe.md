@@ -26,7 +26,7 @@ Netzwerke unterscheidet man als erstes nach **Reichweite und Größe**. Vier Beg
 |--------|-------------------|-----------|----------|
 | **PAN** | Personal Area Network | wenige Meter | Bluetooth-Kopfhörer am Handy |
 | **LAN** | Local Area Network | ein Gebäude, ein Stockwerk | Büro-Netz, Heim-WLAN |
-| **MAN** | Metropolitan Area Network | eine Stadt | Stadtwerke-Netz, Hochschul-Campus |
+| **MAN** | Metropolitan Area Network | eine Stadt | Stadtwerke-Netz, mehrere Firmenstandorte in einer Stadt |
 | **WAN** | Wide Area Network | Länder, Kontinente | das Internet, Firmen mit mehreren Standorten |
 
 !!! tip "Wann nutzt man welchen Begriff?"
@@ -60,14 +60,14 @@ flowchart TB
 
 ### Ring-Topologie
 
-Jedes Gerät hat genau zwei Nachbarn, die Daten laufen im Kreis.
+Jedes Gerät hat genau zwei Nachbarn, die Daten laufen im Kreis – bei einem **redundanten Ring** in beide Richtungen.
 
 ```mermaid
 flowchart LR
-  A["Gerät A"] --> B["Gerät B"]
-  B --> C["Gerät C"]
-  C --> D["Gerät D"]
-  D --> A
+  A["Gerät A"] <--> B["Gerät B"]
+  B <--> C["Gerät C"]
+  C <--> D["Gerät D"]
+  D <--> A
 ```
 
 - **Vorteile:** sehr ausfallsicher, wenn als **redundanter Ring** ausgelegt (Daten können in beide Richtungen fließen)
@@ -208,6 +208,23 @@ Daten werden im Netzwerk nicht als großer Block übertragen, sondern in kleine 
 | **Segment** | Layer 4 (Transport, TCP) | hat Port-Nummern, Reihenfolge, Bestätigungen |
 | **Datagramm** | Layer 4 (Transport, UDP) | hat Port-Nummern, **keine** Reihenfolge oder Bestätigung |
 
+<div class="kapsel">
+  <div class="kapsel-row">
+    <span class="kapsel-tag">Schicht 4 · Segment / Datagramm</span>
+    <div class="kapsel-bar"><span class="hd">Port</span><span class="nutz">Nutzdaten</span></div>
+  </div>
+  <div class="kapsel-row">
+    <span class="kapsel-tag">Schicht 3 · Paket</span>
+    <div class="kapsel-bar"><span class="hd">IP-Adressen</span><span class="hd">Port</span><span class="nutz">Nutzdaten</span></div>
+  </div>
+  <div class="kapsel-row">
+    <span class="kapsel-tag">Schicht 2 · Frame</span>
+    <div class="kapsel-bar"><span class="hd">MAC-Adressen</span><span class="hd">IP</span><span class="hd">Port</span><span class="nutz">Nutzdaten</span><span class="hd">Prüfsumme</span></div>
+  </div>
+</div>
+
+*Von oben nach unten gelesen: **jede Schicht packt ihren eigenen Kopf (Header) um dieselben Nutzdaten.** Nach unten wird die Verpackung größer – darum heißt dasselbe Häppchen pro Schicht anders.*
+
 !!! tip "Brief-Analogie"
     Stell dir einen Brief vor:
 
@@ -281,10 +298,15 @@ Verlorene Pakete werden bei TCP automatisch nochmal gesendet. Das macht TCP zuve
 
 **Wie** die Daten transportiert werden – Kabel, Funk oder Licht.
 
+<figure markdown="span">
+![Nahaufnahme von Netzwerk-Patchkabeln mit RJ45-Steckern](https://images.unsplash.com/photo-1691435828932-911a7801adfb?w=1600&q=80&auto=format&fit=crop){ loading=lazy }
+<figcaption>RJ45-Stecker an Kupfer-Patchkabeln – der Klassiker im LAN. Daneben stehen Glasfaser (Licht) und Funk (WLAN).<span class="bildnachweis">Foto: Albert Stoynov / Unsplash</span></figcaption>
+</figure>
+
 | Medium | Reichweite | Typische Bandbreite | Eigenschaften |
 |--------|-----------|---------------------|---------------|
 | **Twisted-Pair-Kupfer (CAT5e/CAT6/CAT7)** | bis ca. 100 m | 1–10 Gbit/s | Standard im LAN, billig |
-| **Glasfaser (Singlemode/Multimode)** | bis 40 km (Singlemode) | bis 100 Gbit/s und mehr | sehr schnell, hohe Reichweite, teurer |
+| **Glasfaser (Singlemode/Multimode)** | viele Kilometer (Singlemode) | bis 100 Gbit/s und mehr | sehr schnell, hohe Reichweite, teurer |
 | **WLAN (Wi-Fi 5, Wi-Fi 6, Wi-Fi 7)** | 10–50 m (drinnen) | 100 Mbit/s bis 10 Gbit/s | kabellos, Interferenz-empfindlich |
 | **Bluetooth** | ca. 10 m | 1–3 Mbit/s | Geräte-zu-Gerät, niedriger Stromverbrauch |
 | **Mobilfunk (4G/5G)** | viele Kilometer | 50 Mbit/s bis mehrere Gbit/s (5G) | überall verfügbar, kostenpflichtig |

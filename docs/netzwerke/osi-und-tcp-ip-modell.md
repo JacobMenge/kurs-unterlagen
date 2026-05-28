@@ -47,19 +47,12 @@ Verwirrend? Nicht wenn du verstehst, **warum** das so ist.
 
 Von **unten nach oben**, weil das die Reihenfolge ist, in der die Daten beim Senden verarbeitet werden.
 
-```mermaid
-flowchart TB
-  L7["Schicht 7: Anwendung<br/>(HTTP, SSH, DNS)"]
-  L6["Schicht 6: Darstellung<br/>(TLS, Verschlüsselung, Encoding)"]
-  L5["Schicht 5: Sitzung<br/>(Auf- und Abbau, Sitzungs-IDs)"]
-  L4["Schicht 4: Transport<br/>(TCP, UDP, Ports)"]
-  L3["Schicht 3: Vermittlung<br/>(IP, Routing)"]
-  L2["Schicht 2: Sicherung<br/>(Ethernet, MAC, Switches)"]
-  L1["Schicht 1: Physisch<br/>(Kabel, Funk, Stecker)"]
-  L7 --> L6 --> L5 --> L4 --> L3 --> L2 --> L1
-```
+<figure class="schaubild" markdown="span">
+![Das OSI-7-Schichten-Modell mit allen sieben Schichten von Physisch (Schicht 1) bis Anwendung (Schicht 7)](https://upload.wikimedia.org/wikipedia/commons/8/80/ISO-OSI-7-Schichten-Modell%28in_Deutsch%29.svg){ loading=lazy }
+<figcaption>Das OSI-Referenzmodell – sieben Schichten von unten (physisch) nach oben (anwendungsnah).<span class="bildnachweis">Bild: Deadlyhappen / <a href="https://commons.wikimedia.org/wiki/File:ISO-OSI-7-Schichten-Modell(in_Deutsch).svg">Wikimedia Commons</a>, CC BY-SA 4.0</span></figcaption>
+</figure>
 
-Hier jede Schicht im Detail.
+Merk dir die Reihenfolge **von unten nach oben** – das ist die Reihenfolge, in der die Daten beim Senden verarbeitet werden. Hier jede Schicht im Detail.
 
 ### Schicht 1: Physische Schicht (Layer 1)
 
@@ -94,7 +87,7 @@ Hier jede Schicht im Detail.
 - **IP-Adressen** (IPv4, IPv6) – logische Adressen, im Gegensatz zur physischen MAC-Adresse
 - **Routing-Tabellen**: welcher Weg führt zu welchem Ziel-Netz?
 - **Pakete** statt Frames
-- Hier wohnen die Protokolle **IP, ICMP** (ping!), **ARP** (formal eigentlich Layer 2/3 hybrid)
+- Hier wohnen die Protokolle **IP, ICMP** (ping!), **ARP** (sitzt an der Grenze zu Schicht 2: übersetzt IP- in MAC-Adressen, wird nicht geroutet)
 
 **Geräte hier:** **Router**, Layer-3-Switch.
 
@@ -119,7 +112,7 @@ Hier jede Schicht im Detail.
 
 - Wer macht den Anfang einer Verbindung? Wer beendet sie?
 - Wie wird eine **unterbrochene Sitzung wieder aufgenommen**, ohne von vorne anzufangen?
-- **Sitzungs-IDs**, **Cookies** im Web (vereinfacht)
+- **Sitzungs-IDs**, z. B. eine TLS-Session (Web-Cookies sind technisch erst Schicht 7)
 
 In der Praxis ist diese Schicht im **TCP/IP-Modell verschmolzen** mit den Schichten 4 und 7. Wenn jemand sagt „Layer 5", meinen viele die Sitzung im logischen Sinn – z.B. eine TLS-Sitzung oder eine TCP-Verbindung.
 

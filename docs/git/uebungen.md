@@ -911,7 +911,7 @@ Außerdem soll am Ende alles **auf GitHub** liegen, jede der drei Änderungen al
 - **Springen**, wenn du gezielt eine Lücke füllen willst (z.B. nur 7.5 für Konflikt-Übung).
 - **Mehrmals machen**: die ersten paar Male mit Schritt-Anleitung, dann ohne, dann mit etwas Variation (anderer Dateiname, andere Branch-Namen).
 
-Wenn du an einer Stelle festhängst, schau in die [Stolpersteine](stolpersteine.md). Wenn du Lust auf eine Mehr-Personen-Variante hast: die [Gruppenübung](gruppen-uebung.md) zwingt euch in eine realistische Konfliktsituation.
+Wenn du an einer Stelle festhängst, schau in die [Stolpersteine](stolpersteine.md). Wenn du Lust auf eine Mehr-Personen-Variante hast, gibt es zwei Gruppenübungen mit unterschiedlichem Fokus: [Gruppenübung 1](gruppen-uebung.md) (60 Min, Konflikt-Auflösung) oder [Gruppenübung 2](praxis-team-workflow.md) (45 Min, sauberer Team-Workflow).
 
 ---
 

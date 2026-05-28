@@ -1,14 +1,28 @@
 nav:
   - "Start": index.md
-  - "Virtualisierung": virtualisierung
-  - "Docker": docker
-  - "Docker – Aufbau": docker-aufbau
-  - "Docker Escape Room": docker-escape-room
-  - "Docker-Vertiefung": docker-vertiefung
-  - "Docker Compose": docker-compose
-  - "Mission Control (Compose-Praxis)": docker-compose-mission-control
-  - "Docker für Profis": docker-profi
-  - "Git und GitHub": git
-  - "CI/CD-Einführung": ci-cd
-  - "Cheatsheets": cheatsheets
-  - "Glossar": glossar.md
+  - "Fahrplan": fahrplan.md
+  - "Grundlagen & Integration":
+      - "Netzwerke": netzwerke
+      - "Virtualisierung": virtualisierung
+      - "Infrastruktur & Architektur": infrastruktur-planung
+  - "Container & Automatisierung":
+      - "Docker – Einführung": docker
+      - "Docker – Aufbau": docker-aufbau
+      - "Docker – Vertiefung": docker-vertiefung
+      - "Docker Compose": docker-compose
+      - "Orchestrierung & Verteilung": orchestrierung
+      - "Docker für Profis": docker-profi
+      - "CI/CD mit GitHub Actions": ci-cd
+  - "Betrieb & Sicherheit":
+      - "Betrieb & Verfügbarkeit": betrieb
+      - "IT-Sicherheit & Risiko": it-sicherheit
+      - "Tests & Qualität": testen-qualitaet
+  - "Organisation & Projekte":
+      - "Recht & Datenschutz": recht-organisation
+      - "Projekte & Koordination": projektmanagement
+  - "Praxis & Nachschlagen":
+      - "Praxis: Docker Escape Room": docker-escape-room
+      - "Praxis: Mission Control": docker-compose-mission-control
+      - "Git & GitHub": git
+      - "Cheatsheets": cheatsheets
+      - "Glossar": glossar.md

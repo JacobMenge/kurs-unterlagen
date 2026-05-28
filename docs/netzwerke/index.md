@@ -9,6 +9,11 @@ Wenn du Container betreibst, virtuelle Maschinen einrichtest oder Server in Betr
 
 In diesem Block schauen wir uns das **Fundament** an, auf dem all diese Verbindungen aufbauen. Du lernst, wie aus einem Namen wie `github.com` eine erreichbare Adresse wird, warum ein Router etwas anderes ist als ein Switch, was MAC-Adressen mit IP-Adressen zu tun haben und warum es in der Industrie eigene Protokolle wie OPC UA und MQTT gibt, die im klassischen Office-IT-Bereich niemand kennt.
 
+<figure class="hero" markdown="span">
+![Server-Reihen in einem modernen Rechenzentrum](https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?w=1600&q=80&auto=format&fit=crop){ loading=lazy }
+<figcaption>Hier läuft, worüber wir reden: Server, Switches und Verkabelung in einem Rechenzentrum.<span class="bildnachweis">Foto: Kevin Ache / Unsplash</span></figcaption>
+</figure>
+
 !!! abstract "Was du in diesem Block lernst"
     - die Idee der **Schichtenmodelle** (OSI, TCP/IP) und wozu sie da sind
     - **MAC-Adressen, IPv4, IPv6**, sowie **Subnetting** und **CIDR** im Kopf rechnen
@@ -24,14 +29,14 @@ In diesem Block schauen wir uns das **Fundament** an, auf dem all diese Verbindu
 
 ## Warum dieser Block wichtig ist
 
-Der Lehrplan zum **Berufsspezialisten für Systemintegration und Vernetzung** setzt Netzwerkwissen praktisch überall voraus:
+Die Arbeit an vernetzten IT-Systemen setzt Netzwerkwissen praktisch überall voraus:
 
 - Wer eine **Cloud-Architektur** plant, muss VPNs, Subnetze und Firewall-Regeln verstehen.
 - Wer **Industrieanlagen integriert**, kommt um OPC UA, Profinet und MQTT nicht herum.
 - Wer **IT-Sicherheitskonzepte** umsetzt, muss wissen, was Layer 3 von Layer 7 unterscheidet.
 - Wer **Backups oder Monitoring** aufbaut, braucht Wissen über TCP, UDP, Ports und Protokolle.
 
-Anders gesagt: ohne dieses Block fehlt dir das Vokabular, mit dem alle anderen Themen erst greifbar werden.
+Anders gesagt: ohne diesen Block fehlt dir das Vokabular, mit dem alle anderen Themen erst greifbar werden.
 
 ---
 
@@ -102,4 +107,4 @@ Wo es Sinn macht, gibt es kleine Berechnungs-Beispiele (vor allem bei Subnetting
 
 > **Was passiert technisch, wenn ich `https://github.com` in den Browser eintippe – und welche Komponenten sind alle daran beteiligt?**
 
-Am Ende dieses Blocks beantwortest du diese Frage in zehn Minuten am Whiteboard, ohne ins Stocken zu kommen. Von der DNS-Anfrage über die TCP-Verbindung, die TLS-Aushandlung, den HTTP-Request, das Routing über mehrere Hops, bis zur fertig gerenderten Seite. Wer das im Schlaf erklären kann, kann den Rest des Lehrplans bedient angehen.
+Am Ende dieses Blocks beantwortest du diese Frage in zehn Minuten am Whiteboard, ohne ins Stocken zu kommen. Von der DNS-Anfrage über die TCP-Verbindung, die TLS-Aushandlung, den HTTP-Request, das Routing über mehrere Hops, bis zur fertig gerenderten Seite. Wer das im Schlaf erklären kann, kann alle weiteren Themen gelassen angehen.

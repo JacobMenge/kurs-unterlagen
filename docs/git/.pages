@@ -13,7 +13,7 @@ nav:
   - "Praxis 6: Pull Request über Branch": praxis-pull-request.md
   - "Typische Workflows in der Praxis": workflows.md
   - "Übungen": uebungen.md
-  - "Gruppenübung: Repo gemeinsam nutzen": gruppen-uebung.md
-  - "Praxis: Feature-Workflow im Team (45 Min)": praxis-team-workflow.md
+  - "Gruppenübung 1: Merge-Konflikt im Team lösen (60 Min)": gruppen-uebung.md
+  - "Gruppenübung 2: Feature-Workflow im Team (45 Min)": praxis-team-workflow.md
   - "Stolpersteine": stolpersteine.md
   - "Merksätze": merksaetze.md

@@ -93,7 +93,7 @@ Mehr dazu: [Praxis 6: Pull Request über Branch](praxis-pull-request.md)
 !!! success "Merksatz 10"
     > **Alle arbeiten auf Branches, alle nutzen Pull Requests, Konflikte werden lokal gelöst statt im Browser. Vor jedem neuen Branch ein `git pull` auf `main`, nach jedem Merge ein `git fetch --prune`.**
 
-Mehr dazu: [Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md)
+Mehr dazu: [Gruppenübung 1: Merge-Konflikt im Team lösen](gruppen-uebung.md) und [Gruppenübung 2: Feature-Workflow im Team](praxis-team-workflow.md)
 
 ---
 

@@ -30,3 +30,6 @@ apps/**/node_modules/
 
 # Lokale Hilfs-/Arbeitsordner (nicht ins Repo)
 .claude/
+
+# Temporäre Arbeitsdateien (z. B. PDF-Textextraktion)
+.tmp_*

@@ -21,7 +21,7 @@ In diesem Kapitel klären wir, **warum** du dich als IT-Systemintegrator mit Net
 
 ## Was ein Netzwerk im Kern ist
 
-Ein **Netzwerk** ist nichts anderes als **mehrere Geräte, die miteinander reden können**. Die Geräte können Computer sein, Smartphones, Drucker, Kühlschränke, Industrierobotern oder Sensoren – das spielt keine Rolle.
+Ein **Netzwerk** ist nichts anderes als **mehrere Geräte, die miteinander reden können**. Die Geräte können Computer sein, Smartphones, Drucker, Kühlschränke, Industrieroboter oder Sensoren – das spielt keine Rolle.
 
 Was ein Netzwerk auszeichnet, ist:
 
@@ -99,7 +99,7 @@ Wenn dein Auftraggeber sagt „wir gehen in die Cloud", reicht das als Informati
 | **Private Cloud** | das Unternehmen selbst oder ein dedizierter Dienstleister | nur die eigene Organisation | Banken, Behörden, Krankenhäuser, kritische Industrie |
 | **Hybrid Cloud** | Mischung aus beidem | Teile in der Public Cloud, sensible Teile im eigenen Rechenzentrum | typische Firma: SAP intern, Web-Shop in der Cloud |
 
-**Hybrid ist der Normalfall** in deutschen Unternehmen – fast niemand macht „alles in der Public Cloud" oder „alles selbst". Genau diese Kombination zu planen, ist eine der Kernaufgaben des Berufsspezialisten.
+**Hybrid ist der Normalfall** in deutschen Unternehmen – fast niemand macht „alles in der Public Cloud" oder „alles selbst". Genau diese Kombination zu planen, ist eine der Kernaufgaben in der Systemintegration.
 
 ### Die drei Service-Modelle: IaaS, PaaS, SaaS
 
@@ -163,7 +163,7 @@ Und das alles passiert in **Sekundenbruchteilen** – im Idealfall.
 
 ## Klassische IT vs. Industrie-Vernetzung
 
-Eines vorweg, weil es im Lehrplan einen großen Raum einnimmt: **Industrie-Netzwerke ticken anders als Office-Netzwerke.** Beide nutzen IP, beide nutzen Kabel oder Funk. Aber die Anforderungen sind unterschiedlich.
+Eines vorweg, weil es in der Praxis – und in der Prüfung – einen großen Raum einnimmt: **Industrie-Netzwerke ticken anders als Office-Netzwerke.** Beide nutzen IP, beide nutzen Kabel oder Funk. Aber die Anforderungen sind unterschiedlich.
 
 | Aspekt | Klassische IT | Industrie-Vernetzung |
 |--------|--------------|---------------------|
@@ -172,7 +172,7 @@ Eines vorweg, weil es im Lehrplan einen großen Raum einnimmt: **Industrie-Netzw
 | **Typische Protokolle** | HTTP/HTTPS, TCP, SMTP | Profinet, OPC UA, Modbus, MQTT |
 | **Patch-Zyklus** | wöchentlich/monatlich | sehr selten – jedes Update kann die Produktion stoppen |
 | **Netzwerk-Topologie** | sternförmig, hierarchisch | oft Ring (höhere Ausfallsicherheit) |
-| **Akzeptable Latenz** | 50–200 ms in Ordnung | oft unter 1 ms gefordert |
+| **Akzeptable Latenz** | im LAN < 1 ms; 50–200 ms erst Richtung Internet/Cloud | oft unter 1 ms gefordert |
 
 Was das praktisch bedeutet: ein Systemintegrator, der nur Office-IT kann, ist in einer Industriehalle oft hilflos. Genauso umgekehrt – ein klassischer Automatisierungstechniker tut sich schwer mit modernen IT-Sicherheitsanforderungen. Du sollst **beide Welten** verstehen, damit du an der Schnittstelle arbeiten kannst.
 
@@ -254,7 +254,7 @@ Beantworte die Fragen erst für dich, schau dann in den Aufklapper.
     Optional zusätzlich: Welcher Anbieter (Azure, AWS, Google, Hetzner), welche Region (Datenschutz!) und welche Verbindungsart (VPN, Direct Connect)?
 
 ??? question "Frage 2: Warum ist Netzwerkwissen ein Querschnittsthema und kein Spezialgebiet?"
-    Weil **jedes andere IT-Thema** Netzwerke voraussetzt: Container-Anwendungen, Cloud-Migrationen, Backup-Strategien, IT-Sicherheit, Monitoring, Industrie-Vernetzung. Ein Berufsspezialist, der Netzwerke nicht versteht, kann keinen der anderen Bereiche fundiert planen oder umsetzen.
+    Weil **jedes andere IT-Thema** Netzwerke voraussetzt: Container-Anwendungen, Cloud-Migrationen, Backup-Strategien, IT-Sicherheit, Monitoring, Industrie-Vernetzung. Wer Netzwerke nicht versteht, kann keinen der anderen Bereiche fundiert planen oder umsetzen.
 
 ??? question "Frage 3: Worin unterscheiden sich klassische Office-IT und Industrie-Vernetzung (OT) in den Werten am stärksten?"
     Office-IT priorisiert **Vertraulichkeit der Daten**. OT priorisiert **Verfügbarkeit der Anlagen und Safety der Personen**. Daraus folgen direkt:
@@ -262,7 +262,7 @@ Beantworte die Fragen erst für dich, schau dann in den Aufklapper.
     - andere Patch-Zyklen (OT viel seltener, weil Stillstand teuer)
     - andere Lebensdauern (OT 15–30 Jahre, IT 3–5)
     - andere Protokolle (OPC UA, Profinet statt HTTP)
-    - andere akzeptable Latenzen (OT oft < 1 ms, IT oft 50–200 ms ausreichend)
+    - andere akzeptable Latenzen (OT oft < 1 ms, Office-IT im LAN ähnlich niedrig, 50–200 ms erst Richtung Internet/Cloud)
 
 ??? question "Frage 4: Was wäre der Vorteil von SaaS gegenüber IaaS aus Sicht eines kleinen Mittelständlers?"
     Bei **SaaS** muss der Mittelständler weder Server, noch Betriebssystem, noch die Anwendung selbst betreiben – nur Daten und Nutzer pflegen. Das spart Personal und reduziert das Risiko von Fehlkonfigurationen. Nachteil: weniger Kontrolle über Daten und Verfügbarkeit, abhängig vom Anbieter.

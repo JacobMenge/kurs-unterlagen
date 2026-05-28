@@ -38,7 +38,7 @@ flowchart LR
   IP --> SSH
 ```
 
-Damit der Computer weiß, welches Paket zu welcher Anwendung gehört, gibt es **Ports**. Eine **IP + Port** zusammen heisst **Socket** und beschreibt eindeutig eine **Verbindungs-Endpunkt**.
+Damit der Computer weiß, welches Paket zu welcher Anwendung gehört, gibt es **Ports**. Eine **IP + Port** zusammen heißt **Socket** und beschreibt eindeutig einen **Verbindungs-Endpunkt**.
 
 ---
 
@@ -85,7 +85,7 @@ Du musst sie nicht alle auswendig kennen. Aber **22, 53, 80, 443** solltest du i
 | **1024 – 49.151** | Registered Ports | von IANA registriert, aber freier |
 | **49.152 – 65.535** | Dynamic / Ephemeral Ports | für Client-Verbindungen |
 
-Auf Linux und macOS dürfen Programme **unter Port 1024** nur mit Admin-Rechten gestartet werden – damit nicht jeder einen Web-Server mit Schadcode auf Port 80 hochziehen kann.
+Auf Linux und macOS dürfen Programme **unter Port 1024** nur mit Admin-Rechten gestartet werden – damit nicht jeder einen Web-Server mit Schadcode auf Port 80 hochziehen kann. (Windows kennt diese Einschränkung nicht.)
 
 ---
 

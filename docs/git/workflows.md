@@ -14,7 +14,7 @@ Auf dieser Seite gehen wir drei davon durch. Jeweils mit echtem Szenario, den Be
     - **Workflow 2:** Den klassischen **Feature-Branch-Solo-Workflow** sauber abwickeln: anlegen, arbeiten, mergen, aufräumen. Inklusive der typischen Stolperstelle „ich habe vergessen, vorher `main` zu pullen".
     - **Workflow 3:** Du willst pushen, Git lehnt ab mit dem `rejected, non-fast-forward`-Fehler. Was bedeutet die Meldung und wie reagierst du?
     - Pro Workflow gibt es eine **Solo-Übung** (10–15 Min), zum direkten Ausprobieren.
-    - Am Ende geht es weiter mit der **[45-Min-Gruppenübung](praxis-team-workflow.md)**, in der ihr alle drei Workflows zu viert oder zu fünft im Team spielt.
+    - Am Ende geht es weiter mit **[Gruppenübung 2](praxis-team-workflow.md)** (45 Min), in der ihr alle drei Workflows zu viert oder zu fünft im Team spielt.
 
 ---
 
@@ -1223,9 +1223,11 @@ Außerdem dient die Übersicht als **Frage-Checkliste**: wenn du vor einer Git-S
 
 Du hast jetzt drei wichtige Workflows alleine erlebt. Der nächste Schritt: dieselben Muster **im Team**, mit echten Mehrbenutzer-Situationen.
 
-➡️ **[Praxis: Feature-Workflow im Team (45 Min Gruppenübung)](praxis-team-workflow.md)**
+➡️ **[Gruppenübung 2: Feature-Workflow im Team (45 Min)](praxis-team-workflow.md)**
 
 Dort arbeitet ihr zu viert oder zu fünft an einem gemeinsamen Repo, jeder mit einer eigenen Rolle, und erlebt unter anderem den `[rejected]`-Fehler aus Workflow 3 live, weil mehrere Personen parallel pushen wollen.
+
+Es gibt im Block auch eine **[Gruppenübung 1](gruppen-uebung.md)** mit Fokus auf Merge-Konflikt – wenn ihr beide macht, ist Gruppenübung 2 (oben) der freundlichere Einstieg.
 
 ---
 
@@ -1238,7 +1240,7 @@ Dort arbeitet ihr zu viert oder zu fünft an einem gemeinsamen Repo, jeder mit e
 
 ## Weiterlesen
 
-- [Praxis: Feature-Workflow im Team (45 Min Gruppenübung)](praxis-team-workflow.md): die Workflows hier nochmal, aber zu viert oder fünft
-- [Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md): die ältere, längere Gruppenübung mit Merge-Konflikt-Fokus
+- [Gruppenübung 2: Feature-Workflow im Team](praxis-team-workflow.md): die Workflows hier nochmal, aber zu viert oder fünft (45 Min)
+- [Gruppenübung 1: Merge-Konflikt im Team lösen](gruppen-uebung.md): die längere Gruppenübung mit Merge-Konflikt-Fokus (60 Min)
 - [Stolpersteine](stolpersteine.md): wenn ein Workflow trotz Anleitung hakt
 - [Merksätze](merksaetze.md): die Kern-Sätze des ganzen Blocks

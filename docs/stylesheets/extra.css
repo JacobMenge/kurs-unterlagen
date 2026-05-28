@@ -731,3 +731,226 @@
   border-color: var(--jd-phosphor);
   box-shadow: 0 0 16px rgba(0, 255, 65, 0.1);
 }
+
+/* 20) Relevanz-Badges (Pruefungsrelevant / Vertiefung / Praxis) ----------- */
+/*
+  Kennzeichnen, wie wichtig ein Thema fuer die Pruefung ist.
+  Einsatz im Markdown als rohes HTML-Span (die attr_list-Span-Syntax
+  [text]{.class} wird von dieser Markdown-Version NICHT unterstuetzt).
+  In Admonition-Titeln einfache Anfuehrungszeichen nutzen, z. B.:
+      <span class='badge badge-pruefung'>Prüfungsrelevant</span>
+      <span class='badge badge-vertiefung'>Vertiefung</span>
+      <span class='badge badge-praxis'>Praxis</span>
+
+  Bedeutung:
+  - pruefung   = pruefungsrelevanter Kerninhalt        (hohe Emphase, Phosphor gefuellt)
+  - vertiefung = wichtig, vertieft das Verstaendnis     (Amber, Kontur)
+  - praxis     = v. a. zum Anwenden, optional fuer die Pruefung (gedaempft, Kontur)
+*/
+.md-typeset .badge {
+  display: inline-block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.45rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Pruefungsrelevant – Kerninhalt: gefuelltes Phosphor */
+.md-typeset .badge-pruefung {
+  background-color: var(--jd-phosphor);
+  color: #0e1013;
+  border-color: var(--jd-phosphor);
+}
+
+/* Vertiefung – wichtig: Amber-Kontur */
+.md-typeset .badge-vertiefung {
+  background-color: rgba(255, 179, 0, 0.12);
+  color: #ffb300;
+  border-color: #ffb300;
+}
+
+/* Praxis – v. a. zum Anwenden / optional: gedaempfte Kontur */
+.md-typeset .badge-praxis {
+  background-color: rgba(143, 164, 152, 0.1);
+  color: var(--jd-ink-dim);
+  border-color: var(--jd-phosphor-deep);
+}
+
+/* In Tabellen die Badges sauber zentrieren */
+.md-typeset table:not([class]) td .badge {
+  margin: 0;
+}
+
+/* Status-Marker fuer Platzhalter-Seiten ("in Arbeit") */
+.md-typeset .badge-wip {
+  background-color: rgba(125, 255, 154, 0.06);
+  color: var(--jd-phosphor-dim);
+  border-color: var(--jd-phosphor-deep);
+}
+
+/* 21) Bilder & Schaubilder ------------------------------------------------ */
+.md-typeset figure {
+  margin: 1.6em auto;
+}
+.md-typeset figure img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 6px;
+  border: 1px solid var(--jd-phosphor-deep);
+}
+.md-typeset figure figcaption {
+  margin-top: 0.55rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--jd-ink-dim);
+}
+/*
+  Schaubilder/Diagramme (meist SVG mit dunklen Linien auf transparentem Grund):
+  heller Hintergrund + Innenabstand, damit sie auf dem dunklen Theme lesbar sind.
+  Breite begrenzen, damit sie nicht die ganze Seite einnehmen.
+*/
+.md-typeset figure.schaubild img {
+  background: #ffffff;
+  padding: 0.9rem;
+  max-width: 620px;
+}
+/* Hero-/Vollbreite-Foto am Seitenanfang */
+.md-typeset figure.hero {
+  margin-top: 0.4em;
+}
+.md-typeset figure.hero img {
+  width: 100%;
+}
+/* Bildnachweis (z. B. fuer CC-BY-SA-Pflichtangabe) */
+.md-typeset .bildnachweis {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.68rem;
+  color: var(--jd-ink-dim);
+}
+.md-typeset .bildnachweis a {
+  color: var(--jd-phosphor-dim);
+  text-decoration: none;
+}
+
+/* 22) Defense-in-Depth – konzentrische Schutzschichten ("Zwiebel") --------- */
+.md-typeset .onion {
+  max-width: 480px;
+  margin: 1.6em auto;
+  text-align: center;
+}
+.md-typeset .onion-layer {
+  border: 1px solid var(--jd-phosphor);
+  border-radius: 60px;
+  padding: 0.75rem 0.7rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--jd-phosphor);
+}
+.md-typeset .onion-layer .onion-name {
+  display: block;
+  margin-bottom: 0.45rem;
+}
+.md-typeset .onion-l1 { background: rgba(125, 255, 154, 0.04); }
+.md-typeset .onion-l2 { background: rgba(125, 255, 154, 0.07); }
+.md-typeset .onion-l3 { background: rgba(125, 255, 154, 0.10); }
+.md-typeset .onion-l4 { background: rgba(125, 255, 154, 0.14); }
+.md-typeset .onion-core {
+  background: var(--jd-phosphor);
+  color: #0e1013;
+  border-radius: 50px;
+  padding: 1rem 0.6rem;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+/* 23) Subnetting-Bitleiste (Netz-/Hostanteil) ------------------------------ */
+.md-typeset .bitbar {
+  display: flex;
+  width: 100%;
+  max-width: 640px;
+  margin: 0.9em auto 0.35em;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--jd-phosphor-deep);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.md-typeset .bitbar > div {
+  padding: 0.5rem 0.4rem;
+  text-align: center;
+  white-space: nowrap;
+  min-width: 0;
+}
+.md-typeset .bitbar .bb-net {
+  background: var(--jd-phosphor);
+  color: #0e1013;
+}
+.md-typeset .bitbar .bb-host {
+  background: rgba(143, 164, 152, 0.16);
+  color: var(--jd-ink-dim);
+}
+.md-typeset .bitbar-cap {
+  max-width: 640px;
+  margin: 0 auto 1.3em;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--jd-ink-dim);
+}
+
+/* 24) Kapselung (Encapsulation): Frame / Paket / Segment ------------------ */
+.md-typeset .kapsel {
+  max-width: 720px;
+  margin: 1.1em auto 0.6em;
+}
+.md-typeset .kapsel-row {
+  margin-bottom: 0.55rem;
+}
+.md-typeset .kapsel-tag {
+  display: block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: var(--jd-phosphor);
+  margin-bottom: 0.2rem;
+}
+.md-typeset .kapsel-bar {
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--jd-phosphor-deep);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.66rem;
+  line-height: 1.25;
+}
+.md-typeset .kapsel-bar > span {
+  padding: 0.45rem 0.35rem;
+  text-align: center;
+  border-right: 2px solid var(--jd-bg-card);
+}
+.md-typeset .kapsel-bar > span:last-child {
+  border-right: none;
+}
+.md-typeset .kapsel-bar .hd {
+  background: rgba(125, 255, 154, 0.18);
+  color: var(--jd-phosphor);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.md-typeset .kapsel-bar .nutz {
+  background: rgba(143, 164, 152, 0.14);
+  color: var(--jd-ink-dim);
+  flex: 1;
+  min-width: 0;
+}

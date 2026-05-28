@@ -482,5 +482,6 @@ Das ist praktisch, wenn du anders organisiert bist oder den Workflow nur über d
 ## Weiterlesen
 
 - [Übungen](uebungen.md): vier Schwierigkeitsstufen, die auf dieser Praxis aufbauen
-- [Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md): denselben Workflow zu zweit oder zu dritt
+- [Gruppenübung 1: Merge-Konflikt im Team lösen](gruppen-uebung.md): denselben Workflow zu dritt oder viert, mit gewolltem Konflikt
+- [Gruppenübung 2: Feature-Workflow im Team](praxis-team-workflow.md): den sauberen Workflow zu viert oder fünft erleben
 - [Stolpersteine](stolpersteine.md): wenn der PR-Workflow klemmt

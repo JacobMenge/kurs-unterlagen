@@ -1,0 +1,7 @@
+title: "Recht & Datenschutz"
+nav:
+  - "Überblick": index.md
+  - "Datenschutz & DSGVO": datenschutz-dsgvo.md
+  - "Datensicherheitskonzepte": datensicherheitskonzepte.md
+  - "Governance & Compliance": governance-und-compliance.md
+  - "IT-Verträge & Lizenzrecht": it-vertraege.md

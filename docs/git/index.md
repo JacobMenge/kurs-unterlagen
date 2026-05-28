@@ -52,8 +52,8 @@ Wenn du den CI/CD-Block schon angefangen hast: die Schritte „GitHub-Repo anleg
 | [Praxis 6: Pull Request über Branch](praxis-pull-request.md) | Feature-Branch pushen, PR öffnen, mergen, Branch aufräumen | Praxis |
 | [Typische Workflows in der Praxis](workflows.md) | Drei häufige Muster: detached HEAD, Feature-Branch alleine, das `rejected`-Push-Drama – mit Solo-Übungen | Theorie + Praxis |
 | [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Vertiefen | Training |
-| [Gruppenübung: Repo gemeinsam nutzen](gruppen-uebung.md) | Vier Teilnehmer, ein Repo, ein provozierter Konflikt – 60 Minuten Gruppenarbeit | Training |
-| [Praxis: Feature-Workflow im Team (45 Min)](praxis-team-workflow.md) | Vier bis fünf Teilnehmer, jeder eigene Feature-Branch, `[rejected]`-Fehler im Team erleben | Training |
+| [Gruppenübung 1: Merge-Konflikt im Team lösen](gruppen-uebung.md) | **60 Min, Konflikt-Fokus.** Drei bis vier Teilnehmer, zwei ändern absichtlich dieselbe Stelle in derselben Datei – Konflikt wird gemeinsam aufgelöst. | Training |
+| [Gruppenübung 2: Feature-Workflow im Team](praxis-team-workflow.md) | **45 Min, Workflow-Fokus.** Vier bis fünf Teilnehmer, jeder eigene README-Section – Konflikt-frei, dafür mit `[rejected]`-Fehler beim Push. Freundlicher als Gruppenübung 1, ideal als erste der beiden. | Training |
 | [Stolpersteine](stolpersteine.md) | Typische Fehler bei Git, Branches, Push, Pull, Konflikten | Referenz |
 | [Merksätze](merksaetze.md) | Die Kern-Sätze des Blocks auf einer Seite | Referenz |
 

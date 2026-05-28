@@ -1,6 +1,6 @@
 ---
 title: "Netzwerk-Sicherheit: Firewall, IDS/IPS, Zero Trust"
-description: "Die Grundlagen der Netzwerk-Sicherheit: Firewall-Typen, Intrusion Detection und Prevention, NAT als 'Beifang-Schutz', Defense in Depth, Zero Trust und typische Angriffe und Schutzmaßnahmen."
+description: "Die Grundlagen der Netzwerk-Sicherheit: Firewall-Typen, Intrusion Detection und Prevention, Defense in Depth, Zero Trust und typische Angriffe und Schutzmaßnahmen."
 ---
 
 # Netzwerk-Sicherheit: Firewall, IDS/IPS, Zero Trust
@@ -360,7 +360,7 @@ Bevor wir zum SIEM kommen, ein kurzer Blick auf das **klassische Netzwerk-Monito
 
 Die meisten Firmen sind in Stufe 2 unterwegs, das Ziel sollte Stufe 3 sein. Ohne Alarmierung ist das beste Dashboard wertlos, wenn niemand hinschaut.
 
-### Was du als Berufsspezialist beachten musst
+### Was du in der Praxis beachten musst
 
 - **Was überwachst du?** Nicht alles – sondern das, was wirklich kritisch ist.
 - **Wer wird benachrichtigt?** Klare Eskalations-Kette: erst Tagestechniker, dann Bereitschaft, dann Geschäftsführung.
@@ -423,21 +423,12 @@ Ein SIEM erkennt Muster, die in einzelnen Logs nicht auffallen würden. Beispiel
 
     Faustregel: **Stateful für alle**, **WAF zusätzlich vor öffentlich erreichbaren Webanwendungen**. Cloud-Anbieter haben WAFs als Service (AWS WAF, Cloudflare).
 
-??? question "Frage 3: Du sollst ein ISMS für eine Firma einführen. Welche Standards und Bausteine sind die wichtigsten?"
-    Zentrale Standards:
+??? question "Frage 3: Was ist der Kerngedanke von Zero Trust – und wie unterscheidet er sich vom klassischen Perimeter-Modell?"
+    **Klassisch (Perimeter):** Es gibt ein „innen" (vertrauenswürdig) und ein „außen" (gefährlich). Wer einmal drin ist – z. B. hinter der Firewall –, darf sich relativ frei bewegen. Problem: Ist ein Angreifer erst drin, hat er leichtes Spiel.
 
-    - **ISO/IEC 27001** – internationaler Standard für Informationssicherheits-Management
-    - **BSI-Grundschutz** – deutsche Variante mit konkreten Bausteinen und Maßnahmen
-    - **NIS2-Richtlinie** – für kritische Infrastruktur in der EU
+    **Zero Trust:** **„Never trust, always verify."** Es gibt kein vertrauenswürdiges Innen. **Jede** Verbindung wird geprüft – egal ob von innen oder außen –, jeder Zugriff braucht Authentisierung und Autorisierung, und jeder bekommt nur die minimal nötigen Rechte (*least privilege*). So legt ein einzelner gekaperter Rechner nicht gleich das ganze Netz lahm.
 
-    Wichtige Bausteine eines ISMS:
-
-    - **Risikomanagement** (Risiken identifizieren, bewerten, behandeln)
-    - **Sicherheitsrichtlinien** (Passwörter, Zugriff, Datenschutz)
-    - **Audits und Reviews** (interne und externe)
-    - **Mitarbeiter-Schulung** (Awareness)
-    - **Incident-Response-Plan** (was tun bei einem Vorfall)
-    - **kontinuierliche Verbesserung** (PDCA-Zyklus)
+    Das organisatorische Dach darüber – **ISMS, ISO 27001, BSI-Grundschutz** – schauen wir uns im Block [IT-Sicherheit & Risiko](../it-sicherheit/index.md) genauer an.
 
 ??? question "Frage 4: Ein DDoS-Angriff legt eure Webseite lahm. Welche Maßnahmen helfen mittel- und langfristig?"
     Kurzfristig (während des Angriffs):

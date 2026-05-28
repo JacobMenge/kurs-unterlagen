@@ -1,50 +1,177 @@
 ---
 title: "Start"
-description: "Kursunterlagen zu Virtualisierung und Docker – frei verfügbares Lernmaterial von Jacob Menge."
+description: "Kursunterlagen zur IT-Systemintegration und Vernetzung – frei verfügbares Lernmaterial von Jacob Menge: Netzwerke, Virtualisierung, Container, Betrieb, Sicherheit und mehr."
 hide:
   - navigation
 ---
 
-# Kursunterlagen – Virtualisierung & Docker
+# Kursunterlagen – Systemintegration & Vernetzung
 
-Willkommen. Hier findest du die Nachlese zu meinem Kurs rund um **Virtualisierung** und **Docker**.
-Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du hier in Ruhe nachlesen – egal, ob du während des Kurses etwas überhören hast, ob du zu Hause mitmachen willst, oder ob du später darauf zurückkommen möchtest.
+Willkommen. Hier findest du die Nachlese zu meinem Kurs rund um **IT-Systemintegration und Vernetzung** – von **Netzwerken** und **Virtualisierung** über **Container** und **Automatisierung** bis hin zu **Betrieb, Sicherheit, Recht und Projektarbeit**.
+Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du hier in Ruhe nachlesen – egal, ob du während des Kurses etwas überhört hast, ob du zu Hause mitmachen willst, oder ob du später darauf zurückkommen möchtest.
 
 !!! abstract "Was diese Seite ist – und was nicht"
     **Ist:** ein Nachschlagewerk. Jeder Befehl, den du im Unterricht siehst, steht hier mit Erklärung. Du kannst Schritt für Schritt mitlesen und alles zu Hause wiederholen.
     **Ist nicht:** ein Ersatz für den Kurs. Die Analogien, Diskussionen und Fragerunden leben vom Präsenzunterricht. Die Unterlagen sind der rote Faden dazu.
 
+!!! tip "Neu hier? Starte mit dem Fahrplan"
+    Du weißt nicht, wo du anfangen sollst? Der **[:octicons-arrow-right-24: Fahrplan](fahrplan.md)** zeigt dir die sinnvolle Reihenfolge, welche Themen aufeinander aufbauen und – ganz wichtig – **was prüfungsrelevant ist** und was eher die Praxis schärft.
+
 ---
 
-## Themenübersicht
+## Themengebiete
+
+Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampel an jedem Block zeigt dir die Wichtigkeit für die Prüfung: <span class='badge badge-pruefung'>Prüfungsrelevant</span> = Kerninhalt · <span class='badge badge-vertiefung'>Vertiefung</span> = wichtig, vertieft das Verständnis · <span class='badge badge-praxis'>Praxis</span> = vor allem zum Anwenden.
+
+### Grundlagen & Integration
 
 <div class="grid cards" markdown>
 
--   :material-server-network:{ .lg .middle } __[Virtualisierung](virtualisierung/index.md)__
+-   :material-lan:{ .lg .middle } __[Netzwerke](netzwerke/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
 
     ---
 
-    Warum kapseln wir Systeme überhaupt? Was ist ein Hypervisor? Welche Werkzeuge gibt es? Und wie startest du deine erste Ubuntu-VM mit **Multipass**?
+    Das Fundament: vom OSI-Modell über IP-Adressierung, Subnetting, Routing und DNS bis zu Industrie- und IoT-Protokollen (OPC UA, MQTT) sowie Netzwerk-Sicherheit.
 
-    [:octicons-arrow-right-24: Block 1 starten](virtualisierung/index.md)
+    [:octicons-arrow-right-24: Block starten](netzwerke/index.md)
 
--   :material-docker:{ .lg .middle } __[Docker – Einführung](docker/index.md)__
+-   :material-server-network:{ .lg .middle } __[Virtualisierung](virtualisierung/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
+
+    ---
+
+    Warum kapseln wir Systeme? Was ist ein Hypervisor? Welche Werkzeuge gibt es? Und wie startest du deine erste Ubuntu-VM mit **Multipass**?
+
+    [:octicons-arrow-right-24: Block starten](virtualisierung/index.md)
+
+-   :material-sitemap-outline:{ .lg .middle } __[Infrastruktur & Architektur](infrastruktur-planung/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
+
+    ---
+
+    Planung und Konzeption: Anforderungen und Sollkonzept, zentrale/dezentrale Architekturen, Cloud vs. on-premise, Speicherlösungen, Ressourcen und Lizenzmodelle.
+
+    [:octicons-arrow-right-24: Block starten](infrastruktur-planung/index.md)
+
+</div>
+
+### Container & Automatisierung
+
+<div class="grid cards" markdown>
+
+-   :material-docker:{ .lg .middle } __[Docker – Einführung](docker/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
 
     ---
 
     Warum Container? Wie unterscheiden sie sich von VMs? Was ist ein Image, was ein Container? Und wie baust du deinen ersten eigenen Container?
 
-    [:octicons-arrow-right-24: Block 2 starten](docker/index.md)
+    [:octicons-arrow-right-24: Block starten](docker/index.md)
 
--   :material-layers-outline:{ .lg .middle } __[Docker – Aufbau](docker-aufbau/index.md)__
+-   :material-layers-outline:{ .lg .middle } __[Docker – Aufbau](docker-aufbau/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
 
     ---
 
     Die drei Säulen realer Container-Anwendungen: **Volumes, Umgebungsvariablen, Netzwerke**. Abschluss mit Hands-on Postgres + Adminer.
 
-    [:octicons-arrow-right-24: Block 3 starten](docker-aufbau/index.md)
+    [:octicons-arrow-right-24: Block starten](docker-aufbau/index.md)
 
--   :material-puzzle-outline:{ .lg .middle } __[Docker Escape Room](docker-escape-room/index.md)__
+-   :material-school-outline:{ .lg .middle } __[Docker – Vertiefung](docker-vertiefung/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Fünf eigenständige Übungen** ohne Compose: `docker exec` als Debug-Werkzeug, Volume-Backup, Healthchecks, Restart-Policies, Image-Größen-Vergleich.
+
+    [:octicons-arrow-right-24: Vertiefungs-Übungen](docker-vertiefung/index.md)
+
+-   :material-file-code-outline:{ .lg .middle } __[Docker Compose](docker-compose/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
+
+    ---
+
+    Multi-Container-Stacks deklarativ: `compose.yaml`, Services, Volumes, Netzwerke, Healthchecks. Praxis mit Flask + Postgres + Adminer.
+
+    [:octicons-arrow-right-24: Block starten](docker-compose/index.md)
+
+-   :material-ship-wheel:{ .lg .middle } __[Orchestrierung & Verteilung](orchestrierung/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
+
+    ---
+
+    Vom einzelnen Container zum Cluster: automatische Softwareverteilung, Deployment-Strategien und die Grundlagen von **Kubernetes**.
+
+    [:octicons-arrow-right-24: Block starten](orchestrierung/index.md)
+
+-   :material-rocket-launch-outline:{ .lg .middle } __[Docker für Profis](docker-profi/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    Dockerfile-Best-Practices: Multi-Stage, USER, HEALTHCHECK. Image-Optimierung mit Alpine, Distroless, Trivy-Scanning.
+
+    [:octicons-arrow-right-24: Block starten](docker-profi/index.md)
+
+-   :material-source-branch:{ .lg .middle } __[CI/CD mit GitHub Actions](ci-cd/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
+
+    ---
+
+    Vom manuellen `docker push` zur automatischen Pipeline: Begriffe, GitHub-Actions-Syntax und eine eigene Workflow-Datei, die ein Image baut, testet und in GHCR pusht.
+
+    [:octicons-arrow-right-24: Block starten](ci-cd/index.md)
+
+</div>
+
+### Betrieb & Sicherheit
+
+<div class="grid cards" markdown>
+
+-   :material-monitor-dashboard:{ .lg .middle } __[Betrieb & Verfügbarkeit](betrieb/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
+
+    ---
+
+    Der Dauerbetrieb: Monitoring und Troubleshooting, Backup- und Recovery-Strategien, Hochverfügbarkeit, Betriebsdaten und Business Continuity.
+
+    [:octicons-arrow-right-24: Block starten](betrieb/index.md)
+
+-   :material-shield-lock-outline:{ .lg .middle } __[IT-Sicherheit & Risiko](it-sicherheit/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
+
+    ---
+
+    Schutzziele (CIA), Risikomanagement, Informationssicherheits-Managementsysteme (ISO 27001, BSI-Grundschutz) und der Umgang mit Sicherheitsvorfällen.
+
+    [:octicons-arrow-right-24: Block starten](it-sicherheit/index.md)
+
+-   :material-test-tube:{ .lg .middle } __[Tests & Qualität](testen-qualitaet/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
+
+    ---
+
+    Testszenarien und Simulation, Integrations- und End-to-End-Tests, Betriebsoptimierung sowie die saubere Übergabe an die Anwender.
+
+    [:octicons-arrow-right-24: Block starten](testen-qualitaet/index.md)
+
+</div>
+
+### Organisation & Projekte
+
+<div class="grid cards" markdown>
+
+-   :material-scale-balance:{ .lg .middle } __[Recht & Datenschutz](recht-organisation/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
+
+    ---
+
+    Die rechtliche Klammer: DSGVO und Datenschutz, Datensicherheitskonzepte, IT-Governance und Compliance sowie IT-Verträge und Lizenzrecht.
+
+    [:octicons-arrow-right-24: Block starten](recht-organisation/index.md)
+
+-   :material-clipboard-text-outline:{ .lg .middle } __[Projekte & Koordination](projektmanagement/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
+
+    ---
+
+    Projektarbeit in der Systemintegration: Organisation (klassisch & agil), Projektplanung, Aufwand und Kalkulation, Controlling sowie Schulung.
+
+    [:octicons-arrow-right-24: Block starten](projektmanagement/index.md)
+
+</div>
+
+### Praxis & Nachschlagen
+
+<div class="grid cards" markdown>
+
+-   :material-puzzle-outline:{ .lg .middle } __[Praxis: Docker Escape Room](docker-escape-room/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
 
     ---
 
@@ -52,67 +179,27 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
     [:octicons-arrow-right-24: Praxis-Block starten](docker-escape-room/index.md)
 
--   :material-school-outline:{ .lg .middle } __[Docker-Vertiefung](docker-vertiefung/index.md)__
+-   :material-satellite-variant:{ .lg .middle } __[Praxis: Mission Control](docker-compose-mission-control/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
 
     ---
 
-    **Fünf eigenständige Übungen** ohne Compose: `docker exec` als Debug-Werkzeug, Volume-Backup, Healthchecks, Restart-Policies, Image-Größen-Vergleich. Ideal nach dem Escape Room oder als Brücke zu Compose.
-
-    [:octicons-arrow-right-24: Vertiefungs-Übungen](docker-vertiefung/index.md)
-
--   :material-file-code-outline:{ .lg .middle } __[Docker Compose](docker-compose/index.md)__
-
-    ---
-
-    Multi-Container-Stacks deklarativ: `compose.yaml`, Services, Volumes, Netzwerke, Healthchecks. Praxis mit Flask + Postgres + Adminer.
-
-    [:octicons-arrow-right-24: Block 4 starten](docker-compose/index.md)
-
--   :material-satellite-variant:{ .lg .middle } __[Mission Control (Compose-Praxis)](docker-compose-mission-control/index.md)__
-
-    ---
-
-    **Praxis-Wiederholung in der Gruppe** – diesmal mit Compose: Vier Services (Frontend, Backend, DB, Adminer), `.env`, Healthcheck, optionaler Backend-Tausch. 90-Minuten-Mission rund um die Aurora Station.
+    **Compose-Gruppenübung:** Vier Services (Frontend, Backend, DB, Adminer), `.env`, Healthcheck, optionaler Backend-Tausch. 90-Minuten-Mission rund um die Aurora Station.
 
     [:octicons-arrow-right-24: Praxis-Block starten](docker-compose-mission-control/index.md)
 
--   :material-rocket-launch-outline:{ .lg .middle } __[Docker für Profis](docker-profi/index.md)__
+-   :material-source-fork:{ .lg .middle } __[Git & GitHub](git/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
 
     ---
 
-    Dockerfile-Best-Practices: Multi-Stage, USER, HEALTHCHECK. Image-Optimierung mit Alpine, Distroless, Trivy-Scanning.
-
-    [:octicons-arrow-right-24: Block 5 starten](docker-profi/index.md)
-
--   :material-source-fork:{ .lg .middle } __[Git und GitHub](git/index.md)__
-
-    ---
-
-    Versionskontrolle von den Basics bis zum Pull Request: Repository, Commits, Branches, Merge, Konflikte und Remote-Arbeit mit GitHub und GitLab. Mit Gruppen-Übung am gemeinsamen Repo.
+    Versionskontrolle von den Basics bis zum Pull Request: Repository, Commits, Branches, Merge, Konflikte und Remote-Arbeit mit GitHub und GitLab. Mit Gruppen-Übung.
 
     [:octicons-arrow-right-24: Git-Block starten](git/index.md)
-
--   :material-source-branch:{ .lg .middle } __[CI/CD-Einführung](ci-cd/index.md)__
-
-    ---
-
-    Vom manuellen `docker push` zur automatischen Pipeline: Begriffe, GitHub-Actions-Syntax und eine eigene Workflow-Datei, die ein Image baut, testet und in GHCR pusht.
-
-    [:octicons-arrow-right-24: Block 6 starten](ci-cd/index.md)
-
--   :material-lan:{ .lg .middle } __[Netzwerke](netzwerke/index.md)__
-
-    ---
-
-    Das Fundament für Systemintegration: vom OSI-Modell über IP-Adressierung, Subnetting, Routing und DNS bis hin zu Industrie- und IoT-Protokollen (OPC UA, MQTT) sowie Netzwerk-Sicherheit. Reine Theorie, in einfacher Sprache.
-
-    [:octicons-arrow-right-24: Theorie-Block starten](netzwerke/index.md)
 
 -   :material-view-dashboard-outline:{ .lg .middle } __[Cheatsheets](cheatsheets/index.md)__
 
     ---
 
-    Spickzettel mit den wichtigsten **Multipass-** und **Docker-Befehlen** in einer Tabelle – zum schnellen Nachschlagen während des Arbeitens.
+    Spickzettel mit den wichtigsten **Multipass-**, **Docker-**, **Compose-** und **Git-Befehlen** in Tabellen – zum schnellen Nachschlagen während des Arbeitens.
 
     [:octicons-arrow-right-24: Zu den Spickzetteln](cheatsheets/index.md)
 
@@ -130,13 +217,10 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
 ## Wie du diese Seite am besten nutzt
 
-=== "Vor dem Kurs"
-    Schau dir die beiden Überblicksseiten an:
+=== "Wo anfangen?"
+    Wirf zuerst einen Blick auf den **[Fahrplan](fahrplan.md)**. Er zeigt dir die empfohlene Reihenfolge und welche Themen aufeinander aufbauen.
 
-    - [Virtualisierung – Überblick](virtualisierung/index.md)
-    - [Docker – Überblick](docker/index.md)
-
-    Du musst nichts vorbereiten. Ein grobes Bauchgefühl reicht – der Kurs holt dich ab.
+    Wenn du ganz neu bist: Beginne mit dem **Fundament** – [Netzwerke](netzwerke/index.md) und [Virtualisierung](virtualisierung/index.md). Darauf baut fast alles andere auf.
 
 === "Während des Kurses"
     Habe die Seite offen. Wenn im Präsenzteil ein Befehl gezeigt wird und du kurz aussteigst, findest du genau diesen Befehl hier mit Erklärung wieder.
@@ -144,25 +228,21 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
     Nutze die **Suche oben rechts** – sie durchsucht alle Seiten inkl. Befehle.
 
 === "Nach dem Kurs"
-    Arbeite die Abschnitte in Ruhe nach. Die Reihenfolge ist didaktisch aufgebaut:
+    Arbeite die Abschnitte in Ruhe nach. Innerhalb jedes Blocks ist die Reihenfolge didaktisch aufgebaut:
 
-    1. **Warum** (Motivation)
-    2. **Grundbegriffe** (Vokabular)
-    3. **Werkzeuge** (Landschaft)
+    1. **Überblick** (Worum geht's?)
+    2. **Warum** (Motivation)
+    3. **Grundbegriffe** (Vokabular)
     4. **Praxis** (Hands-on)
     5. **Stolpersteine** (Debugging)
     6. **Merksätze** (Zusammenfassung)
 
-=== "Wenn du steckst"
-    Jeder Themenblock hat eine eigene **Stolpersteine-Seite** mit typischen Problemen und ihrer Lösung:
+=== "Was ist am wichtigsten?"
+    Achte auf die **Ampel** an jedem Block und in der Tabelle im [Fahrplan](fahrplan.md):
 
-    - [Stolpersteine Virtualisierung](virtualisierung/stolpersteine.md)
-    - [Stolpersteine Docker](docker/stolpersteine.md)
-
-    Für die **Installation** gibt es eigene Seiten mit Schritt-für-Schritt-Anleitung für Windows 11, macOS und Linux inklusive Troubleshooting:
-
-    - [Multipass – Einstieg & Installation](virtualisierung/multipass-einstieg.md)
-    - [Docker installieren](docker/installation.md)
+    - <span class='badge badge-pruefung'>Prüfungsrelevant</span> – Kerninhalt für die Prüfung, hier wirklich sattelfest werden
+    - <span class='badge badge-vertiefung'>Vertiefung</span> – baut darauf auf, vertieft das Verständnis
+    - <span class='badge badge-praxis'>Praxis</span> – vor allem zum Anwenden, optional für die Prüfung
 
 ---
 
@@ -172,18 +252,5 @@ Diese Seite ist mit [MkDocs](https://www.mkdocs.org/) und [Material for MkDocs](
 
 Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://jacob-decoded.de).
 
-!!! note "Kurstage und Arbeitsstand"
-    Jeder Block ist auf einen **3-Stunden-Kurstag** ausgelegt – mit Theorieanteil, Praxis und Besprechung:
-
-    - **Block 1** – Virtualisierung (Multipass)
-    - **Block 2** – Docker-Einführung (erste Container, eigenes Image)
-    - **Block 3** – Docker-Aufbau (Volumes, ENV, Netzwerke)
-    - **Praxis-Block** – Docker Escape Room (Gruppen-Übung vor Compose)
-    - **Vertiefung** – fünf zusätzliche Docker-Übungen ohne Compose
-    - **Block 4** – Docker Compose (nächste Einheit)
-    - **Praxis-Block II** – Mission Control (Compose-Gruppenübung nach Block 4)
-    - **Block 5** – Docker für Profis (Best Practices, Optimierung)
-    - **Git-Block** – Versionskontrolle, Branches, Merge, GitHub, Pull Requests, Gruppenübung
-    - **Block 6**: CI/CD-Einführung mit GitHub Actions (Pipeline, eigene Workflow-Datei)
-
-    Weitere Einheiten (Kubernetes, Monitoring) kommen später dazu.
+!!! note "Arbeitsstand"
+    Diese Unterlagen wachsen mit dem Kurs. Einige Blöcke sind bereits ausführlich ausgearbeitet (z. B. Netzwerke, Virtualisierung, Docker), andere sind als **Platzhalter** angelegt und werden Schritt für Schritt gefüllt – du erkennst sie an einem Hinweis oben auf der jeweiligen Seite. Der [Fahrplan](fahrplan.md) zeigt dir jederzeit, welche Themen schon bereitstehen und wie alles zusammenpasst.

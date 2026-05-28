@@ -5,9 +5,14 @@ description: "Die Protokolle der industriellen Vernetzung und des Internet of Th
 
 # Industrie- und IoT-Protokolle
 
-In Büros redet die Welt **HTTP**. In Produktionshallen redet die Welt **anders**. Eine Werkzeugmaschine, ein Schweißroboter, ein Förderband, ein PLC-Controller – sie alle nutzen Protokolle, die du im normalen IT-Alltag nie siehst. Aber als Berufsspezialist für **Systemintegration und Vernetzung** wirst du genau an dieser Schnittstelle arbeiten: zwischen klassischer IT und industrieller Steuerung.
+In Büros redet die Welt **HTTP**. In Produktionshallen redet die Welt **anders**. Eine Werkzeugmaschine, ein Schweißroboter, ein Förderband, ein PLC-Controller – sie alle nutzen Protokolle, die du im normalen IT-Alltag nie siehst. Aber genau an dieser Schnittstelle – zwischen klassischer IT und industrieller Steuerung – wirst du in der **Systemintegration und Vernetzung** immer wieder arbeiten.
 
 Diese Seite gibt dir die wichtigsten Industrie- und IoT-Protokolle als **Konzepte** an die Hand. Es geht nicht um Detail-Bits, sondern um: **wozu ist das gut, wann nehme ich es, wo läuft es?**
+
+<figure markdown="span">
+![Industrieroboter an einer automatisierten Fertigungsstraße in einer Produktionshalle](https://images.unsplash.com/photo-1567789884554-0b844b597180?w=1600&q=80&auto=format&fit=crop){ loading=lazy }
+<figcaption>In der Produktion zählt jede Millisekunde: vernetzte Roboter, Förderbänder und Steuerungen sprechen hier ganz eigene Protokolle.<span class="bildnachweis">Foto: Lenny Kuhne / Unsplash</span></figcaption>
+</figure>
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
@@ -43,21 +48,21 @@ Das hat **direkte Folgen für die Vernetzung**:
 - ein Server-Reboot ist normal → ein PLC-Reboot mitten in einem Produktionslauf kann katastrophal sein
 - ein Office-Switch im Plastikgehäuse reicht → in einer Halle braucht es ein Schaltschrank-taugliches Gerät mit DIN-Rail-Montage, Vibrations-Toleranz und weitem Temperatur-Bereich
 
+<figure markdown="span">
+![Industrieller Schaltschrank mit Verdrahtung und Steuerungskomponenten](https://images.unsplash.com/photo-1753272691001-4d68806ac590?w=1600&q=80&auto=format&fit=crop){ loading=lazy }
+<figcaption>Ein Steuerungsschrank in der Anlagenautomatisierung – hier sitzen Steuerungen, Klemmen und Industrie-Switches platzsparend auf der Hutschiene.<span class="bildnachweis">Foto: Aleksandr Lyaptsev / Unsplash</span></figcaption>
+</figure>
+
 ---
 
-## Das Automatisierungs-Pyramide (ISA-95)
+## Die Automatisierungs-Pyramide (ISA-95)
 
 Die klassische Darstellung der Industrie-IT ist eine **Pyramide** mit fünf Ebenen:
 
-```mermaid
-flowchart TB
-  L4["Ebene 4<br/>ERP / Geschäftsführung"]
-  L3["Ebene 3<br/>MES / Produktionsplanung"]
-  L2["Ebene 2<br/>SCADA / HMI"]
-  L1["Ebene 1<br/>PLC / Steuerungen"]
-  L0["Ebene 0<br/>Sensoren, Aktoren, Maschinen"]
-  L4 --> L3 --> L2 --> L1 --> L0
-```
+<figure class="schaubild" markdown="span">
+![Die Automatisierungspyramide nach ISA-95 mit fünf Ebenen: unten die Feldebene mit Sensoren und Aktoren, darüber PLC-Steuerungen, SCADA/HMI, MES und ganz oben die ERP-Ebene](https://upload.wikimedia.org/wikipedia/commons/7/7f/Automatisierungspyramide_MES.svg){ loading=lazy }
+<figcaption>Die Automatisierungspyramide nach ISA-95 – von der Feldebene unten bis zur Geschäftsebene (ERP) oben.<span class="bildnachweis">Bild: UlrichAAB / <a href="https://commons.wikimedia.org/wiki/File:Automatisierungspyramide_MES.svg">Wikimedia Commons</a>, CC BY-SA 3.0</span></figcaption>
+</figure>
 
 - **Ebene 0:** physische Welt – Sensoren (was passiert?), Aktoren (was sollen wir tun?), Maschinen.
 - **Ebene 1:** **PLCs** (Programmable Logic Controllers) – die Mikro-Computer, die direkt mit den Maschinen reden.
@@ -81,6 +86,9 @@ flowchart TB
   - **RT (Real Time):** Zykluszeiten unter 10 ms
   - **IRT (Isochronous Real Time):** unter 1 ms, mit Jitter im Mikrosekunden-Bereich
 - nutzt **MAC-Adressen** zur Adressierung der Teilnehmer
+
+!!! note "Moment – brauchen Maschinen nicht IP-Adressen?"
+    Für den **zyklischen Echtzeit-Verkehr** (RT/IRT) arbeitet Profinet bewusst auf **Layer 2 mit MAC-Adressen** – ganz ohne IP. Das spart Zeit und bleibt im selben Netzsegment. **IP kommt nur** für Einrichtung (Engineering), Diagnose und azyklische Dienste dazu. Office-Verkehr braucht IP überall, Profinet-Echtzeit nicht.
 
 ### Wofür wird es eingesetzt?
 
@@ -135,7 +143,7 @@ EtherCAT wird häufig bei sehr schnellen Bewegungssteuerungen eingesetzt (z.B. R
 
 ### Wie Modbus funktioniert
 
-Ein **Master** (typisch ein PLC oder eine SCADA-Station) fragt **Slaves** (Sensoren, Aktoren, Geräte) ab:
+Ein **Master** (typisch ein PLC oder eine SCADA-Station) fragt **Slaves** (Sensoren, Aktoren, Geräte) ab – seit der Spezifikation 2018 offiziell **Client/Server** genannt, in der Praxis sagt aber fast jeder noch Master/Slave:
 
 - „Lies mir Register 100 bis 110."
 - „Schreibe in Register 200 den Wert 42."
@@ -324,30 +332,14 @@ Eine moderne Industriehalle hat oft mehrere **getrennte Netze**:
 
 ```mermaid
 flowchart TB
-  subgraph BUSINESS["Geschäfts-IT (Ebene 4)"]
-    ERP["ERP / SAP"]
-  end
-  subgraph MES["MES-Schicht (Ebene 3)"]
-    MES_S["MES-Server"]
-  end
-  subgraph SCADA_L["SCADA (Ebene 2)"]
-    SCADA_S["SCADA-Server"]
-    HMI["HMI-Stationen"]
-  end
-  subgraph PROD["Produktions-Netz (Ebene 1)"]
-    PLC1[("PLC 1")]
-    PLC2[("PLC 2")]
-    DRIVE["Antriebe / Sensoren"]
-  end
-  
-  ERP <--> MES_S
-  MES_S <--> SCADA_S
-  SCADA_S <--> PLC1
-  SCADA_S <--> PLC2
-  HMI <--> PLC1
-  PLC1 <--> DRIVE
-  PLC2 <--> DRIVE
+  L4["<b>Geschäfts-IT · Ebene 4</b><br/>ERP / SAP"]
+  L3["<b>MES-Schicht · Ebene 3</b><br/>MES-Server"]
+  L2["<b>SCADA · Ebene 2</b><br/>SCADA-Server · HMI-Stationen"]
+  L1["<b>Produktions-Netz · Ebene 1</b><br/>PLCs · Antriebe · Sensoren"]
+  L4 <--> L3 <--> L2 <--> L1
 ```
+
+Jede Ebene ist ein **eigenes Netz** – verbunden, aber getrennt.
 
 Zwischen den Schichten stehen typischerweise **Firewalls** oder **Daten-Dioden** (Hardware, die Daten nur in eine Richtung lässt), um Übergriffe zu verhindern.
 
