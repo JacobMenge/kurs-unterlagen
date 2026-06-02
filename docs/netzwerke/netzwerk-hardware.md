@@ -70,7 +70,7 @@ Mehr zur Funktionsweise: [Routing und Switching](routing-und-switching.md).
 | **Layer-3-Switch** | wie Managed + Routing-Fähigkeiten | mittlere/große Firmen, Datacenter |
 | **Industrial Switch** | robust, Lüfter-los, weite Temperatur, redundant | Produktionshallen, Outdoor |
 
-**Im Berufsalltag** sind die meisten Switches in Firmen **managed**, und in Rechenzentren oft **Layer-3** mit hoher Port-Dichte (24, 48 oder mehr Ports, oft inkl. 10-Gbit/s).
+**Im Berufsalltag** sind die meisten Switches in Firmen **managed** und in Rechenzentren oft **Layer-3** mit hoher Port-Dichte (24, 48 oder mehr Ports, oft inkl. 10-Gbit/s).
 
 ### Port-Geschwindigkeiten
 
@@ -431,7 +431,7 @@ Für **kleine Setups** kann ein Mini-PC mit pfSense alles ersetzen, was früher 
 
     Verbindung Access-Switch ↔ Core über **Glasfaser** (10 Gbit/s) für genug Durchsatz.
 
-??? question "Frage 2: Worin unterscheidet sich NAS von SAN, und wann nimmst du was?"
+??? question "Frage 2: Worin unterscheidet sich NAS von SAN und wann nimmst du was?"
     **NAS** (Network Attached Storage): bietet **Dateien** über das Netz (SMB, NFS). Sieht aus wie ein Netzlaufwerk. **Wofür?** Datei-Freigaben, Backups, Archive.
 
     **SAN** (Storage Area Network): bietet **rohe Blöcke** über das Netz (Fibre Channel oder iSCSI). Sieht aus wie eine eingebaute Festplatte. **Wofür?** Datenbanken, Virtualisierungs-Cluster, hohe Performance-Anforderungen.

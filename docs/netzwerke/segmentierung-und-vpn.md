@@ -7,7 +7,7 @@ description: "Wie Netzwerke logisch aufgeteilt und sicher verbunden werden: VLAN
 
 Ein **flaches Netz**, in dem jedes Gerät jedes andere erreicht, ist einfach zu bauen – aber **gefährlich**. Eine einzige kompromittierte Workstation könnte sich auf alle Server, Drucker, Kameras und IoT-Geräte ausbreiten. Deswegen baut man Netze **segmentiert** – mit logischen Trennungen, die genau festlegen, wer was darf.
 
-In diesem Kapitel: **VLAN** für die Trennung **innerhalb** eines Standorts, **DMZ** als Schutzzone für öffentliche Dienste, **NAT** für die Brücke zwischen privaten und öffentlichen IPs, und **VPN** für sichere Verbindungen **über** das öffentliche Internet.
+In diesem Kapitel: **VLAN** für die Trennung **innerhalb** eines Standorts, **DMZ** als Schutzzone für öffentliche Dienste, **NAT** für die Brücke zwischen privaten und öffentlichen IPs und **VPN** für sichere Verbindungen **über** das öffentliche Internet.
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:

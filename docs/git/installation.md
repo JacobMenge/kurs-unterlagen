@@ -389,7 +389,7 @@ Falls du Git lokal **nicht** installieren kannst (z.B. Firmenlaptop mit Sperre),
 - **GitHub Codespaces** – komplette virtuelle Entwicklungsumgebung im Browser, mit echtem Terminal und Git. Kostenlos in eingeschränktem Umfang.
 - **Direkt im Browser editieren** – auf GitHub kannst du jede Datei mit dem Stift-Symbol bearbeiten. Reicht für kleine Korrekturen.
 
-Für diesen Kurs ist die lokale Installation aber die Idealvariante. Du lernst die Befehle, und sie sind später überall verwendbar.
+Für diesen Kurs ist die lokale Installation aber die Idealvariante. Du lernst die Befehle und sie sind später überall verwendbar.
 
 ---
 

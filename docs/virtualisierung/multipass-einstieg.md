@@ -1,6 +1,6 @@
 ---
 title: "Multipass – Einstieg und Installation"
-description: "Was Multipass ist, wofür es gemacht wurde, und wie du es auf macOS, Linux oder Windows sauber installierst – inkl. aktuelle Fallstricke und Troubleshooting."
+description: "Was Multipass ist, wofür es gemacht wurde und wie du es auf macOS, Linux oder Windows sauber installierst – inkl. aktuelle Fallstricke und Troubleshooting."
 ---
 
 # Multipass – Einstieg und Installation
@@ -23,9 +23,9 @@ Multipass ist ein Kommandozeilen-Werkzeug von **Canonical**, also der Firma hint
 
 Das bedeutet:
 
-- **Ein Befehl** (`multipass launch`), und eine Ubuntu-VM läuft.
-- **Ein weiterer Befehl** (`multipass shell`), und du bist in der Shell dieser VM.
-- **Ein letzter Befehl** (`multipass delete && multipass purge`), und die VM ist weg.
+- **Ein Befehl** (`multipass launch`) und eine Ubuntu-VM läuft.
+- **Ein weiterer Befehl** (`multipass shell`) und du bist in der Shell dieser VM.
+- **Ein letzter Befehl** (`multipass delete && multipass purge`) und die VM ist weg.
 
 Kein Download eines ISO-Images, kein Klicken durch einen Installer, kein Einrichten eines Benutzerkontos. Multipass erledigt das alles automatisch im Hintergrund.
 
@@ -348,7 +348,7 @@ flowchart LR
 - Der Daemon spricht mit dem **Backend** (dem echten Hypervisor) über dessen native Schnittstelle.
 - **Ubuntu-Images** werden einmalig geladen und für spätere VMs gecached.
 
-Das ist der Grund, warum Multipass sich so schnell anfühlt: Das Image muss nur einmal herunter, und das Backend ist bereits vorhanden.
+Das ist der Grund, warum Multipass sich so schnell anfühlt: Das Image muss nur einmal herunter und das Backend ist bereits vorhanden.
 
 ---
 

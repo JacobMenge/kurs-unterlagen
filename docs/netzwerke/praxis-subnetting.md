@@ -38,7 +38,7 @@ Diese Abteilungen wollen versorgt werden:
 | **Server** | 10 |
 
 !!! question "Warum überhaupt aufteilen? Ein /24 hätte doch Platz für alle 180 Geräte."
-    Stimmt – rein von der Anzahl her würde alles in ein `/24` passen. Aber wer alles in **ein** Netz wirft, baut sich Ärger ein: ein einziger Broadcast-Sturm legt dann das ganze Haus lahm, und die Gäste-Tablets hängen im selben Netz wie die Produktionssteuerung. Sauber getrennte Subnetze sind die Grundlage für **Ordnung, Performance und Sicherheit**. Genau das übst du hier.
+    Stimmt – rein von der Anzahl her würde alles in ein `/24` passen. Aber wer alles in **ein** Netz wirft, baut sich Ärger ein: ein einziger Broadcast-Sturm legt dann das ganze Haus lahm und die Gäste-Tablets hängen im selben Netz wie die Produktionssteuerung. Sauber getrennte Subnetze sind die Grundlage für **Ordnung, Performance und Sicherheit**. Genau das übst du hier.
 
 ---
 
@@ -91,7 +91,7 @@ Wenn ihr früh fertig seid – hier gibt es Extrapunkte:
     2. **Warum sollten die Gäste vom Rest des Netzes isoliert werden?** Was könnte sonst passieren?
 
 ??? info "Denkanstoß zur Bonus-Runde (erst selbst überlegen!)"
-    - **VLANs:** Sinnvoll ist ein eigenes VLAN pro Abteilung – besonders aber für **Server**, **Produktion** und **Gäste-WLAN**. Server enthalten schützenswerte Daten, die Produktion steuert Maschinen (ein Ausfall kostet sofort Geld), und Gäste sind schlicht nicht vertrauenswürdig.
+    - **VLANs:** Sinnvoll ist ein eigenes VLAN pro Abteilung – besonders aber für **Server**, **Produktion** und **Gäste-WLAN**. Server enthalten schützenswerte Daten, die Produktion steuert Maschinen (ein Ausfall kostet sofort Geld) und Gäste sind schlicht nicht vertrauenswürdig.
     - **Gäste-Isolation:** Ein Gästegerät ist ein **fremdes, unkontrolliertes Gerät** in eurem Haus – vielleicht mit Schadsoftware, vielleicht neugierig. Liegt es im selben Netz wie die Server, kann es sie direkt ansprechen, scannen und angreifen. In einem eigenen, isolierten Segment (eigenes VLAN, Firewall-Regel „nur ins Internet, nicht ins LAN") kann ein infiziertes Gästegerät keinen Schaden im Firmennetz anrichten.
 
     Mehr dazu in [Segmentierung und VPN](segmentierung-und-vpn.md).

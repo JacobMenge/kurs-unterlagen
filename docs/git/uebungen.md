@@ -149,7 +149,7 @@ Im Repo `uebung-stapel` aus 7.1:
 3. Verwirf die Änderungen ohne Commit.
 4. Mach dann eine **andere** Änderung an `notizen.md` (z.B. nur eine Zeile dazu), stagen, commiten.
 
-Am Ende soll `git log` einen zusätzlichen Commit zeigen, und `notizen.md` darf **nicht** die ursprünglich verworfenen Zeilen enthalten.
+Am Ende soll `git log` einen zusätzlichen Commit zeigen und `notizen.md` darf **nicht** die ursprünglich verworfenen Zeilen enthalten.
 
 #### Hinweise
 
@@ -901,7 +901,7 @@ Außerdem soll am Ende alles **auf GitHub** liegen, jede der drei Änderungen al
     !!! tip "Wenn du mit Squash-Merges arbeitest"
         Dann sind die drei Feature-Branches als jeweils **ein einzelner Commit** auf `main` zu sehen, nicht als Merge-Commit mit Sub-Commits. Trotzdem ist die Reihenfolge erkennbar und die Branch-Wahl war sinnvoll.
 
-    Das Wichtigste an dieser Übung ist nicht das Kommando-Vokabular, sondern das Bewusstsein: **separate Themen gehören in separate Branches**, auch wenn man sie innerhalb einer Stunde abarbeiten könnte. So bleibt die Historie sprechend, und jeder PR ist klein genug, um reviewt zu werden.
+    Das Wichtigste an dieser Übung ist nicht das Kommando-Vokabular, sondern das Bewusstsein: **separate Themen gehören in separate Branches**, auch wenn man sie innerhalb einer Stunde abarbeiten könnte. So bleibt die Historie sprechend und jeder PR ist klein genug, um reviewt zu werden.
 
 ---
 

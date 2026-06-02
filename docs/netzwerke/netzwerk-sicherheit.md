@@ -417,7 +417,7 @@ Ein SIEM erkennt Muster, die in einzelnen Logs nicht auffallen würden. Beispiel
 
     Genau das ist **Defense in Depth**. Eine einzelne Maßnahme reicht nicht.
 
-??? question "Frage 2: Was unterscheidet eine Stateful Firewall von einer Application Firewall (WAF), und wann brauchst du welche?"
+??? question "Frage 2: Was unterscheidet eine Stateful Firewall von einer Application Firewall (WAF) und wann brauchst du welche?"
     - **Stateful Firewall (Layer 3/4):** filtert nach IP, Port und Verbindungs-Zustand. Sehr schnell, deckt 80 % aller Anwendungsfälle ab. Erste Verteidigungslinie.
     - **WAF (Layer 7):** versteht **HTTP-Verkehr** und kann Anwendungs-Angriffe wie SQL-Injection, XSS oder unerwartete API-Aufrufe erkennen und blockieren.
 
@@ -426,7 +426,7 @@ Ein SIEM erkennt Muster, die in einzelnen Logs nicht auffallen würden. Beispiel
 ??? question "Frage 3: Was ist der Kerngedanke von Zero Trust – und wie unterscheidet er sich vom klassischen Perimeter-Modell?"
     **Klassisch (Perimeter):** Es gibt ein „innen" (vertrauenswürdig) und ein „außen" (gefährlich). Wer einmal drin ist – z. B. hinter der Firewall –, darf sich relativ frei bewegen. Problem: Ist ein Angreifer erst drin, hat er leichtes Spiel.
 
-    **Zero Trust:** **„Never trust, always verify."** Es gibt kein vertrauenswürdiges Innen. **Jede** Verbindung wird geprüft – egal ob von innen oder außen –, jeder Zugriff braucht Authentisierung und Autorisierung, und jeder bekommt nur die minimal nötigen Rechte (*least privilege*). So legt ein einzelner gekaperter Rechner nicht gleich das ganze Netz lahm.
+    **Zero Trust:** **„Never trust, always verify."** Es gibt kein vertrauenswürdiges Innen. **Jede** Verbindung wird geprüft – egal ob von innen oder außen –, jeder Zugriff braucht Authentisierung und Autorisierung und jeder bekommt nur die minimal nötigen Rechte (*least privilege*). So legt ein einzelner gekaperter Rechner nicht gleich das ganze Netz lahm.
 
     Das organisatorische Dach darüber – **ISMS, ISO 27001, BSI-Grundschutz** – schauen wir uns im Block [IT-Sicherheit & Risiko](../it-sicherheit/index.md) genauer an.
 

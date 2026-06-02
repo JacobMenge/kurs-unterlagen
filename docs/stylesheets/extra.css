@@ -73,24 +73,44 @@
 }
 
 /* 4) Navigations-Tabs: Phosphor-Underline nur bei aktiv -------------------- */
+/*
+  WICHTIG: color auf .md-tabs setzen. Material faerbt den aktiven Tab (und
+  :hover/:focus) per "color: inherit", erbt also von hier. Ohne diese Zeile
+  erbt der aktive Tab --md-primary-bg-color (#0e1013) – exakt die
+  Hintergrundfarbe der Leiste – und wird damit unsichtbar. Der hell gesetzte
+  Basiswert ist die Absicherung gegen genau diese inherit-Faelle.
+*/
 .md-tabs {
   background-color: #0e1013;
   border-bottom: 1px solid var(--jd-phosphor-deep);
+  color: var(--jd-ink);
 }
 
 .md-tabs__link {
   color: var(--jd-ink);
   opacity: 0.85;
-  transition: color 150ms ease, opacity 150ms ease;
+  /* Platz fuer die aktive Unterstreichung schon hier reservieren, damit der
+     aktive Tab nicht 2px hoeher wird (kein Layout-Versatz). */
+  border-bottom: 2px solid transparent;
+  transition: color 150ms ease, opacity 150ms ease, border-color 150ms ease;
 }
 
+/*
+  Aktiver Block, Hover und Fokus bekommen den Phosphor-Akzent.
+  Material setzt die --active-Klasse auf das <li> (.md-tabs__item--active),
+  NICHT auf das <a>. Deshalb hier ueber den <li>-Nachfahren selektieren –
+  das trifft Materials eigene Spezifitaet (0,2,0) und gewinnt, weil extra.css
+  nach dem Theme geladen wird. Die alte .md-tabs__link--active-Regel hat nie
+  gegriffen.
+*/
 .md-tabs__link:hover,
-.md-tabs__link--active {
+.md-tabs__link:focus,
+.md-tabs__item--active .md-tabs__link {
   color: var(--jd-phosphor);
   opacity: 1;
 }
 
-.md-tabs__link--active {
+.md-tabs__item--active .md-tabs__link {
   border-bottom: 2px solid var(--jd-phosphor);
 }
 

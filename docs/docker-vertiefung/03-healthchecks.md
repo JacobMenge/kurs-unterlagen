@@ -140,7 +140,7 @@ Mit `python3 -m json.tool` (oder einem JSON-Viewer im Browser) bekommst du einen
     docker inspect health-demo --format '{{json .State.Health}}' | ConvertFrom-Json | ConvertTo-Json -Depth 10
     ```
 
-Du siehst `Status: "healthy"`, `FailingStreak: 0`, und die letzten Log-Einträge mit `ExitCode` und Output.
+Du siehst `Status: "healthy"`, `FailingStreak: 0` und die letzten Log-Einträge mit `ExitCode` und Output.
 
 ### Schritt 6 – Aufräumen
 
@@ -154,7 +154,7 @@ docker rmi health-demo:1.0
 ## Übung – Selber machen
 
 !!! info "Aufgabe"
-    Bau ein zweites Image, dessen Healthcheck **garantiert fehlschlägt**, und beobachte, wie Docker den Container nach mehreren Fehlversuchen auf `unhealthy` setzt.
+    Bau ein zweites Image, dessen Healthcheck **garantiert fehlschlägt** und beobachte, wie Docker den Container nach mehreren Fehlversuchen auf `unhealthy` setzt.
 
 **Vorgaben:**
 

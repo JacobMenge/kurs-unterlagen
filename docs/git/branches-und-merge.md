@@ -107,7 +107,7 @@ Es gibt zwei wichtige Fälle, die sich unterscheiden:
 
 ### Fall 1: Fast-Forward Merge
 
-Stell dir vor, du hast deinen Branch angelegt, an ihm gearbeitet, und auf `main` ist in der Zwischenzeit **nichts passiert**.
+Stell dir vor, du hast deinen Branch angelegt, an ihm gearbeitet und auf `main` ist in der Zwischenzeit **nichts passiert**.
 
 ```mermaid
 flowchart LR

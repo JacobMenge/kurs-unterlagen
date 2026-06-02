@@ -5,7 +5,7 @@ description: "Wie Geräte in Netzwerken adressiert werden – physisch über MAC
 
 # Adressierung: MAC, IPv4, IPv6 und Subnetting
 
-Damit Daten im Netz **ankommen**, muss man Geräte eindeutig adressieren können. Im Netzwerk gibt es davon **zwei Sorten**: eine **physische** Adresse (MAC), die jede Netzwerkkarte ab Werk eingebrannt hat, und eine **logische** Adresse (IP), die jedes Gerät pro Netz dynamisch bekommt.
+Damit Daten im Netz **ankommen**, muss man Geräte eindeutig adressieren können. Im Netzwerk gibt es davon **zwei Sorten**: eine **physische** Adresse (MAC), die jede Netzwerkkarte ab Werk eingebrannt hat und eine **logische** Adresse (IP), die jedes Gerät pro Netz dynamisch bekommt.
 
 Das hier ist die **wichtigste** und **technisch dichteste** Seite des Blocks. Nimm dir Zeit. Wer Subnetting drauf hat, ist beim ganzen Rest entspannt.
 
@@ -220,7 +220,7 @@ Nicht jede IP-Adresse darf im Internet auftauchen. Es gibt drei **private Adress
 **Alle anderen** IPv4-Adressen sind potenziell **öffentlich** und können im Internet auftauchen.
 
 !!! info "Warum private Adressen?"
-    Es gibt nur 4,3 Mrd. IPv4-Adressen, und davon sind viele reserviert. Das reicht **nicht** für jedes Gerät weltweit. Lösung: in lokalen Netzen werden private Adressen verwendet, die nur im eigenen LAN gelten. Wenn ein Gerät mit dem Internet reden will, geht das über **NAT** (Network Address Translation, mehr dazu in [Segmentierung und VPN](segmentierung-und-vpn.md)).
+    Es gibt nur 4,3 Mrd. IPv4-Adressen und davon sind viele reserviert. Das reicht **nicht** für jedes Gerät weltweit. Lösung: in lokalen Netzen werden private Adressen verwendet, die nur im eigenen LAN gelten. Wenn ein Gerät mit dem Internet reden will, geht das über **NAT** (Network Address Translation, mehr dazu in [Segmentierung und VPN](segmentierung-und-vpn.md)).
 
     So teilen sich Millionen von Geräten weltweit dieselben privaten Adressen. Dein Heim-Router hat innen `192.168.1.1` – millionenfach.
 
@@ -386,7 +386,7 @@ arp -a              # zeigt deinen ARP-Cache
 
 ## Beispielfragen zur Selbstkontrolle
 
-??? question "Frage 1: Du sollst ein Subnetz für eine Abteilung mit 100 Mitarbeitern planen. Welche CIDR-Maske wählst du, und warum?"
+??? question "Frage 1: Du sollst ein Subnetz für eine Abteilung mit 100 Mitarbeitern planen. Welche CIDR-Maske wählst du und warum?"
     Du brauchst mindestens **100 nutzbare Hostadressen**.
 
     - `/25` hat 2⁷ − 2 = 126 nutzbare Adressen → reicht ✓

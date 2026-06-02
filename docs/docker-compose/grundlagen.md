@@ -212,7 +212,7 @@ services:
 ```
 
 !!! tip "Warum `$${...}` mit doppeltem `$`?"
-    Compose interpretiert `$VAR` als YAML-Variable. Mit `$$` schreibst du **ein** `$`, das im Container angekommt – so kann Bash die Umgebungsvariable dort auflösen. `pg_isready` kennt sonst weder User noch Datenbank, prüft Default-Postgres, und der Check wäre unzuverlässig.
+    Compose interpretiert `$VAR` als YAML-Variable. Mit `$$` schreibst du **ein** `$`, das im Container angekommt – so kann Bash die Umgebungsvariable dort auflösen. `pg_isready` kennt sonst weder User noch Datenbank, prüft Default-Postgres und der Check wäre unzuverlässig.
 
 Was die Felder bedeuten:
 

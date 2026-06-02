@@ -138,7 +138,7 @@ abc1234 (HEAD -> main, origin/main, origin/HEAD) Initial commit
 Wichtige Beobachtungen:
 
 - Es gibt einen **Initial commit**, den GitHub beim Anlegen automatisch gemacht hat.
-- HEAD zeigt auf `main`, und **`origin/main`** zeigt auch dort hin. `origin/main` ist der **Tracking-Branch** aus den [Theorie-Seiten](remote-und-github.md#was-sind-tracking-branches). Er sagt: „so weit ist `main` auf dem Remote, beim letzten Stand."
+- HEAD zeigt auf `main` und **`origin/main`** zeigt auch dort hin. `origin/main` ist der **Tracking-Branch** aus den [Theorie-Seiten](remote-und-github.md#was-sind-tracking-branches). Er sagt: „so weit ist `main` auf dem Remote, beim letzten Stand."
 - **`origin`** ist der Name, unter dem dein lokales Repo den Remote kennt.
 
 ```bash

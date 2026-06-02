@@ -170,7 +170,7 @@ abcd1234       nginx   ...   Up 3 seconds  0.0.0.0:8080->80/tcp    web
 - **Status `Up`** heißt: der Container läuft.
 - **PORTS** zeigt: Host-Port 8080 leitet zu Container-Port 80 weiter.
 
-Erscheint er nicht in `docker ps`, probier `docker ps -a` – dann siehst du, ob er abgestürzt ist, und kannst mit `docker logs web` den Grund lesen.
+Erscheint er nicht in `docker ps`, probier `docker ps -a` – dann siehst du, ob er abgestürzt ist und kannst mit `docker logs web` den Grund lesen.
 
 ### Im Browser ansehen
 

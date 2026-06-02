@@ -530,7 +530,7 @@ Jede Gruppe zeigt am Ende kurz:
 - eigene Notizen, das [Cheatsheet](../cheatsheets/compose.md)
 - Terminal, Browser
 - Zusammenarbeit in der Gruppe
-- **Google und KI-Tools** (ChatGPT, Claude, …) – aber nur für **einzelne Fragen, an denen ihr feststeckt**. Nicht „löst mir die ganze Aufgabe": dann lernt ihr nichts.
+- **Google und KI-Tools** (ChatGPT, Gemini, …) – aber nur für **einzelne Fragen, an denen ihr feststeckt**. Nicht „löst mir die ganze Aufgabe": dann lernt ihr nichts.
 
 ## ❌ Nicht erlaubt
 

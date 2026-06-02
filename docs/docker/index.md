@@ -1,6 +1,6 @@
 ---
 title: "Docker – Überblick"
-description: "Einstieg in Docker: warum Container entstanden sind, wie sie sich von VMs unterscheiden, und wie du deinen ersten Container startest."
+description: "Einstieg in Docker: warum Container entstanden sind, wie sie sich von VMs unterscheiden und wie du deinen ersten Container startest."
 ---
 
 # Docker – Überblick

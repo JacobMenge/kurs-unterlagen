@@ -223,7 +223,7 @@ Ein sehr nützliches Feature: SSH kann **TCP-Ports tunneln**.
 ssh -L 5432:localhost:5432 user@server
 ```
 
-Du kannst lokal auf `localhost:5432` zugreifen, und SSH leitet alles verschlüsselt zum Remote-Server weiter. So erreichst du **interne Dienste**, die nicht öffentlich exponiert sind.
+Du kannst lokal auf `localhost:5432` zugreifen und SSH leitet alles verschlüsselt zum Remote-Server weiter. So erreichst du **interne Dienste**, die nicht öffentlich exponiert sind.
 
 ---
 
@@ -405,7 +405,7 @@ Eine handliche Tabelle zum Nachschlagen:
 
     Bei Auswahl auf Schlüsselauthentifizierung statt Passwort setzen.
 
-??? question "Frage 2: Eine Webseite zeigt im Browser HTTP-Status 502. Was bedeutet das, und wo liegt der Fehler?"
+??? question "Frage 2: Eine Webseite zeigt im Browser HTTP-Status 502. Was bedeutet das und wo liegt der Fehler?"
     **502 Bad Gateway:** ein zwischengeschalteter Server (typisch ein **Reverse Proxy** wie Nginx oder ein Load Balancer) kann den eigentlichen Webserver dahinter nicht erreichen oder bekommt keine sinnvolle Antwort.
 
     Mögliche Ursachen:
@@ -426,7 +426,7 @@ Eine handliche Tabelle zum Nachschlagen:
 
     Wer eine neue Domain einrichtet und **alle drei DNS-Einträge vergisst**, verschickt zwar Mails, sie landen aber bei den meisten Empfängern im Spam-Filter.
 
-??? question "Frage 4: SSH-Zugang zu einem Server – warum solltest du Schlüsselpaare statt Passwörter nutzen, und wie funktioniert das technisch?"
+??? question "Frage 4: SSH-Zugang zu einem Server – warum solltest du Schlüsselpaare statt Passwörter nutzen und wie funktioniert das technisch?"
     Vorteile von Schlüsselpaaren:
 
     - **kein Passwort über das Netz** (Schlüssel-Beweis statt Passwort-Übertragung)

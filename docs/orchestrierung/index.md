@@ -5,9 +5,9 @@ description: "Vom einzelnen Container zur automatisierten Verteilung und zum orc
 
 # Orchestrierung & Verteilung
 
-Im [Compose-Block](../docker-compose/index.md) hast du gelernt, einen kompletten Stack mit **einem** Befehl auf **einem** Rechner hochzufahren. Das ist ein riesiger Schritt – aber in der Praxis hört es da nicht auf. Software muss auf **viele** Geräte verteilt werden, Container müssen auf **viele** Server gespannt werden, und das alles soll **automatisch** und **wiederholbar** passieren, nicht von Hand.
+Im [Compose-Block](../docker-compose/index.md) hast du gelernt, einen kompletten Stack mit **einem** Befehl auf **einem** Rechner hochzufahren. Das ist ein riesiger Schritt – aber in der Praxis hört es da nicht auf. Software muss auf **viele** Geräte verteilt werden, Container müssen auf **viele** Server gespannt werden und das alles soll **automatisch** und **wiederholbar** passieren, nicht von Hand.
 
-In diesem Block geht es um genau diese Skalierung in zwei Richtungen: Wie bringe ich Software **zuverlässig auf viele Zielsysteme**, und wie verteile ich Container-Anwendungen **über einen ganzen Cluster** statt nur über einen Host? Beides läuft unter dem Stichwort *Orchestrierung* – das Zusammenspiel vieler Teile geplant dirigieren, wie ein Dirigent ein Orchester.
+In diesem Block geht es um genau diese Skalierung in zwei Richtungen: Wie bringe ich Software **zuverlässig auf viele Zielsysteme** und wie verteile ich Container-Anwendungen **über einen ganzen Cluster** statt nur über einen Host? Beides läuft unter dem Stichwort *Orchestrierung* – das Zusammenspiel vieler Teile geplant dirigieren, wie ein Dirigent ein Orchester.
 
 !!! abstract "Was du in diesem Block lernst"
     - wie ein **Softwareverteilungsprozess** abläuft: von der Analyse über die Planung und Einführung bis zur Pflege

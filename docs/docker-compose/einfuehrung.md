@@ -1,6 +1,6 @@
 ---
 title: "Docker Compose – Einführung"
-description: "Was Compose ist, warum es entstanden ist, und wie sich das deklarative Gegenstück zu docker run anfühlt."
+description: "Was Compose ist, warum es entstanden ist und wie sich das deklarative Gegenstück zu docker run anfühlt."
 ---
 
 # Docker Compose – Einführung
@@ -91,7 +91,7 @@ In der IT nennt man diesen Unterschied **imperative** vs. **declarative configur
 
 ## Zwei historische Namen: „docker-compose" vs. „docker compose"
 
-Du wirst auf beides stoßen, und der Unterschied ist wichtig:
+Du wirst auf beides stoßen und der Unterschied ist wichtig:
 
 | Variante | Implementation | Status |
 |----------|----------------|--------|

@@ -259,7 +259,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     3. `docker build -t foo .` **muss aus dem Ordner aufgerufen werden, der die Datei UND das `Dockerfile` enthält**. Der Punkt am Ende ist der Build-Kontext.
 
 ??? warning "Änderungen im `Dockerfile` zeigen keine Wirkung"
-    **Ursache:** Docker-Build-Cache findet, dass sich „effektiv" nichts geändert hat, und nimmt alte Layer aus dem Cache.
+    **Ursache:** Docker-Build-Cache findet, dass sich „effektiv" nichts geändert hat und nimmt alte Layer aus dem Cache.
 
     **Lösung – Cache-Ignorieren erzwingen:**
 

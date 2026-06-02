@@ -5,7 +5,7 @@ description: "Projekte mit Kennzahlen steuern (Earned Value, Earned Schedule, Bu
 
 # Projektcontrolling
 
-<span class='badge badge-vertiefung'>Vertiefung</span> &nbsp; Ein Plan ist nur die halbe Miete – Controlling beantwortet laufend die Frage: **Sind wir noch auf Kurs, und wenn nicht, wie sehr nicht?**
+<span class='badge badge-vertiefung'>Vertiefung</span> &nbsp; Ein Plan ist nur die halbe Miete – Controlling beantwortet laufend die Frage: **Sind wir noch auf Kurs und wenn nicht, wie sehr nicht?**
 
 !!! note "Status: Platzhalter <span class='badge badge-wip'>in Arbeit</span>"
     Diese Seite ist ein Platzhalter. Der Inhalt folgt – hier siehst du schon, **was behandelt wird** und **worauf es ankommt**.

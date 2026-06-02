@@ -31,7 +31,7 @@ DHCP automatisiert das. Es gibt einen **DHCP-Server** (oft im WLAN-Router oder a
 
     - eine **Zimmernummer** (deine IP-Adresse)
     - einen **Schlüssel** (Konfigurations-Details)
-    - die Info, wo die Rezeption ist (Default Gateway), das Restaurant (DNS-Server), und wo die Notausgänge sind (weitere Optionen)
+    - die Info, wo die Rezeption ist (Default Gateway), das Restaurant (DNS-Server) und wo die Notausgänge sind (weitere Optionen)
 
     Wenn du auscheckst, gibst du Zimmer und Schlüssel zurück – das Zimmer kann an den nächsten Gast vergeben werden.
 
@@ -188,7 +188,7 @@ Der DHCP-Server merkt sich: „Für die MAC-Adresse `aa:bb:cc:dd:ee:ff` vergebe 
 Du trägst die IP **direkt am Gerät** ein. Kein DHCP beteiligt.
 
 - **Vorteil:** funktioniert auch, wenn DHCP ausfällt.
-- **Nachteil:** muss am Gerät selbst gepflegt werden, und kollidiert ggf. mit DHCP-Vergaben, wenn die Pools nicht sauber getrennt sind.
+- **Nachteil:** muss am Gerät selbst gepflegt werden und kollidiert ggf. mit DHCP-Vergaben, wenn die Pools nicht sauber getrennt sind.
 - **Praxis:** für **Router, Firewalls, Switches** und dedizierte Server.
 
 !!! warning "IP-Konflikt"

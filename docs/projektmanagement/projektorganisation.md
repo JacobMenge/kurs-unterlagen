@@ -24,4 +24,4 @@ description: "Klassische und agile Organisationsformen, das Führen von Teilproj
 Die Organisationsform ist kein Selbstzweck – sie soll **Verantwortung und Kommunikation klar regeln**. Ein Teilprojekt hat eigene Ziele, darf aber nie das Gesamtziel aus den Augen verlieren; genau dafür sind saubere Schnittstellen da. Und wer früh weiß, **wer am Ergebnis interessiert ist und wer es ausbremsen könnte**, vermeidet die teuersten Überraschungen – die am Schluss.
 
 !!! tip "Stakeholder zuerst"
-    Eine kurze Stakeholder-Analyse zu Beginn kostet eine Stunde und spart oft Wochen. Frag dich bei jeder Person: *Was will sie, was fürchtet sie, und wie viel Einfluss hat sie auf das Projekt?*
+    Eine kurze Stakeholder-Analyse zu Beginn kostet eine Stunde und spart oft Wochen. Frag dich bei jeder Person: *Was will sie, was fürchtet sie und wie viel Einfluss hat sie auf das Projekt?*

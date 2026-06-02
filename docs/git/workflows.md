@@ -1,13 +1,13 @@
 ---
 title: "Typische Git-Workflows in der Praxis"
-description: "Drei häufige Git-Workflows mit konkreten Befehlsausgaben, Fehlermeldungen und Lösungen: zurück zu einem alten Commit und neu starten (detached HEAD), Feature-Branch alleine sauber abwickeln, und das Push-Drama mit dem rejected-Fehler im Team."
+description: "Drei häufige Git-Workflows mit konkreten Befehlsausgaben, Fehlermeldungen und Lösungen: zurück zu einem alten Commit und neu starten (detached HEAD), Feature-Branch alleine sauber abwickeln und das Push-Drama mit dem rejected-Fehler im Team."
 ---
 
 # Typische Git-Workflows in der Praxis
 
-Du kennst jetzt die Bausteine: `add`, `commit`, `branch`, `merge`, `push`, `pull`. Was im Alltag aber wirklich zählt, sind die **wiederkehrenden Muster** – die kleinen Situationen, in die du immer wieder gerätst, und die jedes Mal dieselben Befehle und dieselben Git-Meldungen erzeugen.
+Du kennst jetzt die Bausteine: `add`, `commit`, `branch`, `merge`, `push`, `pull`. Was im Alltag aber wirklich zählt, sind die **wiederkehrenden Muster** – die kleinen Situationen, in die du immer wieder gerätst und die jedes Mal dieselben Befehle und dieselben Git-Meldungen erzeugen.
 
-Auf dieser Seite gehen wir drei davon durch. Jeweils mit echtem Szenario, den Befehlen, die Git-Reaktion (wortwörtlich), und einer kleinen Übung zum direkt Mitmachen.
+Auf dieser Seite gehen wir drei davon durch. Jeweils mit echtem Szenario, den Befehlen, die Git-Reaktion (wortwörtlich) und einer kleinen Übung zum direkt Mitmachen.
 
 !!! abstract "Was du auf dieser Seite lernst"
     - **Workflow 1:** Du machst mehrere Commits und willst plötzlich zu einem früheren zurück, um von dort einen anderen Weg zu gehen. Was passiert mit dem alten? Welche Warnung wirft Git?
@@ -47,7 +47,7 @@ Von **alleine im eigenen Repo** über **mit Branch arbeiten** bis hin zum **Team
 
 ### Das Szenario
 
-Du arbeitest an einem Projekt. Du machst drei Commits hintereinander. Dann fällt dir auf: der zweite Commit war eigentlich Murks. Du möchtest **dorthin zurück, wo du nach Commit 1 warst**, und von da aus einen **anderen Weg gehen**.
+Du arbeitest an einem Projekt. Du machst drei Commits hintereinander. Dann fällt dir auf: der zweite Commit war eigentlich Murks. Du möchtest **dorthin zurück, wo du nach Commit 1 warst** und von da aus einen **anderen Weg gehen**.
 
 ```mermaid
 flowchart LR
@@ -56,13 +56,13 @@ flowchart LR
   C1 -.-> NEU(["du willst hier neu abzweigen"])
 ```
 
-Die Frage: **Wie sagst du Git, dass es dich zurück zu C1 bringen soll, und was passiert mit C2 und C3?**
+Die Frage: **Wie sagst du Git, dass es dich zurück zu C1 bringen soll und was passiert mit C2 und C3?**
 
 Antwort vorab: C2 und C3 **bleiben erhalten** (Git wirft keine Commits weg), aber wenn du nur „zurückspringst" ohne weiteren Schritt, landest du in einem speziellen Zustand: dem **detached HEAD**.
 
 ### Was bedeutet „detached HEAD"?
 
-Erinnerung: **HEAD ist Gits „du bist hier"-Schild.** Normalerweise zeigt HEAD auf einen **Branch** (z.B. `main`), und der Branch wiederum zeigt auf den neuesten Commit.
+Erinnerung: **HEAD ist Gits „du bist hier"-Schild.** Normalerweise zeigt HEAD auf einen **Branch** (z.B. `main`) und der Branch wiederum zeigt auf den neuesten Commit.
 
 Wenn du auf einen Commit zurückspringst, der **nicht der oberste eines Branches** ist, hängt HEAD plötzlich direkt am Commit, ohne Branch dazwischen. Das ist **detached HEAD**.
 
@@ -200,7 +200,7 @@ HEAD is now at a1b2c3d C1: erste Zeile
 
 1. **„You are in 'detached HEAD' state."** – HEAD hängt jetzt direkt an C1, ohne dass ein Branch in der Mitte ist.
 2. **„You can look around, make experimental changes and commit them"** – du darfst hier alles tun. Anschauen, ändern, sogar committen.
-3. **„you can discard any commits you make in this state without impacting any branches by switching back to a branch"** – und genau hier ist die Gefahr: alles, was du in diesem Zustand committest, ist **an keinem Branch festgemacht**. Wenn du später einfach `git switch main` machst, sind diese Commits zwar noch da, aber niemand zeigt mehr auf sie. Sie sind **erreichbar nur über die SHA**, und Git wird sie irgendwann automatisch wegräumen.
+3. **„you can discard any commits you make in this state without impacting any branches by switching back to a branch"** – und genau hier ist die Gefahr: alles, was du in diesem Zustand committest, ist **an keinem Branch festgemacht**. Wenn du später einfach `git switch main` machst, sind diese Commits zwar noch da, aber niemand zeigt mehr auf sie. Sie sind **erreichbar nur über die SHA** und Git wird sie irgendwann automatisch wegräumen.
 
 #### Schritt 1.4: Anschauen, was hier los ist
 
@@ -277,7 +277,7 @@ On branch andere-richtung
 nothing to commit, working tree clean
 ```
 
-**HEAD ist nicht mehr detached.** Er hängt jetzt am Branch `andere-richtung`, und der wiederum zeigt auf C1.
+**HEAD ist nicht mehr detached.** Er hängt jetzt am Branch `andere-richtung` und der wiederum zeigt auf C1.
 
 ```mermaid
 flowchart LR
@@ -288,7 +288,7 @@ flowchart LR
   HEAD(("HEAD")) -.-> AR
 ```
 
-Jetzt darfst du committen, und die Commits **gehören** ab sofort zu `andere-richtung`.
+Jetzt darfst du committen und die Commits **gehören** ab sofort zu `andere-richtung`.
 
 #### Schritt 1.6: Neue Commits auf dem neuen Branch
 
@@ -390,7 +390,7 @@ e5f6g7h Bessere zweite Zeile
 a1b2c3d C1: erste Zeile
 ```
 
-**Sauberer Stand erreicht.** Die Murks-Commits C2 und C3 sind weg (Git räumt sie irgendwann auch physisch auf), und du arbeitest weiter, als wären sie nie passiert.
+**Sauberer Stand erreicht.** Die Murks-Commits C2 und C3 sind weg (Git räumt sie irgendwann auch physisch auf) und du arbeitest weiter, als wären sie nie passiert.
 
 ### Solo-Übung 1: Detached HEAD selbst erleben
 
@@ -893,7 +893,7 @@ Am Ende: `git status` sagt „up to date", `git branch -a` zeigt keine Feature-B
     git switch feature/login-formular
     ```
 
-    Damit zeigt `main` wieder auf den Stand vor deinem Commit, und der Commit lebt jetzt auf `feature/login-formular`.
+    Damit zeigt `main` wieder auf den Stand vor deinem Commit und der Commit lebt jetzt auf `feature/login-formular`.
 
     **Achtung:** das funktioniert nur, wenn der Commit noch nicht im Remote ist. Sonst musst du im Team kommunizieren – nicht eigenmächtig die Historie umschreiben.
 
@@ -1211,7 +1211,7 @@ Außerdem dient die Übersicht als **Frage-Checkliste**: wenn du vor einer Git-S
 
 ## Was du jetzt verstanden hast
 
-- Wenn du auf einen alten Commit zurückspringst, landest du in **detached HEAD**. Git warnt dich, und die Lösung ist meistens **`git switch -c <branch>`**.
+- Wenn du auf einen alten Commit zurückspringst, landest du in **detached HEAD**. Git warnt dich und die Lösung ist meistens **`git switch -c <branch>`**.
 - Lose Commits in detached HEAD sind nicht sofort verloren – `git reflog` findet sie wieder. Reflog-Einträge zu nicht-erreichbaren Commits halten standardmäßig **30 Tage** (`gc.reflogExpireUnreachable`), normale Reflog-Einträge **90 Tage**. Danach kann `git gc` die Commits endgültig löschen.
 - Der **Feature-Branch-Workflow** ist auch alleine sinnvoll, weil er lesbare Historie und sauberes Aufräumen erzwingt. Der wichtigste Schritt ist der **`git pull` vor dem Branch**, nicht der Branch selbst.
 - Die `[rejected]`-Meldung ist **kein Fehler**, sondern ein Schutz. Reaktion ist immer: `git pull` → ggf. Konflikt lösen → `git push`. **Niemals `--force`**, außer in einem reinen Solo-Repo.
@@ -1225,7 +1225,7 @@ Du hast jetzt drei wichtige Workflows alleine erlebt. Der nächste Schritt: dies
 
 ➡️ **[Gruppenübung 2: Feature-Workflow im Team (45 Min)](praxis-team-workflow.md)**
 
-Dort arbeitet ihr zu viert oder zu fünft an einem gemeinsamen Repo, jeder mit einer eigenen Rolle, und erlebt unter anderem den `[rejected]`-Fehler aus Workflow 3 live, weil mehrere Personen parallel pushen wollen.
+Dort arbeitet ihr zu viert oder zu fünft an einem gemeinsamen Repo, jeder mit einer eigenen Rolle und erlebt unter anderem den `[rejected]`-Fehler aus Workflow 3 live, weil mehrere Personen parallel pushen wollen.
 
 Es gibt im Block auch eine **[Gruppenübung 1](gruppen-uebung.md)** mit Fokus auf Merge-Konflikt – wenn ihr beide macht, ist Gruppenübung 2 (oben) der freundlichere Einstieg.
 

@@ -45,7 +45,7 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block – Volumes, Env-Variabl
 
 #### Worum geht's – Kontext
 
-**Redis** ist ein sehr schneller In-Memory-Speicher, oft als Cache oder für einfache Key-Value-Daten genutzt. Normalerweise lebt Redis komplett im RAM – wenn der Container weg ist, sind die Daten weg. Wir zeigen Redis, wie er auf Disk speichert, und nutzen ein **Docker-Volume**, damit die Daten einen Neustart überleben.
+**Redis** ist ein sehr schneller In-Memory-Speicher, oft als Cache oder für einfache Key-Value-Daten genutzt. Normalerweise lebt Redis komplett im RAM – wenn der Container weg ist, sind die Daten weg. Wir zeigen Redis, wie er auf Disk speichert und nutzen ein **Docker-Volume**, damit die Daten einen Neustart überleben.
 
 **Volume** – noch mal kurz: von Docker verwalteter Speicher außerhalb des Containers. Lebt, solange du ihn nicht explizit löschst.
 
@@ -273,7 +273,7 @@ Lege eine `.gitignore` an, die `.env` ausschließt. Das ist die Gewohnheit, die 
 
 !!! info "Was du lernst"
     - Netzwerk-Segmentierung
-    - Welche Container miteinander sprechen **können**, und welche nicht
+    - Welche Container miteinander sprechen **können** und welche nicht
 
 #### Szenario
 

@@ -56,7 +56,7 @@ flowchart TB
   end
 ```
 
-Links: jede VM **bringt ihren eigenen Kernel mit**. Der Hypervisor erzeugt aus der echten Hardware mehrere virtuelle Maschinen, und in jeder wird ein vollständiges Gast-OS hochgefahren.
+Links: jede VM **bringt ihren eigenen Kernel mit**. Der Hypervisor erzeugt aus der echten Hardware mehrere virtuelle Maschinen und in jeder wird ein vollständiges Gast-OS hochgefahren.
 
 Rechts: alle Container **teilen sich den einen Kernel des Hosts**. Die Container-Engine (z.B. Docker) sorgt nur dafür, dass jeder Container den Kernel so erlebt, als gehöre er ihm allein.
 

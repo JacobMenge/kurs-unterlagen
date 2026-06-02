@@ -5,7 +5,7 @@ description: "Theorie-Block zum laufenden Betrieb integrierter Systeme: Monitori
 
 # Betrieb & Verfügbarkeit
 
-Ein System zu planen und aufzubauen ist die eine Hälfte der Arbeit – die andere beginnt am Tag der Inbetriebnahme und hört nie wieder auf. Sobald eine Anlage produktiv läuft, willst du wissen, **ob sie gesund ist**, **was passiert, wenn etwas kaputtgeht**, und **wie schnell du sie wieder ans Laufen bekommst**. In diesem Block geht es um genau diesen Dauerbetrieb: überwachen, sichern, ausfallsicher auslegen und im Ernstfall geordnet wiederherstellen.
+Ein System zu planen und aufzubauen ist die eine Hälfte der Arbeit – die andere beginnt am Tag der Inbetriebnahme und hört nie wieder auf. Sobald eine Anlage produktiv läuft, willst du wissen, **ob sie gesund ist**, **was passiert, wenn etwas kaputtgeht** und **wie schnell du sie wieder ans Laufen bekommst**. In diesem Block geht es um genau diesen Dauerbetrieb: überwachen, sichern, ausfallsicher auslegen und im Ernstfall geordnet wiederherstellen.
 
 Stell dir den Betrieb wie das Cockpit eines Flugzeugs vor. Niemand fliegt blind – es gibt Anzeigen für jeden wichtigen Wert, eine Warnung, bevor etwas kritisch wird, eine Checkliste für den Notfall und einen Ersatz für die Systeme, die nicht ausfallen dürfen. Genau diese vier Ideen ziehen sich durch alle Seiten hier.
 
@@ -71,6 +71,6 @@ Wir bauen das Bild **vom Normalbetrieb zum Krisenfall**: erst sehen, ob alles ge
 
 ## Leitfrage
 
-> **Ein zentraler Dienst fällt um 3 Uhr nachts aus – woher weiß ich davon, wie hole ich ihn zurück, und wie hätte ich den Ausfall von vornherein verhindern können?**
+> **Ein zentraler Dienst fällt um 3 Uhr nachts aus – woher weiß ich davon, wie hole ich ihn zurück und wie hätte ich den Ausfall von vornherein verhindern können?**
 
 Wer diese Frage ruhig und der Reihe nach beantworten kann – statt im Ernstfall zu raten – denkt wie jemand, der für einen stabilen Betrieb verantwortlich ist.

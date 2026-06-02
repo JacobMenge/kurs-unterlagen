@@ -99,7 +99,7 @@ Auf Linux und macOS dürfen Programme **unter Port 1024** nur mit Admin-Rechten 
 - **Zuverlässig:** verloren gegangene Pakete werden **automatisch neu gesendet** (Retransmissions).
 - **In Reihenfolge:** wenn Pakete in falscher Reihenfolge ankommen, sortiert der Empfänger sie wieder, bevor er sie an die Anwendung gibt.
 - **Fluss-Kontrolle (Flow Control):** der Empfänger sagt dem Sender, wie viel er gerade verarbeiten kann.
-- **Stau-Vermeidung (Congestion Control):** TCP merkt, wenn das Netz überlastet ist, und drosselt sich selbst.
+- **Stau-Vermeidung (Congestion Control):** TCP merkt, wenn das Netz überlastet ist und drosselt sich selbst.
 - **Datenintegrität:** Prüfsummen erkennen kaputte Pakete.
 
 All das kostet **Overhead**, weshalb TCP nicht für alles ideal ist.
@@ -312,7 +312,7 @@ Sehr nützlich, wenn du wissen willst: „Auf welchen Ports lauscht mein System?
 
     Sehr nützlich zusätzlich: **587 (SMTP Submission)**, **993 (IMAPS)**, **3389 (RDP)**, **3306 (MySQL)**, **5432 (PostgreSQL)**.
 
-??? question "Frage 4: Warum existiert QUIC, und was unterscheidet es von TCP?"
+??? question "Frage 4: Warum existiert QUIC und was unterscheidet es von TCP?"
     QUIC läuft technisch über **UDP**, bringt aber die **Zuverlässigkeit, Reihenfolge und Verschlüsselung** mit, für die man sonst TCP + TLS bräuchte – und zwar in einem einzigen Protokoll-Stack.
 
     Vorteile:

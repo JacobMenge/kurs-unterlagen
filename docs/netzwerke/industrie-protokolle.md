@@ -1,6 +1,6 @@
 ---
 title: "Industrie- und IoT-Protokolle: Profinet, OPC UA, MQTT, AMQP, SCADA"
-description: "Die Protokolle der industriellen Vernetzung und des Internet of Things: warum sie existieren, was sie besser können als HTTP, und wann man welches einsetzt. Profinet, OPC UA, Modbus, MQTT, AMQP – mit Praxisbeispielen."
+description: "Die Protokolle der industriellen Vernetzung und des Internet of Things: warum sie existieren, was sie besser können als HTTP und wann man welches einsetzt. Profinet, OPC UA, Modbus, MQTT, AMQP – mit Praxisbeispielen."
 ---
 
 # Industrie- und IoT-Protokolle
@@ -461,7 +461,7 @@ Das **IoT-Gateway** ist der Übersetzer:
 - Es schickt die Daten in einem **modernen, sicheren Protokoll** (MQTT, HTTPS) in die Cloud.
 - Es ist die **einzige Stelle**, an der das Produktionsnetz und das Office-/Cloud-Netz sich berühren.
 
-So bleibt das Produktionsnetz **abgeschottet**, und die Maschinendaten sind trotzdem in der Cloud auswertbar.
+So bleibt das Produktionsnetz **abgeschottet** und die Maschinendaten sind trotzdem in der Cloud auswertbar.
 
 ---
 
@@ -504,7 +504,7 @@ So bleibt das Produktionsnetz **abgeschottet**, und die Maschinendaten sind trot
 
     Genau dafür gibt es **Profinet IRT** (Isochronous Real Time) oder **EtherCAT** – mit kleinen Frames und garantierten Zyklen. HTTPS würde diese Anforderungen weit verfehlen.
 
-??? question "Frage 3: Welche Aufgabe hat ein SCADA-System, und warum ist seine Absicherung besonders kritisch?"
+??? question "Frage 3: Welche Aufgabe hat ein SCADA-System und warum ist seine Absicherung besonders kritisch?"
     Ein **SCADA**-System (Supervisory Control And Data Acquisition) sammelt Sensordaten von PLCs, zeigt sie auf grafischen HMI-Bedienoberflächen, ermöglicht **manuelle Eingriffe** in den Prozess, alarmiert bei Grenzwert-Überschreitungen und speichert Historie für spätere Auswertung.
 
     Absicherung ist kritisch, weil SCADA **direkten Einfluss auf physische Anlagen** hat: Pumpen, Ventile, Förderbänder, Roboter. Ein kompromittiertes SCADA kann **echte materielle und körperliche Schäden** verursachen.

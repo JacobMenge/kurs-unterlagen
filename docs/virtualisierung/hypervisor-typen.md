@@ -25,7 +25,7 @@ Wer das kennt, versteht auch Fehlermeldungen wie „VT-x/AMD-V ist bereits in Be
 
 ## Typ 1 – „Bare-Metal"-Hypervisor
 
-Ein **Typ-1-Hypervisor** läuft **direkt auf der Hardware**. Es gibt kein „normales" Betriebssystem darunter. Der Hypervisor **ist** das Betriebssystem der Maschine, und seine einzige Aufgabe ist es, VMs zu betreiben.
+Ein **Typ-1-Hypervisor** läuft **direkt auf der Hardware**. Es gibt kein „normales" Betriebssystem darunter. Der Hypervisor **ist** das Betriebssystem der Maschine und seine einzige Aufgabe ist es, VMs zu betreiben.
 
 ### Merkmale
 
@@ -50,7 +50,7 @@ Ein **Typ-1-Hypervisor** läuft **direkt auf der Hardware**. Es gibt kein „nor
 
 ## Typ 2 – „Hosted"-Hypervisor
 
-Ein **Typ-2-Hypervisor** läuft als **Anwendung innerhalb eines normalen Betriebssystems**. Du hast also zuerst dein Host-OS (z.B. macOS, Windows, Ubuntu), und installierst darauf ein Programm, das dann VMs hostet.
+Ein **Typ-2-Hypervisor** läuft als **Anwendung innerhalb eines normalen Betriebssystems**. Du hast also zuerst dein Host-OS (z.B. macOS, Windows, Ubuntu) und installierst darauf ein Programm, das dann VMs hostet.
 
 ### Merkmale
 
@@ -85,13 +85,13 @@ Multipass ist kein Hypervisor, sondern ein **CLI-Werkzeug**, das intern auf eine
 | **Linux** | KVM | Typ 1 (Kernel-Modul) |
 | **Windows** | Hyper-V | Typ 2 (Client) / Typ 1 (Server) |
 
-Für dich als Nutzer ist das schön: du verwendest **dieselben Multipass-Befehle auf jedem System**, und Multipass kümmert sich darum, das passende Backend anzusteuern.
+Für dich als Nutzer ist das schön: du verwendest **dieselben Multipass-Befehle auf jedem System** und Multipass kümmert sich darum, das passende Backend anzusteuern.
 
 ---
 
 ## Warum sich Hyper-V und VirtualBox auf Windows streiten
 
-Beide Produkte wollen auf die **Virtualisierungsfunktionen des Prozessors** (Intel VT-x oder AMD-V) zugreifen – und zwar jeweils als „Erster" auf dem Ring-0, also der privilegiertesten Stufe im Kernel. Wenn beide gleichzeitig aktiv sind, gewinnt Hyper-V, und VirtualBox meldet:
+Beide Produkte wollen auf die **Virtualisierungsfunktionen des Prozessors** (Intel VT-x oder AMD-V) zugreifen – und zwar jeweils als „Erster" auf dem Ring-0, also der privilegiertesten Stufe im Kernel. Wenn beide gleichzeitig aktiv sind, gewinnt Hyper-V und VirtualBox meldet:
 
 > VT-x is not available
 

@@ -20,7 +20,7 @@ Hier lernst du, die gängigen Lizenzmodelle zu unterscheiden und für ein Vorhab
 
 ## Worauf es ankommt
 
-Lizenzen sind selten nur eine Preisfrage. Ein günstiges Abo kann über Jahre teurer werden als ein Einmalkauf, und „kostenlos“ bei Open Source heißt nicht „ohne Pflichten“. Die richtige Frage ist: **Was kostet die Software über ihre gesamte Nutzungsdauer – inklusive Support – und welche Bedingungen muss ich dabei einhalten?**
+Lizenzen sind selten nur eine Preisfrage. Ein günstiges Abo kann über Jahre teurer werden als ein Einmalkauf und „kostenlos“ bei Open Source heißt nicht „ohne Pflichten“. Die richtige Frage ist: **Was kostet die Software über ihre gesamte Nutzungsdauer – inklusive Support – und welche Bedingungen muss ich dabei einhalten?**
 
 !!! tip "Verbindung zu Recht & Organisation"
     Lizenzen sind Verträge. Die vertraglichen und rechtlichen Feinheiten vertieft die Seite [IT-Verträge](../recht-organisation/it-vertraege.md).

@@ -6,7 +6,7 @@ description: "Schritt-für-Schritt einen Merge-Konflikt absichtlich provozieren,
 # Praxis 3: Merge-Konflikt lösen
 
 !!! abstract "Ziel"
-    In **etwa 30 Minuten** provozierst du absichtlich einen **Merge-Konflikt** und löst ihn sauber auf. Du lernst die Konflikt-Markierungen lesen, entscheidest, welche Version gilt, und führst den Merge zu Ende. Dazu siehst du, wie du einen Merge bei Bedarf auch abbrechen kannst.
+    In **etwa 30 Minuten** provozierst du absichtlich einen **Merge-Konflikt** und löst ihn sauber auf. Du lernst die Konflikt-Markierungen lesen, entscheidest, welche Version gilt und führst den Merge zu Ende. Dazu siehst du, wie du einen Merge bei Bedarf auch abbrechen kannst.
 
     Am Ende kannst du:
 
@@ -56,7 +56,7 @@ flowchart LR
   FEAT(("feature")) -.-> F
 ```
 
-Beide Branches ändern **dieselbe Zeile** in **derselben Datei**. Beim Merge weiß Git nicht, was du willst, und fragt dich.
+Beide Branches ändern **dieselbe Zeile** in **derselben Datei**. Beim Merge weiß Git nicht, was du willst und fragt dich.
 
 ---
 

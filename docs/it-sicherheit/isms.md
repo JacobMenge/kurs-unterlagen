@@ -21,7 +21,7 @@ description: "Informationssicherheits-Managementsysteme (ISMS), ISO/IEC 27001 un
 
 ## Worauf es ankommt
 
-Standards wie ISO 27001 wirken erst mal nach viel Papier. Der Kern ist aber einfach: **aufschreiben, was man tut – tun, was man aufgeschrieben hat – prüfen, ob es wirkt – verbessern.** Genau das ist PDCA, und es ist das Muster hinter fast jedem Managementsystem.
+Standards wie ISO 27001 wirken erst mal nach viel Papier. Der Kern ist aber einfach: **aufschreiben, was man tut – tun, was man aufgeschrieben hat – prüfen, ob es wirkt – verbessern.** Genau das ist PDCA und es ist das Muster hinter fast jedem Managementsystem.
 
 !!! tip "Verbindung"
     Die Umsetzung konkreter Maßnahmen (Verschlüsselung, Zugriffskontrollen) findest du im Block [Recht & Datenschutz](../recht-organisation/index.md); die Prüfung der Wirksamkeit überschneidet sich mit [Tests & Qualität](../testen-qualitaet/index.md).

@@ -1,6 +1,6 @@
 ---
 title: "Warum Docker?"
-description: "Warum Container entstanden sind, was sie im Vergleich zu VMs anders machen, und zwei Analogien für den Einstieg."
+description: "Warum Container entstanden sind, was sie im Vergleich zu VMs anders machen und zwei Analogien für den Einstieg."
 ---
 
 # Warum braucht man Docker überhaupt?
@@ -106,7 +106,7 @@ Falls dir das Containerschiff zu abstrakt ist, hilft vielleicht diese:
 - **Gemüse, Sauce, Löffel** = alle Abhängigkeiten (Bibliotheken, Tools, Konfigurationen)
 - **Ort** = Host-System, auf dem die Lunchbox geöffnet wird
 
-Das Schöne: eine gepackte Lunchbox gibst du jemandem weiter, und **der andere muss nicht fragen, was drin ist** oder „wie man das isst". Alles Nötige ist dabei.
+Das Schöne: eine gepackte Lunchbox gibst du jemandem weiter und **der andere muss nicht fragen, was drin ist** oder „wie man das isst". Alles Nötige ist dabei.
 
 Diese Analogie funktioniert besonders gut für den Kerngedanken von Docker:
 

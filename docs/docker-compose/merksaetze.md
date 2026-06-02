@@ -44,7 +44,7 @@ Plus: App sollte Retry-Logik haben. Produktion ist nicht immer freundlich.
 ## 5. .env richtig nutzen
 
 !!! success "Merksatz 5"
-    > **Compose liest automatisch `.env` aus dem gleichen Ordner. Werte daraus werden in `${VARIABLE}`-Stellen in der `compose.yaml` eingesetzt. Secrets gehören in `.env`, und `.env` gehört in `.gitignore`.**
+    > **Compose liest automatisch `.env` aus dem gleichen Ordner. Werte daraus werden in `${VARIABLE}`-Stellen in der `compose.yaml` eingesetzt. Secrets gehören in `.env` und `.env` gehört in `.gitignore`.**
 
 ---
 

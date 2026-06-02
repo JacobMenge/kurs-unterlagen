@@ -191,7 +191,7 @@ Wenn du Docker Desktop installiert hast, guck dir einmal die Einstellungen an: *
 
     Auf **Linux** ist dein Haus direkt am Hafen. Du kannst aus dem Fenster auf das Schiff schauen und Container be- und entladen lassen, wann immer du willst.
 
-    Auf **Mac/Windows** steht zwischen deiner Wohnung und dem Hafen noch eine kleine **Lagerhalle** (die Linux-VM). Alle Container, mit denen du arbeitest, sind eigentlich **in dieser Lagerhalle**. Du steuerst sie aus deiner Wohnung über Funk (die Docker-CLI), und die Lagerhalle verwaltet sie für dich.
+    Auf **Mac/Windows** steht zwischen deiner Wohnung und dem Hafen noch eine kleine **Lagerhalle** (die Linux-VM). Alle Container, mit denen du arbeitest, sind eigentlich **in dieser Lagerhalle**. Du steuerst sie aus deiner Wohnung über Funk (die Docker-CLI) und die Lagerhalle verwaltet sie für dich.
 
     Die Container bleiben leicht. Aber es existiert ein kleines, festes Gebäude (die Linux-VM), das immer mit am Start ist.
 

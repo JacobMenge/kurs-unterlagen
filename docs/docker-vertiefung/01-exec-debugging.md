@@ -32,7 +32,7 @@ Wenn ein Container läuft, möchtest du oft **nachschauen, was drin passiert**, 
 
 ### Schritt 1 – Demo-Container starten
 
-Wir nehmen einen einfachen nginx, geben ihm eine Umgebungsvariable mit, und lassen ihn im Hintergrund laufen.
+Wir nehmen einen einfachen nginx, geben ihm eine Umgebungsvariable mit und lassen ihn im Hintergrund laufen.
 
 ```bash
 docker run -d --name debug-demo -e GREETING="Hallo aus Container" nginx:alpine

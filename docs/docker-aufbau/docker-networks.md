@@ -100,7 +100,7 @@ Hier ist ein feiner, aber **wichtiger** Unterschied:
 | Isolation zu anderen Netzwerken | schwach | stark |
 | Dynamisch Container hinzufügen/entfernen | ja | ja (und einfacher) |
 
-**Fazit:** sobald du zwei oder mehr Container zusammenspielen lassen willst, **legst du ein eigenes Netzwerk an**. Dann funktioniert DNS, und das macht alles viel einfacher.
+**Fazit:** sobald du zwei oder mehr Container zusammenspielen lassen willst, **legst du ein eigenes Netzwerk an**. Dann funktioniert DNS und das macht alles viel einfacher.
 
 ---
 

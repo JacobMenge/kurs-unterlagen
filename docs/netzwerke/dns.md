@@ -84,21 +84,22 @@ Beim Auflösen wird die Hierarchie **von rechts nach links** durchgegangen: erst
 Was passiert, wenn du `www.github.com` aufrufst und dein Computer die IP noch nicht im Cache hat?
 
 ```mermaid
-flowchart TB
-  C(("Client / Browser"))
-  R[("Recursive Resolver<br/>z.B. 8.8.8.8")]
-  ROOT[("Root-Server<br/>13 weltweite Cluster")]
-  TLD[("TLD-Server<br/>.com")]
-  AUTH[("Authoritativer Server<br/>für github.com")]
+sequenceDiagram
+  autonumber
+  participant C as Client / Browser
+  participant R as Recursive Resolver (8.8.8.8)
+  participant ROOT as Root-Server
+  participant TLD as TLD-Server (.com)
+  participant AUTH as Authoritativer Server
   
-  C -- "1. Wo ist www.github.com?" --> R
-  R -- "2. Wer kennt .com?" --> ROOT
-  ROOT -- "3. Frag diesen TLD-Server" --> R
-  R -- "4. Wer ist für github.com zuständig?" --> TLD
-  TLD -- "5. Frag diesen Authoritativen Server" --> R
-  R -- "6. Was ist www.github.com?" --> AUTH
-  AUTH -- "7. 140.82.121.4" --> R
-  R -- "8. 140.82.121.4 (wird gecached)" --> C
+  C->>R: Wo ist www.github.com?
+  R->>ROOT: Wer kennt .com?
+  ROOT-->>R: Adresse des .com-TLD-Servers
+  R->>TLD: Wer ist für github.com zuständig?
+  TLD-->>R: Adressen der autoritativen Server
+  R->>AUTH: Was ist www.github.com?
+  AUTH-->>R: 140.82.121.4
+  R-->>C: 140.82.121.4 (wird gecached)
 ```
 
 In Worten – die **acht Schritte aus dem Diagramm** (du hast `www.github.com` eingetippt, der Cache ist leer):
@@ -225,7 +226,7 @@ Jeder Eintrag hat einen **TTL** (Time To Live, hier in Sekunden), der sagt: „D
 !!! info "Warum manche DNS-Änderungen Tage dauern"
     Wenn du eine Domain umziehst und der A-Record vorher mit TTL `86400` (24 Stunden) gecached war, dauert es **bis zu einen Tag**, bis weltweit alle Caches die neue Adresse sehen.
 
-    Vor einem Domain-Umzug setzt man darum die TTL **vorher** auf einen kleinen Wert (z.B. 300 = 5 Minuten), wartet bis sich das verbreitet hat, und macht erst dann die eigentliche Änderung.
+    Vor einem Domain-Umzug setzt man darum die TTL **vorher** auf einen kleinen Wert (z.B. 300 = 5 Minuten), wartet bis sich das verbreitet hat und macht erst dann die eigentliche Änderung.
 
 ---
 
@@ -366,7 +367,7 @@ Wenn dort ein Eintrag passt, wird **DNS gar nicht gefragt**. Das ist:
 
     Optional: **CNAME-Records** für weitere Subdomains.
 
-??? question "Frage 3: Im Browser kommt 'DNS_PROBE_FINISHED_NXDOMAIN'. Was bedeutet das, und was tust du?"
+??? question "Frage 3: Im Browser kommt 'DNS_PROBE_FINISHED_NXDOMAIN'. Was bedeutet das und was tust du?"
     NXDOMAIN heißt: **die angefragte Domain existiert nicht** (laut DNS).
 
     Mögliche Ursachen:

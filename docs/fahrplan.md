@@ -1,6 +1,6 @@
 ---
 title: "Fahrplan"
-description: "Dein roter Faden durch alle Themen: In welcher Reihenfolge lernst du am sinnvollsten, welche Themen bauen aufeinander auf, und was ist prüfungsrelevant gegenüber reiner Praxis?"
+description: "Dein roter Faden durch alle Themen: In welcher Reihenfolge lernst du am sinnvollsten, welche Themen bauen aufeinander auf und was ist prüfungsrelevant gegenüber reiner Praxis?"
 hide:
   - navigation
 ---
@@ -29,7 +29,7 @@ Jedes Thema ist mit einer kleinen Ampel gekennzeichnet:
 | <span class='badge badge-praxis'>Praxis</span> | Vor allem zum Anwenden, optional für die Prüfung | Fürs Anfassen und Selbermachen. Wertvoll für die Praxis, aber selten direkt prüfungsentscheidend. |
 
 !!! note "Warum diese Einteilung?"
-    Manche Blöcke sind bewusst Hands-on – sie geben dir **Praxisgefühl** (z. B. die Gruppen-Übungen mit Docker). Andere legen das **theoretische Fundament**, auf dem die Prüfung aufbaut. Die Ampel hilft dir, deine Zeit klug einzuteilen: erst die **prüfungsrelevanten** Themen sichern, dann die **Vertiefungen**, und die **Praxis**-Themen nach Lust und Zeit.
+    Manche Blöcke sind bewusst Hands-on – sie geben dir **Praxisgefühl** (z. B. die Gruppen-Übungen mit Docker). Andere legen das **theoretische Fundament**, auf dem die Prüfung aufbaut. Die Ampel hilft dir, deine Zeit klug einzuteilen: erst die **prüfungsrelevanten** Themen sichern, dann die **Vertiefungen** und die **Praxis**-Themen nach Lust und Zeit.
 
 ---
 
@@ -57,7 +57,7 @@ Lies die Karte **von oben nach unten**: vier Phasen, die aufeinander aufbauen. F
     2. [Virtualisierung](virtualisierung/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
 
 === "② Aufbau & Integration"
-    Jetzt baust du auf dem Fundament auf: Wie plant man Infrastruktur, und wie verpackt man Anwendungen in Container?
+    Jetzt baust du auf dem Fundament auf: Wie plant man Infrastruktur und wie verpackt man Anwendungen in Container?
 
     3. [Infrastruktur & Architektur](infrastruktur-planung/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
     4. [Docker – Einführung](docker/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>

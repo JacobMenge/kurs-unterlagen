@@ -227,7 +227,7 @@ Achte auf die Ausgabe: Du siehst, dass Docker beim **FROM**-Schritt sagt `CACHED
  => [2/2] COPY index.html /usr/share/nginx/html/index.html
 ```
 
-Der erste Layer (Basis-Image) wird nicht neu geladen – er liegt schon lokal, und nichts hat sich daran geändert. Nur der `COPY`-Layer wird neu gebaut, weil wir die Datei geändert haben.
+Der erste Layer (Basis-Image) wird nicht neu geladen – er liegt schon lokal und nichts hat sich daran geändert. Nur der `COPY`-Layer wird neu gebaut, weil wir die Datei geändert haben.
 
 **Das ist Layer-Caching in Aktion.**
 

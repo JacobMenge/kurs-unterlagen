@@ -267,7 +267,7 @@ Baue den WordPress-Stack aus Übung 4.3 **um**:
 
 #### Szenario
 
-Der `wordpress`-Container startet manchmal **bevor** die Datenbank bereit ist, und crasht dann beim ersten DB-Call. Die Lösung: ein **Healthcheck** für die DB, und `wordpress` wartet darauf.
+Der `wordpress`-Container startet manchmal **bevor** die Datenbank bereit ist und crasht dann beim ersten DB-Call. Die Lösung: ein **Healthcheck** für die DB und `wordpress` wartet darauf.
 
 #### Aufgabe
 

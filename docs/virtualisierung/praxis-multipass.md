@@ -335,7 +335,7 @@ Der Status ist **`Deleted`**, aber die Einträge sind noch da. Mit `multipass re
 multipass purge
 ```
 
-**Jetzt** sind die VMs tatsächlich weg, und der Plattenplatz ist frei. Kontrolle:
+**Jetzt** sind die VMs tatsächlich weg und der Plattenplatz ist frei. Kontrolle:
 
 ```bash
 multipass list

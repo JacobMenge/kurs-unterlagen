@@ -67,7 +67,7 @@ Das ist genau das, was **Versionskontrolle** macht. Und Git ist das Werkzeug, da
     - Möchtest du eine andere Strategie probieren, lädst du einen älteren Stand und gehst von dort anders weiter.
     - Manche Spiele zeigen alle Spielstände nebeneinander: Datum, Zeit, vielleicht ein Vorschaubild.
 
-Genau so funktioniert Git. Du arbeitest an deinen Dateien, drückst dann **„speichern"** (in Git heißt das `git commit`), und Git legt einen vollständigen Spielstand an. Mit Zeitpunkt, mit Autor, mit Beschreibung. Diese Spielstände nennen wir **Commits**.
+Genau so funktioniert Git. Du arbeitest an deinen Dateien, drückst dann **„speichern"** (in Git heißt das `git commit`) und Git legt einen vollständigen Spielstand an. Mit Zeitpunkt, mit Autor, mit Beschreibung. Diese Spielstände nennen wir **Commits**.
 
 Was Git zusätzlich kann, was Spielstände nicht können:
 

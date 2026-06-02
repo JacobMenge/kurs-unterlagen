@@ -139,7 +139,7 @@ Damit ist eure Datenbank **nicht leer**, wenn ihr den Stack zum ersten Mal start
 
 ## Was ist eine `.env`-Datei?
 
-Eine **`.env`** ist eine schlichte Textdatei mit `KEY=VALUE`-Zeilen. Compose liest sie automatisch ein, wenn sie im selben Ordner wie die `compose.yaml` liegt. In der `compose.yaml` schreibt ihr `${KEY}`, und Compose ersetzt das beim Start mit dem Wert.
+Eine **`.env`** ist eine schlichte Textdatei mit `KEY=VALUE`-Zeilen. Compose liest sie automatisch ein, wenn sie im selben Ordner wie die `compose.yaml` liegt. In der `compose.yaml` schreibt ihr `${KEY}` und Compose ersetzt das beim Start mit dem Wert.
 
 So bleiben Geheimnisse (Passwörter, Tokens) und umgebungsspezifische Werte aus der `compose.yaml` raus – die `.env` gehört in `.gitignore`, die `.env.example` (mit Default-Werten) wird mit eingecheckt.
 

@@ -12,7 +12,7 @@ description: "Schritt-für-Schritt: Ein lokales Git-Repository, das schon Commit
 
     - eine **vorhandene lokale Arbeit** auf GitHub veröffentlichen, ohne sie neu anzulegen
     - die Befehle **`git remote add origin <URL>`** und **`git push -u origin main`** sicher einsetzen
-    - prüfen, ob die **Default-Branches** lokal und remote übereinstimmen, und sie ggf. angleichen
+    - prüfen, ob die **Default-Branches** lokal und remote übereinstimmen und sie ggf. angleichen
     - mit **`git remote -v`** sehen, mit welchem Remote du verbunden bist
     - typische Stolperfallen erkennen, wenn der Remote nicht leer war
 
@@ -134,7 +134,7 @@ Wichtig: diesmal **wirklich leer**. Keine README, kein `.gitignore`, keine Licen
 7. **`Add a license`** auf „None" lassen.
 8. **Create repository** klicken.
 
-GitHub bringt dich auf eine besondere Seite: das Repo ist leer, und du siehst einen großen Block mit Vorschlägen, was du als Nächstes tun kannst. In etwa so:
+GitHub bringt dich auf eine besondere Seite: das Repo ist leer und du siehst einen großen Block mit Vorschlägen, was du als Nächstes tun kannst. In etwa so:
 
 ```text
 …or push an existing repository from the command line

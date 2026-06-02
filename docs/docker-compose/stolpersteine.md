@@ -254,7 +254,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     ```
 
 ??? warning "Compose zieht Image aus Registry statt lokal zu bauen"
-    **Ursache:** In `compose.yaml` steht `image:` **ohne** `build:`, und lokal gibt es kein Image mit diesem Namen.
+    **Ursache:** In `compose.yaml` steht `image:` **ohne** `build:` und lokal gibt es kein Image mit diesem Namen.
 
     **Lösung:** `build:` hinzufügen. Wenn beides da ist, baut Compose lokal und taggt das Ergebnis mit dem angegebenen Image-Namen.
 

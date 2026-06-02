@@ -61,7 +61,7 @@ Diskutiert kurz:
 
 - **Image-Optimierung**: kleine, sichere, gut gecachte Images bauen → kommt im [Profi-Block](../docker-profi/index.md).
 - **Mehrere Hosts**: Compose ist single-host. Sobald mehrere Maschinen im Spiel sind, geht's Richtung Swarm oder Kubernetes.
-- **Secrets sauber managen**: `.env` ist gut für die Praxis, aber nicht für echte Geheimnisse in Produktion. Es gibt `secrets:`-Mechanismen in Compose, und richtig sauber wird es mit Vault/Kubernetes-Secrets/Cloud-Secret-Managern.
+- **Secrets sauber managen**: `.env` ist gut für die Praxis, aber nicht für echte Geheimnisse in Produktion. Es gibt `secrets:`-Mechanismen in Compose und richtig sauber wird es mit Vault/Kubernetes-Secrets/Cloud-Secret-Managern.
 - **Rolling Updates / Zero-Downtime-Deploys**: Compose stoppt und startet. Für unterbrechungsfreie Updates: Orchestrator.
 
 Aber für **die meisten lokalen Entwickler-Setups, kleine Server-Stacks und Übungsumgebungen** ist Compose völlig ausreichend.

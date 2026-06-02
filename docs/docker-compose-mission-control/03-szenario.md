@@ -10,7 +10,7 @@ description: "Aurora Station Mission Control: Story, Mission, Zielarchitektur."
 
 Die **Aurora Station** kreist seit Jahren in einer niedrigen Erdumlaufbahn. Sie ist eine kleine, durchaus betagte Forschungsstation mit sechs Modulen: Lebenserhaltung, Energieverteilung, Kommunikation, Forschungslabor, Hydroponik, Andockschleuse.
 
-Vom Boden aus überwacht das **Mission-Control-Dashboard** den Status jedes Moduls in Echtzeit. Vor zwei Wochen hat das alte Deployment einen Fehler im Storage-Subsystem gefunden, und die Bodenstation musste alles abreißen. Übrig sind nur:
+Vom Boden aus überwacht das **Mission-Control-Dashboard** den Status jedes Moduls in Echtzeit. Vor zwei Wochen hat das alte Deployment einen Fehler im Storage-Subsystem gefunden und die Bodenstation musste alles abreißen. Übrig sind nur:
 
 - der **Source Code** des Frontends, des Backends und der Datenbank-Initialisierung
 - die **Dockerfiles** für Frontend und Backend

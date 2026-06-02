@@ -5,7 +5,7 @@ description: "Theorie-Block zu den rechtlichen und organisatorischen Leitplanken
 
 # Recht & Datenschutz
 
-Technik kennt keine Landesgrenzen, das Recht schon. Sobald du Systeme integrierst, fließen darin **personenbezogene Daten**, du arbeitest mit **Verträgen** für Hardware, Software und Dienstleistungen, und dein Handeln muss zu **gesetzlichen und internen Regeln** passen. Dieser Block zieht die organisatorischen und rechtlichen Leitplanken um die Systemintegration: Was darfst du mit Daten tun, wie hältst du Maßnahmen prüfbar, wer gibt die Spielregeln vor – und was steht eigentlich in den Verträgen, die das alles tragen?
+Technik kennt keine Landesgrenzen, das Recht schon. Sobald du Systeme integrierst, fließen darin **personenbezogene Daten**, du arbeitest mit **Verträgen** für Hardware, Software und Dienstleistungen und dein Handeln muss zu **gesetzlichen und internen Regeln** passen. Dieser Block zieht die organisatorischen und rechtlichen Leitplanken um die Systemintegration: Was darfst du mit Daten tun, wie hältst du Maßnahmen prüfbar, wer gibt die Spielregeln vor – und was steht eigentlich in den Verträgen, die das alles tragen?
 
 Stell dir das wie die Straßenverkehrsordnung vor: Du kannst noch so gut fahren – ohne die Regeln zu kennen, fährst du irgendwann ins Risiko. Genau diese Regeln schauen wir uns hier an.
 

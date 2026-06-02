@@ -6,7 +6,6 @@ nav:
   - "Adressierung (MAC, IPv4, IPv6, Subnetting)": adressierung.md
   - "Praxis: Subnetz-Architekten": praxis-subnetting.md
   - "Routing und Switching": routing-und-switching.md
-  - "Praxis: Die Reise eines Pakets": praxis-paketreise.md
   - "DNS – Namensauflösung": dns.md
   - "DHCP – automatische Adressvergabe": dhcp.md
   - "Transport-Protokolle (TCP/UDP)": transport-protokolle.md
@@ -16,5 +15,6 @@ nav:
   - "Segmentierung und VPN": segmentierung-und-vpn.md
   - "Industrie- und IoT-Protokolle": industrie-protokolle.md
   - "Netzwerk-Sicherheit": netzwerk-sicherheit.md
+  - "Praxis: Netzwerk-Werkstatt": praxis-netzwerk-werkstatt.md
   - "Praxis: Netzwerk-Notruf": praxis-netzwerk-notruf.md
   - "Merksätze": merksaetze.md

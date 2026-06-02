@@ -50,7 +50,7 @@ Im Default-Bridge gibt es **kein** DNS – deshalb für ernsthafte Setups immer 
 !!! success "Merksatz 5"
     > **Mit drei Standard-Befehlen – `docker volume create`, `docker network create`, `docker run -v ... -e ... --network ...` – baust du jeden Multi-Container-Stack manuell zusammen.**
 
-Heute hast du das mit **Postgres + Adminer** in 30–40 Minuten getan. Fünf `docker`-Befehle, und du hast eine funktionierende, persistente Datenbank mit Web-GUI.
+Heute hast du das mit **Postgres + Adminer** in 30–40 Minuten getan. Fünf `docker`-Befehle und du hast eine funktionierende, persistente Datenbank mit Web-GUI.
 
 ---
 

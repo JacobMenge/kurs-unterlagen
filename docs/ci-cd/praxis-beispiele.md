@@ -211,7 +211,7 @@ Klassischer Shell-Befehl. `pip install -r requirements.txt` installiert alles, w
         run: pytest -v
 ```
 
-Das Herzstück. `pytest` findet automatisch alle Dateien, die mit `test_` beginnen, und führt darin alle Funktionen aus, die mit `test_` beginnen. `-v` heißt „verbose": jeder einzelne Test wird im Log mit Namen und Status aufgeführt. Bricht ein Test ab, endet `pytest` mit einem Exit-Code ungleich 0. GitHub Actions wertet das als roten Step.
+Das Herzstück. `pytest` findet automatisch alle Dateien, die mit `test_` beginnen und führt darin alle Funktionen aus, die mit `test_` beginnen. `-v` heißt „verbose": jeder einzelne Test wird im Log mit Namen und Status aufgeführt. Bricht ein Test ab, endet `pytest` mit einem Exit-Code ungleich 0. GitHub Actions wertet das als roten Step.
 
 ### Schritt für Schritt: anlegen und pushen
 
@@ -391,7 +391,7 @@ Hast du ein eigenes Python-Skript, ein Hobby-Tool, eine Mini-Bibliothek? Lege do
 
 Du betreibst eine kleine Webseite. Dein Portfolio. Den Blog deiner Familie. Den Lehrlings-Newsletter. Eine API für ein Hobbyprojekt. Sie soll erreichbar bleiben. Du willst nicht jeden Morgen die URL aufrufen, um zu sehen, ob alles läuft.
 
-Genau dafür ist der `schedule:`-Trigger gedacht. GitHub Actions ist nicht nur ein CI-System, sondern auch ein kleiner Cron-Server in der Cloud. Du beschreibst einmal: „Jeden Tag um 06:00 UTC", und der Workflow läuft von selbst. Schlägt der Check fehl, bekommst du eine E-Mail von GitHub.
+Genau dafür ist der `schedule:`-Trigger gedacht. GitHub Actions ist nicht nur ein CI-System, sondern auch ein kleiner Cron-Server in der Cloud. Du beschreibst einmal: „Jeden Tag um 06:00 UTC" und der Workflow läuft von selbst. Schlägt der Check fehl, bekommst du eine E-Mail von GitHub.
 
 ```mermaid
 flowchart LR

@@ -212,7 +212,7 @@ Ping-Statistik für 192.168.10.200:
     Pakete: Gesendet = 2, Empfangen = 0, Verloren = 2 (100% Verlust)
 ```
 
-Du schaust auf die Maske, dann auf die Netz-Aufteilung der Etage – und auf die `.200`. Rechne mal kurz nach: In **welches** Netz gehört `.200` eigentlich, und in welches glaubt der PC zu gehören?
+Du schaust auf die Maske, dann auf die Netz-Aufteilung der Etage – und auf die `.200`. Rechne mal kurz nach: In **welches** Netz gehört `.200` eigentlich und in welches glaubt der PC zu gehören?
 
 ---
 
@@ -317,7 +317,7 @@ Der Rechner ist da, der Name stimmt, nur die **Tür bleibt zu**. Wer hält sie z
 ??? success "Lösung Fall 4 – falsche Subnetzmaske"
     - **Ursache:** Die Etage ist in `/25`-Netze geteilt; der PC gehört zu `192.168.10.0/25` (`.1`–`.126`). Er hat aber die Maske **`255.255.255.0` (`/24`)** statt der nötigen **`255.255.255.128` (`/25`)**. Mit `/24` glaubt der PC, sein Netz reiche von `.1` bis `.254` – also hält er den Build-Server `192.168.10.200` für einen **lokalen Nachbarn** und versucht, ihn **direkt** über das lokale Netz zu erreichen, statt das Paket an den **Router** zu geben. Tatsächlich liegt `.200` aber im **anderen** Netz (`192.168.10.128/25`) hinter dem Router. Ergebnis: keiner antwortet, **„Zielhost nicht erreichbar"**. Nachbar (`.51`) und Gateway (`.1`) funktionieren, weil die unter **beiden** Masken im selben Netz liegen – deshalb fällt der Fehler nur beim Server auf.
     - **Schicht:** **Layer 3** (Vermittlung – die Subnetzmaske bestimmt die Netzgrenze).
-    - **Fix:** Die **Subnetzmaske auf `255.255.255.128` (`/25`)** korrigieren. Dann erkennt der PC, dass `.200` außerhalb des eigenen Netzes liegt, und schickt das Paket korrekt über das Gateway `192.168.10.1` zum Server.
+    - **Fix:** Die **Subnetzmaske auf `255.255.255.128` (`/25`)** korrigieren. Dann erkennt der PC, dass `.200` außerhalb des eigenen Netzes liegt und schickt das Paket korrekt über das Gateway `192.168.10.1` zum Server.
 
     Merksatz: **Die Subnetzmaske entscheidet, was „lokal" ist und was über den Router muss.** Eine zu weite Maske macht entfernte Netze „unsichtbar". Mehr unter [Adressierung](adressierung.md).
 

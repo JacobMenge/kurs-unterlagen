@@ -5,7 +5,7 @@ description: "Theorie-Block zur Planung von IT-Infrastrukturen: Anforderungen un
 
 # Infrastruktur & Architektur
 
-Bevor du den ersten Server aufsetzt, das erste Kabel ziehst oder die erste virtuelle Maschine startest, fällt die wichtigste Entscheidung längst vorher – auf dem Papier. **Wie soll die Infrastruktur aussehen, was muss sie können, und woran misst du, ob sie passt?** Genau wie ein Architekt erst den Bauplan zeichnet, bevor der Bagger anrückt, planst du in diesem Block die IT-Landschaft, bevor du sie baust.
+Bevor du den ersten Server aufsetzt, das erste Kabel ziehst oder die erste virtuelle Maschine startest, fällt die wichtigste Entscheidung längst vorher – auf dem Papier. **Wie soll die Infrastruktur aussehen, was muss sie können und woran misst du, ob sie passt?** Genau wie ein Architekt erst den Bauplan zeichnet, bevor der Bagger anrückt, planst du in diesem Block die IT-Landschaft, bevor du sie baust.
 
 In diesem Block schauen wir uns das **gedankliche Fundament** an: Wie ermittelst du, was wirklich gebraucht wird? Welche Architektur passt zu welchem Bedarf – zentral, dezentral, Cloud oder ein Mix daraus? Wie planst du Speicher, Ressourcen und Lizenzen so, dass am Ende nichts fehlt und nichts unnötig teuer wird?
 

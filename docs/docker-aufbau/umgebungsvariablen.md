@@ -105,14 +105,14 @@ LOG_LEVEL=debug
 
 ### Docker Compose liest `.env` automatisch
 
-Wenn du mit Compose arbeitest, und in deinem Projektordner eine `.env` liegt, wird sie vor dem Lesen der `compose.yaml` ausgewertet. Innerhalb der `compose.yaml` kannst du dann `${POSTGRES_PASSWORD}` schreiben, und dort wird der Wert aus der `.env` eingesetzt.
+Wenn du mit Compose arbeitest und in deinem Projektordner eine `.env` liegt, wird sie vor dem Lesen der `compose.yaml` ausgewertet. Innerhalb der `compose.yaml` kannst du dann `${POSTGRES_PASSWORD}` schreiben und dort wird der Wert aus der `.env` eingesetzt.
 
 Mehr dazu in [Docker Compose – Grundlagen](../docker-compose/grundlagen.md).
 
 ### Der häufigste Fehler: `.env` in Git
 
 !!! danger ".env gehört NICHT in Git!"
-    Wenn in deiner `.env` **irgendein Secret** steht (Passwort, API-Key, Token), und du diese Datei in ein öffentliches Git-Repo pushst, ist das Secret **für alle Welt sichtbar**. Auch wenn du sie später löschst – Git behält die History.
+    Wenn in deiner `.env` **irgendein Secret** steht (Passwort, API-Key, Token) und du diese Datei in ein öffentliches Git-Repo pushst, ist das Secret **für alle Welt sichtbar**. Auch wenn du sie später löschst – Git behält die History.
 
     **Schutzmaßnahmen:**
 

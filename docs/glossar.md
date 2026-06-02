@@ -369,7 +369,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 ## <span id="git-switch"></span><span id="git-checkout"></span>git switch / git checkout
 : **Befehle zum Wechseln des Branches.** `git switch <branch>` ist seit Git 2.23 (2019) der **moderne** Befehl. `git switch -c <neuer-branch>` legt einen neuen Branch an und wechselt direkt darauf. Mit `git switch -` springst du zum vorherigen Branch zurück.
 
-    Der ältere `git checkout` macht dasselbe und noch viel mehr – er kann auch Dateien aus alten Commits wiederherstellen, in einen [Detached HEAD](#detached-head) wechseln, und Vieles mehr. Genau diese Vielfalt wurde als historisch verwirrend empfunden, weshalb `switch` (nur für Branches) und `restore` (nur für Dateien) eingeführt wurden. Für Anfänger ist `switch` klarer; `checkout` läuft aber bis heute und ist in vielen Anleitungen Standard.
+    Der ältere `git checkout` macht dasselbe und noch viel mehr – er kann auch Dateien aus alten Commits wiederherstellen, in einen [Detached HEAD](#detached-head) wechseln und Vieles mehr. Genau diese Vielfalt wurde als historisch verwirrend empfunden, weshalb `switch` (nur für Branches) und `restore` (nur für Dateien) eingeführt wurden. Für Anfänger ist `switch` klarer; `checkout` läuft aber bis heute und ist in vielen Anleitungen Standard.
 
 ## <span id="detached-head"></span><span id="losloesen"></span>Detached HEAD
 : **Zustand, in dem HEAD direkt auf einen Commit zeigt – statt auf einen Branch.** Tritt auf, wenn du mit `git checkout <sha>` (oder `git switch --detach <sha>`) auf einen Commit aus der Historie springst, der nicht der oberste eines Branches ist.
@@ -700,7 +700,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Zentraler Ablageort für Code oder Pakete.** Bei Git: ein Repository enthält Quellcode und Historie (z.B. auf GitHub). Bei Paketmanagern: ein Repository hält Software-Pakete bereit (z.B. Debians Main-Repo). Bei Docker: ein Repository ist ein Image-Name in einer Registry (z.B. `library/nginx`), kann viele Tags haben.
 
 ## <span id="rest"></span>REST / RESTful API
-: **Architektur-Stil für Web-APIs**, der HTTP-Methoden nutzt, um Ressourcen zu adressieren. Idee: jede Ressource hat eine URL (`/api/entries`, `/api/scoreboard`), und HTTP-Methoden (`GET`, `POST`, `PUT`, `DELETE`) drücken aus, was mit ihr passieren soll. Eine API, die diesem Stil folgt, heißt **RESTful**. Beispiel: `GET /api/entries` holt die Liste, `POST /api/entries` legt einen Eintrag an.
+: **Architektur-Stil für Web-APIs**, der HTTP-Methoden nutzt, um Ressourcen zu adressieren. Idee: jede Ressource hat eine URL (`/api/entries`, `/api/scoreboard`) und HTTP-Methoden (`GET`, `POST`, `PUT`, `DELETE`) drücken aus, was mit ihr passieren soll. Eine API, die diesem Stil folgt, heißt **RESTful**. Beispiel: `GET /api/entries` holt die Liste, `POST /api/entries` legt einen Eintrag an.
 
 ## <span id="retry-logik"></span>Retry-Logik
 : **Mechanismus, eine fehlgeschlagene Operation mehrfach zu wiederholen** – meist mit Wartezeit zwischen den Versuchen. Sinnvoll bei Operationen, die auf einen anderen Dienst warten müssen. Beispiel aus dem Escape Room: Die API kann erst loslegen, wenn die Datenbank bereit ist. Sie versucht es 20-mal, mit 1 Sekunde Wartezeit – statt sofort aufzugeben. Praktisch in Container-Setups, wo Startreihenfolgen nicht garantiert sind.
@@ -846,7 +846,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
     **Nachteil:** Nach dem Squash-Merge erkennt Git den Feature-Branch nicht mehr als „vollständig gemergt" über seine Commits – `git branch -d` lehnt das Löschen ab, du brauchst `git branch -D`. Auch lässt sich ein einzelner Bug nicht mehr auf einen feineren Commit zurückführen.
 
 ## <span id="stage"></span><span id="build-stage"></span>Stage / Build-Stage
-: **Eine `FROM`-Stufe in einem Multi-Stage-Dockerfile.** Jeder Multi-Stage-Build hat mindestens zwei Stages: eine **Build-Stage** (mit Compilern, Tools), die nur Artefakte erzeugt, und eine **Runtime-Stage**, die nur das fertige Artefakt enthält. Stages werden mit `FROM image AS name` benannt; spätere Stages kopieren Ergebnisse mit `COPY --from=name`. So wird das finale Image klein – die Build-Tools landen nicht mit drin. Siehe [Multi-Stage-Build](#multi-stage-build).
+: **Eine `FROM`-Stufe in einem Multi-Stage-Dockerfile.** Jeder Multi-Stage-Build hat mindestens zwei Stages: eine **Build-Stage** (mit Compilern, Tools), die nur Artefakte erzeugt und eine **Runtime-Stage**, die nur das fertige Artefakt enthält. Stages werden mit `FROM image AS name` benannt; spätere Stages kopieren Ergebnisse mit `COPY --from=name`. So wird das finale Image klein – die Build-Tools landen nicht mit drin. Siehe [Multi-Stage-Build](#multi-stage-build).
 
 ## <span id="subnet"></span><span id="subnetz"></span>Subnetz / Subnet
 : **Bereich von IP-Adressen, die zum gleichen Netzwerk gehören.** Schreibweise z.B. `172.17.0.0/16` – das sind alle Adressen `172.17.*.*`. Docker-Netzwerke bekommen jeweils ein eigenes Subnetz, damit Container-IPs eindeutig sind. Zuhause hast du meist `192.168.1.0/24`.
@@ -923,7 +923,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Eine per Software emulierte „Computer-in-Software".** Hat eigene virtuelle Hardware (CPU, RAM, Disk, NIC) und ein eigenes Gast-Betriebssystem samt Kernel. Wird von einem Hypervisor verwaltet. Eine VM ist stark isoliert, braucht aber deutlich mehr Ressourcen als ein Container – jede VM schleppt ihr eigenes OS mit.
 
 ## <span id="volume"></span>Volume
-: **Persistenter Speicher für Docker-Container.** Überlebt, wenn der Container gelöscht wird, und wird von Docker selbst verwaltet (liegt meist unter `/var/lib/docker/volumes/`). Alternative zu Bind Mounts, wenn du von der konkreten Host-Pfad-Struktur unabhängig sein willst. Typischer Einsatz: Datenbank-Dateien.
+: **Persistenter Speicher für Docker-Container.** Überlebt, wenn der Container gelöscht wird und wird von Docker selbst verwaltet (liegt meist unter `/var/lib/docker/volumes/`). Alternative zu Bind Mounts, wenn du von der konkreten Host-Pfad-Struktur unabhängig sein willst. Typischer Einsatz: Datenbank-Dateien.
 
 ## <span id="workflow"></span><span id="job"></span><span id="step"></span>Workflow / Job / Step (GitHub Actions)
 : **Drei Hierarchie-Begriffe einer GitHub-Actions-Pipeline.**

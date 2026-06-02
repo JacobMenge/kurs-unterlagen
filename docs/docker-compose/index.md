@@ -5,9 +5,9 @@ description: "Der Compose-Block: 2 Stunden Theorie zu deklarativen Multi-Contain
 
 # Docker Compose (Block 4)
 
-Im [Aufbau-Block](../docker-aufbau/index.md) hast du einen Postgres-Container mit Adminer **manuell** über mehrere `docker`-Befehle zusammengestellt. Das geht – ist aber fragil: eine falsche Reihenfolge, ein vergessenes Flag, und nichts läuft.
+Im [Aufbau-Block](../docker-aufbau/index.md) hast du einen Postgres-Container mit Adminer **manuell** über mehrere `docker`-Befehle zusammengestellt. Das geht – ist aber fragil: eine falsche Reihenfolge, ein vergessenes Flag und nichts läuft.
 
-**Docker Compose** löst genau das: du beschreibst deinen Stack **einmal** in einer `compose.yaml`, und ein einziger Befehl startet oder stoppt alles.
+**Docker Compose** löst genau das: du beschreibst deinen Stack **einmal** in einer `compose.yaml` und ein einziger Befehl startet oder stoppt alles.
 
 !!! abstract "Was du nach diesen 3 Stunden kannst"
     - erklären, **warum Compose entstanden ist** und wie es sich von `docker run` unterscheidet

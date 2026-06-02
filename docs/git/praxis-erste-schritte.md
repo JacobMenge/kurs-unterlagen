@@ -268,7 +268,7 @@ Date:   Thu May 21 14:32:15 2026 +0200
 
 Hier siehst du alle Bestandteile eines Commits, die in den [Grundbegriffen](grundbegriffe.md) beschrieben sind: SHA, Autor, Datum, Message. Und ganz wichtig:
 
-- **`HEAD -> main`** – der HEAD-Zeiger steht auf `main`, und `main` zeigt auf diesen Commit. Genau das mentale Modell, das wir uns angeschaut haben.
+- **`HEAD -> main`** – der HEAD-Zeiger steht auf `main` und `main` zeigt auf diesen Commit. Genau das mentale Modell, das wir uns angeschaut haben.
 
 !!! warning "Wie komme ich aus `git log` wieder raus?"
     Sobald du mehrere Commits hast, zeigt `git log` die Historie in einem **Pager** an (meistens das Programm `less`). Statt eines normalen Prompts steht unten am Bildschirmrand `:` oder `(END)`. Du kannst:
@@ -626,7 +626,7 @@ b2c3d4e README: tägliche Eintragsfrequenz beschreiben
 a1b2c3d README mit erster Beschreibung anlegen
 ```
 
-Fünf Commits. Jede Änderung hat eine klare Beschreibung. Du kannst zu jedem Zeitpunkt nachvollziehen, **was** geändert wurde, **wann**, und **warum**.
+Fünf Commits. Jede Änderung hat eine klare Beschreibung. Du kannst zu jedem Zeitpunkt nachvollziehen, **was** geändert wurde, **wann** und **warum**.
 
 Und genau das ist Versionskontrolle. Schon ein vollständiges, funktionierendes lokales Repo. Komplett ohne GitHub.
 

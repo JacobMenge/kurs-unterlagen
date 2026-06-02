@@ -22,7 +22,7 @@ Wenn du `FROM node:22` schreibst, ziehst du ein Basis-Image, das von Debian-12 a
 Es gibt zwei sinnvolle Wege, das Image kleiner zu kriegen:
 
 - **`:slim`** – dieselbe Debian-Basis, aber **entschlackt**. Keine Manpages, keine Doku, keine Build-Tools. Funktioniert wie das normale Image, ist aber rund **3× kleiner**.
-- **`:alpine`** – ein **anderes Linux**: Alpine Linux mit `musl` statt `glibc` und `apk` statt `apt`. Sehr klein (rund **5×** kleiner als das volle Image), aber: nicht alle Pakete sind sofort kompatibel, und manche Native-Module brauchen extra Build-Schritte.
+- **`:alpine`** – ein **anderes Linux**: Alpine Linux mit `musl` statt `glibc` und `apk` statt `apt`. Sehr klein (rund **5×** kleiner als das volle Image), aber: nicht alle Pakete sind sofort kompatibel und manche Native-Module brauchen extra Build-Schritte.
 
 In dieser Übung baust du dieselbe Mini-App **dreimal** und siehst die Größen direkt nebeneinander.
 

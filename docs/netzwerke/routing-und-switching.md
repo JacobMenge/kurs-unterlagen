@@ -63,7 +63,7 @@ Wenn nun PC 1 ein Frame an `ee:ee:ee:ee:ee:ee` (PC 5) schickt:
 2. Er schaut in seine Tabelle: aha, die MAC liegt an Port 5.
 3. Er leitet das Frame **nur an Port 5** weiter – nicht an alle anderen Ports.
 
-So bleibt der Verkehr **gezielt**, und die Bandbreite wird effizient genutzt.
+So bleibt der Verkehr **gezielt** und die Bandbreite wird effizient genutzt.
 
 !!! info "Was ist ein Hub und warum hat er ausgedient?"
     Ein **Hub** (vor 25 Jahren Standard) macht das **nicht**. Er leitet **jedes** Frame an **alle** Ports weiter – egal, wer der Empfänger ist. Das ist:
@@ -280,7 +280,7 @@ Im **LAN** (PC → Switch → Heim-Router) wird per **MAC-Adresse** zugestellt, 
 7. Bei **GitHub** angekommen: wieder Layer-2-Switching im internen Rechenzentrum-Netz.
 8. **Server** bekommt das Paket, antwortet.
 
-Auf dem **Rückweg** läuft alles in umgekehrter Reihenfolge, und die meisten Router wählen ähnliche (oder andere!) Wege.
+Auf dem **Rückweg** läuft alles in umgekehrter Reihenfolge und die meisten Router wählen ähnliche (oder andere!) Wege.
 
 !!! info "Was kann auf diesem Weg schiefgehen?"
     Eine ganze Menge:
@@ -346,7 +346,7 @@ Du kannst deine eigene Routing-Tabelle ansehen mit `ip route` (Linux), `route pr
 
     Ohne mindestens **statische Routen** oder ein dynamisches Routing-Protokoll (z.B. OSPF zwischen den Sites) wissen die Router nicht, wohin sie Pakete schicken sollen.
 
-??? question "Frage 2: Welche Rolle spielt das Default Gateway, und was passiert ohne korrekt konfiguriertes Default Gateway?"
+??? question "Frage 2: Welche Rolle spielt das Default Gateway und was passiert ohne korrekt konfiguriertes Default Gateway?"
     Das **Default Gateway** ist die IP-Adresse des Routers, an den dein Computer alle Pakete schickt, deren Ziel **nicht im lokalen Subnetz** liegt.
 
     Ohne Default Gateway:

@@ -182,7 +182,7 @@ Wenn du einen neuen Commit machst, rückt HEAD automatisch einen Schritt weiter.
 
 Wir kommen gleich auf der Seite [Branches und Merge](branches-und-merge.md) ausführlich darauf zu sprechen. Hier nur der Grundgedanke:
 
-Bisher hatten wir eine einzige Kette von Commits. Sobald du sagst „ich will eine Variante ausprobieren, ohne mein bisheriges Ergebnis kaputtzumachen", brauchst du eine zweite Kette. Die fängt an dem Punkt an, wo du gerade stehst, und entwickelt sich von dort eigenständig weiter:
+Bisher hatten wir eine einzige Kette von Commits. Sobald du sagst „ich will eine Variante ausprobieren, ohne mein bisheriges Ergebnis kaputtzumachen", brauchst du eine zweite Kette. Die fängt an dem Punkt an, wo du gerade stehst und entwickelt sich von dort eigenständig weiter:
 
 ```mermaid
 flowchart LR

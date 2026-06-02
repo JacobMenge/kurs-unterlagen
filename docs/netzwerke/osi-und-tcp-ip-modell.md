@@ -22,7 +22,7 @@ Diese Schichten-Idee ist der **wichtigste Denk-Werkzeug** in der Netzwerktechnik
 
 ## Warum zwei Modelle?
 
-Gleich zur Klarstellung: es gibt **zwei** Schichtenmodelle, und beide sind relevant. Du musst beide kennen.
+Gleich zur Klarstellung: es gibt **zwei** Schichtenmodelle und beide sind relevant. Du musst beide kennen.
 
 | Modell | Schichten | Wer hat's gemacht? | Heutige Rolle |
 |--------|-----------|-------------------|---------------|
@@ -181,7 +181,7 @@ Damit das alles greifbar wird, eine durchgängige Analogie. Stell dir vor, du ve
 | **2 – Sicherung** | Im **Sortierzentrum** kommt eine Sortiernummer drauf: „in den nächsten LKW nach Hamburg" – das ist die MAC-Adresse |
 | **1 – Physisch** | Der **LKW fährt** auf der Straße, das **Flugzeug fliegt**. Die physische Bewegung |
 
-Bei jedem **Postzentrum** wird der Brief **ausgepackt** (Frame abgenommen), die nächste Station bestimmt (Routing), und er wird wieder **eingepackt** (neues Frame) und weitergeschickt. Das Paket darin (die IP-Adresse) bleibt aber gleich.
+Bei jedem **Postzentrum** wird der Brief **ausgepackt** (Frame abgenommen), die nächste Station bestimmt (Routing) und er wird wieder **eingepackt** (neues Frame) und weitergeschickt. Das Paket darin (die IP-Adresse) bleibt aber gleich.
 
 Auf der Empfängerseite läuft alles in umgekehrter Reihenfolge: vom LKW über das Sortierzentrum zum Briefkasten, bis Anna den Text vor der Nase hat.
 
@@ -261,7 +261,7 @@ Eine häufige Verwirrung:
 - Ein **Layer-2-Switch** entscheidet anhand der **MAC-Adresse**, an welchen Port er ein Frame leitet. Klassischer Switch. Sehr schnell.
 - Ein **Layer-3-Switch** kann zusätzlich anhand der **IP-Adresse** entscheiden. Faktisch hat er Router-Fähigkeiten in Switch-Form. Schneller als ein klassischer Router, weil er Hardware-Beschleunigung hat.
 
-Im Berufsjargon wird oft einfach „Switch" gesagt, wenn ein Layer-2-Switch gemeint ist, und „Router" für alles, was Layer-3-Entscheidungen trifft. Genauer wird's dann in [Netzwerk-Hardware](netzwerk-hardware.md).
+Im Berufsjargon wird oft einfach „Switch" gesagt, wenn ein Layer-2-Switch gemeint ist und „Router" für alles, was Layer-3-Entscheidungen trifft. Genauer wird's dann in [Netzwerk-Hardware](netzwerk-hardware.md).
 
 ---
 

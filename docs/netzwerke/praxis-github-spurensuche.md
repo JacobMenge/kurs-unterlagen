@@ -21,7 +21,7 @@ In den Theorie-Seiten hast du gelesen, *wie* das Internet funktioniert. Jetzt dr
 
 Du tippst `github.com` in den Browser. Bis die Seite erscheint, läuft im Hintergrund eine erstaunlich lange Kette ab: ein Name wird zur Adresse, Pakete suchen sich einen Weg über viele Zwischenstationen, eine Verbindung wird ausgehandelt und verschlüsselt, dann erst kommen die Daten.
 
-**Eure Mission:** Findet mit eigenen Befehlen jede Station dieser Reise – und tragt eure Messwerte ins **Reiseprotokoll** ganz unten ein. Wer fertig ist, vergleicht mit den anderen Teams: Eure Zahlen werden sich unterscheiden, und genau das ist spannend.
+**Eure Mission:** Findet mit eigenen Befehlen jede Station dieser Reise – und tragt eure Messwerte ins **Reiseprotokoll** ganz unten ein. Wer fertig ist, vergleicht mit den anderen Teams: Eure Zahlen werden sich unterscheiden und genau das ist spannend.
 
 !!! tip "Spielregel"
     Erst **selbst probieren**, im Team diskutieren, raten, was die Ausgabe bedeutet. Die [Hilfekarten](#hilfekarten) und die [Lösung](#losung-deutung) gibt's am Ende – erst aufklappen, wenn ihr wirklich feststeckt oder eure Deutung überprüfen wollt.
@@ -40,13 +40,13 @@ Du tippst `github.com` in den Browser. Bis die Seite erscheint, läuft im Hinter
 Bevor wir die Reise zu GitHub antreten, klären wir den **Startpunkt**: Welche Adresse hat dein Rechner gerade? Über welchen Router (das **Gateway**) verlässt du dein Heim- oder Schulnetz? Und welchen **DNS-Server** fragt dein Rechner nach Namen?
 
 === "Windows"
-    ```bash
+    ```powershell
     ipconfig
     ```
 
     Das zeigt deine IP-Adresse und das **Standardgateway**. Für die volle Info – inklusive **DNS-Server** – nimm:
 
-    ```bash
+    ```powershell
     ipconfig /all
     ```
 
@@ -72,6 +72,9 @@ Bevor wir die Reise zu GitHub antreten, klären wir den **Startpunkt**: Welche A
     scutil --dns | grep nameserver   # macOS
     ```
 
+!!! tip "Mehrere Adapter? Nimm den mit Gateway"
+    Moderne Rechner zeigen in `ipconfig` oft mehrere Adapter (WLAN, Ethernet, dazu virtuelle von VirtualBox, Hyper-V oder VPN). **Dein aktiver Adapter ist der, bei dem ein Standardgateway eingetragen ist** – virtuelle Adapter haben meist keins. Auf den beziehst du dich. Schneller Überblick in der PowerShell: `Get-NetIPConfiguration`.
+
 **Was bedeutet das?**
 
 - **Eigene IP** (z.B. `192.168.1.42`): die Adresse deines Rechners **in deinem lokalen Netz**. Meist eine private Adresse, die nur zu Hause/in der Schule gilt.
@@ -90,7 +93,7 @@ Bevor wir die Reise zu GitHub antreten, klären wir den **Startpunkt**: Welche A
 Dein Rechner kann nichts mit dem Namen `github.com` anfangen – er braucht eine **IP-Adresse**. Diese Übersetzung macht **DNS** (das Telefonbuch des Internets, siehe [DNS](dns.md)). Fragen wir nach:
 
 === "Windows"
-    ```bash
+    ```powershell
     nslookup github.com
     ```
 
@@ -99,12 +102,12 @@ Dein Rechner kann nichts mit dem Namen `github.com` anfangen – er braucht eine
     nslookup github.com
     ```
 
-Die Ausgabe nennt oben den **Server**, der geantwortet hat (dein DNS-Server aus Station 1), und darunter unter **Address** die IP-Adresse(n) von GitHub.
+Die Ausgabe nennt oben den **Server**, der geantwortet hat (dein DNS-Server aus Station 1) und darunter unter **Address** die IP-Adresse(n) von GitHub.
 
 **Bonus** – nach dem Mailserver der Domain fragen (MX-Record):
 
 === "Windows"
-    ```bash
+    ```powershell
     nslookup -type=MX github.com
     ```
 
@@ -126,7 +129,7 @@ Die Ausgabe nennt oben den **Server**, der geantwortet hat (dein DNS-Server aus 
 Wir haben eine Adresse – aber antwortet dort überhaupt jemand? Der klassische „Lebenszeichen"-Test ist `ping`. Er schickt kleine Pakete (ICMP Echo) und misst, wie lange die Antwort braucht.
 
 === "Windows"
-    ```bash
+    ```powershell
     ping github.com
     ```
 
@@ -153,13 +156,15 @@ Du siehst pro Antwort eine **Zeit in Millisekunden** (`time=…ms`) und am Ende 
 Zwischen deinem Rechner und GitHub liegen viele Zwischenstationen – **Router**, die das Paket jeweils einen Schritt weiterreichen. Jeden solchen Schritt nennt man einen **Hop**. Mit einem Trace-Befehl machst du diese sonst unsichtbare Kette sichtbar.
 
 === "Windows"
-    ```bash
-    tracert github.com
+    ```powershell
+    tracert -d github.com
     ```
+
+    Das `-d` unterdrückt die Rückwärts-Namensauflösung jeder Zwischenstation – ohne `-d` wird `tracert` quälend langsam, weil es zu jeder Hop-IP noch einen Namen sucht.
 
 === "macOS / Linux"
     ```bash
-    traceroute github.com
+    traceroute -n github.com
     ```
 
     Falls `traceroute` auf einem Linux-System nicht installiert ist, gibt es fast immer eine Bordmittel-Alternative:
@@ -201,7 +206,7 @@ Im Detailbereich rechts findest du jetzt:
 - **Response-Header** (Reiter „Header"/„Kopfzeilen", Abschnitt „Antwort"): Metadaten der Antwort, z.B. **`Server`** (welche Software antwortet) und **`content-type`** (`text/html`, der Seiteninhalt).
 
 !!! info "Das Wasserfall-Diagramm"
-    Der Netzwerk-Reiter zeigt rechts pro Anfrage einen **Balken** – zusammen ergeben sie ein **„Wasserfall"-Diagramm** (englisch *waterfall*). Es liest sich wie eine Zeitleiste von links nach rechts: Jeder Balken beginnt, wenn die Anfrage startet, und endet, wenn die Antwort da ist. Die farbigen Abschnitte eines Balkens sind dieselben Phasen wie im Timing (DNS, Verbindung, TLS, Warten, Download). So siehst du auf einen Blick, **was wie lange dauert** und **was worauf wartet**.
+    Der Netzwerk-Reiter zeigt rechts pro Anfrage einen **Balken** – zusammen ergeben sie ein **„Wasserfall"-Diagramm** (englisch *waterfall*). Es liest sich wie eine Zeitleiste von links nach rechts: Jeder Balken beginnt, wenn die Anfrage startet und endet, wenn die Antwort da ist. Die farbigen Abschnitte eines Balkens sind dieselben Phasen wie im Timing (DNS, Verbindung, TLS, Warten, Download). So siehst du auf einen Blick, **was wie lange dauert** und **was worauf wartet**.
 
 ??? question "Notiere für dein Reiseprotokoll"
     - HTTP-Status der Hauptseite: `____________`
@@ -239,7 +244,7 @@ Tragt eure gemessenen Werte hier ein. Das ist euer Beweis, dass ihr den ganzen W
     1. **Wer hat die wenigsten Hops** zu `github.com`? (Tipp: hängt oft davon ab, wie „nah" euer Provider an einem großen Internet-Knoten sitzt.)
     2. **Welche github-IP** hat euer Team in Station 2 bekommen – und sind die IPs der Teams **unterschiedlich**?
 
-    Wenn verschiedene Teams **verschiedene IPs** für denselben Namen sehen, habt ihr **Anycast/CDN** live erlebt: GitHub betreibt viele baugleiche Server weltweit. Per **Anycast** wird dieselbe IP an mehreren Standorten angekündigt, und das Routing schickt euch automatisch zum nächstgelegenen. Über DNS bekommt ihr je nach Standort sogar unterschiedliche Adressen. Ergebnis: kurze Wege, schnelle Antworten – egal, wo auf der Welt ihr sitzt. Mehr zur Wegfindung in [Routing und Switching](routing-und-switching.md).
+    Wenn verschiedene Teams **verschiedene IPs** für denselben Namen sehen, habt ihr **Anycast/CDN** live erlebt: GitHub betreibt viele baugleiche Server weltweit. Per **Anycast** wird dieselbe IP an mehreren Standorten angekündigt und das Routing schickt euch automatisch zum nächstgelegenen. Über DNS bekommt ihr je nach Standort sogar unterschiedliche Adressen. Ergebnis: kurze Wege, schnelle Antworten – egal, wo auf der Welt ihr sitzt. Mehr zur Wegfindung in [Routing und Switching](routing-und-switching.md).
 
 ---
 
@@ -416,7 +421,7 @@ Und genau deshalb ist `ping` ohne Antwort kein Beweis für „offline": Die Schr
 ## Was du dabei gelernt hast
 
 - Du hast mit **reinen Bordmitteln** (ohne Installation) den **kompletten Weg** eines Webaufrufs gemessen – von deinem Rechner bis zu GitHub und zurück.
-- Du kannst deinen **Startpunkt** im Netz bestimmen: eigene IP, Gateway und DNS-Server, und du weißt, was jede dieser Adressen bedeutet.
+- Du kannst deinen **Startpunkt** im Netz bestimmen: eigene IP, Gateway und DNS-Server und du weißt, was jede dieser Adressen bedeutet.
 - Du hast **DNS** in Aktion gesehen: aus einem Namen wird eine IP – und dank **Anycast/CDN** kann diese IP je nach Standort anders ausfallen.
 - Du weißt, dass `ping` nur **ICMP-Erreichbarkeit** testet und „keine Antwort" **nicht** „Server down" bedeutet.
 - Du hast mit `tracert`/`traceroute` die unsichtbare Kette der **Router (Hops)** sichtbar gemacht und gesehen, wo dein Heimnetz ins Internet übergeht.

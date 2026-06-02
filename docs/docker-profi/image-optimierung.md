@@ -227,7 +227,7 @@ Der `rm`-Teil räumt den Paket-Index (20–100 MB) weg.
 
 ### 4. `--no-install-recommends`
 
-Bei Debian/Ubuntu werden ohne diese Option die **empfohlenen** Zusatzpakete mitinstalliert. Die braucht man fast nie, und sie blähen das Image auf.
+Bei Debian/Ubuntu werden ohne diese Option die **empfohlenen** Zusatzpakete mitinstalliert. Die braucht man fast nie und sie blähen das Image auf.
 
 ### 5. Dateien nicht kopieren, die man nicht braucht
 

@@ -271,7 +271,7 @@ GitHub unterscheidet drei Sichtbarkeitsstufen:
 | **Private** | Nur du und Personen, die du explizit einlädst | Echte Arbeit, sensible Daten |
 | **Internal** | Alle in einer GitHub-Organisation, aber nicht öffentlich | Nur in größeren Firmen-Setups (kostenpflichtig) |
 
-Für die Praxisbeispiele in diesem Block reicht ein **Public** Repo. GitHub Actions sind auf Public-Repos uneingeschränkt kostenlos, du kannst Logs ohne Login zeigen, und nichts spricht dagegen.
+Für die Praxisbeispiele in diesem Block reicht ein **Public** Repo. GitHub Actions sind auf Public-Repos uneingeschränkt kostenlos, du kannst Logs ohne Login zeigen und nichts spricht dagegen.
 
 !!! warning "Niemals Geheimnisse in einem Public Repo"
     Passwörter, API-Keys, Tokens, Datenbank-Zugangsdaten gehören **niemals** in ein Repository – egal ob Public oder Private. In einem Public Repo sind sie sofort weltöffentlich indiziert. In einem Private kann es jemand mit Repo-Zugriff trotzdem sehen.

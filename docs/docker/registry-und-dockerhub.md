@@ -102,7 +102,7 @@ Zum Beispiel:
 ghcr.io/jacob-menge/kursbot:1.0
 ```
 
-Docker sieht am Präfix `ghcr.io/`, dass es nicht zu Docker Hub gehört, und holt es von dort.
+Docker sieht am Präfix `ghcr.io/`, dass es nicht zu Docker Hub gehört und holt es von dort.
 
 ---
 
