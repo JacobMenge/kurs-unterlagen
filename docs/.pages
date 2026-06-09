@@ -23,6 +23,7 @@ nav:
   - "Praxis & Nachschlagen":
       - "Praxis: Docker Escape Room": docker-escape-room
       - "Praxis: Mission Control": docker-compose-mission-control
+      - "Praxis: Monitoring": monitoring-praxis
       - "Git & GitHub": git
       - "Cheatsheets": cheatsheets
       - "Glossar": glossar.md

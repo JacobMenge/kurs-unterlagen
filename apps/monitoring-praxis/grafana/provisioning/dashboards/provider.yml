@@ -1,0 +1,13 @@
+# Lädt fertige Beispiel-Dashboards aus diesem Ordner (als Referenz für Dozenten
+# und zum Vorzeigen). Die Teilnehmer bauen ihr eigenes Dashboard trotzdem selbst.
+apiVersion: 1
+
+providers:
+  - name: Beispiel-Dashboards
+    orgId: 1
+    folder: Beispiele
+    type: file
+    disableDeletion: false
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards

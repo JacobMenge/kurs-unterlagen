@@ -1,0 +1,15 @@
+# Grafana liest diese Datei beim Start automatisch ein (Provisioning).
+# Damit ist die Datenquelle "Prometheus" sofort eingerichtet – ihr müsst sie
+# in der Oberfläche nicht von Hand anlegen.
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    # "prometheus" ist der Service-Name aus eurer compose.yaml,
+    # 9090 der Container-interne Port von Prometheus.
+    url: http://prometheus:9090
+    isDefault: true
+    editable: true

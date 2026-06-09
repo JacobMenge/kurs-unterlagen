@@ -1,0 +1,11 @@
+nav:
+  - "Überblick": index.md
+  - "Warum Monitoring?": 01-warum-monitoring.md
+  - "Grundlagen": 02-grundlagen.md
+  - "Installation": 03-installation.md
+  - "Beispiel-Anwendung starten": 04-beispiel-anwendung.md
+  - "Erste Übungen": 05-erste-uebungen.md
+  - "Gruppenaufgabe": 06-gruppenaufgabe.md
+  - "Hilfekarten": 07-hilfekarten.md
+  - "Lösung": 08-loesung.md
+  - "Rückblick & Ausblick": 09-rueckblick.md

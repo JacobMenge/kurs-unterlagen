@@ -79,7 +79,7 @@ Ein Ping nach draußen geht erwartungsgemäß ins Leere:
 C:\> ping 8.8.8.8
 
 Die Pinganforderung konnte den Host 8.8.8.8 nicht finden.
-Überprüfen Sie den Hostnamen, und versuchen Sie es erneut.
+Überprüfen Sie den Hostnamen und versuchen Sie es erneut.
 ```
 
 Marek tippt nervös: „Ist mein Internet kaputt?" Du schaust auf die Adresse und ahnst schon, dass das Problem viel früher anfängt.
@@ -110,7 +110,7 @@ Dann derselbe Server, diesmal über seinen Namen:
 C:\> ping github.com
 
 Die Pinganforderung konnte den Host "github.com" nicht finden.
-Überprüfen Sie den Hostnamen, und versuchen Sie es erneut.
+Überprüfen Sie den Hostnamen und versuchen Sie es erneut.
 ```
 
 Zur Kontrolle noch ein Blick auf die Namensauflösung:

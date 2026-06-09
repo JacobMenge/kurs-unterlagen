@@ -1,0 +1,16 @@
+# Sagt Prometheus, wie oft und wen es abfragt.
+# Für die Bonus-Aufgaben kommen hier später cadvisor / node-exporter dazu.
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  # Prometheus überwacht sich zuerst selbst.
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Die Telemetrie-API der Station.
+  - job_name: station-api
+    static_configs:
+      - targets: ["station-api:8000"]

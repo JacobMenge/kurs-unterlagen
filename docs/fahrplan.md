@@ -85,6 +85,7 @@ Lies die Karte **von oben nach unten**: vier Phasen, die aufeinander aufbauen. F
     - [Docker – Vertiefung](docker-vertiefung/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– nach *Docker – Aufbau*
     - [Praxis: Docker Escape Room](docker-escape-room/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– vor *Docker Compose*
     - [Praxis: Mission Control](docker-compose-mission-control/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– nach *Docker Compose*
+    - [Praxis: Monitoring](monitoring-praxis/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– passt zum Betriebs-Thema
     - [Docker für Profis](docker-profi/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– wenn die Basics sitzen
     - [Git & GitHub](git/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– jederzeit, Werkzeug für CI/CD und Doku
 
@@ -135,6 +136,7 @@ Die vollständige Übersicht, gruppiert nach Themengebiet. „Schwerpunkt" sagt 
 |-------|--------------|:-----------:|-------------|
 | [Docker Escape Room](docker-escape-room/index.md) | Multi-Container-Challenge in der Gruppe | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
 | [Mission Control](docker-compose-mission-control/index.md) | Compose-Gruppenübung rund um eine Raumstation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
+| [Monitoring](monitoring-praxis/index.md) | Prometheus/Grafana-Gruppenübung mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
 | [Git & GitHub](git/index.md) | Versionskontrolle, Branches, Pull Requests | <span class='badge badge-praxis'>Praxis</span> | Praxis / Werkzeug |
 | [Cheatsheets](cheatsheets/index.md) | Spickzettel für Multipass, Docker, Compose, Git | – | Hilfsmittel |
 | [Glossar](glossar.md) | Alle Begriffe kompakt erklärt | – | Hilfsmittel |

@@ -187,6 +187,14 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
 
     [:octicons-arrow-right-24: Praxis-Block starten](docker-compose-mission-control/index.md)
 
+-   :material-chart-line:{ .lg .middle } __[Praxis: Monitoring](monitoring-praxis/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Monitoring-Gruppenübung:** Mit Prometheus und Grafana eine Beispiel-App überwachen – Metriken, Dashboard, Alarm. Inklusive Installation für Windows/macOS/Linux und Einzelübungen.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](monitoring-praxis/index.md)
+
 -   :material-source-fork:{ .lg .middle } __[Git & GitHub](git/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
 
     ---

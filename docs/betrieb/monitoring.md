@@ -10,6 +10,9 @@ description: "Den laufenden Betrieb managen: Monitoring-Tools, Metriken, Schwell
 !!! note "Status: Platzhalter <span class='badge badge-wip'>in Arbeit</span>"
     Diese Seite ist ein Platzhalter. Der Inhalt folgt – hier siehst du schon, **was behandelt wird** und **worauf es ankommt**.
 
+!!! tip "Praxis dazu: der Monitoring-Block"
+    Die Theorie dieser Seite kannst du direkt praktisch erleben: Im Block [Monitoring mit Prometheus & Grafana](../monitoring-praxis/index.md) baust du mit **Prometheus und Grafana** ein eigenes Monitoring auf, erstellst ein Dashboard und löst einen Alarm aus.
+
 ## Das wird hier behandelt
 
 - den **laufenden Betrieb managen**: Wartung, kontinuierlicher Betrieb, hohe Verfügbarkeit und Leistung im Blick behalten
