@@ -34,7 +34,7 @@ Ein Bild dazu: das **Dirigieren eines Orchesters**. Die einzelnen Container sind
 
 ## Ein Host gegen einen Cluster
 
-<figure markdown="span">
+<figure>
 <svg viewBox="0 0 640 230" width="100%" height="230" role="img" aria-label="Vergleich: ein einzelner Host gegen einen Cluster aus mehreren Knoten">
   <!-- linke Seite: ein Host -->
   <text x="120" y="22" text-anchor="middle" fill="#8fa498" font-family="JetBrains Mono, monospace" font-size="13">Ein Host (Docker / Compose)</text>
@@ -85,7 +85,7 @@ Das ist die wichtigste Idee des ganzen Blocks – wenn du nur eine Sache mitnimm
 
 Bei Docker arbeitest du **imperativ**: „starte diesen Container, stoppe jenen“. Du sagst die **Schritte**. Kubernetes arbeitet **deklarativ**: du beschreibst den **Soll-Zustand** – „ich will, dass immer 3 Kopien dieser App laufen“ – und Kubernetes vergleicht das laufend mit dem **Ist-Zustand** und gleicht beides an.
 
-<figure markdown="span">
+<figure>
 <svg viewBox="0 0 560 200" width="100%" height="200" role="img" aria-label="Regelkreis: Soll-Zustand mit Ist-Zustand vergleichen und angleichen">
   <rect x="30" y="70" width="150" height="60" rx="8" fill="rgba(125,255,154,0.08)" stroke="#7dff9a" stroke-width="2"/>
   <text x="105" y="95" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">SOLL</text>

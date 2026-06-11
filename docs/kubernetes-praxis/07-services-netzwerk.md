@@ -45,7 +45,7 @@ Die Lösung ist der **Service**. Das Bild dazu kennst du schon aus den [Grundbeg
 1. **stabil erreichbar bleiben** – er hat einen festen Namen und eine gleichbleibende IP im Cluster, egal wie oft die Pods dahinter neu starten.
 2. **die Last verteilen** – Anfragen verteilt er reihum auf **alle** passenden Pods (Load-Balancing).
 
-<figure markdown="span">
+<figure>
 <svg viewBox="0 0 560 250" width="100%" height="250" role="img" aria-label="Ein Client schickt Anfragen an einen Service, der sie auf drei wechselnde Pods verteilt">
   <!-- Client -->
   <circle cx="60" cy="125" r="30" fill="rgba(122,162,255,0.12)" stroke="#7aa2ff" stroke-width="2"/>

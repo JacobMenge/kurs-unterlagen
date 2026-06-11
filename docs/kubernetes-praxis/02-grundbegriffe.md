@@ -49,7 +49,7 @@ flowchart TB
 
 In Kubernetes startest du keine Container direkt. Die kleinste Einheit, die Kubernetes verwaltet, ist der **Pod**. Ein Pod ist eine **Hülle um einen Container** (manchmal auch um mehrere eng zusammengehörige). Fast immer gilt: **ein Pod = ein Container**.
 
-<figure markdown="span">
+<figure>
 <svg viewBox="0 0 420 170" width="100%" height="170" role="img" aria-label="Ein Pod als Huelle um einen Container">
   <rect x="40" y="30" width="160" height="110" rx="10" fill="rgba(125,255,154,0.06)" stroke="#7dff9a" stroke-width="2.5"/>
   <text x="120" y="22" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Pod</text>
@@ -78,7 +78,7 @@ Daraus ergeben sich von selbst zwei der wichtigsten Fähigkeiten:
 - **Selbstheilung** – stirbt ein Pod, fehlt einer zum Soll. Kubernetes startet sofort einen neuen.
 - **Skalierung** – du änderst die Zahl von 3 auf 10 – und es kommen sieben dazu (oder zurück).
 
-<figure markdown="span">
+<figure>
 <svg viewBox="0 0 520 210" width="100%" height="210" role="img" aria-label="Deployment haelt drei Pods, einer stirbt, ein neuer kommt nach">
   <text x="260" y="20" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Deployment: "halte 3 Pods"</text>
   <rect x="20" y="35" width="480" height="150" rx="10" fill="rgba(125,255,154,0.04)" stroke="#56c374" stroke-width="2" stroke-dasharray="5 4"/>
@@ -126,7 +126,7 @@ Pods sind sterblich und wechseln ihre IP. Wie erreicht man dann zuverlässig ein
 1. **stabil erreichbar bleiben**, egal wie oft die Pods dahinter neu starten,
 2. **die Last verteilen** – Anfragen reihum auf alle passenden Pods (Load-Balancing).
 
-<figure markdown="span">
+<figure>
 <svg viewBox="0 0 520 220" width="100%" height="220" role="img" aria-label="Ein Service verteilt Anfragen auf drei Pods">
   <!-- Client -->
   <circle cx="60" cy="110" r="28" fill="rgba(122,162,255,0.12)" stroke="#7aa2ff" stroke-width="2"/>

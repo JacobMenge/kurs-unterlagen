@@ -100,7 +100,7 @@ flowchart TB
 
 Jetzt zur dritten Superkraft – der, die im echten Betrieb am meisten wert ist. Du willst eine **neue Version** ausrollen, ohne dass der Dienst auch nur eine Sekunde weg ist. Das Deployment macht das **wellenweise**: Es startet einen neuen Pod mit der neuen Version, wartet bis er läuft, nimmt dann einen alten heraus – und so weiter, Pod für Pod. Zu jedem Zeitpunkt sind genug Pods da, um Anfragen zu beantworten. Das nennt man **Rolling Update**.
 
-<figure markdown="span">
+<figure>
 <svg viewBox="0 0 640 280" width="100%" height="280" role="img" aria-label="Rolling Update in drei Wellen: alte blaue Pods werden Pod fuer Pod durch neue gruene Pods ersetzt">
   <!-- Welle 1: alle alt -->
   <text x="80" y="30" text-anchor="middle" fill="#8fa498" font-family="JetBrains Mono, monospace" font-size="12">Start</text>
