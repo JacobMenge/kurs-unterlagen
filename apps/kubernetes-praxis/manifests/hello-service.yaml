@@ -1,0 +1,14 @@
+# Ein Service ist die STABILE Adresse vor den (sterblichen) Pods.
+# Er findet seine Pods über das Label app=hello und verteilt die
+# Anfragen automatisch auf alle passenden Pods (Load-Balancing).
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+spec:
+  type: ClusterIP            # nur im Cluster erreichbar (Standard)
+  selector:
+    app: hello              # schickt Anfragen an alle Pods mit diesem Label
+  ports:
+    - port: 80              # unter diesem Port ist der Service erreichbar
+      targetPort: 80        # dorthin leitet er weiter (Container-Port)

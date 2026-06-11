@@ -1,0 +1,12 @@
+nav:
+  - "Überblick": index.md
+  - "Warum Kubernetes?": 01-warum-kubernetes.md
+  - "Grundbegriffe": 02-grundbegriffe.md
+  - "Installation": 03-installation.md
+  - "Praxis 1: Hello World": 04-praxis-hello-world.md
+  - "Deployments & Skalierung": 05-deployments-skalierung.md
+  - "Praxis 2: Deployment": 06-praxis-deployment.md
+  - "Services & Netzwerk": 07-services-netzwerk.md
+  - "Praxis 3: Service": 08-praxis-service.md
+  - "Hilfekarten": 09-hilfekarten.md
+  - "Rückblick & Ausblick": 10-rueckblick.md

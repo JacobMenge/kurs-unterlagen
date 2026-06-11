@@ -7,8 +7,11 @@ description: "Warum ein einzelner Container irgendwann nicht mehr reicht: die Gr
 
 <span class='badge badge-vertiefung'>Vertiefung</span> &nbsp; Ein Container auf deinem Laptop ist einfach – aber was, wenn du hundert davon über zehn Server verteilen, überwachen und automatisch neu starten lassen musst?
 
-!!! note "Status: Platzhalter <span class='badge badge-wip'>in Arbeit</span>"
-    Diese Seite ist ein Platzhalter. Der Inhalt folgt – hier siehst du schon, **was behandelt wird** und **worauf es ankommt**.
+!!! tip "Lieber gleich anfassen? Der Hands-on-Block"
+    Diese Seite gibt den **prüfungsnahen Überblick** zur Einordnung. Wenn du Kubernetes **selbst ausprobieren** willst – einen echten kleinen Cluster auf deinem Rechner einrichten und mit `kubectl` bedienen –, geh in den Praxis-Block **[Praxis: Kubernetes](../kubernetes-praxis/index.md)**. Dort baust du Schritt für Schritt von „Hello World“ bis zum skalierten Service, im Wechsel aus Theorie und Praxis.
+
+!!! note "Status: Überblick <span class='badge badge-wip'>in Arbeit</span>"
+    Diese Theorieseite ist noch knapp gehalten – hier siehst du schon, **was behandelt wird** und **worauf es ankommt**. Die ausführliche Praxis steht im [Hands-on-Block](../kubernetes-praxis/index.md) bereit.
 
 ## Das wird hier behandelt
 

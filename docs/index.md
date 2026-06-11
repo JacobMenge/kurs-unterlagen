@@ -195,6 +195,14 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
 
     [:octicons-arrow-right-24: Praxis-Block starten](monitoring-praxis/index.md)
 
+-   :material-ship-wheel:{ .lg .middle } __[Praxis: Kubernetes](kubernetes-praxis/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Kubernetes Hands-on von Grund auf:** Container über einen Cluster orchestrieren – Pod, Deployment, Service, Selbstheilung, Skalierung. Mit Installation für Windows/macOS/Linux und drei angeleiteten Übungen im Wechsel aus Theorie und Praxis.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](kubernetes-praxis/index.md)
+
 -   :material-source-fork:{ .lg .middle } __[Git & GitHub](git/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
 
     ---

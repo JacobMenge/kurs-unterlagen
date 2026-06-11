@@ -1,0 +1,24 @@
+# Ein Deployment beschreibt den SOLL-Zustand: "Halte mir 3 gleiche Pods
+# am Laufen." Stirbt ein Pod, startet Kubernetes selbst einen neuen.
+# Das ist die Einheit, mit der man in echt arbeitet.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  labels:
+    app: hello
+spec:
+  replicas: 3                 # gewünschte Anzahl gleicher Pods
+  selector:
+    matchLabels:
+      app: hello              # dieses Deployment verwaltet Pods mit diesem Label
+  template:                   # die Vorlage, nach der jeder Pod gebaut wird
+    metadata:
+      labels:
+        app: hello            # jeder erzeugte Pod bekommt dieses Label
+    spec:
+      containers:
+        - name: hello
+          image: nginxdemos/hello:latest   # zeigt den Pod-Namen an (gut fürs Load-Balancing)
+          ports:
+            - containerPort: 80

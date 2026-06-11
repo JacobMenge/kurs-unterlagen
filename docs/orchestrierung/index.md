@@ -53,6 +53,7 @@ Wir bauen das Bild **von eng nach weit**: Compose hat dir einen Stack auf einem 
 ## Wie hängt das mit den anderen Blöcken zusammen?
 
 - **[Docker Compose](../docker-compose/index.md)** ist der direkte Vorgänger: ein Stack, ein Befehl, **ein** Rechner. Dieser Block fragt: *Was mache ich, wenn es viele Rechner werden?*
+- **[Praxis: Kubernetes](../kubernetes-praxis/index.md)** ist der Hands-on-Block dazu: dort richtest du selbst einen kleinen Cluster ein und bedienst ihn Schritt für Schritt – die praktische Ergänzung zu dieser Einordnung.
 - **[Betrieb & Verfügbarkeit](../betrieb/index.md)** schließt direkt an: Wer Software verteilt und Container orchestriert, muss das Ergebnis danach **überwachen, sichern und am Leben halten**.
 - Die [Netzwerk-Grundlagen](../netzwerke/index.md) helfen, weil ein Cluster nichts anderes ist als viele Knoten, die **über das Netzwerk** zusammenarbeiten.
 

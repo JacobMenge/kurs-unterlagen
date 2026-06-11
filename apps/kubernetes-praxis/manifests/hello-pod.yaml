@@ -1,0 +1,16 @@
+# Ein einzelner Pod – die kleinste Einheit in Kubernetes.
+# Achtung: ein nackter Pod heilt sich NICHT selbst. Löschst du ihn,
+# ist er weg. Für echten Betrieb nimmt man ein Deployment (siehe
+# hello-deployment.yaml) – das lernst du in Praxis 2.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello
+  labels:
+    app: hello
+spec:
+  containers:
+    - name: hello
+      image: nginxdemos/hello:latest   # zeigt den Pod-Namen auf der Seite an
+      ports:
+        - containerPort: 80

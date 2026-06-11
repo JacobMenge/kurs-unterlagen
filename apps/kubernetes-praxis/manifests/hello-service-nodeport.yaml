@@ -1,0 +1,16 @@
+# Variante als NodePort: macht den Service von AUSSEN erreichbar,
+# über einen Port am Cluster-Knoten. Praktisch mit minikube:
+#   minikube service hello --url
+# Für die normale Übung reicht ClusterIP + kubectl port-forward.
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+spec:
+  type: NodePort
+  selector:
+    app: hello
+  ports:
+    - port: 80
+      targetPort: 80
+      # nodePort: 30080   # optional fest; sonst vergibt Kubernetes 30000–32767

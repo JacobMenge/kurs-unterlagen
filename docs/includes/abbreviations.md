@@ -274,4 +274,17 @@
 *[Retry-Logik]: Mechanismus zur Wiederholung fehlgeschlagener Operationen
 *[SERIAL]: PostgreSQL-Datentyp für automatisch hochzählende Integer-IDs
 
+<!-- Kubernetes-Begriffe -->
+
+*[kubectl]: Kommandozeilen-Werkzeug zum Bedienen eines Kubernetes-Clusters
+*[minikube]: Werkzeug, das einen kompletten Kubernetes-Cluster lokal in einer kleinen VM startet
+*[ReplicaSet]: Kubernetes-Objekt, das eine feste Anzahl gleicher Pods am Laufen hält
+*[ClusterIP]: Standard-Service-Typ – nur innerhalb des Clusters erreichbar
+*[NodePort]: Service-Typ, der einen Dienst über einen Port am Cluster-Knoten von außen erreichbar macht
+*[kubelet]: Agent auf jedem Node, der dort die Pods startet und überwacht
+*[etcd]: verteilte Datenbank, in der die Control Plane den Cluster-Zustand speichert
+*[Control Plane]: das "Gehirn" des Clusters – plant, überwacht, nimmt kubectl-Befehle an
+*[Manifest]: YAML-Datei, die einen gewünschten Kubernetes-Zustand beschreibt
+*[Selektor]: Regel (z.B. app=hello), über die ein Service oder Deployment seine Pods anhand von Labels findet
+
 
