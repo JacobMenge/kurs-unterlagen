@@ -21,24 +21,50 @@ Es gibt zwei Sorten von Nodes:
 - **Control Plane** (das „Gehirn“) – verteilt die Arbeit, überwacht den Soll-Zustand, trifft die Entscheidungen. Hier läuft unter anderem der **API-Server** – die zentrale Anlaufstelle, an die `kubectl` all deine Befehle schickt.
 - **Worker Nodes** (die „Arbeiter“) – hier laufen tatsächlich deine Container.
 
-```mermaid
-flowchart TB
-  subgraph CLUSTER["Kubernetes-Cluster"]
-    direction TB
-    CP["Control Plane<br/>(das Gehirn)<br/>nimmt Befehle an, plant, überwacht"]
-    subgraph N1["Worker Node 1"]
-      P1["Pod"]
-      P2["Pod"]
-    end
-    subgraph N2["Worker Node 2"]
-      P3["Pod"]
-      P4["Pod"]
-    end
-    CP --> N1
-    CP --> N2
-  end
-  DU([du]) -- "kubectl" --> CP
-```
+<figure>
+<svg viewBox="0 0 620 360" width="100%" height="360" role="img" aria-label="Aufbau eines Clusters: Control Plane und zwei Worker Nodes mit Pods; du steuerst über kubectl">
+  <!-- du -->
+  <rect x="24" y="90" width="70" height="46" rx="6" fill="rgba(122,162,255,0.12)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="59" y="118" text-anchor="middle" fill="#7aa2ff" font-family="JetBrains Mono, monospace" font-size="13">du</text>
+  <path d="M94 113 L183 113" fill="none" stroke="#8fa498" stroke-width="2" marker-end="url(#ca)"/>
+  <text x="120" y="105" text-anchor="middle" fill="#8fa498" font-size="11">kubectl</text>
+
+  <!-- Cluster-Rahmen -->
+  <rect x="150" y="40" width="450" height="300" rx="10" fill="rgba(125,255,154,0.03)" stroke="#7dff9a" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="375" y="64" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="14" font-weight="bold">Kubernetes-Cluster</text>
+
+  <!-- Control Plane -->
+  <rect x="185" y="85" width="380" height="58" rx="8" fill="rgba(125,255,154,0.08)" stroke="#7dff9a" stroke-width="2"/>
+  <text x="375" y="108" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Control Plane</text>
+  <text x="375" y="127" text-anchor="middle" fill="#8fa498" font-size="11">das „Gehirn“ – plant, überwacht, steuert</text>
+
+  <!-- Pfeile Control Plane -> Nodes -->
+  <path d="M340 143 L288 168" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#cg)"/>
+  <path d="M410 143 L462 168" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#cg)"/>
+
+  <!-- Worker Node 1 -->
+  <rect x="185" y="170" width="180" height="150" rx="8" fill="rgba(125,255,154,0.04)" stroke="#56c374" stroke-width="2"/>
+  <text x="275" y="191" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Worker Node 1</text>
+  <rect x="205" y="208" width="140" height="44" rx="5" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="275" y="235" text-anchor="middle" fill="#7aa2ff" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
+  <rect x="205" y="262" width="140" height="44" rx="5" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="275" y="289" text-anchor="middle" fill="#7aa2ff" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
+
+  <!-- Worker Node 2 -->
+  <rect x="385" y="170" width="180" height="150" rx="8" fill="rgba(125,255,154,0.04)" stroke="#56c374" stroke-width="2"/>
+  <text x="475" y="191" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Worker Node 2</text>
+  <rect x="405" y="208" width="140" height="44" rx="5" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="475" y="235" text-anchor="middle" fill="#7aa2ff" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
+  <rect x="405" y="262" width="140" height="44" rx="5" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="475" y="289" text-anchor="middle" fill="#7aa2ff" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
+
+  <defs>
+    <marker id="ca" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8fa498"/></marker>
+    <marker id="cg" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#56c374"/></marker>
+  </defs>
+</svg>
+<figcaption>Ein Cluster besteht aus der Control Plane (dem „Gehirn“) und mehreren Worker Nodes, auf denen die Pods laufen. Mit kubectl sprichst du immer mit der Control Plane – sie verteilt die Arbeit auf die Knoten.</figcaption>
+</figure>
 
 !!! note "Kurz erklärt: in unserer Übung ist alles auf einem Rechner"
     Wir richten gleich einen **Ein-Knoten-Cluster** auf deinem eigenen Rechner ein (mit **minikube**). Control Plane und Worker stecken dann zusammen in **einer** virtuellen Maschine. Das ist normal zum Lernen: die Befehle und Konzepte sind **exakt dieselben** wie bei einem großen Cluster aus hundert Servern – nur kleiner.
