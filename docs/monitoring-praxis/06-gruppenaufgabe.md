@@ -39,16 +39,18 @@ Danach zeigt jede Gruppe kurz ihr Dashboard und den Alarm.
 # Eure Aufgaben
 
 !!! tip "So baut ihr jedes Panel (einmal lesen, dann ist es immer gleich)"
-    Jedes Panel entsteht in derselben Reihenfolge wie in [Übung 4](05-erste-uebungen.md): **Abfrage eintippen → Visualisierungstyp wählen → (Optionen setzen) → Apply**.
+    Jedes Panel entsteht in derselben Reihenfolge wie in [Übung 4](05-erste-uebungen.md): **Abfrage eingeben → Visualisierungstyp wählen → (Optionen setzen) → Apply**. Wo das jeweils sitzt:
 
-    - Das **erste** Panel legt ihr über **Dashboards → New → New dashboard → + Add visualization** an.
-    - Jedes **weitere** Panel im selben Dashboard über den Knopf **Add → Visualization** oben in der Leiste.
-    - **Apply** (oben rechts) bringt euch aus dem Panel-Editor zurück aufs Dashboard. Das **Disketten-Symbol** speichert das ganze Dashboard.
+    - **Abfrage:** unten im Bereich **Query**. Rechts auf **Code** umschalten (statt Builder) und die Abfrage ins Textfeld tippen.
+    - **Visualisierungstyp:** Dropdown **oben rechts** (z.B. von „Time series" auf „Gauge" oder „Stat").
+    - **Titel, Min/Max, Thresholds:** in der **rechten Optionsspalte** – der Titel ganz oben unter „Panel options", Min/Max und Thresholds weiter unten unter „Standard options" bzw. „Thresholds".
+    - **Neues Panel:** das erste über **Dashboards → New → New dashboard → + Add visualization**, jedes weitere über **Add → Visualization** oben in der Leiste.
+    - **Apply** (oben rechts) bringt euch zurück aufs Dashboard. Das **Disketten-Symbol** speichert das ganze Dashboard.
 
 ## Aufgabe 1 – Dashboard mit Sauerstoff-Panel
 
 1. In Grafana (<http://localhost:3001>): **Dashboards → New → New dashboard → + Add visualization**, Datenquelle **Prometheus**.
-2. Abfrage `aurora_oxygen_percent`, Typ **Gauge**, `Min` 0 / `Max` 100, Threshold rot bei `90`. **Apply**.
+2. Abfrage `aurora_oxygen_percent` (im **Query**-Bereich auf **Code** umschalten), Typ **Gauge**, `Min` 0 / `Max` 100. Bei **Thresholds** so einstellen, dass es **unter 90 rot** wird: **Base** auf Rot, zweite Zeile Wert `90` auf Grün. **Apply**.
 3. Oben rechts **speichern** (Disketten-Symbol), Name z.B. „Monitoring – Gruppe X".
 
 !!! tip "Ab jetzt nach jedem Panel speichern"

@@ -174,9 +174,9 @@ Baue ein Gauge-Panel für den Sauerstoff.
 
     **Schritt 2:** Im **linken Menü** (das Kachel-Symbol) auf **Dashboards → New → New dashboard**, dann den großen Knopf **+ Add visualization**.
 
-    **Schritt 3:** Es erscheint die Auswahl der Datenquelle – nimm **Prometheus** (die ist schon eingerichtet). Danach öffnet sich der **Panel-Editor**: links/unten das Abfragefeld, rechts die Optionen, oben die Vorschau.
+    **Schritt 3:** Es erscheint die Auswahl der Datenquelle – nimm **Prometheus** (die ist schon eingerichtet). Danach öffnet sich der **Panel-Editor**: oben die Vorschau, rechts die Optionen, unten der Bereich **Query** für die Abfrage.
 
-    **Schritt 4:** Ins Abfragefeld:
+    **Schritt 4:** Unten im **Query**-Bereich seht ihr rechts einen Umschalter **Builder | Code**. Klickt auf **Code** – dann erscheint ein Textfeld, in das ihr die Abfrage direkt eintippt:
 
     ```promql
     aurora_oxygen_percent
@@ -184,7 +184,7 @@ Baue ein Gauge-Panel für den Sauerstoff.
 
     **Schritt 5:** Oben rechts den Visualisierungstyp von „Time series" auf **Gauge** umstellen.
 
-    **Schritt 6:** In der **rechten Spalte** des Editors: unter **Standard options** `Min` = `0` und `Max` = `100` setzen; unter **Thresholds** den vorgegebenen Wert auf `90` ändern und die Farbe auf Rot stellen.
+    **Schritt 6:** In der **rechten Spalte** des Editors unter **Standard options** `Min` = `0` und `Max` = `100` setzen. Dann unter **Thresholds** die Farben so einstellen, dass es bei **wenig** Sauerstoff rot wird: die untere Zeile **Base** auf **Rot**, die zweite Zeile auf den Wert **`90`** mit **Grün**. (Grafana färbt von einem Schwellwert aufwärts, also bedeutet „Base rot, 90 grün": unter 90 rot, ab 90 grün.)
 
     **Schritt 7:** Oben rechts **Apply**.
 
@@ -193,6 +193,14 @@ Baue ein Gauge-Panel für den Sauerstoff.
 
 !!! note "Kurz erklärt: die vier Bausteine eines Panels"
     Jedes Panel besteht aus denselben vier Teilen: einer **Datenquelle** (woher die Zahlen kommen – hier Prometheus), einer **Abfrage** (welche Zahl – die PromQL), einem **Visualisierungstyp** (wie es aussieht – Gauge, Time series, Stat) und ein paar **Optionen**. Der **Threshold** ist nur so eine Option: eine Farb-Regel, die das Gauge unter 90 rot färbt. Mehr steckt hinter dem „Alarm" auf dem Dashboard erst einmal nicht.
+
+!!! note "Kurz erklärt: Builder oder Code im Query-Bereich?"
+    Der Query-Bereich hat rechts einen Umschalter **Builder | Code**:
+
+    - **Builder** (Standard) – ihr wählt die Metrik über ein Feld **„Metric"** und klickt Label-Filter zusammen. Praktisch für einfache Abfragen.
+    - **Code** – ein einziges Textfeld für die komplette Abfrage. Nötig, sobald eine Funktion wie `sum(...)` oder `rate(...)` dazukommt.
+
+    In den Aufgaben nutzen wir durchgehend **Code** – so landet jede Abfrage im selben Feld, egal wie kompliziert.
 
 ---
 

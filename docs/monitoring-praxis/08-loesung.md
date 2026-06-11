@@ -24,11 +24,11 @@ Drei Dienste `Up`. Erreichbar: <http://localhost:8090>, <http://localhost:9090>,
 
 ## Die vier Pflicht-Panels
 
-In Grafana: **Dashboards → New → New dashboard → + Add visualization → Prometheus**. Pro Panel eine Abfrage, Visualisierungstyp wählen, **Apply**, am Ende Dashboard speichern.
+In Grafana: **Dashboards → New → New dashboard → + Add visualization → Prometheus**. Die Abfrage im Bereich **Query** unter **Code** eintippen, oben rechts den Visualisierungstyp wählen, **Apply**, am Ende Dashboard speichern.
 
 | Panel | Abfrage | Typ | Optionen |
 |---|---|---|---|
-| Sauerstoff | `aurora_oxygen_percent` | Gauge | Min 0, Max 100, Threshold rot bei 90 |
+| Sauerstoff | `aurora_oxygen_percent` | Gauge | Min 0, Max 100; Thresholds: Base rot, 90 grün (= unter 90 rot) |
 | Energielast | `aurora_power_load_percent` | Time series | – |
 | Module gesamt | `sum(aurora_modules_total)` | Stat | – |
 | Dienste erreichbar | `up` | Stat | – |
