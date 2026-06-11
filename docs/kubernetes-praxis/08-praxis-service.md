@@ -368,5 +368,7 @@ Bleib nicht zu lange hängen. Die häufigsten Stolpersteine bei einem Service si
 
 Geschafft – du hast einen Service vor dein Deployment gelegt, die App erreichbar gemacht und das Load-Balancing mit eigenen Augen gesehen. Damit hast du die drei Kernstücke beisammen: **Pod**, **Deployment**, **Service**.
 
+Das war der **lokale** Teil – komplett auf deinem eigenen minikube. Die nächsten, größeren Schritte (mehrere echte Knoten, Cloud-`LoadBalancer`, Ingress) brauchst du nicht mehr auf dem Laptop zu stemmen: Die machen wir in den **Hands-on-Cloud-Labs der Lernplattform**. Wie es dort weitergeht, steht im [Rückblick & Ausblick](10-rueckblick.md).
+
 - [Hilfekarten](09-hilfekarten.md) – nachschlagen, wenn etwas hakt
 - [Rückblick & Ausblick](10-rueckblick.md) – was du mitnimmst und wie es weitergeht
