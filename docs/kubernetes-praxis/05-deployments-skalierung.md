@@ -101,7 +101,7 @@ flowchart TB
 Jetzt zur dritten Superkraft – der, die im echten Betrieb am meisten wert ist. Du willst eine **neue Version** ausrollen, ohne dass der Dienst auch nur eine Sekunde weg ist. Das Deployment macht das **wellenweise**: Es startet einen neuen Pod mit der neuen Version, wartet bis er läuft, nimmt dann einen alten heraus – und so weiter, Pod für Pod. Zu jedem Zeitpunkt sind genug Pods da, um Anfragen zu beantworten. Das nennt man **Rolling Update**.
 
 <figure>
-<svg viewBox="0 0 640 280" width="100%" height="280" role="img" aria-label="Rolling Update in drei Wellen: alte blaue Pods werden Pod fuer Pod durch neue gruene Pods ersetzt">
+<svg viewBox="0 0 640 280" width="100%" height="280" role="img" aria-label="Rolling Update in drei Wellen: alte blaue Pods werden Pod für Pod durch neue grüne Pods ersetzt">
   <!-- Welle 1: alle alt -->
   <text x="80" y="30" text-anchor="middle" fill="#8fa498" font-family="JetBrains Mono, monospace" font-size="12">Start</text>
   <rect x="40" y="45" width="80" height="34" rx="5" fill="rgba(122,162,255,0.16)" stroke="#7aa2ff" stroke-width="2"/>
@@ -147,7 +147,7 @@ Jetzt zur dritten Superkraft – der, die im echten Betrieb am meisten wert ist.
   <!-- Hinweiszeile -->
   <text x="320" y="205" text-anchor="middle" fill="#8fa498" font-size="13">Zu jedem Zeitpunkt sind genug Pods da → kein Ausfall.</text>
   <text x="320" y="230" text-anchor="middle" fill="#e0a05a" font-family="JetBrains Mono, monospace" font-size="12">blau = alte Version (hello:latest)</text>
-  <text x="320" y="252" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">gruen = neue Version (hello:plain-text)</text>
+  <text x="320" y="252" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">grün = neue Version (hello:plain-text)</text>
 </svg>
 <figcaption>Beim Rolling Update tauscht das Deployment die Pods wellenweise aus: erst einen neuen hoch, dann einen alten weg – bis alle erneuert sind. Der Dienst bleibt durchgehend erreichbar.</figcaption>
 </figure>

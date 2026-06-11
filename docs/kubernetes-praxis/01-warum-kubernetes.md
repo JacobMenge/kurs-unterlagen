@@ -43,7 +43,7 @@ Ein Bild dazu: das **Dirigieren eines Orchesters**. Die einzelnen Container sind
   <rect x="125" y="70" width="55" height="40" rx="4" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
   <rect x="55" y="125" width="55" height="40" rx="4" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
   <rect x="125" y="125" width="55" height="40" rx="4" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
-  <text x="120" y="210" text-anchor="middle" fill="#e0a05a" font-family="JetBrains Mono, monospace" font-size="12">faellt der Rechner aus → alles weg</text>
+  <text x="120" y="210" text-anchor="middle" fill="#e0a05a" font-family="JetBrains Mono, monospace" font-size="12">fällt der Rechner aus → alles weg</text>
   <!-- Pfeil -->
   <text x="320" y="120" text-anchor="middle" fill="#7dff9a" font-size="26">→</text>
   <!-- rechte Seite: Cluster -->
@@ -55,7 +55,7 @@ Ein Bild dazu: das **Dirigieren eines Orchesters**. Die einzelnen Container sind
   <rect x="440" y="82" width="32" height="28" rx="3" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
   <rect x="510" y="82" width="32" height="28" rx="3" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
   <rect x="550" y="82" width="32" height="28" rx="3" fill="rgba(122,162,255,0.15)" stroke="#7aa2ff" stroke-width="2"/>
-  <text x="490" y="210" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">faellt ein Knoten aus → Rest macht weiter</text>
+  <text x="490" y="210" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">fällt ein Knoten aus → Rest macht weiter</text>
 </svg>
 <figcaption>Links ein einzelner Host: alle Container teilen das Schicksal des Rechners. Rechts ein Cluster: mehrere Knoten (grün), die Container (blau) tragen – fällt einer aus, übernehmen die anderen.</figcaption>
 </figure>

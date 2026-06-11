@@ -50,7 +50,7 @@ flowchart TB
 In Kubernetes startest du keine Container direkt. Die kleinste Einheit, die Kubernetes verwaltet, ist der **Pod**. Ein Pod ist eine **Hülle um einen Container** (manchmal auch um mehrere eng zusammengehörige). Fast immer gilt: **ein Pod = ein Container**.
 
 <figure>
-<svg viewBox="0 0 420 170" width="100%" height="170" role="img" aria-label="Ein Pod als Huelle um einen Container">
+<svg viewBox="0 0 420 170" width="100%" height="170" role="img" aria-label="Ein Pod als Hülle um einen Container">
   <rect x="40" y="30" width="160" height="110" rx="10" fill="rgba(125,255,154,0.06)" stroke="#7dff9a" stroke-width="2.5"/>
   <text x="120" y="22" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Pod</text>
   <rect x="70" y="60" width="100" height="60" rx="5" fill="rgba(122,162,255,0.16)" stroke="#7aa2ff" stroke-width="2"/>
@@ -79,7 +79,7 @@ Daraus ergeben sich von selbst zwei der wichtigsten Fähigkeiten:
 - **Skalierung** – du änderst die Zahl von 3 auf 10 – und es kommen sieben dazu (oder zurück).
 
 <figure>
-<svg viewBox="0 0 520 210" width="100%" height="210" role="img" aria-label="Deployment haelt drei Pods, einer stirbt, ein neuer kommt nach">
+<svg viewBox="0 0 520 210" width="100%" height="210" role="img" aria-label="Deployment hält drei Pods, einer stirbt, ein neuer kommt nach">
   <text x="260" y="20" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Deployment: "halte 3 Pods"</text>
   <rect x="20" y="35" width="480" height="150" rx="10" fill="rgba(125,255,154,0.04)" stroke="#56c374" stroke-width="2" stroke-dasharray="5 4"/>
 
