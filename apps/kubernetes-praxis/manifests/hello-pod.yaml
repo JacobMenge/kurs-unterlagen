@@ -1,5 +1,5 @@
 # Ein einzelner Pod – die kleinste Einheit in Kubernetes.
-# Achtung: ein nackter Pod heilt sich NICHT selbst. Löschst du ihn,
+# Achtung: ein einzelner Pod heilt sich NICHT selbst. Löschst du ihn,
 # ist er weg. Für echten Betrieb nimmt man ein Deployment (siehe
 # hello-deployment.yaml) – das lernst du in Praxis 2.
 apiVersion: v1
