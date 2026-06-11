@@ -18,7 +18,7 @@ Ein **Cluster** ist der ganze Verbund: mehrere Rechner, die zusammen als eine Ei
 
 Es gibt zwei Sorten von Nodes:
 
-- **Control Plane** (das „Gehirn“) – verteilt die Arbeit, überwacht den Soll-Zustand, trifft die Entscheidungen. Hier läuft unter anderem der **API-Server**, mit dem du über `kubectl` redest.
+- **Control Plane** (das „Gehirn“) – verteilt die Arbeit, überwacht den Soll-Zustand, trifft die Entscheidungen. Hier läuft unter anderem der **API-Server** – die zentrale Anlaufstelle, an die `kubectl` all deine Befehle schickt.
 - **Worker Nodes** (die „Arbeiter“) – hier laufen tatsächlich deine Container.
 
 ```mermaid
@@ -107,7 +107,7 @@ Daraus ergeben sich von selbst zwei der wichtigsten Fähigkeiten:
 </figure>
 
 !!! note "Kurz erklärt: ReplicaSet – das Rädchen darunter"
-    Zwischen Deployment und Pods sitzt unsichtbar ein **ReplicaSet**. Es ist der eigentliche „Zähler“, der dafür sorgt, dass genau *N* gleiche Pods existieren. Das **Deployment** verwaltet ReplicaSets und kommt obendrauf für die **Rolling Updates** ins Spiel: Bei einer neuen Version legt es ein neues ReplicaSet an und tauscht Pod für Pod. Du arbeitest fast immer mit dem **Deployment** – das ReplicaSet läuft im Hintergrund mit.
+    Zwischen Deployment und Pods arbeitet **im Hintergrund** ein **ReplicaSet** (du begegnest ihm in Praxis 2 in `kubectl get all`). Es ist der eigentliche „Zähler“, der dafür sorgt, dass genau *N* gleiche Pods existieren. Das **Deployment** sitzt obendrauf, verwaltet das ReplicaSet und kommt zusätzlich für die **Rolling Updates** ins Spiel. Kurz: Du arbeitest fast immer nur mit dem **Deployment** – um das ReplicaSet kümmert es sich selbst.
 
 ```mermaid
 flowchart TB
@@ -157,7 +157,7 @@ Pods sind sterblich und wechseln ihre IP. Wie erreicht man dann zuverlässig ein
 </figure>
 
 !!! note "Kurz erklärt: woher der Service „seine“ Pods kennt"
-    Über **Labels**. Jeder Pod trägt Markierungen wie `app: hello`. Der Service hat einen **Selektor** „schick alles an Pods mit `app: hello`“. Tauchen neue Pods mit diesem Label auf (z.B. weil du hochskalierst), nimmt der Service sie automatisch mit auf. Labels sind das Klebeband, das in Kubernetes alles verbindet – das siehst du in [Praxis 3](08-praxis-service.md) live.
+    Über **Labels**. Ein Label ist einfach eine kleine Markierung an einem Pod – wie ein **Aufkleber** `app: hello`. Der Service hat einen **Selektor**, also eine Suchregel: „schick alles an jeden Pod mit dem Aufkleber `app: hello`“. Tauchen neue Pods mit diesem Label auf (z.B. weil du hochskalierst), nimmt der Service sie automatisch mit auf. Labels sind das Klebeband, das in Kubernetes alles verbindet – das siehst du in [Praxis 3](08-praxis-service.md) live.
 
 ---
 
@@ -180,7 +180,7 @@ Ein paar Befehle, die du immer wieder brauchst – mehr Vokabeln sind es kaum:
 | `kubectl get pods` | listet die Pods auf |
 | `kubectl get all` | zeigt Pods, Deployments, Services … auf einen Blick |
 | `kubectl describe pod <name>` | zeigt alle Details und Ereignisse eines Pods |
-| `kubectl logs <pod>` | zeigt die Ausgabe (Logs) des Containers |
+| `kubectl logs <name>` | zeigt die Ausgabe (Logs) des Containers |
 | `kubectl apply -f datei.yaml` | wendet einen Soll-Zustand aus einer Datei an |
 | `kubectl delete -f datei.yaml` | entfernt, was in der Datei steht |
 

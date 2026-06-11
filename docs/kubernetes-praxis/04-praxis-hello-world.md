@@ -18,6 +18,9 @@ Diese Übung machst du **allein oder zu zweit**, sie dauert rund **60 bis 90 Min
 
     Du musst **eine** Zeile mit Status `Ready` sehen. Falls nicht – oder falls `kubectl` ins Leere läuft – schau in die [Installation](03-installation.md) zurück bzw. zu den [Hilfekarten](09-hilfekarten.md). Docker Desktop muss laufen, der Cluster ebenfalls (`minikube start --driver=docker`).
 
+    !!! tip "Rechner zwischendurch neu gestartet?"
+        Nach einem Neustart ist der Cluster meist **gestoppt** (nicht gelöscht). Ein einfaches `minikube start` holt ihn ohne Datenverlust zurück – du musst nichts neu installieren.
+
 ---
 
 ## Warm-up: Cluster wach?
@@ -66,7 +69,11 @@ kubectl run hello --image=nginxdemos/hello:latest --port=80
 pod/hello created
 ```
 
-`hello` ist der Name, den der Pod bekommt. Das Image `nginxdemos/hello:latest` ist eine winzige Webseite, die später den **Namen des antwortenden Pods** anzeigt – genau das macht in den nächsten Praxisteilen sichtbar, was Kubernetes für dich tut.
+Das liest sich fast wie ein `docker run`, nur mit `kubectl run`. Was die Teile bedeuten:
+
+- `hello` – der **Name**, den der Pod bekommt.
+- `--image=nginxdemos/hello:latest` – das **Container-Image** in der Form `Name:Version` (`:latest` = die neueste). Es ist eine winzige Webseite, die später den **Namen des antwortenden Pods** anzeigt – genau das macht in den nächsten Praxisteilen sichtbar, was Kubernetes für dich tut.
+- `--port=80` – sagt Kubernetes, dass der Container intern auf **Port 80** lauscht. Das brauchst du in Schritt 6, um den Pod im Browser zu öffnen.
 
 !!! note "Kurz erklärt: `kubectl run`"
     `kubectl run` ist der schnellste Weg zu **einem einzelnen Pod** – ideal zum Ausprobieren und Lernen. Du gibst direkt auf der Kommandozeile an, was laufen soll, statt eine YAML-Datei zu schreiben. Für den echten Betrieb nimmt man später ein Deployment (Praxis 2) – aber zum Kennenlernen ist der nackte Pod genau das Richtige.
@@ -113,7 +120,7 @@ NAME    READY   STATUS    RESTARTS   AGE
 hello   1/1     Running   0          15s
 ```
 
-Mehr Details bekommst du mit `-o wide` – darunter der **Node**, auf dem der Pod läuft, sowie seine **Pod-IP** im Cluster:
+Mehr Details bekommst du mit `-o wide` (kurz für `--output wide`, also „breitere Ausgabe“) – darunter der **Node**, auf dem der Pod läuft, sowie seine **Pod-IP** im Cluster:
 
 ```bash
 kubectl get pods -o wide
@@ -186,6 +193,8 @@ Bei diesem nginx-Image ist die Startausgabe knapp – sobald du den Pod gleich i
 kubectl exec -it hello -- sh
 ```
 
+Kurz zur Schreibweise: `-it` macht die Sitzung **interaktiv** (du kannst darin tippen). Das `--` trennt die `kubectl`-Optionen von dem Befehl, der **im** Container laufen soll – hier `sh` (eine einfache Shell).
+
 Der Prompt wechselt – jetzt bist du **im** Container. Probier zwei Befehle aus:
 
 ```bash
@@ -205,7 +214,7 @@ exit
 ```
 
 !!! note "Kurz erklärt: `exec` wie `docker exec`"
-    `kubectl exec -it <pod> -- sh` öffnet eine Shell **im** Container – wie `docker exec -it`. Das `-it` macht die Sitzung interaktiv, alles nach `--` ist der Befehl im Container (hier `sh`). Wichtig fürs Verständnis: Der **Hostname im Pod ist der Pod-Name**. Deshalb erkennst du später beim Load-Balancing sofort, welcher Pod geantwortet hat.
+    `kubectl exec` öffnet eine Shell **im** laufenden Container – genau wie `docker exec`. Wichtig fürs Verständnis: Der **Hostname im Pod ist der Pod-Name**. Deshalb erkennst du später beim Load-Balancing sofort, welcher Pod geantwortet hat.
 
 !!! warning "Nicht den Pod selbst beenden"
     `exit` verlässt nur die Shell – der Pod läuft weiter. Tippst du dagegen aus Versehen im **Host**-Terminal `exit`, schließt du nur dein Terminalfenster, nicht den Pod. Den Pod löschen wir erst ganz am Ende, ganz bewusst.
@@ -222,6 +231,8 @@ kubectl port-forward pod/hello 8080:80
 Forwarding from 127.0.0.1:8080 -> 80
 Forwarding from [::1]:8080 -> 80
 ```
+
+Zwei Dinge zur Schreibweise: `pod/hello` ist die Langform `Ressourcentyp/Name` – sie sagt eindeutig „der **Pod** namens hello“ (kurz `hello` würde meist auch gehen, die Langform ist nur klarer). Und `8080:80` liest sich **lokal:im-Pod** – Port `8080` auf deinem Laptop führt zu Port `80` im Container.
 
 Lass dieses Terminal **offen** – solange es läuft, steht der Tunnel. Öffne im Browser:
 
@@ -244,8 +255,8 @@ Brauchst du nebenher weitere `kubectl`-Befehle, öffne ein **zweites Terminal** 
 !!! note "Kurz erklärt: `port-forward` ist ein lokaler Tunnel"
     `kubectl port-forward pod/hello 8080:80` verbindet **Port 8080 auf deinem Rechner** mit **Port 80 im Pod**. Anfragen an `http://localhost:8080` laufen durch diesen Tunnel direkt zum Pod. Das funktioniert auf jedem Rechner gleich – egal ob minikube oder Docker Desktop – und ist deshalb unser Standardweg, um Apps im Browser zu öffnen. Wichtig: Der Tunnel lebt nur, solange das Terminal offen ist.
 
-!!! tip "Schreibweise der Ports merken"
-    Die Reihenfolge ist **lokal:im-Pod**, also `8080:80`. Links die Tür auf deinem Laptop, rechts der Port im Container. Wenn `localhost:8080` nichts zeigt, ist meist der port-forward nicht (mehr) aktiv – [Hilfekarte 6](09-hilfekarten.md#hilfekarte-6-port-forward-klappt-nicht).
+!!! tip "Nichts zu sehen im Browser?"
+    Wenn `localhost:8080` nichts anzeigt, ist meist der port-forward nicht (mehr) aktiv – das Terminal muss offen bleiben. Hilfe dazu in [Hilfekarte 6](09-hilfekarten.md#hilfekarte-6-port-forward-klappt-nicht).
 
 ---
 
