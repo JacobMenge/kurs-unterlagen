@@ -5,7 +5,7 @@ description: "Angeleitete erste Praxis: einen einzelnen Pod starten, seinen Stat
 
 # Praxis 1: Hello World – dein erster Pod
 
-Jetzt fasst du an, was du auf den letzten Seiten gelesen hast. Wir starten den **kleinsten Baustein** von Kubernetes – einen einzelnen **Pod** – schauen hinein, machen ihn im Browser erreichbar und löschen ihn am Ende wieder. Ganz bewusst nehmen wir hier noch **keinen** Manager (kein Deployment), damit du am Ende einen Effekt mit eigenen Augen siehst: ein nackter Pod kommt **nicht** von allein zurück. Das ist der rote Faden zu Praxis 2.
+Jetzt fasst du an, was du auf den letzten Seiten gelesen hast. Wir starten den **kleinsten Baustein** von Kubernetes – einen einzelnen **Pod** – schauen hinein, machen ihn im Browser erreichbar und löschen ihn am Ende wieder. Ganz bewusst nehmen wir hier noch **keinen** Manager (kein Deployment), damit du am Ende einen Effekt mit eigenen Augen siehst: ein Pod ohne Manager kommt **nicht** von allein zurück. Das ist der rote Faden zu Praxis 2.
 
 Diese Übung machst du **allein oder zu zweit**, sie dauert rund **60 bis 90 Minuten**. Alles ist komplett angeleitet – Befehl, erwartete Ausgabe, kurze Erklärung. Am Ende kommt eine Aufgabe, die du selbst löst (die Lösung liegt zum Aufklappen dabei).
 
@@ -76,7 +76,7 @@ Das liest sich fast wie ein `docker run`, nur mit `kubectl run`. Was die Teile b
 - `--port=80` – sagt Kubernetes, dass der Container intern auf **Port 80** lauscht. Das brauchst du in Schritt 6, um den Pod im Browser zu öffnen.
 
 !!! note "Kurz erklärt: `kubectl run`"
-    `kubectl run` ist der schnellste Weg zu **einem einzelnen Pod** – ideal zum Ausprobieren und Lernen. Du gibst direkt auf der Kommandozeile an, was laufen soll, statt eine YAML-Datei zu schreiben. Für den echten Betrieb nimmt man später ein Deployment (Praxis 2) – aber zum Kennenlernen ist der nackte Pod genau das Richtige.
+    `kubectl run` ist der schnellste Weg zu **einem einzelnen Pod** – ideal zum Ausprobieren und Lernen. Du gibst direkt auf der Kommandozeile an, was laufen soll, statt eine YAML-Datei zu schreiben. Für den echten Betrieb nimmt man später ein Deployment (Praxis 2) – aber zum Kennenlernen ist der einzelne Pod genau das Richtige.
 
 ??? info "Dasselbe als Manifest (zum Wiedererkennen)"
     Derselbe Pod steckt fertig in `manifests/hello-pod.yaml`. Du musst ihn hier nicht anwenden – aber schau ihn dir an, damit du die vier Felder aus den [Grundbegriffen](02-grundbegriffe.md#deklarativ-das-yaml-manifest) wiedererkennst:
@@ -282,7 +282,7 @@ No resources found in default namespace.
 
 Der Pod ist weg – **und er bleibt weg**. Niemand startet einen neuen. Genau das ist die Lehre dieses Schritts.
 
-!!! warning "Merksatz: ein nackter Pod heilt sich NICHT selbst"
+!!! warning "Merksatz: ein einzelner Pod heilt sich NICHT selbst"
     Einen mit `kubectl run` (oder als reines `kind: Pod`) erzeugten Pod ersetzt Kubernetes **nicht**, wenn er stirbt oder du ihn löschst. Es gibt keinen Manager darüber, der einen Soll-Zustand wachhält. Für echten Betrieb ist das zu wenig – darum gibt es das **Deployment**. Was passiert, wenn du einen Pod löschst, der zu einem Deployment gehört? Das probierst du gleich in [Praxis 2](06-praxis-deployment.md) aus – und der Unterschied ist der ganze Kern von Kubernetes.
 
 ---
@@ -292,7 +292,7 @@ Der Pod ist weg – **und er bleibt weg**. Niemand startet einen neuen. Genau da
 Jetzt du. Mach denselben Ablauf noch einmal allein – aber mit einem **anderen Image** und einem **anderen Namen**. So merkst du dir die Handgriffe.
 
 !!! info "Deine Aufgabe"
-    Starte einen Pod namens **`web`** mit dem Image **`nginx:1.27`** (ein „nacktes" nginx, ohne Pod-Namen-Anzeige). Dann:
+    Starte einen Pod namens **`web`** mit dem Image **`nginx:1.27`** (ein schlichtes nginx, ohne Pod-Namen-Anzeige). Dann:
 
     1. starten und prüfen, dass er `Running` ist,
     2. einmal mit `describe` und `logs` hineinschauen,
@@ -363,7 +363,7 @@ Das kannst du jetzt – die Grundhandgriffe für jeden Pod:
 - einen **Pod starten** (`kubectl run`) und seinen **Status verfolgen** (`get pods`, `-o wide`, `-w`),
 - **hineinschauen**: Details und Ereignisse (`describe`), Ausgabe (`logs`), Shell im Container (`exec -it ... -- sh`),
 - den Pod **im Browser erreichbar machen** (`port-forward 8080:80`),
-- einen Pod **löschen** – und du weißt: ein nackter Pod kommt nicht von allein zurück.
+- einen Pod **löschen** – und du weißt: ein einzeln gestarteter Pod kommt nicht von allein zurück.
 
 Damit hast du das Vokabular aus den [Grundbegriffen](02-grundbegriffe.md) zum ersten Mal angefasst. Im nächsten Theorieteil dreht sich alles um den Manager, der genau diese Lücke schließt.
 

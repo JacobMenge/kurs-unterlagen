@@ -248,7 +248,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     kubectl delete deployment,service hello
     ```
 
-    Das löscht Deployment **und** Service `hello` in einem Rutsch. Einen nackten Pod aus Praxis 1 entfernst du mit `kubectl delete pod hello`. Über die Manifeste geht es genauso:
+    Das löscht Deployment **und** Service `hello` in einem Rutsch. Einen einzelnen Pod aus Praxis 1 entfernst du mit `kubectl delete pod hello`. Über die Manifeste geht es genauso:
 
     ```bash
     kubectl delete -f manifests/hello-service.yaml -f manifests/hello-deployment.yaml

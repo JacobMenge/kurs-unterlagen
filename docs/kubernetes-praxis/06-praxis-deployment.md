@@ -166,7 +166,7 @@ Und sofort wieder nachsehen:
 kubectl get pods
 ```
 
-Du siehst: Der gelöschte Pod ist weg – aber ein **neuer** mit anderem Namen ist schon da (vielleicht kurz noch `ContainerCreating`). Die Soll-Zahl 2 wird sofort wieder erreicht. Beim **nackten Pod** aus Praxis 1 wäre an dieser Stelle nichts nachgekommen – der Unterschied liegt am Deployment.
+Du siehst: Der gelöschte Pod ist weg – aber ein **neuer** mit anderem Namen ist schon da (vielleicht kurz noch `ContainerCreating`). Die Soll-Zahl 2 wird sofort wieder erreicht. Beim **einzelnen Pod** aus Praxis 1 wäre an dieser Stelle nichts nachgekommen – der Unterschied liegt am Deployment.
 
 !!! note "Kurz erklärt: der Regelkreis in Aktion"
     Das ist die **Selbstheilung** aus der Theorie, live. Das ReplicaSet vergleicht laufend Soll (2) mit Ist. Durch das Löschen war das Ist kurz 1 – also fehlte einer. Kubernetes hat den Unterschied bemerkt und sofort Ersatz gestartet. Niemand musste eingreifen. Genau dafür baut man Deployments statt einzelner Pods.

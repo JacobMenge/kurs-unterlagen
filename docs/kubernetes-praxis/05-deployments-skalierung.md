@@ -10,7 +10,7 @@ In [Praxis 1](04-praxis-hello-world.md) hast du einen einzelnen **Pod** gestarte
 Genau dieses Problem löst das **Deployment**. Es ist der Schritt vom „ich habe einen Container gestartet“ zum „ich will, dass dieser Dienst **immer** läuft – und zwar in der Anzahl, die ich vorgebe“. In dieser Theorieseite klären wir vier Dinge, die du danach in [Praxis 2](06-praxis-deployment.md) selbst auslöst: den **Soll-Zustand**, die **Selbstheilung**, die **Skalierung** und das **Rolling Update**.
 
 !!! quote "Der rote Faden"
-    Ein nackter Pod ist wie ein Eimer ohne Boden: einmal umgekippt, ist er leer. Ein Deployment ist der Helfer, der danebensteht und den Eimer immer wieder aufstellt – und auf Wunsch gleich drei davon hinstellt.
+    Ein einzelner Pod ist wie ein Eimer ohne Boden: einmal umgekippt, ist er leer. Ein Deployment ist der Helfer, der danebensteht und den Eimer immer wieder aufstellt – und auf Wunsch gleich drei davon hinstellt.
 
 ---
 
@@ -41,11 +41,11 @@ Das ist genau der Kontrast, den du in der Praxis siehst:
 
 | Du löschst einen … | Was passiert |
 |---|---|
-| **nackten Pod** (`hello-pod.yaml`) | nichts – er bleibt weg, niemand ersetzt ihn |
+| **einzelnen Pod** (`hello-pod.yaml`) | nichts – er bleibt weg, niemand ersetzt ihn |
 | **Pod eines Deployments** | Kubernetes startet sofort einen neuen, das Soll wird wiederhergestellt |
 
 !!! tip "Genau das hast du in Praxis 1 vermisst"
-    In [Praxis 1](04-praxis-hello-world.md) hast du einen nackten Pod gelöscht – und er kam **nicht** zurück. Mit einem Deployment dahinter wäre er es. In [Praxis 2](06-praxis-deployment.md) löschst du gleich einen Pod aus einem Deployment und siehst zu, wie der Ersatz in Sekunden hochkommt.
+    In [Praxis 1](04-praxis-hello-world.md) hast du einen einzelnen Pod gelöscht – und er kam **nicht** zurück. Mit einem Deployment dahinter wäre er es. In [Praxis 2](06-praxis-deployment.md) löschst du gleich einen Pod aus einem Deployment und siehst zu, wie der Ersatz in Sekunden hochkommt.
 
 !!! note "Kurz erklärt: „Selbstheilung“ heißt nicht „reparieren“"
     Kubernetes flickt keinen kaputten Pod. Es **ersetzt** ihn durch einen frischen, gebaut nach derselben Vorlage. Die Heilung besteht darin, die **Stückzahl** wiederherzustellen – nicht den einzelnen Pod zu retten. Deshalb sind Pods auch austauschbar: Es zählt, dass *drei* laufen, nicht *welche* drei.
@@ -211,7 +211,7 @@ Feld für Feld:
 
 | Feld | Bedeutung |
 |---|---|
-| `apiVersion: apps/v1` | Welche API-Gruppe das Objekt beschreibt. Deployments leben in `apps/v1` (ein nackter Pod dagegen in `v1`). |
+| `apiVersion: apps/v1` | Welche API-Gruppe das Objekt beschreibt. Deployments leben in `apps/v1` (ein einzelner Pod dagegen in `v1`). |
 | `kind: Deployment` | Was für ein Objekt das ist – hier ein Deployment. |
 | `metadata.name: hello` | Der Name des Deployments. Darüber sprichst du es an: `kubectl scale deployment hello …`. |
 | `metadata.labels` | Markierungen am Deployment selbst – praktisch zum Filtern und Aufräumen. |
