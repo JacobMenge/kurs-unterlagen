@@ -122,7 +122,7 @@ Zur Gegenprobe:
 kubectl get pods -A
 ```
 
-Das listet die System-Pods des Clusters (im Namespace `kube-system`) – laufen die, ist dein Cluster gesund. 🎉
+Das listet die System-Pods des Clusters (im Namespace `kube-system`) – laufen die, ist dein Cluster gesund.
 
 !!! tip "Das Cluster-Dashboard (optional, aber schön)"
     minikube bringt eine grafische Übersicht mit. Sie öffnet sich im Browser und zeigt Pods, Deployments und Services live:

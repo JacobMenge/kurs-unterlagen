@@ -111,7 +111,7 @@ Daraus ergeben sich von selbst zwei der wichtigsten Fähigkeiten:
 
   <!-- Pod 1 ok -->
   <rect x="55" y="80" width="90" height="60" rx="6" fill="rgba(125,255,154,0.07)" stroke="#7dff9a" stroke-width="2"/>
-  <text x="100" y="115" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod ✓</text>
+  <text x="100" y="115" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
 
   <!-- Pod 2 stirbt -->
   <rect x="215" y="80" width="90" height="60" rx="6" fill="rgba(224,108,108,0.07)" stroke="#e06c6c" stroke-width="2" stroke-dasharray="4 3"/>
@@ -125,7 +125,7 @@ Daraus ergeben sich von selbst zwei der wichtigsten Fähigkeiten:
   <!-- Pod 3 neu -->
   <rect x="375" y="80" width="90" height="60" rx="6" fill="rgba(125,255,154,0.07)" stroke="#7dff9a" stroke-width="2"/>
   <text x="420" y="111" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">neuer</text>
-  <text x="420" y="127" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod ✓</text>
+  <text x="420" y="127" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
 
   <defs><marker id="g" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e0a05a"/></marker></defs>
 </svg>
