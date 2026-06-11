@@ -7,7 +7,7 @@ description: "Angeleitete erste Praxis: einen einzelnen Pod starten, seinen Stat
 
 Jetzt fasst du an, was du auf den letzten Seiten gelesen hast. Wir starten den **kleinsten Baustein** von Kubernetes – einen einzelnen **Pod** – schauen hinein, machen ihn im Browser erreichbar und löschen ihn am Ende wieder. Ganz bewusst nehmen wir hier noch **keinen** Manager (kein Deployment), damit du am Ende einen Effekt mit eigenen Augen siehst: ein Pod ohne Manager kommt **nicht** von allein zurück. Das ist der rote Faden zu Praxis 2.
 
-Diese Übung machst du **allein oder zu zweit**, sie dauert rund **60 bis 90 Minuten**. Alles ist komplett angeleitet – Befehl, erwartete Ausgabe, kurze Erklärung. Am Ende kommt eine Aufgabe, die du selbst löst (die Lösung liegt zum Aufklappen dabei).
+Diese Übung machst du **allein oder zu zweit**, sie dauert rund **60 bis 75 Minuten**. Alles ist komplett angeleitet – Befehl, erwartete Ausgabe, kurze Erklärung. Am Ende kommen **zwei** Aufgaben, die du selbst löst (die Lösungen liegen zum Aufklappen dabei).
 
 !!! info "Voraussetzung"
     Dein Cluster läuft und die [Installation](03-installation.md) ist erledigt. Kurzer Beweis – im Terminal:
@@ -287,7 +287,7 @@ Der Pod ist weg – **und er bleibt weg**. Niemand startet einen neuen. Genau da
 
 ---
 
-## Übungsaufgabe – noch einmal selbst
+## Übungsaufgabe 1 – noch einmal selbst
 
 Jetzt du. Mach denselben Ablauf noch einmal allein – aber mit einem **anderen Image** und einem **anderen Namen**. So merkst du dir die Handgriffe.
 
@@ -353,6 +353,73 @@ Jetzt du. Mach denselben Ablauf noch einmal allein – aber mit einem **anderen 
 
 ??? success "Erwartung"
     `web` lief auf `1/1 Running`, im Browser kam unter <http://localhost:8080> die **nginx-Standard-Willkommensseite** („Welcome to nginx!"). Anders als bei `nginxdemos/hello` zeigt dieses Image **keinen** Pod-Namen an – das ist völlig in Ordnung und sogar lehrreich: nicht jedes Image zeigt, wer geantwortet hat. Der `hostname` im Container war `web`. Nach dem Löschen ist der Pod weg und bleibt weg – genau wie bei `hello`.
+
+---
+
+## Übungsaufgabe 2 – zwei Pods auseinanderhalten
+
+Noch ein kurzer Durchgang – diesmal mit **zwei Pods gleichzeitig**. Das festigt zwei Dinge aus dem angeleiteten Teil: dass `kubectl get pods` dir **alle** Pods auf einmal zeigt und dass der **Hostname jedes Pods sein Name ist** (das siehst du gleich sogar im Browser).
+
+!!! info "Deine Aufgabe"
+    Starte **zwei** Pods mit dem Image `nginxdemos/hello:latest` (das den Pod-Namen anzeigt): einen namens **`eins`**, einen namens **`zwei`**. Dann:
+
+    1. beide starten und mit **einem** Befehl prüfen, dass **beide** `Running` sind,
+    2. in jeden Pod kurz per `exec` hineinschauen und mit `hostname` den Namen bestätigen,
+    3. `eins` per `port-forward` im Browser öffnen und die Zeile „Server name: eins“ suchen – danach dasselbe mit `zwei`,
+    4. zum Schluss **beide** Pods löschen.
+
+    Tipp: Du kannst mehrere Pods in einem Befehl löschen – `kubectl delete pod eins zwei`.
+
+??? tip "Schritt für Schritt (Lösung)"
+    **Schritt 1 – beide starten und prüfen:**
+
+    ```bash
+    kubectl run eins --image=nginxdemos/hello:latest --port=80
+    kubectl run zwei --image=nginxdemos/hello:latest --port=80
+    kubectl get pods
+    ```
+
+    Warte, bis in `kubectl get pods` **beide** Zeilen (`eins` und `zwei`) auf `1/1 Running` stehen.
+
+    **Schritt 2 – in beide hineinschauen:**
+
+    ```bash
+    kubectl exec -it eins -- sh
+    ```
+
+    Im Container `hostname` eintippen (zeigt `eins`), dann `exit`. Dasselbe für den zweiten Pod:
+
+    ```bash
+    kubectl exec -it zwei -- sh
+    ```
+
+    `hostname` zeigt hier `zwei`, dann wieder `exit`.
+
+    **Schritt 3 – im Browser auseinanderhalten:**
+
+    ```bash
+    kubectl port-forward pod/eins 8080:80
+    ```
+
+    <http://localhost:8080> öffnen – oben steht „Server name: eins“. Mit `Ctrl+C` beenden, dann den anderen Pod:
+
+    ```bash
+    kubectl port-forward pod/zwei 8080:80
+    ```
+
+    Seite neu laden – jetzt steht dort „Server name: zwei“. Derselbe lokale Port, ein anderer Pod dahinter.
+
+    **Schritt 4 – beide aufräumen:**
+
+    ```bash
+    kubectl delete pod eins zwei
+    kubectl get pods
+    ```
+
+    Danach steht wieder `No resources found`.
+
+??? success "Erwartung"
+    `kubectl get pods` hat **beide** Pods nebeneinander gezeigt – jeder Pod ist eine eigene, unabhängige Einheit. Im Browser hast du an der Zeile „Server name: …“ erkannt, **welcher** Pod gerade antwortet: erst `eins`, dann `zwei`. Damit ist klar: `port-forward` führt immer zu **genau einem** Pod – und der Name, den du vergibst, ist derselbe, den der Pod als Hostname trägt.
 
 ---
 
