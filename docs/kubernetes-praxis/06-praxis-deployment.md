@@ -300,7 +300,13 @@ Du siehst Zeilen wie „Waiting for deployment … 1 out of 2 new replicas have 
 deployment "hello" successfully rolled out
 ```
 
-Jetzt **lade <http://localhost:8080> neu** (oder warte zwei Sekunden – die Seite lädt sich selbst nach): Die Seite ist jetzt **grün** und zeigt **„Version 2"**. Die Änderung ist sichtbar – ohne dass der Dienst je weg war.
+Beim Tausch wird auch der Pod ersetzt, an dem dein `port-forward` aus Schritt 3 hängt – der **Tunnel bricht deshalb ab** (Terminal 1 zeigt einen Fehler, der Browser lädt kurz nicht mehr). Das ist normal: `port-forward` klammert sich an genau **einen** Pod, und der ist beim Rollout weg. Sobald oben **„successfully rolled out"** steht, baust du den Tunnel neu auf – in Terminal 1 **Ctrl+C**, dann erneut:
+
+```bash
+kubectl port-forward deployment/hello 8080:80
+```
+
+Lade <http://localhost:8080> neu: Die Seite ist jetzt **grün** und zeigt **„Version 2"**. Wichtig: Dass dein Tunnel abriss, heißt **nicht**, dass der Dienst weg war – die übrigen Pods haben durchgehend geantwortet. Nur dein einzelner `port-forward` hing am alten Pod. Eine **stabile Adresse**, die so einen Tausch unsichtbar abfängt und automatisch auf lebende Pods verteilt, baust du in [Praxis 3](08-praxis-service.md) mit dem **Service**.
 
 ??? info "Aufklappen: die Welle live beim Pod-Tausch zusehen"
     Willst du den wellenweisen Austausch in Echtzeit sehen, öffne ein **drittes** Terminal und starte **vor** dem `set env` aus diesem Schritt:
@@ -349,7 +355,7 @@ kubectl rollout undo deployment/hello
 kubectl rollout status deployment/hello
 ```
 
-**Lade <http://localhost:8080> noch einmal neu**: Die Seite ist wieder **blau** und zeigt **„Version 1"**. Der Rollback lief genauso unterbrechungsfrei wie das Update – wieder Pod für Pod.
+Auch hier wird wieder getauscht – dein `port-forward` reißt also erneut ab (gleicher Grund wie in Schritt 6). Wenn `rollout status` durch ist, in Terminal 1 **Ctrl+C** und neu starten (`kubectl port-forward deployment/hello 8080:80`), dann <http://localhost:8080> neu laden: Die Seite ist wieder **blau** und zeigt **„Version 1"**. Der Rollback lief genauso wellenweise wie das Update.
 
 !!! note "Kurz erklärt: undo nutzt das alte ReplicaSet"
     `rollout undo` erfindet nichts Neues: Das alte ReplicaSet der Version 1 war noch da (nur auf 0 Pods heruntergefahren). Kubernetes fährt es einfach wieder hoch und das neue herunter. Deshalb ist ein Rollback schnell und sicher. Mit `--to-revision=N` springst du auch gezielt zu einer bestimmten älteren Revision – das probierst du in der Aufgabe. Übrigens: Die zurückgeholte Version bekommt dabei eine **neue, höhere** Revisions-Nummer – `kubectl rollout history` zählt also weiter hoch, statt zur alten Nummer zurückzuspringen.
