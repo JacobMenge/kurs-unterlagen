@@ -31,7 +31,7 @@ Wir gehen wieder **komplett angeleitet** vor: erst Schritt für Schritt zusammen
 
 ## Schritt für Schritt
 
-Arbeite die sechs Schritte der Reihe nach durch. Schritt 6 ist ein **Bonus nur für minikube** – den kannst du überspringen.
+Arbeite die sieben Schritte der Reihe nach durch. Schritt 7 ist ein **Bonus nur für minikube** – den kannst du überspringen.
 
 ### Schritt 1 – Den Service anlegen
 
@@ -186,7 +186,74 @@ exit
 
 ---
 
-### Schritt 5 – Labels live: hochskalieren und zusehen
+### Schritt 5 – Update im laufenden Betrieb: bleibt es erreichbar?
+
+Jetzt der eigentliche Lohn für den Service. In [Praxis 2](06-praxis-deployment.md) hast du gesehen: Beim Rolling Update **bricht ein `port-forward` ab** – weil er an genau einem Pod klebt, und der wird ja ausgetauscht. Mit dem **Service** davor ist das anders: Die Adresse `hello` bleibt stehen und verteilt auf alle lebenden Pods. Das prüfst du jetzt – du rollst eine neue Version aus, **während** du den Dienst ununterbrochen abfragst.
+
+**Schritt 5a:** Starte einen Wegwerf-Pod und lande in seiner Shell:
+
+```bash
+kubectl run watch --rm -it --image=curlimages/curl --restart=Never -- sh
+```
+
+**Schritt 5b:** Frag den Service an dem `/ $`-Prompt **im Pod** im Halbsekunden-Takt ab. Die Zeile zeigt die gerade ausgelieferte Version – oder `AUSFALL`, falls einmal keine Antwort kommt:
+
+```sh
+while true; do R=$(curl -s --max-time 2 hello | grep -o "Version [0-9]" | head -1); echo "${R:-AUSFALL}"; sleep 0.5; done
+```
+
+Erst läuft eine ruhige Reihe `Version 1`.
+
+**Schritt 5c:** Öffne ein **zweites** Terminal und rolle dort die neue Version aus (genau wie in Praxis 2):
+
+```bash
+kubectl set env deployment/hello VERSION=2 COLOR="#2e9e5b"
+```
+
+Schau zurück auf die laufende Abfrage im Pod. Sie hört **nicht** auf – sie kippt nur von `Version 1` über eine kurze Mischung auf `Version 2`:
+
+```text
+Version 1
+Version 1
+Version 1
+Version 2
+Version 1
+Version 2
+Version 2
+Version 2
+```
+
+Genau das ist der Unterschied zu Praxis 2: Der Service hat den Tausch **abgefangen**. Kein abgerissener Tunnel, keine Lücke – die stabile Adresse zeigte immer auf einen lebenden Pod. Beende die Abfrage mit **Ctrl+C** und verlasse den Pod:
+
+```sh
+exit
+```
+
+!!! note "Kurz erklärt: warum der Service das aushält"
+    Ein `port-forward` ist eine Brücke zu **einem** Pod – stirbt der, ist die Brücke weg. Der **Service** ist dagegen eine **stabile Adresse vor allen Pods**: Beim Rolling Update nimmt Kubernetes ausgetauschte Pods automatisch aus den Endpoints und neue hinein. Die Adresse bleibt, der Verkehr fließt weiter. Deshalb legt man im echten Betrieb **immer** einen Service (oder etwas darüber) vor ein Deployment – nie greift ein Client direkt auf einen einzelnen Pod zu.
+
+??? info "Aufklappen: den allerletzten Aussetzer wegbekommen (readinessProbe)"
+    Vielleicht hast du in der Abfrage ein einzelnes `AUSFALL` aufblitzen sehen. Das ist ein **neuer** Pod, der schon in den Endpoints stand, dessen nginx aber den ersten Sekundenbruchteil noch nicht antwortete. Damit das nie passiert, sagt die App Kubernetes mit einer **`readinessProbe`**, wann sie wirklich bereit ist – und erst dann bekommt sie Verkehr:
+
+    ```yaml
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      periodSeconds: 2
+    ```
+
+    Diese Zeilen gehören im Manifest in den Container (unter `ports:`). Mit ihnen wartet Kubernetes beim Rollout, bis ein neuer Pod über `http://…:80/` antwortet, bevor er Anfragen erhält – und nimmt erst dann einen alten heraus. Ergebnis: **keine einzige** verlorene Anfrage. Für die Übung brauchst du das nicht – merk dir nur: Im echten Betrieb gehört eine `readinessProbe` zu fast jedem Deployment dazu.
+
+Zum Schluss zurück auf die Ausgangsversion, damit der Rest der Übung sauber startet:
+
+```bash
+kubectl rollout undo deployment/hello
+```
+
+---
+
+### Schritt 6 – Labels live: hochskalieren und zusehen
 
 Jetzt machst du sichtbar, dass der Service neue Pods **automatisch** aufnimmt. Erst die Labels der aktuellen Pods anschauen:
 
@@ -234,7 +301,7 @@ Aus drei sind fünf Endpoints geworden – ohne dass du den Service angefasst ha
 
 ---
 
-### Schritt 6 (Bonus, nur minikube) – von außen per NodePort
+### Schritt 7 (Bonus, nur minikube) – von außen per NodePort
 
 !!! warning "Bonus für minikube"
     Dieser Schritt nutzt einen **NodePort** und den Befehl `minikube service`. Er ist nur für den **minikube**-Weg gedacht. Mit Docker Desktop läuft die App weiterhin am einfachsten über `port-forward` (Schritt 3) – diesen Bonus kannst du dort überspringen.
