@@ -352,7 +352,7 @@ kubectl rollout status deployment/hello
 **Lade <http://localhost:8080> noch einmal neu**: Die Seite ist wieder **blau** und zeigt **„Version 1"**. Der Rollback lief genauso unterbrechungsfrei wie das Update – wieder Pod für Pod.
 
 !!! note "Kurz erklärt: undo nutzt das alte ReplicaSet"
-    `rollout undo` erfindet nichts Neues: Das alte ReplicaSet der Version 1 war noch da (nur auf 0 Pods heruntergefahren). Kubernetes fährt es einfach wieder hoch und das neue herunter. Deshalb ist ein Rollback schnell und sicher. Mit `--to-revision=N` springst du auch gezielt zu einer bestimmten älteren Revision – das probierst du in der Aufgabe.
+    `rollout undo` erfindet nichts Neues: Das alte ReplicaSet der Version 1 war noch da (nur auf 0 Pods heruntergefahren). Kubernetes fährt es einfach wieder hoch und das neue herunter. Deshalb ist ein Rollback schnell und sicher. Mit `--to-revision=N` springst du auch gezielt zu einer bestimmten älteren Revision – das probierst du in der Aufgabe. Übrigens: Die zurückgeholte Version bekommt dabei eine **neue, höhere** Revisions-Nummer – `kubectl rollout history` zählt also weiter hoch, statt zur alten Nummer zurückzuspringen.
 
 ---
 
@@ -434,25 +434,31 @@ Jetzt du. Versuch es erst **ohne** zu spicken – die Lösung ist darunter.
 
     Bei offenem `port-forward` (`kubectl port-forward deployment/hello 8080:80`) zeigt <http://localhost:8080> nach dem Neuladen die **grüne** Seite mit „Version 2".
 
-    **Schritt 3 – Revisionen ansehen:**
+    **Schritt 3 – die richtige Revision finden:**
 
     ```bash
     kubectl rollout history deployment/hello
     ```
 
-    Du siehst eine Liste mit `REVISION`-Nummern. Jede Änderung hat eine neue Zeile erzeugt. Merke dir die Nummer der Revision, zu der du zurück willst (z.B. die mit der blauen Version 1).
-
-    **Schritt 4 – gezielt zurückspringen** (setz für `N` deine Wunsch-Revision ein):
+    Du siehst eine Liste mit `REVISION`-Nummern. **Wichtig:** Diese Nummern verschieben sich bei jedem Roll – nach dem Zurückrollen aus Schritt 8 ist die ursprüngliche „1" meist schon durch eine höhere Nummer ersetzt. Verlass dich also **nicht** auf eine feste Zahl, sondern schau in **deine** Liste. Welche Revision war blau? Das zeigt dir die Detailansicht (probier die Nummern aus deiner Liste durch):
 
     ```bash
-    kubectl rollout undo deployment/hello --to-revision=1
+    kubectl rollout history deployment/hello --revision=3
+    ```
+
+    Unter `Environment:` steht je Revision `VERSION` und `COLOR`. Die **blaue** Version 1 erkennst du an `VERSION: 1` und `COLOR: #2563a8`. Merke dir diese Nummer.
+
+    **Schritt 4 – gezielt zurückspringen** (setz für `N` die eben gefundene Nummer der blauen Revision ein):
+
+    ```bash
+    kubectl rollout undo deployment/hello --to-revision=N
     kubectl rollout status deployment/hello
     ```
 
-    Lade <http://localhost:8080> neu – die Farbe entspricht jetzt der gewählten Revision (bei Revision 1 wieder **blau**, Version 1).
+    Lade <http://localhost:8080> neu – die Seite ist jetzt wieder **blau** mit „Version 1".
 
-    !!! tip "Welche Revision war was?"
-        `kubectl rollout history deployment/hello --revision=2` zeigt die Details einer einzelnen Revision, inklusive der damals gesetzten Umgebungsvariablen. So findest du sicher die richtige Nummer.
+    !!! warning "Fehlermeldung „unable to find specified revision"?"
+        Dann gibt es die gewählte Nummer nicht (mehr) – Kubernetes nummeriert Revisionen beim Zurückrollen um. Ruf einfach noch einmal `kubectl rollout history deployment/hello` auf und nimm eine Nummer, die wirklich in deiner Liste steht.
 
     **Schritt 5 (Kür) – ein Image ausrollen:**
 

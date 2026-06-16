@@ -152,13 +152,19 @@ Jetzt zur dritten Superkraft – der, die im echten Betrieb am meisten wert ist.
 <figcaption>Beim Rolling Update tauscht das Deployment die Pods wellenweise aus: erst einen neuen hoch, dann einen alten weg – bis alle erneuert sind. Der Dienst bleibt durchgehend erreichbar.</figcaption>
 </figure>
 
-So löst du es aus. Im echten Betrieb ist eine neue Version meist ein **neues Image** (`kubectl set image …`). Unsere Demo-App in [Praxis 2](06-praxis-deployment.md) trägt ihre Version und Farbe dagegen in zwei Umgebungsvariablen – so wird die Änderung **sofort als Farbe sichtbar** (Blau → Grün). Für Kubernetes ist beides derselbe Anlass und löst denselben Rolling Update aus:
+So löst du es aus. Im echten Betrieb ist eine neue Version meist ein **neues Image** – der normale Befehl dafür:
+
+```bash
+kubectl set image deployment/hello hello=meineapp:1.5
+```
+
+Unsere Demo-App in [Praxis 2](06-praxis-deployment.md) trägt ihre Version und Farbe dagegen in zwei Umgebungsvariablen. Damit wird die Änderung **sofort als Farbe sichtbar** (Blau → Grün):
 
 ```bash
 kubectl set env deployment/hello VERSION=2 COLOR="#2e9e5b"
 ```
 
-Der Befehl heißt sinngemäß: „im Deployment `hello` setze die Version auf `2` und die Farbe auf Grün“. Den Fortschritt beobachtest du, die Geschichte rufst du ab:
+Für Kubernetes ist beides derselbe Anlass und löst denselben Rolling Update aus. Den Fortschritt beobachtest du, die Geschichte rufst du ab:
 
 ```bash
 kubectl rollout status deployment/hello      # läuft das Update noch oder ist es durch?
