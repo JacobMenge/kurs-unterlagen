@@ -146,19 +146,19 @@ Jetzt zur dritten Superkraft – der, die im echten Betrieb am meisten wert ist.
 
   <!-- Hinweiszeile -->
   <text x="320" y="205" text-anchor="middle" fill="#8fa498" font-size="13">Zu jedem Zeitpunkt sind genug Pods da → kein Ausfall.</text>
-  <text x="320" y="230" text-anchor="middle" fill="#e0a05a" font-family="JetBrains Mono, monospace" font-size="12">blau = alte Version (hello:latest)</text>
-  <text x="320" y="252" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">grün = neue Version (hello:plain-text)</text>
+  <text x="320" y="230" text-anchor="middle" fill="#7aa2ff" font-family="JetBrains Mono, monospace" font-size="12">blau = Version 1 (alt)</text>
+  <text x="320" y="252" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">grün = Version 2 (neu)</text>
 </svg>
 <figcaption>Beim Rolling Update tauscht das Deployment die Pods wellenweise aus: erst einen neuen hoch, dann einen alten weg – bis alle erneuert sind. Der Dienst bleibt durchgehend erreichbar.</figcaption>
 </figure>
 
-So löst du es aus – unser Beispiel-Image hat dafür einen zweiten Tag. `hello:plain-text` zeigt dieselbe Info wie `hello:latest`, nur als Klartext – die Änderung ist also **sichtbar**:
+So löst du es aus. Im echten Betrieb ist eine neue Version meist ein **neues Image** (`kubectl set image …`). Unsere Demo-App in [Praxis 2](06-praxis-deployment.md) trägt ihre Version und Farbe dagegen in zwei Umgebungsvariablen – so wird die Änderung **sofort als Farbe sichtbar** (Blau → Grün). Für Kubernetes ist beides derselbe Anlass und löst denselben Rolling Update aus:
 
 ```bash
-kubectl set image deployment/hello hello=nginxdemos/hello:plain-text
+kubectl set env deployment/hello VERSION=2 COLOR="#2e9e5b"
 ```
 
-Der Befehl heißt sinngemäß: „im Deployment `hello` setze für den Container namens `hello` ein neues Image“. Den Fortschritt beobachtest du, die Geschichte rufst du ab:
+Der Befehl heißt sinngemäß: „im Deployment `hello` setze die Version auf `2` und die Farbe auf Grün“. Den Fortschritt beobachtest du, die Geschichte rufst du ab:
 
 ```bash
 kubectl rollout status deployment/hello      # läuft das Update noch oder ist es durch?
@@ -181,31 +181,34 @@ kubectl rollout undo deployment/hello        # zurück zur vorigen Version
 
 ## Das Deployment-Manifest Zeile für Zeile
 
-Das ist das echte Manifest aus `apps/kubernetes-praxis/manifests/hello-deployment.yaml`, das du in [Praxis 2](06-praxis-deployment.md) mit `kubectl apply -f` anwendest. Lies es einmal von oben nach unten – darunter erklären wir jede Ebene.
+Das ist der Kern des Manifests aus `apps/kubernetes-praxis/manifests/hello-deployment.yaml`, das du in [Praxis 2](06-praxis-deployment.md) mit `kubectl apply -f` anwendest. Lies es einmal von oben nach unten – darunter erklären wir jede Ebene.
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: hello
-  labels:
-    app: hello
-spec:
+apiVersion: apps/v1           # API-Gruppe; Deployments leben in apps/v1
+kind: Deployment              # Objekt-Typ: ein Deployment
+metadata:                     # Stammdaten des Deployments
+  name: hello                 # so heißt das Deployment
+  labels:                     # frei wählbare Markierungen am Deployment
+    app: hello                # eine davon: Schlüssel app mit Wert hello
+spec:                         # der gewünschte Zustand (das Soll)
   replicas: 3                 # gewünschte Anzahl gleicher Pods
-  selector:
-    matchLabels:
+  selector:                   # wie das Deployment seine Pods findet
+    matchLabels:              # ... nämlich über die hier genannten Labels
       app: hello              # dieses Deployment verwaltet Pods mit diesem Label
   template:                   # die Vorlage, nach der jeder Pod gebaut wird
-    metadata:
-      labels:
+    metadata:                 # Stammdaten jedes erzeugten Pods
+      labels:                 # Labels für jeden erzeugten Pod
         app: hello            # jeder erzeugte Pod bekommt dieses Label
-    spec:
-      containers:
-        - name: hello
-          image: nginxdemos/hello:latest   # zeigt den Pod-Namen an (gut fürs Load-Balancing)
-          ports:
-            - containerPort: 80
+    spec:                     # was in jedem Pod läuft
+      containers:             # Liste der Container im Pod (hier einer)
+        - name: hello         # Name des Containers im Pod
+          image: nginx:1.27-alpine   # schlankes Standard-nginx (zeigt Version + Pod-Name)
+          ports:              # welche Ports der Container öffnet
+            - containerPort: 80   # der Container lauscht auf Port 80
 ```
+
+!!! note "Die echte Datei hat noch ein paar Zeilen mehr"
+    Im Projekt steht unter dem `image` noch ein kleiner Block (`env`, `command`, `args`), mit dem sich unsere Demo-App farbig anmalt und ihren Pod-Namen anzeigt. Für die **Struktur** eines Deployments brauchst du ihn nicht – wir schauen ihn in [Praxis 2](06-praxis-deployment.md) kurz an. Hier zählt das Gerüst oben.
 
 Feld für Feld:
 
@@ -219,7 +222,7 @@ Feld für Feld:
 | `spec.selector.matchLabels` | Woran das Deployment „seine“ Pods erkennt: an Pods mit dem Label `app: hello`. |
 | `spec.template` | Die **Vorlage**, nach der jeder Pod gebaut wird – im Grunde ein Pod-Manifest im Inneren. |
 | `template.metadata.labels` | Die Labels, die **jeder erzeugte Pod** bekommt. |
-| `template.spec.containers` | Was im Pod läuft: ein Container namens `hello`, das Image `nginxdemos/hello:latest`, lauschend auf Port `80`. |
+| `template.spec.containers` | Was im Pod läuft: ein Container namens `hello`, das Image `nginx:1.27-alpine`, lauschend auf Port `80`. |
 
 !!! warning "Merksatz: Selektor und Vorlage müssen zusammenpassen"
     `spec.selector.matchLabels` und `template.metadata.labels` **müssen dasselbe Label tragen** – hier beide `app: hello`. Über dieses Label findet das Deployment „seine“ Pods. Passen die beiden nicht zusammen, baut das Deployment Pods, die es selbst nicht wiedererkennt – Kubernetes lehnt ein solches Manifest sogar ab. Merke dir die zwei Stellen als ein zusammengehöriges Paar.

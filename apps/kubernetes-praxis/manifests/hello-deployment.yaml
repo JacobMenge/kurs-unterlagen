@@ -1,6 +1,12 @@
 # Ein Deployment beschreibt den SOLL-Zustand: "Halte mir 3 gleiche Pods
 # am Laufen." Stirbt ein Pod, startet Kubernetes selbst einen neuen.
 # Das ist die Einheit, mit der man in echt arbeitet.
+#
+# Unsere Demo-App ist ein schlankes Standard-nginx, das sich beim Start
+# selbst eine einfarbige Seite schreibt: gross die VERSION, darunter der
+# Pod-Name ("Server name: ..."). Farbe und Version stecken in zwei
+# Umgebungsvariablen (VERSION, COLOR) - die aenderst du beim Rolling Update,
+# und genau dann siehst du die Farbe im Browser umschlagen.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,6 +25,30 @@ spec:
     spec:
       containers:
         - name: hello
-          image: nginxdemos/hello:latest   # zeigt den Pod-Namen an (gut fürs Load-Balancing)
+          image: nginx:1.27-alpine        # schlankes Standard-nginx, kein eigenes Image nötig
+          # --- ab hier nur "Anstrich": Version + Farbe für die Demo-Seite ---
+          env:
+            - name: VERSION
+              value: "1"                  # Beschriftung der Seite -> "Version 1"
+            - name: COLOR
+              value: "#2563a8"            # Hintergrundfarbe: Blau = Version 1
+          command: ["/bin/sh", "-c"]      # beim Start die Seite schreiben, dann nginx starten
+          args:
+            - |
+              cat > /usr/share/nginx/html/index.html <<HTML
+              <!doctype html><html lang="de"><head><meta charset="utf-8">
+              <meta http-equiv="refresh" content="2"><title>Version $VERSION</title>
+              <style>html,body{height:100%;margin:0}
+              body{display:flex;flex-direction:column;align-items:center;
+              justify-content:center;font-family:system-ui,sans-serif;
+              background:$COLOR;color:#fff;text-align:center}
+              .v{font-size:4rem;font-weight:800}
+              .pod{margin-top:1rem;font-family:monospace;font-size:1.2rem;opacity:.92}</style>
+              </head><body>
+              <div class="v">Version $VERSION</div>
+              <div class="pod">Server name: $(hostname)</div>
+              </body></html>
+              HTML
+              exec nginx -g 'daemon off;'
           ports:
-            - containerPort: 80
+            - containerPort: 80           # der Container lauscht auf Port 80

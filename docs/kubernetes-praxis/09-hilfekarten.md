@@ -88,7 +88,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
 ??? info "Aufklappen"
     **Symptom:** In `kubectl get pods` steht ein Pod dauerhaft auf `Pending` oder `ContainerCreating`, statt auf `Running`.
 
-    **Ursache:** Häufig ist das **kein Fehler**, sondern Geduld: Beim **ersten Mal** lädt der Cluster das Image `nginxdemos/hello` aus dem Internet herunter – das dauert einen Moment. Seltener fehlen dem Cluster Ressourcen, um den Pod zu platzieren.
+    **Ursache:** Häufig ist das **kein Fehler**, sondern Geduld: Beim **ersten Mal** lädt der Cluster das benötigte Image (z.B. `nginxdemos/hello` oder `nginx`) aus dem Internet herunter – das dauert einen Moment. Seltener fehlen dem Cluster Ressourcen, um den Pod zu platzieren.
 
     **Prüfen** – die wichtigste Frage immer zuerst: **Was sagt der Pod selbst?**
 
@@ -127,7 +127,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
 
     **Beheben:**
 
-    - **Image-Namen genau prüfen.** Richtig ist `nginxdemos/hello:latest` (bzw. `nginxdemos/hello:plain-text` für das Rolling-Update). Vergleiche Zeichen für Zeichen mit dem Manifest – ein verrutschter Buchstabe oder ein falscher Tag genügt.
+    - **Image-Namen genau prüfen.** Je nach Übung ist richtig: `nginxdemos/hello:latest` (Praxis 1) oder `nginx:1.27-alpine` (Praxis 2 und 3). Vergleiche Zeichen für Zeichen mit dem Manifest – ein verrutschter Buchstabe oder ein falscher Tag genügt.
     - **Internet testen:** Lädt sonst etwas? `minikube` braucht eine Verbindung, um das Image beim ersten Mal zu holen.
     - Manifest **korrigiert** und neu anwenden:
 
@@ -163,7 +163,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     ```
 
     !!! tip "In den Übungen selten"
-        Unser Beispiel-Image `nginxdemos/hello` läuft stabil. `CrashLoopBackOff` siehst du hier am ehesten, wenn ein eigenes Manifest etwas Falsches startet – die Karte ist fürs echte Leben gedacht, wo es dein häufigster Begleiter wird.
+        Unsere Beispiel-Images (`nginxdemos/hello`, `nginx`) laufen stabil. `CrashLoopBackOff` siehst du hier am ehesten, wenn ein eigenes Manifest etwas Falsches startet – die Karte ist fürs echte Leben gedacht, wo es dein häufigster Begleiter wird.
 
 ---
 

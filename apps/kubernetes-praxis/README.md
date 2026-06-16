@@ -34,13 +34,17 @@ kubectl port-forward service/hello 8080:80
 | Datei | Zweck | Genutzt in |
 |-------|-------|-----------|
 | `manifests/hello-pod.yaml` | ein einzelner Pod (die kleinste Einheit) | Praxis 1 |
-| `manifests/hello-deployment.yaml` | Deployment mit 3 Replicas (Soll-Zustand, Selbstheilung) | Praxis 2 |
+| `manifests/hello-deployment.yaml` | Deployment mit 3 Replicas (Soll-Zustand, Selbstheilung) – farbige Demo-App, Version + Pod-Name | Praxis 2, 3 |
 | `manifests/hello-service.yaml` | Service (ClusterIP) als stabile Adresse + Load-Balancing | Praxis 3 |
 | `manifests/hello-service-nodeport.yaml` | Service-Variante für Zugriff von außen (NodePort) | Praxis 3 (Bonus) |
 
-Das verwendete Image `nginxdemos/hello` zeigt den **Pod-Namen** an, der die Anfrage beantwortet hat –
-ideal, um Skalierung und Load-Balancing sichtbar zu machen. Für einen sichtbaren Rolling Update
-gibt es zusätzlich den Tag `nginxdemos/hello:plain-text`.
+In **Praxis 1** kommt das Image `nginxdemos/hello` zum Einsatz – es zeigt den **Pod-Namen** an,
+der die Anfrage beantwortet hat. Ab **Praxis 2** nutzt das Deployment ein schlankes Standard-`nginx`,
+das sich beim Start selbst eine **einfarbige Seite** schreibt: groß die Version, darunter
+`Server name: <Pod-Name>`. **Version 1 ist blau.** Beim Rolling Update (`kubectl set env … VERSION=2
+COLOR="#2e9e5b"`) wird sie **grün** – so siehst du den Versionswechsel und das Load-Balancing direkt
+im Browser. Farbe und Version stecken in den Umgebungsvariablen `VERSION` und `COLOR`; ein eigenes
+Image ist nicht nötig.
 
 ## Aufräumen
 
