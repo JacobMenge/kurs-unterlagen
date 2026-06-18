@@ -37,6 +37,7 @@ kubectl port-forward service/hello 8080:80
 | `manifests/hello-deployment.yaml` | Deployment mit 3 Replicas (Soll-Zustand, Selbstheilung) – farbige Demo-App, Version + Pod-Name | Praxis 2, 3 |
 | `manifests/hello-service.yaml` | Service (ClusterIP) als stabile Adresse + Load-Balancing | Praxis 3 |
 | `manifests/hello-service-nodeport.yaml` | Service-Variante für Zugriff von außen (NodePort) | Praxis 3 (Bonus) |
+| `manifests/bunt-disco.yaml` | zwei farbige Deployments (blau + grün) hinter **einem** Service – Load-Balancing als Farbe sichtbar | Praxis 3 (Bonus) |
 
 In **Praxis 1** kommt das Image `nginxdemos/hello` zum Einsatz – es zeigt den **Pod-Namen** an,
 der die Anfrage beantwortet hat. Ab **Praxis 2** nutzt das Deployment ein schlankes Standard-`nginx`,

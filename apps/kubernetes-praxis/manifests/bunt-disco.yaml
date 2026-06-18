@@ -1,0 +1,127 @@
+# Bonus zu Praxis 3: zwei Farben hinter EINEM Service.
+#
+# Idee: zwei winzige Deployments laufen GLEICHZEITIG hinter einem Service.
+# Das eine liefert eine BLAUE Seite, das andere eine GRUENE - sonst sind sie
+# baugleich (dieselbe Demo-App wie in Praxis 2: nginx schreibt sich beim Start
+# selbst eine einfarbige Seite mit grosser Beschriftung und Pod-Name und laedt
+# sich alle 2s neu). So siehst du das Load-Balancing nicht nur an wechselnden
+# Pod-Namen, sondern direkt als Farbe.
+#
+# WICHTIG zu den Labels (das ist der Trick - genau hinschauen):
+#   - JEDES Deployment hat einen EIGENEN, eindeutigen Selektor
+#       (farbe: blau  bzw.  farbe: gruen).
+#     Nur weil die beiden Selektoren verschieden sind, streiten sich die
+#     ReplicaSets NICHT um dieselben Pods.
+#   - Beide Pod-Sorten tragen ZUSAETZLICH dasselbe gemeinsame Label  demo: bunt.
+#   - Der Service selektiert nur  demo: bunt  und verteilt daher auf BEIDE Farben.
+#
+# Wir benutzen bewusst das eigene Label "demo" (NICHT app: hello), damit
+# nichts mit dem laufenden hello-Deployment und hello-Service kollidiert.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bunt-blau
+  labels:
+    demo: bunt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      farbe: blau               # eindeutiger Selektor nur fuer die blauen Pods
+  template:
+    metadata:
+      labels:
+        farbe: blau             # eigener Selektor je Farbe
+        demo: bunt              # gemeinsames Label, ueber das der Service findet
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          # --- nur "Anstrich": Farbe + Beschriftung fuer die Demo-Seite ---
+          env:
+            - name: LABEL
+              value: "BLAU"             # grosses Wort auf der Seite (greppbar)
+            - name: COLOR
+              value: "#2563a8"          # Hintergrund: Blau
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cat > /usr/share/nginx/html/index.html <<HTML
+              <!doctype html><html lang="de"><head><meta charset="utf-8">
+              <meta http-equiv="refresh" content="2"><title>$LABEL</title>
+              <style>html,body{height:100%;margin:0}
+              body{display:flex;flex-direction:column;align-items:center;
+              justify-content:center;font-family:system-ui,sans-serif;
+              background:$COLOR;color:#fff;text-align:center}
+              .v{font-size:4rem;font-weight:800}
+              .pod{margin-top:1rem;font-family:monospace;font-size:1.2rem;opacity:.92}</style>
+              </head><body>
+              <div class="v">$LABEL</div>
+              <div class="pod">Server name: $(hostname)</div>
+              </body></html>
+              HTML
+              exec nginx -g 'daemon off;'
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bunt-gruen
+  labels:
+    demo: bunt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      farbe: gruen              # eigener, eindeutiger Selektor (NICHT derselbe wie blau)
+  template:
+    metadata:
+      labels:
+        farbe: gruen
+        demo: bunt              # gleiches gemeinsames Label -> selber Service
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          env:
+            - name: LABEL
+              value: "GRUEN"            # grosses Wort auf der Seite (greppbar)
+            - name: COLOR
+              value: "#2e9e5b"          # Hintergrund: Gruen
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cat > /usr/share/nginx/html/index.html <<HTML
+              <!doctype html><html lang="de"><head><meta charset="utf-8">
+              <meta http-equiv="refresh" content="2"><title>$LABEL</title>
+              <style>html,body{height:100%;margin:0}
+              body{display:flex;flex-direction:column;align-items:center;
+              justify-content:center;font-family:system-ui,sans-serif;
+              background:$COLOR;color:#fff;text-align:center}
+              .v{font-size:4rem;font-weight:800}
+              .pod{margin-top:1rem;font-family:monospace;font-size:1.2rem;opacity:.92}</style>
+              </head><body>
+              <div class="v">$LABEL</div>
+              <div class="pod">Server name: $(hostname)</div>
+              </body></html>
+              HTML
+              exec nginx -g 'daemon off;'
+          ports:
+            - containerPort: 80
+---
+# Ein Service vor BEIDE Farben. Er selektiert nur das gemeinsame Label
+# demo: bunt - also landen Anfragen mal bei einem blauen, mal bei einem
+# gruenen Pod. Genau das ist das Load-Balancing, jetzt als Farbe sichtbar.
+apiVersion: v1
+kind: Service
+metadata:
+  name: bunt
+spec:
+  type: ClusterIP
+  selector:
+    demo: bunt                  # beide Farben tragen dieses Label
+  ports:
+    - port: 80
+      targetPort: 80

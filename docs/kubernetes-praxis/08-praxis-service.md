@@ -188,7 +188,7 @@ exit
 
 ### Schritt 5 – Update im laufenden Betrieb: bleibt es erreichbar?
 
-Jetzt der eigentliche Lohn für den Service. In [Praxis 2](06-praxis-deployment.md) hast du gesehen: Beim Rolling Update **bricht ein `port-forward` ab** – weil er an genau einem Pod klebt, und der wird ja ausgetauscht. Mit dem **Service** davor ist das anders: Die Adresse `hello` bleibt stehen und verteilt auf alle lebenden Pods. Das prüfst du jetzt – du rollst eine neue Version aus, **während** du den Dienst ununterbrochen abfragst.
+Jetzt der eigentliche Lohn für den Service. In [Praxis 2](06-praxis-deployment.md) hast du gesehen: Beim Rolling Update **bricht ein `port-forward` ab** – weil er an genau einem Pod klebt und der ja ausgetauscht wird. Mit dem **Service** davor ist das anders: Die Adresse `hello` bleibt stehen und verteilt auf alle lebenden Pods. Das prüfst du jetzt – du rollst eine neue Version aus, **während** du den Dienst ununterbrochen abfragst.
 
 **Schritt 5a:** Starte einen Wegwerf-Pod und lande in seiner Shell:
 
@@ -222,6 +222,8 @@ Version 2
 Version 2
 Version 2
 ```
+
+Blitzt zwischendurch einmal ein `AUSFALL` auf, ist das normal und kein Fehler – woran das liegt, steht im Aufklapp-Kasten unten.
 
 Genau das ist der Unterschied zu Praxis 2: Der Service hat den Tausch **abgefangen**. Kein abgerissener Tunnel, keine Lücke – die stabile Adresse zeigte immer auf einen lebenden Pod. Beende die Abfrage mit **Ctrl+C** und verlasse den Pod:
 
@@ -298,6 +300,12 @@ Aus drei sind fünf Endpoints geworden – ohne dass du den Service angefasst ha
     ```
 
     Das `-w` (watch) hält die Anzeige offen und zeigt jede Änderung, sobald sie passiert. Skalierst du im ersten Terminal hoch, siehst du hier die neuen Pods auftauchen. Beenden mit `Ctrl+C`.
+
+Skaliere zum Abschluss wieder auf drei zurück, damit die folgenden Ausgaben wieder zu drei Pods passen:
+
+```bash
+kubectl scale deployment hello --replicas=3
+```
 
 ---
 
@@ -387,6 +395,170 @@ Jetzt du allein. Bisher läuft ein Dienst (`hello`). Bring einen **zweiten** Die
 
 ---
 
+## Bonus-Übung: zwei Farben hinter einem Service
+
+Lust auf einen sichtbaren Abschluss? Dann machen wir das Load-Balancing jetzt **bunt**. Bisher hast du das Verteilen an den wechselnden Pod-**Namen** abgelesen – schöner ist es als **Farbe**. Wir stellen zwei Sorten Pods hinter **einen** Service: blaue und grüne, sonst baugleich. Dann schaust du zu, wie der eine Service munter zwischen beiden Farben verteilt.
+
+Das ist genau die farbige Demo-App aus [Praxis 2](06-praxis-deployment.md), nur mit einem Dreh: Statt eine Version durch die nächste zu **ersetzen**, laufen blau und grün **gleichzeitig**. Diese Übung ist ein optionaler Bonus. Dein laufendes `hello` fasst sie nicht an, sie räumt sich am Ende selbst wieder weg.
+
+<figure>
+<svg viewBox="0 0 600 240" width="100%" height="240" role="img" aria-label="Ein Service namens bunt verteilt Anfragen auf einen blauen und einen gruenen Pod, dargestellt als zwei farbige Browserfenster">
+  <!-- Service -->
+  <rect x="30" y="92" width="140" height="56" rx="8" fill="rgba(125,255,154,0.1)" stroke="#7dff9a" stroke-width="2.5"/>
+  <text x="100" y="116" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Service "bunt"</text>
+  <text x="100" y="136" text-anchor="middle" fill="#8fa498" font-size="10">selector: demo=bunt</text>
+
+  <!-- blaues Fenster -->
+  <rect x="360" y="18" width="210" height="88" rx="8" fill="#2563a8" stroke="#1b4a82" stroke-width="1"/>
+  <rect x="360" y="18" width="210" height="22" rx="8" fill="#1b4a82"/>
+  <circle cx="378" cy="29" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="392" cy="29" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="406" cy="29" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <text x="465" y="78" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="24" font-weight="800">BLAU</text>
+  <text x="465" y="97" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="9" opacity="0.9">Server name: bunt-blau-…</text>
+
+  <!-- gruenes Fenster -->
+  <rect x="360" y="132" width="210" height="88" rx="8" fill="#2e9e5b" stroke="#1f6e40" stroke-width="1"/>
+  <rect x="360" y="132" width="210" height="22" rx="8" fill="#1f6e40"/>
+  <circle cx="378" cy="143" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="392" cy="143" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <circle cx="406" cy="143" r="3.5" fill="#ffffff" opacity="0.6"/>
+  <text x="465" y="192" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="24" font-weight="800">GRUEN</text>
+  <text x="465" y="211" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="9" opacity="0.9">Server name: bunt-gruen-…</text>
+
+  <path d="M170 108 L356 62" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#bv)"/>
+  <path d="M170 132 L356 176" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#bv)"/>
+
+  <defs><marker id="bv" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#56c374"/></marker></defs>
+</svg>
+<figcaption>Zwei Sorten Pods – blau und grün – hinter einem einzigen Service. Er verteilt die Anfragen auf beide Farben; gibst du einer Farbe mehr Pods, verschiebt sich das Verhältnis.</figcaption>
+</figure>
+
+!!! note "Wie zwei Deployments sich einen Service teilen"
+    Der Trick steckt in den Labels. **Jedes** der beiden Deployments hat seinen **eigenen** Selektor (`farbe: blau` bzw. `farbe: gruen`) – nur weil die beiden verschieden sind, streiten sich die Pods nicht. **Zusätzlich** tragen alle Pods dasselbe gemeinsame Label `demo: bunt`. Der Service selektiert nur `demo: bunt` – und erwischt damit **beide** Farben. Wir nehmen bewusst das eigene Label `demo` (nicht `app: hello`), damit nichts mit deinem laufenden `hello`-Service kollidiert.
+
+### Schritt 1 – die zwei Farben anlegen
+
+Das fertige Manifest liegt unter `manifests/bunt-disco.yaml` (zwei kleine Deployments plus ein Service). Wende es an:
+
+```bash
+kubectl apply -f manifests/bunt-disco.yaml
+```
+
+Erwartete Ausgabe:
+
+```text
+deployment.apps/bunt-blau created
+deployment.apps/bunt-gruen created
+service/bunt created
+```
+
+### Schritt 2 – nachsehen, wer dahintersteckt
+
+```bash
+kubectl get pods --show-labels -l demo=bunt
+```
+
+Du siehst zwei Pods: beide tragen `demo=bunt`, der eine zusätzlich `farbe=blau`, der andere `farbe=gruen`. Und der Verteiler dahinter:
+
+```bash
+kubectl get endpoints bunt
+```
+
+Zwei IP-Adressen – eine blaue, eine grüne. Der Service `bunt` zielt nur auf `demo=bunt` und nimmt damit beide mit.
+
+### Schritt 3 – das Load-Balancing als Farbe sehen
+
+Wie in Schritt 4 fragen wir den Service **von innen** ab. Starte den Wegwerf-Pod und lande in seiner Shell:
+
+```bash
+kubectl run disco --rm -it --image=curlimages/curl --restart=Never -- sh
+```
+
+Tippe diese Zeile am `/ $`-Prompt **im Pod** (nicht in PowerShell) – sie fragt den Service zwanzigmal ab und zieht jeweils das Farbwort heraus:
+
+```sh
+for i in $(seq 20); do curl -s bunt | grep -oE "BLAU|GRUEN" | head -1; done
+```
+
+Die Ausgabe wechselt zwischen `BLAU` und `GRUEN` – mal antwortet der blaue Pod, mal der grüne:
+
+```text
+BLAU
+GRUEN
+BLAU
+BLAU
+GRUEN
+...
+```
+
+Willst du es schwarz auf weiß auszählen, lass `sort` und `uniq` mitzählen:
+
+```sh
+for i in $(seq 30); do curl -s bunt | grep -oE "BLAU|GRUEN" | head -1; done | sort | uniq -c
+```
+
+Bei je einem Pod pro Farbe kommt ungefähr halbe-halbe heraus (etwa 15-mal `BLAU`, 15-mal `GRUEN`).
+
+### Schritt 4 – das Verhältnis verschieben
+
+Jetzt das Spannende: Gib einer Farbe **mehr** Pods und sieh zu, wie sich die Verteilung verschiebt. Öffne ein **zweites** Terminal (der `disco`-Pod darf offen bleiben) und skaliere Grün hoch:
+
+```bash
+kubectl scale deployment bunt-gruen --replicas=3
+```
+
+Warte kurz, dann lass im `disco`-Pod die Auszähl-Schleife aus Schritt 3 noch einmal laufen. Jetzt kommt deutlich **mehr `GRUEN` als `BLAU`** (etwa 3:1) – weil drei grüne Pods gegen einen blauen antreten. Mehr Pods einer Farbe heißt: mehr Anfragen landen bei dieser Farbe. Genau dieses Verhältnis stellt der Service von selbst ein.
+
+Verlasse danach den `disco`-Pod (`--rm` löscht ihn dabei automatisch):
+
+```sh
+exit
+```
+
+### Schritt 5 – mehrere Fenster, mehrere Server
+
+Zum Schluss machst du sichtbar, dass du es mit **verschiedenen** Servern zu tun hast. Hol dir die konkreten Pod-Namen:
+
+```bash
+kubectl get pods -l demo=bunt -o name
+```
+
+Du bekommst Zeilen wie `pod/bunt-blau-…` und `pod/bunt-gruen-…`. Ein `port-forward` klebt immer an **einem** Pod – deshalb gehst du hier gezielt auf je **einen konkreten Pod** (nicht auf den Service, sonst zeigt der Browser immer nur eine Farbe). Öffne zwei Terminals und setze deine echten Pod-Namen ein.
+
+Terminal A – ein blauer Pod auf Port 8080:
+
+```bash
+kubectl port-forward pod/bunt-blau-... 8080:80
+```
+
+Terminal B – ein grüner Pod auf Port 8081:
+
+```bash
+kubectl port-forward pod/bunt-gruen-... 8081:80
+```
+
+Jetzt öffne **zwei Browserfenster nebeneinander**: <http://localhost:8080> zeigt eine **blaue** Seite mit `Server name: bunt-blau-…`, <http://localhost:8081> eine **grüne** mit `Server name: bunt-gruen-…`. Zwei Fenster, zwei verschiedene Pods, gleichzeitig – das sind die Server, auf die der Service verteilt. Jeden Tunnel beendest du mit **Ctrl+C** im passenden Terminal.
+
+!!! tip "Tippfehler beim Pod-Namen vermeiden"
+    Kopiere die Pod-Namen direkt aus der Ausgabe von `kubectl get pods -l demo=bunt -o name`, statt sie abzutippen – die zufällige Endung verschreibt sich leicht. Fragt Windows beim ersten `port-forward` nach einer Firewall-Freigabe, bestätige sie.
+
+### Aufräumen (Bonus)
+
+Alles aus dieser Bonus-Übung verschwindet in einem Rutsch – dein `hello`-Service bleibt unberührt:
+
+```bash
+kubectl delete -f manifests/bunt-disco.yaml
+```
+
+Offene `port-forward`-Fenster schließt du mit **Ctrl+C**. Ein Kontrollblick zeigt, dass nichts mehr mit `bunt` im Namen übrig ist:
+
+```bash
+kubectl get all
+```
+
+---
+
 ## Aufräumen
 
 Wenn du fertig bist, beende offene `port-forward`-Fenster mit `Ctrl+C` und entferne, was du angelegt hast.
@@ -402,6 +574,12 @@ Den Übungs-Dienst `web` hast du per Kurzbefehl angelegt – den entfernst du ei
 ```bash
 kubectl delete service web
 kubectl delete deployment web
+```
+
+Hast du die **Bonus-Übung** gemacht, räum sie separat über ihr eigenes Manifest ab:
+
+```bash
+kubectl delete -f manifests/bunt-disco.yaml
 ```
 
 Prüfen, dass nichts von dir übrig ist:
