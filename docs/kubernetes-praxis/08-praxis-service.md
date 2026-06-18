@@ -559,6 +559,114 @@ kubectl get all
 
 ---
 
+## Bonus-Übung: Chaos-Test – bleibt der Dienst stehen?
+
+Jetzt wirst du zum Störenfried. Du fragst den Dienst **ununterbrochen** ab und schießt nebenher Pods ab – und schaust zu, ob die App trotzdem erreichbar bleibt. Sie bleibt es. Genau dafür sind Deployment (Selbstheilung) und Service (stabile Adresse) zusammen da.
+
+Voraussetzung: Das `hello`-Deployment und der `hello`-Service aus den Schritten oben laufen. Prüf kurz, dass drei Pods da sind (falls weniger: `kubectl scale deployment hello --replicas=3`):
+
+```bash
+kubectl get pods -l app=hello
+```
+
+### Schritt 1 – die Dauerabfrage starten
+
+Starte einen Wegwerf-Pod und lass ihn den Service im Drittelsekunden-Takt abfragen. Die zweite Zeile tippst du am `/ $`-Prompt **im Pod** (nicht in PowerShell):
+
+```bash
+kubectl run chaos --rm -it --image=curlimages/curl --restart=Never -- sh
+```
+
+```sh
+while true; do R=$(curl -s --max-time 2 hello | grep -o "Version [0-9]" | head -1); echo "${R:-AUSFALL}"; sleep 0.3; done
+```
+
+Es läuft eine ruhige Reihe `Version 1` durch. Lass dieses Fenster laufen.
+
+### Schritt 2 – Pods abschießen
+
+Öffne ein **zweites** Terminal, lass dir die Pods zeigen und lösch einen davon (deinen echten Namen einsetzen):
+
+```bash
+kubectl get pods -l app=hello
+kubectl delete pod hello-...
+```
+
+Schau sofort zurück auf die Dauerabfrage: Sie läuft **weiter**. Kubernetes startet im Hintergrund sofort einen Ersatz-Pod, der Service leitet die Anfragen währenddessen auf die übrigen lebenden Pods. Lösch ruhig noch einen, dann noch einen – die Reihe `Version 1` reißt nicht ab. Höchstens blitzt mal ein einzelnes `AUSFALL` auf, das ist normal.
+
+### Schritt 3 – beim Heilen zusehen (optional)
+
+Willst du das Heilen live sehen, öffne ein **drittes** Terminal:
+
+```bash
+kubectl get pods -w
+```
+
+Beim Löschen siehst du hier, wie ein Pod verschwindet und sofort ein neuer hochfährt – die Soll-Zahl drei wird immer wieder hergestellt. Beenden mit **Ctrl+C**.
+
+Zum Schluss beendest du die Dauerabfrage mit **Ctrl+C** und verlässt den Pod (`--rm` löscht ihn dabei):
+
+```sh
+exit
+```
+
+Das `hello`-Deployment ist von selbst wieder bei drei Pods – es ist hier nichts aufzuräumen.
+
+!!! note "Kurz erklärt: warum nichts ausfällt"
+    Zwei Schutzschichten greifen ineinander. Das **Deployment** wacht über die Soll-Zahl: Fällt ein Pod weg, startet es sofort Ersatz (Selbstheilung). Der **Service** hält die stabile Adresse und führt eine lebendige Liste der gesunden Pods (die Endpoints) – ein gerade gelöschter Pod fliegt dort sofort raus, ein neuer kommt rein. Deine Anfrage trifft deshalb immer einen Pod, der lebt. Im echten Betrieb ist das der Grund, nie einen einzelnen Pod direkt anzusprechen, sondern immer einen Service davorzusetzen.
+
+---
+
+## Bonus-Übung: Namensschnüffler – wie sich Dienste finden
+
+In der Theorie hast du gesehen, dass ein Service unter seinem **Namen** erreichbar ist (`http://hello`), nicht über eine IP. Jetzt schaust du dem Cluster beim Auflösen über die Schulter – das ist die [Cluster-DNS](07-services-netzwerk.md#cluster-dns)-Theorie zum Anfassen. Der `hello`-Service aus den Schritten oben sollte dafür laufen.
+
+### Schritt 1 – in den Schnüffler-Pod
+
+```bash
+kubectl run dns --rm -it --image=curlimages/curl --restart=Never -- sh
+```
+
+### Schritt 2 – den Namen auflösen
+
+Frag im Pod (am `/ $`-Prompt) nach, welche IP hinter dem Namen `hello` steckt:
+
+```sh
+nslookup hello
+```
+
+Unter `Address:` erscheint eine IP wie `10.96.x.x` – das ist die **ClusterIP** des Service. Vergleich sie ruhig mit der Ausgabe von `kubectl get svc hello` in deinem anderen Terminal: dieselbe Adresse.
+
+### Schritt 3 – warum der kurze Name reicht
+
+Schau in die Resolver-Einstellungen des Pods:
+
+```sh
+cat /etc/resolv.conf
+```
+
+In der `search`-Zeile stehen Endungen wie `default.svc.cluster.local svc.cluster.local cluster.local`. Genau die hängt der Cluster automatisch an, wenn du nur `hello` sagst – deshalb genügt der kurze Name. Du erkennst die Bausteine aus dem Diagramm im Theorieteil wieder.
+
+### Schritt 4 – kurz und lang, beide treffen
+
+Beide Schreibweisen landen beim selben Service:
+
+```sh
+curl -s hello | grep -o "Version [0-9]" | head -1
+curl -s hello.default.svc.cluster.local | grep -o "Version [0-9]" | head -1
+```
+
+Zweimal `Version 1` – einmal über den kurzen, einmal über den voll ausgeschriebenen Namen. Danach raus aus dem Pod:
+
+```sh
+exit
+```
+
+!!! note "Kurz erklärt: was beim Aufruf von `hello` passiert"
+    Im Cluster läuft ein eigener DNS-Dienst (CoreDNS). Sagst du `hello`, fragt der Pod dort nach „welche IP hat der Service hello?" und bekommt dessen **ClusterIP** zurück – eine feste Adresse, die bleibt, egal wie oft die Pods dahinter wechseln. Von dort übernimmt der Service das Verteilen auf die lebenden Pods. So finden sich Dienste im Cluster allein über ihren Namen, ohne dass irgendwo eine IP fest eingetragen ist. Dieses Muster kennst du schon aus Docker Compose (`http://prometheus:9090`) – hier nur clusterweit über viele Rechner.
+
+---
+
 ## Aufräumen
 
 Wenn du fertig bist, beende offene `port-forward`-Fenster mit `Ctrl+C` und entferne, was du angelegt hast.
