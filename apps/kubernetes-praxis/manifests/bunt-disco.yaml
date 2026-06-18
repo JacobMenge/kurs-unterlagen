@@ -1,9 +1,9 @@
 # Bonus zu Praxis 3: zwei Farben hinter EINEM Service.
 #
 # Idee: zwei winzige Deployments laufen GLEICHZEITIG hinter einem Service.
-# Das eine liefert eine BLAUE Seite, das andere eine GRUENE - sonst sind sie
+# Das eine liefert eine BLAUE Seite, das andere eine GRÜNE - sonst sind sie
 # baugleich (dieselbe Demo-App wie in Praxis 2: nginx schreibt sich beim Start
-# selbst eine einfarbige Seite mit grosser Beschriftung und Pod-Name und laedt
+# selbst eine einfarbige Seite mit großer Beschriftung und Pod-Name und lädt
 # sich alle 2s neu). So siehst du das Load-Balancing nicht nur an wechselnden
 # Pod-Namen, sondern direkt als Farbe.
 #
@@ -12,7 +12,7 @@
 #       (farbe: blau  bzw.  farbe: gruen).
 #     Nur weil die beiden Selektoren verschieden sind, streiten sich die
 #     ReplicaSets NICHT um dieselben Pods.
-#   - Beide Pod-Sorten tragen ZUSAETZLICH dasselbe gemeinsame Label  demo: bunt.
+#   - Beide Pod-Sorten tragen ZUSÄTZLICH dasselbe gemeinsame Label  demo: bunt.
 #   - Der Service selektiert nur  demo: bunt  und verteilt daher auf BEIDE Farben.
 #
 # Wir benutzen bewusst das eigene Label "demo" (NICHT app: webserver), damit
@@ -28,20 +28,20 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      farbe: blau               # eindeutiger Selektor nur fuer die blauen Pods
+      farbe: blau               # eindeutiger Selektor nur für die blauen Pods
   template:
     metadata:
       labels:
         farbe: blau             # eigener Selektor je Farbe
-        demo: bunt              # gemeinsames Label, ueber das der Service findet
+        demo: bunt              # gemeinsames Label, über das der Service findet
     spec:
       containers:
         - name: web
           image: nginx:1.27-alpine
-          # --- nur "Anstrich": Farbe + Beschriftung fuer die Demo-Seite ---
+          # --- nur "Anstrich": Farbe + Beschriftung für die Demo-Seite ---
           env:
             - name: LABEL
-              value: "BLAU"             # grosses Wort auf der Seite (greppbar)
+              value: "BLAU"             # großes Wort auf der Seite (greppbar)
             - name: COLOR
               value: "#2563a8"          # Hintergrund: Blau
           command: ["/bin/sh", "-c"]
@@ -87,9 +87,9 @@ spec:
           image: nginx:1.27-alpine
           env:
             - name: LABEL
-              value: "GRUEN"            # grosses Wort auf der Seite (greppbar)
+              value: "GRÜN"            # großes Wort auf der Seite (greppbar)
             - name: COLOR
-              value: "#2e9e5b"          # Hintergrund: Gruen
+              value: "#2e9e5b"          # Hintergrund: Grün
           command: ["/bin/sh", "-c"]
           args:
             - |

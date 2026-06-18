@@ -426,7 +426,7 @@ Das ist genau die farbige Demo-App aus [Praxis 2](06-praxis-deployment.md), nur 
   <circle cx="378" cy="143" r="3.5" fill="#ffffff" opacity="0.6"/>
   <circle cx="392" cy="143" r="3.5" fill="#ffffff" opacity="0.6"/>
   <circle cx="406" cy="143" r="3.5" fill="#ffffff" opacity="0.6"/>
-  <text x="465" y="192" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="24" font-weight="800">GRUEN</text>
+  <text x="465" y="192" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="24" font-weight="800">GRÜN</text>
   <text x="465" y="211" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="9" opacity="0.9">Server name: bunt-gruen-…</text>
 
   <path d="M170 108 L356 62" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#bv)"/>
@@ -481,27 +481,27 @@ kubectl run disco --rm -it --image=curlimages/curl --restart=Never -- sh
 Tippe diese Zeile am `/ $`-Prompt **im Pod** (nicht in PowerShell) – sie fragt den Service zwanzigmal ab und zieht jeweils das Farbwort heraus:
 
 ```sh
-for i in $(seq 20); do curl -s bunt | grep -oE "BLAU|GRUEN" | head -1; done
+for i in $(seq 20); do curl -s bunt | grep -oE "BLAU|GRÜN" | head -1; done
 ```
 
-Die Ausgabe wechselt zwischen `BLAU` und `GRUEN` – mal antwortet der blaue Pod, mal der grüne:
+Die Ausgabe wechselt zwischen `BLAU` und `GRÜN` – mal antwortet der blaue Pod, mal der grüne:
 
 ```text
 BLAU
-GRUEN
+GRÜN
 BLAU
 BLAU
-GRUEN
+GRÜN
 ...
 ```
 
 Willst du es schwarz auf weiß auszählen, lass `sort` und `uniq` mitzählen:
 
 ```sh
-for i in $(seq 30); do curl -s bunt | grep -oE "BLAU|GRUEN" | head -1; done | sort | uniq -c
+for i in $(seq 30); do curl -s bunt | grep -oE "BLAU|GRÜN" | head -1; done | sort | uniq -c
 ```
 
-Bei je einem Pod pro Farbe landet ungefähr die Hälfte auf jeder Farbe. Die genauen Zahlen schwanken aber von Durchlauf zu Durchlauf – der Service würfelt pro Anfrage neu, welcher Pod antwortet. Mal liest du `16 BLAU / 14 GRUEN`, mal `11 BLAU / 19 GRUEN`. Hauptsache, beide Farben kommen vor.
+Bei je einem Pod pro Farbe landet ungefähr die Hälfte auf jeder Farbe. Die genauen Zahlen schwanken aber von Durchlauf zu Durchlauf – der Service würfelt pro Anfrage neu, welcher Pod antwortet. Mal liest du `16 BLAU / 14 GRÜN`, mal `11 BLAU / 19 GRÜN`. Hauptsache, beide Farben kommen vor.
 
 ### Schritt 4 – das Verhältnis verschieben
 
@@ -511,7 +511,7 @@ Jetzt das Spannende: Gib einer Farbe **mehr** Pods und sieh zu, wie sich die Ver
 kubectl scale deployment bunt-gruen --replicas=3
 ```
 
-Warte kurz, dann lass im `disco`-Pod die Auszähl-Schleife aus Schritt 3 noch einmal laufen. Jetzt kommt deutlich **mehr `GRUEN` als `BLAU`** – drei grüne Pods gegen einen blauen, im Schnitt also etwa dreimal so viele grüne Antworten. (Auch das schwankt pro Durchlauf, die Richtung ist aber klar.) Mehr Pods einer Farbe heißt: mehr Anfragen landen bei dieser Farbe. Genau dieses Verhältnis stellt der Service von selbst ein.
+Warte kurz, dann lass im `disco`-Pod die Auszähl-Schleife aus Schritt 3 noch einmal laufen. Jetzt kommt deutlich **mehr `GRÜN` als `BLAU`** – drei grüne Pods gegen einen blauen, im Schnitt also etwa dreimal so viele grüne Antworten. (Auch das schwankt pro Durchlauf, die Richtung ist aber klar.) Mehr Pods einer Farbe heißt: mehr Anfragen landen bei dieser Farbe. Genau dieses Verhältnis stellt der Service von selbst ein.
 
 Verlasse danach den `disco`-Pod (`--rm` löscht ihn dabei automatisch):
 
