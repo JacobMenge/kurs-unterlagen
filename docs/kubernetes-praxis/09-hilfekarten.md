@@ -132,7 +132,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     - Manifest **korrigiert** und neu anwenden:
 
     ```bash
-    kubectl apply -f manifests/hello-deployment.yaml
+    kubectl apply -f manifests/webserver-deployment.yaml
     ```
 
     !!! note "Kurz erklärt: das BackOff"
@@ -159,7 +159,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     **Beheben:** Die Logs nennen den Grund (z.B. „config not found", „permission denied"). Behebe die Ursache im Manifest oder Image – danach neu anwenden:
 
     ```bash
-    kubectl apply -f manifests/hello-deployment.yaml
+    kubectl apply -f manifests/webserver-deployment.yaml
     ```
 
     !!! tip "In den Übungen selten"
@@ -185,7 +185,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     **2. Falscher Ziel-Port.** Die Reihenfolge ist `LOKAL:ZIEL`. Unser Container lauscht auf **80**, also:
 
     ```bash
-    kubectl port-forward deployment/hello 8080:80
+    kubectl port-forward deployment/webserver 8080:80
     ```
 
     `8080:80` heißt: „Schick alles von meinem `localhost:8080` an Port `80` im Pod." Drehst du die Zahlen um, kommt nichts an.
@@ -196,7 +196,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
         Meldung wie „address already in use" oder „bind: Only one usage of each socket address"? Dann nutzt ein anderes Programm den Port `8080`. Wähle einfach einen anderen **linken** Port – das Ziel `80` bleibt gleich:
 
         ```bash
-        kubectl port-forward deployment/hello 8081:80
+        kubectl port-forward deployment/webserver 8081:80
         ```
 
         Dann im Browser <http://localhost:8081>.
@@ -213,7 +213,7 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     **Prüfen** – die schnellste Diagnose sind die **Endpoints** des Service:
 
     ```bash
-    kubectl get endpoints hello
+    kubectl get endpoints webserver
     ```
 
     - Stehen dort **IP-Adressen** (z.B. `10.x.x.x:80`) → der Service hat seine Pods gefunden, das Problem liegt woanders.
@@ -222,14 +222,14 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     **Selektor und Labels vergleichen:**
 
     ```bash
-    kubectl describe service hello       # Zeile "Selector:" lesen – z.B. app=hello
+    kubectl describe service webserver       # Zeile "Selector:" lesen – z.B. app=webserver
     kubectl get pods --show-labels       # tragen die Pods genau dieses Label?
     ```
 
-    **Beheben:** Beides muss übereinstimmen. In unseren Manifesten ist das durchgehend `app: hello` – im Service unter `selector:` und beim Pod bzw. im Deployment-`template` unter `labels:`. Korrigiere die Abweichung im Manifest und wende es neu an:
+    **Beheben:** Beides muss übereinstimmen. In unseren Manifesten ist das durchgehend `app: webserver` – im Service unter `selector:` und beim Pod bzw. im Deployment-`template` unter `labels:`. Korrigiere die Abweichung im Manifest und wende es neu an:
 
     ```bash
-    kubectl apply -f manifests/hello-service.yaml
+    kubectl apply -f manifests/webserver-service.yaml
     ```
 
     !!! note "Kurz erklärt: Endpoints sind der Spiegel"
@@ -245,13 +245,13 @@ Hier findest du gezielte Hilfe für die typischen Stolpersteine. Jede Karte folg
     **Sanft – nur die Übungs-Objekte entfernen** (Cluster bleibt stehen):
 
     ```bash
-    kubectl delete deployment,service hello
+    kubectl delete deployment,service webserver
     ```
 
-    Das löscht Deployment **und** Service `hello` in einem Rutsch. Einen einzelnen Pod aus Praxis 1 entfernst du mit `kubectl delete pod hello`. Über die Manifeste geht es genauso:
+    Das löscht Deployment **und** Service `webserver` in einem Rutsch. Einen einzelnen Pod aus Praxis 1 entfernst du mit `kubectl delete pod webserver`. Über die Manifeste geht es genauso:
 
     ```bash
-    kubectl delete -f manifests/hello-service.yaml -f manifests/hello-deployment.yaml
+    kubectl delete -f manifests/webserver-service.yaml -f manifests/webserver-deployment.yaml
     ```
 
     !!! danger "Vorsicht mit dem großen Besen"

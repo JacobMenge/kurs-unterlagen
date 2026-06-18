@@ -15,8 +15,8 @@
 #   - Beide Pod-Sorten tragen ZUSAETZLICH dasselbe gemeinsame Label  demo: bunt.
 #   - Der Service selektiert nur  demo: bunt  und verteilt daher auf BEIDE Farben.
 #
-# Wir benutzen bewusst das eigene Label "demo" (NICHT app: hello), damit
-# nichts mit dem laufenden hello-Deployment und hello-Service kollidiert.
+# Wir benutzen bewusst das eigene Label "demo" (NICHT app: webserver), damit
+# nichts mit dem laufenden webserver-Deployment und webserver-Service kollidiert.
 ---
 apiVersion: apps/v1
 kind: Deployment

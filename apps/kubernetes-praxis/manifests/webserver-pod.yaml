@@ -1,16 +1,16 @@
 # Ein einzelner Pod – die kleinste Einheit in Kubernetes.
 # Achtung: ein einzelner Pod heilt sich NICHT selbst. Löschst du ihn,
 # ist er weg. Für echten Betrieb nimmt man ein Deployment (siehe
-# hello-deployment.yaml) – das lernst du in Praxis 2.
+# webserver-deployment.yaml) – das lernst du in Praxis 2.
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello
+  name: webserver
   labels:
-    app: hello
+    app: webserver
 spec:
   containers:
-    - name: hello
+    - name: webserver
       image: nginxdemos/hello:latest   # zeigt den Pod-Namen auf der Seite an
       ports:
         - containerPort: 80

@@ -18,7 +18,7 @@ Damit du dabei nicht nur Befehle tippst, sondern den Effekt mit **eigenen Augen*
   <circle cx="62" cy="57" r="4" fill="#ffffff" opacity="0.6"/>
   <circle cx="76" cy="57" r="4" fill="#ffffff" opacity="0.6"/>
   <text x="150" y="128" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="26" font-weight="800">Version 1</text>
-  <text x="150" y="158" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.92">Server name: hello-...-2xk4p</text>
+  <text x="150" y="158" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.92">Server name: webserver-...-2xk4p</text>
 
   <!-- Pfeil + Beschriftung -->
   <text x="320" y="112" text-anchor="middle" fill="#7dff9a" font-size="28">&#8594;</text>
@@ -32,7 +32,7 @@ Damit du dabei nicht nur Befehle tippst, sondern den Effekt mit **eigenen Augen*
   <circle cx="402" cy="57" r="4" fill="#ffffff" opacity="0.6"/>
   <circle cx="416" cy="57" r="4" fill="#ffffff" opacity="0.6"/>
   <text x="490" y="128" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="26" font-weight="800">Version 2</text>
-  <text x="490" y="158" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.92">Server name: hello-...-9fghd</text>
+  <text x="490" y="158" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.92">Server name: webserver-...-9fghd</text>
 
   <text x="320" y="226" text-anchor="middle" fill="#8fa498" font-size="12">Dieselbe App, neue Version – die Farbe macht den Wechsel sichtbar.</text>
 </svg>
@@ -68,27 +68,27 @@ Arbeite das **allein oder zu zweit** durch. Jeder Schritt schließt mit einer ku
 
 ### Schritt 1 – Das Deployment anlegen
 
-Schau dir zuerst das Manifest an. Es ist dieselbe Datei, die im Projekt unter `manifests/hello-deployment.yaml` liegt. Du erkennst das **Gerüst** aus [Deployments & Skalierung](05-deployments-skalierung.md) sofort wieder: `apiVersion`, `kind`, `metadata`, `spec` mit `replicas`, `selector` und `template`.
+Schau dir zuerst das Manifest an. Es ist dieselbe Datei, die im Projekt unter `manifests/webserver-deployment.yaml` liegt. Du erkennst das **Gerüst** aus [Deployments & Skalierung](05-deployments-skalierung.md) sofort wieder: `apiVersion`, `kind`, `metadata`, `spec` mit `replicas`, `selector` und `template`.
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello
+  name: webserver
   labels:
-    app: hello
+    app: webserver
 spec:
   replicas: 3                 # gewünschte Anzahl gleicher Pods
   selector:
     matchLabels:
-      app: hello              # dieses Deployment verwaltet Pods mit diesem Label
+      app: webserver              # dieses Deployment verwaltet Pods mit diesem Label
   template:                   # die Vorlage, nach der jeder Pod gebaut wird
     metadata:
       labels:
-        app: hello            # jeder erzeugte Pod bekommt dieses Label
+        app: webserver            # jeder erzeugte Pod bekommt dieses Label
     spec:
       containers:
-        - name: hello
+        - name: webserver
           image: nginx:1.27-alpine        # schlankes Standard-nginx, kein eigenes Image nötig
           # --- ab hier nur "Anstrich": Version + Farbe für die Demo-Seite ---
           env:
@@ -131,13 +131,13 @@ Das Wichtige steht oben und kennst du schon: `replicas: 3` ist dein **Soll** –
 Jetzt anwenden:
 
 ```bash
-kubectl apply -f manifests/hello-deployment.yaml
+kubectl apply -f manifests/webserver-deployment.yaml
 ```
 
 Erwartete Ausgabe:
 
 ```text
-deployment.apps/hello created
+deployment.apps/webserver created
 ```
 
 !!! note "Kurz erklärt: was `apply` tut"
@@ -156,19 +156,19 @@ kubectl get deploy,rs,pods
 Du siehst genau einen Strang: **ein** Deployment, **ein** ReplicaSet, **drei** Pods.
 
 ```text
-NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/hello   3/3     3            3           20s
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/webserver   3/3     3            3           20s
 
-NAME                               DESIRED   CURRENT   READY   AGE
-replicaset.apps/hello-6f7c8d9b5c   3         3         3       20s
+NAME                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/webserver-6f7c8d9b5c   3         3         3       20s
 
-NAME                          READY   STATUS    RESTARTS   AGE
-pod/hello-6f7c8d9b5c-2xk4p    1/1     Running   0          20s
-pod/hello-6f7c8d9b5c-9fghd    1/1     Running   0          20s
-pod/hello-6f7c8d9b5c-q7m2t    1/1     Running   0          20s
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/webserver-6f7c8d9b5c-2xk4p    1/1     Running   0          20s
+pod/webserver-6f7c8d9b5c-9fghd    1/1     Running   0          20s
+pod/webserver-6f7c8d9b5c-q7m2t    1/1     Running   0          20s
 ```
 
-`READY 3/3` heißt: alle drei Pods laufen. Achte auf die **Pod-Namen** – sie beginnen mit `hello-`, dann folgt eine zufällige Kennung. Genau diesen Namen zeigt dir die Web-Seite gleich als „Server name" an.
+`READY 3/3` heißt: alle drei Pods laufen. Achte auf die **Pod-Namen** – sie beginnen mit `webserver-`, dann folgt eine zufällige Kennung. Genau diesen Namen zeigt dir die Web-Seite gleich als „Server name" an.
 
 !!! note "Kurz erklärt: die drei Ebenen"
     - **Deployment** – dein Soll-Zustand plus die Logik fürs Updaten.
@@ -184,21 +184,21 @@ pod/hello-6f7c8d9b5c-q7m2t    1/1     Running   0          20s
 Jetzt willst du sehen, was da läuft. Mach das Deployment über `port-forward` erreichbar. **Dieses Terminal bleibt ab jetzt offen** – solange der Tunnel steht:
 
 ```bash
-kubectl port-forward deployment/hello 8080:80
+kubectl port-forward deployment/webserver 8080:80
 ```
 
 Das Terminal zeigt „Forwarding from 127.0.0.1:8080 -> 80" und bleibt belegt. Öffne im Browser:
 
 > **<http://localhost:8080>**
 
-Du siehst eine **blaue** Seite mit großer Schrift **„Version 1"** und darunter eine Zeile **„Server name: hello-…"** – das ist der Name des Pods, der gerade antwortet.
+Du siehst eine **blaue** Seite mit großer Schrift **„Version 1"** und darunter eine Zeile **„Server name: webserver-…"** – das ist der Name des Pods, der gerade antwortet.
 
 ```text
 +-------------------------------------------+
 |                                           |
 |               Version 1                   |   (blauer Hintergrund)
 |                                           |
-|      Server name: hello-6f7c8d9b5c-2xk4p  |
+|      Server name: webserver-6f7c8d9b5c-2xk4p  |
 |                                           |
 +-------------------------------------------+
 ```
@@ -218,7 +218,7 @@ Brauchst du nebenher weitere `kubectl`-Befehle, nimm dafür dein **zweites** Ter
 Jetzt änderst du die Soll-Zahl – ganz ohne die Datei anzufassen. Tipp das im **zweiten** Terminal (der Tunnel im ersten bleibt offen):
 
 ```bash
-kubectl scale deployment hello --replicas=5
+kubectl scale deployment webserver --replicas=5
 ```
 
 Beobachte live, wie zwei neue Pods entstehen:
@@ -232,7 +232,7 @@ Das `-w` (für *watch*) hält die Anzeige offen und aktualisiert sie laufend. Du
 Dann wieder herunter auf zwei:
 
 ```bash
-kubectl scale deployment hello --replicas=2
+kubectl scale deployment webserver --replicas=2
 ```
 
 Mit `kubectl get pods` siehst du: Kubernetes hat drei Pods beendet, zwei bleiben übrig.
@@ -251,15 +251,15 @@ kubectl get pods
 ```
 
 ```text
-NAME                      READY   STATUS    RESTARTS   AGE
-hello-6f7c8d9b5c-2xk4p    1/1     Running   0          5m
-hello-6f7c8d9b5c-9fghd    1/1     Running   0          5m
+NAME                          READY   STATUS    RESTARTS   AGE
+webserver-6f7c8d9b5c-2xk4p    1/1     Running   0          5m
+webserver-6f7c8d9b5c-9fghd    1/1     Running   0          5m
 ```
 
 Jetzt lösch einen davon (setz deinen echten Namen ein):
 
 ```bash
-kubectl delete pod hello-6f7c8d9b5c-2xk4p
+kubectl delete pod webserver-6f7c8d9b5c-2xk4p
 ```
 
 Und sofort wieder nachsehen:
@@ -271,7 +271,7 @@ kubectl get pods
 Du siehst: Der gelöschte Pod ist weg – aber ein **neuer** mit anderem Namen ist schon da (vielleicht kurz noch `ContainerCreating`). Die Soll-Zahl 2 wird sofort wieder erreicht. Beim **einzelnen Pod** aus Praxis 1 wäre an dieser Stelle nichts nachgekommen – der Unterschied liegt am Deployment.
 
 !!! tip "Hast du gerade den Pod aus dem Tunnel erwischt?"
-    Wenn dein `port-forward` zufällig an genau dem gelöschten Pod hing, zeigt der Browser kurz einen Fehler und das Tunnel-Terminal meldet einen Abbruch. Kein Problem: Beende es mit **Ctrl+C** und starte es neu (`kubectl port-forward deployment/hello 8080:80`). Es verbindet sich dann mit einem der lebenden Pods.
+    Wenn dein `port-forward` zufällig an genau dem gelöschten Pod hing, zeigt der Browser kurz einen Fehler und das Tunnel-Terminal meldet einen Abbruch. Kein Problem: Beende es mit **Ctrl+C** und starte es neu (`kubectl port-forward deployment/webserver 8080:80`). Es verbindet sich dann mit einem der lebenden Pods.
 
 !!! note "Kurz erklärt: der Regelkreis in Aktion"
     Das ist die **Selbstheilung** aus der Theorie, live. Das ReplicaSet vergleicht laufend Soll (2) mit Ist. Durch das Löschen war das Ist kurz 1 – also fehlte einer. Kubernetes hat den Unterschied bemerkt und sofort Ersatz gestartet. Niemand musste eingreifen. Genau dafür baut man Deployments statt einzelner Pods.
@@ -285,25 +285,25 @@ Jetzt kommt das Herzstück. Du rollst **Version 2** aus – und siehst die Seite
 Lass das `port-forward`-Terminal aus Schritt 3 offen und tipp im **zweiten** Terminal:
 
 ```bash
-kubectl set env deployment/hello VERSION=2 COLOR="#2e9e5b"
+kubectl set env deployment/webserver VERSION=2 COLOR="#2e9e5b"
 ```
 
-Das sagt sinngemäß: „im Deployment `hello` setze die Umgebungsvariablen `VERSION` auf `2` und `COLOR` auf Grün." Beobachte den Austausch:
+Das sagt sinngemäß: „im Deployment `webserver` setze die Umgebungsvariablen `VERSION` auf `2` und `COLOR` auf Grün." Beobachte den Austausch:
 
 ```bash
-kubectl rollout status deployment/hello
+kubectl rollout status deployment/webserver
 ```
 
 Du siehst Zeilen wie „Waiting for deployment … 1 out of 2 new replicas have been updated", bis am Ende steht:
 
 ```text
-deployment "hello" successfully rolled out
+deployment "webserver" successfully rolled out
 ```
 
 Beim Tausch wird auch der Pod ersetzt, an dem dein `port-forward` aus Schritt 3 hängt – der **Tunnel bricht deshalb ab** (Terminal 1 zeigt einen Fehler, der Browser lädt kurz nicht mehr). Das ist normal: `port-forward` klammert sich an genau **einen** Pod, und der ist beim Rollout weg. Sobald oben **„successfully rolled out"** steht, baust du den Tunnel neu auf – in Terminal 1 **Ctrl+C**, dann erneut:
 
 ```bash
-kubectl port-forward deployment/hello 8080:80
+kubectl port-forward deployment/webserver 8080:80
 ```
 
 Lade <http://localhost:8080> neu: Die Seite ist jetzt **grün** und zeigt **„Version 2"**. Wichtig: Dass dein Tunnel abriss, heißt **nicht**, dass der Dienst weg war – die übrigen Pods haben durchgehend geantwortet. Nur dein einzelner `port-forward` hing am alten Pod. Eine **stabile Adresse**, die so einen Tausch unsichtbar abfängt und automatisch auf lebende Pods verteilt, baust du in [Praxis 3](08-praxis-service.md) mit dem **Service**.
@@ -315,10 +315,10 @@ Lade <http://localhost:8080> neu: Die Seite ist jetzt **grün** und zeigt **„V
     kubectl get pods -w
     ```
 
-    Beim Ausrollen siehst du dann, wie Pods mit der **alten** Kennung (z.B. `hello-6f7c8d9b5c-…`) beendet werden und Pods mit einer **neuen** Kennung (`hello-<neuer-hash>-…`) hochfahren – einer nach dem anderen. Genau das ist die Welle aus der [Theorie](05-deployments-skalierung.md#rolling-update-und-rollback). Beenden mit **Ctrl+C**.
+    Beim Ausrollen siehst du dann, wie Pods mit der **alten** Kennung (z.B. `webserver-6f7c8d9b5c-…`) beendet werden und Pods mit einer **neuen** Kennung (`webserver-<neuer-hash>-…`) hochfahren – einer nach dem anderen. Genau das ist die Welle aus der [Theorie](05-deployments-skalierung.md#rolling-update-und-rollback). Beenden mit **Ctrl+C**.
 
 !!! warning "Ehrlich eingeordnet: warum `set env` und nicht `set image`?"
-    Eine neue Version heißt im echten Betrieb fast immer: **ein neues Image** (`kubectl set image deployment/hello hello=meineapp:1.5`). Damit du die Änderung hier aber **sofort als Farbe** siehst, ohne dass wir zwei fertige Images bereitstellen müssen, liest unsere Demo-App ihre Version und Farbe aus zwei Umgebungsvariablen. Sie zu ändern ist für Kubernetes **derselbe Anlass**: Das Pod-Template ändert sich, also rollt es Pod für Pod neu aus – exakt dieselbe Mechanik wie beim Image-Wechsel. Den Befehl `kubectl set image` lernst du gleich in der Aufgabe trotzdem noch kennen.
+    Eine neue Version heißt im echten Betrieb fast immer: **ein neues Image** (`kubectl set image deployment/webserver webserver=meineapp:1.5`). Damit du die Änderung hier aber **sofort als Farbe** siehst, ohne dass wir zwei fertige Images bereitstellen müssen, liest unsere Demo-App ihre Version und Farbe aus zwei Umgebungsvariablen. Sie zu ändern ist für Kubernetes **derselbe Anlass**: Das Pod-Template ändert sich, also rollt es Pod für Pod neu aus – exakt dieselbe Mechanik wie beim Image-Wechsel. Den Befehl `kubectl set image` lernst du gleich in der Aufgabe trotzdem noch kennen.
 
 !!! note "Kurz erklärt: wellenweiser Tausch ohne Ausfall"
     Beim Rolling Update legt das Deployment ein **neues ReplicaSet** mit der neuen Version an und tauscht dann **Pod für Pod**: einen neuen hochfahren, einen alten beenden – so lange, bis alle erneuert sind. Weil dabei immer genug Pods laufen, gibt es **keine Ausfallzeit**. Jede Version bekommt eine **Revision**-Nummer – die brauchst du gleich fürs Zurückrollen.
@@ -330,7 +330,7 @@ Lade <http://localhost:8080> neu: Die Seite ist jetzt **grün** und zeigt **„V
 Jede Änderung am Pod-Template hat eine **Revision** erzeugt. Schau sie dir an:
 
 ```bash
-kubectl rollout history deployment/hello
+kubectl rollout history deployment/webserver
 ```
 
 ```text
@@ -351,11 +351,11 @@ Revision 1 war Blau (Version 1), Revision 2 ist Grün (Version 2). Diese Nummern
 Angenommen, die neue Version macht Ärger – dann willst du **sofort** zurück. Genau dafür gibt es `rollout undo`:
 
 ```bash
-kubectl rollout undo deployment/hello
-kubectl rollout status deployment/hello
+kubectl rollout undo deployment/webserver
+kubectl rollout status deployment/webserver
 ```
 
-Auch hier wird wieder getauscht – dein `port-forward` reißt also erneut ab (gleicher Grund wie in Schritt 6). Wenn `rollout status` durch ist, in Terminal 1 **Ctrl+C** und neu starten (`kubectl port-forward deployment/hello 8080:80`), dann <http://localhost:8080> neu laden: Die Seite ist wieder **blau** und zeigt **„Version 1"**. Der Rollback lief genauso wellenweise wie das Update.
+Auch hier wird wieder getauscht – dein `port-forward` reißt also erneut ab (gleicher Grund wie in Schritt 6). Wenn `rollout status` durch ist, in Terminal 1 **Ctrl+C** und neu starten (`kubectl port-forward deployment/webserver 8080:80`), dann <http://localhost:8080> neu laden: Die Seite ist wieder **blau** und zeigt **„Version 1"**. Der Rollback lief genauso wellenweise wie das Update.
 
 !!! note "Kurz erklärt: undo nutzt das alte ReplicaSet"
     `rollout undo` erfindet nichts Neues: Das alte ReplicaSet der Version 1 war noch da (nur auf 0 Pods heruntergefahren). Kubernetes fährt es einfach wieder hoch und das neue herunter. Deshalb ist ein Rollback schnell und sicher. Mit `--to-revision=N` springst du auch gezielt zu einer bestimmten älteren Revision – das probierst du in der Aufgabe. Übrigens: Die zurückgeholte Version bekommt dabei eine **neue, höhere** Revisions-Nummer – `kubectl rollout history` zählt also weiter hoch, statt zur alten Nummer zurückzuspringen.
@@ -369,7 +369,7 @@ Bisher hast du über `port-forward` immer **denselben** Pod gesehen. Jetzt machs
 Leg kurz eine cluster-interne Adresse vor dein Deployment (mehr dazu in Praxis 3):
 
 ```bash
-kubectl expose deployment hello --port=80 --name=hello-peek
+kubectl expose deployment webserver --port=80 --name=webserver-peek
 ```
 
 Starte einen winzigen Wegwerf-Pod und lande direkt in seiner Shell:
@@ -381,14 +381,14 @@ kubectl run peek --rm -it --image=curlimages/curl --restart=Never -- sh
 Nach kurzer Zeit erscheint ein Prompt wie `/ $` – du bist jetzt **im Pod**. Frag dort (nicht in PowerShell) die Adresse zehnmal ab und zieh jeweils den Pod-Namen heraus:
 
 ```sh
-for i in $(seq 10); do curl -s hello-peek | grep -o "hello-[a-z0-9-]*"; done
+for i in $(seq 10); do curl -s webserver-peek | grep -o "webserver-[a-z0-9-]*"; done
 ```
 
 ```text
-hello-6f7c8d9b5c-2xk4p
-hello-6f7c8d9b5c-q7m2t
-hello-6f7c8d9b5c-2xk4p
-hello-6f7c8d9b5c-9fghd
+webserver-6f7c8d9b5c-2xk4p
+webserver-6f7c8d9b5c-q7m2t
+webserver-6f7c8d9b5c-2xk4p
+webserver-6f7c8d9b5c-9fghd
 ...
 ```
 
@@ -401,11 +401,11 @@ exit
 Räum danach auch die kurze Adresse wieder weg (das Deployment bleibt!):
 
 ```bash
-kubectl delete service hello-peek
+kubectl delete service webserver-peek
 ```
 
 !!! note "Kurz erklärt: wer hier verteilt"
-    Über den Namen `hello-peek` ist dein Deployment **cluster-intern** erreichbar. Ruft der Wegwerf-Pod diese Adresse auf, verteilt **kube-proxy** die Anfragen reihum auf alle Pods. Genau das schauen wir uns in [Praxis 3](08-praxis-service.md) in Ruhe an – samt stabiler Adresse, Labels und Endpoints. Tipp: Lass nebenbei den Rolling Update aus Schritt 6 laufen, dann siehst du in der Schleife sogar **blaue und grüne** Pods gemischt antworten, während getauscht wird.
+    Über den Namen `webserver-peek` ist dein Deployment **cluster-intern** erreichbar. Ruft der Wegwerf-Pod diese Adresse auf, verteilt **kube-proxy** die Anfragen reihum auf alle Pods. Genau das schauen wir uns in [Praxis 3](08-praxis-service.md) in Ruhe an – samt stabiler Adresse, Labels und Endpoints. Tipp: Lass nebenbei den Rolling Update aus Schritt 6 laufen, dann siehst du in der Schleife sogar **blaue und grüne** Pods gemischt antworten, während getauscht wird.
 
 ---
 
@@ -425,7 +425,7 @@ Jetzt du. Versuch es erst **ohne** zu spicken – die Lösung ist darunter.
     **Schritt 1 – auf 4 skalieren:**
 
     ```bash
-    kubectl scale deployment hello --replicas=4
+    kubectl scale deployment webserver --replicas=4
     kubectl get pods
     ```
 
@@ -434,22 +434,22 @@ Jetzt du. Versuch es erst **ohne** zu spicken – die Lösung ist darunter.
     **Schritt 2 – Version 2 (grün) ausrollen:**
 
     ```bash
-    kubectl set env deployment/hello VERSION=2 COLOR="#2e9e5b"
-    kubectl rollout status deployment/hello
+    kubectl set env deployment/webserver VERSION=2 COLOR="#2e9e5b"
+    kubectl rollout status deployment/webserver
     ```
 
-    Bei offenem `port-forward` (`kubectl port-forward deployment/hello 8080:80`) zeigt <http://localhost:8080> nach dem Neuladen die **grüne** Seite mit „Version 2".
+    Bei offenem `port-forward` (`kubectl port-forward deployment/webserver 8080:80`) zeigt <http://localhost:8080> nach dem Neuladen die **grüne** Seite mit „Version 2".
 
     **Schritt 3 – die richtige Revision finden:**
 
     ```bash
-    kubectl rollout history deployment/hello
+    kubectl rollout history deployment/webserver
     ```
 
     Du siehst eine Liste mit `REVISION`-Nummern. **Wichtig:** Diese Nummern verschieben sich bei jedem Roll – nach dem Zurückrollen aus Schritt 8 ist die ursprüngliche „1" meist schon durch eine höhere Nummer ersetzt. Verlass dich also **nicht** auf eine feste Zahl, sondern schau in **deine** Liste. Welche Revision war blau? Das zeigt dir die Detailansicht (probier die Nummern aus deiner Liste durch):
 
     ```bash
-    kubectl rollout history deployment/hello --revision=3
+    kubectl rollout history deployment/webserver --revision=3
     ```
 
     Unter `Environment:` steht je Revision `VERSION` und `COLOR`. Die **blaue** Version 1 erkennst du an `VERSION: 1` und `COLOR: #2563a8`. Merke dir diese Nummer.
@@ -457,23 +457,23 @@ Jetzt du. Versuch es erst **ohne** zu spicken – die Lösung ist darunter.
     **Schritt 4 – gezielt zurückspringen** (setz für `N` die eben gefundene Nummer der blauen Revision ein):
 
     ```bash
-    kubectl rollout undo deployment/hello --to-revision=N
-    kubectl rollout status deployment/hello
+    kubectl rollout undo deployment/webserver --to-revision=N
+    kubectl rollout status deployment/webserver
     ```
 
     Lade <http://localhost:8080> neu – die Seite ist jetzt wieder **blau** mit „Version 1".
 
     !!! warning "Fehlermeldung „unable to find specified revision"?"
-        Dann gibt es die gewählte Nummer nicht (mehr) – Kubernetes nummeriert Revisionen beim Zurückrollen um. Ruf einfach noch einmal `kubectl rollout history deployment/hello` auf und nimm eine Nummer, die wirklich in deiner Liste steht.
+        Dann gibt es die gewählte Nummer nicht (mehr) – Kubernetes nummeriert Revisionen beim Zurückrollen um. Ruf einfach noch einmal `kubectl rollout history deployment/webserver` auf und nimm eine Nummer, die wirklich in deiner Liste steht.
 
     **Schritt 5 (Kür) – ein Image ausrollen:**
 
     ```bash
-    kubectl set image deployment/hello hello=nginx:1.26-alpine
-    kubectl rollout status deployment/hello
+    kubectl set image deployment/webserver webserver=nginx:1.26-alpine
+    kubectl rollout status deployment/webserver
     ```
 
-    Der Befehl heißt sinngemäß: „im Deployment `hello` setze für den Container namens `hello` ein neues Image." Sichtbar ändert sich hier **nichts** (nur die nginx-Version im Hintergrund) – aber in `kubectl rollout history` erscheint eine neue Revision. Genau so rollst du im echten Betrieb eine neue App-Version aus.
+    Der Befehl heißt sinngemäß: „im Deployment `webserver` setze für den Container namens `webserver` ein neues Image." Sichtbar ändert sich hier **nichts** (nur die nginx-Version im Hintergrund) – aber in `kubectl rollout history` erscheint eine neue Revision. Genau so rollst du im echten Betrieb eine neue App-Version aus.
 
 ??? success "Erwartung"
     Du hast auf 4 Pods skaliert, eine neue Version ausgerollt (Farbe schlägt um) und über `rollout history` und `--to-revision` gezielt zwischen Versionen hin- und hergesprungen – an der Farbe im Browser konntest du jederzeit ablesen, welche Version gerade läuft. Mit `set image` hast du zusätzlich den klassischen Image-Rollout selbst getippt. Damit beherrschst du den kompletten Lebenszyklus eines Deployments: anlegen, skalieren, heilen, updaten, zurückrollen – alles ohne Ausfall.
@@ -487,7 +487,7 @@ Jetzt du. Versuch es erst **ohne** zu spicken – die Lösung ist darunter.
 Falls du eine Pause machst und alles trotzdem abgeräumt hast: kein Problem, du legst das Deployment mit demselben Befehl wie in Schritt 1 wieder an.
 
 ```bash
-kubectl apply -f manifests/hello-deployment.yaml
+kubectl apply -f manifests/webserver-deployment.yaml
 ```
 
 !!! tip "Forwarding beenden, Cluster behalten"

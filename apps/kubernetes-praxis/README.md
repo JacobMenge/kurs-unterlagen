@@ -18,14 +18,14 @@ cd kurs-unterlagen/apps/kubernetes-praxis
 kubectl get nodes
 
 # Deployment (3 Pods) und Service anlegen
-kubectl apply -f manifests/hello-deployment.yaml
-kubectl apply -f manifests/hello-service.yaml
+kubectl apply -f manifests/webserver-deployment.yaml
+kubectl apply -f manifests/webserver-service.yaml
 
 # Zustand ansehen
 kubectl get deploy,rs,pods,svc
 
 # im Browser erreichbar machen
-kubectl port-forward service/hello 8080:80
+kubectl port-forward service/webserver 8080:80
 # -> http://localhost:8080
 ```
 
@@ -33,10 +33,10 @@ kubectl port-forward service/hello 8080:80
 
 | Datei | Zweck | Genutzt in |
 |-------|-------|-----------|
-| `manifests/hello-pod.yaml` | ein einzelner Pod (die kleinste Einheit) | Praxis 1 |
-| `manifests/hello-deployment.yaml` | Deployment mit 3 Replicas (Soll-Zustand, Selbstheilung) – farbige Demo-App, Version + Pod-Name | Praxis 2, 3 |
-| `manifests/hello-service.yaml` | Service (ClusterIP) als stabile Adresse + Load-Balancing | Praxis 3 |
-| `manifests/hello-service-nodeport.yaml` | Service-Variante für Zugriff von außen (NodePort) | Praxis 3 (Bonus) |
+| `manifests/webserver-pod.yaml` | ein einzelner Pod (die kleinste Einheit) | Praxis 1 |
+| `manifests/webserver-deployment.yaml` | Deployment mit 3 Replicas (Soll-Zustand, Selbstheilung) – farbige Demo-App, Version + Pod-Name | Praxis 2, 3 |
+| `manifests/webserver-service.yaml` | Service (ClusterIP) als stabile Adresse + Load-Balancing | Praxis 3 |
+| `manifests/webserver-service-nodeport.yaml` | Service-Variante für Zugriff von außen (NodePort) | Praxis 3 (Bonus) |
 | `manifests/bunt-disco.yaml` | zwei farbige Deployments (blau + grün) hinter **einem** Service – Load-Balancing als Farbe sichtbar | Praxis 3 (Bonus) |
 
 In **Praxis 1** kommt das Image `nginxdemos/hello` zum Einsatz – es zeigt den **Pod-Namen** an,
@@ -50,7 +50,7 @@ Image ist nicht nötig.
 ## Aufräumen
 
 ```bash
-kubectl delete -f manifests/hello-service.yaml -f manifests/hello-deployment.yaml
+kubectl delete -f manifests/webserver-service.yaml -f manifests/webserver-deployment.yaml
 # oder den ganzen Cluster zurücksetzen:
 minikube delete
 ```

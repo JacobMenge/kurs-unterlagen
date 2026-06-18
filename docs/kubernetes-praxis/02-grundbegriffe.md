@@ -183,7 +183,7 @@ Pods sind sterblich und wechseln ihre IP. Wie erreicht man dann zuverlässig ein
 </figure>
 
 !!! note "Kurz erklärt: woher der Service „seine“ Pods kennt"
-    Über **Labels**. Ein Label ist einfach eine kleine Markierung an einem Pod – wie ein **Aufkleber** `app: hello`. Der Service hat einen **Selektor**, also eine Suchregel: „schick alles an jeden Pod mit dem Aufkleber `app: hello`“. Tauchen neue Pods mit diesem Label auf (z.B. weil du hochskalierst), nimmt der Service sie automatisch mit auf. Labels sind das Klebeband, das in Kubernetes alles verbindet – das siehst du in [Praxis 3](08-praxis-service.md) live.
+    Über **Labels**. Ein Label ist einfach eine kleine Markierung an einem Pod – wie ein **Aufkleber** `app: webserver`. Der Service hat einen **Selektor**, also eine Suchregel: „schick alles an jeden Pod mit dem Aufkleber `app: webserver`“. Tauchen neue Pods mit diesem Label auf (z.B. weil du hochskalierst), nimmt der Service sie automatisch mit auf. Labels sind das Klebeband, das in Kubernetes alles verbindet – das siehst du in [Praxis 3](08-praxis-service.md) live.
 
 ---
 
@@ -194,9 +194,9 @@ Pods sind sterblich und wechseln ihre IP. Wie erreicht man dann zuverlässig ein
 ```text
 kubectl  <verb>     <ressource>   <name>
          get        pods
-         describe   pod           hello
-         delete     deployment    hello
-         scale      deployment    hello --replicas=5
+         describe   pod           webserver
+         delete     deployment    webserver
+         scale      deployment    webserver --replicas=5
 ```
 
 Ein paar Befehle, die du immer wieder brauchst – mehr Vokabeln sind es kaum:
@@ -220,7 +220,7 @@ Genau wie bei der `compose.yaml` beschreibst du den Soll-Zustand in einer **YAML
 apiVersion: apps/v1     # welche API-Version (hängt von der Ressource ab)
 kind: Deployment        # was für ein Objekt? Pod, Deployment, Service …
 metadata:
-  name: hello           # wie heißt es?
+  name: webserver           # wie heißt es?
 spec:                   # der eigentliche Soll-Zustand
   replicas: 3
   # ...

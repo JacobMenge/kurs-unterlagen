@@ -41,7 +41,7 @@ Das ist genau der Kontrast, den du in der Praxis siehst:
 
 | Du löschst einen … | Was passiert |
 |---|---|
-| **einzelnen Pod** (`hello-pod.yaml`) | nichts – er bleibt weg, niemand ersetzt ihn |
+| **einzelnen Pod** (`webserver-pod.yaml`) | nichts – er bleibt weg, niemand ersetzt ihn |
 | **Pod eines Deployments** | Kubernetes startet sofort einen neuen, das Soll wird wiederhergestellt |
 
 !!! tip "Genau das hast du in Praxis 1 vermisst"
@@ -57,7 +57,7 @@ Das ist genau der Kontrast, den du in der Praxis siehst:
 Die zweite Superkraft ist genauso bequem. Brauchst du mehr Kopien, weil die Last steigt? Du startest sie nicht von Hand – du **änderst nur die Zahl**. Aus `replicas: 3` wird `replicas: 5` – Kubernetes startet zwei dazu. Senkst du wieder auf 2, fährt es drei herunter. Hoch wie runter ist es **eine einzige Zahl**.
 
 ```bash
-kubectl scale deployment hello --replicas=5
+kubectl scale deployment webserver --replicas=5
 ```
 
 Das passt den Soll-Zustand live an: „ab jetzt will ich 5“. Du kannst dabei zusehen, wie die neuen Pods erscheinen:
@@ -85,10 +85,10 @@ Wer genau hinschaut, sieht zwischen Deployment und Pods noch eine Zwischenebene:
 
 ```mermaid
 flowchart TB
-  D["Deployment hello<br/>(Vorlage + Versionen)"] --> R["ReplicaSet<br/>(hält genau 3 Stück)"]
-  R --> P1["Pod hello-…"]
-  R --> P2["Pod hello-…"]
-  R --> P3["Pod hello-…"]
+  D["Deployment webserver<br/>(Vorlage + Versionen)"] --> R["ReplicaSet<br/>(hält genau 3 Stück)"]
+  R --> P1["Pod webserver-…"]
+  R --> P2["Pod webserver-…"]
+  R --> P3["Pod webserver-…"]
 ```
 
 !!! note "Kurz erklärt: warum du das ReplicaSet kaum anfasst"
@@ -155,26 +155,26 @@ Jetzt zur dritten Superkraft – der, die im echten Betrieb am meisten wert ist.
 So löst du es aus. Im echten Betrieb ist eine neue Version meist ein **neues Image** – der normale Befehl dafür:
 
 ```bash
-kubectl set image deployment/hello hello=meineapp:1.5
+kubectl set image deployment/webserver webserver=meineapp:1.5
 ```
 
 Unsere Demo-App in [Praxis 2](06-praxis-deployment.md) trägt ihre Version und Farbe dagegen in zwei Umgebungsvariablen. Damit wird die Änderung **sofort als Farbe sichtbar** (Blau → Grün):
 
 ```bash
-kubectl set env deployment/hello VERSION=2 COLOR="#2e9e5b"
+kubectl set env deployment/webserver VERSION=2 COLOR="#2e9e5b"
 ```
 
 Für Kubernetes ist beides derselbe Anlass und löst denselben Rolling Update aus. Den Fortschritt beobachtest du, die Geschichte rufst du ab:
 
 ```bash
-kubectl rollout status deployment/hello      # läuft das Update noch oder ist es durch?
-kubectl rollout history deployment/hello     # welche Versionen gab es?
+kubectl rollout status deployment/webserver      # läuft das Update noch oder ist es durch?
+kubectl rollout history deployment/webserver     # welche Versionen gab es?
 ```
 
 Geht etwas schief – die neue Version ist kaputt, die Pods kommen nicht hoch –, brauchst du keine Panik. Das **alte ReplicaSet bleibt erhalten**, also kannst du in einem Befehl zurück:
 
 ```bash
-kubectl rollout undo deployment/hello        # zurück zur vorigen Version
+kubectl rollout undo deployment/webserver        # zurück zur vorigen Version
 ```
 
 !!! note "Kurz erklärt: warum es ohne Ausfall geht – und warum Rollback so einfach ist"
@@ -187,27 +187,27 @@ kubectl rollout undo deployment/hello        # zurück zur vorigen Version
 
 ## Das Deployment-Manifest Zeile für Zeile
 
-Das ist der Kern des Manifests aus `apps/kubernetes-praxis/manifests/hello-deployment.yaml`, das du in [Praxis 2](06-praxis-deployment.md) mit `kubectl apply -f` anwendest. Lies es einmal von oben nach unten – darunter erklären wir jede Ebene.
+Das ist der Kern des Manifests aus `apps/kubernetes-praxis/manifests/webserver-deployment.yaml`, das du in [Praxis 2](06-praxis-deployment.md) mit `kubectl apply -f` anwendest. Lies es einmal von oben nach unten – darunter erklären wir jede Ebene.
 
 ```yaml
 apiVersion: apps/v1           # API-Gruppe; Deployments leben in apps/v1
 kind: Deployment              # Objekt-Typ: ein Deployment
 metadata:                     # Stammdaten des Deployments
-  name: hello                 # so heißt das Deployment
+  name: webserver                 # so heißt das Deployment
   labels:                     # frei wählbare Markierungen am Deployment
-    app: hello                # eine davon: Schlüssel app mit Wert hello
+    app: webserver                # eine davon: Schlüssel app mit Wert webserver
 spec:                         # der gewünschte Zustand (das Soll)
   replicas: 3                 # gewünschte Anzahl gleicher Pods
   selector:                   # wie das Deployment seine Pods findet
     matchLabels:              # ... nämlich über die hier genannten Labels
-      app: hello              # dieses Deployment verwaltet Pods mit diesem Label
+      app: webserver              # dieses Deployment verwaltet Pods mit diesem Label
   template:                   # die Vorlage, nach der jeder Pod gebaut wird
     metadata:                 # Stammdaten jedes erzeugten Pods
       labels:                 # Labels für jeden erzeugten Pod
-        app: hello            # jeder erzeugte Pod bekommt dieses Label
+        app: webserver            # jeder erzeugte Pod bekommt dieses Label
     spec:                     # was in jedem Pod läuft
       containers:             # Liste der Container im Pod (hier einer)
-        - name: hello         # Name des Containers im Pod
+        - name: webserver         # Name des Containers im Pod
           image: nginx:1.27-alpine   # schlankes Standard-nginx (zeigt Version + Pod-Name)
           ports:              # welche Ports der Container öffnet
             - containerPort: 80   # der Container lauscht auf Port 80
@@ -222,22 +222,22 @@ Feld für Feld:
 |---|---|
 | `apiVersion: apps/v1` | Welche API-Gruppe das Objekt beschreibt. Deployments leben in `apps/v1` (ein einzelner Pod dagegen in `v1`). |
 | `kind: Deployment` | Was für ein Objekt das ist – hier ein Deployment. |
-| `metadata.name: hello` | Der Name des Deployments. Darüber sprichst du es an: `kubectl scale deployment hello …`. |
+| `metadata.name: webserver` | Der Name des Deployments. Darüber sprichst du es an: `kubectl scale deployment webserver …`. |
 | `metadata.labels` | Markierungen am Deployment selbst – praktisch zum Filtern und Aufräumen. |
 | `spec.replicas: 3` | Der **Soll-Zustand**: so viele gleiche Pods sollen laufen. Diese eine Zahl ist deine Skalierung. |
-| `spec.selector.matchLabels` | Woran das Deployment „seine“ Pods erkennt: an Pods mit dem Label `app: hello`. |
+| `spec.selector.matchLabels` | Woran das Deployment „seine“ Pods erkennt: an Pods mit dem Label `app: webserver`. |
 | `spec.template` | Die **Vorlage**, nach der jeder Pod gebaut wird – im Grunde ein Pod-Manifest im Inneren. |
 | `template.metadata.labels` | Die Labels, die **jeder erzeugte Pod** bekommt. |
-| `template.spec.containers` | Was im Pod läuft: ein Container namens `hello`, das Image `nginx:1.27-alpine`, lauschend auf Port `80`. |
+| `template.spec.containers` | Was im Pod läuft: ein Container namens `webserver`, das Image `nginx:1.27-alpine`, lauschend auf Port `80`. |
 
 !!! warning "Merksatz: Selektor und Vorlage müssen zusammenpassen"
-    `spec.selector.matchLabels` und `template.metadata.labels` **müssen dasselbe Label tragen** – hier beide `app: hello`. Über dieses Label findet das Deployment „seine“ Pods. Passen die beiden nicht zusammen, baut das Deployment Pods, die es selbst nicht wiedererkennt – Kubernetes lehnt ein solches Manifest sogar ab. Merke dir die zwei Stellen als ein zusammengehöriges Paar.
+    `spec.selector.matchLabels` und `template.metadata.labels` **müssen dasselbe Label tragen** – hier beide `app: webserver`. Über dieses Label findet das Deployment „seine“ Pods. Passen die beiden nicht zusammen, baut das Deployment Pods, die es selbst nicht wiedererkennt – Kubernetes lehnt ein solches Manifest sogar ab. Merke dir die zwei Stellen als ein zusammengehöriges Paar.
 
-!!! note "Kurz erklärt: zweimal `name: hello`, aber zwei verschiedene Dinge"
-    Oben `metadata.name: hello` ist der Name des **Deployments**. Unten `containers: - name: hello` ist der Name des **Containers** im Pod. Beide heißen zufällig gleich – das ist Absicht, macht es übersichtlich. Wichtig wird der **Container-Name** beim Rolling Update: In `kubectl set image deployment/hello hello=…` ist das zweite `hello` genau dieser Container-Name.
+!!! note "Kurz erklärt: zweimal `name: webserver`, aber zwei verschiedene Dinge"
+    Oben `metadata.name: webserver` ist der Name des **Deployments**. Unten `containers: - name: webserver` ist der Name des **Containers** im Pod. Beide heißen zufällig gleich – das ist Absicht, macht es übersichtlich. Wichtig wird der **Container-Name** beim Rolling Update: In `kubectl set image deployment/webserver webserver=…` ist das zweite `webserver` genau dieser Container-Name.
 
 !!! tip "Der Bezug zum Pod aus Praxis 1"
-    Schau dir den Teil ab `template:` an – das ist fast wortgleich das `hello-pod.yaml` aus [Praxis 1](04-praxis-hello-world.md). Ein Deployment ist also kein neues Wesen, sondern „ein Pod-Bauplan plus eine Stückzahl plus ein Manager, der beides am Leben hält“. Mehr ist es nicht.
+    Schau dir den Teil ab `template:` an – das ist fast wortgleich das `webserver-pod.yaml` aus [Praxis 1](04-praxis-hello-world.md). Ein Deployment ist also kein neues Wesen, sondern „ein Pod-Bauplan plus eine Stückzahl plus ein Manager, der beides am Leben hält“. Mehr ist es nicht.
 
 ---
 

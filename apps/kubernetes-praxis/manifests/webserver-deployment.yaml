@@ -10,21 +10,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello
+  name: webserver
   labels:
-    app: hello
+    app: webserver
 spec:
   replicas: 3                 # gewünschte Anzahl gleicher Pods
   selector:
     matchLabels:
-      app: hello              # dieses Deployment verwaltet Pods mit diesem Label
+      app: webserver              # dieses Deployment verwaltet Pods mit diesem Label
   template:                   # die Vorlage, nach der jeder Pod gebaut wird
     metadata:
       labels:
-        app: hello            # jeder erzeugte Pod bekommt dieses Label
+        app: webserver            # jeder erzeugte Pod bekommt dieses Label
     spec:
       containers:
-        - name: hello
+        - name: webserver
           image: nginx:1.27-alpine        # schlankes Standard-nginx, kein eigenes Image nötig
           # --- ab hier nur "Anstrich": Version + Farbe für die Demo-Seite ---
           env:

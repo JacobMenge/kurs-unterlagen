@@ -62,16 +62,16 @@ Ab hier wird jeder Schritt vorgemacht. Tipp den Befehl, vergleich die Ausgabe mi
 **Schritt 1 – den Pod starten.** Ein einziger Befehl erzeugt einen Pod mit unserem Beispiel-Image:
 
 ```bash
-kubectl run hello --image=nginxdemos/hello:latest --port=80
+kubectl run webserver --image=nginxdemos/hello:latest --port=80
 ```
 
 ```text
-pod/hello created
+pod/webserver created
 ```
 
 Das liest sich fast wie ein `docker run`, nur mit `kubectl run`. Was die Teile bedeuten:
 
-- `hello` – der **Name**, den der Pod bekommt.
+- `webserver` – der **Name**, den der Pod bekommt.
 - `--image=nginxdemos/hello:latest` – das **Container-Image** in der Form `Name:Version` (`:latest` = die neueste). Es ist eine winzige Webseite, die später den **Namen des antwortenden Pods** anzeigt – genau das macht in den nächsten Praxisteilen sichtbar, was Kubernetes für dich tut.
 - `--port=80` – sagt Kubernetes, dass der Container intern auf **Port 80** lauscht. Das brauchst du in Schritt 6, um den Pod im Browser zu öffnen.
 
@@ -79,24 +79,24 @@ Das liest sich fast wie ein `docker run`, nur mit `kubectl run`. Was die Teile b
     `kubectl run` ist der schnellste Weg zu **einem einzelnen Pod** – ideal zum Ausprobieren und Lernen. Du gibst direkt auf der Kommandozeile an, was laufen soll, statt eine YAML-Datei zu schreiben. Für den echten Betrieb nimmt man später ein Deployment (Praxis 2) – aber zum Kennenlernen ist der einzelne Pod genau das Richtige.
 
 ??? info "Dasselbe als Manifest (zum Wiedererkennen)"
-    Derselbe Pod steckt fertig in `manifests/hello-pod.yaml`. Du musst ihn hier nicht anwenden – aber schau ihn dir an, damit du die vier Felder aus den [Grundbegriffen](02-grundbegriffe.md#deklarativ-das-yaml-manifest) wiedererkennst:
+    Derselbe Pod steckt fertig in `manifests/webserver-pod.yaml`. Du musst ihn hier nicht anwenden – aber schau ihn dir an, damit du die vier Felder aus den [Grundbegriffen](02-grundbegriffe.md#deklarativ-das-yaml-manifest) wiedererkennst:
 
     ```yaml
     apiVersion: v1
     kind: Pod
     metadata:
-      name: hello
+      name: webserver
       labels:
-        app: hello
+        app: webserver
     spec:
       containers:
-        - name: hello
+        - name: webserver
           image: nginxdemos/hello:latest   # zeigt den Pod-Namen auf der Seite an
           ports:
             - containerPort: 80
     ```
 
-    `kubectl run` von oben und ein `kubectl apply -f manifests/hello-pod.yaml` führen zum **gleichen** Ergebnis. Mit Manifesten arbeiten wir ab Praxis 2 durchgehend.
+    `kubectl run` von oben und ein `kubectl apply -f manifests/webserver-pod.yaml` führen zum **gleichen** Ergebnis. Mit Manifesten arbeiten wir ab Praxis 2 durchgehend.
 
 ---
 
@@ -109,15 +109,15 @@ kubectl get pods
 Direkt nach dem Start steht der Pod oft noch auf `ContainerCreating` – Kubernetes lädt das Image und richtet den Container ein:
 
 ```text
-NAME    READY   STATUS              RESTARTS   AGE
-hello   0/1     ContainerCreating   0          3s
+NAME        READY   STATUS              RESTARTS   AGE
+webserver   0/1     ContainerCreating   0          3s
 ```
 
 Ein paar Sekunden später (Befehl einfach nochmal ausführen) steht er auf `Running`:
 
 ```text
-NAME    READY   STATUS    RESTARTS   AGE
-hello   1/1     Running   0          15s
+NAME        READY   STATUS    RESTARTS   AGE
+webserver   1/1     Running   0          15s
 ```
 
 Mehr Details bekommst du mit `-o wide` (kurz für `--output wide`, also „breitere Ausgabe“) – darunter der **Node**, auf dem der Pod läuft, sowie seine **Pod-IP** im Cluster:
@@ -127,8 +127,8 @@ kubectl get pods -o wide
 ```
 
 ```text
-NAME    READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
-hello   1/1     Running   0          30s   10.244.0.8   minikube   <none>           <none>
+NAME        READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+webserver   1/1     Running   0          30s   10.244.0.8   minikube   <none>           <none>
 ```
 
 Statt immer neu zu tippen, kannst du Kubernetes **live** zuschauen – `-w` steht für „watch":
@@ -147,7 +147,7 @@ Jede Statusänderung erscheint als neue Zeile. Beende die Beobachtung mit **`Ctr
 **Schritt 3 – Details und Ereignisse lesen.** Wenn du wissen willst, *was genau* mit einem Pod passiert ist, fragst du nach den Details:
 
 ```bash
-kubectl describe pod hello
+kubectl describe pod webserver
 ```
 
 Das ist eine lange Ausgabe. Interessant ist vor allem das **Ende** – der Abschnitt **`Events`**. Dort steht in Klartext, was Kubernetes Schritt für Schritt getan hat:
@@ -156,11 +156,11 @@ Das ist eine lange Ausgabe. Interessant ist vor allem das **Ende** – der Absch
 Events:
   Type    Reason     Age   From               Message
   ----    ------     ----  ----               -------
-  Normal  Scheduled  45s   default-scheduler  Successfully assigned default/hello to minikube
+  Normal  Scheduled  45s   default-scheduler  Successfully assigned default/webserver to minikube
   Normal  Pulling    44s   kubelet            Pulling image "nginxdemos/hello:latest"
   Normal  Pulled     40s   kubelet            Successfully pulled image "nginxdemos/hello:latest"
-  Normal  Created    40s   kubelet            Created container hello
-  Normal  Started    40s   kubelet            Started container hello
+  Normal  Created    40s   kubelet            Created container webserver
+  Normal  Started    40s   kubelet            Started container webserver
 ```
 
 Lies das von oben nach unten wie ein Protokoll: **Scheduled** (auf einen Node gelegt) → **Pulling/Pulled** (Image geholt) → **Created/Started** (Container gestartet).
@@ -173,7 +173,7 @@ Lies das von oben nach unten wie ein Protokoll: **Scheduled** (auf einen Node ge
 **Schritt 4 – in die Logs schauen.** Was gibt der Container selbst aus? Genau wie bei Docker fragst du die Logs ab:
 
 ```bash
-kubectl logs hello
+kubectl logs webserver
 ```
 
 ```text
@@ -183,14 +183,14 @@ kubectl logs hello
 Bei diesem nginx-Image ist die Startausgabe knapp – sobald du den Pod gleich im Browser aufrufst, erscheinen hier zusätzlich die Zugriffszeilen.
 
 !!! note "Kurz erklärt: `logs` wie `docker logs`"
-    `kubectl logs <pod>` zeigt die Ausgabe (stdout/stderr) des Containers – das kennst du eins zu eins von `docker logs`. Praktische Zusätze: `kubectl logs -f hello` folgt den Logs live (mit `Ctrl+C` beenden) und `kubectl logs --tail=20 hello` zeigt nur die letzten 20 Zeilen.
+    `kubectl logs <pod>` zeigt die Ausgabe (stdout/stderr) des Containers – das kennst du eins zu eins von `docker logs`. Praktische Zusätze: `kubectl logs -f webserver` folgt den Logs live (mit `Ctrl+C` beenden) und `kubectl logs --tail=20 webserver` zeigt nur die letzten 20 Zeilen.
 
 ---
 
 **Schritt 5 – in den Pod hineingehen.** Du kannst dir eine Shell **im** laufenden Container holen:
 
 ```bash
-kubectl exec -it hello -- sh
+kubectl exec -it webserver -- sh
 ```
 
 Kurz zur Schreibweise: `-it` macht die Sitzung **interaktiv** (du kannst darin tippen). Das `--` trennt die `kubectl`-Optionen von dem Befehl, der **im** Container laufen soll – hier `sh` (eine einfache Shell).
@@ -203,11 +203,11 @@ ls
 ```
 
 ```text
-hello
+webserver
 bin   dev   etc   home  ...
 ```
 
-Der `hostname` ist `hello` – also **genau der Pod-Name**. Genau das macht das Image gleich auch auf der Webseite sichtbar. Verlasse den Container wieder mit:
+Der `hostname` ist `webserver` – also **genau der Pod-Name**. Genau das macht das Image gleich auch auf der Webseite sichtbar. Verlasse den Container wieder mit:
 
 ```bash
 exit
@@ -224,7 +224,7 @@ exit
 **Schritt 6 – im Browser erreichbar machen.** Der Pod läuft, hat aber nur eine **cluster-interne** IP. Damit du ihn im Browser siehst, baust du dir mit `port-forward` einen Tunnel von deinem Rechner in den Cluster:
 
 ```bash
-kubectl port-forward pod/hello 8080:80
+kubectl port-forward pod/webserver 8080:80
 ```
 
 ```text
@@ -232,19 +232,19 @@ Forwarding from 127.0.0.1:8080 -> 80
 Forwarding from [::1]:8080 -> 80
 ```
 
-Zwei Dinge zur Schreibweise: `pod/hello` ist die Langform `Ressourcentyp/Name` – sie sagt eindeutig „der **Pod** namens hello“ (kurz `hello` würde meist auch gehen, die Langform ist nur klarer). Und `8080:80` liest sich **lokal:im-Pod** – Port `8080` auf deinem Laptop führt zu Port `80` im Container.
+Zwei Dinge zur Schreibweise: `pod/webserver` ist die Langform `Ressourcentyp/Name` – sie sagt eindeutig „der **Pod** namens webserver“ (kurz `webserver` würde meist auch gehen, die Langform ist nur klarer). Und `8080:80` liest sich **lokal:im-Pod** – Port `8080` auf deinem Laptop führt zu Port `80` im Container.
 
 Lass dieses Terminal **offen** – solange es läuft, steht der Tunnel. Öffne im Browser:
 
 > **<http://localhost:8080>**
 
-Du siehst die Hello-Seite. Oben steht **„Server name: hello"** – das ist der Pod-Name, den du eben per `hostname` auch in der Shell gesehen hast.
+Du siehst die Hello-Seite. Oben steht **„Server name: webserver"** – das ist der Pod-Name, den du eben per `hostname` auch in der Shell gesehen hast.
 
 ```text
 +-----------------------------------------+
 |              Hello World                |
 |                                         |
-|   Server name:   hello                  |
+|   Server name:   webserver                  |
 |   Server address: 10.244.0.8:80         |
 |   Date: ...                             |
 +-----------------------------------------+
@@ -253,7 +253,7 @@ Du siehst die Hello-Seite. Oben steht **„Server name: hello"** – das ist der
 Brauchst du nebenher weitere `kubectl`-Befehle, öffne ein **zweites Terminal** – das erste bleibt für den Tunnel reserviert. Den Tunnel beendest du mit **`Ctrl+C`** im port-forward-Terminal.
 
 !!! note "Kurz erklärt: `port-forward` ist ein lokaler Tunnel"
-    `kubectl port-forward pod/hello 8080:80` verbindet **Port 8080 auf deinem Rechner** mit **Port 80 im Pod**. Anfragen an `http://localhost:8080` laufen durch diesen Tunnel direkt zum Pod. Das funktioniert auf jedem Rechner gleich – egal ob minikube oder Docker Desktop – und ist deshalb unser Standardweg, um Apps im Browser zu öffnen. Wichtig: Der Tunnel lebt nur, solange das Terminal offen ist.
+    `kubectl port-forward pod/webserver 8080:80` verbindet **Port 8080 auf deinem Rechner** mit **Port 80 im Pod**. Anfragen an `http://localhost:8080` laufen durch diesen Tunnel direkt zum Pod. Das funktioniert auf jedem Rechner gleich – egal ob minikube oder Docker Desktop – und ist deshalb unser Standardweg, um Apps im Browser zu öffnen. Wichtig: Der Tunnel lebt nur, solange das Terminal offen ist.
 
 !!! tip "Nichts zu sehen im Browser?"
     Wenn `localhost:8080` nichts anzeigt, ist meist der port-forward nicht (mehr) aktiv – das Terminal muss offen bleiben. Hilfe dazu in [Hilfekarte 6](09-hilfekarten.md#hilfekarte-6-port-forward-klappt-nicht).
@@ -263,11 +263,11 @@ Brauchst du nebenher weitere `kubectl`-Befehle, öffne ein **zweites Terminal** 
 **Schritt 7 – den Pod löschen (und der Aha-Moment).** Räum den Pod weg:
 
 ```bash
-kubectl delete pod hello
+kubectl delete pod webserver
 ```
 
 ```text
-pod "hello" deleted
+pod "webserver" deleted
 ```
 
 Jetzt prüf nach:
@@ -352,7 +352,7 @@ Jetzt du. Mach denselben Ablauf noch einmal allein – aber mit einem **anderen 
     Danach sollte wieder `No resources found` stehen.
 
 ??? success "Erwartung"
-    `web` lief auf `1/1 Running`, im Browser kam unter <http://localhost:8080> die **nginx-Standard-Willkommensseite** („Welcome to nginx!"). Anders als bei `nginxdemos/hello` zeigt dieses Image **keinen** Pod-Namen an – das ist völlig in Ordnung und sogar lehrreich: nicht jedes Image zeigt, wer geantwortet hat. Der `hostname` im Container war `web`. Nach dem Löschen ist der Pod weg und bleibt weg – genau wie bei `hello`.
+    `web` lief auf `1/1 Running`, im Browser kam unter <http://localhost:8080> die **nginx-Standard-Willkommensseite** („Welcome to nginx!"). Anders als bei `nginxdemos/hello` zeigt dieses Image **keinen** Pod-Namen an – das ist völlig in Ordnung und sogar lehrreich: nicht jedes Image zeigt, wer geantwortet hat. Der `hostname` im Container war `web`. Nach dem Löschen ist der Pod weg und bleibt weg – genau wie bei `webserver`.
 
 ---
 

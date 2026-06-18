@@ -23,7 +23,7 @@ Stell dir vor, du würdest die IP eines Pods irgendwo fest eintragen – im Code
   <!-- Vorher -->
   <text x="150" y="26" text-anchor="middle" fill="#8fa498" font-size="12">Vorher</text>
   <rect x="75" y="44" width="150" height="58" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
-  <text x="150" y="70" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod hello-3kd</text>
+  <text x="150" y="70" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod webserver-3kd</text>
   <text x="150" y="90" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">IP 10.244.0.17</text>
 
   <rect x="90" y="160" width="120" height="36" rx="5" fill="rgba(122,162,255,0.10)" stroke="#7aa2ff" stroke-width="1.5"/>
@@ -39,7 +39,7 @@ Stell dir vor, du würdest die IP eines Pods irgendwo fest eintragen – im Code
   <!-- Nachher -->
   <text x="450" y="26" text-anchor="middle" fill="#8fa498" font-size="12">Nachher: Pod neu gestartet</text>
   <rect x="375" y="63" width="150" height="56" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
-  <text x="450" y="87" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod hello-9xz</text>
+  <text x="450" y="87" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod webserver-9xz</text>
   <text x="450" y="106" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">IP 10.244.0.31</text>
 
   <!-- toter alter IP-Verweis -->
@@ -60,7 +60,7 @@ Stell dir vor, du würdest die IP eines Pods irgendwo fest eintragen – im Code
     <marker id="deadv" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e06c6c"/></marker>
   </defs>
 </svg>
-<figcaption>Die Pod-IP gehört dem Pod nur, solange er lebt. Stirbt hello-3kd, bekommt der Ersatz hello-9xz eine neue IP – wer fest auf 10.244.0.17 verdrahtet war, zeigt jetzt ins Leere.</figcaption>
+<figcaption>Die Pod-IP gehört dem Pod nur, solange er lebt. Stirbt webserver-3kd, bekommt der Ersatz webserver-9xz eine neue IP – wer fest auf 10.244.0.17 verdrahtet war, zeigt jetzt ins Leere.</figcaption>
 </figure>
 
 Die alte Adresse zeigt ins Leere. Jeder, der sie kannte, läuft jetzt gegen eine Wand. **Eine Pod-IP fest zu verdrahten geht also nicht** – sie ist genauso kurzlebig wie der Pod selbst.
@@ -86,7 +86,7 @@ Die Lösung ist der **Service**. Das Bild dazu kennst du schon aus den [Grundbeg
 
   <!-- Service -->
   <rect x="170" y="92" width="140" height="66" rx="8" fill="rgba(125,255,154,0.1)" stroke="#7dff9a" stroke-width="2.5"/>
-  <text x="240" y="118" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Service "hello"</text>
+  <text x="240" y="118" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Service "webserver"</text>
   <text x="240" y="137" text-anchor="middle" fill="#8fa498" font-size="11">stabiler Name + feste IP</text>
   <text x="240" y="150" text-anchor="middle" fill="#8fa498" font-size="11">verteilt die Last</text>
 
@@ -94,16 +94,16 @@ Die Lösung ist der **Service**. Das Bild dazu kennst du schon aus den [Grundbeg
 
   <!-- drei Pods -->
   <rect x="400" y="30" width="130" height="48" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
-  <text x="465" y="52" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">Pod hello-7f9</text>
-  <text x="465" y="67" text-anchor="middle" fill="#8fa498" font-size="10">app=hello</text>
+  <text x="465" y="52" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">Pod webserver-7f9</text>
+  <text x="465" y="67" text-anchor="middle" fill="#8fa498" font-size="10">app=webserver</text>
 
   <rect x="400" y="101" width="130" height="48" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
-  <text x="465" y="123" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">Pod hello-2c4</text>
-  <text x="465" y="138" text-anchor="middle" fill="#8fa498" font-size="10">app=hello</text>
+  <text x="465" y="123" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">Pod webserver-2c4</text>
+  <text x="465" y="138" text-anchor="middle" fill="#8fa498" font-size="10">app=webserver</text>
 
   <rect x="400" y="172" width="130" height="48" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
-  <text x="465" y="194" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">Pod hello-a1b</text>
-  <text x="465" y="209" text-anchor="middle" fill="#8fa498" font-size="10">app=hello</text>
+  <text x="465" y="194" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">Pod webserver-a1b</text>
+  <text x="465" y="209" text-anchor="middle" fill="#8fa498" font-size="10">app=webserver</text>
 
   <path d="M310 118 L400 54" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#sv)"/>
   <path d="M310 125 L400 125" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#sv)"/>
@@ -123,28 +123,28 @@ Die Lösung ist der **Service**. Das Bild dazu kennst du schon aus den [Grundbeg
 
 Woher weiß der Service, **welche** Pods zu ihm gehören? Über **Labels**. Das ist das wichtigste Bindemittel in Kubernetes.
 
-Ein **Label** ist eine einfache Markierung an einem Objekt – ein Schlüssel-Wert-Paar wie `app: hello`. Deine Pods aus dem Deployment tragen genau dieses Label (es steht in der Pod-Vorlage des Deployments). Der Service hat einen **Selektor**, der sagt: „Schick alles an Pods mit dem Label `app: hello`."
+Ein **Label** ist eine einfache Markierung an einem Objekt – ein Schlüssel-Wert-Paar wie `app: webserver`. Deine Pods aus dem Deployment tragen genau dieses Label (es steht in der Pod-Vorlage des Deployments). Der Service hat einen **Selektor**, der sagt: „Schick alles an Pods mit dem Label `app: webserver`."
 
 <figure>
-<svg viewBox="0 0 560 250" width="100%" height="250" role="img" aria-label="Der Service-Selektor app: hello trifft die drei Pods mit diesem Label, ein Pod mit anderem Label wird nicht bedient">
+<svg viewBox="0 0 560 250" width="100%" height="250" role="img" aria-label="Der Service-Selektor app: webserver trifft die drei Pods mit diesem Label, ein Pod mit anderem Label wird nicht bedient">
   <!-- Service / Selektor -->
   <rect x="25" y="92" width="160" height="74" rx="8" fill="rgba(125,255,154,0.1)" stroke="#7dff9a" stroke-width="2.5"/>
   <text x="105" y="116" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Service</text>
   <text x="105" y="136" text-anchor="middle" fill="#8fa498" font-size="11">selector:</text>
-  <text x="105" y="153" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">app: hello</text>
+  <text x="105" y="153" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">app: webserver</text>
 
   <!-- Pods -->
   <rect x="370" y="18" width="165" height="40" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
   <text x="396" y="43" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
-  <text x="470" y="43" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">app=hello</text>
+  <text x="470" y="43" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">app=webserver</text>
 
   <rect x="370" y="70" width="165" height="40" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
   <text x="396" y="95" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
-  <text x="470" y="95" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">app=hello</text>
+  <text x="470" y="95" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">app=webserver</text>
 
   <rect x="370" y="122" width="165" height="40" rx="6" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
   <text x="396" y="147" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
-  <text x="470" y="147" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">app=hello</text>
+  <text x="470" y="147" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="11">app=webserver</text>
 
   <rect x="370" y="186" width="165" height="40" rx="6" fill="rgba(143,164,152,0.05)" stroke="#8fa498" stroke-width="2" stroke-dasharray="4 3"/>
   <text x="396" y="211" text-anchor="middle" fill="#8fa498" font-family="JetBrains Mono, monospace" font-size="12">Pod</text>
@@ -167,13 +167,13 @@ Ein **Label** ist eine einfache Markierung an einem Objekt – ein Schlüssel-We
     <marker id="rsel" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e06c6c"/></marker>
   </defs>
 </svg>
-<figcaption>Die Verbindung ist keine feste Liste, sondern eine laufende Frage: Welche Pods tragen gerade das Label app: hello? Nur die bekommen Anfragen – ein Pod mit anderem Label bleibt außen vor.</figcaption>
+<figcaption>Die Verbindung ist keine feste Liste, sondern eine laufende Frage: Welche Pods tragen gerade das Label app: webserver? Nur die bekommen Anfragen – ein Pod mit anderem Label bleibt außen vor.</figcaption>
 </figure>
 
-Das Schöne daran: Die Verbindung ist **nicht fest verdrahtet**, sondern eine **laufende Frage**. Der Service prüft ständig: „Welche Pods tragen gerade das Label `app: hello`?" Skalierst du das Deployment von 3 auf 5 Pods hoch, tragen die zwei neuen Pods dasselbe Label – und der Service nimmt sie **automatisch** mit auf. Stirbt einer, fällt er ebenso automatisch wieder raus. Niemand muss eine Liste pflegen.
+Das Schöne daran: Die Verbindung ist **nicht fest verdrahtet**, sondern eine **laufende Frage**. Der Service prüft ständig: „Welche Pods tragen gerade das Label `app: webserver`?" Skalierst du das Deployment von 3 auf 5 Pods hoch, tragen die zwei neuen Pods dasselbe Label – und der Service nimmt sie **automatisch** mit auf. Stirbt einer, fällt er ebenso automatisch wieder raus. Niemand muss eine Liste pflegen.
 
 !!! note "Kurz erklärt: Labels sind das Klebeband in Kubernetes"
-    Labels verbinden Dinge, ohne sie fest aneinanderzuketten. Ein Service findet seine Pods über ein Label, ein Deployment verwaltet seine Pods über ein Label, du selbst filterst mit `kubectl get pods -l app=hello`. Statt feste Verweise zu pflegen, beschreibst du nur: „alles mit diesem Stempel gehört zusammen." Genau diese Lockerheit macht das automatische Mitwachsen erst möglich.
+    Labels verbinden Dinge, ohne sie fest aneinanderzuketten. Ein Service findet seine Pods über ein Label, ein Deployment verwaltet seine Pods über ein Label, du selbst filterst mit `kubectl get pods -l app=webserver`. Statt feste Verweise zu pflegen, beschreibst du nur: „alles mit diesem Stempel gehört zusammen." Genau diese Lockerheit macht das automatische Mitwachsen erst möglich.
 
 !!! tip "Selektor und Label müssen zusammenpassen"
     Wenn ein Service „nichts findet", liegt es fast immer daran, dass sein **Selektor** nicht zum **Label** der Pods passt – ein Tippfehler, ein falscher Wert. Beide Seiten müssen exakt dasselbe sagen. Wie du das prüfst, steht in [Hilfekarte 7](09-hilfekarten.md#hilfekarte-7-service-liefert-nichts-labels-und-selektor).
@@ -184,20 +184,20 @@ Das Schöne daran: Die Verbindung ist **nicht fest verdrahtet**, sondern eine **
 
 Eine feste IP ist gut – aber Menschen merken sich schlecht Zahlen. Deshalb hat Kubernetes ein eigenes **DNS** eingebaut: Jeder Service ist im Cluster **unter seinem Namen** erreichbar.
 
-Heißt dein Service `hello`, dann erreicht ein anderer Pod im selben Namespace ihn einfach unter dem Namen `hello` (ein **Namespace** ist nur ein Abteil im Cluster, in dem Objekte zusammen wohnen – bei uns das Standard-Abteil `default`):
+Heißt dein Service `webserver`, dann erreicht ein anderer Pod im selben Namespace ihn einfach unter dem Namen `webserver` (ein **Namespace** ist nur ein Abteil im Cluster, in dem Objekte zusammen wohnen – bei uns das Standard-Abteil `default`):
 
 ```text
-  curl http://hello        ->  trifft den Service "hello"
-                               -> der verteilt an einen der hello-Pods
+  curl http://webserver        ->  trifft den Service "webserver"
+                               -> der verteilt an einen der webserver-Pods
 ```
 
-Voll ausgeschrieben lautet der Name `hello.default.svc.cluster.local` – das liest sich von links nach rechts so:
+Voll ausgeschrieben lautet der Name `webserver.default.svc.cluster.local` – das liest sich von links nach rechts so:
 
 <figure>
-<svg viewBox="0 0 580 150" width="100%" height="150" role="img" aria-label="Zerlegung des DNS-Namens hello.default.svc.cluster.local in seine vier Bestandteile">
+<svg viewBox="0 0 580 150" width="100%" height="150" role="img" aria-label="Zerlegung des DNS-Namens webserver.default.svc.cluster.local in seine vier Bestandteile">
   <!-- Chips -->
   <rect x="40" y="26" width="78" height="34" rx="6" fill="rgba(125,255,154,0.12)" stroke="#7dff9a" stroke-width="2"/>
-  <text x="79" y="48" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13">hello</text>
+  <text x="79" y="48" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13">webserver</text>
   <text x="128" y="48" text-anchor="middle" fill="#8fa498" font-size="14">.</text>
   <rect x="140" y="26" width="98" height="34" rx="6" fill="rgba(125,255,154,0.04)" stroke="#56c374" stroke-width="2"/>
   <text x="189" y="48" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13">default</text>
@@ -225,10 +225,10 @@ Voll ausgeschrieben lautet der Name `hello.default.svc.cluster.local` – das li
   <text x="415" y="102" text-anchor="middle" fill="#8fa498" font-size="11">Cluster-interne</text>
   <text x="415" y="116" text-anchor="middle" fill="#8fa498" font-size="11">Domain (fest)</text>
 </svg>
-<figcaption>Von links nach rechts: der Name des Service, sein Namespace, die Kennung für Services und die feste Cluster-Domain. Im selben Namespace genügt der kurze Name hello.</figcaption>
+<figcaption>Von links nach rechts: der Name des Service, sein Namespace, die Kennung für Services und die feste Cluster-Domain. Im selben Namespace genügt der kurze Name webserver.</figcaption>
 </figure>
 
-Im selben Namespace genügt der kurze Name `hello`. Erst über Namespace-Grenzen hinweg brauchst du die längere Form. So **finden sich Dienste gegenseitig ohne eine einzige IP** – eine App ruft `http://datenbank` auf und landet beim Service `datenbank`, egal wo dessen Pods gerade laufen.
+Im selben Namespace genügt der kurze Name `webserver`. Erst über Namespace-Grenzen hinweg brauchst du die längere Form. So **finden sich Dienste gegenseitig ohne eine einzige IP** – eine App ruft `http://datenbank` auf und landet beim Service `datenbank`, egal wo dessen Pods gerade laufen.
 
 !!! note "Kurz erklärt: das kennst du schon von Docker Compose"
     Im Compose-Block hast du Dienste über ihren **Service-Namen** angesprochen, statt über IPs – `http://prometheus:9090` zum Beispiel. Kubernetes macht genau dasselbe, nur clusterweit über viele Rechner: Der Service-Name ist die Adresse, das Cluster-DNS löst ihn zur aktuellen Service-IP auf. Derselbe Gedanke, größere Bühne.
@@ -252,9 +252,73 @@ Die drei Typen genauer:
 
 **ClusterIP** (der Standard) erreichst du von außen – also von deinem Browser – zuverlässig mit **`kubectl port-forward`**. Das klappt überall gleich – egal ob minikube oder Docker Desktop – und genau das nutzen wir in [Praxis 3](08-praxis-service.md).
 
-**NodePort** öffnet zusätzlich einen festen Port (im Bereich 30000–32767) am Cluster-Knoten – darüber kommst du von außen direkt rein. Bei minikube findest du die Adresse mit `minikube service hello --url`. Das zeigen wir als klar markierten **Bonus**.
+<figure>
+<svg viewBox="0 0 520 165" width="100%" height="165" role="img" aria-label="ClusterIP: ein Pod im Cluster erreicht den Service, ein Browser von außen wird abgewiesen">
+  <rect x="150" y="22" width="350" height="118" rx="10" fill="rgba(125,255,154,0.03)" stroke="#56c374" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="160" y="40" fill="#8fa498" font-size="11">Cluster</text>
+  <rect x="350" y="58" width="120" height="44" rx="8" fill="rgba(125,255,154,0.1)" stroke="#7dff9a" stroke-width="2.5"/>
+  <text x="410" y="85" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Service</text>
+  <rect x="178" y="62" width="92" height="36" rx="6" fill="rgba(122,162,255,0.10)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="224" y="85" text-anchor="middle" fill="#7aa2ff" font-size="11">Pod (intern)</text>
+  <path d="M270 80 L350 80" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#ciG)"/>
+  <text x="310" y="72" text-anchor="middle" fill="#56c374" font-size="10">geht</text>
+  <circle cx="42" cy="80" r="28" fill="rgba(122,162,255,0.12)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="42" y="77" text-anchor="middle" fill="#7aa2ff" font-size="10">Browser</text>
+  <text x="42" y="90" text-anchor="middle" fill="#8fa498" font-size="9">(außen)</text>
+  <path d="M72 80 L140 80" fill="none" stroke="#e06c6c" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ciR)"/>
+  <line x1="98" y1="68" x2="116" y2="92" stroke="#e06c6c" stroke-width="2.5"/>
+  <line x1="116" y1="68" x2="98" y2="92" stroke="#e06c6c" stroke-width="2.5"/>
+  <text x="107" y="110" text-anchor="middle" fill="#e06c6c" font-size="10">nein</text>
+  <defs>
+    <marker id="ciG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#56c374"/></marker>
+    <marker id="ciR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#e06c6c"/></marker>
+  </defs>
+</svg>
+<figcaption>ClusterIP: nur von Pods im Cluster erreichbar. Von außen kommst du nur mit kubectl port-forward heran.</figcaption>
+</figure>
+
+**NodePort** öffnet zusätzlich einen festen Port (im Bereich 30000–32767) am Cluster-Knoten – darüber kommst du von außen direkt rein. Bei minikube findest du die Adresse mit `minikube service webserver --url`. Das zeigen wir als klar markierten **Bonus**.
+
+<figure>
+<svg viewBox="0 0 520 165" width="100%" height="165" role="img" aria-label="NodePort: ein Browser von außen erreicht über einen festen Port am Knoten den Service">
+  <rect x="150" y="22" width="350" height="118" rx="10" fill="rgba(125,255,154,0.03)" stroke="#56c374" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="362" y="40" fill="#8fa498" font-size="11">Cluster</text>
+  <rect x="360" y="58" width="120" height="44" rx="8" fill="rgba(125,255,154,0.1)" stroke="#7dff9a" stroke-width="2.5"/>
+  <text x="420" y="85" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Service</text>
+  <rect x="137" y="60" width="28" height="40" rx="4" fill="rgba(224,160,90,0.15)" stroke="#e0a05a" stroke-width="2"/>
+  <text x="151" y="84" text-anchor="middle" fill="#e0a05a" font-size="9">Port</text>
+  <text x="151" y="120" text-anchor="middle" fill="#e0a05a" font-size="10">30007</text>
+  <circle cx="42" cy="80" r="28" fill="rgba(122,162,255,0.12)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="42" y="77" text-anchor="middle" fill="#7aa2ff" font-size="10">Browser</text>
+  <text x="42" y="90" text-anchor="middle" fill="#8fa498" font-size="9">(außen)</text>
+  <path d="M72 80 L135 80" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#npG)"/>
+  <path d="M165 80 L358 80" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#npG)"/>
+  <text x="262" y="72" text-anchor="middle" fill="#56c374" font-size="10">geht</text>
+  <defs><marker id="npG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#56c374"/></marker></defs>
+</svg>
+<figcaption>NodePort: Kubernetes öffnet einen festen Port (30000–32767) am Knoten. Über die Node-Adresse plus diesen Port erreichst du den Service von außen.</figcaption>
+</figure>
 
 **LoadBalancer** ergibt erst in der **Cloud** Sinn: Dort fordert Kubernetes beim Anbieter (AWS, Azure, Google) einen echten Load-Balancer mit öffentlicher IP an. Lokal hast du den nicht – deshalb spielt dieser Typ in unseren Übungen keine Rolle.
+
+<figure>
+<svg viewBox="0 0 540 165" width="100%" height="165" role="img" aria-label="LoadBalancer: ein Browser von außen erreicht über einen Cloud-Load-Balancer mit öffentlicher IP den Service">
+  <circle cx="42" cy="82" r="28" fill="rgba(122,162,255,0.12)" stroke="#7aa2ff" stroke-width="2"/>
+  <text x="42" y="79" text-anchor="middle" fill="#7aa2ff" font-size="10">Browser</text>
+  <text x="42" y="92" text-anchor="middle" fill="#8fa498" font-size="9">(außen)</text>
+  <rect x="120" y="60" width="130" height="44" rx="8" fill="rgba(224,160,90,0.12)" stroke="#e0a05a" stroke-width="2"/>
+  <text x="185" y="80" text-anchor="middle" fill="#e0a05a" font-size="11">Load-Balancer</text>
+  <text x="185" y="95" text-anchor="middle" fill="#8fa498" font-size="9">öffentliche IP</text>
+  <rect x="290" y="22" width="230" height="118" rx="10" fill="rgba(125,255,154,0.03)" stroke="#56c374" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="300" y="40" fill="#8fa498" font-size="11">Cluster</text>
+  <rect x="380" y="60" width="120" height="44" rx="8" fill="rgba(125,255,154,0.1)" stroke="#7dff9a" stroke-width="2.5"/>
+  <text x="440" y="87" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="12">Service</text>
+  <path d="M72 82 L116 82" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#lbG)"/>
+  <path d="M250 82 L378 82" fill="none" stroke="#56c374" stroke-width="2" marker-end="url(#lbG)"/>
+  <defs><marker id="lbG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#56c374"/></marker></defs>
+</svg>
+<figcaption>LoadBalancer: In der Cloud stellt der Anbieter einen Load-Balancer mit öffentlicher IP vor den Service. Lokal (minikube oder Docker Desktop) gibt es ihn nicht.</figcaption>
+</figure>
 
 !!! note "Kurz erklärt: port-forward trifft nur EINEN Pod"
     `kubectl port-forward` baut einen direkten Tunnel von deinem Rechner zu **einem** Pod auf. Das ist super zum Reinschauen – aber das **Load-Balancing siehst du damit nicht**, weil immer derselbe Pod antwortet. Die Verteilung über alle Pods passiert **cluster-intern**: Dafür sorgt auf jedem Knoten ein eingebauter Baustein namens **kube-proxy**. Erst wenn du den Service von einem anderen Pod im Cluster aus aufrufst, wechseln die antwortenden Pod-Namen durch. Genau diesen Trick machst du in [Praxis 3](08-praxis-service.md) sichtbar.
@@ -266,36 +330,36 @@ Die drei Typen genauer:
 Der Service ist die Vorderseite. Aber welche konkreten Pods stecken in diesem Moment dahinter? Das zeigen dir die **Endpoints**:
 
 ```bash
-kubectl get endpoints hello
+kubectl get endpoints webserver
 ```
 
 Die Ausgabe listet die **aktuellen Pod-IPs** auf, die der Service bedient:
 
 ```text
-NAME    ENDPOINTS                                   AGE
-hello   10.244.0.17:80,10.244.0.31:80,10.244.0.42:80   2m
+NAME        ENDPOINTS                                   AGE
+webserver   10.244.0.17:80,10.244.0.31:80,10.244.0.42:80   2m
 ```
 
-Drei IPs, weil gerade drei Pods das Label `app: hello` tragen. Das Spannende: Diese Liste ist **lebendig**. Skalierst du auf fünf Pods hoch, stehen kurz darauf fünf IPs drin. Löschst du einen Pod, verschwindet seine IP und die des Ersatz-Pods erscheint. Die Endpoints **wachsen und schrumpfen mit der Pod-Zahl** – vollautomatisch, weil sie sich am Label entlanghangeln.
+Drei IPs, weil gerade drei Pods das Label `app: webserver` tragen. Das Spannende: Diese Liste ist **lebendig**. Skalierst du auf fünf Pods hoch, stehen kurz darauf fünf IPs drin. Löschst du einen Pod, verschwindet seine IP und die des Ersatz-Pods erscheint. Die Endpoints **wachsen und schrumpfen mit der Pod-Zahl** – vollautomatisch, weil sie sich am Label entlanghangeln.
 
 !!! note "Kurz erklärt: Service, Selektor, Endpoints – das Zusammenspiel"
-    Drei Dinge greifen ineinander: Der **Service** ist die stabile Adresse. Sein **Selektor** (`app: hello`) ist die Suchanfrage „wen meine ich?". Die **Endpoints** sind das laufend aktualisierte Ergebnis dieser Suche – die Liste der gerade passenden Pod-IPs. Stehen dort keine Einträge, findet der Service keine passenden Pods. Das ist beim Fehlersuchen der erste Blick: `kubectl get endpoints <name>` zeigt sofort, ob überhaupt jemand dahintersteht.
+    Drei Dinge greifen ineinander: Der **Service** ist die stabile Adresse. Sein **Selektor** (`app: webserver`) ist die Suchanfrage „wen meine ich?". Die **Endpoints** sind das laufend aktualisierte Ergebnis dieser Suche – die Liste der gerade passenden Pod-IPs. Stehen dort keine Einträge, findet der Service keine passenden Pods. Das ist beim Fehlersuchen der erste Blick: `kubectl get endpoints <name>` zeigt sofort, ob überhaupt jemand dahintersteht.
 
 ---
 
 ## Das Service-Manifest Zeile für Zeile
 
-Hier ist das fertige Manifest aus `apps/kubernetes-praxis/manifests/hello-service.yaml`. Gehen wir es durch:
+Hier ist das fertige Manifest aus `apps/kubernetes-praxis/manifests/webserver-service.yaml`. Gehen wir es durch:
 
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello
+  name: webserver
 spec:
   type: ClusterIP            # nur im Cluster erreichbar (Standard)
   selector:
-    app: hello               # schickt Anfragen an alle Pods mit diesem Label
+    app: webserver               # schickt Anfragen an alle Pods mit diesem Label
   ports:
     - port: 80               # unter diesem Port ist der Service erreichbar
       targetPort: 80         # dorthin leitet er weiter (Container-Port)
@@ -307,17 +371,17 @@ Was die Zeilen bedeuten:
 |---|---|
 | `apiVersion: v1` | Services gehören zur Kern-API – Version `v1` (nicht `apps/v1` wie beim Deployment). |
 | `kind: Service` | Wir legen ein **Service**-Objekt an. |
-| `metadata.name: hello` | Der Name – **genau** dieser Name ist im Cluster-DNS erreichbar (`http://hello`). |
+| `metadata.name: webserver` | Der Name – **genau** dieser Name ist im Cluster-DNS erreichbar (`http://webserver`). |
 | `spec.type: ClusterIP` | Der Typ. `ClusterIP` = nur intern erreichbar, der Standard. |
-| `spec.selector.app: hello` | Der **Selektor**: bediene alle Pods mit dem Label `app: hello`. |
+| `spec.selector.app: webserver` | Der **Selektor**: bediene alle Pods mit dem Label `app: webserver`. |
 | `spec.ports.port: 80` | Der **Service-Port** – unter diesem Port nimmt der Service Anfragen an. |
 | `spec.ports.targetPort: 80` | Der **Ziel-Port** im Container – dorthin leitet der Service weiter. |
 
 !!! note "Kurz erklärt: port und targetPort dürfen sich unterscheiden"
-    `port` ist die Tür **am Service**, `targetPort` ist die Tür **am Container** dahinter. Bei uns sind beide `80`, also fällt der Unterschied nicht auf. Aber sie **dürfen** verschieden sein: Du könntest den Service auf `port: 8080` lauschen lassen und ihn intern auf `targetPort: 80` weiterleiten lassen. Anrufer sprechen dann `hello:8080` an, der Container hört weiterhin auf `80`. Der Service übersetzt dazwischen – wie eine Telefonzentrale, die einen Anruf auf den richtigen Apparat durchstellt.
+    `port` ist die Tür **am Service**, `targetPort` ist die Tür **am Container** dahinter. Bei uns sind beide `80`, also fällt der Unterschied nicht auf. Aber sie **dürfen** verschieden sein: Du könntest den Service auf `port: 8080` lauschen lassen und ihn intern auf `targetPort: 80` weiterleiten lassen. Anrufer sprechen dann `webserver:8080` an, der Container hört weiterhin auf `80`. Der Service übersetzt dazwischen – wie eine Telefonzentrale, die einen Anruf auf den richtigen Apparat durchstellt.
 
 !!! warning "Merksatz"
-    Der **Selektor** des Service muss zum **Label** der Pods passen, sonst stehen die Endpoints leer und der Service liefert nichts. Beide sagen hier `app: hello` – diese Übereinstimmung ist die ganze Magie.
+    Der **Selektor** des Service muss zum **Label** der Pods passen, sonst stehen die Endpoints leer und der Service liefert nichts. Beide sagen hier `app: webserver` – diese Übereinstimmung ist die ganze Magie.
 
 ---
 

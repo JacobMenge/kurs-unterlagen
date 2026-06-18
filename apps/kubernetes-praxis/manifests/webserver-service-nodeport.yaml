@@ -1,15 +1,15 @@
 # Variante als NodePort: macht den Service von AUSSEN erreichbar,
 # über einen Port am Cluster-Knoten. Praktisch mit minikube:
-#   minikube service hello --url
+#   minikube service webserver --url
 # Für die normale Übung reicht ClusterIP + kubectl port-forward.
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello
+  name: webserver
 spec:
   type: NodePort
   selector:
-    app: hello
+    app: webserver
   ports:
     - port: 80
       targetPort: 80

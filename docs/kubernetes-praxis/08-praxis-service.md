@@ -5,21 +5,21 @@ description: "Angeleitet: einen Service vor dein Deployment legen, die App per p
 
 # Praxis 3 – Service: App erreichbar machen und Last verteilen
 
-In [Praxis 2](06-praxis-deployment.md) hattest du ein **Deployment** mit mehreren `hello`-Pods. Die laufen – aber wie erreichst du sie zuverlässig? Jeder Pod hat eine eigene IP, die wechselt, sobald er neu startet. Genau dafür legst du jetzt einen **Service** davor: eine **stabile Adresse**, die immer einen lebenden Pod trifft und die Anfragen automatisch auf alle verteilt.
+In [Praxis 2](06-praxis-deployment.md) hattest du ein **Deployment** mit mehreren `webserver`-Pods. Die laufen – aber wie erreichst du sie zuverlässig? Jeder Pod hat eine eigene IP, die wechselt, sobald er neu startet. Genau dafür legst du jetzt einen **Service** davor: eine **stabile Adresse**, die immer einen lebenden Pod trifft und die Anfragen automatisch auf alle verteilt.
 
 Wir gehen wieder **komplett angeleitet** vor: erst Schritt für Schritt zusammen, dann eine Aufgabe zum Selbermachen mit Lösung. Am Ende räumst du auf.
 
 !!! info "Voraussetzung"
-    Das Deployment `hello` aus [Praxis 2](06-praxis-deployment.md) läuft. Schneller Check:
+    Das Deployment `webserver` aus [Praxis 2](06-praxis-deployment.md) läuft. Schneller Check:
 
     ```bash
-    kubectl get deployment hello
+    kubectl get deployment webserver
     ```
 
-    Steht da eine Zeile `hello` mit bereiten Pods (z.B. `3/3`)? Dann bist du startklar. Falls nicht, leg es schnell neu an:
+    Steht da eine Zeile `webserver` mit bereiten Pods (z.B. `3/3`)? Dann bist du startklar. Falls nicht, leg es schnell neu an:
 
     ```bash
-    kubectl apply -f manifests/hello-deployment.yaml
+    kubectl apply -f manifests/webserver-deployment.yaml
     ```
 
     Den Ordner mit den Manifesten hast du in der [Installation](03-installation.md#das-projekt-besorgen) geklont – arbeite aus `kurs-unterlagen/apps/kubernetes-praxis`.
@@ -35,17 +35,17 @@ Arbeite die sieben Schritte der Reihe nach durch. Schritt 7 ist ein **Bonus nur 
 
 ### Schritt 1 – Den Service anlegen
 
-So sieht das Manifest aus. Es liegt fertig unter `manifests/hello-service.yaml`:
+So sieht das Manifest aus. Es liegt fertig unter `manifests/webserver-service.yaml`:
 
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello
+  name: webserver
 spec:
   type: ClusterIP            # nur im Cluster erreichbar (Standard)
   selector:
-    app: hello              # schickt Anfragen an alle Pods mit diesem Label
+    app: webserver              # schickt Anfragen an alle Pods mit diesem Label
   ports:
     - port: 80              # unter diesem Port ist der Service erreichbar
       targetPort: 80        # dorthin leitet er weiter (Container-Port)
@@ -54,26 +54,26 @@ spec:
 Wende es an:
 
 ```bash
-kubectl apply -f manifests/hello-service.yaml
+kubectl apply -f manifests/webserver-service.yaml
 ```
 
 Erwartete Ausgabe:
 
 ```text
-service/hello created
+service/webserver created
 ```
 
 !!! tip "Kurzform ohne Datei"
     Du kannst denselben Service auch in einer Zeile erzeugen, ohne ein Manifest – Kubernetes baut es dann aus dem Deployment zusammen:
 
     ```bash
-    kubectl expose deployment hello --port=80 --target-port=80
+    kubectl expose deployment webserver --port=80 --target-port=80
     ```
 
     Für die Übung bleiben wir bei der Datei – die ist nachvollziehbar und wiederholbar. Die Kurzform ist gut, um schnell etwas auszuprobieren.
 
 !!! note "Kurz erklärt: wie der Service seine Pods findet"
-    Der Service sucht sich seine Pods **nicht** über Namen oder IPs aus, sondern über das **Label** `app: hello`. Sein `selector` sagt: „Schick alles an jeden Pod, der dieses Label trägt.“ Genau dieses Label vergibt das Deployment an jeden Pod, den es startet. So passen die beiden automatisch zusammen – ohne dass du je eine IP einträgst.
+    Der Service sucht sich seine Pods **nicht** über Namen oder IPs aus, sondern über das **Label** `app: webserver`. Sein `selector` sagt: „Schick alles an jeden Pod, der dieses Label trägt.“ Genau dieses Label vergibt das Deployment an jeden Pod, den es startet. So passen die beiden automatisch zusammen – ohne dass du je eine IP einträgst.
 
 ---
 
@@ -87,30 +87,30 @@ kubectl get svc
 
 ```text
 NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-hello        ClusterIP   10.96.142.7     <none>        80/TCP    20s
+webserver    ClusterIP   10.96.142.7     <none>        80/TCP    20s
 kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP   2d
 ```
 
-Die Zeile `hello` hat eine feste `CLUSTER-IP` – die bleibt, egal wie oft die Pods dahinter kommen und gehen. (Der Service `kubernetes` ist immer da, der gehört zum Cluster selbst.)
+Die Zeile `webserver` hat eine feste `CLUSTER-IP` – die bleibt, egal wie oft die Pods dahinter kommen und gehen. (Der Service `kubernetes` ist immer da, der gehört zum Cluster selbst.)
 
 Mehr Details liefert `describe`:
 
 ```bash
-kubectl describe svc hello
+kubectl describe svc webserver
 ```
 
-Achte auf zwei Zeilen: `Selector: app=hello` und `Endpoints:` – dort stehen die IP-Adressen der Pods. Die holst du dir auch direkt:
+Achte auf zwei Zeilen: `Selector: app=webserver` und `Endpoints:` – dort stehen die IP-Adressen der Pods. Die holst du dir auch direkt:
 
 ```bash
-kubectl get endpoints hello
+kubectl get endpoints webserver
 ```
 
 ```text
-NAME    ENDPOINTS                                      AGE
-hello   10.244.0.12:80,10.244.0.13:80,10.244.0.14:80   1m
+NAME        ENDPOINTS                                      AGE
+webserver   10.244.0.12:80,10.244.0.13:80,10.244.0.14:80   1m
 ```
 
-Drei Endpoints – das sind genau deine drei `hello`-Pods.
+Drei Endpoints – das sind genau deine drei `webserver`-Pods.
 
 !!! note "Eine gelbe Warnung „Endpoints is deprecated" ist kein Fehler"
     Auf neueren Clustern (ab Kubernetes 1.33) zeigt `kubectl get endpoints` zusätzlich eine gelbe Zeile „v1 Endpoints is deprecated …". Das ist nur ein Hinweis für die Zukunft – der Befehl läuft weiterhin und zeigt dir die Pod-IPs. Die modernere Form `kubectl get endpointslices` zeigt dasselbe, ist aber unübersichtlicher; für uns bleibt `endpoints` das anschaulichere Werkzeug.
@@ -125,7 +125,7 @@ Drei Endpoints – das sind genau deine drei `hello`-Pods.
 Der Service ist vom Typ `ClusterIP` – also nur **innerhalb** des Clusters erreichbar. Damit du ihn von deinem Rechner aus im Browser siehst, baust du wie immer eine Brücke mit `port-forward` – diesmal auf den **Service** statt auf einen einzelnen Pod:
 
 ```bash
-kubectl port-forward service/hello 8080:80
+kubectl port-forward service/webserver 8080:80
 ```
 
 Das Terminal bleibt jetzt belegt und zeigt:
@@ -134,10 +134,10 @@ Das Terminal bleibt jetzt belegt und zeigt:
 Forwarding from 127.0.0.1:8080 -> 80
 ```
 
-Öffne im Browser **<http://localhost:8080>**. Du siehst die nginx-Seite mit einer Zeile `Server name: hello-...` – das ist der Pod-Name, der dir geantwortet hat. Zum Beenden im Terminal `Ctrl+C`.
+Öffne im Browser **<http://localhost:8080>**. Du siehst die nginx-Seite mit einer Zeile `Server name: webserver-...` – das ist der Pod-Name, der dir geantwortet hat. Zum Beenden im Terminal `Ctrl+C`.
 
 !!! note "Kurz erklärt: port-forward auf einen Service"
-    `port-forward service/hello 8080:80` verbindet deinen lokalen Port `8080` mit Port `80` des Service. Du erreichst die App dadurch überall gleich – egal ob minikube oder Docker Desktop, Windows, macOS oder Linux. **Aber:** Diese Brücke hält an **einem** Pod fest, solange sie offen ist. Deshalb siehst du im Browser immer denselben `Server name`, auch beim Neuladen. Das eigentliche Load-Balancing siehst du gleich von innen.
+    `port-forward service/webserver 8080:80` verbindet deinen lokalen Port `8080` mit Port `80` des Service. Du erreichst die App dadurch überall gleich – egal ob minikube oder Docker Desktop, Windows, macOS oder Linux. **Aber:** Diese Brücke hält an **einem** Pod fest, solange sie offen ist. Deshalb siehst du im Browser immer denselben `Server name`, auch beim Neuladen. Das eigentliche Load-Balancing siehst du gleich von innen.
 
 !!! warning "Hängt der Befehl oder kommt nichts?"
     `port-forward` belegt das Terminal absichtlich, solange die Brücke steht – das ist kein Fehler. Kommt eine Fehlermeldung oder bleibt der Browser leer, hilft die [Hilfekarte 6 – port-forward klappt nicht](09-hilfekarten.md#hilfekarte-6-port-forward-klappt-nicht).
@@ -159,17 +159,17 @@ Nach kurzer Zeit erscheint ein neuer Prompt wie `/ $` – du bist jetzt **im Tes
 **Schritt 4b:** Frag den Service zehnmal ab und zieh jeweils den Pod-Namen heraus. Tippe diese Zeile an dem `/ $`-Prompt **im Pod** (nicht in PowerShell):
 
 ```sh
-for i in $(seq 10); do curl -s hello | grep -o "hello-[a-z0-9-]*" | head -1; done
+for i in $(seq 10); do curl -s webserver | grep -o "webserver-[a-z0-9-]*" | head -1; done
 ```
 
 Erwartete Ausgabe (deine Namen sehen anders aus, wichtig ist: sie **wechseln**):
 
 ```text
-hello-7d9c8b6f4-abcde
-hello-7d9c8b6f4-fghij
-hello-7d9c8b6f4-abcde
-hello-7d9c8b6f4-klmno
-hello-7d9c8b6f4-fghij
+webserver-7d9c8b6f4-abcde
+webserver-7d9c8b6f4-fghij
+webserver-7d9c8b6f4-abcde
+webserver-7d9c8b6f4-klmno
+webserver-7d9c8b6f4-fghij
 ...
 ```
 
@@ -182,16 +182,16 @@ exit
 ```
 
 !!! note "Kurz erklärt: wer hier verteilt"
-    Innerhalb des Clusters ist der Service unter seinem Namen `hello` als Adresse erreichbar (das ist der cluster-interne DNS-Name). Wenn der Test-Pod `curl hello` aufruft, übernimmt **kube-proxy** auf dem Knoten: Es verteilt die Anfragen reihum auf alle Pods aus den Endpoints. Genau das ist Load-Balancing – kein extra Gerät, sondern eingebaut.
+    Innerhalb des Clusters ist der Service unter seinem Namen `webserver` als Adresse erreichbar (das ist der cluster-interne DNS-Name). Wenn der Test-Pod `curl webserver` aufruft, übernimmt **kube-proxy** auf dem Knoten: Es verteilt die Anfragen reihum auf alle Pods aus den Endpoints. Genau das ist Load-Balancing – kein extra Gerät, sondern eingebaut.
 
 !!! warning "Warum erst in den Pod und nicht direkt `curl` vom eigenen Rechner?"
-    Zwei Gründe. Erstens passiert das Load-Balancing **innerhalb** des Clusters über die Service-Adresse `hello` – von deinem Rechner aus kämst du nur über `port-forward` ran – und das hält an einem Pod fest. Zweitens würde die Schleife `for i in $(seq 10); ...`, in PowerShell unter Windows getippt, **nicht** funktionieren: PowerShell würde `$(seq 10)` selbst auswerten. Im Test-Pod läuft die Zeile dagegen in dessen Linux-Shell – überall gleich.
+    Zwei Gründe. Erstens passiert das Load-Balancing **innerhalb** des Clusters über die Service-Adresse `webserver` – von deinem Rechner aus kämst du nur über `port-forward` ran – und das hält an einem Pod fest. Zweitens würde die Schleife `for i in $(seq 10); ...`, in PowerShell unter Windows getippt, **nicht** funktionieren: PowerShell würde `$(seq 10)` selbst auswerten. Im Test-Pod läuft die Zeile dagegen in dessen Linux-Shell – überall gleich.
 
 ---
 
 ### Schritt 5 – Update im laufenden Betrieb: bleibt es erreichbar?
 
-Jetzt der eigentliche Lohn für den Service. In [Praxis 2](06-praxis-deployment.md) hast du gesehen: Beim Rolling Update **bricht ein `port-forward` ab** – weil er an genau einem Pod klebt und der ja ausgetauscht wird. Mit dem **Service** davor ist das anders: Die Adresse `hello` bleibt stehen und verteilt auf alle lebenden Pods. Das prüfst du jetzt – du rollst eine neue Version aus, **während** du den Dienst ununterbrochen abfragst.
+Jetzt der eigentliche Lohn für den Service. In [Praxis 2](06-praxis-deployment.md) hast du gesehen: Beim Rolling Update **bricht ein `port-forward` ab** – weil er an genau einem Pod klebt und der ja ausgetauscht wird. Mit dem **Service** davor ist das anders: Die Adresse `webserver` bleibt stehen und verteilt auf alle lebenden Pods. Das prüfst du jetzt – du rollst eine neue Version aus, **während** du den Dienst ununterbrochen abfragst.
 
 **Schritt 5a:** Starte einen Wegwerf-Pod und lande in seiner Shell:
 
@@ -202,7 +202,7 @@ kubectl run watch --rm -it --image=curlimages/curl --restart=Never -- sh
 **Schritt 5b:** Frag den Service an dem `/ $`-Prompt **im Pod** im Halbsekunden-Takt ab. Die Zeile zeigt die gerade ausgelieferte Version – oder `AUSFALL`, falls einmal keine Antwort kommt:
 
 ```sh
-while true; do R=$(curl -s --max-time 2 hello | grep -o "Version [0-9]" | head -1); echo "${R:-AUSFALL}"; sleep 0.5; done
+while true; do R=$(curl -s --max-time 2 webserver | grep -o "Version [0-9]" | head -1); echo "${R:-AUSFALL}"; sleep 0.5; done
 ```
 
 Erst läuft eine ruhige Reihe `Version 1`.
@@ -210,7 +210,7 @@ Erst läuft eine ruhige Reihe `Version 1`.
 **Schritt 5c:** Öffne ein **zweites** Terminal und rolle dort die neue Version aus (genau wie in Praxis 2):
 
 ```bash
-kubectl set env deployment/hello VERSION=2 COLOR="#2e9e5b"
+kubectl set env deployment/webserver VERSION=2 COLOR="#2e9e5b"
 ```
 
 Schau zurück auf die laufende Abfrage im Pod. Sie hört **nicht** auf – sie kippt nur von `Version 1` über eine kurze Mischung auf `Version 2`:
@@ -253,7 +253,7 @@ exit
 Zum Schluss zurück auf die Ausgangsversion, damit der Rest der Übung sauber startet:
 
 ```bash
-kubectl rollout undo deployment/hello
+kubectl rollout undo deployment/webserver
 ```
 
 ---
@@ -267,33 +267,33 @@ kubectl get pods --show-labels
 ```
 
 ```text
-NAME                     READY   STATUS    RESTARTS   AGE   LABELS
-hello-7d9c8b6f4-abcde    1/1     Running   0          5m    app=hello,pod-template-hash=7d9c8b6f4
-hello-7d9c8b6f4-fghij    1/1     Running   0          5m    app=hello,pod-template-hash=7d9c8b6f4
-hello-7d9c8b6f4-klmno    1/1     Running   0          5m    app=hello,pod-template-hash=7d9c8b6f4
+NAME                         READY   STATUS    RESTARTS   AGE   LABELS
+webserver-7d9c8b6f4-abcde    1/1     Running   0          5m    app=webserver,pod-template-hash=7d9c8b6f4
+webserver-7d9c8b6f4-fghij    1/1     Running   0          5m    app=webserver,pod-template-hash=7d9c8b6f4
+webserver-7d9c8b6f4-klmno    1/1     Running   0          5m    app=webserver,pod-template-hash=7d9c8b6f4
 ```
 
-Jeder Pod trägt `app=hello` – genau das Label, auf das der Service-Selektor zielt. Jetzt hochskalieren auf fünf:
+Jeder Pod trägt `app=webserver` – genau das Label, auf das der Service-Selektor zielt. Jetzt hochskalieren auf fünf:
 
 ```bash
-kubectl scale deployment hello --replicas=5
+kubectl scale deployment webserver --replicas=5
 ```
 
 Und die Endpoints erneut abfragen:
 
 ```bash
-kubectl get endpoints hello
+kubectl get endpoints webserver
 ```
 
 ```text
-NAME    ENDPOINTS                                                              AGE
-hello   10.244.0.12:80,10.244.0.13:80,10.244.0.14:80 + 2 more...               6m
+NAME        ENDPOINTS                                                              AGE
+webserver   10.244.0.12:80,10.244.0.13:80,10.244.0.14:80 + 2 more...               6m
 ```
 
 Aus drei sind fünf Endpoints geworden – ohne dass du den Service angefasst hast.
 
 !!! note "Kurz erklärt: der Selektor nimmt neue Pods von selbst auf"
-    Du hast nur das **Deployment** skaliert. Die neuen Pods bekommen dasselbe Label `app: hello`. Der Service-Selektor zielt weiter auf dieses Label – also gehören die neuen Pods sofort dazu. Kubernetes trägt sie automatisch in die Endpoints ein. So wächst und schrumpft der „Verteiler“ hinter der stabilen Adresse mit der Pod-Zahl mit, ganz ohne dein Zutun. Das ist die Stärke von Labels: Sie verbinden Deployment und Service lose, ohne feste Namen oder IPs.
+    Du hast nur das **Deployment** skaliert. Die neuen Pods bekommen dasselbe Label `app: webserver`. Der Service-Selektor zielt weiter auf dieses Label – also gehören die neuen Pods sofort dazu. Kubernetes trägt sie automatisch in die Endpoints ein. So wächst und schrumpft der „Verteiler“ hinter der stabilen Adresse mit der Pod-Zahl mit, ganz ohne dein Zutun. Das ist die Stärke von Labels: Sie verbinden Deployment und Service lose, ohne feste Namen oder IPs.
 
 ??? info "Aufklappen: live zusehen, wie die Pods kommen"
     Wenn du das Hochskalieren in Echtzeit beobachten willst, öffne ein **zweites** Terminal und starte vorher:
@@ -307,7 +307,7 @@ Aus drei sind fünf Endpoints geworden – ohne dass du den Service angefasst ha
 Skaliere zum Abschluss wieder auf drei zurück, damit die folgenden Ausgaben wieder zu drei Pods passen:
 
 ```bash
-kubectl scale deployment hello --replicas=3
+kubectl scale deployment webserver --replicas=3
 ```
 
 ---
@@ -320,8 +320,8 @@ kubectl scale deployment hello --replicas=3
 Bisher war der Service `ClusterIP` – nur intern erreichbar. Ein **NodePort** öffnet zusätzlich einen Port am Cluster-Knoten, sodass du von außen herankommst. Tausche den Service:
 
 ```bash
-kubectl delete svc hello
-kubectl apply -f manifests/hello-service-nodeport.yaml
+kubectl delete svc webserver
+kubectl apply -f manifests/webserver-service-nodeport.yaml
 ```
 
 Das NodePort-Manifest:
@@ -330,11 +330,11 @@ Das NodePort-Manifest:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello
+  name: webserver
 spec:
   type: NodePort
   selector:
-    app: hello
+    app: webserver
   ports:
     - port: 80
       targetPort: 80
@@ -343,32 +343,32 @@ spec:
 minikube gibt dir die passende URL und du öffnest sie im Browser:
 
 ```bash
-minikube service hello --url
+minikube service webserver --url
 ```
 
-Es erscheint eine Adresse wie `http://127.0.0.1:51234`. Öffne sie – wieder die `hello`-Seite mit dem Pod-Namen. Beenden mit `Ctrl+C` (der Befehl hält ein kleines Tunnel-Fenster offen).
+Es erscheint eine Adresse wie `http://127.0.0.1:51234`. Öffne sie – wieder die `webserver`-Seite mit dem Pod-Namen. Beenden mit `Ctrl+C` (der Befehl hält ein kleines Tunnel-Fenster offen).
 
 !!! note "Kurz erklärt: ClusterIP vs. NodePort"
     - **ClusterIP** (Standard): nur **im** Cluster erreichbar. Von außen brauchst du `port-forward`.
     - **NodePort**: zusätzlich über einen Port **am Knoten** von außen erreichbar (Kubernetes vergibt einen Port im Bereich 30000–32767).
 
-    `minikube service hello --url` baut bei minikube den passenden Tunnel und nennt dir die Adresse. In echten Clustern nimmt man für „von außen“ meist noch eine Stufe höher: einen `LoadBalancer`-Service oder einen Ingress – aber das Prinzip „Service vor die Pods“ bleibt dasselbe.
+    `minikube service webserver --url` baut bei minikube den passenden Tunnel und nennt dir die Adresse. In echten Clustern nimmt man für „von außen“ meist noch eine Stufe höher: einen `LoadBalancer`-Service oder einen Ingress – aber das Prinzip „Service vor die Pods“ bleibt dasselbe.
 
 Stell danach wieder auf den normalen ClusterIP-Service zurück, damit der Rest der Übung wie beschrieben funktioniert:
 
 ```bash
-kubectl delete svc hello
-kubectl apply -f manifests/hello-service.yaml
+kubectl delete svc webserver
+kubectl apply -f manifests/webserver-service.yaml
 ```
 
 ---
 
 ## Übungsaufgabe – ein zweiter Dienst
 
-Jetzt du allein. Bisher läuft ein Dienst (`hello`). Bring einen **zweiten** Dienst dazu, der **gleichzeitig** erreichbar ist.
+Jetzt du allein. Bisher läuft ein Dienst (`webserver`). Bring einen **zweiten** Dienst dazu, der **gleichzeitig** erreichbar ist.
 
 !!! abstract "Deine Aufgabe"
-    Leg ein zweites Deployment namens **`web`** an (Image **`nginx:1.27`**) und einen eigenen **Service `web`** davor. Mach ihn per `port-forward` auf einem **anderen** lokalen Port erreichbar: **`8081:80`** → <http://localhost:8081>. Am Ende sollen **beide** Dienste laufen: `hello` (z.B. weiter auf `8080`) und `web` auf `8081`.
+    Leg ein zweites Deployment namens **`web`** an (Image **`nginx:1.27`**) und einen eigenen **Service `web`** davor. Mach ihn per `port-forward` auf einem **anderen** lokalen Port erreichbar: **`8081:80`** → <http://localhost:8081>. Am Ende sollen **beide** Dienste laufen: `webserver` (z.B. weiter auf `8080`) und `web` auf `8081`.
 
     Versuch es zuerst selbst – mit den Befehlen aus den Schritten oben. Die Lösung steht darunter.
 
@@ -391,10 +391,10 @@ Jetzt du allein. Bisher läuft ein Dienst (`hello`). Bring einen **zweiten** Die
     kubectl port-forward service/web 8081:80
     ```
 
-    Dann <http://localhost:8081> öffnen. Willst du `hello` (auf `8080`) gleichzeitig sehen, starte dessen `port-forward` in einem **zweiten** Terminal – jedes `port-forward` belegt sein eigenes Terminal.
+    Dann <http://localhost:8081> öffnen. Willst du `webserver` (auf `8080`) gleichzeitig sehen, starte dessen `port-forward` in einem **zweiten** Terminal – jedes `port-forward` belegt sein eigenes Terminal.
 
 ??? success "Erwartung"
-    `kubectl get all` zeigt jetzt **zwei** Deployments (`hello`, `web`) und **zwei** Services (`hello`, `web`). Unter <http://localhost:8081> erscheint die Standard-Begrüßungsseite von nginx („Welcome to nginx!“) – unter <http://localhost:8080> weiterhin die `hello`-Seite mit dem Pod-Namen. Zwei Dienste, zwei stabile Adressen, beide gleichzeitig erreichbar. Genau so legt man im echten Betrieb Dienst neben Dienst.
+    `kubectl get all` zeigt jetzt **zwei** Deployments (`webserver`, `web`) und **zwei** Services (`webserver`, `web`). Unter <http://localhost:8081> erscheint die Standard-Begrüßungsseite von nginx („Welcome to nginx!“) – unter <http://localhost:8080> weiterhin die `webserver`-Seite mit dem Pod-Namen. Zwei Dienste, zwei stabile Adressen, beide gleichzeitig erreichbar. Genau so legt man im echten Betrieb Dienst neben Dienst.
 
 ---
 
@@ -402,7 +402,7 @@ Jetzt du allein. Bisher läuft ein Dienst (`hello`). Bring einen **zweiten** Die
 
 Lust auf einen sichtbaren Abschluss? Dann machen wir das Load-Balancing jetzt **bunt**. Bisher hast du das Verteilen an den wechselnden Pod-**Namen** abgelesen – schöner ist es als **Farbe**. Wir stellen zwei Sorten Pods hinter **einen** Service: blaue und grüne, sonst baugleich. Dann schaust du zu, wie der eine Service munter zwischen beiden Farben verteilt.
 
-Das ist genau die farbige Demo-App aus [Praxis 2](06-praxis-deployment.md), nur mit einem Dreh: Statt eine Version durch die nächste zu **ersetzen**, laufen blau und grün **gleichzeitig**. Diese Übung ist ein optionaler Bonus. Dein laufendes `hello` fasst sie nicht an, sie räumt sich am Ende selbst wieder weg.
+Das ist genau die farbige Demo-App aus [Praxis 2](06-praxis-deployment.md), nur mit einem Dreh: Statt eine Version durch die nächste zu **ersetzen**, laufen blau und grün **gleichzeitig**. Diese Übung ist ein optionaler Bonus. Dein laufendes `webserver` fasst sie nicht an, sie räumt sich am Ende selbst wieder weg.
 
 <figure>
 <svg viewBox="0 0 600 240" width="100%" height="240" role="img" aria-label="Ein Service namens bunt verteilt Anfragen auf einen blauen und einen gruenen Pod, dargestellt als zwei farbige Browserfenster">
@@ -438,7 +438,7 @@ Das ist genau die farbige Demo-App aus [Praxis 2](06-praxis-deployment.md), nur 
 </figure>
 
 !!! note "Wie zwei Deployments sich einen Service teilen"
-    Der Trick steckt in den Labels. **Jedes** der beiden Deployments hat seinen **eigenen** Selektor (`farbe: blau` bzw. `farbe: gruen`) – nur weil die beiden verschieden sind, streiten sich die Pods nicht. **Zusätzlich** tragen alle Pods dasselbe gemeinsame Label `demo: bunt`. Der Service selektiert nur `demo: bunt` – und erwischt damit **beide** Farben. Wir nehmen bewusst das eigene Label `demo` (nicht `app: hello`), damit nichts mit deinem laufenden `hello`-Service kollidiert.
+    Der Trick steckt in den Labels. **Jedes** der beiden Deployments hat seinen **eigenen** Selektor (`farbe: blau` bzw. `farbe: gruen`) – nur weil die beiden verschieden sind, streiten sich die Pods nicht. **Zusätzlich** tragen alle Pods dasselbe gemeinsame Label `demo: bunt`. Der Service selektiert nur `demo: bunt` – und erwischt damit **beide** Farben. Wir nehmen bewusst das eigene Label `demo` (nicht `app: webserver`), damit nichts mit deinem laufenden `webserver`-Service kollidiert.
 
 ### Schritt 1 – die zwei Farben anlegen
 
@@ -548,7 +548,7 @@ Jetzt öffne **zwei Browserfenster nebeneinander**: <http://localhost:8080> zeig
 
 ### Aufräumen (Bonus)
 
-Alles aus dieser Bonus-Übung verschwindet in einem Rutsch – dein `hello`-Service bleibt unberührt:
+Alles aus dieser Bonus-Übung verschwindet in einem Rutsch – dein `webserver`-Service bleibt unberührt:
 
 ```bash
 kubectl delete -f manifests/bunt-disco.yaml
@@ -566,10 +566,10 @@ kubectl get all
 
 Jetzt wirst du zum Störenfried. Du fragst den Dienst **ununterbrochen** ab und schießt nebenher Pods ab – und schaust zu, ob die App trotzdem erreichbar bleibt. Sie bleibt es. Genau dafür sind Deployment (Selbstheilung) und Service (stabile Adresse) zusammen da.
 
-Voraussetzung: Das `hello`-Deployment und der `hello`-Service aus den Schritten oben laufen. Prüf kurz, dass drei Pods da sind (falls weniger: `kubectl scale deployment hello --replicas=3`):
+Voraussetzung: Das `webserver`-Deployment und der `webserver`-Service aus den Schritten oben laufen. Prüf kurz, dass drei Pods da sind (falls weniger: `kubectl scale deployment webserver --replicas=3`):
 
 ```bash
-kubectl get pods -l app=hello
+kubectl get pods -l app=webserver
 ```
 
 ### Schritt 1 – die Dauerabfrage starten
@@ -581,7 +581,7 @@ kubectl run chaos --rm -it --image=curlimages/curl --restart=Never -- sh
 ```
 
 ```sh
-while true; do R=$(curl -s --max-time 2 hello | grep -o "Version [0-9]" | head -1); echo "${R:-AUSFALL}"; sleep 0.3; done
+while true; do R=$(curl -s --max-time 2 webserver | grep -o "Version [0-9]" | head -1); echo "${R:-AUSFALL}"; sleep 0.3; done
 ```
 
 Es läuft eine ruhige Reihe `Version 1` durch. Lass dieses Fenster laufen.
@@ -591,8 +591,8 @@ Es läuft eine ruhige Reihe `Version 1` durch. Lass dieses Fenster laufen.
 Öffne ein **zweites** Terminal, lass dir die Pods zeigen und lösch einen davon (deinen echten Namen einsetzen):
 
 ```bash
-kubectl get pods -l app=hello
-kubectl delete pod hello-...
+kubectl get pods -l app=webserver
+kubectl delete pod webserver-...
 ```
 
 Schau sofort zurück auf die Dauerabfrage: Sie läuft **weiter**. Kubernetes startet im Hintergrund sofort einen Ersatz-Pod, der Service leitet die Anfragen währenddessen auf die übrigen lebenden Pods. Lösch ruhig noch einen, dann noch einen – die Reihe `Version 1` reißt nicht ab. Höchstens blitzt mal ein einzelnes `AUSFALL` auf, das ist normal.
@@ -613,7 +613,7 @@ Zum Schluss beendest du die Dauerabfrage mit **Ctrl+C** und verlässt den Pod (`
 exit
 ```
 
-Das `hello`-Deployment ist von selbst wieder bei drei Pods – es ist hier nichts aufzuräumen.
+Das `webserver`-Deployment ist von selbst wieder bei drei Pods – es ist hier nichts aufzuräumen.
 
 !!! note "Kurz erklärt: warum nichts ausfällt"
     Zwei Schutzschichten greifen ineinander. Das **Deployment** wacht über die Soll-Zahl: Fällt ein Pod weg, startet es sofort Ersatz (Selbstheilung). Der **Service** hält die stabile Adresse und führt eine lebendige Liste der gesunden Pods (die Endpoints) – ein gerade gelöschter Pod fliegt dort sofort raus, ein neuer kommt rein. Deine Anfrage trifft deshalb immer einen Pod, der lebt. Im echten Betrieb ist das der Grund, nie einen einzelnen Pod direkt anzusprechen, sondern immer einen Service davorzusetzen.
@@ -622,7 +622,7 @@ Das `hello`-Deployment ist von selbst wieder bei drei Pods – es ist hier nicht
 
 ## Bonus-Übung: Namensschnüffler – wie sich Dienste finden
 
-In der Theorie hast du gesehen, dass ein Service unter seinem **Namen** erreichbar ist (`http://hello`), nicht über eine IP. Jetzt schaust du dem Cluster beim Auflösen über die Schulter – das ist die [Cluster-DNS](07-services-netzwerk.md#cluster-dns)-Theorie zum Anfassen. Der `hello`-Service aus den Schritten oben sollte dafür laufen.
+In der Theorie hast du gesehen, dass ein Service unter seinem **Namen** erreichbar ist (`http://webserver`), nicht über eine IP. Jetzt schaust du dem Cluster beim Auflösen über die Schulter – das ist die [Cluster-DNS](07-services-netzwerk.md#cluster-dns)-Theorie zum Anfassen. Der `webserver`-Service aus den Schritten oben sollte dafür laufen.
 
 ### Schritt 1 – in den Schnüffler-Pod
 
@@ -632,10 +632,10 @@ kubectl run dns --rm -it --image=curlimages/curl --restart=Never -- sh
 
 ### Schritt 2 – den Namen auflösen
 
-Frag im Pod (am `/ $`-Prompt) nach, welche IP hinter dem Namen `hello` steckt:
+Frag im Pod (am `/ $`-Prompt) nach, welche IP hinter dem Namen `webserver` steckt:
 
 ```sh
-nslookup hello
+nslookup webserver
 ```
 
 Die Ausgabe sieht ungefähr so aus (deine IPs sind andere):
@@ -644,17 +644,17 @@ Die Ausgabe sieht ungefähr so aus (deine IPs sind andere):
 Server:    10.96.0.10
 Address:   10.96.0.10:53
 
-Name:   hello.default.svc.cluster.local
+Name:   webserver.default.svc.cluster.local
 Address: 10.105.141.219
 ```
 
-Die entscheidende Zeile ist `Name: hello.default.svc.cluster.local` mit der `Address:` darunter – das ist die **ClusterIP** des Service. Vergleich sie ruhig mit der Ausgabe von `kubectl get svc hello` in deinem anderen Terminal: dieselbe Adresse.
+Die entscheidende Zeile ist `Name: webserver.default.svc.cluster.local` mit der `Address:` darunter – das ist die **ClusterIP** des Service. Vergleich sie ruhig mit der Ausgabe von `kubectl get svc webserver` in deinem anderen Terminal: dieselbe Adresse.
 
 !!! note "Ein paar „can't find … NXDOMAIN"-Zeilen sind normal"
     `nslookup` probiert der Reihe nach mehrere Endungen durch (die `search`-Liste, die du gleich in Schritt 3 siehst). Für die Endungen, die nicht passen, meldet es `** server can't find … NXDOMAIN` – das ist **kein Fehler**, sondern nur das Durchprobieren. Wichtig ist allein die Zeile mit dem Treffer (`Name:` plus `Address:`). Wer es ganz aufgeräumt mag, fragt stattdessen so – das gibt genau eine Zeile mit IP und vollem Namen zurück:
 
     ```sh
-    getent hosts hello
+    getent hosts webserver
     ```
 
 ### Schritt 3 – warum der kurze Name reicht
@@ -665,15 +665,15 @@ Schau in die Resolver-Einstellungen des Pods:
 cat /etc/resolv.conf
 ```
 
-In der `search`-Zeile stehen Endungen wie `default.svc.cluster.local svc.cluster.local cluster.local`. Genau die hängt der Cluster automatisch an, wenn du nur `hello` sagst – deshalb genügt der kurze Name. Du erkennst die Bausteine aus dem Diagramm im Theorieteil wieder.
+In der `search`-Zeile stehen Endungen wie `default.svc.cluster.local svc.cluster.local cluster.local`. Genau die hängt der Cluster automatisch an, wenn du nur `webserver` sagst – deshalb genügt der kurze Name. Du erkennst die Bausteine aus dem Diagramm im Theorieteil wieder.
 
 ### Schritt 4 – kurz und lang, beide treffen
 
 Beide Schreibweisen landen beim selben Service:
 
 ```sh
-curl -s hello | grep -o "Version [0-9]" | head -1
-curl -s hello.default.svc.cluster.local | grep -o "Version [0-9]" | head -1
+curl -s webserver | grep -o "Version [0-9]" | head -1
+curl -s webserver.default.svc.cluster.local | grep -o "Version [0-9]" | head -1
 ```
 
 Zweimal `Version 1` – einmal über den kurzen, einmal über den voll ausgeschriebenen Namen. Danach raus aus dem Pod:
@@ -682,8 +682,8 @@ Zweimal `Version 1` – einmal über den kurzen, einmal über den voll ausgeschr
 exit
 ```
 
-!!! note "Kurz erklärt: was beim Aufruf von `hello` passiert"
-    Im Cluster läuft ein eigener DNS-Dienst (CoreDNS). Sagst du `hello`, fragt der Pod dort nach „welche IP hat der Service hello?" und bekommt dessen **ClusterIP** zurück – eine feste Adresse, die bleibt, egal wie oft die Pods dahinter wechseln. Von dort übernimmt der Service das Verteilen auf die lebenden Pods. So finden sich Dienste im Cluster allein über ihren Namen, ohne dass irgendwo eine IP fest eingetragen ist. Dieses Muster kennst du schon aus Docker Compose (`http://prometheus:9090`) – hier nur clusterweit über viele Rechner.
+!!! note "Kurz erklärt: was beim Aufruf von `webserver` passiert"
+    Im Cluster läuft ein eigener DNS-Dienst (CoreDNS). Sagst du `webserver`, fragt der Pod dort nach „welche IP hat der Service webserver?" und bekommt dessen **ClusterIP** zurück – eine feste Adresse, die bleibt, egal wie oft die Pods dahinter wechseln. Von dort übernimmt der Service das Verteilen auf die lebenden Pods. So finden sich Dienste im Cluster allein über ihren Namen, ohne dass irgendwo eine IP fest eingetragen ist. Dieses Muster kennst du schon aus Docker Compose (`http://prometheus:9090`) – hier nur clusterweit über viele Rechner.
 
 ---
 
@@ -691,10 +691,10 @@ exit
 
 Wenn du fertig bist, beende offene `port-forward`-Fenster mit `Ctrl+C` und entferne, was du angelegt hast.
 
-Den Pflichtteil (`hello`-Service plus Deployment) löschst du in einem Rutsch über die Manifeste:
+Den Pflichtteil (`webserver`-Service plus Deployment) löschst du in einem Rutsch über die Manifeste:
 
 ```bash
-kubectl delete -f manifests/hello-service.yaml -f manifests/hello-deployment.yaml
+kubectl delete -f manifests/webserver-service.yaml -f manifests/webserver-deployment.yaml
 ```
 
 Den Übungs-Dienst `web` hast du per Kurzbefehl angelegt – den entfernst du einzeln:
