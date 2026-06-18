@@ -112,6 +112,9 @@ hello   10.244.0.12:80,10.244.0.13:80,10.244.0.14:80   1m
 
 Drei Endpoints – das sind genau deine drei `hello`-Pods.
 
+!!! note "Eine gelbe Warnung „Endpoints is deprecated" ist kein Fehler"
+    Auf neueren Clustern (ab Kubernetes 1.33) zeigt `kubectl get endpoints` zusätzlich eine gelbe Zeile „v1 Endpoints is deprecated …". Das ist nur ein Hinweis für die Zukunft – der Befehl läuft weiterhin und zeigt dir die Pod-IPs. Die modernere Form `kubectl get endpointslices` zeigt dasselbe, ist aber unübersichtlicher; für uns bleibt `endpoints` das anschaulichere Werkzeug.
+
 !!! note "Kurz erklärt: was Endpoints sind"
     Die **Endpoints** sind die Liste der aktuell **lebenden** Pods hinter dem Service – mit ihren IPs und Ports. Kubernetes pflegt sie dauerhaft: Stirbt ein Pod, fliegt seine IP raus; kommt ein neuer dazu, wird er aufgenommen. Der Service selbst behält dabei seine eine stabile IP. Die Endpoints sind also der ständig aktualisierte „Verteiler“ dahinter.
 
@@ -498,7 +501,7 @@ Willst du es schwarz auf weiß auszählen, lass `sort` und `uniq` mitzählen:
 for i in $(seq 30); do curl -s bunt | grep -oE "BLAU|GRUEN" | head -1; done | sort | uniq -c
 ```
 
-Bei je einem Pod pro Farbe kommt ungefähr halbe-halbe heraus (etwa 15-mal `BLAU`, 15-mal `GRUEN`).
+Bei je einem Pod pro Farbe landet ungefähr die Hälfte auf jeder Farbe. Die genauen Zahlen schwanken aber von Durchlauf zu Durchlauf – der Service würfelt pro Anfrage neu, welcher Pod antwortet. Mal liest du `16 BLAU / 14 GRUEN`, mal `11 BLAU / 19 GRUEN`. Hauptsache, beide Farben kommen vor.
 
 ### Schritt 4 – das Verhältnis verschieben
 
@@ -508,7 +511,7 @@ Jetzt das Spannende: Gib einer Farbe **mehr** Pods und sieh zu, wie sich die Ver
 kubectl scale deployment bunt-gruen --replicas=3
 ```
 
-Warte kurz, dann lass im `disco`-Pod die Auszähl-Schleife aus Schritt 3 noch einmal laufen. Jetzt kommt deutlich **mehr `GRUEN` als `BLAU`** (etwa 3:1) – weil drei grüne Pods gegen einen blauen antreten. Mehr Pods einer Farbe heißt: mehr Anfragen landen bei dieser Farbe. Genau dieses Verhältnis stellt der Service von selbst ein.
+Warte kurz, dann lass im `disco`-Pod die Auszähl-Schleife aus Schritt 3 noch einmal laufen. Jetzt kommt deutlich **mehr `GRUEN` als `BLAU`** – drei grüne Pods gegen einen blauen, im Schnitt also etwa dreimal so viele grüne Antworten. (Auch das schwankt pro Durchlauf, die Richtung ist aber klar.) Mehr Pods einer Farbe heißt: mehr Anfragen landen bei dieser Farbe. Genau dieses Verhältnis stellt der Service von selbst ein.
 
 Verlasse danach den `disco`-Pod (`--rm` löscht ihn dabei automatisch):
 
@@ -635,7 +638,24 @@ Frag im Pod (am `/ $`-Prompt) nach, welche IP hinter dem Namen `hello` steckt:
 nslookup hello
 ```
 
-Unter `Address:` erscheint eine IP wie `10.96.x.x` – das ist die **ClusterIP** des Service. Vergleich sie ruhig mit der Ausgabe von `kubectl get svc hello` in deinem anderen Terminal: dieselbe Adresse.
+Die Ausgabe sieht ungefähr so aus (deine IPs sind andere):
+
+```text
+Server:    10.96.0.10
+Address:   10.96.0.10:53
+
+Name:   hello.default.svc.cluster.local
+Address: 10.105.141.219
+```
+
+Die entscheidende Zeile ist `Name: hello.default.svc.cluster.local` mit der `Address:` darunter – das ist die **ClusterIP** des Service. Vergleich sie ruhig mit der Ausgabe von `kubectl get svc hello` in deinem anderen Terminal: dieselbe Adresse.
+
+!!! note "Ein paar „can't find … NXDOMAIN"-Zeilen sind normal"
+    `nslookup` probiert der Reihe nach mehrere Endungen durch (die `search`-Liste, die du gleich in Schritt 3 siehst). Für die Endungen, die nicht passen, meldet es `** server can't find … NXDOMAIN` – das ist **kein Fehler**, sondern nur das Durchprobieren. Wichtig ist allein die Zeile mit dem Treffer (`Name:` plus `Address:`). Wer es ganz aufgeräumt mag, fragt stattdessen so – das gibt genau eine Zeile mit IP und vollem Namen zurück:
+
+    ```sh
+    getent hosts hello
+    ```
 
 ### Schritt 3 – warum der kurze Name reicht
 
