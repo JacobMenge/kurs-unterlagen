@@ -10,3 +10,6 @@ nav:
   - "Praxis 3: Service": 08-praxis-service.md
   - "Hilfekarten": 09-hilfekarten.md
   - "Rückblick & Ausblick": 10-rueckblick.md
+  - "In die Cloud: Überblick": 11-cloud-labs.md
+  - "Praxis: EKS (AWS)": 12-praxis-eks.md
+  - "Optional: GKE (Google)": 13-praxis-gke.md
