@@ -35,13 +35,16 @@ Das ist genau das Muster aus echten Betrieben – nur dass dort statt `nginxdemo
 
 Du hast den Kern in der Hand. Von hier führen mehrere Wege weiter – jeder ein eigenes Thema für sich:
 
+!!! tip "Direkt weiter: Teil 2 – betriebsreif machen"
+    Der nächste Schritt baut genau auf diesem Block auf: [Kubernetes – Aufbau](../kubernetes-aufbau/index.md). Dort machst du dein Deployment **betriebsreif** – Konfiguration und Geheimnisse aus dem Image lösen (**ConfigMap & Secret**), Kubernetes prüfen lassen, ob die App gesund ist (**Health-Probes**) und den Ressourcenhunger begrenzen (**Requests & Limits**). Wieder Hands-on auf demselben minikube.
+
 !!! info "Ab hier: vom Laptop in die Cloud"
     Den Einstieg – Pod, Deployment, Service – hast du komplett auf deinem eigenen **minikube** gemacht – mehr braucht es dafür auch nicht. Die **weiterführende Praxis** verlangt aber mehr Leistung als ein Laptop: mehrere echte Knoten, `LoadBalancer`-Dienste mit echter Adresse, **Ingress** mit echtem DNS oder ein **Managed Kubernetes** in der Cloud. Diese Schritte üben wir nicht mehr lokal, sondern in den **Hands-on-Cloud-Labs der Lernplattform** – dort steht ein echter Cloud-Cluster bereit, ohne lokale Installation und ohne dass jemand eine Cloud-Rechnung riskiert. Den ersten konkreten Schritt dorthin machst du auf der nächsten Seite: [In die Cloud: Kubernetes in den Hands-on-Labs](11-cloud-labs.md).
 
 - **Einordnung & Theorie** – wann sich der Schritt zum Cluster überhaupt lohnt, klärt der Block [Orchestrierung & Verteilung](../orchestrierung/index.md).
 - **Helm** – ein Paketmanager für Kubernetes, mit dem du fertige Anwendungen aus vorgefertigten Paketen installierst, statt jedes Manifest einzeln zu schreiben.
 - **Ingress** – regelt das HTTP-Routing von außen, damit mehrere Services unter sauberen Adressen und Pfaden erreichbar sind, ohne für jeden ein `port-forward` zu öffnen.
-- **ConfigMaps und Secrets** – trennen Konfiguration und Geheimnisse (Passwörter, Schlüssel) vom Image, sodass dieselbe App in verschiedenen Umgebungen anders konfiguriert läuft.
+- **[ConfigMaps und Secrets](../kubernetes-aufbau/02-config-und-secrets.md)** – trennen Konfiguration und Geheimnisse (Passwörter, Schlüssel) vom Image, sodass dieselbe App in verschiedenen Umgebungen anders konfiguriert läuft. Direkt zum Anfassen in [Teil 2](../kubernetes-aufbau/index.md).
 - **Überwachen** – einen laufenden Cluster im Blick behalten lernst du im Block [Monitoring](../monitoring-praxis/index.md) bzw. unter [Betrieb & Verfügbarkeit](../betrieb/index.md).
 - **Automatisch ausrollen** – neue Versionen per CI/CD und GitOps automatisch in den Cluster bringen, statt sie von Hand anzuwenden, zeigt der Block [CI/CD](../ci-cd/index.md).
 

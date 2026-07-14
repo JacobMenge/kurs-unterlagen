@@ -87,6 +87,7 @@ Lies die Karte **von oben nach unten**: vier Phasen, die aufeinander aufbauen. F
     - [Praxis: Mission Control](docker-compose-mission-control/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– nach *Docker Compose*
     - [Praxis: Monitoring](monitoring-praxis/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– passt zum Betriebs-Thema
     - [Praxis: Kubernetes](kubernetes-praxis/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– nach *Orchestrierung & Verteilung*
+    - [Praxis: Kubernetes Aufbau](kubernetes-aufbau/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– direkt nach *Praxis: Kubernetes*
     - [Docker für Profis](docker-profi/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– wenn die Basics sitzen
     - [Git & GitHub](git/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– jederzeit, Werkzeug für CI/CD und Doku
 
@@ -139,6 +140,7 @@ Die vollständige Übersicht, gruppiert nach Themengebiet. „Schwerpunkt" sagt 
 | [Mission Control](docker-compose-mission-control/index.md) | Compose-Gruppenübung rund um eine Raumstation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
 | [Monitoring](monitoring-praxis/index.md) | Prometheus/Grafana-Gruppenübung mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
 | [Kubernetes](kubernetes-praxis/index.md) | Kubernetes Hands-on: Pod, Deployment, Service, Skalierung – mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
+| [Kubernetes Aufbau](kubernetes-aufbau/index.md) | Betriebsreif: ConfigMap & Secret, Health-Probes, Requests & Limits | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
 | [Git & GitHub](git/index.md) | Versionskontrolle, Branches, Pull Requests | <span class='badge badge-praxis'>Praxis</span> | Praxis / Werkzeug |
 | [Cheatsheets](cheatsheets/index.md) | Spickzettel für Multipass, Docker, Compose, Git | – | Hilfsmittel |
 | [Glossar](glossar.md) | Alle Begriffe kompakt erklärt | – | Hilfsmittel |

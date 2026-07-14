@@ -25,6 +25,7 @@ nav:
       - "Praxis: Mission Control": docker-compose-mission-control
       - "Praxis: Monitoring": monitoring-praxis
       - "Praxis: Kubernetes": kubernetes-praxis
+      - "Praxis: Kubernetes Aufbau": kubernetes-aufbau
       - "Git & GitHub": git
       - "Cheatsheets": cheatsheets
       - "Glossar": glossar.md

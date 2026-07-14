@@ -1,0 +1,73 @@
+# Konfiguration gehoert NICHT ins Image. Hier liegt sie in einer ConfigMap
+# (offene Werte) und einem Secret (Geheimnisse). Das Deployment zieht sich
+# beide per envFrom als Umgebungsvariablen in den Container.
+#
+# Sichtbar wird das in der Demo-Seite: sie zeigt gross die VERSION, darunter
+# den STANDORT (aus der ConfigMap) und den Pod-Namen. Das APP_TOKEN aus dem
+# Secret wird bewusst NICHT angezeigt - Geheimnisse druckt man nicht auf die
+# Seite. Aenderst du die ConfigMap, brauchst du ein "kubectl rollout restart",
+# damit die Pods die neuen Werte uebernehmen.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webserver-config
+data:
+  VERSION: "1"                    # Beschriftung der Seite -> "Version 1"
+  COLOR: "#2563a8"                # Hintergrundfarbe: Blau = Version 1
+  STANDORT: "Rechenzentrum Nord"  # frei aenderbarer Text, erscheint auf der Seite
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: webserver-secret
+type: Opaque
+stringData:                       # stringData: Klartext rein, Kubernetes kodiert es selbst base64
+  APP_TOKEN: "s3hr-geheim-42"     # steht fuer ein Passwort / einen API-Schluessel
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: webserver
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+        - name: webserver
+          image: nginx:1.27-alpine
+          envFrom:                        # ALLE Schluessel aus ConfigMap + Secret als Umgebungsvariablen
+            - configMapRef:
+                name: webserver-config
+            - secretRef:
+                name: webserver-secret
+          # --- ab hier nur "Anstrich": Seite aus den Umgebungsvariablen bauen ---
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cat > /usr/share/nginx/html/index.html <<HTML
+              <!doctype html><html lang="de"><head><meta charset="utf-8">
+              <meta http-equiv="refresh" content="2"><title>Version $VERSION</title>
+              <style>html,body{height:100%;margin:0}
+              body{display:flex;flex-direction:column;align-items:center;
+              justify-content:center;font-family:system-ui,sans-serif;
+              background:$COLOR;color:#fff;text-align:center}
+              .v{font-size:4rem;font-weight:800}
+              .s{margin-top:.5rem;font-size:1.4rem;opacity:.95}
+              .pod{margin-top:1rem;font-family:monospace;font-size:1.1rem;opacity:.85}</style>
+              </head><body>
+              <div class="v">Version $VERSION</div>
+              <div class="s">Standort: $STANDORT</div>
+              <div class="pod">Server name: $(hostname)</div>
+              </body></html>
+              HTML
+              exec nginx -g 'daemon off;'
+          ports:
+            - containerPort: 80

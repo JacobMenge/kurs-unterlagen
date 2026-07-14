@@ -1,0 +1,11 @@
+nav:
+  - "Überblick": index.md
+  - "Warum betriebsreif?": 01-warum-betriebsreif.md
+  - "ConfigMap & Secret": 02-config-und-secrets.md
+  - "Praxis: Config & Secrets": 03-praxis-config-secrets.md
+  - "Probes & Limits": 04-probes-und-limits.md
+  - "Praxis: Probes & Limits": 05-praxis-probes-limits.md
+  - "Lab: Config & Secrets (Pluralsight)": 06-lab-config-secrets.md
+  - "Lab: Probes & Ingress (Pluralsight)": 07-lab-probes.md
+  - "Hilfekarten": 08-hilfekarten.md
+  - "Rückblick & Ausblick": 09-rueckblick.md

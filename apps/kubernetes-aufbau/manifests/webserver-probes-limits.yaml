@@ -1,0 +1,77 @@
+# Ein betriebsreifes Deployment: derselbe Webserver, aber mit zwei Zusaetzen.
+#
+# 1) Probes - Kubernetes prueft selbst, ob der Container GESUND und BEREIT ist:
+#    - readinessProbe: erst wenn sie gruen ist, bekommt der Pod Anfragen
+#      (in der READY-Spalte von "kubectl get pods" sichtbar).
+#    - livenessProbe: schlaegt sie mehrfach fehl, startet Kubernetes den
+#      Container neu (RESTARTS zaehlt hoch).
+#
+# 2) resources - wie viel der Container bekommt und hoechstens nehmen darf:
+#    - requests: Menge, die zum Einplanen (Scheduling) reserviert wird.
+#    - limits:   harte Obergrenze. Ueberschreitet der Container das Memory-
+#      Limit, killt Kubernetes ihn (OOMKilled).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+  labels:
+    app: webserver
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+        - name: webserver
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+          readinessProbe:               # ist der Pod BEREIT fuer Anfragen?
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 2       # erste Pruefung nach 2s
+            periodSeconds: 5             # danach alle 5s
+          livenessProbe:                # LEBT der Container noch (oder haengt er)?
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3          # erst nach 3 Fehlversuchen neu starten
+          resources:
+            requests:                    # so viel wird fest eingeplant
+              memory: "32Mi"
+              cpu: "50m"                 # 50m = 0,05 CPU-Kern
+            limits:                      # so viel darf der Container hoechstens
+              memory: "128Mi"
+              cpu: "250m"
+          # --- ab hier nur "Anstrich": einfarbige Seite mit Version + Pod-Name ---
+          env:
+            - name: VERSION
+              value: "1"
+            - name: COLOR
+              value: "#2563a8"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cat > /usr/share/nginx/html/index.html <<HTML
+              <!doctype html><html lang="de"><head><meta charset="utf-8">
+              <meta http-equiv="refresh" content="2"><title>Version $VERSION</title>
+              <style>html,body{height:100%;margin:0}
+              body{display:flex;flex-direction:column;align-items:center;
+              justify-content:center;font-family:system-ui,sans-serif;
+              background:$COLOR;color:#fff;text-align:center}
+              .v{font-size:4rem;font-weight:800}
+              .pod{margin-top:1rem;font-family:monospace;font-size:1.2rem;opacity:.92}</style>
+              </head><body>
+              <div class="v">Version $VERSION</div>
+              <div class="pod">Server name: $(hostname)</div>
+              </body></html>
+              HTML
+              exec nginx -g 'daemon off;'
