@@ -10,7 +10,7 @@ description: "Angeleitete Übung: das fertige Chart der Demo-App lesen, es mit �
 Die App ist dieselbe wie immer: das schlanke nginx, das dir groß seine **Version**, darunter den **Standort** und den **Pod-Namen** anzeigt. Neu ist nicht die App, neu ist der Weg, auf dem sie in den Cluster kommt.
 
 !!! info "Voraussetzung"
-    Dein Cluster läuft (`kubectl get nodes` zeigt `Ready`) und die Projektdateien liegen lokal:
+    Dein Cluster läuft (`kubectl get nodes` zeigt `Ready`) und die Projektdateien liegen lokal. Meldet stattdessen etwas „cluster unreachable", obwohl `minikube status` `Running` sagt: ein `minikube update-context` richtet das gerade – die Erklärung dazu steht in den [Stolpersteinen](09-stolpersteine.md#cluster-unreachable-obwohl-minikube-lauft).
 
     ```bash
     git clone https://github.com/JacobMenge/kurs-unterlagen.git

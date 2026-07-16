@@ -48,6 +48,51 @@ Das ist **die** Falle dieser Einheit – und sie erwischt fast jeden genau einma
 !!! note "Kurz erklärt: macOS und Linux"
     Auf macOS installierst du mit `brew install helm`, auf Linux nach der [Anleitung auf helm.sh](https://helm.sh/docs/intro/install/). Das Prinzip bleibt gleich: Wenn die Shell den neuen Befehl nicht kennt, öffne ein neues Terminal.
 
+### „cluster unreachable" – obwohl minikube läuft
+
+Der zweitwahrscheinlichste Fehler des Tages, besonders wenn dein Rechner seit der letzten Übung aus war:
+
+```text
+Error: INSTALLATION FAILED: cluster reachability check failed: kubernetes cluster unreachable: Get "https://127.0.0.1:55370/version": EOF
+```
+
+Verwirrend daran: `minikube status` sagt `Running`, der Cluster ist also gar nicht kaputt. Trotzdem findet ihn niemand.
+
+**Ursache:** minikube läuft als Docker-Container. Beim Start vergibt Docker einen **zufälligen Port** auf deinem Rechner, hinter dem der Kubernetes-API-Server sitzt. Wird der Container gestoppt und wieder gestartet – Docker Desktop neu gestartet, Rechner neu gebootet – bekommt er einen **neuen** Port. Deine `kubeconfig` merkt davon nichts und zeigt weiter auf den alten. Die Zahl in der Fehlermeldung (bei dir eine andere) ist genau dieser tote Port.
+
+**Lösung:** Ein Befehl richtet die `kubeconfig` wieder auf den echten Port aus:
+
+```bash
+minikube update-context
+```
+
+```text
+* Der Kontext "minikube" wurde aktualisiert, um auf 127.0.0.1:56090 zu zeigen
+* Der aktuelle Kontext ist "minikube"
+```
+
+Danach läuft alles wieder. Gegenprobe:
+
+```bash
+kubectl get nodes
+helm list
+```
+
+!!! tip "Woran du es sicher erkennst"
+    Vergleich die beiden Zahlen. Was deine `kubeconfig` glaubt:
+
+    ```bash
+    kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}'
+    ```
+
+    Und was der Container wirklich anbietet:
+
+    ```bash
+    docker port minikube
+    ```
+
+    Stehen dort verschiedene Ports, ist es genau dieser Fall. `minikube start` räumt das übrigens auch auf – `update-context` ist nur der schnellere Weg, weil es den Cluster nicht anfasst.
+
 ### Die Anleitung im Netz passt nicht zu dem, was du siehst
 
 Du folgst einem Tutorial, aber die Flags stimmen nicht oder die Ausgabe sieht anders aus als beschrieben.
