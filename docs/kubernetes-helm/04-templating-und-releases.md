@@ -115,7 +115,13 @@ Mit der Pipe zurück im Template rendert derselbe `--set version=1` sauber:
 Die `values.yaml` im Chart ist nur der **Standard**. Beim Installieren kannst du sie auf zwei Wegen überschreiben – und wenn mehrere Quellen über denselben Wert reden, gewinnt die **speziellere**.
 
 <figure>
-<svg viewBox="0 0 640 280" width="100%" height="280" role="img" aria-label="Treppe der Werte-Quellen: values.yaml wird von einer eigenen Werte-Datei überschrieben, diese wiederum von --set">
+<svg viewBox="0 0 640 280" width="100%" height="280" role="img" aria-label="Treppe der Werte-Quellen: Die values.yaml des Charts wird von der eigenen Werte-Datei per -f überschrieben, diese wiederum von --set auf der Kommandozeile. Je höher die Stufe, desto stärker.">
+  <defs>
+    <marker id="vorrang-pfeil" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#7dff9a"/>
+    </marker>
+  </defs>
+
   <!-- Stufe 1: values.yaml -->
   <text x="115" y="172" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="11">Standard des Charts</text>
   <rect x="30" y="180" width="170" height="62" rx="8" fill="rgba(143,164,152,0.12)" stroke="#8fa498" stroke-width="2"/>
@@ -134,11 +140,11 @@ Die `values.yaml` im Chart ist nur der **Standard**. Beim Installieren kannst du
   <text x="525" y="86" text-anchor="middle" fill="#c9d4e3" font-family="JetBrains Mono, monospace" font-size="13">--set replicaCount=5</text>
   <text x="525" y="107" text-anchor="middle" fill="#2e9e5b" font-family="system-ui, sans-serif" font-size="11" font-weight="700">gewinnt</text>
 
-  <!-- Vorrang-Zeichen -->
-  <text x="217" y="158" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700">&lt;</text>
-  <text x="422" y="98" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="22" font-weight="700">&lt;</text>
+  <!-- Wirkrichtung: jede Stufe ueberschreibt die darunter -->
+  <line x1="204" y1="198" x2="230" y2="166" stroke="#7dff9a" stroke-width="2" marker-end="url(#vorrang-pfeil)"/>
+  <line x1="409" y1="138" x2="435" y2="106" stroke="#7dff9a" stroke-width="2" marker-end="url(#vorrang-pfeil)"/>
 
-  <text x="320" y="266" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Je weiter oben rechts, desto stärker: Die rechte Quelle überschreibt die linke.</text>
+  <text x="320" y="266" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Jeder Pfeil heißt „überschreibt": Jede Stufe schlägt die darunter.</text>
 </svg>
 <figcaption>Der Werte-Vorrang als Treppe: values.yaml &lt; eigene Datei per -f &lt; --set. Rechts gewinnt.</figcaption>
 </figure>
