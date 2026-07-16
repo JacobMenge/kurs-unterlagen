@@ -1,0 +1,5 @@
+# Produktion: drei Instanzen, Farbe Gruen.
+replicaCount: 3
+version: "1"
+color: "#2e9e5b"
+standort: "Rechenzentrum Nord"

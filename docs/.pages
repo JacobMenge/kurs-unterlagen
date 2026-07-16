@@ -26,6 +26,7 @@ nav:
       - "Praxis: Monitoring": monitoring-praxis
       - "Praxis: Kubernetes": kubernetes-praxis
       - "Praxis: Kubernetes Aufbau": kubernetes-aufbau
+      - "Praxis: Kubernetes Helm": kubernetes-helm
       - "Git & GitHub": git
       - "Cheatsheets": cheatsheets
       - "Glossar": glossar.md

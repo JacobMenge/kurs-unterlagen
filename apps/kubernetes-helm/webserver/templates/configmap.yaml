@@ -1,0 +1,17 @@
+# Dieselbe ConfigMap wie in Teil 2 - nur stehen die Werte jetzt nicht mehr
+# fest im Text, sondern kommen aus values.yaml.
+#
+# Der Platzhalter unten setzt den Release-Namen ein - also den Namen, den DU
+# beim Installieren vergibst. "helm install station ./webserver" macht daraus
+# "station-config".
+#
+# | quote setzt Anfuehrungszeichen. Das ist keine Kosmetik: ohne quote wuerde
+# aus version: 1 eine ZAHL, und eine ConfigMap nimmt nur Text.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+data:
+  VERSION: {{ .Values.version | quote }}
+  COLOR: {{ .Values.color | quote }}
+  STANDORT: {{ .Values.standort | quote }}

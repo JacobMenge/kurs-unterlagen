@@ -5,3 +5,4 @@ nav:
   - "Docker Compose": compose.md
   - "Git": git.md
   - "GitHub Actions": github-actions.md
+  - "Helm": helm.md

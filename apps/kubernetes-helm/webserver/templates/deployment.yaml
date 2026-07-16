@@ -1,0 +1,60 @@
+# Das Deployment aus Teil 2. Neu sind nur die Platzhalter in doppelten
+# geschweiften Klammern.
+#
+# Kleine Falle am Rande: In eine solche Kommentarzeile darfst du KEINEN
+# Platzhalter schreiben. Helm rendert die Datei, bevor sie YAML ist - der
+# Renderer sieht die Klammern auch im Kommentar und versucht sie auszufuehren.
+#
+# Die Annotation checksum/config ist der Trick des Charts: Sie enthaelt eine
+# Pruefsumme der gerenderten ConfigMap. Aendert sich ein Wert, aendert sich die
+# Pruefsumme - und weil damit die Pod-Vorlage anders aussieht, rollt Kubernetes
+# von selbst neu aus. Das "kubectl rollout restart" aus Teil 2 entfaellt.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: webserver
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          envFrom:                        # ALLE Schluessel aus ConfigMap + Secret als Umgebungsvariablen
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+            - secretRef:
+                name: {{ .Release.Name }}-secret
+          # --- ab hier nur "Anstrich": Seite aus den Umgebungsvariablen bauen ---
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              cat > /usr/share/nginx/html/index.html <<HTML
+              <!doctype html><html lang="de"><head><meta charset="utf-8">
+              <meta http-equiv="refresh" content="2"><title>Version $VERSION</title>
+              <style>html,body{height:100%;margin:0}
+              body{display:flex;flex-direction:column;align-items:center;
+              justify-content:center;font-family:system-ui,sans-serif;
+              background:$COLOR;color:#fff;text-align:center}
+              .v{font-size:4rem;font-weight:800}
+              .s{margin-top:.5rem;font-size:1.4rem;opacity:.95}
+              .pod{margin-top:1rem;font-family:monospace;font-size:1.1rem;opacity:.85}</style>
+              </head><body>
+              <div class="v">Version $VERSION</div>
+              <div class="s">Standort: $STANDORT</div>
+              <div class="pod">Server name: $(hostname)</div>
+              </body></html>
+              HTML
+              exec nginx -g 'daemon off;'
+          ports:
+            - containerPort: 80

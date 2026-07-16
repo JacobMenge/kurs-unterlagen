@@ -1,0 +1,14 @@
+Das Release {{ .Release.Name }} ist installiert (Revision {{ .Release.Revision }}).
+
+Anzeigen im Browser:
+
+  kubectl port-forward svc/{{ .Release.Name }} 8080:{{ .Values.service.port }}
+
+Dann http://localhost:8080 oeffnen. Erwartet: Version {{ .Values.version }},
+Standort "{{ .Values.standort }}". Der angezeigte "Server name" bleibt dabei
+gleich: port-forward tunnelt zu genau einem Pod, es verteilt nicht.
+
+Was ist installiert?
+
+  helm list
+  helm status {{ .Release.Name }}

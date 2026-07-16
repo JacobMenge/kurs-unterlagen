@@ -1,0 +1,6 @@
+# Test: zwei Instanzen, Farbe Orange - damit man Test sofort von Dev und Prod
+# unterscheidet, ohne auf den Text zu schauen.
+replicaCount: 2
+version: "1-test"
+color: "#c2680a"
+standort: "Testsystem"

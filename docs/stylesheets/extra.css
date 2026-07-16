@@ -816,6 +816,13 @@
   border-color: var(--jd-phosphor-deep);
 }
 
+/* Bonus/Kür – nur wenn Zeit bleibt. Gedaempftes Amber, klar von Praxis unterscheidbar. */
+.md-typeset .badge-bonus {
+  background-color: rgba(224, 179, 92, 0.1);
+  color: #e0b35c;
+  border-color: #e0b35c;
+}
+
 /* 21) Bilder & Schaubilder ------------------------------------------------ */
 .md-typeset figure {
   margin: 1.6em auto;

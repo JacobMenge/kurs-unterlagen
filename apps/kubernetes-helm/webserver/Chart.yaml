@@ -1,0 +1,10 @@
+# Der Steckbrief des Charts. Zwei Versionen stehen hier - und sie meinen
+# Verschiedenes:
+#   version    = Stand des PAKETS (aendert sich, wenn du am Chart schraubst)
+#   appVersion = Stand der SOFTWARE darin (unsere Demo-App)
+apiVersion: v2
+name: webserver
+description: Die Demo-App der Aurora Station als Helm-Chart
+type: application
+version: 0.1.0
+appVersion: "1"

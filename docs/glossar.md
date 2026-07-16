@@ -507,7 +507,17 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
     - **Cluster** – Verbund aller Nodes, die zusammen Workloads tragen.
     - **Helm** – Paketmanager für Kubernetes (versionierte „Charts" als Bündel von Manifesten).
 
-    Kubernetes ist nicht Teil dieses Kurses, aber als nächste Stufe nach Docker Compose sehr wichtig.
+    Kubernetes ist die nächste Stufe nach Docker Compose. Zum Anfassen in drei Blöcken: [Teil 1](kubernetes-praxis/index.md) (Pod, Deployment, Service), [Teil 2](kubernetes-aufbau/index.md) (betriebsreif machen) und [Helm](kubernetes-helm/index.md) (Pakete statt Handarbeit).
+
+## <span id="chart"></span><span id="release"></span><span id="revision"></span><span id="values"></span>Chart / Release / Revision (Helm)
+: **Die vier Begriffe, mit denen Helm arbeitet.** Sie werden leicht verwechselt, meinen aber klar Verschiedenes:
+
+    - **Chart** – das **Paket**: ein Ordner mit Vorlagen (`templates/`), Standardwerten (`values.yaml`) und einem Steckbrief (`Chart.yaml`). Die Bauanleitung, noch nichts Laufendes.
+    - **Release** – eine **Installation** dieses Charts, mit einem Namen. Dasselbe Chart kann mehrfach installiert sein – unter verschiedenen Namen oder in verschiedenen Namespaces.
+    - **Revision** – ein **Stand** eines Releases. Jedes `helm upgrade` erzeugt eine neue Revision, die alte bleibt erhalten. Genau deshalb funktioniert `helm rollback`.
+    - **Values** – die **Stellschrauben**: Werte, die beim Installieren in die Vorlagen eingesetzt werden. Reihenfolge: `values.yaml` < eigene Datei per `-f` < `--set` (rechts gewinnt).
+
+    Nicht verwechseln: Die **Revision** (1, 2, 3 …) zählt die Installationen eines Releases, die **Chart-Version** beschreibt den Stand des Pakets und die **appVersion** den Stand der Software darin. Drei verschiedene Zähler. Alles dazu im Block [Kubernetes – Helm](kubernetes-helm/index.md).
 
 ## <span id="laufzeitumgebung"></span><span id="laufzeit"></span><span id="runtime"></span>Laufzeitumgebung / Runtime
 : **Die Software-Plattform, in der eine Anwendung ausgeführt wird.** Im Docker-Kontext meint man damit fast immer die **Sprach-Runtime** im Container: Node.js, Python, Java/JVM, .NET, Go, Ruby usw. Welche Laufzeitumgebung dein Image nutzt, siehst du an der **`FROM`-Zeile** im Dockerfile:

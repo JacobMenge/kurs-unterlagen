@@ -1,0 +1,25 @@
+# Die Standardwerte des Charts. Alles, was hier steht, kann beim Installieren
+# ueberschrieben werden - per --set oder per eigener Werte-Datei (-f).
+#
+# Genau diese drei Werte (version, color, standort) lagen in Teil 2 noch in
+# einer handgeschriebenen ConfigMap. Jetzt sind sie Stellschrauben des Pakets.
+
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.27-alpine"
+
+# --- Was die Seite anzeigt ---
+version: "1"                      # grosse Beschriftung -> "Version 1"
+color: "#2563a8"                  # Hintergrundfarbe: Blau = Version 1
+standort: "Rechenzentrum Nord"    # frei aenderbarer Text auf der Seite
+
+# --- Das Geheimnis ---
+# Achtung: In values.yaml gehoert ein echtes Passwort NICHT hin (die Datei
+# liegt im Git). Hier steht es nur, damit die Uebung ohne Umwege laeuft.
+appToken: "s3hr-geheim-42"
+
+service:
+  type: ClusterIP
+  port: 80

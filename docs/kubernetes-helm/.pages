@@ -1,0 +1,12 @@
+nav:
+  - "Überblick": index.md
+  - "Warum Helm?": 01-warum-helm.md
+  - "Ein Chart von innen": 02-chart-anatomie.md
+  - "Praxis: Dein erstes Chart": 03-praxis-erstes-chart.md
+  - "Templating & Releases": 04-templating-und-releases.md
+  - "Praxis: Upgrade & Rollback": 05-praxis-upgrade-rollback.md
+  - "Fertige Charts nutzen": 06-fertige-charts-nutzen.md
+  - "Praxis: Drei Umgebungen": 07-lab-drei-umgebungen.md
+  - "Weitere Übungen": 08-uebungen.md
+  - "Stolpersteine": 09-stolpersteine.md
+  - "Rückblick & Abschluss": 10-rueckblick.md

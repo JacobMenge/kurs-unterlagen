@@ -128,6 +128,9 @@
 *[OCI]: Open Container Initiative – Standardisierungsgremium für Container-Formate
 *[Swarm]: Docker Swarm – Dockers eigenes Cluster-Tool, einfacher als Kubernetes
 *[Helm]: Paketmanager für Kubernetes
+*[Chart]: Helm-Paket – Ordner mit Vorlagen, Standardwerten und Steckbrief
+*[Release]: Eine benannte Installation eines Helm-Charts im Cluster
+*[Revision]: Ein Stand eines Helm-Releases – jedes Upgrade erzeugt eine neue
 *[Pod]: Kleinste deploybare Einheit in Kubernetes (ein oder mehrere Container)
 *[Cluster]: Verbund mehrerer Hosts, die zusammen Workloads tragen
 *[Reverse Proxy]: Server, der Anfragen von außen entgegennimmt und an interne Dienste weiterreicht

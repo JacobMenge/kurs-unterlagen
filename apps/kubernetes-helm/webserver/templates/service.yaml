@@ -1,0 +1,15 @@
+# Der Service aus Teil 1 - der Selektor zeigt jetzt auf den Release-Namen,
+# damit zwei Releases desselben Charts sich nicht gegenseitig einsammeln.
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80

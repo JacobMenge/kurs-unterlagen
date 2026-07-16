@@ -38,7 +38,7 @@ Du hast den Dienst betriebsreif gemacht. Von hier führen mehrere Wege weiter �
     Bisher erreichst du deine App über `port-forward` – gut zum Üben, aber nichts für den echten Betrieb. Der nächste große Schritt ist ein sauberer **Zugang von außen** und mehr **Automatik**.
 
 - **Ingress** – regelt das HTTP-Routing von außen: mehrere Dienste unter sauberen Adressen und Pfaden, mit echtem DNS und TLS, statt für jeden ein `port-forward`. In minikube probierst du das mit dem Ingress-Addon.
-- **Helm** – ein Paketmanager für Kubernetes: fertige Anwendungen aus vorgefertigten Paketen installieren, statt jedes Manifest von Hand zu schreiben.
+- **[Helm](../kubernetes-helm/index.md)** – ein Paketmanager für Kubernetes: fertige Anwendungen aus vorgefertigten Paketen installieren, statt jedes Manifest von Hand zu schreiben. Genau die Manifeste aus diesem Block werden dort zu einem eigenen Paket – **das ist der nächste Block**.
 - **Autoscaling (HPA)** – der **Horizontal Pod Autoscaler** ändert die `replicas` automatisch anhand der Last. Deine `requests` aus diesem Block sind genau die Grundlage, auf der er rechnet.
 - **Persistente Daten** – **PersistentVolumes** und **StatefulSets** für Dienste, die Daten behalten müssen (Datenbanken), statt bei jedem Neustart von vorn zu beginnen.
 - **In der Cloud** – all das auf einem echten Managed-Cluster erproben: die [Cloud-Labs](../kubernetes-praxis/11-cloud-labs.md) aus Teil 1.

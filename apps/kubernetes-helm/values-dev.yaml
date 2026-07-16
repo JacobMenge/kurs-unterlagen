@@ -1,0 +1,6 @@
+# Entwicklung: eine Instanz reicht, Farbe Blau.
+# Nur die Werte, die vom Standard abweichen - der Rest kommt aus values.yaml.
+replicaCount: 1
+version: "1-dev"
+color: "#2563a8"
+standort: "Entwicklung"

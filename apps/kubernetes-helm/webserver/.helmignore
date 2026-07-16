@@ -1,0 +1,7 @@
+# Was beim Paketieren (helm package) draussen bleibt.
+.DS_Store
+.git/
+.gitignore
+*.swp
+*.tmp
+*.orig
