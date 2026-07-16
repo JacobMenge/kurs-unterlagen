@@ -486,6 +486,21 @@
   background-color: rgba(125, 255, 154, 0.04);
 }
 
+/* Inline-Code in Tabellen nicht mitten im Bezeichner zerreissen.
+   Material setzt code auf word-break: break-word. Damit ist die Mindestbreite
+   eines Code-Spans EIN Zeichen - die Tabellen-Automatik quetscht die Spalte
+   beliebig schmal und macht aus ".Values.replicaCount" ein ".Values.repl" /
+   "icaCount".
+   Mit normal ist die Mindestbreite der laengste unteilbare Teil, die Spalte
+   bekommt also von vornherein genug Platz. Umbrueche an Leerzeichen bleiben
+   erlaubt - nur so bleiben lange Pfade umbrechbar, statt die Tabelle in den
+   Scrollbalken zu treiben. */
+.md-typeset table:not([class]) th code,
+.md-typeset table:not([class]) td code {
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
 /* 11) Glossar-Links (vom glossar-links.js erzeugt) ------------------------ */
 /*
   Der abbr-Mechanismus (pymdownx) verwandelt jedes Vorkommen eines Begriffs

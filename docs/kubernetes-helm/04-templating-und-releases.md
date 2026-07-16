@@ -13,11 +13,15 @@ In [Ein Chart von innen](02-chart-anatomie.md) hast du gesehen, **woraus** ein C
 
 Ein Template ist gewöhnliches YAML mit Lücken. Beim Rendern füllt Helm diese Lücken – und der Inhalt kommt fast immer aus einer von **zwei** Quellen: aus den **Werten** oder aus dem **Release**.
 
-| Platzhalter | Woher der Wert kommt | So steht es in unserem Chart | Bei `helm install station ./webserver` wird daraus |
-|-------------|----------------------|------------------------------|-----------------------------------------------------|
-| `.Values.color` | aus `values.yaml`, aus einer Datei per `-f` oder per `--set` | die `COLOR:`-Zeile in `templates/configmap.yaml` | `COLOR: "#2563a8"` |
-| `.Values.replicaCount` | dieselben drei Quellen | `replicas: {{ .Values.replicaCount }}` in `templates/deployment.yaml` | `replicas: 2` |
-| `.Release.Name` | der Name, den **du** beim Installieren vergibst | `name: {{ .Release.Name }}-config` in `templates/configmap.yaml` | `name: station-config` |
+Drei Platzhalter aus unserem Chart – und was `helm install station ./webserver` daraus macht:
+
+| Platzhalter | Woher der Wert kommt | Daraus wird |
+|---|---|---|
+| `.Values.color` | aus `values.yaml`, per `-f` oder per `--set` | `COLOR: "#2563a8"` |
+| `.Values.replicaCount` | dieselben drei Quellen | `replicas: 2` |
+| `.Release.Name` | der Name, den **du** beim Installieren vergibst | `name: station-config` |
+
+Nachsehen kannst du das direkt im Chart: Die `COLOR:`-Zeile steht in `templates/configmap.yaml`, die `replicas:`-Zeile in `templates/deployment.yaml`. Und aus `name: {{ .Release.Name }}-config` wird eben `name: station-config`, weil du das Release `station` genannt hast.
 
 Merk dir die Trennung so: **`.Values` ist das, woran du drehen darfst. `.Release` ist das, was Helm über diese eine Installation weiß.**
 
