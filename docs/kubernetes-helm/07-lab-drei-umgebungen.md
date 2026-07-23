@@ -9,23 +9,21 @@ description: "Praxisübung: dieselbe App als Entwicklung, Test und Produktion au
 
 Unser Beispiel bleibt die **Aurora Station**: Ihre Statusanzeige soll in drei Umgebungen laufen – **Entwicklung**, **Test** und **Produktion**. Das ist die Geschichte drumherum. Die Technik darunter ist **1:1 die**, mit der echte Teams arbeiten: ein Chart im Git, pro Umgebung eine kleine Werte-Datei, pro Umgebung ein Release. Wer das hier kann, kann es auch im Betrieb.
 
-```text
-                       +----------------------+
-                       |  ein Chart           |
-                       |  ./webserver         |
-                       +----------+-----------+
-                                  |
-         +------------------------+------------------------+
-         |                        |                        |
-+--------+---------+    +---------+--------+    +----------+-------+
-| values-dev.yaml  |    | values-test.yaml |    | values-prod.yaml |
-| 1 Pod, blau      |    | 2 Pods, orange   |    | 3 Pods, grün     |
-+--------+---------+    +---------+--------+    +----------+-------+
-         |                        |                        |
-+--------+---------+    +---------+--------+    +----------+-------+
-| Namespace dev    |    | Namespace test   |    | Namespace prod   |
-| Release station  |    | Release station  |    | Release station  |
-+------------------+    +------------------+    +------------------+
+```mermaid
+flowchart TB
+  CHART["ein Chart<br/>./webserver"]
+  DEV["values-dev.yaml<br/>1 Pod, blau"]
+  TEST["values-test.yaml<br/>2 Pods, orange"]
+  PROD["values-prod.yaml<br/>3 Pods, grün"]
+  NDEV["Namespace dev<br/>Release station"]
+  NTEST["Namespace test<br/>Release station"]
+  NPROD["Namespace prod<br/>Release station"]
+  CHART --> DEV
+  CHART --> TEST
+  CHART --> PROD
+  DEV --> NDEV
+  TEST --> NTEST
+  PROD --> NPROD
 ```
 
 !!! info "Voraussetzung"

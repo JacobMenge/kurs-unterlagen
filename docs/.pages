@@ -1,32 +1,34 @@
 nav:
   - "Start": index.md
   - "Fahrplan": fahrplan.md
-  - "Grundlagen & Integration":
+  - "Grundlagen":
       - "Netzwerke": netzwerke
       - "Virtualisierung": virtualisierung
-      - "Infrastruktur & Architektur": infrastruktur-planung
-  - "Container & Automatisierung":
+      - "Git & GitHub": git
+  - "Container":
       - "Docker – Einführung": docker
       - "Docker – Aufbau": docker-aufbau
       - "Docker – Vertiefung": docker-vertiefung
+      - "Praxis: Docker Escape Room": docker-escape-room
       - "Docker Compose": docker-compose
-      - "Orchestrierung & Verteilung": orchestrierung
+      - "Praxis: Mission Control": docker-compose-mission-control
       - "Docker für Profis": docker-profi
+  - "Kubernetes & CI/CD":
+      - "Orchestrierung & Verteilung": orchestrierung
+      - "Kubernetes Teil 1 – Einstieg": kubernetes-praxis
+      - "Kubernetes Teil 2 – Aufbau": kubernetes-aufbau
+      - "Kubernetes Teil 3 – Helm": kubernetes-helm
       - "CI/CD mit GitHub Actions": ci-cd
-  - "Betrieb & Sicherheit":
+  - "Planung & Betrieb":
+      - "Infrastruktur & Architektur": infrastruktur-planung
       - "Betrieb & Verfügbarkeit": betrieb
+      - "Praxis: Monitoring": monitoring-praxis
+  - "Sicherheit & Qualität":
       - "IT-Sicherheit & Risiko": it-sicherheit
       - "Tests & Qualität": testen-qualitaet
   - "Organisation & Projekte":
       - "Recht & Datenschutz": recht-organisation
       - "Projekte & Koordination": projektmanagement
-  - "Praxis & Nachschlagen":
-      - "Praxis: Docker Escape Room": docker-escape-room
-      - "Praxis: Mission Control": docker-compose-mission-control
-      - "Praxis: Monitoring": monitoring-praxis
-      - "Praxis: Kubernetes": kubernetes-praxis
-      - "Praxis: Kubernetes Aufbau": kubernetes-aufbau
-      - "Praxis: Kubernetes Helm": kubernetes-helm
-      - "Git & GitHub": git
+  - "Nachschlagen":
       - "Cheatsheets": cheatsheets
       - "Glossar": glossar.md

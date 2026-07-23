@@ -98,31 +98,48 @@ Lies die Karte **von oben nach unten**: vier Phasen, die aufeinander aufbauen. F
 
 Die vollständige Übersicht, gruppiert nach Themengebiet. „Schwerpunkt" sagt dir, ob ein Thema eher für die **Prüfung**, für die **Praxis** oder für beides zählt.
 
-### Grundlagen & Integration
+### Grundlagen
 
 | Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
 |-------|--------------|:-----------:|-------------|
 | [Netzwerke](netzwerke/index.md) | Das Fundament: OSI, IP, Routing, DNS, Protokolle, Industrie & Sicherheit | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung + Praxis |
 | [Virtualisierung](virtualisierung/index.md) | Hypervisor, VMs, Multipass – Systeme kapseln | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung + Praxis |
-| [Infrastruktur & Architektur](infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Ressourcen, Lizenzen | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung |
+| [Git & GitHub](git/index.md) | Versionskontrolle, Branches, Pull Requests | <span class='badge badge-praxis'>Praxis</span> | Praxis / Werkzeug |
 
-### Container & Automatisierung
+### Container
 
 | Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
 |-------|--------------|:-----------:|-------------|
 | [Docker – Einführung](docker/index.md) | Container vs. VM, Images, erste eigene Container | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung + Praxis |
 | [Docker – Aufbau](docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung + Praxis |
 | [Docker – Vertiefung](docker-vertiefung/index.md) | Fünf eigenständige Hands-on-Übungen | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
+| [Praxis: Docker Escape Room](docker-escape-room/index.md) | Multi-Container-Challenge in der Gruppe | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
 | [Docker Compose](docker-compose/index.md) | Multi-Container-Stacks deklarativ | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung + Praxis |
-| [Orchestrierung & Verteilung](orchestrierung/index.md) | Softwareverteilung, Kubernetes-Grundlagen | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
+| [Praxis: Mission Control](docker-compose-mission-control/index.md) | Compose-Gruppenübung rund um eine Raumstation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
 | [Docker für Profis](docker-profi/index.md) | Best Practices, Image-Optimierung, Scanning | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [CI/CD mit GitHub Actions](ci-cd/index.md) | Vom manuellen Push zur automatischen Pipeline | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung + Praxis |
 
-### Betrieb & Sicherheit
+### Kubernetes & CI/CD
 
 | Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
 |-------|--------------|:-----------:|-------------|
+| [Orchestrierung & Verteilung](orchestrierung/index.md) | Softwareverteilung, Kubernetes-Grundlagen | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
+| [Kubernetes Teil 1 – Einstieg](kubernetes-praxis/index.md) | Kubernetes Hands-on: Pod, Deployment, Service, Skalierung – mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
+| [Kubernetes Teil 2 – Aufbau](kubernetes-aufbau/index.md) | Betriebsreif: ConfigMap & Secret, Health-Probes, Requests & Limits | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
+| [Kubernetes Teil 3 – Helm](kubernetes-helm/index.md) | Paket statt Handarbeit: eigenes Chart, Werte, Upgrade & Rollback, fertige Charts | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
+| [CI/CD mit GitHub Actions](ci-cd/index.md) | Vom manuellen Push zur automatischen Pipeline | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung + Praxis |
+
+### Planung & Betrieb
+
+| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
+|-------|--------------|:-----------:|-------------|
+| [Infrastruktur & Architektur](infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Ressourcen, Lizenzen – mit Übungsaufgaben | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung |
 | [Betrieb & Verfügbarkeit](betrieb/index.md) | Monitoring, Backup/Recovery, Hochverfügbarkeit, BCM | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung |
+| [Praxis: Monitoring](monitoring-praxis/index.md) | Prometheus/Grafana-Gruppenübung mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
+
+### Sicherheit & Qualität
+
+| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
+|-------|--------------|:-----------:|-------------|
 | [IT-Sicherheit & Risiko](it-sicherheit/index.md) | Schutzziele, Risikomanagement, ISMS, Vorfälle | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung |
 | [Tests & Qualität](testen-qualitaet/index.md) | Testszenarien, Integrationstests, Optimierung, Übergabe | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
 
@@ -133,18 +150,11 @@ Die vollständige Übersicht, gruppiert nach Themengebiet. „Schwerpunkt" sagt 
 | [Recht & Datenschutz](recht-organisation/index.md) | DSGVO, Datensicherheitskonzepte, Compliance, Verträge | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
 | [Projekte & Koordination](projektmanagement/index.md) | Projektorganisation, Planung, Controlling, Schulung | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
 
-### Praxis & Nachschlagen
+### Nachschlagen
 
 | Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
 |-------|--------------|:-----------:|-------------|
-| [Docker Escape Room](docker-escape-room/index.md) | Multi-Container-Challenge in der Gruppe | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Mission Control](docker-compose-mission-control/index.md) | Compose-Gruppenübung rund um eine Raumstation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Monitoring](monitoring-praxis/index.md) | Prometheus/Grafana-Gruppenübung mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Kubernetes](kubernetes-praxis/index.md) | Kubernetes Hands-on: Pod, Deployment, Service, Skalierung – mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Kubernetes Aufbau](kubernetes-aufbau/index.md) | Betriebsreif: ConfigMap & Secret, Health-Probes, Requests & Limits | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Kubernetes Helm](kubernetes-helm/index.md) | Paket statt Handarbeit: eigenes Chart, Werte, Upgrade & Rollback, fertige Charts | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Git & GitHub](git/index.md) | Versionskontrolle, Branches, Pull Requests | <span class='badge badge-praxis'>Praxis</span> | Praxis / Werkzeug |
-| [Cheatsheets](cheatsheets/index.md) | Spickzettel für Multipass, Docker, Compose, Git | – | Hilfsmittel |
+| [Cheatsheets](cheatsheets/index.md) | Spickzettel für Multipass, Docker, Compose, Git, GitHub Actions und Helm | – | Hilfsmittel |
 | [Glossar](glossar.md) | Alle Begriffe kompakt erklärt | – | Hilfsmittel |
 
 ---

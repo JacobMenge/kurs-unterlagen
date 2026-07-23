@@ -317,16 +317,11 @@ kubectl port-forward svc/station 8080:80
 
 Öffne <http://localhost:8080>:
 
-```text
-+-------------------------------------------+
-|                                           |
-|                 Version 1                 |   (blauer Hintergrund)
-|       Standort: Rechenzentrum Nord        |
-|                                           |
-|   Server name: station-697cc5d946-t8qr6   |
-|                                           |
-+-------------------------------------------+
-```
+<div class="app-shot app-shot--blau">
+  <p class="as-titel">Version 1</p>
+  <p class="as-zeile">Standort: Rechenzentrum Nord</p>
+  <p class="as-meta">Server name: station-697cc5d946-t8qr6</p>
+</div>
 
 Blau, Version 1, Standort „Rechenzentrum Nord". Exakt die Werte, die in `values.yaml` stehen – über die ConfigMap in den Container gewandert und dort auf die Seite geschrieben.
 

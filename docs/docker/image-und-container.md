@@ -72,17 +72,12 @@ Ein Image ist nicht monolithisch. Es besteht aus **Layern** – jede Schicht ist
 
 Beispiel für das offizielle `python:3.12`-Image (vereinfacht):
 
-```
-+-------------------------------------+
-| Layer 4: Python 3.12 installiert    |
-+-------------------------------------+
-| Layer 3: bestimmte Tools (curl...)  |
-+-------------------------------------+
-| Layer 2: System-Pakete (apt...)     |
-+-------------------------------------+
-| Layer 1: Debian-Basis-Dateisystem   |
-+-------------------------------------+
-```
+<div class="layer-stapel">
+  <div>Layer 4: Python 3.12 installiert</div>
+  <div>Layer 3: bestimmte Tools (curl ...)</div>
+  <div>Layer 2: System-Pakete (apt ...)</div>
+  <div>Layer 1: Debian-Basis-Dateisystem</div>
+</div>
 
 Jeder Layer ist **unveränderlich** (read-only). Zusammen ergeben sie das Image.
 
@@ -118,19 +113,13 @@ Jede Zeile ist ein Layer. Die Reihenfolge entspricht den Instruktionen im Docker
 
 Wenn ein Container startet, kriegt er **einen zusätzlichen beschreibbaren Top-Layer**:
 
-```
-+----------------------------+  ← nur dieser Layer ist schreibbar
-| Writable Container-Layer   |  (exists pro Container)
-+----------------------------+
-| Image Layer 4 (read-only)  |
-+----------------------------+
-| Image Layer 3 (read-only)  |
-+----------------------------+
-| Image Layer 2 (read-only)  |
-+----------------------------+
-| Image Layer 1 (read-only)  |
-+----------------------------+
-```
+<div class="layer-stapel">
+  <div class="ls-hot">Writable Container-Layer <span class="ls-sub">der einzige schreibbare Layer – existiert pro Container</span></div>
+  <div>Image Layer 4 (read-only)</div>
+  <div>Image Layer 3 (read-only)</div>
+  <div>Image Layer 2 (read-only)</div>
+  <div>Image Layer 1 (read-only)</div>
+</div>
 
 **Was passiert beim Lesen einer Datei?**
 Docker schaut von oben nach unten, welche Version der Datei er findet und liefert diese. Im Normalfall kommt die Datei aus dem Image.

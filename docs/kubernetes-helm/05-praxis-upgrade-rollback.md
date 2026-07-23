@@ -73,16 +73,11 @@ kubectl port-forward svc/station 8080:80
 
 Öffne <http://localhost:8080>. Du siehst die blaue Seite:
 
-```text
-+-------------------------------------------+
-|                                           |
-|                 Version 1                 |   (blauer Hintergrund)
-|       Standort: Rechenzentrum Nord        |
-|                                           |
-|   Server name: station-697cc5d946-t8qr6   |
-|                                           |
-+-------------------------------------------+
-```
+<div class="app-shot app-shot--blau">
+  <p class="as-titel">Version 1</p>
+  <p class="as-zeile">Standort: Rechenzentrum Nord</p>
+  <p class="as-meta">Server name: station-697cc5d946-t8qr6</p>
+</div>
 
 Merk dir dieses Bild. Am Ende der Stunde ist es wieder da – nach einem Umweg über Grün.
 
@@ -138,16 +133,11 @@ kubectl port-forward svc/station 8080:80
 
 Lade <http://localhost:8080> neu:
 
-```text
-+-------------------------------------------+
-|                                           |
-|                 Version 2                 |   (grüner Hintergrund)
-|       Standort: Rechenzentrum Sued        |
-|                                           |
-|   Server name: station-<neuer-pod>        |
-|                                           |
-+-------------------------------------------+
-```
+<div class="app-shot app-shot--gruen">
+  <p class="as-titel">Version 2</p>
+  <p class="as-zeile">Standort: Rechenzentrum Sued</p>
+  <p class="as-meta">Server name: station-&lt;neuer-pod&gt;</p>
+</div>
 
 Und jetzt halt kurz inne. **Hast du irgendwo `kubectl rollout restart` getippt?**
 

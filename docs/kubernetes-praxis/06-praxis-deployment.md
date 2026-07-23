@@ -193,15 +193,10 @@ Das Terminal zeigt „Forwarding from 127.0.0.1:8080 -> 80" und bleibt belegt. �
 
 Du siehst eine **blaue** Seite mit großer Schrift **„Version 1"** und darunter eine Zeile **„Server name: webserver-…"** – das ist der Name des Pods, der gerade antwortet.
 
-```text
-+-------------------------------------------+
-|                                           |
-|               Version 1                   |   (blauer Hintergrund)
-|                                           |
-|      Server name: webserver-6f7c8d9b5c-2xk4p  |
-|                                           |
-+-------------------------------------------+
-```
+<div class="app-shot app-shot--blau">
+  <p class="as-titel">Version 1</p>
+  <p class="as-meta">Server name: webserver-6f7c8d9b5c-2xk4p</p>
+</div>
 
 Brauchst du nebenher weitere `kubectl`-Befehle, nimm dafür dein **zweites** Terminal – das erste bleibt für den Tunnel reserviert.
 

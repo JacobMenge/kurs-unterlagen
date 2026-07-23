@@ -196,7 +196,25 @@
   margin: 0;
 }
 
-/* Copy-Button dezent einfaerben */
+/* Copy-Button dezent einfaerben ------------------------------------------
+   Seit dem Code-Actions-Umbau in Material for MkDocs heisst der Kopier-Button
+   nicht mehr .md-clipboard, sondern .md-code__button (in einer .md-code__nav).
+   Sein Icon wird als Maske ueber das ::after-Pseudoelement gezeichnet und holt
+   seine Farbe aus background-color - NICHT aus color/currentColor. Die alte
+   .md-clipboard-Regel lief damit ins Leere: der Button fiel auf den
+   Theme-Default zurueck (Tinte auf 12 % Deckkraft), der auf dem dunklen
+   Code-Grund praktisch unsichtbar ist und wie ein Render-Glitch aussieht.
+   Deshalb faerben wir das Icon direkt am ::after ein. .md-clipboard bleibt als
+   Rueckfall fuer aeltere Material-Versionen stehen. */
+.md-typeset .highlight .md-code__button::after {
+  background-color: var(--jd-phosphor-dim);
+}
+.md-typeset .highlight .md-code__button:hover::after,
+.md-typeset .highlight .md-code__button:focus-visible::after {
+  background-color: var(--jd-phosphor);
+}
+
+/* Rueckfall fuer aeltere Material-Versionen (Button ueber currentColor) */
 .md-clipboard {
   color: var(--jd-phosphor-dim);
 }
@@ -952,7 +970,228 @@
   color: var(--jd-ink-dim);
 }
 
-/* 24) Kapselung (Encapsulation): Frame / Paket / Segment ------------------ */
+/* 24) Dokument-Karten: zwei Dokumente nebeneinander ----------------------- */
+/*
+   Fuer Gegenueberstellungen von Dokumenten (z. B. Lastenheft/Pflichtenheft):
+   zwei Karten im Grid, auf schmalen Screens untereinander. Einsatz als rohes
+   HTML im Markdown:
+     <div class="dok-paar">
+       <div class="dok">
+         <p class="dok-titel">Lastenheft <span class="dok-rolle">schreibt der Auftraggeber</span></p>
+         <ul><li>...</li></ul>
+       </div>
+       ...
+     </div>
+*/
+.md-typeset .dok-paar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.8rem;
+  margin: 1.2em 0;
+}
+.md-typeset .dok {
+  border: 1px solid var(--jd-phosphor-deep);
+  border-radius: 6px;
+  background: var(--jd-bg-card);
+  overflow: hidden;
+}
+.md-typeset .dok .dok-titel {
+  margin: 0;
+  padding: 0.5rem 0.8rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--jd-phosphor);
+  background: rgba(125, 255, 154, 0.08);
+  border-bottom: 1px solid var(--jd-phosphor-deep);
+}
+.md-typeset .dok .dok-rolle {
+  display: block;
+  margin-top: 0.15rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--jd-ink-dim);
+}
+.md-typeset .dok ul {
+  margin: 0.6rem 0.9rem 0.8rem 1.4rem;
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+.md-typeset .dok ul li {
+  margin-bottom: 0.3rem;
+}
+.md-typeset .dok ul li::marker {
+  color: var(--jd-phosphor-dim);
+}
+
+/* 25) Migrations-Zeitstrahl: ALT/NEU-Balken je Strategie ------------------ */
+/*
+   Zeigt Migrationsstrategien als Balken auf einer gedachten Zeitachse
+   (links = frueh, rechts = spaet). Einsatz als rohes HTML:
+     <div class="mig">
+       <p class="mig-titel">Big Bang ...</p>
+       <div class="mig-row">
+         <span class="mig-label">alles</span>
+         <div class="mig-bar">
+           <span class="mig-alt" style="width:48%">ALT</span>
+           <span class="mig-neu" style="width:52%">NEU</span>
+         </div>
+       </div>
+       ...
+     </div>
+   Luecken im Balken (fuer Ueberlappungen) mit <span class="mig-leer">.
+*/
+.md-typeset .mig {
+  max-width: 700px;
+  margin: 1.1em auto;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+.md-typeset .mig .mig-titel {
+  margin: 0.9rem 0 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--jd-phosphor);
+}
+.md-typeset .mig .mig-titel:first-child {
+  margin-top: 0;
+}
+.md-typeset .mig-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+.md-typeset .mig-label {
+  flex: 0 0 5.5rem;
+  text-align: right;
+  font-size: 0.66rem;
+  color: var(--jd-ink-dim);
+}
+.md-typeset .mig-bar {
+  flex: 1;
+  display: flex;
+  height: 1.3rem;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.md-typeset .mig-bar > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 0;
+}
+.md-typeset .mig-alt {
+  background: rgba(143, 164, 152, 0.18);
+  color: var(--jd-ink-dim);
+}
+.md-typeset .mig-neu {
+  background: var(--jd-phosphor);
+  color: #0e1013;
+}
+.md-typeset .mig-leer {
+  background: transparent;
+}
+.md-typeset .mig-cap {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.68rem;
+  color: var(--jd-ink-dim);
+}
+
+/* 26) Layer-Stapel: uebereinanderliegende Schichten (z. B. Image-Layer) ---- */
+/*
+   Einsatz als rohes HTML:
+     <div class="layer-stapel">
+       <div class="ls-hot">oberster, besonderer Layer <span class="ls-sub">Zusatzinfo</span></div>
+       <div>Layer 3 (read-only)</div>
+       ...
+     </div>
+   Der unterste Eintrag ist die Basis. .ls-hot hebt einen Layer hervor.
+*/
+.md-typeset .layer-stapel {
+  max-width: 430px;
+  margin: 1.1em auto;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+}
+.md-typeset .layer-stapel > div {
+  border: 1px solid var(--jd-phosphor-deep);
+  border-top: none;
+  padding: 0.45rem 0.7rem;
+  background: rgba(143, 164, 152, 0.08);
+  color: var(--jd-ink);
+  text-align: center;
+}
+.md-typeset .layer-stapel > div:first-child {
+  border-top: 1px solid var(--jd-phosphor-deep);
+  border-radius: 4px 4px 0 0;
+}
+.md-typeset .layer-stapel > div:last-child {
+  border-radius: 0 0 4px 4px;
+}
+.md-typeset .layer-stapel .ls-hot {
+  background: rgba(125, 255, 154, 0.14);
+  color: var(--jd-phosphor);
+  font-weight: 700;
+}
+.md-typeset .layer-stapel .ls-sub {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 400;
+  color: var(--jd-ink-dim);
+}
+
+/* 27) App-Vorschau: so sieht die Demo-App im Browser aus ------------------ */
+/*
+   Ersetzt ASCII-Browser-Mockups. Zeigt die Seite der Demo-App mit ihrer
+   echten Hintergrundfarbe. Einsatz:
+     <div class="app-shot app-shot--blau">
+       <p class="as-titel">Version 1</p>
+       <p class="as-zeile">Standort: Rechenzentrum Nord</p>
+       <p class="as-meta">Server name: webserver-78d767dc9-bp5wr</p>
+     </div>
+   Varianten: --blau (#2563a8), --gruen (#2e9e5b), --orange (#c2680a),
+   --hell (weisse Seite, z. B. nginx-Standard).
+*/
+.md-typeset .app-shot {
+  max-width: 460px;
+  margin: 1.1em auto;
+  padding: 1.3rem 1rem 1rem;
+  border: 1px solid var(--jd-phosphor-deep);
+  border-radius: 8px;
+  text-align: center;
+}
+.md-typeset .app-shot p {
+  margin: 0;
+}
+.md-typeset .app-shot .as-titel {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.md-typeset .app-shot .as-zeile {
+  font-size: 0.74rem;
+  opacity: 0.95;
+  margin: 0.15rem 0;
+}
+.md-typeset .app-shot .as-meta {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.64rem;
+  opacity: 0.8;
+  margin-top: 0.75rem;
+}
+.md-typeset .app-shot--blau { background: #2563a8; color: #ffffff; }
+.md-typeset .app-shot--gruen { background: #2e9e5b; color: #ffffff; }
+.md-typeset .app-shot--orange { background: #c2680a; color: #ffffff; }
+.md-typeset .app-shot--hell { background: #f5f5f5; color: #222222; }
+
+/* 28) Kapselung (Encapsulation): Frame / Paket / Segment ------------------ */
 .md-typeset .kapsel {
   max-width: 720px;
   margin: 1.1em auto 0.6em;

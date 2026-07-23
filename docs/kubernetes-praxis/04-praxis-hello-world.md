@@ -240,15 +240,10 @@ Lass dieses Terminal **offen** – solange es läuft, steht der Tunnel. Öffne i
 
 Du siehst die Hello-Seite. Oben steht **„Server name: webserver"** – das ist der Pod-Name, den du eben per `hostname` auch in der Shell gesehen hast.
 
-```text
-+-----------------------------------------+
-|              Hello World                |
-|                                         |
-|   Server name:   webserver                  |
-|   Server address: 10.244.0.8:80         |
-|   Date: ...                             |
-+-----------------------------------------+
-```
+<div class="app-shot app-shot--hell">
+  <p class="as-titel">Hello World</p>
+  <p class="as-meta">Server name: webserver<br>Server address: 10.244.0.8:80<br>Date: ...</p>
+</div>
 
 Brauchst du nebenher weitere `kubectl`-Befehle, öffne ein **zweites Terminal** – das erste bleibt für den Tunnel reserviert. Den Tunnel beendest du mit **`Ctrl+C`** im port-forward-Terminal.
 

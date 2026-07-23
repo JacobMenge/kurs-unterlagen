@@ -1,13 +1,13 @@
 ---
 title: "Start"
-description: "Kursunterlagen zur IT-Systemintegration und Vernetzung – frei verfügbares Lernmaterial von Jacob Menge: Netzwerke, Virtualisierung, Container, Betrieb, Sicherheit und mehr."
+description: "Kursunterlagen zur IT-Systemintegration und Vernetzung – frei verfügbares Lernmaterial von Jacob Menge: Netzwerke, Virtualisierung, Container, Kubernetes, Betrieb, Sicherheit und mehr."
 hide:
   - navigation
 ---
 
 # Kursunterlagen – Systemintegration & Vernetzung
 
-Willkommen. Hier findest du die Nachlese zu meinem Kurs rund um **IT-Systemintegration und Vernetzung** – von **Netzwerken** und **Virtualisierung** über **Container** und **Automatisierung** bis hin zu **Betrieb, Sicherheit, Recht und Projektarbeit**.
+Willkommen. Hier findest du die Nachlese zu meinem Kurs rund um **IT-Systemintegration und Vernetzung** – von **Netzwerken** und **Virtualisierung** über **Container** und **Kubernetes** bis hin zu **Planung, Betrieb, Sicherheit, Recht und Projektarbeit**.
 Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du hier in Ruhe nachlesen – egal, ob du während des Kurses etwas überhört hast, ob du zu Hause mitmachen willst, oder ob du später darauf zurückkommen möchtest.
 
 !!! abstract "Was diese Seite ist – und was nicht"
@@ -21,9 +21,9 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
 
 ## Themengebiete
 
-Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampel an jedem Block zeigt dir die Wichtigkeit für die Prüfung: <span class='badge badge-pruefung'>Prüfungsrelevant</span> = Kerninhalt · <span class='badge badge-vertiefung'>Vertiefung</span> = wichtig, vertieft das Verständnis · <span class='badge badge-praxis'>Praxis</span> = vor allem zum Anwenden.
+Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die Gruppen hier entsprechen genau der Navigation oben. Die kleine Ampel an jedem Block zeigt dir die Wichtigkeit für die Prüfung: <span class='badge badge-pruefung'>Prüfungsrelevant</span> = Kerninhalt · <span class='badge badge-vertiefung'>Vertiefung</span> = wichtig, vertieft das Verständnis · <span class='badge badge-praxis'>Praxis</span> = vor allem zum Anwenden.
 
-### Grundlagen & Integration
+### Grundlagen
 
 <div class="grid cards" markdown>
 
@@ -43,17 +43,17 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
 
     [:octicons-arrow-right-24: Block starten](virtualisierung/index.md)
 
--   :material-sitemap-outline:{ .lg .middle } __[Infrastruktur & Architektur](infrastruktur-planung/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
+-   :material-source-fork:{ .lg .middle } __[Git & GitHub](git/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
 
     ---
 
-    Planung und Konzeption: Anforderungen und Sollkonzept, zentrale/dezentrale Architekturen, Cloud vs. on-premise, Speicherlösungen, Ressourcen und Lizenzmodelle.
+    Versionskontrolle von den Basics bis zum Pull Request: Repository, Commits, Branches, Merge, Konflikte und Remote-Arbeit mit GitHub und GitLab. Mit Gruppen-Übung.
 
-    [:octicons-arrow-right-24: Block starten](infrastruktur-planung/index.md)
+    [:octicons-arrow-right-24: Git-Block starten](git/index.md)
 
 </div>
 
-### Container & Automatisierung
+### Container
 
 <div class="grid cards" markdown>
 
@@ -81,6 +81,14 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
 
     [:octicons-arrow-right-24: Vertiefungs-Übungen](docker-vertiefung/index.md)
 
+-   :material-puzzle-outline:{ .lg .middle } __[Praxis: Docker Escape Room](docker-escape-room/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Praxis-Wiederholung in der Gruppe:** Multi-Container-Setup manuell aufbauen, **bevor** Compose kommt. Eine 90-Minuten-Challenge mit 10 Aufgaben + Bonus.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](docker-escape-room/index.md)
+
 -   :material-file-code-outline:{ .lg .middle } __[Docker Compose](docker-compose/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
 
     ---
@@ -88,6 +96,28 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
     Multi-Container-Stacks deklarativ: `compose.yaml`, Services, Volumes, Netzwerke, Healthchecks. Praxis mit Flask + Postgres + Adminer.
 
     [:octicons-arrow-right-24: Block starten](docker-compose/index.md)
+
+-   :material-satellite-variant:{ .lg .middle } __[Praxis: Mission Control](docker-compose-mission-control/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Compose-Gruppenübung:** Vier Services (Frontend, Backend, DB, Adminer), `.env`, Healthcheck, optionaler Backend-Tausch. 90-Minuten-Mission rund um die Aurora Station.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](docker-compose-mission-control/index.md)
+
+-   :material-rocket-launch-outline:{ .lg .middle } __[Docker für Profis](docker-profi/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    Dockerfile-Best-Practices: Multi-Stage, USER, HEALTHCHECK. Image-Optimierung mit Alpine, Distroless, Trivy-Scanning.
+
+    [:octicons-arrow-right-24: Block starten](docker-profi/index.md)
+
+</div>
+
+### Kubernetes & CI/CD
+
+<div class="grid cards" markdown>
 
 -   :material-ship-wheel:{ .lg .middle } __[Orchestrierung & Verteilung](orchestrierung/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
 
@@ -97,13 +127,29 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
 
     [:octicons-arrow-right-24: Block starten](orchestrierung/index.md)
 
--   :material-rocket-launch-outline:{ .lg .middle } __[Docker für Profis](docker-profi/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+-   :material-kubernetes:{ .lg .middle } __[Kubernetes Teil 1 – Einstieg](kubernetes-praxis/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
 
     ---
 
-    Dockerfile-Best-Practices: Multi-Stage, USER, HEALTHCHECK. Image-Optimierung mit Alpine, Distroless, Trivy-Scanning.
+    **Kubernetes Hands-on von Grund auf:** Container über einen Cluster orchestrieren – Pod, Deployment, Service, Selbstheilung, Skalierung. Mit Installation für Windows/macOS/Linux und drei angeleiteten Übungen im Wechsel aus Theorie und Praxis.
 
-    [:octicons-arrow-right-24: Block starten](docker-profi/index.md)
+    [:octicons-arrow-right-24: Praxis-Block starten](kubernetes-praxis/index.md)
+
+-   :material-cog-outline:{ .lg .middle } __[Kubernetes Teil 2 – Aufbau](kubernetes-aufbau/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Betriebsreif statt nur lauffähig:** ConfigMap & Secret, Health-Probes, Requests & Limits – dieselbe Demo-App, jetzt so konfiguriert, wie sie in den Betrieb gehört.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](kubernetes-aufbau/index.md)
+
+-   :material-package-variant-closed:{ .lg .middle } __[Kubernetes Teil 3 – Helm](kubernetes-helm/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Der Abschluss des Kubernetes-Wegs:** Aus der YAML-Halde wird ein Paket. Eigenes Chart, Werte je Umgebung, Upgrade & Rollback – und fertige Charts aus dem Netz.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](kubernetes-helm/index.md)
 
 -   :material-source-branch:{ .lg .middle } __[CI/CD mit GitHub Actions](ci-cd/index.md)__ &nbsp;<span class='badge badge-vertiefung'>Vertiefung</span>
 
@@ -115,9 +161,17 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
 
 </div>
 
-### Betrieb & Sicherheit
+### Planung & Betrieb
 
 <div class="grid cards" markdown>
+
+-   :material-sitemap-outline:{ .lg .middle } __[Infrastruktur & Architektur](infrastruktur-planung/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
+
+    ---
+
+    Planung und Konzeption: Anforderungen und Sollkonzept, zentrale/dezentrale Architekturen, Cloud vs. on-premise, Speicherlösungen, Ressourcen und Lizenzmodelle. Mit zehn Übungsaufgaben samt Musterlösungen.
+
+    [:octicons-arrow-right-24: Block starten](infrastruktur-planung/index.md)
 
 -   :material-monitor-dashboard:{ .lg .middle } __[Betrieb & Verfügbarkeit](betrieb/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
 
@@ -126,6 +180,20 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
     Der Dauerbetrieb: Monitoring und Troubleshooting, Backup- und Recovery-Strategien, Hochverfügbarkeit, Betriebsdaten und Business Continuity.
 
     [:octicons-arrow-right-24: Block starten](betrieb/index.md)
+
+-   :material-chart-line:{ .lg .middle } __[Praxis: Monitoring](monitoring-praxis/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
+
+    ---
+
+    **Monitoring-Gruppenübung:** Mit Prometheus und Grafana eine Beispiel-App überwachen – Metriken, Dashboard, Alarm. Inklusive Installation für Windows/macOS/Linux und Einzelübungen.
+
+    [:octicons-arrow-right-24: Praxis-Block starten](monitoring-praxis/index.md)
+
+</div>
+
+### Sicherheit & Qualität
+
+<div class="grid cards" markdown>
 
 -   :material-shield-lock-outline:{ .lg .middle } __[IT-Sicherheit & Risiko](it-sicherheit/index.md)__ &nbsp;<span class='badge badge-pruefung'>Prüfungsrelevant</span>
 
@@ -167,55 +235,15 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die kleine Ampe
 
 </div>
 
-### Praxis & Nachschlagen
+### Nachschlagen
 
 <div class="grid cards" markdown>
-
--   :material-puzzle-outline:{ .lg .middle } __[Praxis: Docker Escape Room](docker-escape-room/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
-
-    ---
-
-    **Praxis-Wiederholung in der Gruppe:** Multi-Container-Setup manuell aufbauen, **bevor** Compose kommt. Eine 90-Minuten-Challenge mit 10 Aufgaben + Bonus.
-
-    [:octicons-arrow-right-24: Praxis-Block starten](docker-escape-room/index.md)
-
--   :material-satellite-variant:{ .lg .middle } __[Praxis: Mission Control](docker-compose-mission-control/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
-
-    ---
-
-    **Compose-Gruppenübung:** Vier Services (Frontend, Backend, DB, Adminer), `.env`, Healthcheck, optionaler Backend-Tausch. 90-Minuten-Mission rund um die Aurora Station.
-
-    [:octicons-arrow-right-24: Praxis-Block starten](docker-compose-mission-control/index.md)
-
--   :material-chart-line:{ .lg .middle } __[Praxis: Monitoring](monitoring-praxis/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
-
-    ---
-
-    **Monitoring-Gruppenübung:** Mit Prometheus und Grafana eine Beispiel-App überwachen – Metriken, Dashboard, Alarm. Inklusive Installation für Windows/macOS/Linux und Einzelübungen.
-
-    [:octicons-arrow-right-24: Praxis-Block starten](monitoring-praxis/index.md)
-
--   :material-ship-wheel:{ .lg .middle } __[Praxis: Kubernetes](kubernetes-praxis/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
-
-    ---
-
-    **Kubernetes Hands-on von Grund auf:** Container über einen Cluster orchestrieren – Pod, Deployment, Service, Selbstheilung, Skalierung. Mit Installation für Windows/macOS/Linux und drei angeleiteten Übungen im Wechsel aus Theorie und Praxis.
-
-    [:octicons-arrow-right-24: Praxis-Block starten](kubernetes-praxis/index.md)
-
--   :material-source-fork:{ .lg .middle } __[Git & GitHub](git/index.md)__ &nbsp;<span class='badge badge-praxis'>Praxis</span>
-
-    ---
-
-    Versionskontrolle von den Basics bis zum Pull Request: Repository, Commits, Branches, Merge, Konflikte und Remote-Arbeit mit GitHub und GitLab. Mit Gruppen-Übung.
-
-    [:octicons-arrow-right-24: Git-Block starten](git/index.md)
 
 -   :material-view-dashboard-outline:{ .lg .middle } __[Cheatsheets](cheatsheets/index.md)__
 
     ---
 
-    Spickzettel mit den wichtigsten **Multipass-**, **Docker-**, **Compose-** und **Git-Befehlen** in Tabellen – zum schnellen Nachschlagen während des Arbeitens.
+    Spickzettel mit den wichtigsten **Multipass-**, **Docker-**, **Compose-**, **Git-**, **GitHub-Actions-** und **Helm-Befehlen** in Tabellen – zum schnellen Nachschlagen während des Arbeitens.
 
     [:octicons-arrow-right-24: Zu den Spickzetteln](cheatsheets/index.md)
 
@@ -269,4 +297,4 @@ Diese Seite ist mit [MkDocs](https://www.mkdocs.org/) und [Material for MkDocs](
 Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://jacob-decoded.de).
 
 !!! note "Arbeitsstand"
-    Diese Unterlagen wachsen mit dem Kurs. Einige Blöcke sind bereits ausführlich ausgearbeitet (z. B. Netzwerke, Virtualisierung, Docker), andere sind als **Platzhalter** angelegt und werden Schritt für Schritt gefüllt – du erkennst sie an einem Hinweis oben auf der jeweiligen Seite. Der [Fahrplan](fahrplan.md) zeigt dir jederzeit, welche Themen schon bereitstehen und wie alles zusammenpasst.
+    Diese Unterlagen wachsen mit dem Kurs. Einige Blöcke sind bereits ausführlich ausgearbeitet (z. B. Netzwerke, Virtualisierung, Docker, Kubernetes, Infrastruktur & Architektur), andere sind als **Platzhalter** angelegt und werden Schritt für Schritt gefüllt – du erkennst sie an einem Hinweis oben auf der jeweiligen Seite. Der [Fahrplan](fahrplan.md) zeigt dir jederzeit, welche Themen schon bereitstehen und wie alles zusammenpasst.

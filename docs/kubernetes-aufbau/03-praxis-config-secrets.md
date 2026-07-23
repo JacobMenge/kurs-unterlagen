@@ -128,16 +128,11 @@ kubectl port-forward deployment/webserver 8080:80
 
 Öffne <http://localhost:8080>. Du siehst die blaue Seite – und darunter jetzt die neue Zeile mit dem **Standort** aus der ConfigMap:
 
-```text
-+-------------------------------------------+
-|                                           |
-|               Version 1                   |   (blauer Hintergrund)
-|         Standort: Rechenzentrum Nord      |
-|                                           |
-|   Server name: webserver-78d767dc9-bp5wr  |
-|                                           |
-+-------------------------------------------+
-```
+<div class="app-shot app-shot--blau">
+  <p class="as-titel">Version 1</p>
+  <p class="as-zeile">Standort: Rechenzentrum Nord</p>
+  <p class="as-meta">Server name: webserver-78d767dc9-bp5wr</p>
+</div>
 
 Genau dieser Standort-Text kommt aus der ConfigMap – gleich änderst du ihn, ohne das Image anzufassen.
 

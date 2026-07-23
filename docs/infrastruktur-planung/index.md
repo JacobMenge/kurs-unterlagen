@@ -13,17 +13,15 @@ In diesem Block schauen wir uns das **gedankliche Fundament** an: Wie ermittelst
     - wie du aus einer **Bestandsanalyse** und einem **Sollkonzept** einen sauberen Anforderungskatalog ableitest – inklusive Lasten- und Pflichtenheft
     - welche **Architekturen** es gibt (zentral, dezentral, on-premise, Cloud, hybrid) und wann welche passt
     - wie du **Speicherlösungen** dimensionierst und DAS, NAS und SAN unterscheidest
-    - wie du **Ressourcen** in vier Dimensionen planst: technisch, personell, zeitlich, finanziell
+    - wie du **Ressourcen** in vier Dimensionen planst – technisch, personell, zeitlich, finanziell – und mit welcher **Migrationsstrategie** du vom Ist zum Soll kommst
     - welche **Lizenzmodelle** es gibt und worauf du bei Auswahl, Kosten und Support achtest
+    - und am Ende wendest du alles an: **zehn Übungsaufgaben** an einem durchgehenden Szenario, jede mit ausführlicher Musterlösung
 
 ---
 
 ## Wie wichtig ist dieser Block?
 
 <span class='badge badge-pruefung'>Prüfungsrelevant</span> &nbsp; Dieser Block gehört zum **prüfungsrelevanten Kern**. Planung und Architektur sind der Startpunkt fast jeder Aufgabenstellung – wer hier sauber denkt, baut später stabilere Systeme.
-
-!!! note "Status: Platzhalter <span class='badge badge-wip'>in Arbeit</span>"
-    Die Struktur dieses Blocks steht, die einzelnen Seiten werden Schritt für Schritt mit Inhalten gefüllt. Du siehst hier schon, **welche Themen kommen** und **wie sie zusammenhängen** – damit du den roten Faden kennst, bevor die Details folgen.
 
 ---
 
@@ -32,10 +30,11 @@ In diesem Block schauen wir uns das **gedankliche Fundament** an: Wie ermittelst
 | Seite | Inhalt | Relevanz |
 |-------|--------|----------|
 | [Anforderungen & Sollkonzept](anforderungen-und-sollkonzept.md) | Bestandsanalyse, Sollkonzeption, Anforderungskatalog, Lasten- und Pflichtenheft, CMDB | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
-| [Architekturen: zentral, dezentral, Cloud](architekturen.md) | Zentral vs. dezentral, on-premise vs. Cloud, hybrid, private vs. public, Homogenisierung, IoT-Kopplung | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
+| [Architekturen: zentral, dezentral, Cloud](architekturen.md) | Zentral vs. dezentral, on-premise vs. Cloud, hybrid, IaaS/PaaS/SaaS, Private vs. Public Cloud, Homogenisierung, IoT-Kopplung | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
 | [Speicherlösungen](speicherloesungen.md) | Kapazitätsplanung, DAS/NAS/SAN, RAID und Redundanz, Speicher in virtualisierten Umgebungen | <span class='badge badge-vertiefung'>Vertiefung</span> |
-| [Ressourcen planen](ressourcen-planen.md) | Technische, personelle, zeitliche und finanzielle Ressourcen, Grobschätzung, Bewertung | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Ressourcen planen](ressourcen-planen.md) | Technische, personelle, zeitliche und finanzielle Ressourcen, Grobschätzung, Bewertung, Migrationsstrategien, CapEx/OpEx und TCO | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Lizenzmodelle](lizenzmodelle.md) | Lizenzarten, Erfassung, Kosten, Auswahl, Service & Support, rechtliche Aspekte | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übungsaufgaben](uebungen.md) | Zehn Denk- und Transferaufgaben an einem durchgehenden Szenario, jede mit ausführlicher Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 
 ---
 
@@ -47,10 +46,11 @@ flowchart LR
   B --> C["Speicher-<br/>lösungen"]
   C --> D["Ressourcen<br/>planen"]
   D --> E["Lizenz-<br/>modelle"]
+  E --> F["Übungs-<br/>aufgaben"]
   E -. fließt zurück ins .-> A
 ```
 
-Wir bauen das Bild **vom Bedarf zur Umsetzbarkeit**: erst klären, was gebraucht wird (Anforderungen), dann die passende Architektur wählen, danach Speicher dimensionieren, anschließend die nötigen Ressourcen einplanen und am Ende klären, welche Lizenzen das Ganze rechtlich und finanziell tragen. Was du bei Lizenzen und Ressourcen lernst, fließt wieder ins Sollkonzept zurück – Planung ist ein Kreislauf, kein Einbahnweg.
+Wir bauen das Bild **vom Bedarf zur Umsetzbarkeit**: erst klären, was gebraucht wird (Anforderungen), dann die passende Architektur wählen, danach Speicher dimensionieren, anschließend die nötigen Ressourcen einplanen und am Ende klären, welche Lizenzen das Ganze rechtlich und finanziell tragen. Was du bei Lizenzen und Ressourcen lernst, fließt wieder ins Sollkonzept zurück – Planung ist ein Kreislauf, kein Einbahnweg. Und ganz am Ende prüfst du die ganze Kette an einem durchgehenden Praxisszenario: den [Übungsaufgaben](uebungen.md) zur TransRegio Spedition.
 
 ---
 
@@ -71,6 +71,6 @@ Wir bauen das Bild **vom Bedarf zur Umsetzbarkeit**: erst klären, was gebraucht
 
 ## Leitfrage
 
-> **Ein Kunde sagt „Wir brauchen eine neue IT“ – wie komme ich strukturiert von diesem Satz zu einem belastbaren Plan, der Architektur, Speicher, Ressourcen und Lizenzen abdeckt?**
+> **Ein Kunde sagt „Wir brauchen eine neue IT" – wie komme ich strukturiert von diesem Satz zu einem belastbaren Plan, der Architektur, Speicher, Ressourcen und Lizenzen abdeckt?**
 
 Wer diese Frage methodisch beantwortet – erst der Bedarf, dann die Lösung – plant wie eine erfahrene Fachkraft, statt drauflos zu basteln.
