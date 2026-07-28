@@ -208,7 +208,7 @@ Voll ausgeschrieben lautet der Name `webserver.default.svc.cluster.local` – da
   <rect x="340" y="26" width="150" height="34" rx="6" fill="rgba(125,255,154,0.04)" stroke="#56c374" stroke-width="2"/>
   <text x="415" y="48" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13">cluster.local</text>
 
-  <!-- Fuehrungslinien + Erklaerungen -->
+  <!-- Führungslinien + Erklärungen -->
   <line x1="79" y1="60" x2="79" y2="86" stroke="#8fa498" stroke-width="1"/>
   <text x="79" y="102" text-anchor="middle" fill="#8fa498" font-size="11">Name des</text>
   <text x="79" y="116" text-anchor="middle" fill="#8fa498" font-size="11">Service</text>

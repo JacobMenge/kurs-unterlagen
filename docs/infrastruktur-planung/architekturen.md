@@ -32,12 +32,12 @@ Das konkrete Bild dazu: Ein **zentraler Fileserver** am Hauptsitz ist leicht zu 
 
 ```mermaid
 flowchart TB
-  subgraph Z["zentral - alles haengt am Hauptsitz"]
+  subgraph Z["zentral - alles hängt am Hauptsitz"]
     direction TB
     ZN1["Niederlassung A"] --> ZH["Serverraum Hauptsitz<br/>Dateien, Mail, Anwendung"]
     ZN2["Niederlassung B"] --> ZH
   end
-  subgraph DZ["dezentral - jeder Standort fuer sich"]
+  subgraph DZ["dezentral - jeder Standort für sich"]
     direction TB
     DH["Hauptsitz<br/>eigener Server"]
     DN1["Niederlassung A<br/>eigener Server"]

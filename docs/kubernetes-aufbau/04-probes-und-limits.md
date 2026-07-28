@@ -102,7 +102,7 @@ Jeder Node hat endlich viel Speicher und CPU. Ohne Regeln nimmt sich jeder Conta
 ```
 
 <figure>
-<svg viewBox="0 0 620 190" width="100%" height="190" role="img" aria-label="Ein Balken zeigt request als reservierte Grundmenge und limit als harte Obergrenze; darueber ist OOMKilled">
+<svg viewBox="0 0 620 190" width="100%" height="190" role="img" aria-label="Ein Balken zeigt request als reservierte Grundmenge und limit als harte Obergrenze; darüber ist OOMKilled">
   <text x="310" y="26" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">Speicherverbrauch eines Containers</text>
   <!-- Balkenrahmen -->
   <rect x="70" y="50" width="480" height="46" rx="4" fill="none" stroke="#3a4658" stroke-width="1"/>
@@ -117,7 +117,7 @@ Jeder Node hat endlich viel Speicher und CPU. Ohne Regeln nimmt sich jeder Conta
   <line x1="460" y1="42" x2="460" y2="104" stroke="#e0b35c" stroke-width="2"/>
   <text x="460" y="120" text-anchor="middle" fill="#e0b35c" font-family="JetBrains Mono, monospace" font-size="12">limit 128Mi</text>
   <text x="460" y="136" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="10">harte Obergrenze</text>
-  <!-- ueber limit -->
+  <!-- über limit -->
   <rect x="460" y="50" width="90" height="46" fill="rgba(224,108,108,0.18)"/>
   <text x="505" y="78" text-anchor="middle" fill="#e06c6c" font-family="system-ui, sans-serif" font-size="12" font-weight="700">OOMKilled</text>
   <text x="310" y="168" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Speicher über das Limit → Container wird beendet. CPU über das Limit → nur gebremst (throttling).</text>

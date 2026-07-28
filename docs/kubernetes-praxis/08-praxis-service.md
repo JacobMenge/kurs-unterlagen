@@ -405,7 +405,7 @@ Lust auf einen sichtbaren Abschluss? Dann machen wir das Load-Balancing jetzt **
 Das ist genau die farbige Demo-App aus [Praxis 2](06-praxis-deployment.md), nur mit einem Dreh: Statt eine Version durch die nächste zu **ersetzen**, laufen blau und grün **gleichzeitig**. Diese Übung ist ein optionaler Bonus. Dein laufendes `webserver` fasst sie nicht an, sie räumt sich am Ende selbst wieder weg.
 
 <figure>
-<svg viewBox="0 0 600 240" width="100%" height="240" role="img" aria-label="Ein Service namens bunt verteilt Anfragen auf einen blauen und einen gruenen Pod, dargestellt als zwei farbige Browserfenster">
+<svg viewBox="0 0 600 240" width="100%" height="240" role="img" aria-label="Ein Service namens bunt verteilt Anfragen auf einen blauen und einen grünen Pod, dargestellt als zwei farbige Browserfenster">
   <!-- Service -->
   <rect x="30" y="92" width="140" height="56" rx="8" fill="rgba(125,255,154,0.1)" stroke="#7dff9a" stroke-width="2.5"/>
   <text x="100" y="116" text-anchor="middle" fill="#7dff9a" font-family="JetBrains Mono, monospace" font-size="13" font-weight="bold">Service "bunt"</text>
@@ -420,7 +420,7 @@ Das ist genau die farbige Demo-App aus [Praxis 2](06-praxis-deployment.md), nur 
   <text x="465" y="78" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="24" font-weight="800">BLAU</text>
   <text x="465" y="97" text-anchor="middle" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="9" opacity="0.9">Server name: bunt-blau-…</text>
 
-  <!-- gruenes Fenster -->
+  <!-- grünes Fenster -->
   <rect x="360" y="132" width="210" height="88" rx="8" fill="#2e9e5b" stroke="#1f6e40" stroke-width="1"/>
   <rect x="360" y="132" width="210" height="22" rx="8" fill="#1f6e40"/>
   <circle cx="378" cy="143" r="3.5" fill="#ffffff" opacity="0.6"/>

@@ -10,7 +10,7 @@ In [Praxis 1](04-praxis-hello-world.md) hast du einen einzelnen Pod gestartet �
 Damit du dabei nicht nur Befehle tippst, sondern den Effekt mit **eigenen Augen** siehst, nehmen wir in dieser Praxis eine kleine **farbige Demo-App**. Jede Seite zeigt dir zwei Dinge: groß die **Version** und darunter den **Namen des Pods**, der gerade geantwortet hat. **Version 1 ist blau.** Wenn du später eine neue Version ausrollst, wird die Seite **grün** – du siehst den Wechsel also sofort, ganz ohne Logs zu lesen.
 
 <figure>
-<svg viewBox="0 0 640 250" width="100%" height="250" role="img" aria-label="Die Demo-App in zwei Versionen: links die blaue Version 1, rechts die gruene Version 2, dazwischen der Rolling Update">
+<svg viewBox="0 0 640 250" width="100%" height="250" role="img" aria-label="Die Demo-App in zwei Versionen: links die blaue Version 1, rechts die grüne Version 2, dazwischen der Rolling Update">
   <!-- Fenster links: Version 1 (blau) -->
   <rect x="30" y="44" width="240" height="150" rx="8" fill="#2563a8" stroke="#1b4a82" stroke-width="1"/>
   <rect x="30" y="44" width="240" height="26" rx="8" fill="#1b4a82"/>
@@ -25,7 +25,7 @@ Damit du dabei nicht nur Befehle tippst, sondern den Effekt mit **eigenen Augen*
   <text x="320" y="138" text-anchor="middle" fill="#8fa498" font-family="JetBrains Mono, monospace" font-size="10">Rolling</text>
   <text x="320" y="151" text-anchor="middle" fill="#8fa498" font-family="JetBrains Mono, monospace" font-size="10">Update</text>
 
-  <!-- Fenster rechts: Version 2 (gruen) -->
+  <!-- Fenster rechts: Version 2 (grün) -->
   <rect x="370" y="44" width="240" height="150" rx="8" fill="#2e9e5b" stroke="#1f6e40" stroke-width="1"/>
   <rect x="370" y="44" width="240" height="26" rx="8" fill="#1f6e40"/>
   <circle cx="388" cy="57" r="4" fill="#ffffff" opacity="0.6"/>
