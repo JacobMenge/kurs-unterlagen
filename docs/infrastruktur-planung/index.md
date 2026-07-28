@@ -15,7 +15,8 @@ In diesem Block schauen wir uns das **gedankliche Fundament** an: Wie ermittelst
     - wie du **Speicherlösungen** dimensionierst und DAS, NAS und SAN unterscheidest
     - wie du **Ressourcen** in vier Dimensionen planst – technisch, personell, zeitlich, finanziell – und mit welcher **Migrationsstrategie** du vom Ist zum Soll kommst
     - welche **Lizenzmodelle** es gibt und worauf du bei Auswahl, Kosten und Support achtest
-    - und am Ende wendest du alles an: **zehn Übungsaufgaben** an einem durchgehenden Szenario, jede mit ausführlicher Musterlösung
+    - dazu zu **jedem einzelnen Themenblock** ein eigener Aufgabensatz mit acht bis neun Übungen, jede mit ausführlicher Musterlösung
+    - und am Ende wendest du alles zusammen an: **zehn Übungsaufgaben** an einem durchgehenden Szenario
 
 ---
 
@@ -27,13 +28,20 @@ In diesem Block schauen wir uns das **gedankliche Fundament** an: Wie ermittelst
 
 ## Seiten in diesem Block
 
+Auf jede Theorieseite folgt direkt der passende Aufgabensatz – du kannst also lesen und sofort üben, ohne bis zum Ende des Blocks zu warten.
+
 | Seite | Inhalt | Relevanz |
 |-------|--------|----------|
 | [Anforderungen & Sollkonzept](anforderungen-und-sollkonzept.md) | Bestandsanalyse, Sollkonzeption, Anforderungskatalog, Lasten- und Pflichtenheft, CMDB | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
+| [Übungen: Anforderungen & Sollkonzept](uebungen-anforderungen.md) | Acht Einzelaufgaben zu genau diesem Themenblock, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 | [Architekturen: zentral, dezentral, Cloud](architekturen.md) | Zentral vs. dezentral, on-premise vs. Cloud, hybrid, IaaS/PaaS/SaaS, Private vs. Public Cloud, Homogenisierung, IoT-Kopplung | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
+| [Übungen: Architekturen](uebungen-architekturen.md) | Neun Einzelaufgaben zu genau diesem Themenblock, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 | [Speicherlösungen](speicherloesungen.md) | Kapazitätsplanung, DAS/NAS/SAN, RAID und Redundanz, Speicher in virtualisierten Umgebungen | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übungen: Speicherlösungen](uebungen-speicherloesungen.md) | Acht Einzelaufgaben zu genau diesem Themenblock, überwiegend Rechenaufgaben | <span class='badge badge-praxis'>Aufgaben</span> |
 | [Ressourcen planen](ressourcen-planen.md) | Technische, personelle, zeitliche und finanzielle Ressourcen, Grobschätzung, Bewertung, Migrationsstrategien, CapEx/OpEx und TCO | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übungen: Ressourcen planen](uebungen-ressourcen.md) | Acht Einzelaufgaben zu genau diesem Themenblock, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 | [Lizenzmodelle](lizenzmodelle.md) | Lizenzarten, Erfassung, Kosten, Auswahl, Service & Support, rechtliche Aspekte | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md) | Acht Einzelaufgaben zu genau diesem Themenblock, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 | [Übungsaufgaben](uebungen.md) | Zehn Denk- und Transferaufgaben an einem durchgehenden Szenario, jede mit ausführlicher Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 
 ---
@@ -51,6 +59,11 @@ flowchart LR
 ```
 
 Wir bauen das Bild **vom Bedarf zur Umsetzbarkeit**: erst klären, was gebraucht wird (Anforderungen), dann die passende Architektur wählen, danach Speicher dimensionieren, anschließend die nötigen Ressourcen einplanen und am Ende klären, welche Lizenzen das Ganze rechtlich und finanziell tragen. Was du bei Lizenzen und Ressourcen lernst, fließt wieder ins Sollkonzept zurück – Planung ist ein Kreislauf, kein Einbahnweg. Und ganz am Ende prüfst du die ganze Kette an einem durchgehenden Praxisszenario: den [Übungsaufgaben](uebungen.md) zur TransRegio Spedition.
+
+An jeder der fünf Stationen liegt ein eigener Aufgabensatz bereit. Es gibt also **zwei Sorten Übung** in diesem Block, mit unterschiedlichem Zweck:
+
+- die **Aufgabensätze je Themenblock** – kurze Einzelfälle, jeder auf genau ein Thema zugeschnitten, mit wechselnden Betrieben. Sie sind zum Festigen direkt nach dem Lesen gedacht und lassen sich einzeln bearbeiten.
+- die **großen Übungsaufgaben** am Ende – ein durchgehendes Szenario, in dem alle fünf Themen zusammenlaufen und die Entscheidungen aufeinander aufbauen. Sie sind der Transfer-Teil.
 
 ---
 

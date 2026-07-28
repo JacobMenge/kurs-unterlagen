@@ -174,5 +174,10 @@ Zum Abschluss die Punkte, die du in jedem Lizenzvertrag prüfen solltest – hie
 
 ---
 
+!!! example "Jetzt üben"
+    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md)** – acht Einzelaufgaben von der günstigsten Zählweise über den Break-even zwischen Kauf und Abo bis zu Open-Source-Pflichten, Nutzwertanalyse und den Lücken in einem realistischen Vertragsangebot, jede mit ausführlicher Musterlösung.
+
+---
+
 !!! tip "Verbindung zu Recht & Organisation"
     Lizenzen sind Verträge – und Verträge haben mehr Stellschrauben als Laufzeit und Metrik. Haftung, Gewährleistung, Kündigungsfristen und die Vertragsarten dahinter vertieft die Seite [IT-Verträge](../recht-organisation/it-vertraege.md). Wie die Lizenzkosten in die Gesamtplanung einfließen, hast du auf [Ressourcen planen](ressourcen-planen.md) gesehen – damit ist der Bogen dieses Blocks geschlossen: vom Bedarf über die Architektur bis zu den Rechten, das Ganze zu betreiben.

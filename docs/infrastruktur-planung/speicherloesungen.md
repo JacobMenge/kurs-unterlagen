@@ -174,5 +174,10 @@ Das klingt unbequemer als ein Dateisystem – hat aber einen entscheidenden Vort
 
 ---
 
+!!! example "Jetzt üben"
+    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Speicherlösungen](uebungen-speicherloesungen.md)** – acht Einzelaufgaben, überwiegend Rechenaufgaben: Kapazität über den Planungshorizont, Netto gegen Brutto beim RAID, die Wahl des Levels, Überbuchung beim Thin Provisioning und der Einsatzbereich von Objektspeicher. Jede mit ausführlicher Musterlösung.
+
+---
+
 !!! tip "Verbindung zu Ressourcen & Virtualisierung"
     Die Kapazitätsrechnung von hier ist ein Baustein der größeren Planungsfrage: Was kostet das alles – an Technik, Personal, Zeit und Geld? Genau da macht [Ressourcen planen](ressourcen-planen.md) weiter. Wie VMs, Hypervisoren und Container die Umgebung bilden, die sich den gemeinsamen Speicher teilt, vertieft der Block [Virtualisierung](../virtualisierung/index.md).

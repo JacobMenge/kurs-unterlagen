@@ -174,5 +174,10 @@ Ein Ausblick, der dir aus dem Kurs vertraut vorkommen dürfte: Werkzeuge wie **G
 
 ---
 
+!!! example "Jetzt üben"
+    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Anforderungen & Sollkonzept](uebungen-anforderungen.md)** – acht Einzelaufgaben von den Quellen der Bestandsanalyse über messbare Anforderungen und die Verfügbarkeitsrechnung bis zur Ausfall-Frage an die CMDB, jede mit ausführlicher Musterlösung.
+
+---
+
 !!! tip "Verbindung zur Architektur"
     Steht das Sollkonzept, geht es an die passende Bauform: zentral oder dezentral, eigenes Rechenzentrum oder Cloud – oder ein Mix. Wie du aus den Anforderungen eine konkrete Architektur ableitest, liest du auf der nächsten Seite: [Architekturen: zentral, dezentral, Cloud](architekturen.md).

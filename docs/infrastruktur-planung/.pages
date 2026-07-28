@@ -2,8 +2,13 @@ title: "Infrastruktur & Architektur"
 nav:
   - "Überblick": index.md
   - "Anforderungen & Sollkonzept": anforderungen-und-sollkonzept.md
+  - "Übungen: Anforderungen & Sollkonzept": uebungen-anforderungen.md
   - "Architekturen: zentral, dezentral, Cloud": architekturen.md
+  - "Übungen: Architekturen": uebungen-architekturen.md
   - "Speicherlösungen": speicherloesungen.md
+  - "Übungen: Speicherlösungen": uebungen-speicherloesungen.md
   - "Ressourcen planen": ressourcen-planen.md
+  - "Übungen: Ressourcen planen": uebungen-ressourcen.md
   - "Lizenzmodelle": lizenzmodelle.md
+  - "Übungen: Lizenzmodelle": uebungen-lizenzmodelle.md
   - "Übungsaufgaben": uebungen.md

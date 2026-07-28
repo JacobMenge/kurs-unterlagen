@@ -200,5 +200,10 @@ Wer diese Kopplung plant, plant also nicht einfach „noch ein Netzwerk-Segment"
 
 ---
 
+!!! example "Jetzt üben"
+    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Architekturen](uebungen-architekturen.md)** – neun Einzelaufgaben von der Zentral-dezentral-Abwägung über IaaS/PaaS/SaaS und die Verantwortungstabelle bis zur Kopplung von Office-IT und Maschinenhalle, jede mit ausführlicher Musterlösung.
+
+---
+
 !!! tip "Verbindung zu den Speicherlösungen"
     Steht die Architektur, folgt die nächste konkrete Frage: Wo liegen die Daten physisch und wie sind sie angebunden? Genau da geht es auf der Seite [Speicherlösungen](speicherloesungen.md) weiter – mit DAS, NAS, SAN und der Frage, wie viel Kapazität du eigentlich einplanen musst. Und wenn du wissen willst, mit welcher Technik on-premise-Server viele Systeme auf wenig Blech bündeln, lohnt der Blick in den Block [Virtualisierung](../virtualisierung/index.md).

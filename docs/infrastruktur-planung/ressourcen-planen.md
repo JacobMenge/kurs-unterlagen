@@ -193,5 +193,10 @@ Erst auf TCO-Ebene werden on-premise und Cloud überhaupt vergleichbar: Die Clou
 
 ---
 
+!!! example "Jetzt üben"
+    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Ressourcen planen](uebungen-ressourcen.md)** – acht Einzelaufgaben von den vier Dimensionen über Dreipunktschätzung und Qualifikationsmatrix bis zum Rückfallplan und einer TCO-Rechnung über fünf Jahre, jede mit ausführlicher Musterlösung.
+
+---
+
 !!! tip "Verbindung zu den Lizenzmodellen"
     Ein Kostenblock fehlt in dieser Rechnung noch – oft ist er einer der größten: Software-Lizenzen. Ob pro Gerät, pro Nutzer oder als Abo lizenziert wird, entscheidet mit darüber, ob deine Kosten CapEx oder OpEx sind. Genau da macht [Lizenzmodelle](lizenzmodelle.md) weiter. Und wie du Risiken – auch Ressourcen-Risiken – systematisch bewertest, vertieft [Risikomanagement](../it-sicherheit/risikomanagement.md).
