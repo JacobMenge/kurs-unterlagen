@@ -187,15 +187,43 @@ Die Modelle der letzten Abschnitte sind leichter zu behalten, wenn Namen daran h
 
 Bis hierhin klang eine Lizenz nach etwas, das man einkauft. In modernen Systemen entsteht der weit größere Teil der Lizenzpflichten aber gar nicht im Einkauf, sondern beim Bauen und Betreiben. Denn keine Anwendung steht mehr allein: Sie sitzt auf einem Stapel fremder Software – und **jede Schicht bringt ihre eigene Lizenz mit**.
 
-```mermaid
-flowchart TB
-  E["5 &nbsp;Eigener Code"] --> L["4 &nbsp;Bibliotheken & Pakete"]
-  L --> F["3 &nbsp;Frameworks"]
-  F --> O["2 &nbsp;Betriebssystem / Basis-Image"]
-  O --> C["1 &nbsp;Cloud-Plattform"]
-```
+<svg viewBox="0 0 720 372" width="100%" height="372" role="img" aria-label="Ein Turm aus fünf gestapelten Ebenen: unten die Cloud-Plattform als breitestes Fundament, darüber Betriebssystem und Basis-Image, darüber Frameworks, darüber Bibliotheken und Pakete, ganz oben der eigene Code. Jede Ebene trägt die darüberliegende und bringt eine eigene Lizenz mit.">
+  <!-- Traegt-Pfeil links -->
+  <line x1="54" y1="318" x2="54" y2="54" stroke="#56c374" stroke-width="2"/>
+  <polygon points="54,42 48,56 60,56" fill="#56c374"/>
+  <text transform="rotate(-90 32 186)" x="32" y="186" text-anchor="middle" fill="#56c374" font-family="system-ui, sans-serif" font-size="12">trägt die Ebene darüber</text>
 
-Von unten nach oben gelesen: Die Cloud-Plattform trägt das Betriebssystem, darauf sitzt das Framework, darauf die Bibliotheken, ganz oben der eigene Code. Und für jede Ebene gilt: Sie hat eine eigene Lizenz, sie kann jederzeit aktualisiert werden, sie kann kompromittiert werden – und sie kann ihre Lizenzbedingungen ändern.
+  <!-- Ebene 5: Eigener Code -->
+  <rect x="175" y="44" width="230" height="52" rx="5" fill="rgba(125,255,154,0.07)" stroke="#56c374" stroke-width="2"/>
+  <text x="290" y="76" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">5</tspan><tspan fill="#e2ece6" dx="10">Eigener Code</tspan></text>
+  <text x="425" y="76" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">eigene Lizenz – passt sie nach unten?</text>
+
+  <!-- Ebene 4: Bibliotheken -->
+  <rect x="155" y="100" width="270" height="52" rx="5" fill="rgba(125,255,154,0.09)" stroke="#56c374" stroke-width="2"/>
+  <text x="290" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">4</tspan><tspan fill="#e2ece6" dx="10">Bibliotheken &amp; Pakete</tspan></text>
+  <text x="445" y="132" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">hunderte Lizenzen auf einmal</text>
+
+  <!-- Ebene 3: Frameworks -->
+  <rect x="135" y="156" width="310" height="52" rx="5" fill="rgba(125,255,154,0.11)" stroke="#56c374" stroke-width="2"/>
+  <text x="290" y="188" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">3</tspan><tspan fill="#e2ece6" dx="10">Frameworks</tspan></text>
+  <text x="465" y="188" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Lizenz kann wechseln</text>
+
+  <!-- Ebene 2: Betriebssystem -->
+  <rect x="115" y="212" width="350" height="52" rx="5" fill="rgba(125,255,154,0.13)" stroke="#56c374" stroke-width="2"/>
+  <text x="290" y="244" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">2</tspan><tspan fill="#e2ece6" dx="10">Betriebssystem / Basis-Image</tspan></text>
+  <text x="485" y="244" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">lizenzpflichtig?</text>
+
+  <!-- Ebene 1: Cloud-Plattform -->
+  <rect x="95" y="268" width="390" height="52" rx="5" fill="rgba(125,255,154,0.16)" stroke="#7dff9a" stroke-width="2"/>
+  <text x="290" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">1</tspan><tspan fill="#e2ece6" dx="10">Cloud-Plattform</tspan></text>
+  <text x="505" y="300" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">eingepreist?</text>
+
+  <!-- Fundamentplatte -->
+  <rect x="80" y="324" width="420" height="12" rx="3" fill="rgba(86,195,116,0.30)" stroke="#56c374" stroke-width="1"/>
+  <text x="290" y="358" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Jede Ebene bringt ihre eigene Lizenz mit – und kann sie jederzeit ändern.</text>
+</svg>
+
+Von unten nach oben gebaut: Die Cloud-Plattform trägt das Betriebssystem, darauf sitzt das Framework, darauf die Bibliotheken, ganz oben der eigene Code. Jede Ebene hält die darüberliegende – und für jede gilt dasselbe: Sie hat eine eigene Lizenz, sie kann jederzeit aktualisiert werden, sie kann kompromittiert werden. Und sie kann ihre Lizenzbedingungen ändern, ohne dass oben jemand gefragt wird.
 
 | Ebene | Die Lizenzfrage | Das Risiko daneben |
 |---|---|---|
