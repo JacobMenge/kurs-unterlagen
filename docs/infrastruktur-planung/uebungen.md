@@ -502,9 +502,514 @@ Dazu drei Arbeitsaufträge:
 
 ---
 
+### Aufgabe 11 – Reicht die Leitung?
+
+!!! info "Worum es geht"
+    - Den **Bandbreitenbedarf** einer geplanten Cloud-Nutzung ausrechnen und gegen die vorhandene Anbindung halten
+    - Mit der **Spitzenlast** rechnen statt mit dem Durchschnitt – und „reicht rechnerisch" von „reicht" unterscheiden
+    - Erkennen, dass bei SaaS neben der Bandbreite **Verfügbarkeit und Latenz** über die Tauglichkeit entscheiden
+    - Theorie dazu: [Anforderungen & Sollkonzept](anforderungen-und-sollkonzept.md)
+
+Die Richtung steht: TransPlan kommt als SaaS-Variante, die Dateiablage wandert in die Cloud. Damit läuft künftig der gesamte Arbeitsalltag über die Internetleitung – heute **50 Mbit/s** am Hauptsitz und je **16 Mbit/s** in den Außenstellen. Bevor jemand einen Vertrag unterschreibt, rechnest du nach. Das Systemhaus liefert dafür Faustwerte:
+
+| Datenstrom | Bedarf |
+|---|---|
+| TransPlan-Sitzung im Browser | **0,5 Mbit/s** je Arbeitsplatz mit offener TransPlan-Sitzung |
+| Kartenansicht mit Live-Positionen | zusätzlich **1,5 Mbit/s** je Arbeitsplatz mit geöffneter Karte |
+| Telematik-Abgleich in die Disposition | **2,0 Mbit/s** dauerhaft bei 90 Lkw – nur am Hauptsitz |
+| Mail, Kalender, Dateiablage aus der Cloud | **0,3 Mbit/s** je gleichzeitig online arbeitendem Mitarbeiter |
+| nächtliche Sicherung in die Cloud | **20 Mbit/s**, solange sie läuft |
+
+Die Spitze liegt montags zwischen 7 und 9 Uhr. Dann sind am **Hauptsitz 73 der 90 Mitarbeiter** gleichzeitig online – Mail, Kalender, Dateiablage. Eine TransPlan-Sitzung haben davon nur die **18 Disponenten** offen, **6** von ihnen zusätzlich die Kartenansicht. In **Dortmund** (28 Mitarbeiter) sind zur selben Zeit **25 gleichzeitig online**, darunter **5 Disponenten** mit TransPlan-Sitzung, davon **2** mit Karte.
+
+1. **Rechne den Spitzenbedarf** für den Hauptsitz und für Dortmund aus, halte ihn gegen die vorhandenen 50 bzw. 16 Mbit/s und beantworte in einem Satz: reicht es?
+2. **Rechne die Lage nach der Übernahme** durch. Von den 60 neuen Mitarbeitern sitzen 45 am vierten Standort mit eigener Anbindung, 15 kommen an den Hauptsitz. Der Fuhrpark wächst auf **130 Lkw**, der Telematik-Strom proportional mit. Rechne am Hauptsitz mit **85 gleichzeitig online arbeitenden Mitarbeitern**, darunter **22 Disponenten** mit TransPlan-Sitzung, davon **8** mit Kartenansicht.
+3. **Leite vier Maßnahmen ab.** Sag zu jeder, welches Problem sie löst – und ob sie hilft, wenn die Leitung komplett ausfällt.
+4. **Erkläre in drei bis vier Sätzen**, warum bei SaaS die Bandbreite allein nichts über die Tauglichkeit aussagt. Nenne anschließend **drei Punkte**, die deshalb in den Vertrag mit dem Leitungsanbieter gehören.
+
+??? tip "Musterlösung & Erklärung"
+    **1. Musterantwort**
+
+    *Teil 1 – der Spitzenbedarf heute:*
+
+    ```text
+    Hauptsitz Kassel (50 Mbit/s vorhanden)
+      TransPlan-Sitzungen      18 x 0,5 Mbit/s  =   9,0 Mbit/s
+      Kartenansichten           6 x 1,5 Mbit/s  =   9,0 Mbit/s
+      Telematik-Abgleich       90 Lkw           =   2,0 Mbit/s
+      Mail, Kalender, Dateien  73 x 0,3 Mbit/s  =  21,9 Mbit/s
+                                                  ------------
+      Spitzenbedarf                             =  41,9 Mbit/s
+      Auslastung               41,9 / 50        =  rund 84 %
+
+    Außenstelle Dortmund (16 Mbit/s vorhanden)
+      TransPlan-Sitzungen       5 x 0,5 Mbit/s  =   2,5 Mbit/s
+      Kartenansichten           2 x 1,5 Mbit/s  =   3,0 Mbit/s
+      Mail, Kalender, Dateien  25 x 0,3 Mbit/s  =   7,5 Mbit/s
+                                                  ------------
+      Spitzenbedarf                             =  13,0 Mbit/s
+      Auslastung               13,0 / 16        =  rund 81 %
+    ```
+
+    Rechnerisch reicht es an beiden Standorten – praktisch nicht. Die Montagsspitze ist kein Sekundenausschlag, sondern zwei Stunden am Stück: Ist eine Leitung zwei Stunden lang zu 84 % belegt, laufen die Puffer voll; Wartezeiten und Paketverluste steigen spürbar an, lange bevor die Leitung rechnerisch „voll" ist. Als Planungsregel gilt deshalb, die **Spitze auf höchstens 70 % der Kapazität** auszulegen. Nach dieser Regel reißen schon die heutigen Zahlen die Marke:
+
+    ```text
+    Mindestkapazität nach der 70-Prozent-Regel
+      Hauptsitz   41,9 / 0,70  =  rund 60 Mbit/s  ->  50 Mbit/s vorhanden
+      Dortmund    13,0 / 0,70  =  rund 19 Mbit/s  ->  16 Mbit/s vorhanden
+    ```
+
+    Dazu kommt alles, was in der Faustwert-Tabelle fehlt – Videokonferenzen, Updates, ein Video im Aufenthaltsraum. Und die nächtliche Sicherung ist nur harmlos, solange sie wirklich nachts fertig wird: Zieht sie sich in den Morgen, liegen ihre 20 Mbit/s mitten in der Montagsspitze (41,9 + 20,0 = 61,9 Mbit/s auf einer 50-Mbit/s-Leitung).
+
+    *Teil 2 – nach der Übernahme:*
+
+    ```text
+    Hauptsitz Kassel nach der Übernahme (weiterhin 50 Mbit/s)
+      TransPlan-Sitzungen      22 x 0,5 Mbit/s  =  11,0 Mbit/s
+      Kartenansichten           8 x 1,5 Mbit/s  =  12,0 Mbit/s
+      Telematik-Abgleich    2,0 x 130 / 90      =   2,9 Mbit/s  (gerundet, exakt 2,89)
+      Mail, Kalender, Dateien  85 x 0,3 Mbit/s  =  25,5 Mbit/s
+                                                  ------------
+      Spitzenbedarf                             =  51,4 Mbit/s  (exakt 51,39)
+      vorhanden                                 =  50,0 Mbit/s
+      Fehlbetrag                                =   1,4 Mbit/s
+    ```
+
+    Der Bedarf liegt über der Kapazität. Der vierte Standort bekommt zwar eine eigene Leitung – aber Telematik, Zentralverwaltung und die zusätzlichen Disponenten landen alle am Hauptsitz. Wendet man dieselbe 70-Prozent-Regel an, ergibt sich ein ganz anderer Mindestausbau: 51,4 / 0,70 = rund **73 Mbit/s**.
+
+    Und diese 73 Mbit/s decken nur die Faustwerte aus der Tabelle. Video- und Telefonkonferenzen, Software-Updates, das Wachstum über die Vertragslaufzeit und die schwache Senderichtung vieler Anschlüsse kommen obendrauf – mit einem Faktor 2 bis 3 auf den gerechneten Mindestwert landest du bei den marktüblichen **200 bis 250 Mbit/s symmetrisch**. Bestellt gehört so ein Anschluss, **bevor** der vierte Standort dazukommt: Anschlussbau hat Vorlaufzeiten von Monaten; das ist eine zeitliche Ressource im Sinne von Aufgabe 8.
+
+    *Teil 3 – die Maßnahmen:*
+
+    | Maßnahme | Löst welches Problem? | Hilft bei Leitungsausfall? |
+    |---|---|---|
+    | Bandbreite ausbauen, symmetrisch, mindestens 200 Mbit/s | den Kapazitätsengpass aus Teil 2 | nein |
+    | Zweite Leitung eines anderen Anbieters über einen anderen physischen Weg, mit automatischer Umschaltung | den Totalausfall der einzigen Leitung | **ja** – als einzige in dieser Liste |
+    | Priorisierung im Router (QoS): Disposition vor Mail, Mail vor Updates und Streaming | Überlast wird planbar verteilt statt zufällig; direkt steuerbar ist aber nur die Senderichtung – für die Empfangsrichtung braucht es Shaping knapp unter der Leitungsrate oder eine Zusage des Anbieters | nein, aber unter Last leidet dann zuletzt die Disposition |
+    | Sicherung und Synchronisation aus dem Tagesfenster nehmen und in der Bandbreite begrenzen | die 20 Mbit/s treffen nicht die Montagsspitze | nein |
+
+    Die zweite Zeile ist die wichtigste, aus einem Grund, der mit Kapazität nichts zu tun hat: Heute steht bei einem Leitungsausfall die E-Mail – die Disposition läuft weiter, weil TransPlan im Keller steht. Nach der Umstellung steht die **Disposition für den gesamten Fuhrpark**, heute 90 Lkw, nach der Übernahme 130. Fahrer warten auf Aufträge, Kunden auf Auskunft – und niemand im Haus kann etwas tun außer warten. Die Internetleitung wird vom Komfortmerkmal zur Lebensader. Genau diese Verschiebung gehört in die Planung, bevor der erste Keller-Server abgebaut wird.
+
+    Eine Einschränkung gehört dazu: Die zweite Leitung sichert den **Weg** zum Anbieter, nicht den Anbieter selbst. Fällt die SaaS-Plattform aus, steht die Disposition trotz zweier Leitungen. Warum das so ist, zeigt Teil 4.
+
+    *Teil 4 – warum Bandbreite allein nichts sagt:*
+
+    Bandbreite beantwortet nur, wie viel gleichzeitig durchpasst. **Verfügbarkeit** beantwortet, wie oft gar nichts da ist – und zwei Prozentzahlen, die im Angebot fast gleich aussehen, sind es nicht:
+
+    ```text
+    Ausfallzeit pro Jahr, bezogen auf die Kalenderzeit (8.760 Stunden)
+      99,5 %  ->  8.760 x 0,005  =  43,8 Stunden
+      99,9 %  ->  8.760 x 0,001  =   8,8 Stunden
+
+    Kette aus Leitung (99,5 %) und SaaS-Plattform (99,9 %)
+      0,995 x 0,999 = 0,994005   ->  99,4 %
+      8.760 x 0,005995           =  rund 52,5 Stunden pro Jahr
+    ```
+
+    Die Verfügbarkeiten der Glieder multiplizieren sich. Die Kette ist damit **immer schlechter als ihr schwächstes Glied**, nie gleich gut: 99,4 % liegen unter den 99,5 % der Leitung, obwohl die Plattform für sich genommen die bessere Zusage hat. Jedes weitere Glied drückt den Wert zusätzlich.
+
+    Beim nächsten Schritt lohnt sich Genauigkeit, denn hier rechnen sich viele reich oder arm. Die 52,5 Stunden verteilen sich über alle 8.760 Kalenderstunden, also auch über Nächte und Wochenenden – ein Ausfall um drei Uhr morgens kostet keine Disposition. Bei gleichmäßiger Verteilung über die Uhr treffen von den 52,5 Stunden nur rund 12,5 die Kernarbeitszeit, weil auf eine 40-Stunden-Woche nur 40 von 168 Wochenstunden entfallen; das sind gut anderthalb Arbeitstage. Diese 12,5 Stunden sind allerdings ein Erwartungswert, keine Zusage: Im schlechtesten Fall liegen alle 52,5 Stunden mitten in der Arbeitszeit – eine auf die Kalenderzeit bezogene Zusage verbietet das nicht. Hart wird die Zahl erst mit einer **Bezugsgröße** im Vertrag:
+
+    ```text
+    Dieselbe Prozentzahl, bezogen auf die Servicezeit Mo-Sa 6-20 Uhr
+      52 Wochen x 84 Stunden     =  4.368 Stunden pro Jahr
+      4.368 x 0,005995           =  rund 26 Stunden pro Jahr
+    ```
+
+    So formuliert ist nach 26 Stunden Schluss – und zwar in genau den Stunden, in denen gearbeitet wird. Die Servicezeit Mo–Sa 6–20 Uhr ist übrigens dieselbe, die schon in der Verfügbarkeitsanforderung aus Aufgabe 2 steht; genau dafür wird sie dort festgelegt. Deshalb gehört die Bezugsgröße in den Vertrag, nicht nur die Prozentzahl. Rund 26 Stunden Ausfall in der Servicezeit sind gut drei Arbeitstage ohne Disposition, verteilt in wenigen Stücken statt in bequemen Häppchen.
+
+    **Latenz** beantwortet, wie lange eine einzelne Anfrage unterwegs ist. Eine Weboberfläche löst pro Maskenwechsel mehrere Anfragen aus, die voneinander abhängen und deshalb nacheinander laufen müssen – jede wartet auf die Antwort der vorherigen:
+
+    ```text
+    Maskenwechsel mit 15 voneinander abhängigen Anfragen
+      bei  20 ms Round-Trip-Zeit:  15 x 0,020 s  =  0,3 Sekunden
+      bei 120 ms Round-Trip-Zeit:  15 x 0,120 s  =  1,8 Sekunden
+    ```
+
+    Die **Round-Trip-Zeit (RTT)** ist der Weg hin und zurück, also das, was ein `ping` anzeigt. Anfragen, die nicht voneinander abhängen, holt der Browser parallel – gerechnet wird deshalb mit der Zahl der abhängigen Runden, nicht mit jeder einzelnen Anfrage. Beide Fälle oben laufen auf derselben, kaum ausgelasteten Leitung. Die Anforderung aus Aufgabe 2 – Anmeldung unter 3 Sekunden – scheitert hier nicht an der Bandbreite, sondern am Weg zum Rechenzentrum.
+
+    *Drei Punkte für den Vertrag:*
+
+    - **Zugesicherte statt „bis zu"-Bandbreite:** Entscheidend ist nicht das Etikett „Geschäftskunde", sondern was im Vertrag steht. Auch viele Geschäftskundenanschlüsse nennen nur ein Maximum samt Normal- und Mindestwert; die Kapazität wird im Segment geteilt. Eine wirklich garantierte, symmetrische Datenrate gibt es erst bei dedizierten Anschlüssen mit SLA – und die kosten ein Vielfaches. Genau diese Differenz muss die Geschäftsführung vor der Entscheidung sehen.
+    - **Verfügbarkeit mit Bezugsgröße, Entstörzeit und Servicezeit:** nicht nur „99,x %", sondern auch, worauf sich der Wert bezieht, wie schnell entstört wird und wann überhaupt jemand ans Telefon geht. „Wiederherstellung in 4 Stunden, 24/7" ist eine andere Zusage als „Entstörung am nächsten Werktag".
+    - **Latenz- und Paketverlustgrenzen:** verbindliche Obergrenzen – sonst ist „Anmeldung unter 3 Sekunden" nicht durchsetzbar.
+
+    **2. Warum so?**
+
+    Das Denkmodell dahinter ist eine Verschiebung, kein Wegfall: Auslagern **verlagert** Risiko, es löscht es nicht. Solange TransPlan im Keller stand, war die Internetleitung eine Bequemlichkeit; läuft TransPlan als SaaS, ist sie Produktionsmittel. Dieselbe Leitung, dieselbe Bandbreite – aber eine andere Bedeutung, sobald der Server weg ist.
+
+    Dazu zwei Regeln fürs Rechnen. Erstens: Netze bemisst man nach dem schlimmsten regelmäßigen Moment, hier Montag zwischen 7 und 9 Uhr. Ein Tagesdurchschnitt sieht immer gemütlich aus, weil er die Nacht mitzählt, in der niemand arbeitet – Beschwerden kommen aber nie aus dem Durchschnitt. Zweitens: Kapazität und Ausfallsicherheit sind zwei Baustellen mit zwei Antworten. Die Rechnung in Teil 2 ruft nach mehr Bandbreite, der Satz „bei Leitungsausfall steht die Disposition" nach einem zweiten Weg. Wer beides in einen Topf wirft, kauft eine dickere Leitung und hält sich für abgesichert.
+
+    **3. Auch gut wäre ...**
+
+    Besonders stark ist der Hinweis auf die **Asymmetrie** vieler Anschlüsse: „50 Mbit/s" meint meist die Empfangsrichtung, während die Senderichtung ein Bruchteil davon ist. SaaS-Eingaben, Dateiuploads und vor allem die nächtliche Sicherung in die Cloud belasten genau diese schwache Richtung – für Cloud-Betrieb gehört deshalb ein **symmetrischer** Anschluss ins Lastenheft.
+
+    Ebenfalls stark ist eine Redundanz-Rechnung. Zwei wirklich unabhängige Leitungen mit je 99,5 % fallen nur dann gemeinsam aus, wenn beide gleichzeitig ausfallen:
+
+    ```text
+    Zwei unabhängige Leitungen mit je 99,5 %
+      0,005 x 0,005 = 0,000025   ->  99,9975 % Verfügbarkeit
+      8.760 x 0,000025           =  rund 13 Minuten pro Jahr
+
+    dieselbe Kette wie oben, jetzt mit doppelter Leitung
+      0,999975 x 0,999 (SaaS)    ->  rund 99,90 %
+      8.760 x 0,001025           =  rund 9 Stunden pro Jahr
+    ```
+
+    Die 13 Minuten gelten nur für das Leitungsglied – wer sie als Ergebnis der Redundanz liest, hält den Dienst für vierzigmal verfügbarer, als er ist. Sobald die SaaS-Plattform wieder in der Kette steht, bleiben rund neun Stunden im Jahr. Die zweite Leitung nimmt also die Leitung als Schwachstelle heraus; ab da bestimmt der SaaS-Anbieter die Obergrenze. Redundanz verschiebt den Engpass, sie hebt ihn nicht auf. Und die Umschaltung selbst ist ebenfalls Ausfallzeit: Sitzungen brechen ab, Anmeldungen laufen neu – ein paar Minuten Störung sind auch bei automatischer Umschaltung die Regel.
+
+    Der Haken steckt im Wort „unabhängig": Unabhängigkeit heißt anderer Anbieter, anderer Weg, im Idealfall andere Technik – etwa Mobilfunk als Rückfallebene, die nicht alles trägt, aber die Disposition am Laufen hält. Liegen beide Leitungen im selben Kabelschacht, ist die Rechnung Papier: Ein Bagger trifft dann beide.
+
+    Beim Vertrag sind außerdem eine **Gutschrift bei Nichteinhaltung** richtig sowie die Frage, ob geplante **Wartungsfenster** aus der Verfügbarkeit herausgerechnet werden. 99,9 % „ohne geplante Wartung" ist eine deutlich schwächere Zusage als 99,9 % brutto. Und zwei Dinge, die fast nichts kosten: eine Woche lang die vorhandene Leitung messen, statt Faustwerten zu glauben – und eine ausgedruckte Tourenliste mit Telefonnummern für den Montag, an dem gar nichts geht.
+
+    **4. Typischer Stolperstein**
+
+    Mit dem Durchschnitt statt mit der Spitze zu rechnen. „140 Mitarbeiter, aber nie alle gleichzeitig, also nehmen wir die Hälfte über den Tag" ergibt eine hübsche Zahl, die über den Montagmorgen nichts aussagt – Leitungen brechen in der Spitze ein, nicht im Mittel. Zum selben Fehlertyp gehört die Einheit: **Mbit/s ist nicht MB/s.** 50 Mbit/s sind 50 / 8 = 6,25 MB/s; wer beides verwechselt, verrechnet sich um den Faktor 8.
+
+    Der zweite Stolperstein ist, Bandbreite und Latenz zu verwechseln. „Wir haben doch genug Bandbreite, warum ist die Maske so zäh?" ist die häufigste Frage nach einer Cloud-Umstellung. Bandbreite ist die Breite der Straße, Latenz die Länge des Weges: Eine Gigabit-Leitung macht die **Maskenwechsel** einer Anwendung, deren Rechenzentrum 120 ms entfernt steht, keinen Klick schneller – große Dateien überträgt sie natürlich sehr wohl schneller. Was an der Laufzeit hängt, heilt keine Bandbreite. Wer auf Klagen über Trägheit reflexhaft mit mehr Bandbreite antwortet, bezahlt eine Rechnung, die das Problem nicht berührt.
+
+---
+
+### Aufgabe 12 – Der Umzug: Migrationsstrategie und Rückfallplan
+
+!!! info "Worum es geht"
+    - Eine **Migrationsstrategie** an den Eigenheiten des Systems begründen, statt sie nach Geschmack zu wählen
+    - Abhängigkeiten und ein Zeitfenster planen, statt nur einen Termin zu nennen
+    - Einen **Rückfallplan** schreiben, der auch die Daten zurückholt – und wissen, wann er abläuft
+    - Theorie dazu: [Ressourcen planen](ressourcen-planen.md)
+
+TransPlan zieht um: von der SQL-Datenbank auf dem Keller-Server in Kassel in die SaaS-Umgebung des Herstellers. Betroffen sind **28 Disponenten** an drei Standorten, **90 Lkw**, rund **1.400 offene Aufträge** und der Auftragsbestand der letzten sieben Jahre. Der Hersteller liefert ein Migrationswerkzeug, das die bestehende Datenbank einliest; die **Schnittstelle zur Telematik-Plattform** muss neu eingerichtet werden. Die Geschäftsführung fragt nach einem Termin. Du lieferst mehr als einen Termin.
+
+1. **Wähle eine Migrationsstrategie** – Big Bang, schrittweise oder Parallelbetrieb. Erkläre alle drei in je einem Satz und begründe deine Wahl an den Eigenheiten einer Dispositionssoftware, nicht an allgemeinen Vorlieben.
+2. **Setz ein Zeitfenster mit Uhrzeiten.** Wann beginnt der Umzug, wann muss er fertig sein – und welche Wochen im Jahr kommen dafür nicht in Frage?
+3. **Benenne vier Abhängigkeiten**, die vorher erledigt sein müssen. Sag zu jeder in einem Satz, was passiert, wenn sie es nicht ist.
+4. **Schreib den Rückfallplan.** Er muss vier Fragen beantworten: Woran wird gemessen, dass abgebrochen wird? Wann spätestens fällt die Entscheidung? Wer trifft sie? Und was muss vorbereitet sein, damit der Rückfall überhaupt funktioniert?
+5. **Erkläre in zwei bis drei Sätzen**, warum ein Rückfallplan, den niemand geprobt hat, kein Rückfallplan ist.
+
+??? tip "Musterlösung & Erklärung"
+    **1. Musterantwort**
+
+    *Teil 1 – die drei Strategien und die Wahl:*
+
+    | Strategie | Verfahren | Passt sie hier? |
+    |---|---|---|
+    | **Big Bang** | Zu einem Stichtag wird das Alte abgeschaltet, ab da läuft ausschließlich das Neue. | technisch möglich, allein aber riskant |
+    | **schrittweise** | Es wird in Teilen umgestellt – nach Modulen, Standorten oder Nutzergruppen. | nur eingeschränkt |
+    | **Parallelbetrieb** | Beide Systeme laufen eine Zeit lang produktiv nebeneinander, in beiden wird geschrieben. | für die Disposition nicht sinnvoll |
+
+    Die Begründung steckt in der Software: Eine Dispositionssoftware führt **einen** gemeinsamen Datenbestand. Aufträge, Touren und Fahrzeuge hängen standortübergreifend zusammen – ein Lkw aus Leipzig fährt eine Ladung, die in Kassel angelegt wurde. Damit fällt echter Parallelbetrieb aus: Schreiben beide Systeme produktiv, muss jeder Auftrag doppelt erfasst werden; spätestens am zweiten Tag laufen die Bestände auseinander und niemand weiß mehr, welcher Stand gilt. Aus demselben Grund trägt eine Umstellung Standort für Standort nicht – Dortmund im neuen System und Kassel im alten heißt zwei Wahrheiten über denselben Lkw.
+
+    Die tragfähige Antwort ist deshalb eine **Kombination**: Der Umschalttermin selbst ist ein **Big Bang** – an einem Stichtag schreiben alle im neuen System. Vorbereitet wird er durch eine **Pilotphase auf Testdaten**: zwei bis drei Wochen, eine Handvoll Disponenten, echte Tourenpläne der Vorwoche nachgestellt. Flankiert wird er durch einen **lesenden Nachlauf**: Der alte Server bleibt danach mehrere Wochen eingeschaltet, zum Nachschlagen statt zum Arbeiten. Die Abgrenzung ist wichtig – lesender Zugriff ist **kein** Parallelbetrieb, weil nur ein System schreibt; genau daran hängt, dass es weiterhin nur eine Wahrheit gibt. Big Bang für die Schreibarbeit, lesender Nachlauf für den Blick zurück: kein Kompromiss aus Unentschlossenheit, sondern die einzige Variante, die zu einem gemeinsamen Datenbestand passt.
+
+    *Teil 2 – das Zeitfenster:*
+
+    | Zeitpunkt | Schritt |
+    |---|---|
+    | Fr 18:00 | Altsystem einfrieren, keine neuen Aufträge mehr, letzte Vollsicherung |
+    | Sa 08:00 | Export der SQL-Datenbank, Import in die SaaS-Umgebung |
+    | Sa 16:00 | Abgleich der Datenbestände, Telematik-Schnittstelle einrichten und prüfen |
+    | So 08:00 | Testdisposition durch die Fachabteilung |
+    | So 12:00 | Go/No-Go-Entscheidung |
+    | So 16:00 | spätestmöglicher Abschluss eines Rückfalls |
+    | Mo 06:00 | Betriebsbeginn Disposition |
+
+    Das Fenster ist ein Wochenende, weil samstags und sonntags am wenigsten disponiert wird – am wenigsten, nicht gar nicht. Nicht in Frage kommen die Tage um den Monatsabschluss, die Vorweihnachtszeit mit der Frachtspitze, Ferienwochen mit dünner Besetzung und die Woche, in der die Übernahme wirksam wird. Entscheidend ist der Puffer am Ende: Zwischen dem spätestmöglichen Abschluss eines Rückfalls (So 16:00) und dem Betriebsbeginn (Mo 06:00) liegen **14 Stunden**. Wer das Fenster bis Montag 5:30 ausreizt, hat keinen Plan, sondern eine Hoffnung.
+
+    *Teil 3 – vier Abhängigkeiten:*
+
+    | Abhängigkeit | Was vorher passieren muss | Wenn sie fehlt |
+    |---|---|---|
+    | **Datenübernahme** | mindestens zwei Probemigrationen auf einer Testinstanz, jedes Mal mit Abgleich von Datensatzzahlen und Auftragssummen | Am Umzugswochenende zeigt sich zum ersten Mal, dass Altlasten oder ein Feld ohne Entsprechung den Import abbrechen – und die Uhr läuft schon. |
+    | **Telematik-Schnittstelle** | Der Anbieter muss die neue Gegenstelle freischalten; Termin und Ansprechpartner schriftlich, mit Vorlauf | Die Disposition läuft, aber blind. Für 90 Lkw heißt das: telefonieren statt sehen. |
+    | **Schulung** | Alle 28 Disponenten haben die neue Oberfläche **vor** dem Stichtag bedient, nicht am Montag danach | Montag 6 Uhr, Wochenspitze – und alle lernen gleichzeitig. Die Software funktioniert dann, der Betrieb nicht. |
+    | **Leitung, Konten, Berechtigungen** | Bandbreite und Zugriff aus den Außenstellen stehen und sind gemessen (siehe Aufgabe 11) | Die Umstellung wird für ein Netzproblem verantwortlich gemacht, das mit der Software nichts zu tun hat – und der Rückfall behebt es nicht. |
+
+    *Teil 4 – der Rückfallplan:*
+
+    **Woran** – Abbruchkriterien, vorher festgeschrieben und prüfbar:
+
+    - Der Datenabgleich stimmt nicht: Zahl der offenen Aufträge, Zahl der Fahrzeuge und die Auftragssummen der letzten 30 Tage müssen in beiden Systemen identisch sein. Jede Abweichung ist ein Abbruchgrund, kein Diskussionsgrund.
+    - Die Telematik-Schnittstelle liefert nicht für alle 90 Lkw Positionen.
+    - Drei vorab festgelegte Testdispositionen – Standardtour, Teilladung, Stornierung – lassen sich nicht vollständig durchführen.
+    - Die Antwortzeiten liegen aus den Außenstellen über 3 Sekunden.
+
+    **Wann** – Sonntag 12:00 Uhr. Der Zeitpunkt ist gerechnet, nicht gefühlt: Der Rückfall dauert rund vier Stunden (Altsystem starten, Datenstand prüfen, Nutzer zurückschalten, Fachabteilung informieren). Vier Stunden ab 12:00 sind 16:00; bis Montag 6:00 bleiben dann 14 Stunden Puffer für das, was auch beim Rückfall schiefgeht.
+
+    **Wer** – eine namentlich benannte Person mit benannter Vertretung und hinterlegter Nummer: hier die Projektleitung gemeinsam mit der Leitung Disposition, wobei die Fachseite ein Vetorecht hat. Sie muss beurteilen, ob am Montag disponiert werden kann – nicht die IT. „Das Team entscheidet" ist keine Regelung, sondern die Zusicherung, dass niemand entscheidet.
+
+    **Was vorbereitet sein muss:**
+
+    - Das **Altsystem bleibt unangetastet** – nicht abgeschaltet, nicht neu bespielt, nicht abgebaut. Die Keller-Server verschwinden erst, wenn ein vollständiger Monatsabschluss im neuen System sauber durchgelaufen ist und die Frage der Aufbewahrung beantwortet ist.
+    - Eine **geprüfte Vollsicherung** von Freitagabend. Geprüft heißt: Jemand hat sie schon einmal zurückgespielt.
+    - Ein **Nacherfassungsverfahren** für alles, was am Wochenende bereits im neuen System entstanden ist – Liste ziehen, Formular, benannte Person, die es im Altsystem nachträgt. Ohne diesen Punkt tauscht der Rückfall ein Softwareproblem gegen einen Datenverlust.
+    - Eine **Kommunikationsliste**: Wer informiert Disponenten, Fahrer und die wichtigsten Kunden, über welchen Kanal, mit welchem vorbereiteten Text? Dieser Kanal darf nicht an dem System hängen, das gerade umzieht.
+    - Der **Kriterienzettel auf Papier** im Raum, in dem entschieden wird. Am Sonntagmittag liest niemand ein Dokument in einem Portal, das gerade nicht erreichbar ist.
+
+    *Teil 5 – warum ein ungeprobter Rückfallplan keiner ist:* Ein aufgeschriebener Rückfallplan ist eine Sammlung von Behauptungen – dass die Sicherung lesbar ist, dass das Altsystem noch startet, dass vier Stunden reichen. Jede davon ist in echten Projekten schon gerissen: das Sicherungsband leer, die Lizenz des Altsystems abgelaufen, der Rückweg statt vier Stunden elf. Erst der Probelauf auf der Testinstanz macht daraus Tatsachen: Er liefert die **gemessene Dauer**, aus der sich der Entscheidungszeitpunkt überhaupt erst ableiten lässt – und er findet die Lücken, solange sie nichts kosten.
+
+    **2. Warum so?**
+
+    Eine Migrationsplanung ist keine Terminplanung. Ein Termin beantwortet „wann". Ein Plan beantwortet zusätzlich „wovon hängt es ab" und „was, wenn nicht". Die letzte Frage fehlt am häufigsten, weil sie unangenehm ist: Sie zwingt dazu, das eigene Vorhaben scheitern zu denken, während man es gerade verkauft.
+
+    Der eigentliche Kern hier ist der Unterschied zwischen einem technischen und einem datenführenden Rückfall. Bei einem Gerät geht es um Technik – zurückstecken, Konfiguration einspielen, fertig. Bei TransPlan geht es um **Daten**, die während des Versuchs weitergewachsen sind. Der Rückweg führt deshalb nie exakt an den Ausgangspunkt zurück, sondern an einen Punkt, der von Hand ergänzt werden muss. Wer das nicht vorbereitet, hat am Ende zwei Systeme mit je einem unvollständigen Datenbestand statt einem vollständigen. Und weil solche Entscheidungen zum schlechtesten Zeitpunkt fallen – von Leuten, die seit Freitag arbeiten und viel investiert haben –, werden Kriterium, Uhrzeit und Entscheider **vorher** festgelegt. Der Plan ist ein Vertrag mit dem eigenen, übermüdeten Ich von Sonntagmittag.
+
+    **3. Auch gut wäre ...**
+
+    Eine andere Strategiewahl ist vertretbar, wenn die Begründung trägt. Wer TransPlan modulweise umstellt – erst Stammdaten und Fakturierung, dann die Disposition –, hat ein sauberes Argument, sofern die Software das zulässt: Der kritische Teil kommt zuletzt. Bewertet wird die Begründung, nicht das Etikett.
+
+    Besonders stark ist der Punkt **Aufbewahrung und Lesbarkeit**. An Speditionsaufträgen hängen buchhalterisch relevante Unterlagen; für die gelten je nach Art gesetzliche Aufbewahrungsfristen von sechs bis zehn Jahren – Buchungsbelege acht Jahre, Handelsbücher und Jahresabschlüsse zehn. Aufbewahren heißt dabei nicht „irgendwo liegen haben", sondern lesbar und auswertbar vorhalten. Der Bestand im Altsystem reicht sieben Jahre zurück, die Fristen reichen weiter: Vor dem Abschalten muss also geklärt sein, welche Daten wie lange aufzubewahren sind und wie sie danach lesbar bleiben – vollständig migriert, als revisionssicherer Export oder über ein bewusst archiviertes Altsystem. Das Abschaltdatum der Keller-Server richtet sich nach dieser Antwort, nicht allein nach dem ersten sauberen Monatsabschluss.
+
+    Besonders stark ist außerdem der Hinweis, dass ein Rückfallplan ein **Verfallsdatum** hat. Nach etwa vier Wochen Produktivbetrieb ist der Rückweg faktisch tot, weil zu viele Daten im neuen System entstanden sind, um sie noch nachzuerfassen. Das gehört ausgesprochen und in den Plan geschrieben – zusammen mit dem Datum, an dem die Keller-Server tatsächlich abgeschaltet werden. Sonst laufen sie in zwei Jahren noch, weil sich niemand traut.
+
+    Ebenfalls stark sind eine **Hypercare-Phase** von zwei Wochen mit erhöhter Betreuung samt schriftlich zugesicherter Reaktionszeit des Herstellers fürs Umstellungswochenende, **Key User je Standort** als erste Anlaufstelle vor Ort – und eine Definition des Gegenteils: Woran erkennen wir, dass es geklappt hat? Ein Plan, der nur den Abbruch definiert, lässt offen, wann das Team nach Hause darf.
+
+    **4. Typischer Stolperstein**
+
+    „Rückfall heißt Backup einspielen." Das Backup stellt den Freitagsstand wieder her – die Aufträge, Statusmeldungen und Änderungen, die am Wochenende bereits im neuen System entstanden sind, stehen darin nicht. Ohne Nacherfassungsverfahren ist der Rückfall kein Rettungsweg, sondern ein zweiter Schaden: Man tauscht eine wacklige Software gegen einen sicheren Datenverlust.
+
+    Der zweite Stolperstein ist ein Rückfallplan ohne Uhrzeit und ohne Namen. „Wenn es gar nicht läuft, gehen wir zurück" liest sich wie eine Absicherung, ist aber keine. Es fehlt der Moment, an dem jemand die Frage stellen **muss** – und es fehlt die Person, die sie beantworten **darf**. Ohne beides entscheidet der Sunk-Cost-Effekt: Wir haben schon 30 Stunden investiert, jetzt ziehen wir es durch. Genau so entstehen die Montage, an denen 90 Lkw ohne Disposition auf den Hof rollen.
+
+---
+
+### Aufgabe 13 – Die Übernahme: was ändert sich bei den Lizenzen?
+
+!!! info "Worum es geht"
+    - Prüfen, was bei einer **Firmenübernahme** mit den Lizenzen des übernommenen Betriebs passiert und was der Vertrag dazu typischerweise regelt
+    - Einen Softwarebestand nach der Konsolidierung sortieren: **überflüssig**, **weiter gebraucht**, **fehlt plötzlich**
+    - Eine **Preisstufe** durchrechnen und erkennen, warum Lizenzkosten nicht linear mit dem Betrieb wachsen
+    - Theorie dazu: [Lizenzmodelle](lizenzmodelle.md)
+
+Die Übernahme wird konkret: TransRegio kauft die **Lohmann Transporte GmbH** – **60 Beschäftigte**, **40 Lkw**, ein vierter Standort. Der Betrieb bringt seine eigene IT mit. Die Geschäftsführung sagt in der Vorbesprechung: „Software haben die ja schon, das spart uns was." Du sollst das prüfen. Der Lizenzbestand von Lohmann sieht so aus:
+
+| Software | Lizenzform | Bestand und Kleingedrucktes |
+|---|---|---|
+| „DispoLine" (Disposition) | Kauflizenz, 2019 erworben | 25 Arbeitsplätze, Wartungsvertrag 2.100 Euro im Jahr, kündbar mit 3 Monaten Frist zum Jahresende |
+| Büro-Paket (Mail, Text, Tabellen) | Abo, Named User | 60 Konten zu 9 Euro je Nutzer und Monat, Vertrag auf den Namen der Lohmann Transporte GmbH, Restlaufzeit 14 Monate, danach automatische Verlängerung um 12 Monate |
+| „Zollprofi" (Zollabwicklung) | Named User, Kauf plus Pflege | 12 Lizenzen, Pflege 95 Euro je Lizenz und Jahr |
+| PDF-Werkzeug, Community-Ausgabe | kostenlos | „kostenfrei für Unternehmen bis 100 Beschäftigte", installierte Stückzahl unbekannt |
+
+Dazu ein zweiter Fund, diesmal auf der eigenen Seite. Das TransPlan-Angebot aus Aufgabe 10 hat eine Anlage, die bei der Kalkulation bisher niemand aufgeschlagen hat: Die 450 Euro im Monat sind kein Festpreis, sondern eine **Stufe**.
+
+| Stufe | benannte Nutzer | Preis je Monat |
+|---|---|---|
+| Stufe 1 | bis 150 | 450 Euro |
+| Stufe 2 | 151 bis 250 | 690 Euro |
+
+Je Stufe enthalten: bis zu 100 angebundene Fahrzeuge; jedes weitere Fahrzeug kostet 3 Euro je Monat. Höhergestuft wird zum Monatsersten nach der Überschreitung, zurückgestuft frühestens zum Ende der Vertragslaufzeit.
+
+In der SaaS-Variante bekommt jede und jeder Beschäftigte ein TransPlan-Konto, weil die Software auch die Zeiten der Fahrer erfasst. Bei heutiger Größe wären das **140 Konten bei 90 angebundenen Lkw**, nach der Übernahme **200 Konten bei 130 Lkw**.
+
+1. **Kläre die Übertragbarkeit.** Gehen die vier Positionen bei einer Übernahme automatisch auf TransRegio über? Erkläre in vier bis sechs Sätzen, wovon das typischerweise abhängt. Geh dabei auf jede der vier Positionen einzeln ein.
+2. **Sortiere den Bestand nach der Zusammenlegung.** Welche Position wird überflüssig, welche wird weiter gebraucht? Und welche Lizenzen fehlen nach der Zusammenlegung plötzlich? Begründe jede Zeile.
+3. **Rechne den Stufensprung beim TransPlan-Abo durch:** Was kostet das Abo im Jahr, wenn TransRegio heute unterschreibt – 140 Nutzer, 90 Lkw? Was kostet es nach der Übernahme – 200 Nutzer, 130 Lkw? Um wie viel Prozent steigt es? Erkläre anschließend in zwei bis drei Sätzen, warum diese Rechnung **vor** die Unterschrift unter den Abo-Vertrag gehört, nicht danach.
+4. **Formuliere drei Fragen**, die vor der Unterschrift unter den Übernahmevertrag an die Lohmann Transporte GmbH gehen. Schreib zu jeder Frage einen Satz, warum die Antwort den Preis der Übernahme beeinflussen kann.
+
+??? tip "Musterlösung & Erklärung"
+    **1. Musterantwort**
+
+    *Teil 1 – gehen die Lizenzen automatisch mit über?* Nein, jedenfalls nicht von selbst. Eine Lizenz ist kein Gegenstand im Lager, sondern ein **Nutzungsrecht aus einem Vertrag mit einem Dritten** – dem Hersteller. Der Hersteller ist am Kaufvertrag zwischen TransRegio und Lohmann nicht beteiligt, also entscheidet sein Vertragstext mit. Der Prüfpunkt heißt **Weitergabe & Übertragbarkeit**.
+
+    Zuerst kommt es auf die **Form der Übernahme** an. Kauft TransRegio die **Anteile** der Gesellschaft, bleibt der Vertragspartner formal derselbe: Die Lohmann GmbH besteht weiter und behält ihre Nutzungsrechte. Dafür greifen dann häufig Klauseln, die dem Hersteller beim Wechsel der Eigentümer ein Sonderkündigungs- oder Zustimmungsrecht geben – im Vertragsdeutsch **Change of Control**. Kauft TransRegio dagegen die **Wirtschaftsgüter** und löst die Gesellschaft auf, muss jede Lizenz einzeln auf den neuen Inhaber übergehen. Und genau hier zerfällt der Bestand in zwei Gruppen.
+
+    Bei **Kauflizenzen**, die einmalig bezahlt und zeitlich unbefristet überlassen wurden, ist ein pauschales Weitergabeverbot in der EU häufig nicht durchsetzbar: Mit dem Verkauf ist das Verbreitungsrecht des Herstellers an dieser Kopie **erschöpft**. Die Weitergabe an einen Erwerber ist dann regelmäßig zulässig – allerdings nur als Ganzes und nur, wenn Lohmann seine eigenen Kopien unbrauchbar macht. Bei **Abo- und Wartungsverträgen** sieht es anders aus: Das sind Dauerschuldverhältnisse, deren Übernahme die Zustimmung des Herstellers braucht. Verlass dich im Ernstfall trotzdem nicht auf die Rechtslage allein. Wer sich die Übertragung vorher schriftlich bestätigen lässt, spart sich die Diskussion beim nächsten Audit.
+
+    Positionsweise gelesen:
+
+    | Position | Die eigentliche Frage | Warum |
+    |---|---|---|
+    | DispoLine (Kauf, 2019) | Geht das unbefristete Nutzungsrecht als Ganzes mit über? Zu welchen Bedingungen? | Bei einer einmalig bezahlten, unbefristeten Lizenz spricht viel für die Übertragbarkeit. Vorausgesetzt ist aber, dass Lohmann alle eigenen Kopien löscht und dass der Bestand nicht aufgeteilt wird. Der Wartungsvertrag ist davon nicht erfasst – der braucht die Zustimmung des Herstellers. |
+    | Büro-Abo (Named User) | Kann der Vertrag auf TransRegio umgeschrieben werden? | Der Vertrag lautet auf die alte Firma. Als Dauerschuldverhältnis wandert er nicht von selbst mit; eine Umschreibung ist meist möglich, aber ein eigener Vorgang mit eigener Frist. Die Restlaufzeit läuft davon unbeeindruckt weiter. |
+    | Zollprofi (Named User) | Wem sind die 12 Lizenzen namentlich zugeordnet? Bleiben diese Personen im Betrieb? | Named User hängen an Personen. Wechseln die Beschäftigten mit über, muss die Zuordnung neu dokumentiert werden. Wer nicht mitkommt, dessen Lizenz lässt sich in der Regel neu zuweisen – oft allerdings erst nach einer Sperrfrist von einigen Wochen. |
+    | PDF-Werkzeug (kostenlos) | Hier gibt es nichts zu übertragen. Die Frage ist die **Schwelle**. | „Kostenfrei bis 100 Beschäftigte" war bei Lohmann mit 60 Personen erfüllt. Bei TransRegio ist die Bedingung schon heute nicht erfüllt, nach der Übernahme erst recht nicht. Aus einem sauberen Zustand wird ein unsauberer, ohne dass jemand etwas installiert. |
+
+    *Teil 2 – der Bestand nach der Zusammenlegung:*
+
+    | Position | Einordnung | Warum |
+    |---|---|---|
+    | DispoLine, 25 Plätze | wird **überflüssig**, aber nicht am Stichtag | Sobald der vierte Standort auf TransPlan disponiert, wird DispoLine nicht mehr gebraucht; bis dahin muss es laufen. Entscheidend ist die Kündigungsfrist der Wartung: 3 Monate zum Jahresende. Wer den Termin verpasst, zahlt 2.100 Euro für ein weiteres Jahr Wartung an einer abgeschalteten Software. |
+    | Büro-Abo, 60 Konten | wird **doppelt**, sobald die 60 Personen in die Umgebung von TransRegio wechseln | Der Vertrag läuft trotzdem bis zum Ende der Restlaufzeit weiter. Im Feuer stehen 60 x 9 Euro x 14 Monate = **bis zu 7.560 Euro**. Wie viel davon tatsächlich doppelt gezahlt wird, hängt am Migrationstermin: Wechseln die Konten erst nach 10 Monaten, sind es 60 x 9 x 4 = **2.160 Euro** echte Doppelkosten. Klassische Überlizenzierung, nur eben eingekauft statt gewachsen. |
+    | Zollprofi, 12 Lizenzen | wird **weiter gebraucht** | TransRegio hat nichts Vergleichbares. Die Pflege kostet 12 x 95 = **1.140 Euro im Jahr** und wird damit zu einer dauerhaften Position im neuen Budget. Zwei Anschlussfragen bleiben: Ist die Lizenz übertragbar? Reichen 12 Lizenzen noch, wenn künftig auch Kassel Zollanmeldungen macht? |
+    | PDF-Werkzeug | **unbekannt, deshalb zuerst zählen** | Ohne Stückzahl gibt es keine Kostenposition, sondern nur ein Risiko. Läuft es auf 45 Rechnern und kostet die kostenpflichtige Ausgabe 5 Euro je Gerät und Monat, sind das 45 x 5 x 12 = **2.700 Euro im Jahr**, die in keinem Budget stehen. |
+
+    Was nach der Zusammenlegung **fehlt**: 60 zusätzliche TransPlan-Konten sowie die Anbindung der 40 zusätzlichen Fahrzeuge (siehe Teil 3), 60 Konten in der Büro- und Cloud-Umgebung von TransRegio, Zugriff auf die zentrale Dateiablage, dazu alles, was je Gerät zählt – Betriebssysteme, Virenschutz, Backup-Agenten für die Rechner des vierten Standorts.
+
+    *Teil 3 – der Sprung beim TransPlan-Abo:*
+
+    ```text
+    bei heutiger Größe (140 Nutzer, 90 Lkw)
+      Stufe 1                                    450 Euro je Monat
+      90 Lkw, im Paket enthalten                   0 Euro je Monat
+      Summe                                      450 Euro je Monat = 5.400 Euro je Jahr
+
+    nach der Übernahme (200 Nutzer, 130 Lkw)
+      Stufe 2                                    690 Euro je Monat
+      30 Lkw über 100, 30 x 3 Euro                90 Euro je Monat
+      Summe                                      780 Euro je Monat = 9.360 Euro je Jahr
+
+    Veränderung
+      780 - 450 = 330 Euro je Monat = 3.960 Euro je Jahr
+      3.960 / 5.400 = 0,733  ->  rund 73 Prozent mehr
+    ```
+
+    Die Beschäftigtenzahl steigt um rund 43 Prozent (140 auf 200), die Lizenzkosten um 73 Prozent. Über fünf Jahre gerechnet – ab Vollzug der Übernahme – sind es 60 x 780 = **46.800 Euro** statt der 27.000 Euro aus dem Vergleich in Aufgabe 10. Solange die Übernahme mitten in der Laufzeit liegt, ist das die Obergrenze.
+
+    Warum das vor die Unterschrift gehört: Erstens gehört der Betrag in die Bewertung der Übernahme, denn der Kaufpreis ist nicht der einzige Preis. Zweitens ist die Verhandlungsposition vorher eine andere. Vor der Unterschrift ist der Hersteller ein Anbieter, der ein Wachstum mitnehmen möchte; danach ist er der Einzige, der die Disposition von 130 Lkw noch am Laufen hält. Drittens steht die nächste Stufengrenze bei 250 Nutzern – wer eine weitere Übernahme für möglich hält, verhandelt die übernächste Stufe gleich mit.
+
+    *Teil 4 – drei Fragen vor der Unterschrift:*
+
+    1. „Wir benötigen das vollständige Lizenzinventar: welche Software, welche Metrik, wie viele Lizenzen, welcher Nachweis." – Ohne Inventar kauft TransRegio eine Unbekannte. Jede Lizenz, die nicht nachgewiesen werden kann, wird nach dem Stichtag zum eigenen Compliance-Problem.
+    2. „Welche Verträge enthalten Regelungen zu Weitergabe, Übertragbarkeit oder zum Wechsel der Eigentümer? Wäre dafür eine Zustimmung oder eine Gebühr fällig?" – Die Antwort entscheidet, ob TransRegio den Bestand weiternutzen darf oder nachkaufen muss. Das ist bares Geld und gehört in die Kaufpreisverhandlung.
+    3. „Wie lange laufen die Verträge noch, mit welcher Kündigungsfrist und welcher automatischen Verlängerung?" – Restlaufzeiten laufen nach der Zusammenlegung ohne Gegenwert weiter; allein beim Büro-Abo stehen bis zu 7.560 Euro im Feuer.
+
+    **2. Warum so?**
+
+    Das Denkmodell dahinter ist ein Satz: **Eine Lizenz ist ein Vertrag, kein Gegenstand.** Lkw, Gabelstapler und Regale gehen mit dem Kaufvertrag über, weil sie dem Verkäufer gehören. Software gehört ihm nicht – er hat sie nur nutzen dürfen. Deshalb ist bei jeder Übernahme, jeder Verschmelzung und jeder Ausgründung dieselbe Frage zu stellen: Wer ist Vertragspartner, was steht zur Übertragung im Vertrag, wer muss zustimmen?
+
+    Der zweite Kern ist die Sortierung. Bei einer Konsolidierung bewegt sich jeder Bestand in drei Richtungen gleichzeitig: Etwas wird überflüssig, etwas wird weiter gebraucht, etwas fehlt plötzlich. Alle drei Richtungen kosten Geld, wenn man sie nicht plant – die überflüssigen Verträge über ihre Restlaufzeit, die fehlenden Lizenzen als kurzfristiger Nachkauf zu Listenpreisen. Die Übernahme ist damit ein Musterbeispiel für den Auslöser im Lizenz-Kreislauf: Sie ändert Nutzerzahlen, Metriken und Schwellen auf einen Schlag.
+
+    Und der dritte Kern ist die Nichtlinearität. Lizenzkosten wachsen in **Stufen**, nicht in Prozent. Ein einziger Nutzer über der Grenze kostet dieselbe Stufe wie hundert. Das gilt für Preisstufen wie im Preisblatt genauso wie für Größenschwellen in kostenlosen Ausgaben – wer bei 148 Nutzern steht, sollte wissen, was der 151. kostet.
+
+    **3. Auch gut wäre ...**
+
+    Ebenfalls stark ist der Hinweis, dass die kostenlosen Werkzeuge das größere Risiko sind. Sie sind nie über den Einkauf gelaufen und stehen deshalb in keinem Inventar. Dabei hängt gerade bei ihnen die Kostenfreiheit an einer Unternehmensschwelle, die eine Übernahme sofort reißt. Wer daraus die Forderung ableitet, im Rahmen der Prüfung auch die kostenlosen Werkzeuge inventarisieren zu lassen, hat den Punkt verstanden. Genauso richtig sind weitere Prüffragen: nach früheren Hersteller-Audits und offenen Nachforderungen, nach der Zahl der tatsächlich aktiven unter den 60 Konten, nach Open-Source-Bestandteilen in selbst gebauten Auswertungen. Wer die Prüfung nicht selbst leisten will, kann dafür einen Dienstleister für Software Asset Management einsetzen – dieselben Leute, die auch ein Audit vorbereiten.
+
+    Ein starker Zusatz ist die Asymmetrie im Preisblatt: Hochgestuft wird zum nächsten Monatsersten, zurück erst zum Ende der Vertragslaufzeit. Wer die Stufe einmal reißt, sitzt bis zum Vertragsende darin fest. Das ist ein Grund mehr, die Stufengrenzen vor der Unterschrift zu verhandeln. Genauso stark ist der Blick zurück auf Aufgabe 10: Die dortigen 27.000 Euro über fünf Jahre galten für 140 Nutzer, mit 200 Nutzern werden daraus 46.800 Euro. Nur würde auch das Kaufangebot für die größere Menge neu bepreist. Die Lehre ist deshalb nicht „der Kauf gewinnt jetzt doch", sondern: **Jede Mehrjahresrechnung hängt an einer Mengenannahme. Ändert sich die Menge, ist die Rechnung neu zu machen, auf beiden Seiten.**
+
+    **4. Typischer Stolperstein**
+
+    Der erste Fehler steckt schon im Satz der Geschäftsführung: „Software haben die ja schon." Wer die **Wirtschaftsgüter** einer Firma kauft, kauft ihre Nutzungsrechte nicht automatisch mit. Im schlechtesten Fall betreibt TransRegio ab dem Stichtag 25 Arbeitsplätze DispoLine ohne gültiges Nutzungsrecht – eine Unterlizenzierung, die man sich eingekauft hat, ohne eine einzige Installation vorzunehmen. Beim **Anteilskauf** liegt der Fall anders: Dort bleiben die Nutzungsrechte bei der fortbestehenden Gesellschaft; die Gefahr ist dann nicht die Unterlizenzierung, sondern eine Change-of-Control-Klausel, mit der der Hersteller neu verhandeln oder kündigen darf. Beide Wege haben also ein Lizenzproblem, nur ein unterschiedliches.
+
+    Der zweite Stolperstein ist die Annahme, dass eine überflüssige Lizenz an dem Tag aufhört zu kosten, an dem sie überflüssig wird. Das Büro-Abo läuft nach der Zusammenlegung bis zum Ende der Restlaufzeit weiter, die DispoLine-Wartung bis zum nächsten Kündigungstermin. Beides sind keine Entscheidungen, sondern Kalenderarbeit: Kündigungsfristen gehören auf Wiedervorlage, sobald der Übernahmetermin steht, nicht erst, wenn die Migration fertig ist.
+
+---
+
+### Aufgabe 14 – Die Entscheidungsvorlage
+
+!!! info "Worum es geht"
+    - Aus Bestandsanalyse, Architektur und Kalkulation **eine Seite** machen, mit der eine Geschäftsführung entscheiden kann
+    - Adressatengerecht schreiben: Risiko immer mit **Folge**, Kosten immer als **Spanne mit Annahmen**, Entscheidungen als Fragen mit Ja oder Nein
+    - Theorie dazu: [Anforderungen & Sollkonzept](anforderungen-und-sollkonzept.md) und [Ressourcen planen](ressourcen-planen.md)
+
+Der letzte Schritt der Planung ist kein technischer. Alles, was du in diesem Block erarbeitet hast – die Schwachstellen, die Anforderungen, die Verteilung der Komponenten, die Speicher- und Kostenrechnungen –, nützt nichts, solange es niemand entscheidet. Die Geschäftsführung der TransRegio hat für den Tagesordnungspunkt **15 Minuten** eingeplant und liest vorher **eine Seite**. Mehr nicht.
+
+1. **Schreib diese eine Seite.** Sie hat sechs Abschnitte: Ausgangslage in **drei Sätzen**, die **drei größten Risiken** jeweils mit ihrer Folge, die empfohlene **Zielarchitektur in fünf Zeilen**, die **Kosten als Spanne** samt der Annahmen dahinter, die **drei Entscheidungen**, die die Geschäftsführung treffen muss, zum Schluss ein **Zeitplan in Meilensteinen**.
+2. **Streich, was dort nicht hineingehört.** Nenne drei Arten von Inhalten, die in einer Entscheidungsvorlage nichts verloren haben. Schreib zu jeder auf, warum sie stört. Wo möglich nennst du dazu den Satz, der stattdessen dort stünde.
+3. **Begründe in drei bis fünf Sätzen**, warum die Angabe der Annahmen wichtiger ist als die Genauigkeit der Zahl.
+4. **Zusatz, wenn du schnell warst:** Formuliere zu jeder deiner drei Entscheidungen einen Satz, was passiert, wenn sie **nicht** getroffen wird.
+
+??? tip "Musterlösung & Erklärung"
+    **1. Musterantwort**
+
+    *Teil 1 – so könnte die Vorlage aussehen.* Hier ist sie zur besseren Lesbarkeit großzügig gesetzt; im Original steht der Inhalt auf einer Seite.
+
+    **Entscheidungsvorlage: Ziel-Infrastruktur TransRegio Spedition GmbH**
+    *für die Sitzung der Geschäftsführung, erstellt von der IT*
+
+    *Ausgangslage*
+
+    Die IT ist über Jahre gewachsen: drei Server im Keller des Hauptsitzes, je ein älterer Server in Dortmund und Leipzig, ein NAS, auf dem die Dateifreigaben und die nächtlichen Backups derselben Server gemeinsam liegen. Es gibt keine Überwachung, die Dokumentation ist eine Excel-Liste von 2021; die Außenstellen hängen an je 16 Mbit/s. Mit der Übernahme wächst das Unternehmen auf rund 200 Beschäftigte an vier Standorten – dafür ist die heutige Umgebung weder ausgelegt noch abgesichert.
+
+    *Die drei größten Risiken*
+
+    | Risiko | Folge, wenn nichts geschieht |
+    |---|---|
+    | Backups liegen auf demselben Gerät wie die Originaldaten | Ein Brand, ein Wasserschaden oder ein Verschlüsselungstrojaner trifft Original und Sicherung gleichzeitig. Es gibt dann keinen Stand, auf den wir zurückgehen können, auch nicht für die Dispositionsdatenbank: Die Disposition von heute 90 und künftig 130 Lkw steht ohne absehbares Ende. |
+    | Personalakten sind für alle Beschäftigten lesbar | Verstoß gegen den Datenschutz mit Melde- und Haftungsrisiko. Der Zustand besteht heute und an jedem weiteren Tag, an dem er nicht geändert wird. |
+    | Keine Überwachung, Dokumentation von 2021 | Störungen fallen erst auf, wenn die Disposition steht. Jede Fehlersuche dauert länger als nötig; die Integration des vierten Standorts beginnt ohne verlässliche Grundlage. |
+
+    *Empfohlene Zielarchitektur*
+
+    1. **Disposition:** TransPlan als Mietsoftware beim Hersteller – alle vier Standorte arbeiten auf demselben aktuellen Datenbestand. Die Keller-Installation und die Insellösung des vierten Standorts entfallen.
+    2. **Dateiablage:** ein zentraler Cloud-Speicher mit Berechtigungsgruppen; die Server der Außenstellen und die nächtliche Synchronisation entfallen.
+    3. **Personaldaten:** bleiben im eigenen Haus, in einem eigenen Bereich mit eng gesetzten Rechten und Protokollierung.
+    4. **Datensicherung:** getrennt vom Original, mit einem zweiten Ziel außer Haus – Freigaben und Sicherungen liegen nie wieder auf demselben Gerät.
+    5. **Betrieb:** Überwachung mit Alarmierung sowie eine gepflegte Dokumentation aller produktiven Systeme, beides ab dem ersten Projektmonat.
+
+    *Kosten – Spanne, nicht Punktwert*
+
+    ```text
+    Einmalig (Projekt)
+      Migration durch externen Dienstleister      25.000 bis 40.000 Euro
+      Speichersystem im Haus                       6.000 bis  9.000 Euro
+      Schulung IT und Fachabteilungen              4.000 bis  8.000 Euro
+      Summe einmalig                              35.000 bis 57.000 Euro
+
+    Laufend je Jahr
+      TransPlan als Mietsoftware                             9.360 Euro
+        (200 Nutzer, 130 Lkw, nach vorliegendem Preisblatt)
+      Cloud-Ablage und Büroumgebung, 200 Nutzer   19.200 bis 28.800 Euro
+      größere Anbindungen, 4 Standorte             6.000 bis 10.800 Euro
+      Sicherungsziel außer Haus                    1.200 bis  2.400 Euro
+      Zollprofi-Pflege aus Lohmann (12 x 95)                 1.140 Euro
+      Summe laufend                               36.900 bis 52.500 Euro
+
+    Gegenzurechnen: entfallende Altkosten
+      Ersatz, Strom, Wartung der 5 Altserver       8.000 bis 12.000 Euro
+
+    Netto-Mehrkosten laufend                      24.900 bis 44.500 Euro je Jahr
+    ```
+
+    **Annahmen:** 200 Beschäftigte, vier Standorte, 130 angebundene Lkw nach der Übernahme; jede und jeder Beschäftigte bekommt ein Konto in der Disposition und in der Büroumgebung. Das Speichersystem im Haus trägt die Personaldaten und die lokale Sicherungsstufe: 9 TB heute, 15 % Wachstum im Jahr, in drei Jahren 13,7 TB, mit Reserve rund 16,4 TB. Migration durch einen externen Dienstleister ohne Sonderentwicklung an den Schnittstellen. Preise für Cloud-Ablage und Anbindungen aus Vergleichsangeboten, noch nicht verhandelt.
+
+    **Nicht in den Summen enthalten:** die Übergangskosten aus dem übernommenen Bestand – die DispoLine-Wartung mit 2.100 Euro im Jahr bis zum nächsten Kündigungstermin sowie das Büro-Abo der Lohmann Transporte GmbH mit 6.480 Euro im Jahr über die Restlaufzeit von 14 Monaten, insgesamt bis zu 7.560 Euro. Ebenfalls nicht bepreist ist die interne Personalkapazität: Die Freistellung zweier Beschäftigter zu je 50 % über zehn Monate entspricht rund einem Vollzeitäquivalent. Und was TransRegio heute für Wartung und Pflege der eigenen TransPlan-Installation zahlt, liegt nicht vor; diese Position fehlt bei den entfallenden Altkosten, die ausgewiesenen Mehrkosten sind damit eher zu hoch als zu niedrig. Die entfallenden Altkosten selbst sind geschätzt, nicht gemessen – das ist die unsicherste Zahl dieser Vorlage.
+
+    *Zu entscheiden*
+
+    1. **Zielbild:** Bestätigt die Geschäftsführung den gemischten Weg – Disposition und Dateiablage beim Anbieter, Personaldaten im eigenen Haus?
+    2. **Budget:** Werden einmalig 35.000 bis 57.000 Euro freigegeben? Und wird akzeptiert, dass aus einmaligen Anschaffungen laufende Kosten von netto rund 25.000 bis 44.500 Euro im Jahr werden?
+    3. **Kapazität und Termin:** Der Übernahmestichtag liegt vor dem Ende der Migration. Soll die Umstellung vorgezogen werden, damit der vierte Standort nicht zuerst auf der Altumgebung landet? Dafür brauchen wir einen externen Dienstleister sowie zwei Beschäftigte, die zu je 50 % vom Tagesgeschäft freigestellt werden.
+
+    *Meilensteine*
+
+    | Termin | Meilenstein |
+    |---|---|
+    | Monat 0 | Entscheidung über Zielbild und Budget |
+    | Monat 1 | Sofortmaßnahmen erledigt: Personalordner berechtigt, zweites Sicherungsziel außer Haus, Überwachung aktiv |
+    | Monat 3 | Anbindungen aufgerüstet, Lastenheft fertig, Systemhaus beauftragt |
+    | Monat 4 | Übernahme vollzogen, vierter Standort zunächst per VPN an der Altumgebung |
+    | Monat 6 | Disposition produktiv beim Anbieter, Parallelbetrieb beendet |
+    | Monat 8 | Dateiablage migriert, Außenstellen-Server und Nacht-Synchronisation abgeschaltet |
+    | Monat 10 | vierter Standort auf der neuen Umgebung, DispoLine abgeschaltet, Keller-Server abgebaut, Dokumentation übergeben |
+
+    *Teil 2 – was nicht hineingehört:*
+
+    | Was rausfliegt | Warum | Was stattdessen dort steht |
+    |---|---|---|
+    | **Technische Details** – RAID-Stufen, Plattengrößen, VLANs, Portfreigaben | Die Geschäftsführung entscheidet nicht über RAID 5 oder RAID 6. Sie entscheidet über Richtung, Geld und Termin. Details erzeugen Rückfragen, die von der Entscheidung wegführen. | „Der Speicher im Haus ist auf drei Jahre Wachstum ausgelegt." Die Rechnung dahinter liegt im Anhang. |
+    | **Produktnamen als Selbstzweck** | Ein Produktname beantwortet keine Frage, die auf dieser Ebene gestellt wird. Er nimmt aber eine Auswahl vorweg, die noch gar nicht getroffen ist. | „ein Cloud-Speicher mit Rechenzentrumsstandort in der EU; die Auswahl erfolgt nach der Freigabe aus drei Vergleichsangeboten." |
+    | **Zahlen ohne Annahme** | „Die Migration kostet 42.000 Euro" ist keine Information, sondern eine Behauptung. Sie lässt sich weder prüfen noch anpassen. Zitiert wird sie später trotzdem, als Zusage. | „35.000 bis 57.000 Euro einmalig, angenommen: externer Dienstleister, 200 Nutzer, keine Sonderentwicklung." |
+
+    *Teil 3 – warum die Annahmen wichtiger sind als die Genauigkeit:* Eine Zahl ohne Annahme lässt sich nicht nachrechnen und damit auch nicht reparieren. Werden es am Ende 240 statt 200 Nutzer, rechnet man mit offenen Annahmen genau eine Zeile neu, ohne Annahmen dagegen die ganze Vorlage. Zweitens täuscht ein Punktwert eine Genauigkeit vor, die es zum Zeitpunkt der Entscheidung nicht gibt – und genau deshalb wird er später als Zusage behandelt. Drittens holen offengelegte Annahmen das Wissen ab, das man selbst nicht hat: Zur Frage, ob mit 200 oder mit 260 Beschäftigten zu rechnen ist, kann die Geschäftsführung mehr sagen als die IT. Und viertens verschiebt sich damit die Diskussion vom Bauchgefühl auf die Sachebene – dasselbe Prinzip wie bei der Nutzwertanalyse in Aufgabe 10, wo nicht das Ergebnis den Wert ausmacht, sondern die offengelegte Gewichtung.
+
+    *Teil 4 – Zusatz, wenn nicht entschieden wird:* Ohne Zielbild wird jede Teilfrage einzeln und über Monate widersprüchlich entschieden; ein Systemhaus kann kein belastbares Angebot rechnen, weil die Grundlage fehlt. Ohne Budget bleibt alles, wie es ist – nur wächst das Risiko mit, weil die Übernahme trotzdem kommt und 200 Menschen auf einer Infrastruktur landen, die für 140 schon knapp war. Ohne Entscheidung zu Termin und Kapazität bleibt der vierte Standort auf der alten Umgebung hängen; danach migriert man vier Standorte statt drei, zu einem höheren Preis. Nicht zu entscheiden ist hier die teuerste der drei Varianten.
+
+    **2. Warum so?**
+
+    Eine Entscheidungsvorlage ist kein Projektbericht. Ihr Zweck ist nicht zu zeigen, was du alles herausgefunden hast, sondern die Geschäftsführung in die Lage zu versetzen, drei Fragen mit Ja oder Nein zu beantworten. Alles, was dabei nicht hilft, gehört in den Anhang oder ins Pflichtenheft. Die Beschränkung auf eine Seite ist deshalb keine Schikane, sondern eine Härteprüfung: Was auf einer Seite keinen Platz findet, hat noch keine Priorität. Und wer sein Vorhaben nicht auf eine Seite bringt, hat es meist selbst noch nicht sortiert.
+
+    Das zweite Prinzip ist die Übersetzung. Ein Risiko in technischer Sprache ist auf dieser Ebene wertlos: „Kein Offsite-Backup" ist ein Befund für Fachleute. „Ein Wasserschaden im Keller vernichtet Original und Sicherung gleichzeitig – die Disposition von heute 90 Lkw steht dann ohne absehbares Ende" ist eine Aussage, mit der eine Geschäftsführung arbeiten kann. Deshalb steht in der Risikotabelle nie nur der Zustand, sondern immer der Zustand **plus Folge** – dieselbe Zweiteilung wie in der Schwachstellenanalyse aus Aufgabe 1, nur eine Adressatenebene höher.
+
+    Das dritte Prinzip ist die Ehrlichkeit der Zahl. Eine Spanne mit Annahmen sagt: „So genau wissen wir es heute." Ein Punktwert sagt: „Wir wissen es genau" – und ist damit fast immer falsch. Beachte auch, wie die Spanne gebildet wird: Die untere Grenze summiert alle unteren Werte, die obere alle oberen. Bei den gegenzurechnenden Altkosten wird gekreuzt – die höchste Ersparnis trifft auf die niedrigsten Kosten und umgekehrt. Sonst rechnet man sich eine Spanne schön, die es so nicht gibt. Und was man nicht beziffern kann, wird trotzdem benannt: Die interne Freistellung, die Übergangskosten aus dem übernommenen Bestand und die unbekannte Altwartung stehen als Lücken in den Annahmen, nicht als Nullen in der Summe.
+
+    **3. Auch gut wäre ...**
+
+    Eine besonders starke Vorlage enthält zusätzlich eine **Nullvariante**: eine Zeile dazu, was passiert, wenn nichts entschieden wird – die Antwort aus Teil 4, an prominenter Stelle. Ebenfalls stark ist eine **Empfehlung mit Namen darunter**: Wer eine Vorlage schreibt, ohne eine Variante zu empfehlen, schiebt die Arbeit nach oben. Genauso gut ist eine knappe Alternativenzeile – was wurde geprüft und aus welchem Grund verworfen, ein Satz je Alternative –, damit die Geschäftsführung sieht, dass es eine Auswahl gab.
+
+    Wer die interne Freistellung zusätzlich **beziffert**, macht die Vorlage ehrlicher: Zwei Beschäftigte zu je 50 % über zehn Monate sind rund ein Vollzeitäquivalent; bei 70.000 Euro Vollkosten im Jahr also rund 58.000 Euro. Das ist mehr als der gesamte ausgewiesene Migrationsposten – eine Zahl, die die Diskussion über die Kapazität aus Entscheidung 3 sofort ernster macht.
+
+    Wer den Aufbau noch schärfer machen will, stellt die drei Entscheidungen **nach oben** statt nach unten: Wer nur die ersten Zeilen liest, hat dann trotzdem gesehen, worum es geht. Der Rest der Seite ist dann die Begründung der Empfehlung – auch das ist eine vertretbare Reihenfolge, solange die Risiken und die Kosten nicht darunter leiden.
+
+    **4. Typischer Stolperstein**
+
+    Der häufigste Fehler ist die Vorlage als Statusbericht: drei Seiten Ist-Analyse, viel Technik, am Ende ein „wir bitten um Entscheidung" ohne konkrete Frage. So etwas wird vertagt, weil niemand weiß, wozu genau er Ja sagen soll. Eine Entscheidungsfrage ist erst dann fertig, wenn sie mit Ja oder Nein beantwortbar ist und die Folgen beider Antworten daneben stehen.
+
+    Der zweite Stolperstein ist der Punktwert statt der Spanne – oft aus dem verständlichen Wunsch, kompetent zu wirken. Eine Zahl mit zwei Nachkommastellen wirkt genau, aber sie hält nicht: Bei der ersten Abweichung steht die Frage im Raum, warum man sich verrechnet hat, statt der Frage, welche Annahme sich geändert hat. Nur die Spanne mit offengelegten Annahmen bleibt sechs Monate später noch verteidigbar.
+
+---
+
 ## Was du jetzt kannst
 
-Wer alle zehn Aufgaben sauber beantwortet hat, kann das, worum es in diesem Block ging: aus einer unklaren, gewachsenen Ausgangslage einen **begründeten Plan** machen. Du analysierst den Bestand, wählst eine Architektur anhand von Anforderungen statt Bauchgefühl, dimensionierst Speicher mit Blick auf Ausfall **und** Datensicherung, denkst Ressourcen in vier Dimensionen und rechnest Kosten- und Lizenzfragen so durch, dass die Annahmen offenliegen. Genau diese Kette – erst der Bedarf, dann die Lösung, dann die Begründung – unterscheidet Planung von Basteln.
+Wer alle vierzehn Aufgaben sauber beantwortet hat, kann das, worum es in diesem Block ging: aus einer unklaren, gewachsenen Ausgangslage einen **begründeten Plan** machen. Du analysierst den Bestand, wählst eine Architektur anhand von Anforderungen statt Bauchgefühl, dimensionierst Speicher mit Blick auf Ausfall **und** Datensicherung, denkst Ressourcen in vier Dimensionen und rechnest Kosten- und Lizenzfragen so durch, dass die Annahmen offenliegen. Genau diese Kette – erst der Bedarf, dann die Lösung, dann die Begründung – unterscheidet Planung von Basteln. Dazu kommt der Schritt vom Plan in die Umsetzung: Du prüfst rechnerisch, ob die vorhandene Anbindung einen Cloud-Dienst überhaupt trägt, wählst eine Migrationsstrategie samt Rückfallplan, klärst vor einer Übernahme, welche Lizenzen überhaupt mitgehen – und fasst am Ende alles auf einer Seite so zusammen, dass eine Geschäftsführung damit entscheiden kann.
 
 !!! tip "Verbindung zur Virtualisierung"
     Die Ziel-Infrastruktur der TransRegio steht jetzt auf dem Papier – wie so ein Sollkonzept technisch umgesetzt wird, zeigt der Block [Virtualisierung](../virtualisierung/index.md): virtuelle Maschinen, Hypervisoren und Container sind die Bausteine, mit denen aus dem Plan laufende Systeme werden.

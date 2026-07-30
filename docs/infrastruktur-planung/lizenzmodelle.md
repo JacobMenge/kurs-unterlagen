@@ -187,7 +187,8 @@ Die Modelle der letzten Abschnitte sind leichter zu behalten, wenn Namen daran h
 
 Bis hierhin klang eine Lizenz nach etwas, das man einkauft. In modernen Systemen entsteht der weit größere Teil der Lizenzpflichten aber gar nicht im Einkauf, sondern beim Bauen und Betreiben. Denn keine Anwendung steht mehr allein: Sie sitzt auf einem Stapel fremder Software – und **jede Schicht bringt ihre eigene Lizenz mit**.
 
-<svg viewBox="0 0 720 372" width="100%" height="372" role="img" aria-label="Ein Turm aus fünf gestapelten Ebenen: unten die Cloud-Plattform als breitestes Fundament, darüber Betriebssystem und Basis-Image, darüber Frameworks, darüber Bibliotheken und Pakete, ganz oben der eigene Code. Jede Ebene trägt die darüberliegende und bringt eine eigene Lizenz mit.">
+<figure>
+<svg viewBox="0 0 720 350" width="100%" height="350" role="img" aria-label="Ein Turm aus fünf gestapelten Ebenen: unten die Cloud-Plattform als breitestes Fundament, darüber Betriebssystem und Basis-Image, darüber Frameworks, darüber Bibliotheken und Pakete, ganz oben der eigene Code. Jede Ebene trägt die darüberliegende und bringt eine eigene Lizenz mit.">
   <!-- Traegt-Pfeil links -->
   <line x1="54" y1="318" x2="54" y2="54" stroke="#56c374" stroke-width="2"/>
   <polygon points="54,42 48,56 60,56" fill="#56c374"/>
@@ -220,8 +221,9 @@ Bis hierhin klang eine Lizenz nach etwas, das man einkauft. In modernen Systemen
 
   <!-- Fundamentplatte -->
   <rect x="80" y="324" width="420" height="12" rx="3" fill="rgba(86,195,116,0.30)" stroke="#56c374" stroke-width="1"/>
-  <text x="290" y="358" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Jede Ebene bringt ihre eigene Lizenz mit – und kann sie jederzeit ändern.</text>
 </svg>
+<figcaption>Der Stapel, auf dem eine moderne Anwendung steht: Jede Ebene trägt die darüberliegende – und bringt ihre eigene Lizenz mit, die sie jederzeit ändern kann.</figcaption>
+</figure>
 
 Von unten nach oben gebaut: Die Cloud-Plattform trägt das Betriebssystem, darauf sitzt das Framework, darauf die Bibliotheken, ganz oben der eigene Code. Jede Ebene hält die darüberliegende – und für jede gilt dasselbe: Sie hat eine eigene Lizenz, sie kann jederzeit aktualisiert werden, sie kann kompromittiert werden. Und sie kann ihre Lizenzbedingungen ändern, ohne dass oben jemand gefragt wird.
 
@@ -378,7 +380,7 @@ Zum Abschluss die Punkte, die du in jedem Lizenzvertrag prüfen solltest – hie
 ---
 
 !!! example "Jetzt üben"
-    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md)** – fünfzehn Aufgaben, jede mit ausführlicher Musterlösung. Die ersten elf reichen von der günstigsten Zählweise über den Break-even zwischen Kauf und Abo bis zu Open-Source-Pflichten, Nutzwertanalyse, den Lücken in einem Vertragsangebot, dem Lizenz-Turm, dem Aufbau einer Lizenzverwaltung und einer **Recherche**, in der ihr zu jedem Lizenztyp eigene Beispiele sucht. Die letzten vier sind **Artikelaufgaben** an echten Fachbeiträgen und Nachrichten.
+    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md)** – neunzehn Aufgaben, jede mit ausführlicher Musterlösung. Die ersten fünfzehn reichen von der günstigsten Zählweise über den Break-even zwischen Kauf und Abo bis zu Staffelpreisen, kernbasierter Lizenzierung, Open-Source-Pflichten, Nutzwertanalyse, den Lücken in einem Vertragsangebot, dem Lizenz-Turm, dem Aufbau eines Lizenzinventars und einer **Recherche**, in der ihr zu jedem Lizenztyp eigene Beispiele sucht. Die letzten vier sind **Artikelaufgaben** an echten Fachbeiträgen und Nachrichten.
 
 ---
 

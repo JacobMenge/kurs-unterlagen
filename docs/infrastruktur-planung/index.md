@@ -41,8 +41,8 @@ Auf jede Theorieseite folgt direkt der passende Aufgabensatz – du kannst also 
 | [Ressourcen planen](ressourcen-planen.md) | Technische, personelle, zeitliche und finanzielle Ressourcen, Grobschätzung, Bewertung, Migrationsstrategien, CapEx/OpEx und TCO | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Übungen: Ressourcen planen](uebungen-ressourcen.md) | Acht Einzelaufgaben zu genau diesem Themenblock, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 | [Lizenzmodelle](lizenzmodelle.md) | Lizenzarten und Metriken, bekannte Software und ihre Lizenzen, der Lizenz-Turm im Abhängigkeitsstapel, Erfassung und Lizenzprozess, Kosten, Auswahl, rechtliche Aspekte | <span class='badge badge-vertiefung'>Vertiefung</span> |
-| [Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md) | Fünfzehn Einzelaufgaben zu genau diesem Themenblock, darunter vier Aufgaben an echten Fachartikeln, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
-| [Übungsaufgaben](uebungen.md) | Zehn Denk- und Transferaufgaben an einem durchgehenden Szenario, jede mit ausführlicher Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
+| [Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md) | Neunzehn Einzelaufgaben zu genau diesem Themenblock, darunter vier Aufgaben an echten Fachartikeln, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
+| [Übungsaufgaben](uebungen.md) | Vierzehn Denk- und Transferaufgaben an einem durchgehenden Szenario – von der Schwachstellenanalyse bis zur Entscheidungsvorlage, jede mit ausführlicher Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 
 ---
 
