@@ -1,6 +1,6 @@
 ---
 title: "Lizenzmodelle"
-description: "Software kaufst du selten – du erwirbst ein Nutzungsrecht. Von Einzelplatz über Named und Concurrent User bis Open Source und Abo: welche Lizenzmodelle es gibt, warum Unterlizenzierung richtig teuer wird und wie du mit Kostenvergleich und Nutzwertanalyse die passende Variante findest."
+description: "Software kaufst du selten – du erwirbst ein Nutzungsrecht. Von Einzelplatz über Named, Concurrent und Core bis Open Source, Abo und Credits: welche Lizenzmodelle es gibt, welche bekannte Software unter welcher Lizenz steht, wo im Abhängigkeitsstapel die Pflichten wirklich entstehen, warum Unterlizenzierung richtig teuer wird und wie du mit Kostenvergleich, Nutzwertanalyse und einem Lizenzprozess die passende Variante findest."
 ---
 
 # Lizenzmodelle
@@ -49,8 +49,20 @@ Sobald mehr als ein Mensch an mehr als einem Gerät arbeitet, wird die spannends
 | **pro Gerät** | jede Installation bzw. jedes Gerät | Betriebssysteme, Arbeitsplatz-Software | Zweitgerät oder Home-Office-Rechner zählt mit |
 | **Named User** | jede benannte Person – egal auf wie vielen Geräten | personengebundene Konten, viele Cloud-Dienste | Teilzeitkraft kostet so viel wie Vollzeitkraft |
 | **Concurrent User** | die **gleichzeitig** aktiven Nutzer | Fachanwendungen mit Schichtbetrieb | Lizenzserver nötig, der die Gleichzeitigkeit zählt |
+| **pro Prozessorkern** | die Kerne der Maschine, auf der die Software läuft | Datenbanken, Server- und Virtualisierungssoftware | eine größere VM kostet Lizenzgebühren, ohne dass jemand etwas einkauft |
 
 Ein kurzes Rechenbeispiel, wann **Concurrent User** günstiger ist: Eine Fachanwendung wird von 60 Beschäftigten genutzt – aber im Zwei-Schicht-Betrieb, sodass nie mehr als 25 gleichzeitig angemeldet sind. Als Named-User-Modell brauchst du 60 Lizenzen. Als Concurrent-Modell reichen 25 – selbst wenn die einzelne Concurrent-Lizenz das Doppelte kostet, sparst du. Umgekehrt gilt: Sitzen alle 60 gleichzeitig davor, bringt Concurrent nichts. Die Zählweise passt also nie „an sich", sondern immer nur **zum Nutzungsmuster**.
+
+Die vierte Zeile ist die unauffälligste – und die, die in der Praxis am häufigsten überrascht. Bei einer **kernbasierten Metrik** hängt die Lizenzmenge nicht an Menschen, sondern an Hardware. Wer eine VM großzügiger ausstattet, weil die Datenbank träge geworden ist, löst damit eine Kette aus, die in keinem Ticket steht:
+
+```mermaid
+flowchart LR
+  A["VM bekommt<br/>mehr Kerne"] --> B["lizenzpflichtige<br/>Kerne steigen"]
+  B --> C["zusätzliche<br/>Lizenzen nötig"]
+  C --> D["höhere Kosten,<br/>Audit-Risiko"]
+```
+
+Zu jeder Änderung an einer Maschine gehört deshalb die Frage, ob darauf etwas kernbasiert lizenziert läuft. Das ist kein juristisches Detail, sondern eine gewöhnliche Betriebsfrage. Sie fällt nur meist erst beim Audit auf – dann allerdings rückwirkend.
 
 ### Kaufen oder abonnieren?
 
@@ -64,11 +76,48 @@ Ein kurzes Rechenbeispiel, wann **Concurrent User** günstiger ist: Eine Fachanw
 
 Die **Kauflizenz** – oft *perpetual* genannt – erwirbst du einmal und darfst sie unbegrenzt nutzen. Die **Subscription** mietest du: kleinere, planbare Raten, Updates inklusive, aber wenn du aufhörst zu zahlen, ist der Zugriff weg. Welche Variante über die Jahre günstiger ist, ist eine Rechenaufgabe – die machen wir weiter unten konkret.
 
+### Neuere Modelle: Verbrauch, Credits und Hybrid
+
+Kauf und Abo sind die beiden Klassiker. Daneben haben sich Modelle etabliert, die dir in aktuellen Angeboten immer öfter begegnen:
+
+| Modell | Abgerechnet wird ... | Wo du es triffst |
+|---|---|---|
+| **nutzungsbasiert** | der tatsächliche Verbrauch: Rechenzeit, Transaktionen, verarbeitete Datenmenge | Cloud-Dienste, Schnittstellen |
+| **Credits** | ein vorab gekauftes Guthaben, das die Nutzung abbaut | Cloud-Kontingente, KI-Dienste |
+| **hybrid** | eine Lizenz, die sowohl im eigenen Haus als auch beim Cloud-Anbieter gilt | Server- und Datenbankprodukte |
+| **parallele Nutzung** | die Zahl gleichzeitiger Sitzungen oder Verbindungen | Fernwartung, Terminaldienste |
+
+Zwei Eigenschaften machen diese Modelle in der Planung unangenehm. Erstens **schwanken die Kosten**: Ein Verbrauchsmodell hat keinen Preis, den du in eine Fünf-Jahres-Tabelle schreiben kannst, sondern nur eine Schätzung mit Spanne. Zweitens **verfallen Credits** häufig nach einer Frist – nicht verbrauchtes Guthaben ist dann bezahltes Nichts, also Überlizenzierung in neuer Verpackung. Wer so etwas einkauft, braucht dieselbe laufende Verbrauchsmessung wie bei jeder anderen Cloud-Position von der Seite [Ressourcen planen](ressourcen-planen.md).
+
 ### Open Source: frei heißt nicht pflichtenfrei
 
 **Open Source** bedeutet: Der Quellcode ist offen, du darfst die Software nutzen, verändern und weitergeben – meist ohne Lizenzgebühr. Was es **nicht** bedeutet: dass keine Bedingungen gelten. Auch eine Open-Source-Lizenz ist eine Lizenz.
 
-Grob gibt es zwei Familien. **Permissive Lizenzen** wie MIT oder Apache verlangen im Kern nur, dass du den Urhebervermerk erhältst – du darfst den Code sogar in eigene, geschlossene Produkte einbauen. **Copyleft**-Lizenzen wie die GPL gehen weiter: Wer die Software verändert weitergibt, muss die Änderungen unter derselben Lizenz wieder offenlegen. Für den reinen **Einsatz** im Betrieb ist das selten ein Problem – relevant wird es, sobald eine Firma Open-Source-Code in eigene Produkte einbaut und diese vertreibt.
+Grob gibt es zwei Familien. **Permissive Lizenzen** wie MIT, BSD oder Apache verlangen im Kern nur, dass du den Urhebervermerk erhältst – du darfst den Code sogar in eigene, geschlossene Produkte einbauen. **Copyleft**-Lizenzen wie die GPL gehen weiter: Wer die Software verändert weitergibt, muss die Änderungen unter derselben Lizenz wieder offenlegen. Für den reinen **Einsatz** im Betrieb ist das selten ein Problem – relevant wird es, sobald eine Firma Open-Source-Code in eigene Produkte einbaut und diese vertreibt.
+
+Damit die beiden Familien nicht abstrakt bleiben: Der Linux-Kernel und WordPress stehen unter GPL, React unter MIT, Android unter Apache 2.0 – alle vier laufen in unzähligen Betrieben, meist ohne dass es jemand als Lizenzfrage wahrnimmt. Eine ausführliche Übersicht mit weiteren Namen findest du [weiter unten](#bekannte-software-und-ihre-lizenzmodelle).
+
+**Drei Pflichten** decken fast alles ab, was Open-Source-Lizenzen von dir verlangen:
+
+| Pflicht | Was sie bedeutet | Wer sie typischerweise trifft |
+|---|---|---|
+| **Hinweis- und Copyright-Pflicht** | Lizenztext und Urhebervermerk müssen erhalten bleiben und mitgeliefert werden | jeden, der Software weitergibt – auch bei MIT und Apache |
+| **Quellcode-Veröffentlichung** | der Empfänger bekommt Zugang zum Quellcode, inklusive der eigenen Änderungen | Copyleft, sobald weitergegeben wird |
+| **Lizenzbindung** | Änderungen dürfen nur unter derselben Lizenz weitergegeben werden | Copyleft, deshalb der Name |
+
+Bei der **AGPL** kommt eine Besonderheit dazu, die man leicht übersieht: Dort gilt schon das **Bereitstellen über ein Netzwerk** als Weitergabe. Wer eine AGPL-Software als Dienst für Dritte betreibt, kann die Offenlegungspflicht auslösen, ohne je eine Datei herausgegeben zu haben. Für den rein internen Einsatz ändert das nichts – für ein eigenes Produkt sehr wohl.
+
+Bleibt die Frage, warum sich überhaupt jemand für die eine oder andere Seite entscheidet:
+
+| | **Copyright / proprietär** | **Copyleft** |
+|---|---|---|
+| Ziel | mit der Software Geld verdienen | die Software dauerhaft frei halten |
+| Motiv | Kontrolle über Weiterentwicklung und Vertrieb behalten | Verbesserungen fließen an die Allgemeinheit zurück |
+| Quellcode | bleibt geheim | bleibt offen, auch in allen Ableitungen |
+| Typische Beispiele | Microsoft Windows, Adobe-Produkte, AutoCAD | Linux-Kernel, WordPress |
+
+!!! note "Offene Gewichte sind nicht automatisch Open Source"
+    Bei KI-Modellen lohnt der zweite Blick besonders. Manche offenen Modelle stehen tatsächlich unter Apache 2.0 – dann gelten die Regeln aus der Tabelle oben. Andere kommen mit einer herstellereigenen **Community License**, die zwar den Download erlaubt, aber Nutzungsbeschränkungen enthält: bestimmte Einsatzzwecke ausgeschlossen, ab einer bestimmten Unternehmensgröße gesonderte Vereinbarung nötig, Weiterverwendung der Ausgaben eingeschränkt. „Frei herunterladbar" und „frei verwendbar" sind zwei verschiedene Aussagen – und nur eine davon steht in der Lizenz.
 
 ### Freemium: gratis mit Sternchen
 
@@ -80,6 +129,88 @@ Viele Hersteller fahren zweigleisig: eine kostenlose **Community-Ausgabe** für 
     Die Lehre daraus: **Lizenzbedingungen sind nicht statisch.** Was heute gratis ist, kann morgen abopflichtig sein – Lizenzen gehören deshalb regelmäßig auf Wiedervorlage, nicht einmalig in einen Ordner.
 
 Noch eine Verschiebung, die du kennen solltest: **Cloud-Dienste** stecken die Lizenz oft direkt in den Nutzungspreis. Du zahlst pro Stunde, pro Instanz oder pro Verbrauch – die Softwarelizenz ist eingepreist. Damit wandern Lizenzkosten aus der Investitionsplanung in die laufende, nutzungsbasierte Abrechnung, die du von der Seite [Ressourcen planen](ressourcen-planen.md) kennst.
+
+### Wenn sich die Lizenz unter dir ändert
+
+Docker Desktop ist kein Einzelfall, sondern ein Muster. In den letzten Jahren haben mehrere weit verbreitete Produkte ihre Lizenz geändert – jedes Mal mit derselben Wirkung: Der Betrieb hatte etwas eingeplant, das es so nicht mehr gab.
+
+| Produkt | Was sich geändert hat | Was das für Betriebe bedeutete |
+|---|---|---|
+| **VMware** (nach der Broadcom-Übernahme) | Kauflizenzen abgelöst durch Abos, Abrechnung nach Prozessorkernen mit Mindestmengen | teils deutlich höhere Kosten bei unveränderter Technik – Anlass für viele Virtualisierungs-Wechsel |
+| **Terraform** | 2023 von einer Open-Source-Lizenz auf die Business Source License gewechselt | kommerzielle Weiterverwendung eingeschränkt; die Gemeinschaft hat das Projekt als OpenTofu abgespalten |
+| **Grafana** | 2021 von Apache 2.0 auf AGPLv3 | aus einer permissiven wurde eine stark copyleft-gebundene Lizenz |
+| **Redis** | 2024 weg von der bisherigen Open-Source-Lizenz | Abspaltung als Valkey, Betriebe mussten sich für eine Seite entscheiden |
+| **Red Hat Enterprise Linux** | Quellcode-Zugang seit 2023 an einen Vertrag gebunden | die kostenlosen Nachbauten mussten ihren Weg neu suchen |
+
+Das Muster dahinter ist immer dasselbe: Ein Produkt wächst kostenlos oder günstig in die Betriebe hinein, wird dort unverzichtbar – und **danach** ändern sich die Bedingungen. Das ist kein Vorwurf, sondern ein Geschäftsmodell, das man kennen sollte, bevor man sich darauf einlässt.
+
+!!! warning "Die Frage, die daraus folgt"
+    Für jedes Werkzeug, das heute kostenlos oder auffällig günstig läuft, gehört eine Zahl in die Planung: **Was würde es kosten, wenn das morgen kostenpflichtig wäre – und was würde ein Wechsel kosten?** Wer beide Zahlen kennt, verhandelt bei der nächsten Ankündigung aus einer anderen Position. Wer sie nicht kennt, zahlt, was aufgerufen wird.
+
+---
+
+## Bekannte Software und ihre Lizenzmodelle
+
+Die Modelle der letzten Abschnitte sind leichter zu behalten, wenn Namen daran hängen. Die folgende Übersicht ordnet jedem Typ Software zu, die dir im Betrieb tatsächlich begegnet.
+
+### Proprietär
+
+| Modell | Bekannte Beispiele | Woran du es erkennst |
+|---|---|---|
+| **Kauflizenz, pro Gerät** | Windows 11 Pro (OEM), Microsoft Office LTSC | einmaliger Preis, gebunden an einen Rechner, kein Ablaufdatum |
+| **Abo pro Named User** | Microsoft 365, Adobe Creative Cloud, Autodesk AutoCAD, Atlassian Jira | monatliche oder jährliche Rate je benanntem Konto, Updates inklusive |
+| **Concurrent / parallele Sitzungen** | TeamViewer (Kanäle), viele CAD- und Simulationsprogramme mit Floating License | ein Lizenzserver im Netz, „belegt/frei" statt fester Zuordnung |
+| **pro Prozessorkern** | Microsoft SQL Server, Oracle Database, Windows Server, VMware vSphere | der Preis hängt an der Hardware, nicht an Menschen; oft mit Mindestkernzahl |
+| **Freemium / Open Core** | Docker Desktop, GitLab, Proxmox VE, Grafana, Zoom, Slack | eine kostenlose Ausgabe daneben eine Enterprise-Ausgabe mit Support |
+| **SaaS, im Preis enthalten** | Google Workspace, Salesforce, Microsoft 365 | du zahlst Nutzung, die Lizenz taucht als eigener Posten gar nicht auf |
+| **verbrauchsbasiert / Credits** | Cloud-VMs mit Windows-Abbild, KI-Schnittstellen mit Token-Abrechnung | Rechnung nach Stunden, Anfragen oder aufgebrauchtem Guthaben |
+
+### Open Source und verwandte Modelle
+
+| Familie | Bekannte Beispiele | Kernpflicht |
+|---|---|---|
+| **permissiv** (MIT, BSD, Apache 2.0) | React, Node.js, Kubernetes, nginx, PostgreSQL, Android (AOSP), Mistral-Modelle | Urhebervermerk und Lizenztext erhalten – sonst freie Hand, auch in geschlossenen Produkten |
+| **schwaches Copyleft** (MPL, LGPL) | Firefox, LibreOffice | veränderte Dateien der Komponente offenlegen; das umgebende Produkt darf geschlossen bleiben |
+| **starkes Copyleft** (GPL) | Linux-Kernel, WordPress, GIMP | bei Weitergabe: Quellcode der Änderungen unter derselben Lizenz |
+| **Netzwerk-Copyleft** (AGPL) | Nextcloud, Grafana (seit 2021) | schon der Betrieb als Dienst für Dritte kann die Offenlegung auslösen |
+| **Source Available** (BUSL, SSPL, RSAL) | Terraform, MongoDB, Redis | Quellcode einsehbar, aber **kein** Open Source: kommerzielle Nutzung ist eingeschränkt |
+| **Community License** (herstellereigen) | Llama-Modelle | frei herunterladbar, aber mit Nutzungsbeschränkungen und Schwellen für große Anbieter |
+
+!!! warning "Zwei Fallen in dieser Tabelle"
+    **„Quellcode offen" heißt nicht „Open Source".** Die vorletzte Zeile ist der Grund, warum dieser Unterschied wichtig ist: Bei Terraform, MongoDB oder Redis kannst du den Code lesen – kommerziell weiterverwenden darfst du ihn trotzdem nur eingeschränkt. Diese Lizenzen sind bewusst so gebaut, dass Cloud-Anbieter das Produkt nicht als eigenen Dienst verkaufen können. Für den normalen Einsatz im Betrieb ist das meist unproblematisch, für ein eigenes Produkt selten.
+
+    **Quelltext und ausgelieferte Datei können verschiedene Lizenzen haben.** Bekanntestes Beispiel ist Visual Studio Code: Der Quellcode steht unter MIT, das fertige Installationspaket von Microsoft dagegen unter einer eigenen Microsoft-Lizenz mit Telemetrie und Marktplatz-Bedingungen. Wer wirklich nur MIT-Code will, nutzt einen der freien Nachbauten. Die Frage „unter welcher Lizenz steht das?" hat also zwei Antworten – man muss dazusagen, welche Datei gemeint ist.
+
+---
+
+## Der Lizenz-Turm: wo Pflichten heute wirklich entstehen
+
+Bis hierhin klang eine Lizenz nach etwas, das man einkauft. In modernen Systemen entsteht der weit größere Teil der Lizenzpflichten aber gar nicht im Einkauf, sondern beim Bauen und Betreiben. Denn keine Anwendung steht mehr allein: Sie sitzt auf einem Stapel fremder Software – und **jede Schicht bringt ihre eigene Lizenz mit**.
+
+```mermaid
+flowchart TB
+  E["5 &nbsp;Eigener Code"] --> L["4 &nbsp;Bibliotheken & Pakete"]
+  L --> F["3 &nbsp;Frameworks"]
+  F --> O["2 &nbsp;Betriebssystem / Basis-Image"]
+  O --> C["1 &nbsp;Cloud-Plattform"]
+```
+
+Von unten nach oben gelesen: Die Cloud-Plattform trägt das Betriebssystem, darauf sitzt das Framework, darauf die Bibliotheken, ganz oben der eigene Code. Und für jede Ebene gilt: Sie hat eine eigene Lizenz, sie kann jederzeit aktualisiert werden, sie kann kompromittiert werden – und sie kann ihre Lizenzbedingungen ändern.
+
+| Ebene | Die Lizenzfrage | Das Risiko daneben |
+|---|---|---|
+| **1 Cloud-Plattform** | Sind die genutzten Dienste im Preis lizenziert? Dürfen eigene Lizenzen hier laufen? | Wo genau liegen die Daten? Welche Zusagen gelten? |
+| **2 Betriebssystem / Basis-Image** | Ist das Server-Betriebssystem korrekt lizenziert – auch in der VM, auch im Image? | veraltete Images ohne Update-Zyklus, offene Schwachstellen |
+| **3 Framework** | Welche Lizenz hat das Framework – und hat sie sich zuletzt geändert? | Abhängigkeit vom Hersteller, Schwachstellen im Framework |
+| **4 Bibliotheken & Pakete** | Welche Lizenzen stecken in den Abhängigkeiten der Abhängigkeiten? | Angriffe über die Lieferkette, etwa manipulierte Pakete in öffentlichen Registern |
+| **5 Eigener Code** | Unter welcher Lizenz steht er selbst – und verträgt sie sich mit allem darunter? | Zugangsdaten im Klartext, fest verdrahtete Geheimnisse |
+
+Ebene 4 ist die unübersichtlichste. Ein einziges installiertes Paket zieht Dutzende weitere nach sich, jedes mit einer eigenen Lizenz. Niemand liest das im Vorbeigehen – und genau darin liegt das Problem.
+
+!!! danger "Lizenzverstöße entstehen heute systemisch, nicht aus böser Absicht"
+    Der übliche Ablauf sieht so aus: Jemand installiert ein Paket, weil es die Aufgabe löst. Die Lizenz liest niemand. Die Prüfung auf Compliance kommt – wenn überhaupt – Monate später. Bis dahin ist das Risiko unsichtbar, weil alles funktioniert.
+
+    Daraus folgt eine unbequeme Einsicht: Man kann Lizenz-Compliance in so einem Stapel nicht mehr durch Sorgfalt einzelner Personen herstellen. Es braucht **Werkzeuge und einen Prozess**. Lizenz-Scanner lesen die Abhängigkeiten eines Projekts aus und melden, welche Lizenzen darin stecken; eine **SBOM** – die maschinenlesbare Stückliste aller Komponenten – hält das Ergebnis fest und ist zugleich die Grundlage, um bei der nächsten Schwachstelle in Minuten zu beantworten, ob man betroffen ist.
 
 ---
 
@@ -99,6 +230,42 @@ Zwei Schieflagen können dabei auffliegen:
 | Wie es auffliegt | Hersteller-Audit | interne Kostenkontrolle – oder nie |
 
 **Hersteller-Audits** sind dabei kein theoretisches Schreckgespenst, sondern ein realer, vertraglich vereinbarter Vorgang: Große Hersteller lassen sich in ihren Verträgen das Recht einräumen, die Lizenznutzung beim Kunden zu prüfen. Dann kommt ein Prüfer, gleicht die Installationen mit den erworbenen Lizenzen ab – und jede Differenz wird zur Nachzahlung zu Listenpreisen. Ein sauberes Lizenzinventar ist an diesem Tag bares Geld wert.
+
+Besonders regelmäßig prüfen die großen Anbieter von Unternehmenssoftware – **Microsoft, Oracle, SAP, IBM und Adobe** stehen in Erfahrungsberichten immer wieder ganz oben. Kommt eine Prüfung ins Haus, ist die erste sinnvolle Reaktion nicht, sofort alle Zahlen zu liefern, sondern sich Unterstützung zu holen: Spezialisierte Dienstleister für **Software Asset Management (SAM)** rechnen den eigenen Bestand vor dem Termin gegen und verhandeln die Auslegung von Metriken mit. Der Unterschied zwischen einer gut vorbereiteten und einer unvorbereiteten Prüfung ist regelmäßig ein fünf- bis sechsstelliger Betrag.
+
+Über- und Unterlizenzierung entstehen dabei selten aus Nachlässigkeit, sondern aus ganz gewöhnlichem Betriebsalltag:
+
+| Wie es entsteht | Was daraus wird |
+|---|---|
+| Beschäftigte verlassen das Haus, die Lizenz wird nie abbestellt | **Zombie-Lizenzen** – bezahlt, aber niemandem zugeordnet |
+| Ein Werkzeug wird eingeführt, dann doch die Alternative genutzt | ein voll bezahlter Vertrag ohne einen einzigen Nutzer |
+| Alte VMs bleiben nach einer Konsolidierung stehen | Lizenzen laufen auf Maschinen, die niemand mehr braucht |
+| Das Unternehmen wächst schneller als die Verwaltung | mehr Nutzer als Lizenzen, ohne dass es jemand entscheidet |
+| „Lieber zu viel als zu wenig" beim Einkauf | dauerhafte Überlizenzierung als Gewohnheit |
+
+Auffällig ist die Richtung: Der einzige dieser Fälle, der rechtlich gefährlich wird, ist das Wachstum – alle anderen kosten „nur" Geld. Genau deshalb bleiben sie so lange liegen.
+
+### Lizenzverwaltung als Prozess
+
+Ein Lizenzbestand ist kein Dokument, das man einmal schreibt. Er ist ein Kreislauf, der an denselben Ereignissen hängt, an denen auch alles andere in der IT hängt:
+
+```mermaid
+flowchart LR
+  A["1 Erfassen<br/>was läuft bei uns?"] --> B["2 Zuordnen<br/>Metrik, Vertrag, Nachweis"]
+  B --> C["3 Überwachen<br/>Nutzung gegen Bestand"]
+  C --> D["4 Bereinigen<br/>abbestellen, nachkaufen"]
+  D --> E["5 Wiedervorlage<br/>Bedingungen erneut prüfen"]
+  E --> A
+```
+
+Was diesen Kreislauf in Gang hält, sind **Auslöser**, keine Termine im Kalender:
+
+- **Onboarding und Offboarding**: Wer kommt, braucht Lizenzen; wer geht, gibt sie zurück. Ein sauberer Offboarding-Prozess ist die wirksamste einzelne Maßnahme gegen Zombie-Lizenzen – und er kostet nichts außer einem Haken auf einer Checkliste.
+- **Jede neue Maschine**: Läuft darauf etwas kernbasiert Lizenziertes? Dann ändert die Maschine den Lizenzbedarf.
+- **Jede Vertragsverlängerung**: der natürliche Moment, ungenutzte Lizenzen abzubestellen. Danach ist die Gelegenheit für ein Jahr weg.
+- **Jede Lizenzänderung beim Hersteller**: die Übergangsfrist ist die eigentliche Ressource – wer sie verstreichen lässt, hat keine Wahl mehr, sondern nur noch eine Rechnung.
+
+Der Ort für das Ergebnis ist die CMDB. Und wichtig: **Auch kostenlose Werkzeuge gehören hinein.** Genau die fehlen in den meisten Inventaren, weil sie nie über den Einkauf gelaufen sind – und genau die sind es, deren Bedingungen sich ändern.
 
 ---
 
@@ -164,6 +331,12 @@ Zum Abschluss die Punkte, die du in jedem Lizenzvertrag prüfen solltest – hie
 - **Weitergabe & Übertragbarkeit**: Darf die Lizenz auf ein anderes Gerät, eine andere Person oder – etwa bei einer Firmenübernahme – ein anderes Unternehmen übergehen?
 - **Ausstieg & Datenexport**: In welchem Format und in welcher Frist bekommst du deine Daten heraus, wenn der Vertrag endet? Ohne diese Klausel wird der Anbieterwechsel praktisch unmöglich – die Abhängigkeit dahinter heißt **Vendor Lock-in**.
 - **Audit-Klauseln**: Welche Prüfrechte hat der Hersteller, mit welcher Ankündigungsfrist und in welchem Umfang?
+- **Änderungsvorbehalt**: Darf der Hersteller Metrik, Preis oder Bedingungen während der Laufzeit ändern – und was passiert dann? Genau hier entscheidet sich, ob eine Umstellung von „pro Nutzer" auf „pro Kern" dich mitten im Vertrag trifft oder erst zur Verlängerung.
+
+!!! note "Lizenzbedingungen sind auch ein Machtinstrument"
+    Wie eine Lizenz gestaltet ist, entscheidet nicht nur über Kosten, sondern über Wettbewerb. Ein bekanntes Beispiel: In Großbritannien läuft eine Sammelklage in Milliardenhöhe gegen Microsoft. Der Vorwurf lautet, dass Server-Lizenzen in der hauseigenen Cloud deutlich günstiger sind als bei konkurrierenden Anbietern – wer wechseln will, zahlt für dieselbe Software mehr.
+
+    Für dich in der Planung heißt das: Der Preis einer Lizenz kann davon abhängen, **wo** du sie betreibst. Diese Frage gehört in jeden Cloud-Vergleich, sonst rechnest du zwei Angebote gegeneinander, deren Lizenzkosten gar nicht dieselbe Basis haben.
 
 ---
 
@@ -171,13 +344,15 @@ Zum Abschluss die Punkte, die du in jedem Lizenzvertrag prüfen solltest – hie
     1. **Du kaufst ein Nutzungsrecht, keine Software.** Das Urheberrecht bleibt beim Hersteller – die Lizenz regelt, was du darfst. Auch Open Source ist eine Lizenz mit Bedingungen, nicht ein rechtsfreier Raum.
     2. **Zählweise und Bezahlmodell müssen zum Nutzungsmuster passen.** Concurrent schlägt Named User im Schichtbetrieb, das Abo schlägt den Kauf bei kurzer Nutzungsdauer – umgekehrt jeweils genauso. Gerechnet wird immer über die gesamte Nutzungsdauer.
     3. **Ohne Inventar keine Compliance.** Unterlizenzierung ist ein rechtliches Risiko mit Nachzahlung beim Audit, Überlizenzierung ist totes Kapital – beides findest du nur, wenn der Lizenzbestand sauber erfasst ist.
+    4. **Der größte Teil deiner Lizenzpflichten wird nicht eingekauft, sondern installiert.** In einem Stapel aus Cloud, Betriebssystem, Framework und Bibliotheken hängt an jeder Schicht eine eigene Lizenz. Dagegen hilft kein guter Wille, sondern nur ein Prozess mit Werkzeugen.
+    5. **Lizenzbedingungen ändern sich.** Docker Desktop, VMware, Terraform, Grafana, Redis – für jedes kostenlose oder günstige Werkzeug im Haus gehört die Frage in die Planung, was es kosten würde, wenn das morgen anders wäre.
 
 ---
 
 !!! example "Jetzt üben"
-    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md)** – acht Einzelaufgaben von der günstigsten Zählweise über den Break-even zwischen Kauf und Abo bis zu Open-Source-Pflichten, Nutzwertanalyse und den Lücken in einem realistischen Vertragsangebot, jede mit ausführlicher Musterlösung.
+    Zu dieser Seite gibt es einen eigenen Aufgabensatz: **[Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md)** – fünfzehn Aufgaben, jede mit ausführlicher Musterlösung. Die ersten elf reichen von der günstigsten Zählweise über den Break-even zwischen Kauf und Abo bis zu Open-Source-Pflichten, Nutzwertanalyse, den Lücken in einem Vertragsangebot, dem Lizenz-Turm, dem Aufbau einer Lizenzverwaltung und einer **Recherche**, in der ihr zu jedem Lizenztyp eigene Beispiele sucht. Die letzten vier sind **Artikelaufgaben** an echten Fachbeiträgen und Nachrichten.
 
 ---
 
 !!! tip "Verbindung zu Recht & Organisation"
-    Lizenzen sind Verträge – und Verträge haben mehr Stellschrauben als Laufzeit und Metrik. Haftung, Gewährleistung, Kündigungsfristen und die Vertragsarten dahinter vertieft die Seite [IT-Verträge](../recht-organisation/it-vertraege.md). Wie die Lizenzkosten in die Gesamtplanung einfließen, hast du auf [Ressourcen planen](ressourcen-planen.md) gesehen – damit ist der Bogen dieses Blocks geschlossen: vom Bedarf über die Architektur bis zu den Rechten, das Ganze zu betreiben.
+    Lizenzen sind Verträge – und Verträge haben mehr Stellschrauben als Laufzeit und Metrik. Haftung, Gewährleistung, Kündigungsfristen und die Vertragsarten dahinter vertieft die Seite [IT-Verträge](../recht-organisation/it-vertraege.md). Der Lizenz-Turm wiederum ist ein Risiko-Thema: Wie man solche Abhängigkeiten systematisch bewertet und steuert, gehört zum [Risikomanagement](../it-sicherheit/risikomanagement.md). Wie die Lizenzkosten in die Gesamtplanung einfließen, hast du auf [Ressourcen planen](ressourcen-planen.md) gesehen – damit ist der Bogen dieses Blocks geschlossen: vom Bedarf über die Architektur bis zu den Rechten, das Ganze zu betreiben.
