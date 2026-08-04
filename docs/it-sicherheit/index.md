@@ -20,8 +20,8 @@ Ein integriertes System ist nur so viel wert, wie es **sicher und verfügbar** l
 
 <span class='badge badge-pruefung'>Prüfungsrelevant</span> &nbsp; Dieser Block gehört zum **prüfungsrelevanten Kern**. Sicherheit und Risiko ziehen sich durch fast jede Aufgabenstellung – von der Planung über den Betrieb bis zur Abnahme.
 
-!!! note "Status: Platzhalter <span class='badge badge-wip'>in Arbeit</span>"
-    Die Struktur dieses Blocks steht, die einzelnen Seiten werden Schritt für Schritt mit Inhalten gefüllt. Du siehst hier schon, **welche Themen kommen** und **wie sie zusammenhängen** – damit du den roten Faden kennst, bevor die Details folgen.
+!!! note "Status: teilweise ausgearbeitet <span class='badge badge-wip'>in Arbeit</span>"
+    **Fertig sind [Risikomanagement](risikomanagement.md) und der zugehörige Aufgabensatz [Übungen: Risikoanalyse](uebungen-risikoanalyse.md)** – damit steht das Verfahren, das sich durch den ganzen Block zieht. Die übrigen Seiten werden Schritt für Schritt gefüllt; du siehst hier schon, **welche Themen kommen** und **wie sie zusammenhängen**.
 
 ---
 
@@ -30,7 +30,8 @@ Ein integriertes System ist nur so viel wert, wie es **sicher und verfügbar** l
 | Seite | Inhalt | Relevanz |
 |-------|--------|----------|
 | [Grundlagen & Schutzziele](grundlagen.md) | CIA-Schutzziele, Authentizität, typische Bedrohungen und Angriffswege | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
-| [Risikomanagement](risikomanagement.md) | Der Risikoprozess, Risikomatrix, FMEA, qualitative und quantitative Bewertung | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
+| [Risikomanagement](risikomanagement.md) | Der Risikoprozess, Risikoregister, Risikomatrix, Schadenserwartungswert, FMEA, die vier Steuerungsstrategien, Schutzbedarf sowie RTO und RPO | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
+| [Übungen: Risikoanalyse](uebungen-risikoanalyse.md) | Zwölf Aufgaben zum Selbstdurchführen – von der Identifikation über Matrix, Erwartungswert und FMEA bis zur vollständigen Risikoanalyse einer Klinik, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 | [ISMS & Standards](isms.md) | Informationssicherheits-Managementsystem, ISO 27001, BSI-Grundschutz, Audits | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
 | [Sicherheitsvorfälle](sicherheitsvorfaelle.md) | Erkennen, protokollieren, Sofortmaßnahmen, Meldepflichten, Wirksamkeit prüfen | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
 | [Beweissicherung & Prävention](beweissicherung-und-praevention.md) | Revisionssichere Dokumentation, Archivierung, Präventionsmaßnahmen, Reviews | <span class='badge badge-vertiefung'>Vertiefung</span> |
