@@ -3,6 +3,7 @@ nav:
   - "Überblick": index.md
   - "Grundlagen & Schutzziele": grundlagen.md
   - "Risikomanagement": risikomanagement.md
+  - "Risikomanagement: Vertiefung": risikomanagement-vertiefung.md
   - "Übungen: Risikoanalyse": uebungen-risikoanalyse.md
   - "ISMS & Standards": isms.md
   - "Sicherheitsvorfälle": sicherheitsvorfaelle.md

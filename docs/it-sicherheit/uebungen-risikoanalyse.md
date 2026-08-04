@@ -272,7 +272,7 @@ Aus der Bestandsaufnahme des Betriebs sind außerdem diese Punkte bekannt:
 !!! info "Worum es geht"
     - Aus einer gewachsenen IT-Landschaft **Risiken systematisch herausarbeiten** statt Missstände abzuschreiben
     - Risikoarten als **Suchraster** benutzen und erkennen, welche Spalte verdächtig leer bleibt
-    - Theorie dazu: [Risikomanagement](risikomanagement.md)
+    - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
 Die **Elektrotechnik Brandhoff GmbH** installiert und wartet Elektroanlagen für Gewerbekunden. **60 Beschäftigte**, davon 44 im Außendienst, 16 im Büro. Ein Standort. Die IT ist über zwanzig Jahre mitgewachsen, geplant hat sie nie jemand. Eine Begehung mit dem Geschäftsführer ergibt folgendes Bild:
 
@@ -405,7 +405,7 @@ Die **Elektrotechnik Brandhoff GmbH** installiert und wartet Elektroanlagen für
 
     Die Risikoarten sind deshalb kein Ordnungsmerkmal für ein Archiv, sondern ein **Suchraster**. Ihr eigentlicher Zweck zeigt sich erst, wenn eine Spalte auffällig leer bleibt – dann ist nämlich nicht das Risiko klein, sondern die Suche unvollständig. Genau das ist der Inhalt von Teil 2: Nicht das Ergebnis der Kategorisierung ist wertvoll, sondern die Lücke, die sie sichtbar macht.
 
-    **3. Auch gut wäre ...** – jedem Risiko das betroffene **Schutzziel** zuzuordnen und die Schutzziele anschließend als zweiten Suchdurchgang zu benutzen: Was passiert, wenn bei den Auftragsdaten die Vertraulichkeit verletzt wird, was bei der Integrität, was bei der Verfügbarkeit? Das Raster steht auf [Grundlagen & Schutzziele](grundlagen.md) und findet zuverlässig die Integritätsrisiken, an die bei einer Begehung niemand denkt – stille Datenveränderung fällt in keinem Serverraum auf.
+    **3. Auch gut wäre ...** – jedem Risiko das betroffene **Schutzziel** zuzuordnen und die Schutzziele anschließend als zweiten Suchdurchgang zu benutzen: Was passiert, wenn bei den Auftragsdaten die Vertraulichkeit verletzt wird, was bei der Integrität, was bei der Verfügbarkeit? Das Raster steht im Abschnitt [Schutzbedarf](risikomanagement.md#schutzbedarf-wie-viel-schutz-ist-genug) und findet zuverlässig die Integritätsrisiken, an die bei einer Begehung niemand denkt – stille Datenveränderung fällt in keinem Serverraum auf.
 
     Ebenfalls stark ist der Hinweis, dass mehrere dieser Risiken **gekoppelt** sind. Risiko 1 und Risiko 5 greifen ineinander: Ein Brand im Serverraum vernichtet Produktivdaten und Sicherung in einem Zug, weil beide in derselben Maschine stecken – zwei Einträge mit je „mittel" ergeben zusammen einen Totalverlust. Risiko 10 wiederum verstärkt jedes andere Risiko in der Liste, weil ohne Administrator keine Maßnahme greift. Solche Kopplungen sind der Grund, warum Risiken nicht nur einzeln bewertet werden dürfen.
 
@@ -424,7 +424,7 @@ Die **Elektrotechnik Brandhoff GmbH** installiert und wartet Elektroanlagen für
 !!! info "Worum es geht"
     - Ein wiederkehrendes Problem entlang der fünf Hauptäste **Mensch, Maschine, Methode, Material, Mitwelt** aufschlüsseln
     - **Symptom und Ursache** trennen und die Kandidaten am beobachteten Muster prüfen
-    - Theorie dazu: [Risikomanagement](risikomanagement.md)
+    - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
 Die **Rohrbach Großhandel GmbH** beliefert Handwerksbetriebe mit Sanitär- und Heizungsmaterial. 140 Beschäftigte, davon **22 in Auftragsannahme und Innendienst**. Seit gut einem Jahr gibt es eine Klage, die immer gleich klingt:
 
@@ -797,7 +797,7 @@ Das sind die acht Risiken samt dem, was der Workshop dazu weiß:
 !!! info "Worum es geht"
     - Aus Einzelschaden und Häufigkeit einen **jährlichen Schadenserwartungswert** rechnen – auch bei Häufigkeiten unter eins pro Jahr
     - Maßnahmen an ihrem Nutzen messen statt an ihrem Preis – und erkennen, wo diese Rechnung an ihre Grenze stößt
-    - Theorie dazu: [Risikomanagement](risikomanagement.md)
+    - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
 Die **Grothe Logistik GmbH** ist eine Spedition mit eigenem Lager, **90 Beschäftigte**. Das Transportmanagementsystem (TMS) läuft als Mietsoftware beim Anbieter, die Kommissionierung im Lager hängt an einem eigenen Server mit Funkscannern. Nach der Risikoidentifikation liegen vier Risiken mit geschätzten Zahlen auf dem Tisch:
 
@@ -991,7 +991,7 @@ Für drei Maßnahmen liegen Angebote vor. Sie betreffen zwei der vier Risiken; z
 !!! info "Worum es geht"
     - Eine **FMEA** an einem echten System durchrechnen und aus Auftreten, Bedeutung und Entdeckung eine Rangfolge bilden
     - Erkennen, dass dieselbe Risikoprioritätszahl aus ganz verschiedenen Ursachen entstehen kann – und was diese Kennzahl systematisch übersieht
-    - Theorie dazu: [Risikomanagement](risikomanagement.md)
+    - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
 Die **Reinhardt Schaltanlagenbau GmbH** fertigt Schaltanlagen für den Anlagenbau, **160 Beschäftigte**, zwei Personen in der IT. Gesichert wird nachts über eine Sicherungssoftware auf einen Sicherungsserver im Haus, zusätzlich einmal wöchentlich auf Wechselplatten. Bevor der Betrieb auf ein neues ERP wechselt, nimmt sich das Team die gesamte Sicherungskette mit einer **Fehlermöglichkeits- und Einflussanalyse (FMEA)** vor.
 
@@ -1158,7 +1158,7 @@ Fünf mögliche Fehler der Sicherungskette hat das Team zusammengetragen:
 !!! info "Worum es geht"
     - Für eine konkrete Entscheidungssituation das **angemessene Bewertungsverfahren** wählen und begründen
     - Erkennen, welche Daten eine quantitative Bewertung wirklich braucht – und was eine qualitative Bewertung belastbar macht
-    - Theorie dazu: [Risikomanagement](risikomanagement.md)
+    - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
 Die **Wendland Fördertechnik GmbH** baut Förderanlagen, **230 Beschäftigte**, zwei Werke. Der erste Risikoworkshop hat 40 Einträge hervorgebracht. In den nächsten Wochen stehen fünf Situationen an, in denen jeweils eine Bewertung gebraucht wird:
 
@@ -1390,7 +1390,7 @@ Beteiligte: **Herr Petrik** (Administrator, zugleich IT-Verantwortlicher), **Her
     - Alternative Maßnahmen an ihrer **Wirkung in der Matrix** vergleichen statt am Preisschild
     - Verstehen, warum es einen Unterschied macht, ob eine Maßnahme auf die **Wahrscheinlichkeit** oder auf die **Schadenshöhe** wirkt
     - Schwache von starken Maßnahmenformulierungen unterscheiden und schwache umschreiben
-    - Theorie dazu: [Risikomanagement](risikomanagement.md)
+    - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
 Die **Weidner Logistik GmbH** (90 Beschäftigte, Speditionsbetrieb mit eigener Tourenplanung, 35 Notebooks im Außendienst) hat drei Risiken bewertet. Es gilt dieselbe Skala wie zuvor: 1 bis 5 je Faktor, Klassen **1 bis 4 gering**, **5 bis 9 mittel**, **10 bis 14 hoch**, **15 bis 25 kritisch**.
 
@@ -2194,7 +2194,7 @@ Ein mittelständisches Unternehmen sichert **täglich um 02:00 Uhr** vollständi
 !!! info "Worum es geht"
     - Die **Migrationsrisiken** aus der Theorie auf einen konkreten Umzug anwenden
     - Erkennen, wie eine Migration **Vertrauensgrenzen** und damit Risiken verschiebt
-    - Theorie dazu: [Risikomanagement](risikomanagement.md)
+    - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
 Die **Sanitas Datenservice GmbH** aus Aufgabe 13 verlagert ihre gesamte IT zu einem Cloud-Anbieter. Ziel sind höhere Verfügbarkeit, bessere Skalierbarkeit und weniger Administrationsaufwand. Verarbeitet werden Patientenunterlagen für Arztpraxen; **20 TB** Bestandsdaten müssen mit umziehen. Die Anbindung liegt bei 100 Mbit/s.
 
