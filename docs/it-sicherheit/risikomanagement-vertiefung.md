@@ -589,32 +589,6 @@ Damit steht die Reihenfolge. Was jetzt fehlt, ist die Antwort: Für jedes Risiko
 
 ---
 
-## Restrisiko: was übrig bleibt, wenn alles getan ist
-
-Vor der Maßnahme steht das **Bruttorisiko**: die Bewertung, wie sie ohne jede Gegenmaßnahme aussähe. Nach der Maßnahme steht das **Nettorisiko**, auch **Restrisiko** genannt: das, was trotz aller Vorkehrungen übrig bleibt.
-
-Ein Restrisiko gibt es immer, aus drei Gründen. Erstens wirkt **keine Maßnahme zu hundert Prozent** – ein Virenscanner erkennt nicht jede Schadsoftware, ein Backup deckt nicht die letzten Minuten ab, eine Schulung erreicht nicht jeden. Zweitens **können Maßnahmen selbst ausfallen**: Der zweite Server steht im selben Brandabschnitt, das Ersatzgerät hat dieselbe fehlerhafte Firmware, die Sicherung lief seit sechs Wochen ins Leere. Drittens ist Vollständigkeit **unbezahlbar**: Der Aufwand steigt gegen Ende steil an, während der zusätzliche Nutzen immer kleiner wird. Die letzten fünf Prozent Risiko kosten regelmäßig mehr als die ersten fünfzig.
-
-Ein Beispiel mit Zahlen. Ein Fertigungsbetrieb bewertet den **Ausfall des zentralen Switches**; ein Stillstandstag kostet dort rund 45.000 Euro:
-
-| | Eintritt | Schaden | Risikowert | Klasse |
-|---|---|---|---|---|
-| **Bruttorisiko** – ein Switch, kein Ersatzgerät im Haus | 4 (rund einmal jährlich fällt im Bestand ein Gerät aus) | 3 (Ersatzbeschaffung dauert zwei Werktage: 2 × 45.000 = 90.000 Euro) | **12** | hoch |
-| **Maßnahme** | zweites Gerät im Stack, Umschaltung automatisch; ein Ersatzgerät als Kaltreserve im Lager | | | |
-| **Nettorisiko** – nach Umsetzung | 4 (unverändert: ein Gerät fällt weiterhin aus) | 2 (Umschaltung in Sekunden; es bleiben rund 12.000 Euro für Reparatur, kurze Störung und Nacharbeit) | **8** | mittel |
-
-Zwei Dinge sind an dieser Rechnung lehrreich. Erstens hat die Maßnahme die **Wahrscheinlichkeit gar nicht verändert** – Hardware fällt weiterhin genauso oft aus. Gesunken ist allein die Schadenshöhe, weil der Ausfall nicht mehr durchschlägt. Zweitens ist die Klasse nicht auf „gering" gefallen, sondern nur auf „mittel". Das ist ehrlich so gerechnet: Beide Geräte hängen am selben Stromkreis, laufen mit derselben Firmware und wurden von derselben Person konfiguriert. Wer das Nettorisiko auf „gering" schreibt, hat die gemeinsamen Ausfallursachen wegdefiniert.
-
-```mermaid
-flowchart LR
-  A["Bruttorisiko<br/>4 × 3 = 12 → hoch"] --> B["Maßnahme<br/>Stack und Kaltreserve"]
-  B --> C["Nettorisiko<br/>4 × 2 = 8 → mittel"]
-  C --> D["Restrisiko benennen<br/>Strom, Firmware,<br/>Konfiguration, Beschaffung"]
-  D --> E["Freigabe<br/>Name, Datum,<br/>Wiedervorlage"]
-```
-
-Das verbleibende Restrisiko lautet damit ausformuliert: gemeinsamer Stromkreis, gemeinsamer Firmwarefehler, gemeinsamer Konfigurationsfehler und die Beschaffungszeit für das nächste Ersatzgerät, solange die Kaltreserve verbraucht ist. Diese vier Punkte gehören genau so ins Register – nicht als Fußnote, sondern als Eintrag.
-
 ### Wer darf ein Restrisiko freigeben?
 
 Nicht, wer die Maßnahme umsetzt. Die Faustregel ist einfach: **Freigeben darf, wer die Folgen wirtschaftlich zu verantworten hätte.** Diese Person heißt **Risikoeigentümer** – sie ist nicht identisch mit dem Maßnahmenverantwortlichen, der die Umsetzung erledigt.
@@ -689,32 +663,6 @@ Zwei Einschränkungen gehören dazu. Erstens gilt die Rechnung nicht für **exis
 
 ---
 
-## Schritt 5: überwachen – warum der Kreis sich schließt
-
-Eine Risikobewertung ist eine Momentaufnahme. Sie veraltet an drei Stellen gleichzeitig: Die **Bewertung** stimmt nicht mehr, weil sich Technik, Betrieb oder Bedrohungslage geändert haben. Die **Maßnahme** wirkt nicht mehr, weil sie ausgelaufen, umkonfiguriert oder nie fertig geworden ist. Und das **Register selbst** ist unvollständig, weil seither drei neue Systeme dazugekommen sind.
-
-Deshalb ist der letzte Schritt kein Abschluss, sondern die Rückkehr zum ersten. Überwacht werden drei verschiedene Dinge, die gern durcheinandergehen:
-
-1. **Die Risiken** – haben sich Wahrscheinlichkeit oder Schadenshöhe verändert?
-2. **Der Umsetzungsstand der Maßnahmen** – ist der Termin gehalten worden, oder steht die Maßnahme seit acht Monaten auf „in Bearbeitung"?
-3. **Die Wirksamkeit der Maßnahmen** – tut sie, was sie tun sollte? Eine Maßnahme, deren Wirkung niemand misst, ist eine Behauptung.
-
-### Frühwarnindikatoren: Zahlen, die vorher steigen
-
-Ein **Frühwarnindikator** meldet nicht „es ist passiert", sondern „die Wahrscheinlichkeit steigt". Er braucht deshalb zwei Dinge, die ein Alarm nicht braucht: einen **Schwellenwert** und einen **Empfänger**, der handeln darf.
-
-| Indikator | Beispielhafte Schwelle | Worauf er hinweist |
-|---|---|---|
-| **Fehlerrate eines Datenträgers** | mehr als fünf korrigierte Lesefehler je Woche | bevorstehender Ausfall – Tausch planen, bevor er ungeplant kommt |
-| **Füllstand des Speichers** | über 80 %, oder Trend „voll in unter 30 Tagen" | Sicherungen schlagen bald fehl, Dienste bleiben stehen |
-| **Offene Sicherheitsupdates** | mehr als zehn kritische, älter als 30 Tage | wachsende Angriffsfläche, Patchprozess klemmt |
-| **Ungeplante Ausfälle je Monat** | mehr als zwei je Komponente | Bauteil am Ende der Lebensdauer oder Konfigurationsproblem |
-| **Alter des letzten erfolgreichen Rückspieltests** | älter als 90 Tage | die Wiederherstellbarkeit ist nicht mehr belegt, nur noch vermutet |
-| **Fehlgeschlagene Anmeldeversuche** | Verdopplung gegenüber dem Wochenmittel | laufender Angriffsversuch oder eine Fehlkonfiguration |
-| **Vorgänge, die nur eine Person bearbeiten kann** | mehr als fünf offene | Wissensmonopol wächst, Ausfallrisiko Personal steigt |
-
-Ein brauchbarer Indikator hat drei Eigenschaften: Er ist **automatisch messbar**, er reagiert **vor** dem Ereignis; jemand ist **verpflichtet**, auf die Meldung zu reagieren. Fehlt die dritte, ist es kein Indikator, sondern eine Statistik. Die untersten beiden Zeilen sieht man am seltensten – dabei sagen sie am meisten über den Betrieb aus. Ein Frühwarnindikator muss nicht technisch sein.
-
 ### Monitoring erkennt, es schützt nicht
 
 Hier lohnt eine klare Trennung, weil sie in Konzepten regelmäßig schiefgeht: **Monitoring verhindert keinen einzigen Ausfall.** Es ist kein Schutz, sondern ein Erkennungsinstrument. Was es tut, ist die Zeit zwischen Eintritt und Reaktion zu verkürzen – und weil die Schadenshöhe fast immer an der **Dauer** hängt, senkt es das Risiko trotzdem, nur eben über die zweite Achse.
@@ -772,23 +720,6 @@ Zwei Fallen gehören dazu. Die erste: Wenn die Einstufung freiwillig ist, wird a
 
 ---
 
-## Drei Prinzipien beim Übertragen auf Systeme
-
-Der Schutzbedarf wird zuerst für **Anwendungen und Informationen** festgestellt. Danach muss er auf die Systeme übertragen werden, die sie tragen: Server, Netzkomponenten, Räume. Dabei gelten drei Prinzipien.
-
-**Maximumprinzip.** Ein System erbt den **höchsten** Schutzbedarf aller Anwendungen, die darauf laufen – nicht den Durchschnitt und nicht den häufigsten Wert. Auf einem Virtualisierungshost liegen fünf unkritische Testmaschinen und die ERP-Datenbank. Der Host hat damit den Schutzbedarf der ERP-Datenbank, also „hoch". Das ist der Regelfall und der Ausgangspunkt jeder Betrachtung; die beiden anderen Prinzipien sind Korrekturen daran.
-
-**Kumulationseffekt.** Viele Einzelposten mit normalem Schutzbedarf können auf einem gemeinsamen System zusammen einen höheren ergeben. Ein Dateiserver trägt die Ablagen von vierzig Abteilungen; jede einzelne wäre verkraftbar. Fällt der Server aus, steht das ganze Haus – die Verfügbarkeit steigt auf „hoch". Dasselbe gilt für die Vertraulichkeit: Vierzig für sich unkritische Adresslisten ergeben zusammen ein sehr vollständiges Bild der Kundschaft.
-
-**Verteilungseffekt.** Er wirkt in die andere Richtung: Der Schutzbedarf eines einzelnen Systems kann **sinken**, wenn es nur einen Teil der Aufgabe trägt. Eine Anwendung mit sehr hohem Verfügbarkeitsbedarf läuft auf drei gleichwertigen Knoten; fällt einer aus, übernehmen die anderen. Der einzelne Knoten erbt das „sehr hoch" also nicht. Genauso bei der Vertraulichkeit: Hält ein Teilsystem nur pseudonymisierte Fragmente, die für sich niemandem zuzuordnen sind, sinkt sein Vertraulichkeitsbedarf.
-
-!!! warning "Der Verteilungseffekt ist der einzige, der nach unten wirkt"
-    Genau deshalb wird er am häufigsten falsch benutzt. Er gilt nur, wenn die Verteilung **tatsächlich** wirkt: Die drei Knoten müssen wirklich unabhängig sein – verschiedene Stromkreise, verschiedene Brandabschnitte, keine gemeinsame Speicherbasis, kein gemeinsamer Konfigurationsfehler. Stehen sie im selben Rack am selben Netzteil, ist das kein Verteilungseffekt, sondern eine Kumulation mit besserem Marketing.
-
-    Die Prüffrage lautet immer: **Welches einzelne Ereignis trifft alle drei gleichzeitig?** Wer darauf keine ehrliche Antwort hat, rechnet den Schutzbedarf nicht herunter.
-
----
-
 ## Vier Prozesse einer Klinik, vier verschiedene Antworten
 
 Ein zweites Beispiel, weil eine Klinik die Spreizung dieser Werte deutlicher zeigt als ein Maschinenbaubetrieb: Die **Stadtklinik Bergheim** mit 320 Betten hat für ihre Kernprozesse eine BIA durchgeführt.
@@ -805,47 +736,6 @@ In jeder Zeile liegt die RTO unter der MTA – das ist die Grundregel, an der ma
 Die letzte Zeile ist die interessanteste. Die Telefonanlage hat die **kürzeste** tolerierbare Ausfallzeit im ganzen Haus – ohne interne Alarmierung und Notrufweiterleitung ist eine Klinik nach einer Stunde nicht mehr betreibbar –, aber die **längste** RPO, weil dort schlicht keine laufenden Nutzdaten entstehen. Wer RTO und RPO als ein Wertepaar behandelt, das immer zusammen steigt oder fällt, hätte diese Zeile falsch geplant.
 
 Auffällig ist außerdem die Kostenrichtung: Je kürzer RTO und RPO, desto teurer die Technik – und zwar nicht gleichmäßig, sondern sprunghaft. Zwischen einer nächtlichen Sicherung und einer RPO von 15 Minuten liegt kein schnelleres Sicherungsgerät, sondern eine andere Architektur. Deshalb ist eine BIA kein Wunschzettel: Jede Verkürzung muss der Fachbereich begründen – und sie taucht anschließend im Budget auf.
-
----
-
-## Die dritte Zahl: Verfügbarkeit in Prozent
-
-Neben RTO und RPO steht in Verträgen und Zielvorgaben eine dritte Größe – sie wird am häufigsten falsch eingeschätzt: die **Verfügbarkeit** in Prozent. „Wir brauchen 99,9 Prozent“ klingt nach einer beruhigenden Zahl. Rechnet man sie um, sieht sie anders aus.
-
-Die Rechnung ist einfach. Ein Jahr hat 8.760 Stunden. Die zulässige Ausfallzeit ist der Anteil, der zu hundert Prozent fehlt:
-
-```text
-Ausfallzeit je Jahr  =  8.760 Stunden  x  (100 % - Verfuegbarkeit)
-
-  99,0   %  ->  8.760 x 0,01     =  87,6 Stunden   =  rund 3,7 Tage
-  99,5   %  ->  8.760 x 0,005    =  43,8 Stunden   =  rund 1,8 Tage
-  99,9   %  ->  8.760 x 0,001    =   8,76 Stunden
-  99,95  %  ->  8.760 x 0,0005   =   4,38 Stunden
-  99,99  %  ->  8.760 x 0,0001   =   0,876 Stunden =  rund 53 Minuten
-  99,999 %  ->  8.760 x 0,00001  =   0,0876 Stunden = rund 5,3 Minuten
-```
-
-Zwei Dinge fallen sofort auf. Erstens: Zwischen 99,9 und 99,99 Prozent liegt scheinbar eine Nachkommastelle, tatsächlich liegt dazwischen der Unterschied zwischen **einem Arbeitstag** und **einer Mittagspause** Ausfall im Jahr. Zweitens: Jede weitere Neun kostet ungefähr eine Größenordnung mehr Geld, weil sie eine andere Architektur verlangt – nicht bessere Geräte, sondern doppelte.
-
-Der praktische Haken steckt aber woanders. **Verfügbarkeiten multiplizieren sich, wenn Komponenten hintereinander liegen.** Ein Dienst hängt nicht nur an sich selbst, sondern an der Leitung, am Rechenzentrum, am Strom. Fällt eines davon aus, ist der Dienst weg:
-
-```text
-Anwendung 99,9 %  hinter  Leitung 99,5 %  hinter  Rechenzentrum 99,9 %
-
-  0,999 x 0,995 x 0,999  =  0,993011
-  Gesamtverfuegbarkeit                    =  99,3011 %
-  Ausfallzeit  8.760 x 0,006989           =  rund 61,2 Stunden je Jahr
-```
-
-Die Anwendung ist mit 99,9 Prozent zugesichert, tatsächlich erreicht die Kette nur rund 99,3 Prozent. Wer eine Zusage gibt, muss deshalb immer sagen, **worauf** sie sich bezieht: auf die Anwendung allein oder auf den Dienst, wie ihn die Nutzer erleben. Anbieter meinen fast immer das Erste, Fachbereiche fast immer das Zweite.
-
-Umgekehrt gilt: **Redundanz addiert Neunen, weil sich die Ausfallwahrscheinlichkeiten multiplizieren.** Zwei parallele Leitungen mit je 99,5 Prozent fallen nur dann beide aus, wenn 0,005 mal 0,005 eintritt – das sind 0,000025, also 99,9975 Prozent, gut 13 Minuten im Jahr. Vorausgesetzt, die beiden Leitungen sind wirklich unabhängig: zwei Verträge über dasselbe Kabel im selben Graben sind eine Leitung mit zwei Rechnungen.
-
-!!! tip "Der Zusammenhang zu RTO und Risiko"
-    Verfügbarkeit und RTO beschreiben dasselbe von zwei Seiten. Die Verfügbarkeit sagt, **wie viel** Ausfallzeit im Jahr insgesamt zulässig ist; die RTO sagt, **wie lange** ein einzelner Ausfall dauern darf. Bei 99,9 Prozent stehen 8,76 Stunden im Jahr zur Verfügung – ein einziger Vorfall mit vier Stunden Wiederanlauf verbraucht davon fast die Hälfte. Genau das ist die Brücke zur Risikoanalyse: Wer die Eintrittshäufigkeit eines Ausfalls kennt und die RTO festgelegt hat, kann ausrechnen, ob die zugesagte Verfügbarkeit überhaupt erreichbar ist.
-
-!!! note "Wo diese Zahlen weiterverarbeitet werden"
-    Die BIA liefert die Zielwerte, nicht die Umsetzung. Wie man die Schadenshöhe je Prozess sauber ermittelt und wie viel Redundanz sich dafür lohnt, steht auf [Hochverfügbarkeit](../betrieb/hochverfuegbarkeit.md). Wie aus RTO und RPO ein geübter Wiederanlauf wird – mit Notfallplan, Rollen und Übungen –, gehört zu [Incident & BCM](../betrieb/incident-und-bcm.md). Und die konkrete Sicherungstechnik dahinter findest du auf [Backup & Recovery](../betrieb/backup-und-recovery.md).
 
 ---
 

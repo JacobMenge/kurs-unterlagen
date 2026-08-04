@@ -9,6 +9,13 @@ In Büros redet die Welt **HTTP**. In Produktionshallen redet die Welt **anders*
 
 Diese Seite gibt dir die wichtigsten Industrie- und IoT-Protokolle als **Konzepte** an die Hand. Es geht nicht um Detail-Bits, sondern um: **wozu ist das gut, wann nehme ich es, wo läuft es?**
 
+!!! info "Ein Begriff vorweg: cyber-physische Systeme"
+    Für die Verbindung aus Maschine und IT gibt es einen Fachbegriff, der dir in Ausschreibungen und Aufgabenstellungen begegnet: das **cyber-physische System**, oft als **CPS** abgekürzt. Gemeint ist ein System, in dem ein **physischer Prozess** – eine Maschine, ein Gebäude, ein Fahrzeug – über Sensoren und Aktoren mit einer **softwaregesteuerten Datenverarbeitung** verbunden ist und beide sich gegenseitig beeinflussen.
+
+    Der Unterschied zu einem gewöhnlichen IT-System liegt genau darin: Ein Fehler bleibt nicht in der Datenwelt. Er bewegt etwas, erhitzt etwas oder bringt etwas zum Stillstand. Deshalb gelten hier andere Anforderungen an Echtzeit, Verfügbarkeit und Sicherheit – und deshalb gibt es überhaupt eigene Protokolle.
+
+    Wenn im Kurs von **Industrie 4.0**, **IoT** oder **Maschinenvernetzung** die Rede ist, geht es immer um diese Klasse von Systemen. **IoT** bezeichnet dabei eher die vernetzten Geräte selbst, **CPS** den ganzen Regelkreis aus physischem Prozess, Messung, Auswertung und Rückwirkung.
+
 <figure markdown="span">
 ![Industrieroboter an einer automatisierten Fertigungsstraße in einer Produktionshalle](https://images.unsplash.com/photo-1567789884554-0b844b597180?w=1600&q=80&auto=format&fit=crop){ loading=lazy }
 <figcaption>In der Produktion zählt jede Millisekunde: vernetzte Roboter, Förderbänder und Steuerungen sprechen hier ganz eigene Protokolle.<span class="bildnachweis">Foto: Lenny Kuhne / Unsplash</span></figcaption>
@@ -17,12 +24,14 @@ Diese Seite gibt dir die wichtigsten Industrie- und IoT-Protokolle als **Konzept
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
 
-    - die **Eigenheiten industrieller Netze** im Vergleich zu Office-IT benennen
-    - **Profinet**, **EtherCAT**, **Modbus** und **OPC UA** als Industrie-Klassiker einordnen
-    - die IoT-Protokolle **MQTT** und **AMQP** beschreiben und ihren Einsatz erklären
-    - **SCADA-Systeme** und ihre Rolle in der Steuerung verstehen
-    - sagen, **warum Office-Sicherheitskonzepte in der Industrie nicht 1:1 funktionieren**
-    - das Schichtenmodell **„OT vs. IT"** (Operational Technology vs. Information Technology) im Kopf haben
+    - ein **cyber-physisches System** beschreiben und die **Eigenheiten industrieller Netze** gegen Office-IT abgrenzen
+    - das Schichtenmodell **„OT vs. IT"** und die **Automatisierungspyramide** im Kopf haben
+    - **Profinet** und **OPC UA** einordnen, Modbus und EtherCAT dabei zuordnen
+    - die Protokolle **MQTT** und **AMQP** beschreiben und für ein Szenario **das passende auswählen**
+    - **SCADA** und die Rolle der Echtzeitüberwachung erklären
+    - ein **Netz für Maschinenkommunikation** grob entwerfen und sagen, wo die Grenze zwischen OT und IT liegt
+    - eine **Alarmierungsstrategie** mit Grenzwerten und Eskalation aufsetzen
+    - beschreiben, wie **Maschinendaten gesammelt, zusammengeführt und ausgewertet** werden – bis hin zur **vorausschauenden Wartung**
 
 ---
 
@@ -59,9 +68,38 @@ Das hat **direkte Folgen für die Vernetzung**:
 
 Die klassische Darstellung der Industrie-IT ist eine **Pyramide** mit fünf Ebenen:
 
-<figure class="schaubild" markdown="span">
-![Die Automatisierungspyramide nach ISA-95 mit fünf Ebenen: unten die Feldebene mit Sensoren und Aktoren, darüber PLC-Steuerungen, SCADA/HMI, MES und ganz oben die ERP-Ebene](https://upload.wikimedia.org/wikipedia/commons/7/7f/Automatisierungspyramide_MES.svg){ loading=lazy }
-<figcaption>Die Automatisierungspyramide nach ISA-95 – von der Feldebene unten bis zur Geschäftsebene (ERP) oben.<span class="bildnachweis">Bild: UlrichAAB / <a href="https://commons.wikimedia.org/wiki/File:Automatisierungspyramide_MES.svg">Wikimedia Commons</a>, CC BY-SA 3.0</span></figcaption>
+<figure>
+<svg viewBox="0 0 720 400" width="100%" height="400" role="img" aria-label="Die Automatisierungspyramide nach ISA-95 mit fünf Ebenen. Von unten nach oben: Ebene 0 Sensoren und Aktoren auf der Feldebene, Ebene 1 SPS und PLC auf der Steuerungsebene, Ebene 2 SCADA und HMI auf der Prozessleitebene, Ebene 3 MES auf der Betriebsleitebene, Ebene 4 ERP auf der Unternehmensebene. Unter der Pyramide liegt die Fertigung als physischer Produktionsprozess. Links zeigen zwei Pfeile die beiden Richtungen: Daten werden von unten nach oben erfasst, Vorgaben werden von oben nach unten geplant.">
+  <line x1="48" y1="330" x2="48" y2="52" stroke="#56c374" stroke-width="2"/>
+  <polygon points="48,40 42,54 54,54" fill="#56c374"/>
+  <text transform="rotate(-90 30 190)" x="30" y="190" text-anchor="middle" fill="#56c374" font-family="system-ui, sans-serif" font-size="12">Daten erfassen</text>
+  <line x1="100" y1="45" x2="100" y2="318" stroke="#8fa498" stroke-width="2"/>
+  <polygon points="100,330 94,316 106,316" fill="#8fa498"/>
+  <text transform="rotate(-90 118 190)" x="118" y="190" text-anchor="middle" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Vorgaben planen</text>
+  <polygon points="330,40 368,98 292,98" fill="rgba(125,255,154,0.06)" stroke="#56c374" stroke-width="2"/>
+  <polygon points="292,98 368,98 406,156 254,156" fill="rgba(125,255,154,0.10)" stroke="#56c374" stroke-width="2"/>
+  <polygon points="254,156 406,156 444,214 216,214" fill="rgba(125,255,154,0.13)" stroke="#56c374" stroke-width="2"/>
+  <polygon points="216,214 444,214 482,272 178,272" fill="rgba(125,255,154,0.16)" stroke="#56c374" stroke-width="2"/>
+  <polygon points="178,272 482,272 520,330 140,330" fill="rgba(125,255,154,0.20)" stroke="#7dff9a" stroke-width="2"/>
+  <text x="330" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">4</tspan><tspan fill="#e2ece6" dx="8">ERP</tspan></text>
+  <text x="330" y="133" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">3</tspan><tspan fill="#e2ece6" dx="8">MES</tspan></text>
+  <text x="330" y="191" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">2</tspan><tspan fill="#e2ece6" dx="8">SCADA / HMI</tspan></text>
+  <text x="330" y="249" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">1</tspan><tspan fill="#e2ece6" dx="8">SPS / PLC</tspan></text>
+  <text x="330" y="307" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">0</tspan><tspan fill="#e2ece6" dx="8">Sensoren und Aktoren</tspan></text>
+  <line x1="357" y1="74" x2="532" y2="74" stroke="#3a4658" stroke-width="1"/>
+  <line x1="395" y1="132" x2="532" y2="132" stroke="#3a4658" stroke-width="1"/>
+  <line x1="433" y1="190" x2="532" y2="190" stroke="#3a4658" stroke-width="1"/>
+  <line x1="471" y1="248" x2="532" y2="248" stroke="#3a4658" stroke-width="1"/>
+  <line x1="509" y1="306" x2="532" y2="306" stroke="#3a4658" stroke-width="1"/>
+  <text x="540" y="79" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">Unternehmensebene</text>
+  <text x="540" y="137" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">Betriebsleitebene</text>
+  <text x="540" y="195" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">Prozessleitebene</text>
+  <text x="540" y="253" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">Steuerungsebene</text>
+  <text x="540" y="311" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">Feldebene</text>
+  <rect x="180" y="344" width="300" height="30" rx="4" fill="rgba(86,195,116,0.22)" stroke="#56c374" stroke-width="1.5"/>
+  <text x="330" y="364" text-anchor="middle" fill="#e2ece6" font-family="system-ui, sans-serif" font-size="13">Fertigung – der physische Prozess</text>
+</svg>
+<figcaption>Die Automatisierungspyramide nach ISA-95: unten die Feldebene, oben die Geschäftsebene. Nach oben fließen Daten, nach unten Vorgaben – die Protokolle dieser Seite arbeiten überwiegend in den unteren drei Ebenen.</figcaption>
 </figure>
 
 - **Ebene 0:** physische Welt – Sensoren (was passiert?), Aktoren (was sollen wir tun?), Maschinen.
@@ -99,66 +137,23 @@ Die klassische Darstellung der Industrie-IT ist eine **Pyramide** mit fünf Eben
 
 ### Typische Topologie
 
-Profinet wird oft in **Ring-Topologie** verkabelt, mit **MRP (Media Redundancy Protocol)**. Wenn ein Kabel reißt, schaltet das Netz innerhalb von 200 ms auf den anderen Ring-Weg um.
-
-```mermaid
-flowchart LR
-  PLC[("PLC")]
-  S1(("Switch 1"))
-  S2(("Switch 2"))
-  S3(("Switch 3"))
-  PLC --- S1
-  S1 --- S2
-  S2 --- S3
-  S3 --- PLC
-```
+Profinet wird oft als **Ring** verkabelt und mit dem **Media Redundancy Protocol (MRP)** abgesichert: Reißt ein Kabel, schaltet das Netz binnen rund 200 Millisekunden auf den anderen Weg um. Das ist der Grund, warum Verfügbarkeit in Maschinennetzen anders gelöst wird als im Büro – dort wartet man notfalls, hier steht sonst die Linie.
 
 ---
 
-## EtherCAT – die schnelle Alternative
+## Zwei Nachbarn, die du einordnen können solltest
 
-**EtherCAT** (Ethernet for Control Automation Technology) ist ein **anderer** Industrie-Ethernet-Standard, der vor allem in Hochgeschwindigkeits-Anwendungen genutzt wird.
+Neben Profinet begegnen dir zwei weitere Namen. Für die Praxis genügt es, sie einordnen zu können – hier die Kurzfassung.
 
-### Charakteristik
+| | **Modbus** | **EtherCAT** |
+|---|---|---|
+| Baujahr | 1979, einer der ältesten noch verbreiteten Standards | 2003, moderner Hochgeschwindigkeitsstandard |
+| Prinzip | ein Client fragt Server ab: „Lies Register 100", „Schreibe 42 in Register 200" | ein Ethernet-Frame durchläuft alle Geräte, jedes liest und schreibt im Vorbeifahren |
+| Tempo | langsam, dafür extrem einfach | Zykluszeiten unter 100 Mikrosekunden, sehr deterministisch |
+| Typisch bei | Wechselrichtern, Energiezählern, Klimatechnik, alten Anlagen | Robotik, CNC, schnellen Bewegungssteuerungen |
+| Sicherheit | **keine** – weder Verschlüsselung noch Authentifizierung | auf das Maschinennetz ausgelegt, nicht fürs offene Netz |
 
-- Zykluszeiten unter **100 Mikrosekunden**
-- ein einzelnes Ethernet-Frame durchläuft alle Geräte „im Vorbeifahren" – jedes Gerät liest und schreibt seinen Anteil
-- sehr deterministisch
-
-EtherCAT wird häufig bei sehr schnellen Bewegungssteuerungen eingesetzt (z.B. Robotik, CNC-Maschinen).
-
----
-
-## Modbus – der alte Klassiker
-
-**Modbus** ist eines der **ältesten noch verbreiteten** Industrie-Protokolle (von 1979, ursprünglich von Modicon). Es ist **extrem einfach** – fast schon spartanisch – und gerade deshalb noch überall.
-
-### Varianten
-
-| Variante | Medium | Eigenschaften |
-|----------|--------|---------------|
-| **Modbus RTU** | serielle Verbindung (RS-485) | bit-effizient, Binär |
-| **Modbus ASCII** | seriell | textbasiert, langsamer |
-| **Modbus TCP** | Ethernet | über Port 502, weit verbreitet |
-
-### Wie Modbus funktioniert
-
-Ein **Master** (typisch ein PLC oder eine SCADA-Station) fragt **Slaves** (Sensoren, Aktoren, Geräte) ab – seit der Spezifikation 2018 offiziell **Client/Server** genannt, in der Praxis sagt aber fast jeder noch Master/Slave:
-
-- „Lies mir Register 100 bis 110."
-- „Schreibe in Register 200 den Wert 42."
-
-Mehr ist es nicht. Keine Verschlüsselung, keine Authentifizierung, keine komplexen Datenstrukturen.
-
-### Wo siehst du Modbus heute?
-
-- **Photovoltaik-Wechselrichter** (SMA, Fronius, Huawei)
-- **Energie-Zähler**
-- **Klimaanlagen**
-- **alte SPS-Anlagen** mit Erweiterungs-Modulen
-- **IoT-Bridges**, die Modbus-Daten ins moderne IT-Netz übersetzen
-
-**Sicherheit:** Modbus hat keine eingebaute Sicherheit. Wer im Netz mitlesen kann, kann auch schreiben. Darum muss Modbus **immer in einem isolierten Netz** laufen.
+Der wichtige Punkt steht in der letzten Zeile: **Modbus hat überhaupt keine Sicherheitsfunktionen.** Wer im Netz mitlesen kann, kann auch schreiben – also Werte in eine Maschine schreiben. Deshalb gehört Modbus zwingend in ein abgetrenntes Netz. Genau diese Lücke ist einer der Gründe, warum es OPC UA gibt.
 
 ---
 
@@ -247,15 +242,6 @@ flowchart LR
 - **Mobile Apps** mit Push-Charakter
 - **Tausende Geräte** mit kleinen Datenmengen
 
-### Bekannte Broker
-
-- **Eclipse Mosquitto** – Open Source, sehr verbreitet
-- **HiveMQ** – Open Source und kommerzielle Variante
-- **AWS IoT Core**, **Azure IoT Hub** – Cloud-basiert
-- **EMQX** – performante Open-Source-Variante
-
----
-
 ## AMQP – die Enterprise-Variante
 
 **AMQP** (Advanced Message Queuing Protocol) ist ähnlich wie MQTT, aber **schwerer und mit mehr Features**. Es kommt aus der **Enterprise-Welt** (Finanzdienste, Versicherungen) und unterstützt komplexere Szenarien.
@@ -309,14 +295,6 @@ flowchart LR
 - **Trend-Analysen** über Stunden, Tage, Wochen
 - **Manuelle Eingriffe** (z.B. Ventil schließen, Pumpe abschalten)
 - **Reporting** für Behörden und Qualitätssicherung
-
-### Bekannte SCADA-Lösungen
-
-- **Siemens WinCC**
-- **Rockwell FactoryTalk**
-- **Wonderware (AVEVA)**
-- **Ignition**
-- **Zenon**
 
 ### Sicherheits-Implikation
 

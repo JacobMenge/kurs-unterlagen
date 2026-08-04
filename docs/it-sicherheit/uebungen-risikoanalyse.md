@@ -89,20 +89,20 @@ In einem Risiko-Workshop bei der **Zerspanungstechnik Gerling GmbH** trägt die 
             kein Melder, Feuer faellt erst im Vollbrand auf
       p   Brand etwa alle 50 Jahre       =  1/50  =      0,02 je Jahr
       S   Technik, Wiederanlauf, Stillstand      =  250.000 EUR
-      Risikowert   0,02 x 250.000                =    5.000 EUR je Jahr
+      Erwartungswert   0,02 x 250.000             =    5.000 EUR je Jahr
 
     Fall B  Dieselbe Bedrohung, Schwachstelle geschlossen
             Melder schlaegt frueh an, Feuer bleibt oertlich begrenzt
       p   unveraendert                   =  1/50  =      0,02 je Jahr
       S   Schaden bleibt auf einen Raum begrenzt =   40.000 EUR
-      Risikowert   0,02 x 40.000                 =      800 EUR je Jahr
+      Erwartungswert   0,02 x 40.000              =      800 EUR je Jahr
 
     Differenz   5.000 - 800                      =    4.200 EUR je Jahr
     ```
 
     An dieser Rechnung hängt ein zweiter, oft übersehener Punkt: **Gesunken ist nur die Schadenshöhe, nicht die Eintrittswahrscheinlichkeit.** Eine Brandmeldeanlage löscht nicht, sie meldet. Sie verkürzt die Zeit bis zum Eingreifen und begrenzt damit den Schaden – wie oft es brennt, ändert sie nicht. Dasselbe gilt für jede Form von Überwachung: Sie erkennt, sie verhindert nicht. Maßnahmen, die auf p wirken, sehen anders aus – Brandlasten aus dem Raum räumen, die Elektroinstallation prüfen lassen, das Rauchverbot durchsetzen.
 
-    Die Bedrohung ist in beiden Rechnungen dieselbe – Brände brechen weiter aus, ganz gleich, was der Betrieb tut. Was sich ändert, ist ausschließlich die Schwachstelle; mit ihr fällt der Risikowert von 5.000 auf 800 Euro je Jahr. Denkt man diese Bewegung zu Ende, also die Schwachstelle vollständig geschlossen, landet man bei Nummer 10: Es bleibt eine Bedrohung, aber nichts mehr, was sie treffen könnte. **Bedrohungen sind für alle Betriebe gleich; Schwachstellen sind der Grund, warum zwei Betriebe mit derselben Bedrohungslage völlig verschiedene Risiken haben.**
+    Die Bedrohung ist in beiden Rechnungen dieselbe – Brände brechen weiter aus, ganz gleich, was der Betrieb tut. Was sich ändert, ist ausschließlich die Schwachstelle; mit ihr fällt der Erwartungswert von 5.000 auf 800 Euro je Jahr. Denkt man diese Bewegung zu Ende, also die Schwachstelle vollständig geschlossen, landet man bei Nummer 10: Es bleibt eine Bedrohung, aber nichts mehr, was sie treffen könnte. **Bedrohungen sind für alle Betriebe gleich; Schwachstellen sind der Grund, warum zwei Betriebe mit derselben Bedrohungslage völlig verschiedene Risiken haben.**
 
     Ein Zusatz gehört zur Ehrlichkeit dazu: „kein Risiko" heißt in der Praxis nie null. Die Batterie kann leer sein, der Ausfall länger dauern als geplant, die Prüfung ausgefallen sein. Was bleibt, ist ein **Restrisiko** – klein genug, um es bewusst zu akzeptieren, aber nicht klein genug, um es aus dem Register zu streichen.
 
@@ -192,7 +192,7 @@ Aus der Bestandsaufnahme des Betriebs sind außerdem diese Punkte bekannt:
     | Was fehlt | Was deshalb nicht geht |
     |---|---|
     | das **Ereignis** | Es gibt nichts, dessen Eintrittswahrscheinlichkeit man schätzen könnte. „Netzwerk" tritt nicht ein. |
-    | die **Folge** | Ohne Auswirkung keine Schadenshöhe – und ohne Schadenshöhe kein Risikowert. |
+    | die **Folge** | Ohne Auswirkung keine Schadenshöhe – und ohne Schadenshöhe kein Erwartungswert. |
     | die **Ursache** | Maßnahmen setzen an der Ursache an. Steht dort keine, gibt es keinen Ansatzpunkt, nur ein Thema. |
     | die **Eingrenzung** | Keine klare Zuständigkeit: „Mitarbeiter" gehört gleichzeitig der IT, der Personalabteilung und der Geschäftsführung – also niemandem. |
     | die **Prüfbarkeit** | Niemand kann später feststellen, ob das Risiko gesunken ist. Der Eintrag „Netzwerk" steht in fünf Jahren unverändert da, egal was inzwischen gebaut wurde. |
@@ -203,14 +203,14 @@ Aus der Bestandsaufnahme des Betriebs sind außerdem diese Punkte bekannt:
     Eintrag Serverausfall
       p   =  ?
       S   =  ?
-      Risikowert  =  nicht rechenbar
+      Erwartungswert  =  nicht rechenbar
 
     Derselbe Sachverhalt als Risikosatz
       p   Hardwaredefekt am Einzelserver, erwartet
           etwa einmal in fuenf Jahren    =  1/5  =      0,2 je Jahr
       S   2 Ausfalltage x 8.500 EUR entgangener
           Deckungsbeitrag je Tag                 =   17.000 EUR
-      Risikowert   0,2 x 17.000                  =    3.400 EUR je Jahr
+      Erwartungswert   0,2 x 17.000               =    3.400 EUR je Jahr
     ```
 
     Die zwei Ausfalltage sind dabei konservativ gerechnet: Sie decken die 48 Stunden Lieferzeit ab, nicht den Einbau und den Wiederanlauf danach. Wer diese Annahme offenlegt, macht die Zahl angreifbar – genau das ist gewollt. Erst der Satz macht aus einem Stichwort eine Zahl, über die man streiten kann; Streit über eine Zahl ist produktiver als Einigkeit über ein Stichwort. **Wer nicht sagen kann, was passiert, kann auch nicht sagen, wie oft und wie teuer.** Ein Register aus Ein-Wort-Einträgen ist kein Risikoregister, sondern ein Inhaltsverzeichnis.
