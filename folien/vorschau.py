@@ -83,7 +83,12 @@ def absatz_html(absatz) -> str:
     ausricht = {1: "center", 2: "right", 3: "justify"}.get(
         absatz.alignment.value if absatz.alignment else None, "left"
     )
-    return f'<div style="text-align:{ausricht}">{inhalt}</div>'
+    groessen = [r.font.size.pt for r in absatz.runs if r.font.size is not None]
+    basis = max(groessen) if groessen else 18.0
+    return (
+        f'<div style="text-align:{ausricht};'
+        f'font-size:{basis * PX_PRO_ZOLL / 72:.1f}px;line-height:1.12">{inhalt}</div>'
+    )
 
 
 def bild_datauri(form) -> str | None:
