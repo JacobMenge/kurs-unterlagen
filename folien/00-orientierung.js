@@ -72,7 +72,7 @@ deck.content("Wer euch durch den Kurs begleitet", "Vorstellung", (s, api) => {
   api.bullets(
     s,
     [
-      "Informatik studiert, davor Software-Entwicklung in der Forschung – unter anderem am Alfred-Wegener-Institut.",
+      "Informatik studiert, davor Software-Entwicklung in der Forschung – am Alfred-Wegener-Institut und im KI-Transfer-Zentrum.",
       "Seit 2023 in der IT-Weiterbildung, heute freiberuflich.",
       "Schwerpunkte: AWS und Azure, Container, CI/CD und Linux.",
       "AEVO-Ausbildereignung, AWS-zertifiziert, Erfahrung mit IHK-Prüfungen.",
