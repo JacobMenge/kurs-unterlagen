@@ -7,6 +7,26 @@
 const fs = require("fs");
 const path = require("path");
 const { createDeck } = require("./lib/theme");
+const { iconPng, svgPng } = require("./lib/icons");
+
+// Technologie-Logos (werden nach assets/icons/ gerendert und eingebettet)
+const LOGO = {
+  cloudhelden: svgPng(path.join(__dirname, "assets", "logos", "cloudhelden.svg"), "cloudhelden"),
+  ubuntu: iconPng("ubuntu"),
+  multipass: iconPng("canonical"),
+  docker: iconPng("docker"),
+  wireshark: iconPng("wireshark"),
+  prometheus: iconPng("prometheus"),
+  grafana: iconPng("grafana"),
+  kubernetes: iconPng("kubernetes"),
+  helm: iconPng("helm"),
+  git: iconPng("git"),
+  github: iconPng("github"),
+  actions: iconPng("githubactions"),
+  trivy: iconPng("trivy"),
+  meet: iconPng("googlemeet"),
+  pluralsight: iconPng("pluralsight"),
+};
 
 // Foto: liegt es unter assets/jacob.jpg, wird es eingebunden – sonst Platzhalter.
 const FOTO = path.join(__dirname, "assets", "jacob.jpg");
@@ -26,6 +46,7 @@ deck.title({
   title: "Herzlich willkommen",
   subtitle: "Geprüfter Berufsspezialist für Systemintegration und Vernetzung",
   note: "Orientierungsabend",
+  logo: LOGO.cloudhelden,
 });
 
 // ============================================================ Orientierung
@@ -282,45 +303,47 @@ deck.content("Der grobe Fahrplan", "Zeitplan", (s, api) => {
 
 deck.content("Womit ihr arbeiten werdet", "Technik", (s, api) => {
   api.lead(s, "Die Werkzeuge, die euch im Kurs begegnen – ihr müsst nichts davon vorher können.");
-  api.cardRow(
-    s,
-    [
-      {
-        nummer: "1",
-        titel: "Planung und Integration",
-        body: [
-          "Netzwerkwerkzeuge",
-          "Multipass für virtuelle Maschinen",
-          "Linux-Kommandozeile",
-          "Docker und Compose",
-        ],
-      },
-      {
-        nummer: "2",
-        titel: "Laufender Betrieb",
-        akzent: "teal",
-        body: [
-          "Prometheus und Grafana",
-          "Kubernetes und Helm",
-          "Git und GitHub",
-          "GitHub Actions",
-        ],
-      },
-      {
-        nummer: "3",
-        titel: "Qualität und Sicherheit",
-        akzent: "bernstein",
-        body: [
-          "Schwachstellen-Scanner",
-          "Testverfahren und Testpläne",
-          "Risikoanalyse",
-          "Vorfallbearbeitung",
-        ],
-      },
-    ],
-    { y: 2.16, h: 2.1, fontSize: 11, titleH: 0.48, titleSize: 12 }
-  );
-  api.kicker(s, "Alles wird gemeinsam installiert – bringt nur euren Rechner mit.", { y: 4.5 });
+  const spalten = [
+    {
+      titel: "Thema 1 · Planung & Integration",
+      items: [
+        { icon: LOGO.ubuntu, label: "Ubuntu Linux" },
+        { icon: LOGO.multipass, label: "Multipass" },
+        { icon: LOGO.docker, label: "Docker & Compose" },
+        { icon: LOGO.wireshark, label: "Netzwerk-Werkzeuge" },
+      ],
+    },
+    {
+      titel: "Thema 2 · Laufender Betrieb",
+      items: [
+        { icon: LOGO.prometheus, label: "Prometheus" },
+        { icon: LOGO.grafana, label: "Grafana" },
+        { icon: LOGO.kubernetes, label: "Kubernetes & Helm" },
+        { icon: LOGO.actions, label: "Git & GitHub Actions" },
+      ],
+    },
+    {
+      titel: "Thema 3 · Qualität & Sicherheit",
+      items: [
+        { icon: LOGO.trivy, label: "Trivy Image-Scanner" },
+        { label: "Testverfahren & Testpläne" },
+        { label: "Risikoanalyse" },
+        { label: "Fallübungen & Simulationen" },
+      ],
+    },
+  ];
+  const spaltenW = 2.8;
+  const abstand = 0.18;
+  spalten.forEach((sp, i) => {
+    const x = 0.62 + i * (spaltenW + abstand);
+    s.addText(sp.titel, {
+      x, y: 2.12, w: spaltenW, h: 0.28,
+      fontFace: "Arial", fontSize: 11, color: api.C.textLeise, bold: true,
+      valign: "middle", margin: 0,
+    });
+    api.logoChips(s, sp.items, { x, y: 2.44, w: spaltenW, chipH: 0.42, gap: 0.11 });
+  });
+  api.kicker(s, "Alles wird gemeinsam installiert – bringt nur euren Rechner mit.", { y: 4.72 });
 });
 
 deck.content("Cloud zum Anfassen", "Pluralsight", (s, api) => {
@@ -330,6 +353,7 @@ deck.content("Cloud zum Anfassen", "Pluralsight", (s, api) => {
     [
       {
         titel: "Was das ist",
+        icon: LOGO.pluralsight,
         body: [
           "Eine Lernplattform mit geführten Übungen in einer echten Cloud-Umgebung.",
           "",
@@ -444,6 +468,8 @@ deck.content("Der Rahmen", "Kursregeln", (s, api) => {
   api.card(s, {
     y: 4.28,
     h: 0.5,
+    icon: LOGO.meet,
+    iconGroesse: 0.24,
     body: "Wenn ich einmal ausfalle, erfahrt ihr das rechtzeitig über Cloudhelden.",
     fontSize: 11,
   });
@@ -495,11 +521,13 @@ deck.content("Womit ihr lernt", "Materialien", (s, api) => {
       {
         nummer: "3",
         titel: "Die Akademie",
+        icon: LOGO.cloudhelden,
         body: "Die Lernplattform von Cloudhelden mit zusätzlichem Material.",
       },
       {
         nummer: "4",
         titel: "Pluralsight",
+        icon: LOGO.pluralsight,
         body: "Geführte Übungen in echten Cloud-Umgebungen.",
       },
     ],

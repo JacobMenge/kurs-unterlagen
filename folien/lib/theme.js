@@ -274,6 +274,17 @@ function makeApi(pres, holeAkzent) {
       const innenX = x + 0.26;
       const innenW = w - 0.44;
 
+      if (opts.icon) {
+        const ig = opts.iconGroesse ?? 0.3;
+        slide.addImage({
+          path: opts.icon,
+          x: x + w - ig - 0.16,
+          y: y + 0.14,
+          w: ig,
+          h: ig,
+        });
+      }
+
       if (opts.nummer) {
         slide.addText(String(opts.nummer), {
           x: innenX,
@@ -350,6 +361,52 @@ function makeApi(pres, holeAkzent) {
           titleSize: c.titleSize ?? opts.titleSize ?? 13,
           titleH: c.titleH ?? opts.titleH ?? 0.28,
         });
+      });
+    },
+
+    /**
+     * Gestapelte Chips mit Technologie-Logo und Name.
+     * items: [{ icon?: PNG-Pfad, label }], opts: x, y, w, chipH, gap, fontSize
+     */
+    logoChips(slide, items, opts = {}) {
+      const x = opts.x ?? RAND;
+      const w = opts.w ?? 2.8;
+      const chipH = opts.chipH ?? 0.42;
+      const gap = opts.gap ?? 0.12;
+      let y = opts.y ?? INHALT_Y;
+      items.forEach((it) => {
+        slide.addShape(pres.shapes.ROUNDED_RECTANGLE, {
+          x,
+          y,
+          w,
+          h: chipH,
+          rectRadius: 0.05,
+          fill: { color: C.flaeche },
+          line: { color: C.linie, width: 0.75 },
+        });
+        const iconW = it.icon ? 0.26 : 0;
+        if (it.icon) {
+          slide.addImage({
+            path: it.icon,
+            x: x + 0.14,
+            y: y + (chipH - 0.26) / 2,
+            w: 0.26,
+            h: 0.26,
+          });
+        }
+        slide.addText(it.label, {
+          x: x + 0.14 + (it.icon ? iconW + 0.12 : 0.04),
+          y,
+          w: w - 0.28 - (it.icon ? iconW + 0.12 : 0),
+          h: chipH,
+          fontFace: FONT_BODY,
+          fontSize: opts.fontSize ?? 11.5,
+          color: C.textStark,
+          bold: true,
+          valign: "middle",
+          margin: 0,
+        });
+        y += chipH + gap;
       });
     },
 
@@ -506,7 +563,7 @@ function makeApi(pres, holeAkzent) {
     /** Abschlusszeile mit farbigem Strich davor. */
     kicker(slide, text, opts = {}) {
       const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
-      const y = Math.min(opts.y ?? 4.52, 4.58);
+      const y = Math.min(opts.y ?? 4.52, 4.64);
       slide.addShape(pres.shapes.RECTANGLE, {
         x: RAND,
         y: y + 0.05,
@@ -597,11 +654,15 @@ function createDeck(meta = {}) {
       return deck;
     },
 
-    /** Titelfolie. */
-    title({ eyebrow, title, subtitle, note }) {
+    /** Titelfolie. logo: Pfad zu einem PNG, erscheint oben rechts. */
+    title({ eyebrow, title, subtitle, note, logo }) {
       const s = pres.addSlide();
       s.background = { color: C.bg };
       const ak = aktiverAkzent;
+
+      if (logo) {
+        s.addImage({ path: logo, x: 8.45, y: 0.4, w: 0.95, h: 0.95 });
+      }
 
       s.addShape(pres.shapes.RECTANGLE, {
         x: 0, y: 0, w: 0.14, h: SLIDE_H,
