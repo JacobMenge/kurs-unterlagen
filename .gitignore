@@ -33,3 +33,17 @@ apps/**/node_modules/
 
 # Temporäre Arbeitsdateien (z. B. PDF-Textextraktion)
 .tmp_*
+
+# Folien-Werkzeuge (lokal installiert, nicht ins Repo)
+folien/node_modules/
+folien/package.json
+folien/package-lock.json
+
+# Erzeugte Foliensätze werden bewusst mitgeliefert – nur Zwischenstände nicht
+folien/dist/*.tmp
+
+# Interne Unterlagen gehören nach ../kurs-26.2b-orga und niemals hierher
+*vertrag*
+*honorar*
+*Rahmenplan*
+*rahmenlehrplan*
