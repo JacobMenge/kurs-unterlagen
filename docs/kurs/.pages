@@ -1,5 +1,6 @@
-title: "Der Kurs"
+title: "Kursinfo"
 nav:
   - "Kursinfo": index.md
+  - "Wo stehen wir?": fortschritt.md
   - "Die Prüfung": pruefung.md
   - "FAQ": faq.md

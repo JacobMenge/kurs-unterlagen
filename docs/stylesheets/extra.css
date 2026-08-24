@@ -1235,3 +1235,218 @@
   flex: 1;
   min-width: 0;
 }
+
+/* ===========================================================================
+   29. Themenschwerpunkte: Farbcodierung, Kurslandkarte, Fortschritt
+   Drei Farben, die sich im dunklen Theme klar unterscheiden:
+   Thema 1 gruen (Aufbau), Thema 2 amber (Betrieb), Thema 3 cyan (Pruefen)
+   =========================================================================== */
+
+:root {
+  --thema1: #7dff9a;
+  --thema1-bg: rgba(125, 255, 154, 0.10);
+  --thema2: #ffb300;
+  --thema2-bg: rgba(255, 179, 0, 0.10);
+  --thema3: #4dd0e1;
+  --thema3-bg: rgba(77, 208, 225, 0.10);
+  --werkzeug: #8fa498;
+  --werkzeug-bg: rgba(143, 164, 152, 0.08);
+}
+
+/* --- Kurslandkarte: drei Spalten, je Thema eine ------------------------- */
+
+.md-typeset .kursmap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-typeset .kursmap {
+    grid-template-columns: 1fr;
+  }
+}
+
+.md-typeset .kursmap-spalte {
+  border: 1px solid var(--jd-phosphor-deep);
+  border-top-width: 3px;
+  border-radius: 4px;
+  background: var(--jd-bg-card);
+  padding: 0.9rem 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.md-typeset .kursmap-spalte.t1 { border-top-color: var(--thema1); }
+.md-typeset .kursmap-spalte.t2 { border-top-color: var(--thema2); }
+.md-typeset .kursmap-spalte.t3 { border-top-color: var(--thema3); }
+
+.md-typeset .kursmap-nr {
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+
+.md-typeset .kursmap-spalte.t1 .kursmap-nr { color: var(--thema1); }
+.md-typeset .kursmap-spalte.t2 .kursmap-nr { color: var(--thema2); }
+.md-typeset .kursmap-spalte.t3 .kursmap-nr { color: var(--thema3); }
+
+.md-typeset .kursmap-titel {
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1.25;
+  color: var(--jd-ink);
+  margin-bottom: 0.3rem;
+}
+
+.md-typeset .kursmap-frage {
+  font-size: 0.74rem;
+  font-style: italic;
+  color: var(--jd-ink-dim);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px dashed var(--jd-phosphor-deep);
+}
+
+.md-typeset .kursmap-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.md-typeset .kursmap-liste li {
+  margin: 0 0 0.42rem;
+  padding-left: 0.95rem;
+  position: relative;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.md-typeset .kursmap-liste li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  top: -0.02rem;
+}
+
+.md-typeset .kursmap-spalte.t1 .kursmap-liste li::before { color: var(--thema1); }
+.md-typeset .kursmap-spalte.t2 .kursmap-liste li::before { color: var(--thema2); }
+.md-typeset .kursmap-spalte.t3 .kursmap-liste li::before { color: var(--thema3); }
+
+.md-typeset .kursmap-liste a {
+  color: var(--jd-ink);
+  border-bottom: 1px solid transparent;
+}
+
+.md-typeset .kursmap-liste a:hover {
+  color: var(--jd-phosphor);
+  border-bottom-color: currentColor;
+}
+
+.md-typeset .kursmap-fuss {
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--jd-phosphor-deep);
+  font-size: 0.7rem;
+  color: var(--jd-ink-dim);
+}
+
+/* --- Werkzeugleiste unter der Landkarte --------------------------------- */
+
+.md-typeset .kursmap-werkzeuge {
+  border: 1px dashed var(--jd-phosphor-deep);
+  border-radius: 4px;
+  background: var(--werkzeug-bg);
+  padding: 0.7rem 0.9rem;
+  margin: 0 0 1.4rem;
+  font-size: 0.78rem;
+  color: var(--jd-ink-dim);
+}
+
+.md-typeset .kursmap-werkzeuge strong {
+  color: var(--werkzeug);
+}
+
+/* --- Fortschrittsanzeige ------------------------------------------------ */
+
+.md-typeset .fortschritt-block {
+  margin: 0 0 1.15rem;
+}
+
+.md-typeset .fortschritt-kopf {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.md-typeset .fortschritt-name {
+  font-weight: 700;
+  color: var(--jd-ink);
+}
+
+.md-typeset .fortschritt-wert {
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.75rem;
+  color: var(--jd-ink-dim);
+  white-space: nowrap;
+}
+
+.md-typeset .fortschritt-schiene {
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(143, 164, 152, 0.14);
+  border: 1px solid var(--jd-phosphor-deep);
+  overflow: hidden;
+}
+
+.md-typeset .fortschritt-balken {
+  height: 100%;
+  border-radius: 5px 0 0 5px;
+  transition: width 0.4s ease;
+}
+
+.md-typeset .fortschritt-block.t1 .fortschritt-balken {
+  background: linear-gradient(90deg, var(--jd-phosphor-dim), var(--thema1));
+}
+.md-typeset .fortschritt-block.t2 .fortschritt-balken {
+  background: linear-gradient(90deg, #c98a00, var(--thema2));
+}
+.md-typeset .fortschritt-block.t3 .fortschritt-balken {
+  background: linear-gradient(90deg, #2a8f9c, var(--thema3));
+}
+
+.md-typeset .fortschritt-balken.voll {
+  border-radius: 5px;
+}
+
+/* Statuspunkte in der Themenliste */
+.md-typeset .status-fertig,
+.md-typeset .status-laeuft,
+.md-typeset .status-offen {
+  font-family: var(--md-code-font-family, monospace);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.md-typeset .status-fertig { color: var(--thema1); }
+.md-typeset .status-laeuft { color: var(--thema2); }
+.md-typeset .status-offen  { color: var(--jd-ink-dim); }
+
+/* --- Kompaktere Tabs, damit die Navigation nicht abschneidet ------------ */
+
+.md-tabs__link {
+  font-size: 0.7rem;
+  margin-top: 0.68rem;
+}
+
+.md-tabs__item {
+  padding-right: 0.62rem;
+  padding-left: 0.62rem;
+}

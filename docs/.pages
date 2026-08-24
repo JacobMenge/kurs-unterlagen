@@ -1,8 +1,8 @@
 nav:
   - "Start": index.md
   - "Fahrplan": fahrplan.md
-  - "Der Kurs": kurs
-  - "Thema 1 – Planung & Integration":
+  - "Kursinfo": kurs
+  - "1 · Planung & Integration":
       - "Worum es geht": thema-1.md
       - "Netzwerke": netzwerke
       - "Virtualisierung": virtualisierung
@@ -14,7 +14,7 @@ nav:
       - "Praxis: Mission Control": docker-compose-mission-control
       - "Docker für Profis": docker-profi
       - "Infrastruktur & Architektur": infrastruktur-planung
-  - "Thema 2 – Laufender Betrieb":
+  - "2 · Laufender Betrieb":
       - "Worum es geht": thema-2.md
       - "Betrieb & Verfügbarkeit": betrieb
       - "Praxis: Monitoring": monitoring-praxis
@@ -22,16 +22,16 @@ nav:
       - "Kubernetes – Einstieg": kubernetes-praxis
       - "Kubernetes – Aufbau": kubernetes-aufbau
       - "Kubernetes – Helm": kubernetes-helm
+      - "Git & GitHub": git
       - "CI/CD": ci-cd
-  - "Thema 3 – Qualität & Sicherheit":
+  - "3 · Qualität & Sicherheit":
       - "Worum es geht": thema-3.md
       - "IT-Sicherheit & Risiko": it-sicherheit
       - "Tests & Qualität": testen-qualitaet
-  - "Weitere Prüfungsthemen":
+  - "Weitere Themen":
       - "Überblick": weitere-themen.md
       - "Recht & Datenschutz": recht-organisation
       - "Projekte & Koordination": projektmanagement
-  - "Werkzeuge & Nachschlagen":
-      - "Git & GitHub": git
+  - "Nachschlagen":
       - "Cheatsheets": cheatsheets
       - "Glossar": glossar.md

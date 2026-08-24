@@ -1,142 +1,176 @@
 ---
 title: "Fahrplan"
-description: "Der rote Faden durch den Kurs: die drei Themenschwerpunkte, ihre Reihenfolge, wie die Blöcke aufeinander aufbauen und wie ein typischer Kursabend abläuft."
+description: "Der rote Faden durch den Kurs: die drei Themenschwerpunkte mit allen Blöcken, ihre Reihenfolge, wie sie aufeinander aufbauen und wie ein Kursabend abläuft."
 hide:
   - navigation
 ---
 
 # Fahrplan
 
-Diese Seite ist deine **Landkarte**. Sie zeigt, wie der Kurs aufgebaut ist, in welcher Reihenfolge die Themen kommen und warum gerade in dieser.
+Deine Landkarte durch den Kurs. Drei Themenschwerpunkte, die aufeinander aufbauen – hier siehst du auf einen Blick, was wo hingehört.
 
-!!! abstract "Der Kurs in einem Satz"
-    Drei Themenschwerpunkte, die aufeinander aufbauen: erst **planen und integrieren**, dann **betreiben**, dann **absichern und prüfen**.
+<div class="kursmap" markdown>
 
----
+<div class="kursmap-spalte t1" markdown>
+<div class="kursmap-nr">Thema 1</div>
+<div class="kursmap-titel">Planung, Konzeptionierung, Integration</div>
+<div class="kursmap-frage">Wie entsteht ein System?</div>
+<ul class="kursmap-liste">
+<li><a href="../netzwerke/">Netzwerke</a></li>
+<li><a href="../virtualisierung/">Virtualisierung</a></li>
+<li><a href="../docker/">Docker – Einführung</a></li>
+<li><a href="../docker-aufbau/">Docker – Aufbau</a></li>
+<li><a href="../docker-compose/">Docker Compose</a></li>
+<li><a href="../infrastruktur-planung/">Infrastruktur & Architektur</a></li>
+</ul>
+<div class="kursmap-fuss">Der größte Block. Hier entsteht das Fundament für alles Weitere.</div>
+</div>
 
-## Die drei Schwerpunkte
+<div class="kursmap-spalte t2" markdown>
+<div class="kursmap-nr">Thema 2</div>
+<div class="kursmap-titel">Sicherstellung des laufenden Betriebs</div>
+<div class="kursmap-frage">Wie bleibt es am Laufen?</div>
+<ul class="kursmap-liste">
+<li><a href="../betrieb/">Betrieb & Verfügbarkeit</a></li>
+<li><a href="../monitoring-praxis/">Monitoring</a></li>
+<li><a href="../orchestrierung/">Softwareverteilung</a></li>
+<li><a href="../kubernetes-praxis/">Kubernetes</a></li>
+<li><a href="../git/">Git & GitHub</a></li>
+<li><a href="../ci-cd/">CI/CD</a></li>
+</ul>
+<div class="kursmap-fuss">Ausfälle vorwegdenken, überwachen, ausrollen, wiederherstellen.</div>
+</div>
 
-```mermaid
-flowchart LR
-  T1["<b>Thema 1</b><br/>Planung, Konzeptionierung,<br/>Integration<br/><small>Wie entsteht ein System?</small>"]
-  T2["<b>Thema 2</b><br/>Sicherstellung des<br/>laufenden Betriebs<br/><small>Wie bleibt es am Laufen?</small>"]
-  T3["<b>Thema 3</b><br/>Qualitätssicherung<br/>und IT-Sicherheit<br/><small>Läuft es richtig und sicher?</small>"]
-  T1 --> T2 --> T3
-```
-
-<div class="grid cards" markdown>
-
--   :material-hammer-screwdriver:{ .lg .middle } __[Thema 1 – Planung und Integration](thema-1.md)__
-
-    ---
-
-    Netzwerke, Virtualisierung, Container und Infrastrukturplanung. Der größte Block – hier entsteht das Fundament für alles Weitere.
-
-    [:octicons-arrow-right-24: Worum es geht](thema-1.md)
-
--   :material-server-network:{ .lg .middle } __[Thema 2 – Laufender Betrieb](thema-2.md)__
-
-    ---
-
-    Ausfallsicherheit, Backup und Wiederanlauf, Monitoring, Betriebsdaten, Softwareverteilung und Orchestrierung.
-
-    [:octicons-arrow-right-24: Worum es geht](thema-2.md)
-
--   :material-shield-check-outline:{ .lg .middle } __[Thema 3 – Qualität und Sicherheit](thema-3.md)__
-
-    ---
-
-    Risikomanagement, Sicherheitskonzepte, Umgang mit Vorfällen, Testszenarien, Optimierung sowie Übergabe und Einweisung.
-
-    [:octicons-arrow-right-24: Worum es geht](thema-3.md)
+<div class="kursmap-spalte t3" markdown>
+<div class="kursmap-nr">Thema 3</div>
+<div class="kursmap-titel">Qualitätssicherung und IT-Sicherheit</div>
+<div class="kursmap-frage">Läuft es richtig und sicher?</div>
+<ul class="kursmap-liste">
+<li><a href="../it-sicherheit/">Schutzziele & Grundlagen</a></li>
+<li><a href="../it-sicherheit/risikomanagement/">Risikomanagement</a></li>
+<li><a href="../it-sicherheit/isms/">ISMS & Standards</a></li>
+<li><a href="../it-sicherheit/sicherheitsvorfaelle/">Sicherheitsvorfälle</a></li>
+<li><a href="../testen-qualitaet/">Tests & Qualität</a></li>
+<li><a href="../testen-qualitaet/uebergabe-und-training/">Übergabe & Einweisung</a></li>
+</ul>
+<div class="kursmap-fuss">Greift alles Vorherige auf – und liegt am nächsten an der Prüfung.</div>
+</div>
 
 </div>
 
-Dazu kommen zwei Schwerpunkte, die von anderer Seite unterrichtet werden, aber ebenfalls in der Prüfung vorkommen: **[Weitere Prüfungsthemen](weitere-themen.md)**.
+<div class="kursmap-werkzeuge" markdown>
+<strong>Dazu kommen zwei Schwerpunkte von anderer Seite:</strong> organisatorische und rechtliche Vorgaben sowie Projektunterstützung und -koordination. Beide sind prüfungsrelevant – eine Einordnung findest du unter <a href="../weitere-themen/">Weitere Themen</a>.
+</div>
+
+!!! tip "Wo stehen wir gerade?"
+    Der aktuelle Stand des Kurses – was zuletzt dran war und was als Nächstes kommt – steht auf der Seite **[Wo stehen wir?](kurs/fortschritt.md)**.
 
 ---
 
-## Die Reihenfolge im Detail
+## Wie die Themen aufeinander aufbauen
+
+Die Reihenfolge ist kein Zufall. Jeder Block liefert das Vokabular für den nächsten.
+
+| | Thema 1 baut das Fundament | Thema 2 hält es am Laufen | Thema 3 sichert es ab |
+|---|---|---|---|
+| **Beginnt mit** | Netzwerken, weil ohne sie nichts kommuniziert | dem Konzept von Verfügbarkeit, bevor Werkzeuge kommen | Risikomanagement als Methode für alles Weitere |
+| **Braucht davor** | nichts | Container und Infrastrukturverständnis aus Thema 1 | Systemverständnis aus Thema 1 und 2 |
+| **Endet mit** | der Planung, weil man erst entscheiden kann, wenn man die Bausteine kennt | der automatisierten Auslieferung | Tests und der geordneten Übergabe |
+
+---
+
+## Die Blöcke im Einzelnen
 
 === "Thema 1 · Planung und Integration"
 
-    | # | Block | Worum es geht |
+    | Block | Worum es geht | Praxisanteil |
     |---|---|---|
-    | 1 | [Netzwerke](netzwerke/index.md) | Das Fundament: Adressierung, Subnetting, Routing, DNS, Protokolle bis hin zur Industriekommunikation |
-    | 2 | [Virtualisierung](virtualisierung/index.md) | Systeme entkoppeln: Hypervisor, virtuelle Maschinen, Werkzeuge |
-    | 3 | [Docker](docker/index.md) | Container verstehen: Images, eigene Container bauen |
-    | 4 | [Docker – Aufbau](docker-aufbau/index.md) | Daten, Konfiguration, Netzwerke zwischen Containern |
-    | 5 | [Docker Compose](docker-compose/index.md) | Mehrere Dienste als ein Stack beschreiben und starten |
-    | 6 | [Infrastruktur und Architektur](infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Ressourcen, Lizenzen |
+    | [Netzwerke](netzwerke/index.md) | OSI-Modell, Adressierung, Subnetting, Routing, DNS und DHCP, Transport- und Anwendungsprotokolle, Industrie- und IoT-Protokolle, Segmentierung, VPN, Netzwerksicherheit | Subnetting-Wettbewerb, Verkehr mitlesen, Störungssuche |
+    | [Virtualisierung](virtualisierung/index.md) | Warum kapseln, Hypervisor-Typen, virtuelle Hardware, Werkzeuge im Vergleich | eigene virtuelle Maschinen aufsetzen und automatisiert einrichten |
+    | [Docker – Einführung](docker/index.md) | Container gegen VM, Images und Container, eigene Images bauen, Registry | erste eigene Container und Images |
+    | [Docker – Aufbau](docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Container-Netzwerke | Datenbank mit dauerhaftem Speicher |
+    | [Docker Compose](docker-compose/index.md) | Mehrere Dienste deklarativ beschreiben und starten | kompletter Anwendungsstapel aus einer Datei |
+    | [Infrastruktur & Architektur](infrastruktur-planung/index.md) | Bestandsanalyse, Anforderungen, Sollkonzept, Architekturen, Speicher, Ressourcen, Lizenzen | durchgehendes Unternehmensszenario mit Entscheidungen |
 
-    **Warum diese Reihenfolge?** Netzwerke zuerst, weil ohne sie nichts kommuniziert. Virtualisierung führt die Idee der Kapselung ein, Container treiben sie weiter. Die Planung kommt zum Schluss, weil man erst entscheiden kann, wenn man die Bausteine kennt.
+    **Vertiefungen, wenn Zeit bleibt:** [Docker – Vertiefung](docker-vertiefung/index.md), [Escape Room](docker-escape-room/index.md), [Mission Control](docker-compose-mission-control/index.md), [Docker für Profis](docker-profi/index.md).
 
 === "Thema 2 · Laufender Betrieb"
 
-    | # | Block | Worum es geht |
+    | Block | Worum es geht | Praxisanteil |
     |---|---|---|
-    | 1 | [Betrieb und Verfügbarkeit](betrieb/index.md) | Ausfallrisiken, Redundanz, Backup, Wiederanlauf, Notbetrieb |
-    | 2 | [Monitoring](monitoring-praxis/index.md) | Metriken sammeln, Dashboards bauen, Alarme auslösen |
-    | 3 | [Softwareverteilung](orchestrierung/index.md) | Software automatisiert ausrollen, Deployment-Strategien |
-    | 4 | [Kubernetes](kubernetes-praxis/index.md) | Container über einen Cluster betreiben und skalieren |
-    | 5 | [CI/CD](ci-cd/index.md) | Automatisiert bauen, testen und ausliefern |
+    | [Betrieb & Verfügbarkeit](betrieb/index.md) | Ausfallrisiken, Verfügbarkeit rechnen, Redundanz und Cluster, Backup und Recovery, Wiederanlauf, Incident Response, Notbetrieb | Redundanz- und Backupkonzept entwerfen, Notfallübung |
+    | [Monitoring](monitoring-praxis/index.md) | Metriken, Kennzahlen, Schwellenwerte, Alarmierung | Überwachungsstapel aufbauen, Dashboard und Alarm bauen |
+    | [Softwareverteilung](orchestrierung/index.md) | Paketierung, Imaging, Deployment-Strategien, Rollback | Rollout-Plan für einen Betrieb entwerfen |
+    | [Kubernetes](kubernetes-praxis/index.md) | Container über einen Cluster betreiben, skalieren, selbstheilend machen | Anwendung im Cluster betreiben und gezielt zerstören |
+    | [Git & GitHub](git/index.md) | Versionskontrolle als Werkzeug: Commits, Branches, Konflikte, Pull Requests | eigenes Repository, Branches, Konflikte lösen, im Team arbeiten |
+    | [CI/CD](ci-cd/index.md) | Automatisch bauen, testen und ausliefern | eigene Pipeline schreiben |
 
-    **Warum diese Reihenfolge?** Erst das Konzept – was heißt Verfügbarkeit, was kostet ein Ausfall –, dann die Werkzeuge. Monitoring kommt früh, weil man ohne Messung nicht beurteilen kann, ob eine Maßnahme wirkt.
+    !!! info "Warum Git hier steht"
+        Git ist kein eigener Prüfungsschwerpunkt, sondern **Handwerkszeug**. Es sitzt bewusst direkt vor CI/CD: Eine Pipeline wird von einem Git-Ereignis ausgelöst – ohne Git bleibt CI/CD abstrakt. Wer Git schon kann, kann den Block überspringen; wer neugierig ist, kann ihn jederzeit vorziehen.
 
 === "Thema 3 · Qualität und Sicherheit"
 
-    | # | Block | Worum es geht |
+    | Block | Worum es geht | Praxisanteil |
     |---|---|---|
-    | 1 | [IT-Sicherheit und Risiko](it-sicherheit/index.md) | Schutzziele, Risikomanagement, ISMS, Sicherheitsvorfälle, Beweissicherung |
-    | 2 | [Tests und Qualität](testen-qualitaet/index.md) | Testszenarien, Testdurchführung, Optimierung, Übergabe |
+    | [Schutzziele & Grundlagen](it-sicherheit/grundlagen.md) | Vertraulichkeit, Integrität, Verfügbarkeit, Schutzbedarf, Grundprinzipien | Schutzbedarf für eine Systemlandschaft feststellen |
+    | [Risikomanagement](it-sicherheit/risikomanagement.md) | Risiken identifizieren, analysieren, bewerten, steuern, überwachen | vollständige Risikoanalyse in der Gruppe |
+    | [ISMS & Standards](it-sicherheit/isms.md) | ISO 27001, BSI-Grundschutz, Richtlinien, Audits, Awareness | Sicherheitsrichtlinie entwerfen |
+    | [Sicherheitsvorfälle](it-sicherheit/sicherheitsvorfaelle.md) | Erkennen, bewerten, eindämmen, protokollieren, beweissicher dokumentieren | Vorfallbearbeitung an einem realistischen Szenario |
+    | [Tests & Qualität](testen-qualitaet/index.md) | Testfälle, Testumgebungen, Durchführung, Auswertung, Optimierung | Testkonzept für ein Integrationsvorhaben |
+    | [Übergabe & Einweisung](testen-qualitaet/uebergabe-und-training.md) | Übergabedokumentation, Schulungsbedarf, Nachbetreuung | Übergabekonzept erstellen |
 
-    **Warum am Schluss?** Beide Themen setzen alles Vorherige voraus. Eine Risikoanalyse braucht Systemverständnis, ein Testplan braucht ein System, das getestet werden kann.
+=== "Nachschlagen · jederzeit"
 
-=== "Werkzeuge · jederzeit"
-
-    | Block | Worum es geht |
+    | Bereich | Wofür |
     |---|---|
-    | [Git und GitHub](git/index.md) | Versionskontrolle: Änderungen nachvollziehen, im Team arbeiten |
-    | [Cheatsheets](cheatsheets/index.md) | Befehlsübersichten zum schnellen Nachschlagen |
-    | [Glossar](glossar.md) | Alle Fachbegriffe kompakt erklärt |
-
-    Git ist kein eigener Prüfungsschwerpunkt, sondern ein Werkzeug. Es taucht auf, sobald wir mit Konfigurationsdateien und Pipelines arbeiten – du kannst es aber jederzeit vorziehen.
+    | [Cheatsheets](cheatsheets/index.md) | Befehlsübersichten für Multipass, Docker, Compose, Git, GitHub Actions und Helm |
+    | [Glossar](glossar.md) | Alle Fachbegriffe erklärt. Abkürzungen sind auf jeder Seite automatisch verlinkt |
+    | [Die Prüfung](kurs/pruefung.md) | Format, Ablauf, Bewertung, Fristen |
+    | [FAQ](kurs/faq.md) | Die häufigsten Fragen zu Kurs und Prüfung |
 
 ---
 
 ## Wie ein Kursabend abläuft
 
-Die meisten Abende folgen demselben Muster:
+Die meisten Abende folgen demselben Muster. Der größere Teil gehört euch.
 
-```mermaid
-flowchart LR
-  A["<b>Theorie</b><br/>im Hauptraum<br/><small>ca. 45–60 Minuten</small>"]
-  B["<b>Praxis</b><br/>in Kleingruppen<br/><small>der größere Teil des Abends</small>"]
-  C["<b>Auswertung</b><br/>gemeinsam<br/><small>zum Abschluss</small>"]
-  A --> B --> C
-```
+<div class="grid cards" markdown>
 
-**Theorie** – Begriffe, Zusammenhänge, das Warum. Kurz genug, dass Zeit zum Arbeiten bleibt.
+-   :material-presentation:{ .lg .middle } __1 · Theorie__
 
-**Praxis in Kleingruppen** – ihr geht in getrennte Räume und arbeitet an einer Aufgabe. Ihr helft euch gegenseitig, ich komme dazu, wenn etwas klemmt. Hier passiert das eigentliche Lernen.
+    ---
 
-**Gemeinsame Auswertung** – zurück im Hauptraum: Was ist herausgekommen, wo hat es gehakt, welche Lösungswege gab es? Genau dieses Besprechen macht den Unterschied zwischen „hat funktioniert" und „habe verstanden".
+    Etwa 45 bis 60 Minuten im Hauptraum: Begriffe, Zusammenhänge, das Warum. Kurz genug, dass Zeit zum Arbeiten bleibt.
 
-!!! tip "Was das für dich heißt"
-    Die Praxisaufgaben sind kein Zusatz, sondern der Kern. Wenn du einen Abend verpasst, arbeite vor allem die Übung nach – die Theorie dazu steht ohnehin hier in den Unterlagen.
+-   :material-account-group:{ .lg .middle } __2 · Praxis in Kleingruppen__
+
+    ---
+
+    Der größere Teil des Abends. Ihr arbeitet in getrennten Räumen an einer Aufgabe, helft euch gegenseitig, und ich komme dazu, wenn es klemmt.
+
+-   :material-forum-outline:{ .lg .middle } __3 · Gemeinsame Auswertung__
+
+    ---
+
+    Zurück im Hauptraum: Was ist herausgekommen, wo hat es gehakt, welche Lösungswege gab es? Hier fällt der Groschen.
+
+</div>
+
+!!! tip "Die Praxis ist der Kern"
+    Der Kurs bereitet auf die Prüfung vor, aber vor allem sollt ihr die Dinge **anwenden**. Wenn du einen Abend verpasst, arbeite zuerst die Übung nach – die Theorie dazu steht ohnehin hier.
 
 ---
 
 ## Wie die Blöcke aufgebaut sind
 
-Jeder Themenblock folgt derselben Gliederung. Wenn du dich einmal zurechtgefunden hast, findest du dich überall zurecht:
+Jeder Block folgt derselben Gliederung. Einmal zurechtgefunden, findest du dich überall zurecht.
 
 | Seitentyp | Was dich erwartet |
 |---|---|
 | **Überblick** | Worum es geht, was du lernst, wie die Seiten zusammenhängen |
 | **Theorie** | Die Inhalte mit Erklärungen, Analogien und Diagrammen |
 | **Praxis** | Schritt-für-Schritt-Anleitungen zum Mitmachen |
-| **Übungen** | Aufgaben mit Musterlösung – meist gestaffelt nach Schwierigkeit |
+| **Übungen** | Aufgaben mit Musterlösung, meist nach Schwierigkeit gestaffelt |
 | **Stolpersteine** | Was typischerweise schiefgeht und wie du es behebst |
 | **Merksätze** | Die Kernaussagen des Blocks auf einer Seite |
 
@@ -145,13 +179,9 @@ Jeder Themenblock folgt derselben Gliederung. Wenn du dich einmal zurechtgefunde
 ## Wenn die Zeit knapp wird
 
 !!! abstract "Die Prioritäten"
-    1. **Die Theorie jedes Themas** – sie ist die Grundlage für die Prüfung, und die Prüfungsaufgaben fragen Verständnis ab, nicht Handgriffe.
+    1. **Die Theorie jedes Themas** – die Prüfung fragt Verständnis ab, nicht Handgriffe.
     2. **Die Übungen mit Musterlösung** – wenn du sie nicht durchführen kannst, lies wenigstens Aufgabe und Lösung.
     3. **Die Stolperstein-Seiten** – sie sparen dir im Ernstfall Stunden.
-    4. **Die Vertiefungen und Zusatzübungen** – wertvoll, aber verzichtbar, wenn die Zeit fehlt.
+    4. **Die Vertiefungen** – wertvoll, aber verzichtbar, wenn die Zeit fehlt.
 
-    Und unabhängig von der Prüfung: Die Praxisblöcke machen den Stoff greifbar. Lass sie dir nicht entgehen, nur weil sie nicht direkt abgefragt werden.
-
----
-
-Wo du im Kurs gerade stehst und was organisatorisch gilt, steht in der **[Kursinfo](kurs/index.md)**. Was in der Prüfung auf dich zukommt, erklärt die Seite **[Die Prüfung](kurs/pruefung.md)**.
+    Unabhängig von der Prüfung gilt: Die Praxisblöcke machen den Stoff greifbar. Lass sie dir nicht entgehen, nur weil sie nicht direkt abgefragt werden.
