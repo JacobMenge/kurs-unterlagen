@@ -1,128 +1,65 @@
-# Kursunterlagen – Virtualisierung & Docker
+# Kursunterlagen – Systemintegration und Vernetzung
 
-Nachschlagewerk zu meinen Kursen rund um **Virtualisierung** und **Docker**.
-Gebaut mit [MkDocs](https://www.mkdocs.org/) + [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) und automatisch über GitHub Pages veröffentlicht.
+Begleitmaterial zum Lehrgang **Geprüfter Berufsspezialist für Systemintegration und
+Vernetzung** (IHK). Gebaut mit [MkDocs](https://www.mkdocs.org/) und
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), automatisch über
+GitHub Pages veröffentlicht.
 
-
----
-
-## Live-Version
-
-Sobald das Repo unter `<username>/kurs-unterlagen` auf GitHub liegt und Pages aktiviert ist, läuft die Seite unter:
-
-```
-https://<username>.github.io/kurs-unterlagen/
-```
+**Live:** <https://jacobmenge.github.io/kurs-unterlagen/>
 
 ---
 
-## Einmalige Einrichtung (das musst du selbst tun)
+## Aufbau
 
-Damit das Ganze als GitHub Page online geht, brauchst du **fünf kurze Schritte**. Das dauert keine 10 Minuten.
+Die Unterlagen folgen den drei Themenschwerpunkten des Lehrgangs:
 
-### 1. GitHub-Repository anlegen
+| Bereich | Inhalt |
+|---|---|
+| **Thema 1 – Planung, Konzeptionierung, Integration** | Netzwerke, Virtualisierung, Container, Infrastruktur- und Architekturplanung |
+| **Thema 2 – Sicherstellung des laufenden Betriebs** | Verfügbarkeit, Backup und Wiederanlauf, Monitoring, Softwareverteilung, Orchestrierung, CI/CD |
+| **Thema 3 – Qualitätssicherung und IT-Sicherheit** | Risikomanagement, Sicherheitskonzepte, Sicherheitsvorfälle, Tests, Übergabe |
 
-- Gehe auf <https://github.com/new>.
-- Name: **`kurs-unterlagen`** (exakt so, damit `site_url` passt – kannst du später ändern, siehe Schritt 4).
-- Sichtbarkeit: **Public** (für Pages ohne bezahltes Konto nötig).
-- **Keine** README, `.gitignore` oder License mitanlegen – das haben wir schon.
-- **Create repository** klicken.
+Dazu Werkzeug- und Nachschlagebereiche (Git, Cheatsheets, Glossar) sowie eine
+Einordnung der beiden Schwerpunkte, die von anderer Seite unterrichtet werden.
 
-### 2. Lokales Projekt mit GitHub verbinden
-
-Im Terminal im Projektordner (`/Users/jacobmenge/Desktop/kurs-unterlagen`):
-
-```bash
-# Git-Repo initialisieren (falls noch nicht geschehen)
-git init -b main
-
-# Alle Dateien stagen
-git add .
-
-# Ersten Commit erstellen
-git commit -m "Initial kurs-unterlagen: Virtualisierung, Docker, Aufbau, Compose, Profi"
-
-# GitHub-Remote verbinden (Username ersetzen!)
-git remote add origin https://github.com/<DEIN-USERNAME>/kurs-unterlagen.git
-
-# Hochladen
-git push -u origin main
+```
+docs/
+├── index.md                    Startseite
+├── fahrplan.md                 Roter Faden durch den Kurs
+├── thema-1.md … thema-3.md     Übersicht je Themenschwerpunkt
+├── weitere-themen.md           Einordnung von Recht und Projektmanagement
+├── kurs/                       Kursinfo, Prüfungsformat, FAQ
+├── netzwerke/ … testen-qualitaet/   Fachblöcke
+├── cheatsheets/                Befehlsübersichten
+├── glossar.md                  Fachbegriffe
+├── includes/abbreviations.md   Automatische Glossar-Verlinkung
+├── stylesheets/extra.css       Design
+└── javascripts/glossar-links.js
+folien/                         Foliensätze (pptxgenjs)
+apps/                           Beispielanwendungen für die Praxisübungen
 ```
 
-### 3. GitHub Pages aktivieren
-
-- Auf der GitHub-Repo-Seite: **Settings → Pages**.
-- Unter **Source** → **GitHub Actions** auswählen (nicht „Deploy from branch"!).
-- Speichern.
-
-### 4. `site_url` in `mkdocs.yml` anpassen (falls dein Username nicht `JacobMenge` ist)
-
-Öffne `mkdocs.yml`. Oben steht:
-
-```yaml
-site_url: "https://jacobmenge.github.io/kurs-unterlagen/"
-```
-
-Ersetze `jacobmenge` durch deinen GitHub-Username (kleingeschrieben). Beispiel:
-
-```yaml
-site_url: "https://mein-github-name.github.io/kurs-unterlagen/"
-```
-
-Auch in `mkdocs.yml` das GitHub-Repository-Link anpassen:
-
-```yaml
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/<DEIN-USERNAME>/kurs-unterlagen
-```
-
-Dann:
-
-```bash
-git add mkdocs.yml
-git commit -m "site_url an Username anpassen"
-git push
-```
-
-### 5. Deploy abwarten
-
-- GitHub startet den Workflow automatisch nach dem Push.
-- Auf der Repo-Seite: **Actions-Tab** öffnen, du siehst den Workflow „Deploy MkDocs to GitHub Pages" laufen.
-- Nach 1–2 Minuten: **grüner Haken** → die Seite ist live.
-- URL: `https://<DEIN-USERNAME>.github.io/kurs-unterlagen/`
-
-!!! tip "Fehler beim ersten Deploy?"
-    - Falls `mkdocs build --strict` im Workflow fehlschlägt, schau in die Actions-Logs – meist ein YAML-Syntax-Fehler oder ein kaputter interner Link.
-    - Falls „Pages" nicht aktiv ist: siehe Schritt 3. Unter Settings → Pages muss **GitHub Actions** ausgewählt sein.
+Die Navigation wird über `.pages`-Dateien gesteuert
+(Plugin `mkdocs-awesome-pages-plugin`). Die oberste Gliederung steht in `docs/.pages`,
+die Reihenfolge innerhalb eines Blocks in der jeweiligen `.pages` des Ordners.
 
 ---
 
-## Ab hier: ganz normaler Git-Workflow
+## Wiederverwendbarkeit
 
-Jede Änderung, die du pushst, wird **automatisch neu deployed**:
+Die Unterlagen sind so geschrieben, dass sie **für jeden Kursdurchlauf unverändert
+nutzbar** sind. Konkrete Datumsangaben und kurslaufspezifische Hinweise stehen
+ausschließlich im Abschnitt „Termine dieses Kurses" in `docs/kurs/index.md`.
 
-```bash
-# Änderung machen (egal ob VSCode, vim, Notepad++, ...)
-# Lokal prüfen
-mkdocs serve
-
-# Wenn alles passt:
-git add .
-git commit -m "Docker-Block: Kapitel ergänzt"
-git push
-```
-
-Nach dem Push dauert es 1–2 Minuten, bis die neue Version online ist.
+Bei einem neuen Durchlauf genügt es, diesen einen Abschnitt zu aktualisieren.
 
 ---
 
 ## Lokal arbeiten
 
-Einmalig eine virtuelle Umgebung anlegen und Abhängigkeiten installieren:
+Einmalig eine virtuelle Umgebung anlegen:
 
-**macOS / Linux (Bash / Zsh):**
+**macOS / Linux**
 
 ```bash
 python3 -m venv .venv
@@ -130,7 +67,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Windows PowerShell:**
+**Windows PowerShell**
 
 ```powershell
 python -m venv .venv
@@ -138,74 +75,70 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-> Falls beim Activate-Skript `running scripts is disabled` kommt: einmalig `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` ausführen, dann nochmal versuchen.
+Kommt beim Aktivieren `running scripts is disabled`, einmalig
+`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` ausführen.
 
-**Windows CMD:**
-
-```cmd
-python -m venv .venv
-.venv\Scripts\activate.bat
-pip install -r requirements.txt
-```
-
-Dann den Entwicklungsserver starten (auf allen Plattformen gleich):
+Entwicklungsserver starten:
 
 ```bash
 mkdocs serve
 ```
 
-Danach im Browser: <http://127.0.0.1:8000/kurs-unterlagen/>
+Dann im Browser <http://127.0.0.1:8000/kurs-unterlagen/> öffnen. Änderungen an
+Markdown- und CSS-Dateien werden automatisch neu geladen.
 
-Änderungen an Markdown- oder CSS-Dateien werden automatisch neu geladen.
-
----
-
-## Produktions-Build
+Produktions-Build prüfen:
 
 ```bash
 mkdocs build --strict
 ```
 
-Der fertige statische Output liegt dann in `site/`. `--strict` verhindert den Build bei jeder Warnung (kaputte Links etc.).
+`--strict` bricht bei jeder Warnung ab, insbesondere bei kaputten internen Links.
 
 ---
 
-## Projekt-Struktur
+## Folien
 
-```
-docs/
-├── index.md                        # Startseite
-├── virtualisierung/                # Block 1: VMs, Hypervisor, Multipass
-├── docker/                         # Block 2: Docker-Einführung
-├── docker-aufbau/                  # Block 3: Volumes, ENV, Netzwerke
-├── docker-compose/                 # Block 4: Compose
-├── docker-profi/                   # Block 5: Best Practices, Image-Optimierung
-├── cheatsheets/                    # Spickzettel für Multipass, Docker, Compose
-├── glossar.md                      # Alle Fachbegriffe erklärt
-├── includes/abbreviations.md       # Auto-Verlinkung für Begriffe
-├── stylesheets/extra.css           # Terminal-Design
-└── javascripts/glossar-links.js    # Glossar-Klicklogik
+Die Foliensätze liegen unter `folien/` und werden mit
+[pptxgenjs](https://gitbrent.github.io/PptxGenJS/) erzeugt.
+
+```bash
+cd folien
+npm install                       # einmalig
+node 00-orientierung.js           # Foliensatz bauen -> dist/
+../.venv/bin/python qa.py dist/00-orientierung.pptx
 ```
 
-Die Navigation wird automatisch aus `.pages`-Dateien in den jeweiligen Ordnern
-erzeugt (Plugin: `mkdocs-awesome-pages-plugin`). Neue Markdown-Seiten erscheinen
-ohne manuelle Einträge in `mkdocs.yml`.
+`lib/theme.js` enthält das gemeinsame Design und alle Bausteine (Titelfolien,
+Abschnittstrenner, Karten, Zeitstrahl, Ablauftabellen, Code-Blöcke). Ein neuer
+Foliensatz ist damit ein kurzes Skript.
+
+`qa.py` prüft die fertige Datei auf Textüberläufe, Elemente außerhalb der Folie,
+überlappende Textkästen und vergessene Platzhalter.
+
+---
+
+## Beispielanwendungen
+
+Unter `apps/` liegen die Anwendungen, die in den Praxisübungen verwendet werden –
+etwa der Monitoring-Stack, die Kubernetes-Manifeste und das Helm-Chart. Die
+zugehörigen Anleitungen stehen jeweils im passenden Block der Dokumentation.
 
 ---
 
 ## Deployment
 
-Der Workflow unter `.github/workflows/deploy.yml` baut die Seite bei jedem Push
-auf `main` und veröffentlicht sie auf GitHub Pages.
+`.github/workflows/deploy.yml` baut die Seite bei jedem Push auf `main` und
+veröffentlicht sie auf GitHub Pages:
 
-- Baut mit `mkdocs build --strict` → bricht bei Broken Links ab
-- Cached pip-Dependencies
-- Deployment via `actions/deploy-pages@v4`
+- Build mit `mkdocs build --strict`, bricht bei kaputten Links ab
+- pip-Abhängigkeiten werden zwischengespeichert
+- Veröffentlichung über `actions/deploy-pages@v4`
+
+Nach dem Push dauert es ein bis zwei Minuten, bis die neue Fassung online ist.
 
 ---
 
 ## Lizenz der Inhalte
 
 Die Texte dieses Repositories stelle ich als Lernmaterial frei zur Verfügung.
-Das Branding der Marke „Jacob Decoded" (Logo, Wortmarke, Layout) ist davon
-ausgenommen.

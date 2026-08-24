@@ -1,11 +1,11 @@
 ---
 title: "Cheatsheets"
-description: "Schnelles Nachschlagen – die wichtigsten Multipass- und Docker-Befehle auf je einer Seite."
+description: "Schnelles Nachschlagen: die wichtigsten Befehle für Multipass, Docker, Compose, Git, GitHub Actions und Helm auf je einer Seite."
 ---
 
 # Cheatsheets
 
-Beide Cheatsheets sind als **Tabellen** aufgebaut. Sie sind bewusst knapp – für die ausführlichen Erklärungen gibt es die jeweiligen Kapitel in [Virtualisierung](../virtualisierung/index.md) und [Docker](../docker/index.md).
+Alle Cheatsheets sind als **Tabellen** aufgebaut. Sie sind bewusst knapp – für die ausführlichen Erklärungen gibt es die jeweiligen Blöcke, auf die hier jeweils verwiesen wird.
 
 <div class="grid cards" markdown>
 
@@ -38,6 +38,12 @@ Beide Cheatsheets sind als **Tabellen** aufgebaut. Sie sind bewusst knapp – f�
     ---
 
     Trigger, Jobs, Steps, Docker-Snippets, Multi-Arch und Release – das Pipeline-Spickblatt.
+
+-   :material-package-variant-closed:{ .lg .middle } __[Helm](helm.md)__
+
+    ---
+
+    Install, Upgrade, Rollback, Values, Repos und Template-Bausteine für eigene Charts.
 
 </div>
 

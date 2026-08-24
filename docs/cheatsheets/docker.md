@@ -155,8 +155,8 @@ Bind Mount des **aktuellen Ordners** je Shell:
     -v "%cd%:/app"
     ```
 
-!!! note "Volumes vertiefen wir im nächsten Kursblock."
-    Für den heutigen Einstieg reicht es, den Begriff zu kennen.
+!!! note "Volumes werden im Aufbau-Block vertieft."
+    Für den Einstieg reicht es, den Begriff zu kennen.
 
 ## Netzwerke
 
@@ -255,7 +255,7 @@ docker run --rm -it ubuntu bash
 
 ---
 
-## Minimal-Workflow aus dem heutigen Kurs
+## Minimal-Workflow für den Einstieg
 
 ```bash
 # 1) Offiziellen Container starten

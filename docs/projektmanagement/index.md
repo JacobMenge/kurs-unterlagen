@@ -7,6 +7,16 @@ description: "Block zur Projektarbeit in der Systemintegration: Teilprojekte org
 
 Integrationsarbeit passiert fast nie als Einzelkampf am Schreibtisch. Eine neue Anlage anbinden, ein System ablösen, eine Cloud-Umgebung aufbauen – das sind **Projekte**: mit Zielen, Terminen, Budget, mehreren Beteiligten und jeder Menge Schnittstellen. In diesem Block geht es darum, wie du ein **Teilprojekt der Systemintegration** organisierst, planst, kalkulierst, steuerst und begleitest – und wie du am Ende die Menschen mitnimmst, die mit dem Ergebnis arbeiten sollen.
 
+!!! info "Wird von anderer Seite unterrichtet"
+    Dieser Themenschwerpunkt gehört nicht zur Spezialisierung, sondern wird von einer
+    anderen Lehrkraft unterrichtet. Die Seiten hier geben dir nur einen **Überblick**,
+    damit du die Verbindungen zu den technischen Themen siehst – sie ersetzen den
+    Unterricht nicht.
+
+    Warum das trotzdem wichtig ist: In der Prüfung berührt **jede Aufgabe alle fünf
+    Qualifikationsschwerpunkte**. Siehe [Weitere Prüfungsthemen](../weitere-themen.md).
+
+
 Stell dir das wie einen **Umzug** vor: Erst klärst du, wer was entscheidet und wer betroffen ist (Organisation), dann machst du einen Plan mit Reihenfolge und Terminen (Planung), schätzt Kisten, Helfer und Mietwagen (Aufwand), behältst am Umzugstag den Überblick und reagierst auf Verzögerungen (Controlling) – und am Schluss zeigst du allen, wo jetzt was steht (Schulung).
 
 !!! abstract "Was du in diesem Block lernst"

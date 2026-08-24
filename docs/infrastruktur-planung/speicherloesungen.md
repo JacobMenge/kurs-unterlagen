@@ -142,7 +142,7 @@ flowchart TB
 
 Die VM zieht um, ihre Daten nicht – sie lagen nie auf dem Host, sondern immer im gemeinsamen Speicher. Deshalb funktioniert der Umzug im laufenden Betrieb.
 
-Die Grundidee kennst du übrigens längst aus Docker: Ein **Volume** existiert unabhängig vom Container – der Container ist wegwerfbar, die Daten leben weiter. Shared Storage ist dasselbe Prinzip eine Etage tiefer: Die VM ist beweglich, ihre Daten liegen an einem Ort, der alle Bewegungen überlebt.
+Die Grundidee begegnet dir übrigens auch bei Docker: Ein **Volume** existiert unabhängig vom Container – der Container ist wegwerfbar, die Daten leben weiter. Shared Storage ist dasselbe Prinzip eine Etage tiefer: Die VM ist beweglich, ihre Daten liegen an einem Ort, der alle Bewegungen überlebt.
 
 Beim Anlegen virtueller Platten gibt es zwei Strategien:
 

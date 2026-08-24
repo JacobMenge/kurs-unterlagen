@@ -74,7 +74,7 @@ helm install station ./webserver
 
 ```text
 NAME: station
-LAST DEPLOYED: Thu Jul 16 15:00:33 2026
+LAST DEPLOYED: Fri Mar 15 15:00:33 2024
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
@@ -95,7 +95,7 @@ helm upgrade station ./webserver --set color="#2e9e5b" --set version=2 --set sta
 ```text
 Release "station" has been upgraded. Happy Helming!
 NAME: station
-LAST DEPLOYED: Thu Jul 16 15:01:02 2026
+LAST DEPLOYED: Fri Mar 15 15:01:02 2024
 NAMESPACE: default
 STATUS: deployed
 REVISION: 2
@@ -124,10 +124,10 @@ helm list -A
 
 ```text
 NAME     NAMESPACE  REVISION  UPDATED                                  STATUS    CHART            APP VERSION
-station  default    3         2026-07-16 15:01:20.7176141 +0200 CEST   deployed  webserver-0.1.0  1
-station  dev        1         2026-07-16 15:01:41.5624155 +0200 CEST   deployed  webserver-0.1.0  1
-station  prod       1         2026-07-16 15:01:42.391452 +0200 CEST    deployed  webserver-0.1.0  1
-station  test       1         2026-07-16 15:01:41.9583803 +0200 CEST   deployed  webserver-0.1.0  1
+station  default    3         2024-03-15 15:01:20.7176141 +0200 CEST   deployed  webserver-0.1.0  1
+station  dev        1         2024-03-15 15:01:41.5624155 +0200 CEST   deployed  webserver-0.1.0  1
+station  prod       1         2024-03-15 15:01:42.391452 +0200 CEST    deployed  webserver-0.1.0  1
+station  test       1         2024-03-15 15:01:41.9583803 +0200 CEST   deployed  webserver-0.1.0  1
 ```
 
 Die Historie:
@@ -138,9 +138,9 @@ helm history station
 
 ```text
 REVISION  UPDATED                   STATUS      CHART            APP VERSION  DESCRIPTION
-1         Thu Jul 16 15:00:33 2026  superseded  webserver-0.1.0  1            Install complete
-2         Thu Jul 16 15:01:02 2026  superseded  webserver-0.1.0  1            Upgrade complete
-3         Thu Jul 16 15:01:20 2026  deployed    webserver-0.1.0  1            Rollback to 1
+1         Fri Mar 15 15:00:33 2024  superseded  webserver-0.1.0  1            Install complete
+2         Fri Mar 15 15:01:02 2024  superseded  webserver-0.1.0  1            Upgrade complete
+3         Fri Mar 15 15:01:20 2024  deployed    webserver-0.1.0  1            Rollback to 1
 ```
 
 !!! note "Drei Zähler, die gern verwechselt werden"

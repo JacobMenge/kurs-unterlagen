@@ -208,7 +208,7 @@ spec:                         # der gewünschte Zustand (das Soll)
     spec:                     # was in jedem Pod läuft
       containers:             # Liste der Container im Pod (hier einer)
         - name: webserver         # Name des Containers im Pod
-          image: nginx:1.27-alpine   # schlankes Standard-nginx (zeigt Version + Pod-Name)
+          image: nginx:1.27-alpine   # schlankes Standard-nginx, kein eigenes Image nötig
           ports:              # welche Ports der Container öffnet
             - containerPort: 80   # der Container lauscht auf Port 80
 ```

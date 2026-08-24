@@ -7,6 +7,16 @@ description: "Theorie-Block zu den rechtlichen und organisatorischen Leitplanken
 
 Technik kennt keine Landesgrenzen, das Recht schon. Sobald du Systeme integrierst, fließen darin **personenbezogene Daten**, du arbeitest mit **Verträgen** für Hardware, Software und Dienstleistungen und dein Handeln muss zu **gesetzlichen und internen Regeln** passen. Dieser Block zieht die organisatorischen und rechtlichen Leitplanken um die Systemintegration: Was darfst du mit Daten tun, wie hältst du Maßnahmen prüfbar, wer gibt die Spielregeln vor – und was steht eigentlich in den Verträgen, die das alles tragen?
 
+!!! info "Wird von anderer Seite unterrichtet"
+    Dieser Themenschwerpunkt gehört nicht zur Spezialisierung, sondern wird von einer
+    anderen Lehrkraft unterrichtet. Die Seiten hier geben dir nur einen **Überblick**,
+    damit du die Verbindungen zu den technischen Themen siehst – sie ersetzen den
+    Unterricht nicht.
+
+    Warum das trotzdem wichtig ist: In der Prüfung berührt **jede Aufgabe alle fünf
+    Qualifikationsschwerpunkte**. Siehe [Weitere Prüfungsthemen](../weitere-themen.md).
+
+
 Stell dir das wie die Straßenverkehrsordnung vor: Du kannst noch so gut fahren – ohne die Regeln zu kennen, fährst du irgendwann ins Risiko. Genau diese Regeln schauen wir uns hier an.
 
 !!! abstract "Was du in diesem Block lernst"

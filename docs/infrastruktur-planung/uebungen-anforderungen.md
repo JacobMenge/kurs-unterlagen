@@ -116,7 +116,7 @@ Aus einem Workshop mit der Geschäftsführung sind fünf Sätze übrig geblieben
     | Das Backup soll zuverlässig sein. | Jede Nacht wird eine vollständige Sicherung erstellt. Einmal im Quartal wird eine Rücksicherung testweise durchgeführt und protokolliert. Nach einem Ausfall ist die Dateiablage in höchstens 4 Stunden wiederhergestellt; es gehen maximal die Daten der letzten 24 Stunden verloren. |
     | Die Anwendung soll schnell laufen. | Die Suche über alle Mandantenakten liefert bei 28 gleichzeitigen Nutzern in 95 % der Fälle in unter 2 Sekunden ein Ergebnis. |
     | Der Support soll gut erreichbar sein. | Der Anbieter ist montags bis freitags von 8 bis 18 Uhr telefonisch erreichbar und reagiert auf Störungsmeldungen der Kategorie „Betrieb steht" innerhalb von 4 Stunden. |
-    | Die Lösung soll zukunftssicher sein. | Der Hersteller sagt für die eingesetzte Version bis mindestens 31.12.2030 Sicherheitsupdates zu. Die Zahl der Arbeitsplätze lässt sich ohne Architekturänderung von 28 auf 60 erhöhen. |
+    | Die Lösung soll zukunftssicher sein. | Der Hersteller sagt für die eingesetzte Version ab Abnahme mindestens fünf Jahre lang Sicherheitsupdates zu, mit einem verbindlichen Enddatum im Vertrag. Die Zahl der Arbeitsplätze lässt sich ohne Architekturänderung von 28 auf 60 erhöhen. |
     | Der Speicher soll ausreichend groß sein. | Der Speicher fasst 5 TB netto und deckt damit den prognostizierten Bedarf für 4 Jahre inklusive 20 % Reserve. |
 
     **2. Warum so?** – Alle fünf Umformulierungen folgen demselben Bauplan aus vier Teilen:

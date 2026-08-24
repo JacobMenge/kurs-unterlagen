@@ -160,7 +160,7 @@ Die **Sanitär- und Heizungsbau Wernicke GmbH** (70 Beschäftigte, Hauptsitz plu
 Aus der Bestandsaufnahme des Betriebs sind außerdem diese Punkte bekannt:
 
 - Die Warenwirtschaft läuft auf **einem einzelnen Server** im Keller. Ein Ersatzgerät gibt es nicht, Ersatzteile liefert der Händler nach **48 Stunden**.
-- Die nächtliche Sicherung schreibt auf ein Gerät im selben Raum. Sie wurde seit der Einrichtung **2022 nie zurückgespielt**.
+- Die nächtliche Sicherung schreibt auf ein Gerät im selben Raum. Sie wurde seit ihrer Einrichtung vor mehreren Jahren **nie zurückgespielt**.
 - Die Filiale hängt über **eine einzige VDSL-Leitung** ohne Ersatzweg am Hauptsitz.
 - Zeiterfassung und Dokumentenablage liegen bei einem **Cloud-Anbieter**, eine lokale Zweitkopie gibt es nicht.
 - Die Personalakten liegen digital im Ordner „Personal" auf dem Dateiserver. Die Zugriffsrechte sind über die Jahre gewachsen und wurden nie überprüft.
@@ -182,7 +182,7 @@ Aus der Bestandsaufnahme des Betriebs sind außerdem diese Punkte bekannt:
     | **2** | Weil die Zugriffsrechte auf den Ordner „Personal" über Jahre gewachsen sind und nie überprüft wurden, können Beschäftigte ohne Personalaufgabe Gehalts- und Krankheitsdaten einsehen, mit der Folge, dass eine Verletzung des Schutzes personenbezogener Daten entsteht, die je nach Umfang zu melden ist und das Vertrauen der Belegschaft beschädigt. |
     | **3** | Weil die Preisfindung im Warenwirtschaftssystem nur ein einziger Disponent beherrscht und nichts davon dokumentiert ist, kann diese Person durch Krankheit oder Kündigung für Wochen ausfallen, mit der Folge, dass Angebote nur noch grob geschätzt kalkuliert werden und Deckungsbeiträge verloren gehen. |
     | **4** | Weil Zeiterfassung und Dokumentenablage ausschließlich beim Cloud-Anbieter liegen, kann ein mehrstündiger Ausfall des Anbieters eintreten, mit der Folge, dass an beiden Standorten weder Arbeitszeiten erfasst noch Aufmaße und Abnahmeprotokolle abgerufen werden können. |
-    | **5** | Weil die Sicherung seit ihrer Einrichtung 2022 nie zurückgespielt wurde, kann sich im Ernstfall herausstellen, dass sie unvollständig oder nicht lesbar ist, mit der Folge, dass die Wiederherstellung scheitert, obwohl eine Sicherung vorhanden ist. |
+    | **5** | Weil die Sicherung seit ihrer Einrichtung vor mehreren Jahren nie zurückgespielt wurde, kann sich im Ernstfall herausstellen, dass sie unvollständig oder nicht lesbar ist, mit der Folge, dass die Wiederherstellung scheitert, obwohl eine Sicherung vorhanden ist. |
     | **6** | Weil die Filiale über eine einzige VDSL-Leitung ohne Ersatzweg angebunden ist, kann eine Leitungsstörung den Zugriff auf die Warenwirtschaft für Stunden bis Tage unterbrechen, mit der Folge, dass dort weder Angebote noch Lieferscheine erstellt werden und die Monteure ihre Aufträge telefonisch beim Hauptsitz erfragen müssen. |
 
     Die Zeilen 3 und 4 sind dabei nur je ein erster Satz von mehreren – warum, steht in Teil 3.
@@ -507,7 +507,7 @@ Das Gerüst für die Analyse steht, gefüllt ist es nicht:
 
     - Die Bewegungsdatentabellen enthalten 14 Jahre Historie, nie archiviert.
     - Am Monatsanfang kommen die Sammelrechnungsdateien zweier Lieferanten als Massenimport.
-    - Aus der Migration von 2017 stammen doppelte Artikel- und Kundensätze, die die Indizes aufblähen.
+    - Aus einer früheren Migration stammen doppelte Artikel- und Kundensätze, die die Indizes aufblähen.
     - Die eingesetzte Datenbank-Edition nutzt nur einen Teil des vorhandenen Arbeitsspeichers – eine Lizenzgrenze, keine Hardwaregrenze.
 
     **Mitwelt** – alles, was von außerhalb des Systems auf den Betrieb wirkt
@@ -618,7 +618,7 @@ Für die Bewertung gelten diese beiden Skalen:
 |---|---|---|
 | **1** | sehr unwahrscheinlich | seltener als alle zehn Jahre – noch nie vorgekommen |
 | **2** | unwahrscheinlich | etwa alle fünf bis zehn Jahre |
-| **3** | möglich | etwa alle drei bis fünf Jahre |
+| **3** | möglich | etwa alle zwei bis fünf Jahre |
 | **4** | wahrscheinlich | etwa einmal im Jahr |
 | **5** | sehr wahrscheinlich | mehrmals im Jahr |
 
@@ -647,7 +647,7 @@ Das sind die acht Risiken samt dem, was der Workshop dazu weiß:
 | **R8** | Brand oder Wasserschaden im Serverraum | Der Raum liegt im Keller unter einer Sanitärleitung. Die Sicherungsplatten liegen im Schrank daneben – im selben Raum. So ein Ereignis hat es hier noch nie gegeben. |
 
 1. **Bewerte jedes Risiko** mit einer Stufe für Eintrittswahrscheinlichkeit und einer für Schadenshöhe. Schreibe zu jedem Wert einen Satz Begründung – eine Zahl ohne Begründung ist im nächsten Workshop nicht mehr überprüfbar.
-2. **Trage die Risiken in eine Matrix ein** und bilde die Risikoklasse aus dem Produkt: 1 bis 4 gering, 5 bis 9 mittel, 10 bis 14 hoch, 15 bis 25 sehr hoch.
+2. **Trage die Risiken in eine Matrix ein** und bilde die Risikoklasse aus dem Produkt: 1 bis 4 gering, 5 bis 9 mittel, 10 bis 15 hoch, ab 16 kritisch.
 3. **Vergleiche R1 und R7.** Beide landen bei derselben Kennzahl. Begründe, warum die Kennzahl allein nicht ausreicht, um zu entscheiden, was zuerst zu tun ist.
 4. **Ordne R8 ein.** Nach dem Produkt teilt es sich den letzten Platz mit dem defekten Arbeitsplatzrechner aus R2. Begründe, warum es trotzdem nach oben gehört – und beschreibe, wie du das sichtbar machst, ohne an den Zahlen zu drehen.
 
@@ -670,10 +670,10 @@ Das sind die acht Risiken samt dem, was der Workshop dazu weiß:
     *Teil 2 – die gefüllte Matrix:*
 
     <figure>
-    <svg viewBox="0 0 720 440" width="100%" height="440" role="img" aria-label="Risikomatrix mit fünf Stufen Eintrittswahrscheinlichkeit auf der waagerechten Achse und fünf Stufen Schadenshöhe auf der senkrechten Achse. Eingetragen sind acht Risiken: R8 bei 1 und 5, R7 bei 2 und 5, R6 bei 2 und 4, R4 bei 3 und 4, R5 bei 4 und 3, R3 bei 4 und 2, R1 bei 5 und 2 sowie R2 bei 5 und 1. Die Felder sind nach dem Produkt aus beiden Werten eingefärbt: gering, mittel, hoch und sehr hoch.">
+    <svg viewBox="0 0 720 440" width="100%" height="440" role="img" aria-label="Risikomatrix mit fünf Stufen Eintrittswahrscheinlichkeit auf der waagerechten Achse und fünf Stufen Schadenshöhe auf der senkrechten Achse. Eingetragen sind acht Risiken: R8 bei 1 und 5, R7 bei 2 und 5, R6 bei 2 und 4, R4 bei 3 und 4, R5 bei 4 und 3, R3 bei 4 und 2, R1 bei 5 und 2 sowie R2 bei 5 und 1. Die Felder sind nach dem Produkt aus beiden Werten eingefärbt: gering, mittel, hoch und kritisch.">
       <rect x="110" y="60" width="100" height="60" fill="rgba(224,179,92,0.14)" stroke="#3a4658" stroke-width="1"/>
       <rect x="210" y="60" width="100" height="60" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
-      <rect x="310" y="60" width="100" height="60" fill="rgba(224,108,108,0.32)" stroke="#3a4658" stroke-width="1"/>
+      <rect x="310" y="60" width="100" height="60" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
       <rect x="410" y="60" width="100" height="60" fill="rgba(224,108,108,0.32)" stroke="#3a4658" stroke-width="1"/>
       <rect x="510" y="60" width="100" height="60" fill="rgba(224,108,108,0.32)" stroke="#3a4658" stroke-width="1"/>
       <rect x="110" y="120" width="100" height="60" fill="rgba(125,255,154,0.12)" stroke="#3a4658" stroke-width="1"/>
@@ -685,7 +685,7 @@ Das sind die acht Risiken samt dem, was der Workshop dazu weiß:
       <rect x="210" y="180" width="100" height="60" fill="rgba(224,179,92,0.14)" stroke="#3a4658" stroke-width="1"/>
       <rect x="310" y="180" width="100" height="60" fill="rgba(224,179,92,0.14)" stroke="#3a4658" stroke-width="1"/>
       <rect x="410" y="180" width="100" height="60" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
-      <rect x="510" y="180" width="100" height="60" fill="rgba(224,108,108,0.32)" stroke="#3a4658" stroke-width="1"/>
+      <rect x="510" y="180" width="100" height="60" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
       <rect x="110" y="240" width="100" height="60" fill="rgba(125,255,154,0.12)" stroke="#3a4658" stroke-width="1"/>
       <rect x="210" y="240" width="100" height="60" fill="rgba(125,255,154,0.12)" stroke="#3a4658" stroke-width="1"/>
       <rect x="310" y="240" width="100" height="60" fill="rgba(224,179,92,0.14)" stroke="#3a4658" stroke-width="1"/>
@@ -730,11 +730,11 @@ Das sind die acht Risiken samt dem, was der Workshop dazu weiß:
       <rect x="250" y="414" width="14" height="14" fill="rgba(224,179,92,0.14)" stroke="#3a4658" stroke-width="1"/>
       <text x="272" y="426" fill="#e2ece6" font-family="system-ui, sans-serif" font-size="12">mittel (5–9)</text>
       <rect x="390" y="414" width="14" height="14" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
-      <text x="412" y="426" fill="#e2ece6" font-family="system-ui, sans-serif" font-size="12">hoch (10–14)</text>
+      <text x="412" y="426" fill="#e2ece6" font-family="system-ui, sans-serif" font-size="12">hoch (10–15)</text>
       <rect x="525" y="414" width="14" height="14" fill="rgba(224,108,108,0.32)" stroke="#3a4658" stroke-width="1"/>
-      <text x="547" y="426" fill="#e2ece6" font-family="system-ui, sans-serif" font-size="12">sehr hoch (15–25)</text>
+      <text x="547" y="426" fill="#e2ece6" font-family="system-ui, sans-serif" font-size="12">kritisch (16–25)</text>
     </svg>
-    <figcaption>Die acht Risiken der Kranz Kunststofftechnik in der Matrix. Auffällig ist die leere obere rechte Ecke: Kein einziges Risiko liegt in der Klasse „sehr hoch". Die Einträge reihen sich stattdessen an einer Diagonalen entlang, von „selten und schwer" oben links nach „häufig und harmlos" unten rechts.</figcaption>
+    <figcaption>Die acht Risiken der Kranz Kunststofftechnik in der Matrix. Auffällig ist die leere obere rechte Ecke: Kein einziges Risiko liegt in der Klasse „kritisch". Die Einträge reihen sich stattdessen an einer Diagonalen entlang, von „selten und schwer" oben links nach „häufig und harmlos" unten rechts.</figcaption>
     </figure>
 
     Die Rangfolge nach Produkt lautet damit: **R4 und R5 (je 12), R1 und R7 (je 10), R3 und R6 (je 8), R2 und R8 (je 5)**. Vier Paare mit identischer Kennzahl – und in keinem einzigen Paar bedeuten die beiden gleichen Zahlen dasselbe. Genau das ist der Punkt der nächsten beiden Teilaufgaben.
@@ -763,7 +763,7 @@ Das sind die acht Risiken samt dem, was der Workshop dazu weiß:
 
     Sichtbar machen lässt sich das mit vier Mitteln, die alle ohne Zahlenkosmetik auskommen:
 
-    1. **Übersteuerungsregel**: Jedes Risiko mit Schadenshöhe 5 wird unabhängig vom Produkt behandelt und der Geschäftsführung vorgelegt. Das ist die übliche Ergänzung zur Matrix – die Kennzahl bestimmt die Reihenfolge, nicht den Zugang.
+    1. **Übersteuerungsregel**: Jedes Risiko mit Schadenshöhe 4 oder 5 wird unabhängig vom Produkt mindestens als „hoch" behandelt und der Geschäftsführung vorgelegt – dieselbe Sonderregel wie in der [Theorie](risikomanagement.md#die-risikomatrix-das-bild-auf-das-sich-alle-einigen-konnen). Neben R8 fängt sie hier auch R6 auf. Das ist die übliche Ergänzung zur Matrix – die Kennzahl bestimmt die Reihenfolge, nicht den Zugang.
     2. **Nach Feldern färben statt nach Produkt**: Die obere linke Ecke – selten, aber existenzbedrohend – bekommt eine eigene Farbe. Dann verrät die Position, was die Zahl verdeckt.
     3. **Eine zweite Frage neben der Kennzahl**: „Gibt es eine Rückfallebene?" Lautet die Antwort nein, steigt die Priorität unabhängig vom Produkt.
     4. **Aufwand als drittes Kriterium**: Risiken, die mit geringem Aufwand deutlich sinken, werden vorgezogen. Das ist keine Bewertung, sondern Reihenfolgeplanung – und sie räumt die Liste schnell auf.
@@ -772,7 +772,7 @@ Das sind die acht Risiken samt dem, was der Workshop dazu weiß:
 
     **2. Warum so?** – Eine Risikomatrix leistet zwei Dinge, die eine Diskussionsrunde allein nicht schafft. Sie zwingt erstens dazu, **zwei Fragen getrennt** zu beantworten: Wie oft? Wie schlimm? In der Alltagssprache verschmelzen beide zu „gefährlich". Genau diese Trennung macht später den Unterschied, weil sie auf verschiedene Maßnahmen zeigt: Gegen die Häufigkeit hilft Vorbeugung, gegen die Höhe hilft Begrenzung und Wiederherstellung.
 
-    Zweitens macht die Matrix die **Anker** zur eigentlichen Arbeit. Ohne verankerte Skala bedeutet „4" für die Fertigung etwas anderes als für die IT – die Bewertung ist am nächsten Tag nicht mehr reproduzierbar. Mit Ankern wird aus einem Gefühl eine überprüfbare Aussage: Wer R4 mit Stufe 3 bewertet, behauptet „alle drei bis fünf Jahre" – und das kann man bestreiten, belegen oder in einem Jahr nachhalten.
+    Zweitens macht die Matrix die **Anker** zur eigentlichen Arbeit. Ohne verankerte Skala bedeutet „4" für die Fertigung etwas anderes als für die IT – die Bewertung ist am nächsten Tag nicht mehr reproduzierbar. Mit Ankern wird aus einem Gefühl eine überprüfbare Aussage: Wer R4 mit Stufe 3 bewertet, behauptet „alle zwei bis fünf Jahre" – und das kann man bestreiten, belegen oder in einem Jahr nachhalten.
 
     Der dritte Punkt ist die Grenze der Methode, die diese Aufgabe absichtlich vorführt. Das Produkt aus zwei Stufen ist eine **Ordnungszahl, keine Messgröße**. 5 × 2 und 2 × 5 ergeben dasselbe Produkt und beschreiben zwei völlig verschiedene Welten. Wer nur die Spalte „Produkt" sortiert und danach arbeitet, hat die Information weggeworfen, für die er die Matrix gebaut hat. **Die Matrix ist ein Gesprächswerkzeug, keine Rechenmaschine.**
 
@@ -1237,7 +1237,7 @@ Die **Wendland Fördertechnik GmbH** baut Förderanlagen, **230 Beschäftigte**,
     | die Gegenseite in Euro rechnet | quantitativ, sonst verliert das Argument unabhängig von seiner Richtigkeit | E |
     | es keine Datenbasis gibt und auch keine geben wird | qualitativ, dafür sauber verankert und dokumentiert | A |
 
-    Dahinter steht ein Verhältnismäßigkeitsgedanke, der auch anderswo im Kurs auftaucht: **Der Aufwand der Bewertung muss zur Tragweite der Entscheidung passen.** Eine Woche Datenerhebung für ein Risiko, dessen Maßnahme 800 Euro kostet, ist genauso falsch wie ein Bauchgefühl für eine Investition über 420.000 Euro.
+    Dahinter steht ein Verhältnismäßigkeitsgedanke, der auch anderswo in diesen Unterlagen auftaucht: **Der Aufwand der Bewertung muss zur Tragweite der Entscheidung passen.** Eine Woche Datenerhebung für ein Risiko, dessen Maßnahme 800 Euro kostet, ist genauso falsch wie ein Bauchgefühl für eine Investition über 420.000 Euro.
 
     Der zweite Punkt ist unbequemer: **Quantitativ heißt nicht objektiv.** In einer Euro-Zahl steckt dieselbe Schätzung wie in einer Stufe – sie ist nur besser versteckt. „Stufe 4" und „180.000 Euro" sind beides Annahmen; die zweite sieht lediglich so aus, als hätte sie jemand gemessen. Der Vorteil der quantitativen Bewertung liegt nicht in der Genauigkeit, sondern in der **Vergleichbarkeit** mit anderen Anträgen im Haus.
 
@@ -1258,12 +1258,12 @@ Die **Wendland Fördertechnik GmbH** baut Förderanlagen, **230 Beschäftigte**,
     - Erkennen, dass Übertragen die Ausführung verschiebt, nicht die Verantwortung – und dass bewusstes Akzeptieren eine Entscheidung mit Unterschrift ist
     - Theorie dazu: [Risikomanagement](risikomanagement.md)
 
-Die **Kessler & Sohn Metallbau GmbH** (140 Beschäftigte, ein Standort, eigene CNC-Fertigung) hat ihre Risiken erhoben und bewertet. Die Skala läuft je Faktor von 1 bis 5, der Punktwert ist das Produkt aus Eintrittswahrscheinlichkeit und Schadenshöhe. Die Klassen: **1 bis 4 gering**, **5 bis 9 mittel**, **10 bis 14 hoch**, **15 bis 25 kritisch**.
+Die **Kessler & Sohn Metallbau GmbH** (140 Beschäftigte, ein Standort, eigene CNC-Fertigung) hat ihre Risiken erhoben und bewertet. Die Skala läuft je Faktor von 1 bis 5, der Punktwert ist das Produkt aus Eintrittswahrscheinlichkeit und Schadenshöhe. Die Klassen: **1 bis 4 gering**, **5 bis 9 mittel**, **10 bis 15 hoch**, **ab 16 kritisch**.
 
 | Nr. | Risiko | W | S | Punkte | Klasse |
 |---|---|---|---|---|---|
 | **R1** | Die Steuerungssoftware der CNC-Fertigung läuft auf einem Betriebssystem ohne Sicherheitsupdates und hängt im selben Netz wie die Büroarbeitsplätze | 4 | 5 | 20 | kritisch |
-| **R2** | Ein Verschlüsselungsangriff über einen Mailanhang trifft die Warenwirtschaft; die einzige Sicherung liegt auf einer dauerhaft verbundenen Festplatte | 3 | 5 | 15 | kritisch |
+| **R2** | Ein Verschlüsselungsangriff über einen Mailanhang trifft die Warenwirtschaft; die einzige Sicherung liegt auf einer dauerhaft verbundenen Festplatte | 3 | 5 | 15 | hoch |
 | **R3** | Ein Blitzeinschlag zerstört über eine Überspannung Server- und Netzwerktechnik | 2 | 4 | 8 | mittel |
 | **R4** | Der einzige Administrator fällt aus; nur er kennt die Warenwirtschaft und die Schnittstelle zur Fertigung | 4 | 3 | 12 | hoch |
 | **R5** | Fehlbuchungen im Lagermodul führen zu falschen Beständen und Fehlmengen in der Fertigung | 4 | 2 | 8 | mittel |
@@ -1357,7 +1357,7 @@ Beteiligte: **Herr Petrik** (Administrator, zugleich IT-Verantwortlicher), **Her
     | R5 | 4 gering | Herr Sobotta gemeinsam mit Herrn Petrik |
     | R6 | 3 gering | Herr Petrik, Vermerk im Register |
 
-    Zwei Zusätze machen die Regel praxistauglich. Erstens: **Bis eine Maßnahme umgesetzt und nachgewiesen ist, gilt das Bruttorisiko.** R1 und R2 sind heute kritisch – die Freigabe liegt also bis zur Umsetzung bei der Geschäftsführung, unabhängig vom geplanten Nettowert; die Spalte oben nennt die Stufe, die **danach** gilt. Zweitens: Wo Arbeitsschutz, Personengefährdung oder eine gesetzliche Pflicht betroffen sind, ist Akzeptanz in der Regel keine Option; dort hilft keine Unterschrift, sondern nur eine Maßnahme.
+    Zwei Zusätze machen die Regel praxistauglich. Erstens: **Bis eine Maßnahme umgesetzt und nachgewiesen ist, gilt das Bruttorisiko.** R1 ist heute kritisch, R2 hoch – die Freigabe liegt also für beide bis zur Umsetzung bei der Geschäftsführung, unabhängig vom geplanten Nettowert; die Spalte oben nennt die Stufe, die **danach** gilt. Zweitens: Wo Arbeitsschutz, Personengefährdung oder eine gesetzliche Pflicht betroffen sind, ist Akzeptanz in der Regel keine Option; dort hilft keine Unterschrift, sondern nur eine Maßnahme.
 
     **2. Warum so?** – Die vier Strategien sehen wie eine Auswahlliste aus und sind in Wahrheit eine **Reihenfolge**. Man prüft sie von links nach rechts:
 
@@ -1392,7 +1392,7 @@ Beteiligte: **Herr Petrik** (Administrator, zugleich IT-Verantwortlicher), **Her
     - Schwache von starken Maßnahmenformulierungen unterscheiden und schwache umschreiben
     - Theorie dazu: [Risikomanagement](risikomanagement.md) und [Vertiefung](risikomanagement-vertiefung.md)
 
-Die **Weidner Logistik GmbH** (90 Beschäftigte, Speditionsbetrieb mit eigener Tourenplanung, 35 Notebooks im Außendienst) hat drei Risiken bewertet. Es gilt dieselbe Skala wie zuvor: 1 bis 5 je Faktor, Klassen **1 bis 4 gering**, **5 bis 9 mittel**, **10 bis 14 hoch**, **15 bis 25 kritisch**.
+Die **Weidner Logistik GmbH** (90 Beschäftigte, Speditionsbetrieb mit eigener Tourenplanung, 35 Notebooks im Außendienst) hat drei Risiken bewertet. Es gilt dieselbe Skala wie zuvor: 1 bis 5 je Faktor, Klassen **1 bis 4 gering**, **5 bis 9 mittel**, **10 bis 15 hoch**, **ab 16 kritisch**.
 
 | Nr. | Risiko | W | S | brutto |
 |---|---|---|---|---|
@@ -1755,7 +1755,7 @@ Aus der Begehung mit der Technischen Leitung und der IT sind folgende Punkte dok
 
 - Es gibt **zwei Serverräume**. Raum A liegt im Erdgeschoss des Verwaltungstrakts. **Raum B liegt im Untergeschoss, direkt neben der Fernwärmeübergabe und der Trinkwasserverteilung.** In Raum B stehen die Virtualisierungshosts für PIS und OP-Planung, die Telefonanlage und das Sicherungssystem.
 - Das Haus hat **eine einzige Stromeinspeisung**. Für OP und Intensivstation existiert eine Sicherheitsstromversorgung; **die beiden Serverräume hängen nicht daran.**
-- Die **USV** wurde 2016 beschafft. Ein Batteriewechsel ist nicht dokumentiert, der letzte Lasttest niemandem bekannt.
+- Die **USV** wurde vor rund zehn Jahren beschafft. Ein Batteriewechsel ist nicht dokumentiert, der letzte Lasttest niemandem bekannt.
 - **Gesichert wird täglich auf ein NAS im Serverraum B.** Eine zweite Kopie außer Haus gibt es nicht. Eine vollständige Wiederherstellung wurde nie durchgeführt.
 - Die **IT besteht aus drei Personen**: einem Leiter und zwei Administratoren. Es gibt keine geregelte Rufbereitschaft. Das PIS betreut faktisch eine Person.
 - Für das PIS besteht ein Vertrag mit einem externen Dienstleister: **Reaktionszeit vier Stunden, werktags 8 bis 17 Uhr.** Eine Wiederherstellungszeit ist nicht vereinbart.
@@ -1773,10 +1773,10 @@ Für die Bewertung gilt die folgende Skala. Beide Faktoren laufen von 1 bis 5, d
 | **5** | mehrmals im Jahr oder der Zustand besteht bereits | existenzbedrohend: über 500.000 Euro oder unmittelbare Gefährdung von Patienten |
 
 <figure>
-<svg viewBox="0 0 720 430" width="100%" height="430" role="img" aria-label="Risikomatrix mit fünf mal fünf Feldern. Die waagerechte Achse zeigt die Schadenshöhe von 1 bis 5, die senkrechte Achse die Eintrittswahrscheinlichkeit von 1 bis 5. In jedem Feld steht der Punktwert als Produkt beider Faktoren. Die Felder sind nach Risikoklasse eingefärbt: 1 bis 4 gering, 5 bis 9 mittel, 10 bis 14 hoch, 15 bis 25 kritisch. Kritische Werte liegen rechts oben, geringe links unten.">
+<svg viewBox="0 0 720 430" width="100%" height="430" role="img" aria-label="Risikomatrix mit fünf mal fünf Feldern. Die waagerechte Achse zeigt die Schadenshöhe von 1 bis 5, die senkrechte Achse die Eintrittswahrscheinlichkeit von 1 bis 5. In jedem Feld steht der Punktwert als Produkt beider Faktoren. Die Felder sind nach Risikoklasse eingefärbt: 1 bis 4 gering, 5 bis 9 mittel, 10 bis 15 hoch, 16 bis 25 kritisch. Kritische Werte liegen rechts oben, geringe links unten.">
   <rect x="90" y="40" width="116" height="56" rx="3" fill="rgba(224,179,92,0.13)" stroke="#3a4658" stroke-width="1"/>
   <rect x="206" y="40" width="116" height="56" rx="3" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
-  <rect x="322" y="40" width="116" height="56" rx="3" fill="rgba(224,108,108,0.30)" stroke="#3a4658" stroke-width="1"/>
+  <rect x="322" y="40" width="116" height="56" rx="3" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
   <rect x="438" y="40" width="116" height="56" rx="3" fill="rgba(224,108,108,0.30)" stroke="#3a4658" stroke-width="1"/>
   <rect x="554" y="40" width="116" height="56" rx="3" fill="rgba(224,108,108,0.30)" stroke="#3a4658" stroke-width="1"/>
   <rect x="90" y="96" width="116" height="56" rx="3" fill="rgba(125,255,154,0.13)" stroke="#3a4658" stroke-width="1"/>
@@ -1788,7 +1788,7 @@ Für die Bewertung gilt die folgende Skala. Beide Faktoren laufen von 1 bis 5, d
   <rect x="206" y="152" width="116" height="56" rx="3" fill="rgba(224,179,92,0.13)" stroke="#3a4658" stroke-width="1"/>
   <rect x="322" y="152" width="116" height="56" rx="3" fill="rgba(224,179,92,0.13)" stroke="#3a4658" stroke-width="1"/>
   <rect x="438" y="152" width="116" height="56" rx="3" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
-  <rect x="554" y="152" width="116" height="56" rx="3" fill="rgba(224,108,108,0.30)" stroke="#3a4658" stroke-width="1"/>
+  <rect x="554" y="152" width="116" height="56" rx="3" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
   <rect x="90" y="208" width="116" height="56" rx="3" fill="rgba(125,255,154,0.13)" stroke="#3a4658" stroke-width="1"/>
   <rect x="206" y="208" width="116" height="56" rx="3" fill="rgba(125,255,154,0.13)" stroke="#3a4658" stroke-width="1"/>
   <rect x="322" y="208" width="116" height="56" rx="3" fill="rgba(224,179,92,0.13)" stroke="#3a4658" stroke-width="1"/>
@@ -1841,9 +1841,9 @@ Für die Bewertung gilt die folgende Skala. Beide Faktoren laufen von 1 bis 5, d
   <rect x="222" y="386" width="16" height="16" rx="3" fill="rgba(224,179,92,0.13)" stroke="#3a4658" stroke-width="1"/>
   <text x="246" y="399" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">5–9 mittel</text>
   <rect x="352" y="386" width="16" height="16" rx="3" fill="rgba(224,179,92,0.30)" stroke="#3a4658" stroke-width="1"/>
-  <text x="376" y="399" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">10–14 hoch</text>
+  <text x="376" y="399" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">10–15 hoch</text>
   <rect x="490" y="386" width="16" height="16" rx="3" fill="rgba(224,108,108,0.30)" stroke="#3a4658" stroke-width="1"/>
-  <text x="514" y="399" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">15–25 kritisch</text>
+  <text x="514" y="399" fill="#8fa498" font-family="system-ui, sans-serif" font-size="13">16–25 kritisch</text>
 </svg>
 <figcaption>Die Bewertungsmatrix für diese Aufgabe: Punktwert gleich Eintrittswahrscheinlichkeit mal Schadenshöhe, dazu die vier Risikoklassen.</figcaption>
 </figure>
@@ -1894,26 +1894,26 @@ Verantwortliche im Haus: **Herr Sander** (IT-Leitung), **Frau Özdemir** und **H
 
     | Nr. | W | S | Punkte | Klasse | Kurzbegründung der Werte |
     |---|---|---|---|---|---|
-    | R1 | 3 | 5 | **15** | kritisch | längere Netzausfälle sind alle paar Jahre real; alles Kritische fällt gleichzeitig aus |
+    | R1 | 3 | 5 | **15** | hoch | längere Netzausfälle sind alle paar Jahre real; alles Kritische fällt gleichzeitig aus |
     | R2 | 2 | 5 | **10** | hoch | Rohrschäden sind selten, träfen hier aber Produktivsystem und Sicherung zugleich |
-    | R3 | 3 | 5 | **15** | kritisch | die Sicherung wird alle paar Jahre wirklich gebraucht; versagt sie, ist der Verlust endgültig |
+    | R3 | 3 | 5 | **15** | hoch | die Sicherung wird alle paar Jahre wirklich gebraucht; versagt sie, ist der Verlust endgültig |
     | R4 | 4 | 5 | **20** | kritisch | Angriffsversuche auf Kliniken sind Alltag, das flache Netz macht Erfolg wahrscheinlich |
     | R5 | 3 | 4 | **12** | hoch | der Zustand besteht dauerhaft; Schaden schwer, aber nicht unmittelbar patientengefährdend |
     | R6 | 3 | 4 | **12** | hoch | PIS-Störungen kommen vor, die Vertragslücke wirkt jedes Mal |
     | R7 | 4 | 3 | **12** | hoch | Abwesenheit tritt jährlich ein; Folge ist verlängerte Dauer, nicht Totalverlust |
-    | R8 | 3 | 5 | **15** | kritisch | Einzelsystem ohne Redundanz; die Alarmierung macht daraus ein Patientenrisiko |
+    | R8 | 3 | 5 | **15** | hoch | Einzelsystem ohne Redundanz; die Alarmierung macht daraus ein Patientenrisiko |
     | R9 | 3 | 4 | **12** | hoch | Schnittstellen bleiben regelmäßig stehen; der stille Ausfall ist das eigentliche Problem |
     | R10 | 3 | 4 | **12** | hoch | bekannte Schwachstellen, aber begrenzte Gerätezahl und begrenzte Folge |
     | R11 | 4 | 1 | **4** | gering | tritt häufig ein, tut nichts weh |
 
-    Verteilung: **vier kritische**, **sechs hohe** und **ein geringes** Risiko – die Klasse mittel bleibt leer. Das ist bei einem Haus in diesem Zustand nicht ungewöhnlich: Die Befunde sind entweder gravierend oder kosmetisch, dazwischen liegt wenig. Dass überhaupt ein Risiko in der untersten Klasse landet, ist trotzdem ein Prüfzeichen – eine Analyse, in der alles kritisch ist, hat ihre Anker nicht ernst genommen.
+    Verteilung: **ein kritisches**, **neun hohe** und **ein geringes** Risiko – die Klasse mittel bleibt leer. Das ist bei einem Haus in diesem Zustand nicht ungewöhnlich: Die Befunde sind entweder gravierend oder kosmetisch, dazwischen liegt wenig. Dass überhaupt ein Risiko in der untersten Klasse landet, ist trotzdem ein Prüfzeichen – eine Analyse, in der alles kritisch ist, hat ihre Anker nicht ernst genommen.
 
     *Schritt 3 – die fünf dringendsten, mit Begründung der Reihenfolge:*
 
     | Rang | Nr. | Punkte | Warum an dieser Stelle |
     |---|---|---|---|
     | **1** | R3 | 15 | Die Sicherung ist die **Rückfallebene aller anderen Risiken**. Solange sie im selben Raum steht und ungeprüft ist, wird aus jedem der anderen Ereignisse ein möglicher Totalverlust. Zugleich ist sie die billigste der großen Maßnahmen und in Wochen umsetzbar. |
-    | **2** | R4 | 20 | Höchster Punktwert im Register und der wahrscheinlichste Weg in die Katastrophe. Nicht auf Rang 1, weil die Segmentierung Monate braucht – sie startet parallel, nicht danach. |
+    | **2** | R4 | 20 | Höchster Punktwert im Register, einzige Zeile in der Klasse kritisch – und der wahrscheinlichste Weg in die Katastrophe. Nicht auf Rang 1, weil die Segmentierung Monate braucht; sie startet parallel, nicht danach. |
     | **3** | R1 | 15 | Trifft alle vier kritischen Systeme gleichzeitig. Die Sofortmaßnahme – Lasttest und Batteriebefund – ist in drei Wochen machbar, die vollständige Lösung ist ein Bauvorhaben. |
     | **4** | R8 | 15 | Das einzige Risiko mit **unmittelbarer** Patientengefährdung. Es steht nicht höher, weil ein organisatorischer Rückfallweg für die Alarmierung binnen zwei Wochen und ohne Investition greift. |
     | **5** | R7 | 12 | Vor die übrigen Zwölfer gezogen, weil es die **Reaktionsfähigkeit auf alle anderen Risiken** verschlechtert. Ein Risiko, das die Bewältigung aller anderen verlängert, wiegt schwerer als sein Punktwert. |
@@ -1926,14 +1926,14 @@ Verantwortliche im Haus: **Herr Sander** (IT-Leitung), **Frau Özdemir** und **H
 
     | Nr. | Risiko | Art | W | S | Punkte | Klasse |
     |---|---|---|---|---|---|---|
-    | R1 | Netzausfall trifft die gesamte IT, Serverräume ohne Sicherheitsstrom | technisch, extern | 3 | 5 | 15 | kritisch |
+    | R1 | Netzausfall trifft die gesamte IT, Serverräume ohne Sicherheitsstrom | technisch, extern | 3 | 5 | 15 | hoch |
     | R2 | Wasser oder Hitze in Serverraum B trifft Systeme und Sicherung | technisch, baulich | 2 | 5 | 10 | hoch |
-    | R3 | Sicherung im selben Raum, Wiederherstellung nie erprobt | organisatorisch | 3 | 5 | 15 | kritisch |
+    | R3 | Sicherung im selben Raum, Wiederherstellung nie erprobt | organisatorisch | 3 | 5 | 15 | hoch |
     | R4 | Schadprogramm breitet sich im flachen Netz ungehindert aus | technisch, organisatorisch | 4 | 5 | 20 | kritisch |
     | R5 | Fernwartung dauerhaft offen, Sammelaccount, ohne Protokoll | technisch, rechtlich | 3 | 4 | 12 | hoch |
     | R6 | Vertrag sichert Reaktion zu, nicht Wiederherstellung | organisatorisch, vertraglich | 3 | 4 | 12 | hoch |
     | R7 | PIS-Wissen bei einer Person, keine Rufbereitschaft | personell | 4 | 3 | 12 | hoch |
-    | R8 | Ausfall der Telefonanlage unterbricht die Reanimationsalarmierung | technisch | 3 | 5 | 15 | kritisch |
+    | R8 | Ausfall der Telefonanlage unterbricht die Reanimationsalarmierung | technisch | 3 | 5 | 15 | hoch |
     | R9 | Labor-Schnittstelle fällt still aus, Befunde fehlen unbemerkt | technisch, organisatorisch | 3 | 4 | 12 | hoch |
     | R10 | Medizingeräte ohne Updates im allgemeinen Netz | technisch, rechtlich | 3 | 4 | 12 | hoch |
     | R11 | Gäste-WLAN überlastet | technisch | 4 | 1 | 4 | gering |

@@ -116,7 +116,7 @@ Die sauberste Darstellung ist eine Verantwortungstabelle über die Ebenen des St
 
 Zwei Dinge fallen auf. Erstens: Die oberste Zeile ändert sich nie. **Für deine Daten bist du immer verantwortlich** – kein Servicemodell nimmt dir ab, was hineingehört, wer darauf zugreifen darf und ob ein Backup existiert. Zweitens: Die Grenze wandert stufenweise von unten nach oben, nie kreuz und quer.
 
-!!! tip "Du kennst alle drei Stufen schon aus dem Kurs"
+!!! tip "Alle drei Stufen begegnen dir in diesen Unterlagen"
     - **Alles selbst**: minikube auf deinem eigenen Rechner. Du stellst die Maschine, du startest den Cluster, du bist für jede Ebene zuständig – vom Blech bis zum Pod.
     - **PaaS-Gedanke**: ein gemanagtes Kubernetes beim Cloud-Anbieter. Du bringst deine Deployments und Helm-Charts mit – aber wer die Control Plane patcht, die Nodes tauscht und das Cluster-Upgrade fährt, ist nicht mehr dein Problem.
     - **SaaS**: die fertige Bürosoftware im Browser. Kein Cluster, kein Server, kein Update-Fenster – nur noch Anmelden und Arbeiten.
@@ -148,7 +148,7 @@ Eine **Private Cloud** ist Cloud-Technik – Selbstbedienung, Automatisierung, A
 Ein Kriterium aus der On-premise/Cloud-Tabelle oben verdient einen genaueren Blick, denn es hat die Cloud groß gemacht: **Skalierbarkeit** – die Fähigkeit eines Systems, mit wachsender Last mitzuwachsen. Davon gibt es zwei Richtungen:
 
 - **Vertikal skalieren** heißt: dieselbe Maschine größer machen – mehr CPU, mehr RAM. Einfach, aber endlich: Irgendwann gibt es keinen größeren Server mehr und beim Umbau steht das System.
-- **Horizontal skalieren** heißt: mehr Maschinen derselben Sorte danebenstellen und die Last verteilen. Das kennst du praktisch: `replicas` im Deployment von 1 auf 3 drehen ist horizontales Skalieren in Reinform – drei gleiche Pods statt einem größeren.
+- **Horizontal skalieren** heißt: mehr Maschinen derselben Sorte danebenstellen und die Last verteilen. Praktisch nachvollziehen lässt sich das in Kubernetes: `replicas` im Deployment von 1 auf 3 drehen ist horizontales Skalieren in Reinform – drei gleiche Pods statt einem größeren.
 
 ```mermaid
 flowchart LR
@@ -176,7 +176,7 @@ Dieser Wildwuchs kostet an jeder Stelle: Jede Sonderlocke braucht eigenes Wissen
 - **Planbare Betriebsprozesse**: Wenn alle Systeme gleich aufgebaut sind, ist jedes Wartungsfenster gleich – die Vertretung findet sich zurecht, ohne die Geschichte jedes Einzelsystems zu kennen.
 - **Einfachere Automatisierung**: Skripte und Werkzeuge wirken nur auf Systeme, die sich gleichen. Zehn identische Server automatisierst du an einem Nachmittag – zehn verschiedene nie.
 
-Die konsequenteste Homogenisierung, die du kennst, ist der Container: **Ein Container-Image läuft überall gleich, wo eine passende Container-Laufzeit steht** – auf deinem Laptop, in minikube, im Cluster des Anbieters. Die Anwendung bringt ihre Umgebung mit, statt sich der gewachsenen Umgebung anzupassen. Genau deshalb sind Container-Plattformen so oft das Ziel von Homogenisierungs-Projekten: Sie machen die darunterliegenden Unterschiede unsichtbar.
+Die konsequenteste Homogenisierung ist der Container: **Ein Container-Image läuft überall gleich, wo eine passende Container-Laufzeit steht** – auf deinem Laptop, in minikube, im Cluster des Anbieters. Die Anwendung bringt ihre Umgebung mit, statt sich der gewachsenen Umgebung anzupassen. Genau deshalb sind Container-Plattformen so oft das Ziel von Homogenisierungs-Projekten: Sie machen die darunterliegenden Unterschiede unsichtbar.
 
 ---
 

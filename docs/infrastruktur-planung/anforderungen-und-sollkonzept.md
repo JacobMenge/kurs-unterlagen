@@ -60,7 +60,7 @@ Vergleiche den Unterschied:
 
 > „Der Fileserver erreicht **99,5 % Verfügbarkeit im Monatsmittel**, gemessen zur Kernarbeitszeit."
 
-Der erste Satz ist immer erfüllt – irgendwie verfügbar ist alles, was nicht dauerhaft aus ist. Der zweite Satz ist eine **messbare Anforderung**: 0,5 % von rund 170 Stunden Kernarbeitszeit im Monat (etwa 21 Arbeitstage mal 8 Stunden) sind knapp eine Stunde Ausfall, die noch im Rahmen liegt – die zweite Stunde nicht mehr. Darüber kann man verhandeln, das kann man überwachen, daran kann man ein Angebot festmachen. Wird so ein Wert einem Dienstleister oder Cloud-Anbieter vertraglich zugesichert, heißt er **SLA** (Service Level Agreement) – die Zeile im Vertrag, an der du den Anbieter später misst. Genau solche Zahlen sind es übrigens, die du später in Dashboards wiederfindest – im [Monitoring-Block](../monitoring-praxis/index.md) hast du mit Prometheus und Grafana das Werkzeug dafür schon in der Hand gehabt.
+Der erste Satz ist immer erfüllt – irgendwie verfügbar ist alles, was nicht dauerhaft aus ist. Der zweite Satz ist eine **messbare Anforderung**: 0,5 % von rund 170 Stunden Kernarbeitszeit im Monat (etwa 21 Arbeitstage mal 8 Stunden) sind knapp eine Stunde Ausfall, die noch im Rahmen liegt – die zweite Stunde nicht mehr. Darüber kann man verhandeln, das kann man überwachen, daran kann man ein Angebot festmachen. Wird so ein Wert einem Dienstleister oder Cloud-Anbieter vertraglich zugesichert, heißt er **SLA** (Service Level Agreement) – die Zeile im Vertrag, an der du den Anbieter später misst. Genau solche Zahlen sind es übrigens, die in Dashboards wieder auftauchen – im [Monitoring-Block](../monitoring-praxis/index.md) baust du mit Prometheus und Grafana das Werkzeug dafür.
 
 Beim Sortieren der Anforderungen hilft eine Unterscheidung, die dir in jeder Planungsaufgabe wieder begegnet:
 
@@ -135,7 +135,7 @@ Ein Sollkonzept ist erst dann baubar, wenn aus den Anforderungssätzen **konkret
 - Aus „große Dateien, interner Zugriff" wird eine **Bandbreiten**-Anforderung ans Netzwerk.
 - Aus „99,5 % im Monatsmittel" wird ein **Verfügbarkeitsziel**, das über Redundanz, Wartungsfenster und Monitoring entscheidet.
 
-Falls dir dieses Denken bekannt vorkommt: Genau dasselbe hast du im Kleinen schon gemacht, als du in Kubernetes **Requests und Limits** für einen Pod festgelegt hast. Auch dort übersetzt du eine Erwartung („die App braucht Luft zum Atmen, darf aber nicht alles fressen") in Zahlen, an denen sich das System messen lässt. Infrastrukturplanung macht denselben Schritt – nur eine Etage größer.
+Dasselbe Denken begegnet dir im Kleinen wieder, sobald du in Kubernetes **Requests und Limits** für einen Pod festlegst. Auch dort übersetzt du eine Erwartung („die App braucht Luft zum Atmen, darf aber nicht alles fressen") in Zahlen, an denen sich das System messen lässt. Infrastrukturplanung macht denselben Schritt – nur eine Etage größer.
 
 Zum Sollkonzept gehört neben den Anforderungssätzen fast immer auch eine Zeichnung: ein **Netzplan** der Ziel-Topologie, der Standorte, Netze und zentrale Systeme zeigt – dieselbe Darstellungsform, die du in der Bestandsanalyse für den Ist-Zustand nutzt.
 
@@ -162,7 +162,7 @@ Lies das Bild von unten nach oben: Fällt der Switch aus, ist alles darüber bet
 !!! warning "Die Pflege ist der Knackpunkt, nicht die Einführung"
     Eine CMDB einzuführen ist ein Projekt. Sie **aktuell zu halten** ist eine Daueraufgabe – und genau daran scheitern die meisten. Jede Änderung an der Infrastruktur muss den Weg in die Datenbank finden, sonst startet nur die nächste Runde des Excel-Problems, diesmal mit teurerer Software. Eine veraltete CMDB ist gefährlicher als gar keine: Ihr glaubt man.
 
-Ein Ausblick, der dir aus dem Kurs vertraut vorkommen dürfte: Werkzeuge wie **Git**-Repositories und **Infrastructure as Code** rücken die Dokumentation näher an die Realität. Wenn die Infrastruktur selbst als Code beschrieben ist – wie deine Compose-Dateien oder Helm-Charts –, dann *ist* das Repository die Beschreibung des Systems: versioniert, nachvollziehbar, mit Historie. Die Doku veraltet nicht neben dem System her, weil Änderung und Beschreibung derselbe Schritt sind. Das ersetzt eine CMDB nicht in jedem Betrieb – aber es zeigt, wohin sich das Problem entwickelt.
+Ein Ausblick, der an anderer Stelle in den Unterlagen wieder auftaucht: Werkzeuge wie **Git**-Repositories und **Infrastructure as Code** rücken die Dokumentation näher an die Realität. Wenn die Infrastruktur selbst als Code beschrieben ist – etwa in Compose-Dateien oder Helm-Charts –, dann *ist* das Repository die Beschreibung des Systems: versioniert, nachvollziehbar, mit Historie. Die Doku veraltet nicht neben dem System her, weil Änderung und Beschreibung derselbe Schritt sind. Das ersetzt eine CMDB nicht in jedem Betrieb – aber es zeigt, wohin sich das Problem entwickelt.
 
 ---
 

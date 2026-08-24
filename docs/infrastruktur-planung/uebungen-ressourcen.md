@@ -317,7 +317,7 @@ Die Umstellung der Telefonanlage aus Fall A ist geplant: Freitag, 18 Uhr, das Te
 
     Der wichtigste der fünf Punkte ist der **Point of no return**, weil er der einzige ist, der sich nicht beeinflussen lässt. Er ergibt sich aus der Technik oder aus dem Vertrag – und er entscheidet, wie viel Zeit das Team für seine Versuche hat. Wer ihn nicht kennt, merkt erst nach dem Überschreiten, dass es keinen Rückweg mehr gibt.
 
-    Das Prinzip selbst kennst du aus dem Kurs im Kleinen: `helm rollback` ist genau so ein vorbereiteter Weg zurück – bekannt, geübt, ein Befehl. Bei einer Infrastruktur-Migration wird er nicht mitgeliefert. Er muss geplant werden.
+    Das Prinzip begegnet dir im Kleinen bei `helm rollback`: genau so ein vorbereiteter Weg zurück – bekannt, geübt, ein Befehl. Bei einer Infrastruktur-Migration wird er nicht mitgeliefert. Er muss geplant werden.
 
     **3. Auch gut wäre ...** – einen sechsten Punkt zu ergänzen: **Was gilt als Erfolg?** Ein Plan, der nur den Abbruch definiert, lässt offen, wann das Team nach Hause darf. Ebenfalls stark ist der Hinweis, dass Punkt 4 **Zeitangaben** braucht: „Der Rückweg dauert etwa drei Stunden" ist die Information, die das Abbruchkriterium aus Punkt 1 überhaupt erst berechenbar macht – wer um 18 Uhr am Sonntag zurückmuss und drei Stunden braucht, muss um 15 Uhr entscheiden, nicht um 17:45 Uhr.
 

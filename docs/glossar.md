@@ -400,7 +400,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
 : **Web-Plattform** rund um Git, betrieben von Microsoft. Hostet Open-Source- und private Repositories. Vier Bausteine, die im Kurs vorkommen:
 
     - **GitHub** als Repository-Plattform (Code-Hosting, Issues, Pull Requests).
-    - **GitHub Actions** als CI/CD-System: Workflows in YAML, getriggert durch Pushs oder Pull Requests, laufen auf von GitHub bereitgestellten Runnern (Linux/macOS/Windows). Diese Kursunterlagen werden via GitHub Actions gebaut und veröffentlicht. Siehe [Block 6](ci-cd/index.md).
+    - **GitHub Actions** als CI/CD-System: Workflows in YAML, getriggert durch Pushs oder Pull Requests, laufen auf von GitHub bereitgestellten Runnern (Linux/macOS/Windows). Diese Kursunterlagen werden via GitHub Actions gebaut und veröffentlicht. Siehe [CI/CD mit GitHub Actions](ci-cd/index.md).
     - **GitHub Pages** für das Hosting statischer Webseiten direkt aus einem Repo. Die fertige MkDocs-Site liegt damit unter `https://<user>.github.io/kurs-unterlagen/`.
     - **GHCR (GitHub Container Registry)** – Container-Registry unter `ghcr.io`, integriert in GitHub. Ein Workflow kann mit dem eingebauten `GITHUB_TOKEN` Images pushen, sofern `permissions: packages: write` gesetzt ist. Public Repos erhalten kostenlosen Speicher.
 

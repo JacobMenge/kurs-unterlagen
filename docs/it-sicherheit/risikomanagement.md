@@ -10,7 +10,7 @@ description: "Ist der Ausfall erst eingetreten, ist der Schaden schon da – bew
 Jeder Betrieb hat eine Liste von Dingen, die schiefgehen können – ausgesprochen oder nicht. Was fast keiner hat, ist eine **Reihenfolge**. Und die braucht es, weil kein Betrieb Geld, Zeit und Personal hat, um gegen alles gleichzeitig etwas zu tun. Genau diese Reihenfolge herzustellen ist die Aufgabe des Risikomanagements: Es macht aus einer Sammlung von Befürchtungen eine begründete Rangfolge – und aus der Rangfolge Entscheidungen, die man aufschreiben kann.
 
 !!! abstract "Diese Seite ist der Kern"
-    Sie enthält das, was du für eine Risikoanalyse wirklich brauchst – zugeschnitten auf eine gute halbe Stunde Vortrag. Alles Weitere – Risikoarten im Detail, Bedrohungsmodellierung, Schadenserwartungswert, FMEA, Migrationsrisiken und ein komplett durchgerechnetes Beispiel – steht auf der Seite [Risikomanagement: Vertiefung](risikomanagement-vertiefung.md). Für die Übungsaufgaben brauchst du beide Seiten; für den Einstieg reicht diese hier.
+    Sie enthält das, was du für eine Risikoanalyse wirklich brauchst – zugeschnitten auf eine Doppelstunde. Alles Weitere – Risikoarten im Detail, Bedrohungsmodellierung, Schadenserwartungswert, FMEA, Migrationsrisiken und ein komplett durchgerechnetes Beispiel – steht auf der Seite [Risikomanagement: Vertiefung](risikomanagement-vertiefung.md). Für die Übungsaufgaben brauchst du beide Seiten; für den Einstieg reicht diese hier.
 
 ---
 
@@ -163,6 +163,9 @@ Der Pfeil von Schritt 5 zurück zu Schritt 1 ist der wichtigste im ganzen Diagra
 In der Praxis hat der Kreislauf deshalb zwei Taktgeber. Der eine ist der **Kalender**: einmal im Jahr eine vollständige Runde, quartalsweise ein kurzer Blick auf die obersten Einträge. Der andere sind **Auslöser** – ein Vorfall, ein größerer Umbau, ein neues System, ein Wechsel beim Dienstleister. Wer nur den Kalender hat, bewertet ein Jahr lang eine Infrastruktur, die es so nicht mehr gibt.
 
 Die Schritte 1 bis 3 wirken auf den ersten Blick wie einer, sie liefern aber verschiedene Ergebnisse. Die **Identifikation** sammelt, ohne zu werten. Die **Analyse** hängt Zahlen an die gesammelten Einträge. Die **Bewertung** vergleicht diese Zahlen mit dem, was der Betrieb tragen will – erst dort fällt die Entscheidung, ob überhaupt etwas passiert. Wer die drei Schritte zusammenzieht, diskutiert schon beim Sammeln über Maßnahmen; am Ende steht dann eine kurze Liste bekannter Probleme statt eines Überblicks.
+
+!!! note "Wo welcher Schritt ausführlich steht"
+    Die Nummerierung 1 bis 5 gilt für beide Seiten dieses Themas – sie ist über sie aufgeteilt. Ausführlich ausgearbeitet sind die **Schritte 1 bis 3** (identifizieren, analysieren, bewerten) auf der Seite [Risikomanagement: Vertiefung](risikomanagement-vertiefung.md); ihre beiden zentralen Werkzeuge, das Risikoregister und die Risikomatrix, stehen hier auf dieser Seite. Die **Schritte 4 und 5** (steuern, überwachen) arbeitet diese Seite selbst aus – Ergänzungen dazu, etwa zur Formulierung von Maßnahmen, zur Freigabe von Restrisiken und zur Wiedervorlage, stehen wiederum in der Vertiefung.
 
 !!! tip "Der Prozess läuft nicht nur in der Sicherheit"
     Dieselben fünf Schritte findest du im Projektmanagement wieder, wenn dort über Projektrisiken gesprochen wird – ebenso in der Planung, sobald es um Ressourcen- und Terminrisiken geht. Die Methode ist identisch, nur die Risiken sind andere – siehe [Projektmanagement](../projektmanagement/index.md) und [Ressourcen planen](../infrastruktur-planung/ressourcen-planen.md). Wer sie einmal beherrscht, wendet sie überall an.
@@ -418,7 +421,7 @@ Sie hat außerdem eine Nebenwirkung, die man mitdenken muss: Vermeidung verschie
 
 ### Vermindern: der Normalfall
 
-**Verminderung** – oft *Reduktion* genannt – lässt das Risiko bestehen, macht es aber kleiner. Das ist die Strategie, unter die weit über die Hälfte aller Maßnahmen fällt; sie hat zwei Angriffspunkte: die **Eintrittswahrscheinlichkeit** oder die **Schadenshöhe**. Genau diese Unterscheidung nehmen wir uns weiter unten noch einmal gesondert vor.
+**Verminderung** – oft *Reduktion* genannt – lässt das Risiko bestehen, macht es aber kleiner. Das ist die Strategie, unter die weit über die Hälfte aller Maßnahmen fällt; sie hat zwei Angriffspunkte: die **Eintrittswahrscheinlichkeit** oder die **Schadenshöhe**. Genau diese Unterscheidung nimmt sich die Vertiefung im Abschnitt [Vorbeugen oder begrenzen](risikomanagement-vertiefung.md#vorbeugen-oder-begrenzen-zwei-verschiedene-hebel) noch einmal gesondert vor.
 
 Sie passt bei allem, was oft passiert und dabei verkraftbar bleibt – und bei allem, wo Vermeidung wirtschaftlich unsinnig wäre. Sie kostet Geld, Zeit und Aufmerksamkeit – dauerhaft: Jede Maßnahme ist selbst ein kleines System, das betrieben, überwacht und irgendwann ersetzt werden muss. Ein Backup-Konzept ohne Rückspieltest, eine Firewall-Regel ohne Pflege oder ein zweiter Server ohne Wartungsfenster sind Maßnahmen, die es nur noch auf dem Papier gibt.
 
@@ -430,7 +433,7 @@ Sie passt für das, was selten passiert und dann sehr teuer wird – Brand, Wass
 
 Sie kostet Prämie, Selbstbehalt und Auflagen: Versicherer verlangen inzwischen regelmäßig Mindestmaßnahmen – Mehrfaktor-Anmeldung, getrennte Sicherungen, Patchstand – und können die Leistung je nach Vertragsgestaltung kürzen, wenn diese fehlen. Was im Einzelfall gilt, steht in den Bedingungen; sie gehören gelesen, bevor man sich auf sie verlässt.
 
-Der wichtigste Punkt steht ohnehin in keinem Angebot: **Übertragen wird der finanzielle Schaden, nicht die Verantwortung.** Der Ruf des Betriebs, die Meldepflichten gegenüber Aufsichtsbehörden und Kunden, die Frage, warum das passieren konnte – all das bleibt im Haus. Dasselbe gilt für die Auslagerung an einen Dienstleister, wie schon bei der Risikotragfähigkeit im vorigen Abschnitt: Vergeben wird die **Ausführung**, nicht die Verantwortung. Wer auslagert, muss den Dienstleister weiterhin auswählen, steuern und prüfen. Eine Versicherung ist deshalb kein Ersatz für eine Maßnahme, sondern eine Zahlung für den Fall, dass die Maßnahme nicht gereicht hat.
+Der wichtigste Punkt steht ohnehin in keinem Angebot: **Übertragen wird der finanzielle Schaden, nicht die Verantwortung.** Der Ruf des Betriebs, die Meldepflichten gegenüber Aufsichtsbehörden und Kunden, die Frage, warum das passieren konnte – all das bleibt im Haus. Dasselbe gilt für die Auslagerung an einen Dienstleister, wie auch bei der [Risikotragfähigkeit](risikomanagement-vertiefung.md#risikotragfahigkeit-wer-darf-was-akzeptieren): Vergeben wird die **Ausführung**, nicht die Verantwortung. Wer auslagert, muss den Dienstleister weiterhin auswählen, steuern und prüfen. Eine Versicherung ist deshalb kein Ersatz für eine Maßnahme, sondern eine Zahlung für den Fall, dass die Maßnahme nicht gereicht hat.
 
 ### Akzeptieren: eine Entscheidung, kein Unterlassen
 
@@ -500,6 +503,7 @@ Ein **Frühwarnindikator** meldet nicht „es ist passiert", sondern „die Wahr
 | **Vorgänge, die nur eine Person bearbeiten kann** | mehr als fünf offene | Wissensmonopol wächst, Ausfallrisiko Personal steigt |
 
 Ein brauchbarer Indikator hat drei Eigenschaften: Er ist **automatisch messbar**, er reagiert **vor** dem Ereignis; jemand ist **verpflichtet**, auf die Meldung zu reagieren. Fehlt die dritte, ist es kein Indikator, sondern eine Statistik. Die untersten beiden Zeilen sieht man am seltensten – dabei sagen sie am meisten über den Betrieb aus. Ein Frühwarnindikator muss nicht technisch sein.
+
 ---
 
 ## Schutzbedarf: wie viel Schutz ist genug?
@@ -548,6 +552,7 @@ Der Schutzbedarf wird zuerst für **Anwendungen und Informationen** festgestellt
     Genau deshalb wird er am häufigsten falsch benutzt. Er gilt nur, wenn die Verteilung **tatsächlich** wirkt: Die drei Knoten müssen wirklich unabhängig sein – verschiedene Stromkreise, verschiedene Brandabschnitte, keine gemeinsame Speicherbasis, kein gemeinsamer Konfigurationsfehler. Stehen sie im selben Rack am selben Netzteil, ist das kein Verteilungseffekt, sondern eine Kumulation mit besserem Marketing.
 
     Die Prüffrage lautet immer: **Welches einzelne Ereignis trifft alle drei gleichzeitig?** Wer darauf keine ehrliche Antwort hat, rechnet den Schutzbedarf nicht herunter.
+
 ---
 
 ## Business Impact Analyse: wie lange darf es stillstehen?
@@ -641,6 +646,7 @@ Umgekehrt gilt: **Redundanz addiert Neunen, weil sich die Ausfallwahrscheinlichk
 
 !!! note "Wo diese Zahlen weiterverarbeitet werden"
     Die BIA liefert die Zielwerte, nicht die Umsetzung. Wie man die Schadenshöhe je Prozess sauber ermittelt und wie viel Redundanz sich dafür lohnt, steht auf [Hochverfügbarkeit](../betrieb/hochverfuegbarkeit.md). Wie aus RTO und RPO ein geübter Wiederanlauf wird – mit Notfallplan, Rollen und Übungen –, gehört zu [Incident & BCM](../betrieb/incident-und-bcm.md). Und die konkrete Sicherungstechnik dahinter findest du auf [Backup & Recovery](../betrieb/backup-und-recovery.md).
+
 ---
 
 !!! quote "Mitnehmen"

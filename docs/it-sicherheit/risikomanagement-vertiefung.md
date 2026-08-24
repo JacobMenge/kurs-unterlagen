@@ -9,6 +9,9 @@ description: "Die ausführlichen Teile des Risikomanagements: Risikoarten als Su
 
 Du kannst die Abschnitte einzeln lesen; sie bauen nicht zwingend aufeinander auf. Am Ende steht eine **vollständig durchgerechnete Risikoanalyse** über alle fünf Schritte – das ausführlichste Beispiel des ganzen Blocks.
 
+!!! note "Zur Schrittnummerierung"
+    Die Schrittnummern folgen dem [Fünf-Schritte-Prozess](risikomanagement.md#der-prozess-ein-kreislauf-kein-projekt) der Kernseite. Ausführlich ausgearbeitet stehen hier die **Schritte 1 bis 3** (identifizieren, analysieren, bewerten); **Schritt 4** (steuern) und **Schritt 5** (überwachen) stehen auf der Kernseite. Was diese Seite darüber hinaus zu den beiden letzten Schritten bringt – Maßnahmen formulieren, Restrisiken freigeben, Wiedervorlage –, ergänzt sie.
+
 ---
 
 ## Gleicher Erwartungswert, völlig anderer Charakter
@@ -198,7 +201,7 @@ Und dieselben drei Zeilen auf der Steuerungs-Seite:
 | ID | Bewertung | Strategie | Maßnahme | Verantwortlich | Termin | Status |
 |---|---|---|---|---|---|---|
 | **R-01** | hoch | Reduktion | Wartungsvertrag neu abschließen, zusätzlich Temperaturüberwachung mit Alarm auf die Rufbereitschaft aufschalten | M. Renner (Leitung IT-Betrieb) | 31.05. | in Umsetzung |
-| **R-02** | sehr hoch | Reduktion | Testmigration mit dokumentiertem Abgleich gegen das Altsystem, schriftlicher Rückfallplan mit definiertem Abbruchkriterium | S. Aydin (Projektleitung ERP) | 15.09., vier Wochen vor der Umstellung | offen |
+| **R-02** | kritisch | Reduktion | Testmigration mit dokumentiertem Abgleich gegen das Altsystem, schriftlicher Rückfallplan mit definiertem Abbruchkriterium | S. Aydin (Projektleitung ERP) | 15.09., vier Wochen vor der Umstellung | offen |
 | **R-03** | mittel | Reduktion | Betriebsdokumentation erstellen, zweite Person einarbeiten und an einer realen Änderung beteiligen | T. Kowalski (Leitung Fertigungs-IT) | 31.12. | offen |
 
 An diesen beiden Tabellen lässt sich gut sehen, was ein Register leistet.
@@ -253,7 +256,7 @@ Die erste Skala misst die **Eintrittswahrscheinlichkeit**. Ihr Anker ist eine H�
 |---|---|---|---|
 | **1** | sehr selten | seltener als alle zehn Jahre – im Betrieb noch nie vorgekommen | unter 0,1 |
 | **2** | selten | etwa alle fünf bis zehn Jahre – einmal erlebt oder aus der Branche bekannt | 0,1 bis 0,2 |
-| **3** | gelegentlich | häufiger als alle fünf Jahre, aber seltener als jährlich | über 0,2 bis 0,9 |
+| **3** | gelegentlich | häufiger als alle fünf Jahre, aber seltener als jährlich | über 0,2 bis unter 1 |
 | **4** | wahrscheinlich | etwa einmal im Jahr | rund 1 |
 | **5** | häufig | mehrmals im Jahr – gehört zum Alltag | über 1 |
 
@@ -384,7 +387,7 @@ Man baut sie trotzdem. Und die Gründe dafür sind keine Schwäche der Methode, 
 - **Reputation und Kundenbindung.** Ein Fertigungsbetrieb, dessen Rechenzentrum abbrennt, verliert nicht nur Hardware. Er verliert Liefertermine, Zertifizierungen, im schlimmsten Fall Kunden, die nicht wiederkommen. Das steht in keiner der beiden Zahlen oben.
 - **Der Erwartungswert kennt kein Einzelschicksal.** 4.000 Euro je Jahr sind ein Mittelwert über hundert Jahre. Feinwerk erlebt keine hundert Jahre mit je 4.000 Euro Brandschaden, sondern mit hoher Wahrscheinlichkeit gar keinen Brand – oder eben einen, der 400.000 Euro kostet und auf einen Schlag fällig wird. Ob der Betrieb diesen einen Schlag verkraftet, ist eine ganz andere Frage als die nach dem Mittelwert.
 
-Übrigens greift hier auch die Sonderregel aus der Matrix: Wahrscheinlichkeit 1 mal Schadenshöhe 4 ergibt das Produkt 4, rechnerisch also „gering“ – eines der drei gestrichelten Felder im Bild oben. Über die Sonderregel wird daraus „hoch“ – damit landet der Fall auf dem Tisch der Geschäftsführung statt in der jährlichen Durchsicht.
+Übrigens greift hier auch die Sonderregel aus der [Risikomatrix](risikomanagement.md#die-risikomatrix-das-bild-auf-das-sich-alle-einigen-konnen): Wahrscheinlichkeit 1 mal Schadenshöhe 4 ergibt das Produkt 4, rechnerisch also „gering“ – eines der drei gestrichelt umrandeten Felder im Bild dort. Über die Sonderregel wird daraus „hoch“ – damit landet der Fall auf dem Tisch der Geschäftsführung statt in der jährlichen Durchsicht.
 
 **Eine negative Rechnung ist kein Verbot, sondern eine Information.** Sie sagt dir, dass du die Maßnahme nicht mit Wirtschaftlichkeit begründen kannst – also brauchst du eine andere Begründung; die gehört dann genauso dokumentiert. Umgekehrt gilt dasselbe: Eine positive Rechnung ist noch keine Genehmigung. Ob und wie ein Risiko beantwortet wird – vermeiden, reduzieren, übertragen oder akzeptieren –, entscheidet sich im nächsten Prozessschritt.
 
@@ -441,7 +444,7 @@ Zwei Feinheiten, die diese Rechnung ehrlich halten. Erstens der **Nachholeffekt*
 
     Die **RPO** (Recovery Point Objective) betrifft die Zeit **vor** der Störung: Wie viele Daten aus dem Zeitraum vor dem Ausfall dürfen verloren gehen? Dieser Verlust taucht in der Rechnung nicht in der Ausfalldauer auf, sondern in der Nacherfassung – jede Stunde, die zwischen der letzten Sicherung und dem Ausfall liegt, muss jemand von Hand nachtragen.
 
-Diese Rechnung ist der Kern dessen, was in der Verfügbarkeitsplanung **Business Impact Analyse** heißt: die systematische Ermittlung, was ein Ausfall je Geschäftsprozess kostet. Ausführlich steht sie auf der Seite [Hochverfügbarkeit](../betrieb/hochverfuegbarkeit.md), zusammen mit der Frage, wie viel Redundanz sich daraus rechtfertigen lässt. Wer wissen will, welche Systeme überhaupt geschützt werden müssen, findet den Einstieg weiter unten im Abschnitt [Schutzbedarf](risikomanagement.md#schutzbedarf-wie-viel-schutz-ist-genug).
+Diese Rechnung ist der Kern dessen, was in der Verfügbarkeitsplanung **Business Impact Analyse** heißt: die systematische Ermittlung, was ein Ausfall je Geschäftsprozess kostet. Ausführlich steht sie auf der Seite [Hochverfügbarkeit](../betrieb/hochverfuegbarkeit.md), zusammen mit der Frage, wie viel Redundanz sich daraus rechtfertigen lässt. Wer wissen will, welche Systeme überhaupt geschützt werden müssen, findet den Einstieg auf der Kernseite im Abschnitt [Schutzbedarf](risikomanagement.md#schutzbedarf-wie-viel-schutz-ist-genug).
 
 ---
 
@@ -479,7 +482,7 @@ Eine gefüllte FMEA für die Feinwerk Präzisionstechnik GmbH, sortiert nach RPZ
 | **Klimatisierung im Serverraum fällt aus** | Überhitzung, Server schalten sich zum Selbstschutz ab | 5 | 7 | 3 | **105** |
 | **Firmware-Update des Speichersystems schlägt fehl** | Datenzugriff für alle angeschlossenen Systeme weg | 3 | 9 | 2 | **54** |
 
-Achte auf die Skala: Die FMEA rechnet mit 1 bis 10, die Risikomatrix mit 1 bis 5. Die 5 beim Auftreten des Klimaausfalls bedeutet hier also etwas anderes als die 3 in der Matrix weiter oben – Werte aus beiden Verfahren darf man nicht ineinander schieben.
+Achte auf die Skala: Die FMEA rechnet mit 1 bis 10, die Risikomatrix mit 1 bis 5. Die 5 beim Auftreten des Klimaausfalls bedeutet hier also etwas anderes als die 3 in der [Risikomatrix](risikomanagement.md#die-risikomatrix-das-bild-auf-das-sich-alle-einigen-konnen) – Werte aus beiden Verfahren darf man nicht ineinander schieben.
 
 Die Rangfolge ist aufschlussreich, weil sie nicht der Bauchreihenfolge entspricht. Das fehlgeschlagene Firmware-Update fühlt sich dramatisch an – es ist der klassische Albtraum des Wartungsfensters. In der FMEA landet es auf dem letzten Platz, weil es sofort auffällt: Man steht daneben, man merkt es in derselben Minute, man hat einen Rückfallplan. Das nie getestete Backup dagegen fühlt sich nach gar nichts an, weil der grüne Haken jede Nacht erscheint. Es steht ganz oben, weil seine Bedeutung maximal ist **und** niemand es merkt, bevor es zu spät ist.
 
@@ -824,7 +827,7 @@ Jetzt werden die Schätzungen in die Skalen des Betriebs übersetzt. Zur Erinner
 |---|---|---|
 | **1** | sehr selten – unter 0,1 je Jahr | unbedeutend – bis 5.000 Euro |
 | **2** | selten – 0,1 bis 0,2 je Jahr | gering – über 5.000 bis 25.000 Euro |
-| **3** | gelegentlich – über 0,2 bis 0,9 je Jahr | spürbar – über 25.000 bis 100.000 Euro |
+| **3** | gelegentlich – über 0,2 bis unter 1 je Jahr | spürbar – über 25.000 bis 100.000 Euro |
 | **4** | wahrscheinlich – rund 1 je Jahr | schwer – über 100.000 bis 500.000 Euro |
 | **5** | häufig – über 1 je Jahr | existenzbedrohend – über 500.000 Euro |
 
@@ -837,7 +840,7 @@ Risikowert = Eintritt × Schaden, Klassen: **gering** 1 bis 4, **mittel** 5 bis 
 | **R2** Restore misslingt | 2 (0,12 je Jahr) | 4 (250.000 Euro) | **8** | mittel → **hoch** (Sonderregel) | 30.000 Euro |
 | **R4** Wissensmonopol | 3 (0,25 je Jahr) | 3 (90.000 Euro) | **9** | mittel | 22.500 Euro |
 
-An dieser Tabelle sind zwei Dinge bemerkenswert. Erstens fallen die beiden Ranglisten **auseinander**: Nach dem Risikowert steht R4 mit 9 vor R2 mit 8, nach dem Erwartungswert ist es genau umgekehrt – 30.000 gegen 22.500 Euro. Der Grund liegt in der Breite der Stufen: R4 sitzt mit 0,25 ganz am unteren Rand der Wahrscheinlichkeitsstufe 3, die bis 0,9 reicht – die Stufe schreibt ihm also eine Häufigkeit zu, die er gar nicht hat. R2 kommt mit 0,12 nur auf Stufe 2, trägt dafür aber eine Schadenshöhe von 250.000 Euro. Klassen glätten solche Unterschiede weg; deshalb gehören beide Zahlen nebeneinander.
+An dieser Tabelle sind zwei Dinge bemerkenswert. Erstens fallen die beiden Ranglisten **auseinander**: Nach dem Risikowert steht R4 mit 9 vor R2 mit 8, nach dem Erwartungswert ist es genau umgekehrt – 30.000 gegen 22.500 Euro. Der Grund liegt in der Breite der Stufen: R4 sitzt mit 0,25 ganz am unteren Rand der Wahrscheinlichkeitsstufe 3, die bis knapp 1 reicht – die Stufe schreibt ihm also eine Häufigkeit zu, die er gar nicht hat. R2 kommt mit 0,12 nur auf Stufe 2, trägt dafür aber eine Schadenshöhe von 250.000 Euro. Klassen glätten solche Unterschiede weg; deshalb gehören beide Zahlen nebeneinander.
 
 Zweitens greift die Sonderregel gleich zweimal. R1 hat mit 5 den kleinsten Risikowert der vier – und trotzdem einen Einzelschaden von 800.000 Euro, der den Betrieb in einer einzigen Nacht treffen würde. **Ein Risiko dieser Schadensstufe wird nicht akzeptiert, nur weil sein Produkt klein ist.** Nach der Priorisierungsregel – erst Klasse, dann Erwartungswert – ergibt sich die Bearbeitungsreihenfolge R3, R1, R2, R4.
 
@@ -850,7 +853,7 @@ Zweitens greift die Sonderregel gleich zweimal. R1 hat mit 5 den kleinsten Risik
 | **R2** | vermindern | Bis 30.11. wird das Sicherungskonzept auf drei Kopien umgestellt, davon eine unveränderbar bei einem Dienstleister. Die vollständige Rückspielung der ERP-Datenbank wird quartalsweise getestet und protokolliert. Verantwortlich: Systemadministration. | 18.000 Euro je Jahr |
 | **R4** | vermindern, Rest akzeptieren | Bis 31.10. sind alle ERP-Schnittstellen im Betriebshandbuch beschrieben; eine zweite Person wird in zehn Tagen eingearbeitet. Zusätzlich Wartungsvertrag mit dem ERP-Partner als Rückfallebene. Verantwortlich: IT-Leitung. | 4.800 Euro je Jahr |
 
-Wer diese vier Zeilen mit dem Quadrantenbild von oben vergleicht, findet die Faustregel wieder: R3 – wahrscheinlich und teuer – wird vermindert und mittelfristig vermieden, R1 – selten und sehr teuer – wird übertragen, R2 und R4 werden vermindert. Kein Risiko wird unbehandelt akzeptiert; akzeptiert wird nur der Rest, der nach den Maßnahmen bleibt.
+Wer diese vier Zeilen mit dem [Quadrantenbild der vier Strategien](risikomanagement.md#schritt-4-steuern-vier-strategien-mehr-gibt-es-nicht) vergleicht, findet die Faustregel wieder: R3 – wahrscheinlich und teuer – wird vermindert und mittelfristig vermieden, R1 – selten und sehr teuer – wird übertragen, R2 und R4 werden vermindert. Kein Risiko wird unbehandelt akzeptiert; akzeptiert wird nur der Rest, der nach den Maßnahmen bleibt.
 
 Und so sieht die Bewertung **nach** Umsetzung aus:
 
