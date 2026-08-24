@@ -31,8 +31,9 @@ Stell dir einen Neuwagen vor: Der Motor läuft, die Bremsen greifen, das Radio s
 
 | Seite | Inhalt | Relevanz |
 |-------|--------|----------|
-| [Testszenarien & Simulation](testszenarien.md) | Testfälle und -anforderungen definieren, realitätsnahe Simulationsumgebungen wählen, Validität der Ergebnisse sichern | <span class='badge badge-vertiefung'>Vertiefung</span> |
-| [Tests durchführen](tests-durchfuehren.md) | Integrations-, End-to-End- und komponentenübergreifende Tests, Automatisierung, Auswertung und Optimierung | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Testszenarien & Simulation](testszenarien.md) | Testfälle und -anforderungen definieren, Testarten unterscheiden, Grenz- und Fehlerfälle planen, Testumgebungen und Testdaten wählen, Validität der Ergebnisse sichern | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Tests durchführen](tests-durchfuehren.md) | Integrations-, End-to-End- und komponentenübergreifende Tests, Automatisierung, Fehlerklassifizierung, Testbericht, Nachtest und Abnahme | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übung: Testkonzept](uebung-testkonzept.md) | Gruppenübung: Testkonzept für die Anbindung einer neuen Warenwirtschaft an Lager und Buchhaltung – mit Vorlage, Hilfekarten und Musterlösung | <span class='badge badge-praxis'>Praxis</span> |
 | [Betrieb optimieren](optimierung.md) | Datenanalyse, Mustererkennung, Handlungsempfehlungen, kontinuierliches Monitoring (KVP / PDCA) | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Übergabe & Einweisung](uebergabe-und-training.md) | Zielgruppengerechte Übergabe, Lehr- und Lernmaterialien, Feedbackschleifen, Nachbetreuung | <span class='badge badge-praxis'>Praxis</span> |
 

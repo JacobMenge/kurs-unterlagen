@@ -3,5 +3,6 @@ nav:
   - "Überblick": index.md
   - "Testszenarien & Simulation": testszenarien.md
   - "Tests durchführen": tests-durchfuehren.md
+  - "Übung: Testkonzept": uebung-testkonzept.md
   - "Betrieb optimieren": optimierung.md
   - "Übergabe & Einweisung": uebergabe-und-training.md
