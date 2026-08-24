@@ -15,7 +15,7 @@ const fotoPath = fs.existsSync(FOTO) ? FOTO : null;
 const deck = createDeck({
   title: "Orientierung – Systemintegration und Vernetzung",
   subject: "Kursstart, Weg bis zur Prüfung, Kennenlernen",
-  akzent: "gruen",
+  akzent: "blau",
 });
 
 const { C } = deck.api;
@@ -29,7 +29,7 @@ deck.title({
 });
 
 // ============================================================ Orientierung
-deck.abschnitt("Orientierung", "gruen");
+deck.abschnitt("Orientierung", "blau");
 
 deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
   api.lead(s, "Heute geht es noch nicht um Technik, sondern um euch, mich und den Weg bis zur Prüfung.");
@@ -38,9 +38,9 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
     [
       ["18:00", "Ankommen, Technik-Check, Begrüßung"],
       ["18:10", "Wer bin ich – und wofür ihr mich ansprechen könnt"],
-      ["18:25", "Blitzrunde: alle einmal kurz"],
-      ["18:40", "Kleingruppen: richtig kennenlernen"],
-      ["19:00", "Zurück im Plenum, danach Pause"],
+      ["18:25", "Partner-Interview in Zweiergruppen"],
+      ["18:40", "Vorstellungsrunde: ihr stellt euch gegenseitig vor"],
+      ["19:10", "Pause"],
       ["19:25", "Euer Weg bis zur Prüfung"],
       ["20:10", "Wie wir zusammenarbeiten"],
       ["20:40", "Eure Fragen und Ausblick"],
@@ -66,23 +66,23 @@ deck.content("Wer euch durch den Kurs begleitet", "Vorstellung", (s, api) => {
   });
   s.addText("IT-Dozent · DevOps, Cloud und Linux", {
     x: 3.05, y: 2.02, w: 6.3, h: 0.3,
-    fontFace: "Courier New", fontSize: 11, color: C.gruen,
+    fontFace: "Courier New", fontSize: 11, color: C.blau,
     valign: "top", margin: 0,
   });
   api.bullets(
     s,
     [
-      "Informatik in Bremerhaven studiert, davor Software-Entwicklung in der Forschung – am Alfred-Wegener-Institut und im KI-Transfer-Zentrum.",
-      "Seit 2023 in der IT-Weiterbildung, heute freiberuflich. Schwerpunkte: AWS und Azure, Container, CI/CD und Linux.",
-      "Ausbildereignung (AEVO) und AWS-zertifiziert. Ich habe selbst IHK-Prüfungen konzipiert, abgenommen und Teilnehmende vorbereitet.",
+      "Informatik studiert, davor Software-Entwicklung in der Forschung – unter anderem am Alfred-Wegener-Institut.",
+      "Seit 2023 in der IT-Weiterbildung, heute freiberuflich.",
+      "Schwerpunkte: AWS und Azure, Container, CI/CD und Linux.",
+      "AEVO-Ausbildereignung, AWS-zertifiziert, Erfahrung mit IHK-Prüfungen.",
     ],
-    { x: 3.05, y: 2.56, w: 6.3, h: 1.42, fontSize: 11.5, spaceAfter: 8 }
+    { x: 3.05, y: 2.48, w: 6.3, h: 1.7, fontSize: 11.5, spaceAfter: 7 }
   );
   api.card(s, {
-    x: 0.62, y: 4.06, w: 8.76, h: 0.72,
+    x: 0.62, y: 4.28, w: 8.76, h: 0.64,
     body: [
-      "Neben der IT: Krav Maga, so oft es geht. Ich wohne mit meinen besten Freunden in einem Haus.",
-      "Außerdem mache ich kurze Videos über Themen, die mich gerade faszinieren.",
+      "Neben der IT: Krav Maga, eine WG mit meinen besten Freunden – und kurze Videos über Themen, die mich faszinieren.",
     ],
     fontSize: 11,
   });
@@ -112,80 +112,62 @@ deck.content("Wofür ihr mich ansprechen könnt", "Meine Rolle", (s, api) => {
 });
 
 // ============================================================ Kennenlernen
-deck.abschnitt("Kennenlernen", "amber");
+deck.abschnitt("Kennenlernen", "blau");
 
-deck.kapitel("Und wer seid ihr?", "In drei Schritten – erst kurz, dann in Ruhe", {
+deck.kapitel("Und wer seid ihr?", "Erst im Gespräch zu zweit, dann stellt ihr euch gegenseitig vor", {
   nummer: "01",
 });
 
-deck.content("Erst eine schnelle Runde", "Schritt 1 · etwa 15 Minuten", (s, api) => {
-  api.lead(s, "Wir sind über zwanzig – deshalb halten wir es hier bewusst kurz. Ein Satz pro Person genügt:");
-  api.card(s, {
-    y: 2.16,
-    h: 0.9,
-    hell: true,
-    body: "„Ich bin … , ich sitze in … , und ich arbeite als … \"",
-    fontSize: 19,
-  });
-  api.bullets(
-    s,
-    [
-      "Rund 30 Sekunden pro Person – alles Weitere kommt gleich in den Kleingruppen.",
-      "Schreibt euren Namen gern zusätzlich in den Chat, dann kann ich ihn mir merken.",
-    ],
-    { y: 3.22, h: 0.95, fontSize: 13 }
-  );
-  api.kicker(s, "Wer nichts sagen möchte, sagt einfach nur den Namen.", { y: 4.5 });
-});
-
-deck.content("Dann in Kleingruppen", "Schritt 2 · etwa 20 Minuten", (s, api) => {
-  api.lead(s, "Ich teile euch in Gruppen zu viert oder fünft auf. Dort habt ihr Zeit, euch richtig kennenzulernen.");
+deck.content("Partner-Interview", "Schritt 1 · etwa 15 Minuten", (s, api) => {
+  api.lead(s, "Ich teile euch in Zweiergruppen auf. Interviewt euch gegenseitig – gleich stellt ihr die andere Person vor.");
   api.cardRow(
     s,
     [
       {
-        titel: "Erzählt euch gegenseitig",
+        titel: "Fragt euch zum Beispiel",
         body: [
-          "Wie sieht dein IT-Alltag aus?",
-          "Wie viel hattest du bisher mit Netzwerken, Servern oder Cloud zu tun?",
-          "Warum machst du diesen Kurs?",
+          "Wer bist du, und wo sitzt du gerade?",
+          "Was machst du beruflich?",
+          "Wie viel hattest du bisher mit IT, Servern oder Cloud zu tun?",
+          "Warum machst du diesen Kurs – was soll danach anders sein?",
         ],
       },
       {
-        titel: "Und dann: zwei Wahrheiten, eine Lüge",
+        titel: "So klappt es",
         body: [
-          "Jede Person nennt drei Aussagen über sich – zwei stimmen, eine ist erfunden.",
-          "Die anderen raten. Danach wird aufgelöst.",
+          "Etwa 7 Minuten pro Person – wechselt nach der Hälfte.",
+          "Macht euch ein paar Stichpunkte, das hilft gleich beim Vorstellen.",
+          "Geht auch gern über die Fragen hinaus.",
         ],
       },
     ],
-    { y: 2.16, h: 2.02, titleH: 0.3 }
+    { y: 2.16, h: 2.15, titleH: 0.3 }
   );
-  api.kicker(s, "Sucht euch eine Person, die nachher kurz berichtet, was euch überrascht hat.", { y: 4.5 });
+  api.kicker(s, "Bei ungerader Zahl gibt es eine Dreiergruppe – dort stellt reihum jeder seinen linken Nachbarn vor.", { y: 4.5 });
 });
 
-deck.content("Und wieder zusammen", "Schritt 3 · etwa 10 Minuten", (s, api) => {
-  api.lead(s, "Jede Gruppe erzählt kurz:");
+deck.content("Die Vorstellungsrunde", "Schritt 2 · etwa 30 Minuten", (s, api) => {
+  api.lead(s, "Zurück im Plenum stellt jede Person ihren Interview-Partner vor – nicht sich selbst.");
   api.bullets(
     s,
     [
-      "Was hat euch in eurer Gruppe am meisten überrascht?",
-      "Gab es eine Lüge, die wirklich niemand durchschaut hat?",
-      "Habt ihr etwas gemeinsam, das ihr nicht erwartet hättet?",
+      "Rund 45 Sekunden pro Vorstellung – Name, Beruf, IT-Hintergrund, Ziel im Kurs.",
+      "Die vorgestellte Person darf danach kurz ergänzen oder richtigstellen.",
+      "Es gibt kein Falsch: Manche kommen aus der IT, andere steigen gerade erst ein.",
     ],
-    { y: 2.16, h: 1.35, fontSize: 15 }
+    { y: 2.16, h: 1.5, fontSize: 14 }
   );
   api.card(s, {
-    y: 3.5,
-    h: 1.02,
-    titel: "Warum mir das wichtig ist",
-    body: "Wir sehen uns bis zur Prüfung zweimal pro Woche. Wer sich kennt, traut sich eher zu fragen – und genau davon lebt der Unterricht.",
+    y: 3.72,
+    h: 1.08,
+    titel: "Warum so herum?",
+    body: "Über jemand anderen zu sprechen ist leichter als über sich selbst – und wer zuhören muss, lernt sein Gegenüber wirklich kennen.",
     fontSize: 11.5,
   });
 });
 
 // ============================================================ Der Weg
-deck.abschnitt("Der Weg zur Prüfung", "cyan");
+deck.abschnitt("Der Weg zur Prüfung", "blau");
 
 deck.kapitel("Wo führt das alles hin?", "Der Weg bis zur Prüfung", { nummer: "02" });
 
@@ -224,7 +206,7 @@ deck.content("Der Kurs besteht aus drei Teilen", "Aufbau", (s, api) => {
       {
         nummer: "2",
         titel: "IT-Recht",
-        akzent: "amber",
+        akzent: "teal",
         body: [
           "Organisatorische und rechtliche Vorgaben",
           "",
@@ -234,7 +216,7 @@ deck.content("Der Kurs besteht aus drei Teilen", "Aufbau", (s, api) => {
       {
         nummer: "3",
         titel: "Projektmanagement",
-        akzent: "cyan",
+        akzent: "bernstein",
         body: [
           "Projektunterstützung und -koordination",
           "",
@@ -260,13 +242,13 @@ deck.content("Unser gemeinsamer Teil", "Die Spezialisierung", (s, api) => {
       {
         nummer: "2",
         titel: "Betrieb sicherstellen",
-        akzent: "amber",
+        akzent: "teal",
         body: "Ausfallsicherheit, Backup und Wiederanlauf, Monitoring, Betriebsdaten, Softwareverteilung und Orchestrierung.",
       },
       {
         nummer: "3",
         titel: "Qualität und Sicherheit",
-        akzent: "cyan",
+        akzent: "bernstein",
         body: "Risiken bewerten, Sicherheitskonzepte, Umgang mit Vorfällen, Tests, Optimierung und die Übergabe an Anwender.",
       },
     ],
@@ -292,7 +274,7 @@ deck.content("Der grobe Fahrplan", "Zeitplan", (s, api) => {
   api.card(s, {
     y: 4.1,
     h: 0.7,
-    akzent: "amber",
+    akzent: "teal",
     body: "Vor der schriftlichen Prüfung gibt es zusätzlich eine freiwillige, intensive Prüfungsvorbereitung. Die Teilnahme lohnt sich.",
     fontSize: 11.5,
   });
@@ -316,7 +298,7 @@ deck.content("Womit ihr arbeiten werdet", "Technik", (s, api) => {
       {
         nummer: "2",
         titel: "Laufender Betrieb",
-        akzent: "amber",
+        akzent: "teal",
         body: [
           "Prometheus und Grafana",
           "Kubernetes und Helm",
@@ -327,7 +309,7 @@ deck.content("Womit ihr arbeiten werdet", "Technik", (s, api) => {
       {
         nummer: "3",
         titel: "Qualität und Sicherheit",
-        akzent: "cyan",
+        akzent: "bernstein",
         body: [
           "Schwachstellen-Scanner",
           "Testverfahren und Testpläne",
@@ -441,7 +423,7 @@ deck.content("Was zum Bestehen zählt", "Bewertung", (s, api) => {
 });
 
 // ============================================================ Zusammenarbeit
-deck.abschnitt("Zusammenarbeit", "gruen");
+deck.abschnitt("Zusammenarbeit", "blau");
 
 deck.kapitel("Wie wir zusammenarbeiten", "Ein paar Absprachen für die nächsten Monate", {
   nummer: "03",

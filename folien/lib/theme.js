@@ -1,13 +1,9 @@
 // Folien-Design für den Kurs "Systemintegration und Vernetzung"
 //
-// Gestaltungsidee: derselbe Terminal-Look wie die Kursunterlagen im Web –
-// dunkler Grund, Phosphorgrün als Leitfarbe, Monospace für Marken und Zahlen.
-// Das hat drei Gründe: Es passt zum Fach, es ist abends am Bildschirm
-// angenehmer als weiße Flächen, und es macht die Folien auf den ersten Blick
-// als Material dieses Kurses erkennbar.
-//
-// Die drei Themenschwerpunkte haben eigene Akzentfarben, dieselben wie in den
-// Kursunterlagen: Thema 1 grün, Thema 2 amber, Thema 3 cyan.
+// Gestaltungsidee: aufgeräumt und seriös, angelehnt an den Auftritt von
+// Cloudhelden – weißer Grund, Indigo-Blau als Leitfarbe, dunkles Navy für
+// Überschriften, viel Weißraum. Farbe wird sparsam eingesetzt und trägt
+// Bedeutung: Sekundärfarben nur, wo etwas unterschieden werden soll.
 //
 // Schriftwahl: Arial und Courier New sind auf Windows und macOS vorinstalliert.
 // Calibri und Consolas gibt es nur mit Microsoft Office – fehlt Office, ersetzt
@@ -16,9 +12,9 @@
 //
 // Nutzung:
 //   const { createDeck } = require("./lib/theme");
-//   const deck = createDeck({ title: "...", akzent: "gruen" });
+//   const deck = createDeck({ title: "...", akzent: "blau" });
 //   deck.title({ eyebrow, title, subtitle, note });
-//   deck.abschnitt("Fußzeilen-Label", "amber");
+//   deck.abschnitt("Fußzeilen-Label", "blau");
 //   deck.kapitel("Überschrift", "Untertitel", { nummer: "2" });
 //   deck.content("Überschrift", "Label", (s, api) => { ... });
 //   await deck.save("datei.pptx");
@@ -28,30 +24,32 @@ const pptxgen = require("pptxgenjs");
 // ---------------------------------------------------------------- Farben
 
 const C = {
-  bg: "10131A", // Folienhintergrund
-  bgTief: "0B0D12", // abgesetzte Flächen, Kapiteltrenner
-  flaeche: "1A1F29", // Karten
-  flaecheHell: "222835", // hervorgehobene Karten
-  linie: "2C3442", // Trennlinien
+  bg: "FFFFFF", // Folienhintergrund
+  bgTief: "F5F6FC", // ruhige Fläche für Kapiteltrenner und Schluss
+  flaeche: "F5F6FC", // Karten
+  flaecheHell: "EEF0FB", // hervorgehobene Karten
+  linie: "DFE3F0", // Trennlinien und Rahmen
 
-  text: "E6EFE9",
-  textStark: "FFFFFF",
-  textLeise: "8FA398",
+  text: "434A63", // Fließtext
+  textStark: "272E52", // Überschriften, Navy
+  textLeise: "5C6377", // Nebeninformationen
 
-  gruen: "7DFF9A",
-  gruenTief: "1F4A2B",
-  amber: "FFB300",
-  amberTief: "4A3608",
-  cyan: "4DD0E1",
-  cyanTief: "0E3A42",
-  rot: "FF6B7A",
-  rotTief: "45161C",
+  // Leitfarbe: das Blau von Cloudhelden
+  blau: "3843AF",
+  blauTief: "EEF0FB",
+  // Sekundärfarben, bewusst gedämpft
+  teal: "0F7C86",
+  tealTief: "E6F4F5",
+  bernstein: "A96D12",
+  bernsteinTief: "FBF2E3",
+  rot: "B33A3A",
+  rotTief: "FAECEC",
 };
 
 const AKZENTE = {
-  gruen: { farbe: C.gruen, tief: C.gruenTief },
-  amber: { farbe: C.amber, tief: C.amberTief },
-  cyan: { farbe: C.cyan, tief: C.cyanTief },
+  blau: { farbe: C.blau, tief: C.blauTief },
+  teal: { farbe: C.teal, tief: C.tealTief },
+  bernstein: { farbe: C.bernstein, tief: C.bernsteinTief },
   rot: { farbe: C.rot, tief: C.rotTief },
 };
 
@@ -105,10 +103,10 @@ function fusszeile(pres, slide, label, nummer, gesamt, akzent) {
       y: FUSS_Y,
       w: 5.5,
       h: 0.26,
-      fontFace: FONT_MONO,
+      fontFace: FONT_BODY,
       fontSize: 10.5,
       color: C.textLeise,
-      charSpacing: 0.5,
+      charSpacing: 0.3,
       valign: "middle",
       margin: 0,
     });
@@ -118,7 +116,7 @@ function fusszeile(pres, slide, label, nummer, gesamt, akzent) {
     y: FUSS_Y,
     w: 0.6,
     h: 0.26,
-    fontFace: FONT_MONO,
+    fontFace: FONT_BODY,
     fontSize: 10.5,
     color: C.textLeise,
     align: "right",
@@ -134,11 +132,11 @@ function ueberschrift(slide, titel, label, akzent) {
       y: TITEL_Y,
       w: SLIDE_W - 2 * RAND,
       h: 0.26,
-      fontFace: FONT_MONO,
-      fontSize: 12,
+      fontFace: FONT_BODY,
+      fontSize: 11.5,
       color: akzent.farbe,
       bold: true,
-      charSpacing: 1.5,
+      charSpacing: 1.8,
       valign: "middle",
       margin: 0,
     });
@@ -206,6 +204,7 @@ function makeApi(pres, holeAkzent) {
         h: opts.h ?? 2.8,
         fontFace: FONT_BODY,
         fontSize: opts.fontSize ?? 14.5,
+        lineSpacingMultiple: opts.lineSpacing ?? 0.92,
         valign: "top",
         margin: 0,
       });
@@ -219,7 +218,7 @@ function makeApi(pres, holeAkzent) {
       const h = opts.h ?? 2.3;
       slide.addShape(pres.shapes.RECTANGLE, {
         x, y, w, h,
-        fill: { color: C.bgTief },
+        fill: { color: C.flaecheHell },
         line: { color: C.linie, width: 1 },
       });
       slide.addShape(pres.shapes.RECTANGLE, {
@@ -245,7 +244,7 @@ function makeApi(pres, holeAkzent) {
         h: h - 0.48,
         fontFace: FONT_MONO,
         fontSize: opts.fontSize ?? 12,
-        color: opts.color ?? C.gruen,
+        color: opts.color ?? C.textStark,
         valign: "top",
         margin: 0,
         paraSpaceAfter: 0,
@@ -324,6 +323,7 @@ function makeApi(pres, holeAkzent) {
           fontFace: FONT_BODY,
           fontSize: opts.fontSize ?? 12,
           color: C.text,
+          lineSpacingMultiple: 0.92,
           valign: "top",
           margin: 0,
         });
@@ -426,7 +426,7 @@ function makeApi(pres, holeAkzent) {
           y: y - 0.6,
           w: boxW,
           h: 0.44,
-          fontFace: FONT_MONO,
+          fontFace: FONT_BODY,
           fontSize: opts.fontSize ?? 11.5,
           color: farbe,
           bold: true,
@@ -555,7 +555,7 @@ function makeApi(pres, holeAkzent) {
         });
         slide.addText(opts.placeholder ?? "Foto", {
           x, y, w, h,
-          fontFace: FONT_MONO,
+          fontFace: FONT_BODY,
           fontSize: 11,
           color: C.textLeise,
           align: "center",
@@ -578,7 +578,7 @@ function createDeck(meta = {}) {
   pres.title = meta.title ?? "";
   pres.subject = meta.subject ?? "";
 
-  let aktiverAkzent = AKZENTE[meta.akzent ?? "gruen"];
+  let aktiverAkzent = AKZENTE[meta.akzent ?? "blau"];
   const holeAkzent = () => aktiverAkzent;
   const api = makeApi(pres, holeAkzent);
 
@@ -604,24 +604,19 @@ function createDeck(meta = {}) {
       const ak = aktiverAkzent;
 
       s.addShape(pres.shapes.RECTANGLE, {
-        x: 0, y: 0, w: 0.2, h: SLIDE_H,
+        x: 0, y: 0, w: 0.14, h: SLIDE_H,
         fill: { color: ak.farbe },
-        line: { type: "none" },
-      });
-      s.addShape(pres.shapes.RECTANGLE, {
-        x: 0.2, y: 0, w: 0.07, h: SLIDE_H,
-        fill: { color: ak.tief },
         line: { type: "none" },
       });
 
       if (eyebrow) {
         s.addText(String(eyebrow).toUpperCase(), {
           x: 1.0, y: 1.4, w: 8.35, h: 0.3,
-          fontFace: FONT_MONO,
-          fontSize: 11,
+          fontFace: FONT_BODY,
+          fontSize: 12,
           color: ak.farbe,
           bold: true,
-          charSpacing: 3,
+          charSpacing: 2.2,
           margin: 0,
         });
       }
@@ -651,7 +646,7 @@ function createDeck(meta = {}) {
         });
         s.addText(note, {
           x: 1.0, y: 4.46, w: 8.35, h: 0.3,
-          fontFace: FONT_MONO,
+          fontFace: FONT_BODY,
           fontSize: 11,
           color: C.textLeise,
           margin: 0,
@@ -664,7 +659,7 @@ function createDeck(meta = {}) {
     kapitel(titel, untertitel, opts = {}) {
       const ak = opts.akzent ? AKZENTE[opts.akzent] : aktiverAkzent;
       const s = pres.addSlide();
-      s.background = { color: C.bgTief };
+      s.background = { color: C.bg };
 
       s.addShape(pres.shapes.RECTANGLE, {
         x: 6.95, y: 0, w: 3.05, h: SLIDE_H,
@@ -681,7 +676,7 @@ function createDeck(meta = {}) {
         s.addText(String(opts.nummer), {
           x: 7.25, y: 1.6, w: 2.4, h: 1.9,
           fontFace: FONT_BODY,
-          fontSize: 88,
+          fontSize: 84,
           color: ak.farbe,
           bold: true,
           align: "center",
@@ -744,7 +739,7 @@ function createDeck(meta = {}) {
       s.background = { color: C.bgTief };
       const ak = aktiverAkzent;
       s.addShape(pres.shapes.RECTANGLE, {
-        x: 0, y: SLIDE_H - 0.16, w: SLIDE_W, h: 0.16,
+        x: 0, y: SLIDE_H - 0.14, w: SLIDE_W, h: 0.14,
         fill: { color: ak.farbe },
         line: { type: "none" },
       });

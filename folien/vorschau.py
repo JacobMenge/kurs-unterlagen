@@ -168,15 +168,15 @@ def main() -> int:
 <html lang="de"><head><meta charset="utf-8">
 <title>Vorschau: {html.escape(pfad.name)}</title>
 <style>
-  body {{ background:#2b2f38; color:#e6e6e6; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  body {{ background:#E9EBF3; color:#272E52; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
           margin:0; padding:14px; }}
   .raster {{ display:flex; flex-wrap:wrap; gap:10px; }}
   h1 {{ font-size:18px; font-weight:600; margin:0 0 4px; }}
-  .hinweis {{ font-size:13px; color:#a6adbb; margin:0 0 24px; max-width:{bw:.0f}px; line-height:1.5; }}
+  .hinweis {{ font-size:13px; color:#7E859C; margin:0 0 24px; max-width:{bw:.0f}px; line-height:1.5; }}
   .folie-wrap {{ margin:0; }}
-  figcaption {{ font-size:12px; color:#9aa3b2; margin-bottom:6px; font-variant-numeric:tabular-nums; }}
-  .folie {{ position:relative; background:#10131A; color:#E6EFE9; overflow:hidden;
-            box-shadow:0 3px 14px rgba(0,0,0,.45); font-family:Arial,Helvetica,sans-serif; }}
+  figcaption {{ font-size:12px; color:#7E859C; margin-bottom:6px; font-variant-numeric:tabular-nums; }}
+  .folie {{ position:relative; background:#FFFFFF; color:#434A63; overflow:hidden;
+            box-shadow:0 2px 10px rgba(39,46,82,.18); font-family:Arial,Helvetica,sans-serif; }}
   .folie .form {{ line-height:1.20; }}
 </style></head><body>
 <h1>Vorschau: {html.escape(pfad.name)} &middot; {len(pres.slides)} Folien</h1>

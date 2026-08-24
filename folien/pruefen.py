@@ -131,7 +131,7 @@ def main() -> int:
         meldungen = []
 
         # Hintergrundfarbe der Folie bestimmen
-        folien_bg = "10131A"
+        folien_bg = "FFFFFF"
         try:
             if folie.background.fill.type == 1:
                 folien_bg = str(folie.background.fill.fore_color.rgb)
