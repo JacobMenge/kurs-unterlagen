@@ -32,8 +32,9 @@ Stell dir den Betrieb wie das Cockpit eines Flugzeugs vor. Niemand fliegt blind 
 | Seite | Inhalt | Relevanz |
 |-------|--------|----------|
 | [Monitoring & Betrieb](monitoring.md) | Laufenden Betrieb managen, Monitoring-Tools, Metriken, Schwellwerte, Alarmierung, Troubleshooting | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
-| [Backup & Recovery](backup-und-recovery.md) | 3-2-1-Regel, Snapshots, Images, Recovery-Strategie, Wiederanlaufplan, Rechte & Rollen | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
-| [Hochverfügbarkeit & Redundanz](hochverfuegbarkeit.md) | Ausfallrisiken, Cluster, Notstrom, verteilte Standorte, predictive maintenance, Business Impact Analyse | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Backup & Recovery](backup-und-recovery.md) | Sicherungsarten, 3-2-1-Regel, Snapshots, unveränderliche Kopien, RTO & RPO, Restore-Test, Wiederanlaufplan, Rechte & Rollen | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
+| [Hochverfügbarkeit & Redundanz](hochverfuegbarkeit.md) | Verfügbarkeit rechnen, Verfügbarkeitskette, SPOF, Redundanzarten, Cluster & Quorum, Notstrom, Georedundanz, SLA, Business Impact Analyse | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übungen: Verfügbarkeit & Datensicherung](uebungen-verfuegbarkeit.md) | Gruppenübung: Systemlandschaft bewerten, RTO & RPO festlegen, Verfügbarkeitskette rechnen, Redundanz- und Backupkonzept im Budget begründen | <span class='badge badge-praxis'>Gruppenarbeit</span> |
 | [Betriebsdaten analysieren](betriebsdaten-analysieren.md) | Betriebs-, Prozess- und Sensordaten, Visualisierung, Soll-Kennzahlen, Benchmarks | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Incident Response & Business Continuity](incident-und-bcm.md) | Incident-Response-Strategien, BCM, IT-Resilienz, kritische Infrastrukturen | <span class='badge badge-vertiefung'>Vertiefung</span> |
 

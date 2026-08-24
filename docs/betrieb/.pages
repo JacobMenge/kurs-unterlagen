@@ -4,5 +4,6 @@ nav:
   - "Monitoring & Betrieb": monitoring.md
   - "Backup & Recovery": backup-und-recovery.md
   - "Hochverfügbarkeit & Redundanz": hochverfuegbarkeit.md
+  - "Übungen: Verfügbarkeit & Datensicherung": uebungen-verfuegbarkeit.md
   - "Betriebsdaten analysieren": betriebsdaten-analysieren.md
   - "Incident Response & Business Continuity": incident-und-bcm.md
