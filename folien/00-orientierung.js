@@ -39,32 +39,33 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
     [
       ["18:00", "Ankommen, Technik-Check, Begrüßung"],
       ["18:10", "Wer bin ich – und wofür ihr mich ansprechen könnt"],
-      ["18:25", "Wer seid ihr? Kennenlernrunde mit kleinem Spiel"],
-      ["19:25", "Pause"],
-      ["19:35", "Euer Weg bis zur Prüfung: Module, Meilensteine, Prüfungsformat"],
-      ["20:15", "Wie wir zusammenarbeiten: Regeln, Materialien, Kontakte"],
+      ["18:25", "Blitzrunde: alle einmal kurz"],
+      ["18:40", "Kleingruppen: richtig kennenlernen"],
+      ["19:00", "Zurück im Plenum, danach Pause"],
+      ["19:25", "Euer Weg bis zur Prüfung: Ablauf und Prüfungsformat"],
+      ["20:10", "Wie wir zusammenarbeiten: Regeln, Materialien, Kontakte"],
       ["20:40", "Eure Fragen und Ausblick auf Mittwoch"],
     ],
-    { y: 2.0, rowH: 0.4 }
+    { y: 1.9, rowH: 0.35 }
   );
-  api.kicker(s, "Fragen könnt ihr jederzeit dazwischen stellen – dafür ist der Abend da.", { y: 4.85 });
+  api.kicker(s, "Fragen könnt ihr jederzeit dazwischen stellen – dafür ist der Abend da.", { y: 4.78 });
 });
 
 // -------------------------------------------------- 3 Wer bin ich
 deck.content("Wer euch durch den Kurs begleitet", "Vorstellung", (s, api) => {
   api.photo(s, {
     x: 0.5,
-    y: 1.5,
-    w: 2.5,
-    h: 2.9,
+    y: 1.45,
+    w: 2.35,
+    h: 2.35,
     path: fotoPath,
     placeholder: "Foto\n(assets/jacob.jpg)",
   });
   s.addText("Jacob Menge", {
-    x: 3.25,
-    y: 1.5,
-    w: 6.25,
-    h: 0.5,
+    x: 3.1,
+    y: 1.42,
+    w: 6.4,
+    h: 0.45,
     fontFace: "Calibri",
     fontSize: 26,
     color: C.title,
@@ -72,11 +73,11 @@ deck.content("Wer euch durch den Kurs begleitet", "Vorstellung", (s, api) => {
     valign: "top",
     margin: 0,
   });
-  s.addText("Freiberuflicher Dozent · DevOps, Cloud und IT-Infrastruktur", {
-    x: 3.25,
-    y: 2.0,
-    w: 6.25,
-    h: 0.35,
+  s.addText("IT-Dozent · DevOps, Cloud und Linux", {
+    x: 3.1,
+    y: 1.88,
+    w: 6.4,
+    h: 0.3,
     fontFace: "Calibri",
     fontSize: 14,
     color: C.accentDark,
@@ -86,14 +87,23 @@ deck.content("Wer euch durch den Kurs begleitet", "Vorstellung", (s, api) => {
   api.bullets(
     s,
     [
-      "PLATZHALTER: beruflicher Hintergrund – wo du herkommst, was du gemacht hast",
-      "PLATZHALTER: womit du heute arbeitest, welche Themen dich reizen",
-      "PLATZHALTER: seit wann du unterrichtest und was dir dabei wichtig ist",
-      "PLATZHALTER: etwas Privates – Hobby, Region, was dich ausmacht",
+      "Informatik studiert in Bremerhaven, erst Software-Entwicklung in der Forschung – am Alfred-Wegener-Institut und im KI-Transfer-Zentrum.",
+      "Seit 2023 in der IT-Weiterbildung: erst als Trainer, heute freiberuflich. Schwerpunkte AWS und Azure, Container, CI/CD und Linux.",
+      "Ausbildereignung (AEVO) und AWS-zertifiziert. Habe selbst IHK-Prüfungen konzipiert, abgenommen und Teilnehmende darauf vorbereitet.",
     ],
-    { x: 3.25, y: 2.5, w: 6.25, h: 1.9, fontSize: 13, color: C.muted }
+    { x: 3.1, y: 2.28, w: 6.4, h: 1.55, fontSize: 12.5, color: C.body, spaceAfter: 7 }
   );
-  api.kicker(s, "jacob-decoded.de", { y: 4.5, italic: false, fontSize: 13 });
+  api.card(s, {
+    x: 0.5,
+    y: 3.88,
+    w: 9.0,
+    h: 1.06,
+    tint: "plain",
+    title: "Außerhalb der IT",
+    titleH: 0.28,
+    body: "Krav Maga, so oft es geht. Ich wohne mit meinen besten Freunden zusammen in einem Haus. Und ich mache kurze Videos über Dinge, die mich gerade faszinieren – meist aus Wissenschaft und Forschung.",
+    fontSize: 12,
+  });
 });
 
 // -------------------------------------------------- 4 Ansprechbar
@@ -126,63 +136,84 @@ deck.content("Wofür ihr mich ansprechen könnt", "Meine Rolle", (s, api) => {
 // ============================================================ Kennenlernen
 deck.section("Kennenlernen");
 
-deck.divider("Und wer seid ihr?", "Die nächste Stunde gehört euch");
+deck.divider("Und wer seid ihr?", "In drei Schritten – erst kurz, dann in Ruhe");
 
-// -------------------------------------------------- 6 Steckbrief
-deck.content("Kurz vorstellen – in eurem Tempo", "Kennenlernrunde", (s, api) => {
-  api.lead(s, "Nehmt euch zwei bis drei Minuten. Diese vier Punkte reichen völlig aus:");
+// -------------------------------------------------- 6 Blitzrunde
+deck.content("Erst eine schnelle Runde", "Schritt 1 · etwa 15 Minuten", (s, api) => {
+  api.lead(s, "Wir sind über zwanzig – deshalb halten wir es hier bewusst kurz. Ein Satz pro Person genügt:");
+  api.card(s, {
+    y: 2.05,
+    h: 1.05,
+    tint: "accent",
+    body: "„Ich bin … , ich sitze in … , und ich arbeite als … \"",
+    fontSize: 20,
+  });
   api.bullets(
     s,
     [
-      "Wie heißt du und wo sitzt du gerade?",
-      "Was machst du beruflich – und wie sieht dein IT-Alltag aus?",
-      "Wie viel Berührung hattest du bisher mit Netzwerken, Servern oder Cloud?",
-      "Warum machst du diesen Kurs – was willst du danach können?",
+      "Rund 30 Sekunden pro Person – alles Weitere kommt gleich in den Kleingruppen.",
+      "Schreibt euren Namen gern zusätzlich in den Chat, dann kann ich ihn mir merken.",
     ],
-    { y: 2.0, h: 2.0, fontSize: 16, numbered: true }
+    { y: 3.35, h: 1.0, fontSize: 14 }
   );
-  api.card(s, {
-    y: 4.1,
-    h: 0.75,
-    tint: "accent",
-    body: "Es gibt keine falschen Antworten. Manche kommen aus der IT, andere steigen gerade erst ein – beides ist genau richtig hier.",
-    fontSize: 12,
-  });
+  api.kicker(s, "Keine Sorge: Wer nichts sagen möchte, sagt einfach nur den Namen.", { y: 4.5 });
 });
 
-// -------------------------------------------------- 7 Spiel
-deck.content("Zwei Wahrheiten, eine Lüge", "Kennenlernspiel", (s, api) => {
-  api.lead(s, "Damit es nicht bei einer reinen Vorstellungsrunde bleibt: Hängt drei Aussagen über euch an – zwei stimmen, eine ist erfunden. Die anderen raten.");
+// -------------------------------------------------- 7 Breakouts
+deck.content("Dann in Kleingruppen", "Schritt 2 · etwa 20 Minuten", (s, api) => {
+  api.lead(s, "Ich teile euch in Gruppen zu viert oder fünft auf. Dort habt ihr Zeit, euch richtig kennenzulernen.");
   api.cardRow(
     s,
     [
       {
-        title: "So läuft es",
+        title: "Erzählt euch gegenseitig",
         tint: "plain",
+        titleH: 0.32,
         body: [
-          "1. Du nennst drei Aussagen über dich.",
-          "2. Die Gruppe rät, welche gelogen ist.",
-          "3. Du löst auf.",
+          "Wie sieht dein IT-Alltag aus?",
           "",
-          "Gern aus der IT – muss aber nicht.",
+          "Wie viel hattest du bisher mit Netzwerken, Servern oder Cloud zu tun?",
+          "",
+          "Warum machst du diesen Kurs?",
         ],
       },
       {
-        title: "Zum Beispiel",
+        title: "Und dann: zwei Wahrheiten, eine Lüge",
         tint: "good",
+        titleH: 0.32,
         body: [
-          "„Ich habe schon mal ein Rechenzentrum von innen gesehen.\"",
+          "Jede Person nennt drei Aussagen über sich – zwei stimmen, eine ist erfunden.",
           "",
-          "„Mein erster Computer hatte noch ein Diskettenlaufwerk.\"",
-          "",
-          "„Ich habe einmal aus Versehen einen Produktivserver gelöscht.\"",
+          "Die anderen raten. Danach wird aufgelöst.",
         ],
-        fontSize: 11,
       },
     ],
-    { y: 2.25, h: 2.25, fontSize: 12 }
+    { y: 2.1, h: 2.3, fontSize: 12 }
   );
-  api.kicker(s, "Wer lieber nur den Steckbrief macht, lässt das Spiel einfach weg – alles freiwillig.", { y: 4.7 });
+  api.kicker(s, "Sucht euch eine Person, die nachher kurz berichtet, was euch überrascht hat.", { y: 4.55 });
+});
+
+// -------------------------------------------------- 8 Rückkehr
+deck.content("Und wieder zusammen", "Schritt 3 · etwa 10 Minuten", (s, api) => {
+  api.lead(s, "Jede Gruppe erzählt kurz:");
+  api.bullets(
+    s,
+    [
+      "Was hat euch in eurer Gruppe am meisten überrascht?",
+      "Gab es eine Lüge, die wirklich niemand durchschaut hat?",
+      "Habt ihr etwas gemeinsam, das ihr nicht erwartet hättet?",
+    ],
+    { y: 2.05, h: 1.6, fontSize: 16 }
+  );
+  api.card(s, {
+    y: 3.8,
+    h: 1.05,
+    tint: "accent",
+    title: "Warum mir das wichtig ist",
+    titleH: 0.28,
+    body: "Wir sehen uns bis März zweimal pro Woche. Wer sich kennt, traut sich eher zu fragen – und genau davon lebt der Unterricht.",
+    fontSize: 12.5,
+  });
 });
 
 // ============================================================ Der Weg

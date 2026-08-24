@@ -294,7 +294,5 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die Gruppen hie
 
 Diese Seite ist mit [MkDocs](https://www.mkdocs.org/) und [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) gebaut. Sie ist statisch, schnell und läuft auch im Flugzeug, wenn du sie einmal offline gespeichert hast. Der Quellcode liegt öffentlich auf [GitHub](https://github.com/JacobMenge/kurs-unterlagen).
 
-Mehr über mich und andere Projekte findest du auf [jacob-decoded.de](https://jacob-decoded.de).
-
 !!! note "Arbeitsstand"
     Diese Unterlagen wachsen mit dem Kurs. Einige Blöcke sind bereits ausführlich ausgearbeitet (z. B. Netzwerke, Virtualisierung, Docker, Kubernetes, Infrastruktur & Architektur), andere sind als **Platzhalter** angelegt und werden Schritt für Schritt gefüllt – du erkennst sie an einem Hinweis oben auf der jeweiligen Seite. Der [Fahrplan](fahrplan.md) zeigt dir jederzeit, welche Themen schon bereitstehen und wie alles zusammenpasst.

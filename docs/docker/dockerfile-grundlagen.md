@@ -179,7 +179,7 @@ Eine simple Python-Anwendung mit Abhängigkeiten:
 FROM python:3.12-slim
 
 # 2) Metadaten (optional, aber nett)
-LABEL maintainer="jacob@jacob-decoded.de"
+LABEL maintainer="team@beispiel.de"
 
 # 3) Arbeitsverzeichnis
 WORKDIR /app

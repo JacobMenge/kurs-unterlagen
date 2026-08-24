@@ -909,7 +909,7 @@ Auf anderen Seiten sind die Begriffe automatisch verlinkt – ein Klick bringt d
     **Begrifflicher Spezialfall:** In Projekten mit **Forks** wird der Begriff doppelt benutzt – das **ursprüngliche Repo** (von dem du geforkt hast) wird oft als Remote namens `upstream` hinzugefügt, damit du Änderungen von dort holen kannst. Dein eigenes Fork-Remote heißt dann `origin`, das Ursprungsrepo `upstream`. Siehe auch [Fork](#fork) und [Origin](#origin).
 
 ## <span id="url"></span>URL (Uniform Resource Locator)
-: **Eine Web-Adresse**, z.B. `https://jacob-decoded.de`. Besteht aus Schema (`https`), Host (`jacob-decoded.de`), optional Port und Pfad.
+: **Eine Web-Adresse**, z.B. `https://beispiel.de`. Besteht aus Schema (`https`), Host (`beispiel.de`), optional Port und Pfad.
 
 ## <span id="uvicorn"></span>Uvicorn
 : **Schneller ASGI-Server für Python**, mit dem [FastAPI](#fastapi)- und andere asynchrone Web-Apps tatsächlich ausgeführt werden. Übernimmt die Rolle, die `node` für Express oder Gunicorn für Flask spielt: er nimmt HTTP-Anfragen entgegen, ruft die Anwendung auf und schickt die Antwort zurück. Im Container startet man eine FastAPI-App typischerweise mit `uvicorn main:app --host 0.0.0.0 --port 3000`.

@@ -428,7 +428,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </head>
     <body>
       <h1>Jacob Menge</h1>
-      <p>IT-Dozent · DevOps-Engineer · jacob-decoded.de</p>
+      <p>IT-Dozent · DevOps-Engineer</p>
       <p>Ort: München</p>
       <p>Hobbies: Coden, Kochen, Laufen</p>
       <nav>
@@ -495,8 +495,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </head>
     <body>
       <h1>Kontakt</h1>
-      <p>Web: <a href="https://jacob-decoded.de">jacob-decoded.de</a></p>
-      <p>E-Mail: beispiel@jacob-decoded.de</p>
+            <p>E-Mail: kontakt@beispiel.de</p>
       <p><a href="index.html">Zurück zur Startseite</a></p>
     </body>
     </html>

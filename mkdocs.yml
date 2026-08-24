@@ -1,5 +1,5 @@
 site_name: "Kursunterlagen – Systemintegration & Vernetzung"
-site_description: "Frei verfügbares Lernmaterial zur IT-Systemintegration und Vernetzung – Netzwerke, Virtualisierung, Container, Betrieb, Sicherheit und mehr. Von Jacob Menge (jacob-decoded.de)"
+site_description: "Frei verfügbares Lernmaterial zur IT-Systemintegration und Vernetzung – Netzwerke, Virtualisierung, Container, Betrieb, Sicherheit und mehr. Von Jacob Menge"
 site_author: "Jacob Menge"
 site_url: "https://jacobmenge.github.io/kurs-unterlagen/"
 
@@ -34,9 +34,6 @@ theme:
 
 extra:
   social:
-    - icon: fontawesome/solid/globe
-      link: https://jacob-decoded.de
-      name: jacob-decoded.de
     - icon: fontawesome/brands/github
       link: https://github.com/JacobMenge/kurs-unterlagen
       name: GitHub Repository
@@ -104,4 +101,4 @@ plugins:
 exclude_docs: |
   includes/
 
-copyright: "&copy; Jacob Menge &middot; <a href=\"https://jacob-decoded.de\">jacob-decoded.de</a>"
+copyright: "&copy; Jacob Menge"

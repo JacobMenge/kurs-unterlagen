@@ -3,7 +3,6 @@
 Nachschlagewerk zu meinen Kursen rund um **Virtualisierung** und **Docker**.
 Gebaut mit [MkDocs](https://www.mkdocs.org/) + [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) und automatisch über GitHub Pages veröffentlicht.
 
-Mehr über mich und andere Projekte: <https://jacob-decoded.de>
 
 ---
 

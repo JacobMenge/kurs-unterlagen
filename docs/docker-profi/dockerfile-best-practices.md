@@ -395,7 +395,7 @@ Docker startet einen winzigen Init-Prozess vor deinem Prozess, der Signale und Z
 Labels sind Key-Value-Paare, die Image-Informationen tragen:
 
 ```dockerfile
-LABEL maintainer="jacob@jacob-decoded.de"
+LABEL maintainer="team@beispiel.de"
 LABEL org.opencontainers.image.source="https://github.com/JacobMenge/kurs-unterlagen"
 LABEL org.opencontainers.image.description="Demo-App für den Docker-Kurs"
 LABEL org.opencontainers.image.licenses="MIT"
@@ -455,7 +455,7 @@ HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=3 \
 
 CMD ["python", "app.py"]
 
-LABEL maintainer="jacob@jacob-decoded.de" \
+LABEL maintainer="team@beispiel.de" \
       org.opencontainers.image.source="https://github.com/JacobMenge/kurs-unterlagen"
 ```
 

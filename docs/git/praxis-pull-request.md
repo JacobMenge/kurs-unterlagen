@@ -193,7 +193,7 @@ Bearbeite `README.md` und ergänze in der Lizenz-Sektion:
 ## Lizenz
 
 Dieses Übungs-Repo ist öffentlich verfügbar. Du darfst es frei nutzen.
-Entstanden im Rahmen des Git-Blocks bei jacob-decoded.de.
+Entstanden im Rahmen des Git-Blocks.
 ```
 
 Speichern, stagen, committen:
