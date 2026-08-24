@@ -61,8 +61,9 @@ const FONT_MONO = "Courier New";
 const SLIDE_W = 10;
 const SLIDE_H = 5.625;
 const RAND = 0.62;
-const TITEL_Y = 0.52;
-const INHALT_Y = 1.62;
+const TITEL_Y = 0.42;
+const INHALT_Y = 1.62; // direkt unter der Überschrift
+const INHALT_NACH_LEAD = 2.16; // wenn ein Einleitungssatz darübersteht
 const FUSS_Y = SLIDE_H - 0.46;
 
 const T = {
@@ -73,6 +74,7 @@ const T = {
   SLIDE_H,
   RAND,
   INHALT_Y,
+  INHALT_NACH_LEAD,
   INHALT_W: SLIDE_W - 2 * RAND,
 };
 
@@ -81,7 +83,7 @@ const T = {
 function akzentlinie(pres, slide, akzent) {
   slide.addShape(pres.shapes.RECTANGLE, {
     x: RAND,
-    y: TITEL_Y - 0.26,
+    y: TITEL_Y - 0.2,
     w: 0.52,
     h: 0.055,
     fill: { color: akzent.farbe },
@@ -104,35 +106,20 @@ function fusszeile(pres, slide, label, nummer, gesamt, akzent) {
       w: 5.5,
       h: 0.26,
       fontFace: FONT_MONO,
-      fontSize: 8.5,
+      fontSize: 10.5,
       color: C.textLeise,
-      charSpacing: 1,
+      charSpacing: 0.5,
       valign: "middle",
       margin: 0,
     });
   }
-  // Fortschritt als Punktreihe – zeigt auf einen Blick, wie weit der Satz ist
-  const punkte = Math.min(gesamt, 20);
-  const aktiv = Math.max(1, Math.round((nummer / gesamt) * punkte));
-  slide.addText("•".repeat(aktiv), {
-    x: SLIDE_W - RAND - 3.15,
-    y: FUSS_Y,
-    w: 2.5,
-    h: 0.26,
-    fontFace: FONT_BODY,
-    fontSize: 7,
-    color: akzent.farbe,
-    align: "right",
-    valign: "middle",
-    margin: 0,
-  });
   slide.addText(`${nummer}/${gesamt}`, {
     x: SLIDE_W - RAND - 0.6,
     y: FUSS_Y,
     w: 0.6,
     h: 0.26,
     fontFace: FONT_MONO,
-    fontSize: 8.5,
+    fontSize: 10.5,
     color: C.textLeise,
     align: "right",
     valign: "middle",
@@ -144,21 +131,21 @@ function ueberschrift(slide, titel, label, akzent) {
   if (label) {
     slide.addText(String(label).toUpperCase(), {
       x: RAND,
-      y: TITEL_Y - 0.04,
+      y: TITEL_Y,
       w: SLIDE_W - 2 * RAND,
-      h: 0.24,
+      h: 0.26,
       fontFace: FONT_MONO,
-      fontSize: 9.5,
+      fontSize: 12,
       color: akzent.farbe,
       bold: true,
-      charSpacing: 2,
+      charSpacing: 1.5,
       valign: "middle",
       margin: 0,
     });
   }
   slide.addText(titel, {
     x: RAND,
-    y: label ? TITEL_Y + 0.26 : TITEL_Y,
+    y: label ? TITEL_Y + 0.38 : TITEL_Y + 0.24,
     w: SLIDE_W - 2 * RAND,
     h: 0.66,
     fontFace: FONT_BODY,
@@ -181,9 +168,9 @@ function makeApi(pres, holeAkzent) {
     lead(slide, text, opts = {}) {
       slide.addText(text, {
         x: RAND,
-        y: opts.y ?? 1.4,
+        y: opts.y ?? 1.58,
         w: opts.w ?? SLIDE_W - 2 * RAND,
-        h: opts.h ?? 0.52,
+        h: opts.h ?? 0.48,
         fontFace: FONT_BODY,
         fontSize: opts.fontSize ?? 13,
         color: opts.color ?? C.textLeise,
@@ -246,7 +233,7 @@ function makeApi(pres, holeAkzent) {
         w: w - 0.32,
         h: 0.22,
         fontFace: FONT_MONO,
-        fontSize: 8,
+        fontSize: 10,
         color: C.textLeise,
         valign: "middle",
         margin: 0,
@@ -335,7 +322,7 @@ function makeApi(pres, holeAkzent) {
           w: textW,
           h: y + h - cursor - 0.13,
           fontFace: FONT_BODY,
-          fontSize: opts.fontSize ?? 11.5,
+          fontSize: opts.fontSize ?? 12,
           color: C.text,
           valign: "top",
           margin: 0,
@@ -440,7 +427,7 @@ function makeApi(pres, holeAkzent) {
           w: boxW,
           h: 0.44,
           fontFace: FONT_MONO,
-          fontSize: opts.fontSize ?? 10.5,
+          fontSize: opts.fontSize ?? 11.5,
           color: farbe,
           bold: true,
           align: "center",
@@ -454,7 +441,7 @@ function makeApi(pres, holeAkzent) {
             w: boxW,
             h: 0.78,
             fontFace: FONT_BODY,
-            fontSize: opts.subSize ?? 9.5,
+            fontSize: opts.subSize ?? 11,
             color: C.textLeise,
             align: "center",
             valign: "top",
@@ -489,7 +476,7 @@ function makeApi(pres, holeAkzent) {
           w,
           h: opts.labelH ?? 0.85,
           fontFace: FONT_BODY,
-          fontSize: opts.labelSize ?? 11,
+          fontSize: opts.labelSize ?? 11.5,
           color: C.textLeise,
           align: opts.align ?? "left",
           valign: "top",
@@ -519,7 +506,7 @@ function makeApi(pres, holeAkzent) {
     /** Abschlusszeile mit farbigem Strich davor. */
     kicker(slide, text, opts = {}) {
       const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
-      const y = opts.y ?? 4.5;
+      const y = Math.min(opts.y ?? 4.52, 4.58);
       slide.addShape(pres.shapes.RECTANGLE, {
         x: RAND,
         y: y + 0.05,
@@ -569,7 +556,7 @@ function makeApi(pres, holeAkzent) {
         slide.addText(opts.placeholder ?? "Foto", {
           x, y, w, h,
           fontFace: FONT_MONO,
-          fontSize: 9.5,
+          fontSize: 11,
           color: C.textLeise,
           align: "center",
           valign: "middle",
@@ -665,7 +652,7 @@ function createDeck(meta = {}) {
         s.addText(note, {
           x: 1.0, y: 4.46, w: 8.35, h: 0.3,
           fontFace: FONT_MONO,
-          fontSize: 9.5,
+          fontSize: 11,
           color: C.textLeise,
           margin: 0,
         });

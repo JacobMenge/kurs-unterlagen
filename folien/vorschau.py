@@ -22,7 +22,7 @@ from pptx.util import Emu
 
 EMU_PRO_ZOLL = 914400.0
 # Anzeigemaßstab: 1 Zoll entspricht so vielen Bildschirmpixeln
-PX_PRO_ZOLL = 46.0
+PX_PRO_ZOLL = 52.0
 
 
 def zoll(emu) -> float:
@@ -86,6 +86,17 @@ def absatz_html(absatz) -> str:
     return f'<div style="text-align:{ausricht}">{inhalt}</div>'
 
 
+def bild_datauri(form) -> str | None:
+    """Eingebettetes Bild als data-URI, damit die Vorschau es zeigt."""
+    try:
+        bild = form.image
+    except Exception:
+        return None
+    import base64
+    typ = bild.content_type or "image/png"
+    return f"data:{typ};base64," + base64.b64encode(bild.blob).decode("ascii")
+
+
 def form_html(form) -> str:
     x, y = px(form.left), px(form.top)
     w, h = px(form.width), px(form.height)
@@ -103,6 +114,13 @@ def form_html(form) -> str:
         stil.append(f"background:{fuell}")
     if linie:
         stil.append(f"outline:1px solid {linie}")
+
+    uri = bild_datauri(form)
+    if uri:
+        return (
+            f'<img class="form" src="{uri}" style="{";".join(stil)};'
+            f'object-fit:cover">'
+        )
 
     inhalt = ""
     if form.has_text_frame and form.text_frame.text.strip():
@@ -159,7 +177,7 @@ def main() -> int:
   figcaption {{ font-size:12px; color:#9aa3b2; margin-bottom:6px; font-variant-numeric:tabular-nums; }}
   .folie {{ position:relative; background:#10131A; color:#E6EFE9; overflow:hidden;
             box-shadow:0 3px 14px rgba(0,0,0,.45); font-family:Arial,Helvetica,sans-serif; }}
-  .folie .form {{ line-height:1.14; }}
+  .folie .form {{ line-height:1.20; }}
 </style></head><body>
 <h1>Vorschau: {html.escape(pfad.name)} &middot; {len(pres.slides)} Folien</h1>
 <p class="hinweis">Maßstabsgetreue Nachzeichnung der Folien aus den Positionsdaten der Datei.
