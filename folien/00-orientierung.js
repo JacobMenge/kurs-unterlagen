@@ -47,7 +47,7 @@ deck.title({
   eyebrow: "Kursstart",
   title: "Herzlich willkommen",
   subtitle: "Geprüfter Berufsspezialist für Systemintegration und Vernetzung",
-  note: "Orientierungsabend",
+  note: "Orientierungsabend · 24. August 2026",
   logo: LOGO.cloudhelden,
 });
 
@@ -290,7 +290,7 @@ deck.content("Der grobe Fahrplan", "Zeitplan", (s, api) => {
       { label: "THEMA 2", sub: "Laufender\nBetrieb" },
       { label: "THEMA 3", sub: "Qualität und\nSicherheit" },
       { label: "RECHT+PM", sub: "andere\nLehrkraft" },
-      { label: "PRÜFUNG", sub: "schriftlich,\ndanach mündlich" },
+      { label: "PRÜFUNG", sub: "18. März 2027\nschriftlich" },
     ],
     { y: 2.95 }
   );
@@ -377,7 +377,7 @@ deck.content("Cloud zum Anfassen", "Pluralsight", (s, api) => {
 });
 
 deck.content("Die schriftliche Prüfung", "Prüfungsformat", (s, api) => {
-  api.lead(s, "Keine Wissensabfrage, sondern ein Fall aus dem Betrieb, den ihr durchdenkt und löst.");
+  api.lead(s, "Am 18. März 2027. Keine Wissensabfrage, sondern ein Fall aus dem Betrieb, den ihr durchdenkt und löst.");
   api.bullets(
     s,
     [
@@ -460,7 +460,7 @@ deck.content("Der Rahmen", "Kursregeln", (s, api) => {
     s,
     [
       "Live über Google Meet – den Link findet ihr im Kursdashboard der Akademie.",
-      "Der Unterricht wird nicht aufgezeichnet – seid also möglichst dabei.",
+      "Der Unterricht wird nicht aufgezeichnet – kommt pünktlich und seid möglichst immer dabei.",
       "Für das Aufstiegs-BAföG braucht ihr eine Teilnahmequote von über 70 Prozent.",
       "Ihr müsst euch nicht abmelden – behaltet nur eure Quote im Blick.",
       "Fragen sind ausdrücklich erwünscht, und wir gehen respektvoll miteinander um.",
