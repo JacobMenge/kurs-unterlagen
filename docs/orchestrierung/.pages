@@ -3,3 +3,4 @@ nav:
   - "Überblick": index.md
   - "Softwareverteilung & Deployment": softwareverteilung.md
   - "Container-Orchestrierung (Kubernetes)": kubernetes-grundlagen.md
+  - "Übung: Rollout-Plan": uebung-rollout.md
