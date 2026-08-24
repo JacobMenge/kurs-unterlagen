@@ -79,7 +79,6 @@
 *[Prozess]: Ein laufendes Programm, das der Kernel verwaltet
 *[Shell]: Programm, das Befehle aus dem Terminal entgegennimmt
 *[Bash]: Standard-Shell auf vielen Linux-Systemen
-*[Zsh]: Erweiterte Shell, Standard auf neueren Macs
 *[PowerShell]: Microsofts moderne Shell, plattformübergreifend
 *[Firmware]: Low-Level-Software, die beim Rechnerstart läuft (BIOS/UEFI)
 *[Bootloader]: Programm, das Kernel beim Start lädt
@@ -145,7 +144,6 @@
 *[Virtualisierung]: Technik, mit der sich Computer-Ressourcen in Software nachbauen lassen
 *[Multipass]: Canonicals CLI-Tool für Ubuntu-VMs
 *[LinuxKit]: Minimales Linux, das Docker Desktop auf Mac verwendet
-*[Docker Hub]: Default-Registry für Docker-Images
 *[Docker Desktop]: Fertige Docker-Umgebung für Mac und Windows
 *[SELinux]: Linux-Sicherheitsmodul (Fedora/RHEL)
 *[AppArmor]: Linux-Sicherheitsmodul (Ubuntu/Debian)
