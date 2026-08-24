@@ -22,9 +22,6 @@ Stell dir einen Neuwagen vor: Der Motor läuft, die Bremsen greifen, das Radio s
 
 <span class='badge badge-vertiefung'>Vertiefung</span> &nbsp; Dieser Block vertieft das Verständnis dafür, wie aus einem *gebauten* System ein *abgenommenes und betriebsfähiges* System wird. Prüfen, optimieren und übergeben gehört zu jeder ernsthaften Integration dazu – auch wenn die reine Technik woanders entsteht.
 
-!!! note "Status: Platzhalter <span class='badge badge-wip'>in Arbeit</span>"
-    Die Struktur dieses Blocks steht, die einzelnen Seiten werden Schritt für Schritt mit Inhalten gefüllt. Du siehst hier schon, **welche Themen kommen** und **wie sie zusammenhängen** – damit du den roten Faden kennst, bevor die Details folgen.
-
 ---
 
 ## Seiten in diesem Block
@@ -34,8 +31,9 @@ Stell dir einen Neuwagen vor: Der Motor läuft, die Bremsen greifen, das Radio s
 | [Testszenarien & Simulation](testszenarien.md) | Testfälle und -anforderungen definieren, Testarten unterscheiden, Grenz- und Fehlerfälle planen, Testumgebungen und Testdaten wählen, Validität der Ergebnisse sichern | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Tests durchführen](tests-durchfuehren.md) | Integrations-, End-to-End- und komponentenübergreifende Tests, Automatisierung, Fehlerklassifizierung, Testbericht, Nachtest und Abnahme | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Übung: Testkonzept](uebung-testkonzept.md) | Gruppenübung: Testkonzept für die Anbindung einer neuen Warenwirtschaft an Lager und Buchhaltung – mit Vorlage, Hilfekarten und Musterlösung | <span class='badge badge-praxis'>Praxis</span> |
-| [Betrieb optimieren](optimierung.md) | Datenanalyse, Mustererkennung, Handlungsempfehlungen, kontinuierliches Monitoring (KVP / PDCA) | <span class='badge badge-vertiefung'>Vertiefung</span> |
-| [Übergabe & Einweisung](uebergabe-und-training.md) | Zielgruppengerechte Übergabe, Lehr- und Lernmaterialien, Feedbackschleifen, Nachbetreuung | <span class='badge badge-praxis'>Praxis</span> |
+| [Betrieb optimieren](optimierung.md) | Betriebszustände festlegen, Daten aus mehreren Quellen zusammenführen, Muster und Korrelationen deuten, Engpässe finden, richtig dimensionieren, Handlungsempfehlung und PDCA, Wirtschaftlichkeit und Nachhaltigkeit | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übergabe & Einweisung](uebergabe-und-training.md) | Übergabe an Betrieb, Anwender und Fachabteilung, Schulungsbedarf und Qualifizierungsmatrix, Einweisung in Infrastruktur und Gebäudetechnik, Übergabedokumentation, Lernmaterialien, Feedback, Hypercare und Regelbetrieb | <span class='badge badge-praxis'>Praxis</span> |
+| [Übung: Übergabekonzept](uebung-uebergabe.md) | Gruppenübung: Übergabe eines neu integrierten Systems bei einem kommunalen Versorger – Zielgruppen, Schulungsbedarf, Betriebshandbuch, Kurzanleitung und Nachbetreuung, mit Hilfekarten und Musterlösung | <span class='badge badge-praxis'>Praxis</span> |
 
 ---
 
