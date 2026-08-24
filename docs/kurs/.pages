@@ -1,0 +1,5 @@
+title: "Der Kurs"
+nav:
+  - "Kursinfo": index.md
+  - "Die Prüfung": pruefung.md
+  - "FAQ": faq.md

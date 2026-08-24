@@ -1,5 +1,6 @@
 nav:
   - "Start": index.md
+  - "Der Kurs": kurs
   - "Fahrplan": fahrplan.md
   - "Grundlagen":
       - "Netzwerke": netzwerke

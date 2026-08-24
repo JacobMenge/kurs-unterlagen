@@ -14,8 +14,10 @@ Jede Zeile Code, jede Erklärung und jede Analogie aus dem Unterricht kannst du 
     **Ist:** ein Nachschlagewerk. Jeder Befehl, den du im Unterricht siehst, steht hier mit Erklärung. Du kannst Schritt für Schritt mitlesen und alles zu Hause wiederholen.
     **Ist nicht:** ein Ersatz für den Kurs. Die Analogien, Diskussionen und Fragerunden leben vom Präsenzunterricht. Die Unterlagen sind der rote Faden dazu.
 
-!!! tip "Neu hier? Starte mit dem Fahrplan"
-    Du weißt nicht, wo du anfangen sollst? Der **[:octicons-arrow-right-24: Fahrplan](fahrplan.md)** zeigt dir die sinnvolle Reihenfolge, welche Themen aufeinander aufbauen und – ganz wichtig – **was prüfungsrelevant ist** und was eher die Praxis schärft.
+!!! tip "Neu hier? Zwei Seiten zum Einstieg"
+    **[:octicons-arrow-right-24: Kursinfo](kurs/index.md)** – Ablauf, Zeiten, Regeln, Materialien und Ansprechpartner. Dazu die **[Prüfung](kurs/pruefung.md)** im Detail und ein **[FAQ](kurs/faq.md)** für die häufigsten Fragen.
+
+    **[:octicons-arrow-right-24: Fahrplan](fahrplan.md)** – die sinnvolle Reihenfolge der Themen, welche aufeinander aufbauen und – ganz wichtig – **was prüfungsrelevant ist** und was eher die Praxis schärft.
 
 ---
 
@@ -238,6 +240,14 @@ Such dir einen Block aus oder folge dem [Fahrplan](fahrplan.md). Die Gruppen hie
 ### Nachschlagen
 
 <div class="grid cards" markdown>
+
+-   :material-information-outline:{ .lg .middle } __[Der Kurs](kurs/index.md)__
+
+    ---
+
+    Alles Organisatorische: Ablauf und Zeiten, Kursregeln, Materialien und Ansprechpartner. Dazu das **[Prüfungsformat](kurs/pruefung.md)** im Detail und ein **[FAQ](kurs/faq.md)**.
+
+    [:octicons-arrow-right-24: Zur Kursinfo](kurs/index.md)
 
 -   :material-view-dashboard-outline:{ .lg .middle } __[Cheatsheets](cheatsheets/index.md)__
 
