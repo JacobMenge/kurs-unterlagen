@@ -237,22 +237,15 @@ Der Schutzbedarf wird nicht in Euro angegeben, sondern in **Auswirkung**, und da
 | **hoch** | … können beträchtlich sein: Vertragsstrafen, spürbare Verluste, erheblicher Nacharbeitsaufwand, Ansehensverlust | Angebotskalkulationen, Konstruktionsdaten, das Ticketsystem des Kundendienstes |
 | **sehr hoch** | … können ein existenziell bedrohliches Ausmaß erreichen – für den Betrieb oder für betroffene Menschen | Fertigungssteuerung, Schließpläne von Kundenobjekten, Gesundheitsdaten |
 
-Zwei Dinge sind daran wichtiger als die Stufen selbst.
+Wichtiger als die Stufen selbst ist die Konsequenz aus dieser Seite: **Der Schutzbedarf gilt je Schutzziel, nicht je System.** Ein System bekommt drei Bewertungen, nicht eine. Die Steuerung einer Fräse hat einen normalen Vertraulichkeitsbedarf – Drehzahlen interessieren niemanden – und gleichzeitig einen sehr hohen Bedarf bei Integrität und Verfügbarkeit. Wer nur „wichtig“ oder „unwichtig“ vergibt, verliert genau diese Unterscheidung und baut anschließend Verschlüsselung, wo Redundanz gefehlt hätte.
 
-**Der Schutzbedarf gilt je Schutzziel, nicht je System.** Ein System bekommt drei Bewertungen, nicht eine. Die Steuerung einer Fräse hat einen normalen Vertraulichkeitsbedarf – Drehzahlen interessieren niemanden – und gleichzeitig einen sehr hohen Bedarf bei Integrität und Verfügbarkeit. Wer nur „wichtig“ oder „unwichtig“ vergibt, verliert genau diese Unterscheidung und baut anschließend Verschlüsselung, wo Redundanz gefehlt hätte.
+Festgestellt wird der Schutzbedarf zuerst für **Anwendungen und Informationen**; auf die Systeme darunter – Server, Netze, Räume – wird er anschließend **vererbt**. Dafür gibt es drei Regeln, die du dem Namen nach kennen musst:
 
-**Der Schutzbedarf wird von den Anwendungen auf die Systeme vererbt.** Dabei gelten drei Prinzipien:
+- **Maximumprinzip** – ein System erbt den **höchsten** Bedarf aller Anwendungen, die darauf laufen, nicht den Durchschnitt. Das ist der Regelfall.
+- **Kumulationseffekt** – viele Einzelposten mit normalem Bedarf ergeben auf einem gemeinsamen System zusammen einen **höheren**.
+- **Verteilungseffekt** – der Bedarf eines einzelnen Systems kann **sinken**, wenn es nur einen Teil der Aufgabe trägt. Er ist der einzige der drei, der nach unten wirkt, und wird deshalb am häufigsten falsch benutzt.
 
-| Prinzip | Regel | Beispiel |
-|---|---|---|
-| **Maximumprinzip** | Ein System erbt den **höchsten** Schutzbedarf aller Anwendungen, die darauf laufen – nicht den Durchschnitt | Auf einem Virtualisierungshost liegen sechs Testmaschinen und die Warenwirtschaft. Der Host ist „hoch“. |
-| **Kumulationseffekt** | Viele Einzelposten mit normalem Bedarf ergeben zusammen einen höheren | Der Dateiserver trägt die Ablagen aller Abteilungen. Jede für sich wäre verkraftbar; fällt er aus, steht das Haus. |
-| **Verteilungseffekt** | Der Bedarf eines einzelnen Systems kann **sinken**, wenn es nur einen Teil der Aufgabe trägt | Eine Anwendung läuft auf drei gleichwertigen, wirklich unabhängigen Knoten – der einzelne Knoten erbt das „sehr hoch“ nicht. |
-
-!!! warning "Der Verteilungseffekt ist der einzige, der nach unten wirkt"
-    Genau deshalb wird er am häufigsten missbraucht. Er gilt nur, wenn die Verteilung tatsächlich trägt. Die Prüffrage lautet immer: **Welches einzelne Ereignis trifft alle Teile gleichzeitig?** Drei Knoten im selben Rack an derselben Steckdosenleiste sind keine Verteilung, sondern eine Kumulation mit besserem Namen.
-
-Diese Systematik stammt aus dem **IT-Grundschutz des BSI**; das Verfahren dahinter – wie man von der Schutzbedarfsfeststellung zur bewerteten Risikoliste und zu Maßnahmen kommt – steht ausführlich auf [Risikomanagement](risikomanagement.md), die dazugehörigen Standards auf [ISMS & Standards](isms.md).
+Diese Systematik stammt aus dem **IT-Grundschutz des BSI**. Ausgearbeitet – mit Beispielen, den Fallstricken des Verteilungseffekts und dem Weg von der Bewertung zur Maßnahmenliste – steht sie auf [Risikomanagement](risikomanagement.md#schutzbedarf-wie-viel-schutz-ist-genug); die zugehörigen Standards auf [ISMS & Standards](isms.md).
 
 ---
 

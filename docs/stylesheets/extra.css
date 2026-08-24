@@ -1450,3 +1450,45 @@
   padding-right: 0.62rem;
   padding-left: 0.62rem;
 }
+
+/* ===========================================================================
+   30. Layout-Absicherung
+   Material berechnet die Hoehe der Seitennavigation per JavaScript. Bei
+   Browser-Zoom oder nach einer Fenstergroessenaenderung kann dieser Wert
+   veralten – dann laeuft die Navigation ueber den Footer. Zwei Sicherungen:
+   =========================================================================== */
+
+/* 1) Der Footer legt sich in jedem Fall ueber ueberlaufende Navigation. */
+.md-footer {
+  position: relative;
+  z-index: 6;
+  background-color: var(--md-footer-bg-color, #0e1013);
+}
+
+/* 2) Die Navigation kann nie hoeher werden als der sichtbare Bereich. */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar__scrollwrap {
+    max-height: calc(100vh - 7.6rem);
+    overflow-y: auto;
+  }
+}
+
+/* Lange Eintraege in der Navigation umbrechen statt abschneiden */
+.md-nav__link {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Breite Inhalte scrollen in ihrem eigenen Kasten, statt die Seite zu dehnen */
+.md-typeset table:not([class]) {
+  display: table;
+  width: 100%;
+}
+
+.md-typeset .md-typeset__table {
+  overflow-x: auto;
+}
+
+.md-typeset pre > code {
+  overflow-x: auto;
+}

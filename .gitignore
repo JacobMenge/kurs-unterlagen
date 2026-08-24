@@ -47,3 +47,6 @@ folien/dist/*.tmp
 *honorar*
 *Rahmenplan*
 *rahmenlehrplan*
+
+# Vorschau-HTML der Foliensätze (wird bei Bedarf neu erzeugt)
+folien/dist/*.vorschau.html

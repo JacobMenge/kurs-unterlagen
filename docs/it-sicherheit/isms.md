@@ -291,7 +291,7 @@ Die Bausteine sind in zehn Schichten geordnet. Die ersten fünf betreffen **Proz
 Der Ablauf, der diese Bausteine mit dem eigenen Betrieb verbindet, ist in 200-2 beschrieben:
 
 1. **Strukturanalyse** – Was gibt es überhaupt? Geschäftsprozesse, Anwendungen, IT-Systeme, Räume, Netze, Beteiligte. Das Ergebnis heißt **Informationsverbund**.
-2. **Schutzbedarfsfeststellung** – normal, hoch, sehr hoch, je Schutzziel; mit Maximumprinzip, Kumulations- und Verteilungseffekt (siehe [Grundlagen & Schutzziele](grundlagen.md#schutzbedarf-wie-viel-schutz-ist-angemessen)).
+2. **Schutzbedarfsfeststellung** – normal, hoch, sehr hoch, je Schutzziel; mit Maximumprinzip, Kumulations- und Verteilungseffekt (siehe [Risikomanagement](risikomanagement.md#schutzbedarf-wie-viel-schutz-ist-genug)).
 3. **Modellierung** – Welcher Baustein passt auf welches Objekt? Am Ende hat jedes Objekt seine Bausteine.
 4. **IT-Grundschutz-Check** – Soll-Ist-Vergleich: Für jede Anforderung wird festgehalten, ob sie umgesetzt ist, teilweise, nicht – oder entbehrlich, mit Begründung.
 5. **Risikoanalyse nach 200-3** – überall dort, wo der Schutzbedarf hoch oder sehr hoch ist, wo kein passender Baustein existiert oder das Einsatzszenario ungewöhnlich ist.

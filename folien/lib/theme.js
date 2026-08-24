@@ -1,136 +1,169 @@
-// Gemeinsames Folien-Theme für den Kurs
-// "Geprüfter Berufsspezialist für Systemintegration und Vernetzung"
+// Folien-Design für den Kurs "Systemintegration und Vernetzung"
+//
+// Gestaltungsidee: derselbe Terminal-Look wie die Kursunterlagen im Web –
+// dunkler Grund, Phosphorgrün als Leitfarbe, Monospace für Marken und Zahlen.
+// Das hat drei Gründe: Es passt zum Fach, es ist abends am Bildschirm
+// angenehmer als weiße Flächen, und es macht die Folien auf den ersten Blick
+// als Material dieses Kurses erkennbar.
+//
+// Die drei Themenschwerpunkte haben eigene Akzentfarben, dieselben wie in den
+// Kursunterlagen: Thema 1 grün, Thema 2 amber, Thema 3 cyan.
+//
+// Schriftwahl: Arial und Courier New sind auf Windows und macOS vorinstalliert.
+// Calibri und Consolas gibt es nur mit Microsoft Office – fehlt Office, ersetzt
+// das Präsentationsprogramm sie durch eine breitere Schrift, und der Text läuft
+// aus seinen Kästen.
 //
 // Nutzung:
 //   const { createDeck } = require("./lib/theme");
-//   const deck = createDeck({ title: "...", subject: "..." });
-//   deck.title({ eyebrow: "...", title: "...", subtitle: "...", note: "..." });
-//   deck.content("Überschrift", "Eyebrow", (s, api) => { api.bullets(s, [...]); });
-//   deck.save("dateiname.pptx");
-//
-// Die Foliennummern im Footer werden automatisch vergeben. Der Footer wird
-// erst beim Speichern geschrieben, damit die Gesamtzahl stimmt.
+//   const deck = createDeck({ title: "...", akzent: "gruen" });
+//   deck.title({ eyebrow, title, subtitle, note });
+//   deck.abschnitt("Fußzeilen-Label", "amber");
+//   deck.kapitel("Überschrift", "Untertitel", { nummer: "2" });
+//   deck.content("Überschrift", "Label", (s, api) => { ... });
+//   await deck.save("datei.pptx");
 
 const pptxgen = require("pptxgenjs");
 
-// ---------------------------------------------------------------- Theme
+// ---------------------------------------------------------------- Farben
 
 const C = {
-  bg: "FFFFFF",
-  title: "0F172A", // slate-900
-  body: "334155", // slate-700
-  muted: "64748B", // slate-500
-  faint: "94A3B8", // slate-400
-  accent: "0E7490", // cyan-700
-  accentDark: "155E75", // cyan-800
-  accentSoft: "ECFEFF", // cyan-50
-  border: "E2E8F0", // slate-200
-  codeBg: "F8FAFC", // slate-50
-  codeText: "0F172A",
-  highlightBg: "F1F5F9", // slate-100
-  good: "0F766E", // teal-700
-  goodSoft: "F0FDFA", // teal-50
-  warn: "B45309", // amber-700
-  warnSoft: "FFFBEB", // amber-50
-  bad: "B91C1C", // red-700
-  badSoft: "FEF2F2", // red-50
+  bg: "10131A", // Folienhintergrund
+  bgTief: "0B0D12", // abgesetzte Flächen, Kapiteltrenner
+  flaeche: "1A1F29", // Karten
+  flaecheHell: "222835", // hervorgehobene Karten
+  linie: "2C3442", // Trennlinien
+
+  text: "E6EFE9",
+  textStark: "FFFFFF",
+  textLeise: "8FA398",
+
+  gruen: "7DFF9A",
+  gruenTief: "1F4A2B",
+  amber: "FFB300",
+  amberTief: "4A3608",
+  cyan: "4DD0E1",
+  cyanTief: "0E3A42",
+  rot: "FF6B7A",
+  rotTief: "45161C",
 };
 
-const FONT_BODY = "Calibri";
-const FONT_CODE = "Consolas";
+const AKZENTE = {
+  gruen: { farbe: C.gruen, tief: C.gruenTief },
+  amber: { farbe: C.amber, tief: C.amberTief },
+  cyan: { farbe: C.cyan, tief: C.cyanTief },
+  rot: { farbe: C.rot, tief: C.rotTief },
+};
+
+const FONT_BODY = "Arial";
+const FONT_MONO = "Courier New";
 
 const SLIDE_W = 10;
 const SLIDE_H = 5.625;
-const MARGIN_X = 0.5;
-const TITLE_Y = 0.4;
-const CONTENT_TOP = 1.55; // erste freie Zeile unter dem Titel
-const CONTENT_BOTTOM = 4.95; // oberhalb der Footer-Linie
+const RAND = 0.62;
+const TITEL_Y = 0.52;
+const INHALT_Y = 1.62;
+const FUSS_Y = SLIDE_H - 0.46;
 
 const T = {
   C,
   FONT_BODY,
-  FONT_CODE,
+  FONT_MONO,
   SLIDE_W,
   SLIDE_H,
-  MARGIN_X,
-  TITLE_Y,
-  CONTENT_TOP,
-  CONTENT_BOTTOM,
-  CONTENT_W: SLIDE_W - 2 * MARGIN_X,
+  RAND,
+  INHALT_Y,
+  INHALT_W: SLIDE_W - 2 * RAND,
 };
 
 // ------------------------------------------------------------- Bausteine
 
-function accentBar(pres, slide) {
+function akzentlinie(pres, slide, akzent) {
   slide.addShape(pres.shapes.RECTANGLE, {
-    x: 0,
-    y: 0,
-    w: SLIDE_W,
-    h: 0.06,
-    fill: { color: C.accent },
+    x: RAND,
+    y: TITEL_Y - 0.26,
+    w: 0.52,
+    h: 0.055,
+    fill: { color: akzent.farbe },
     line: { type: "none" },
   });
 }
 
-function footer(pres, slide, sectionLabel, number, total) {
+function fusszeile(pres, slide, label, nummer, gesamt, akzent) {
   slide.addShape(pres.shapes.LINE, {
-    x: MARGIN_X,
-    y: SLIDE_H - 0.42,
-    w: SLIDE_W - 2 * MARGIN_X,
+    x: RAND,
+    y: FUSS_Y - 0.1,
+    w: SLIDE_W - 2 * RAND,
     h: 0,
-    line: { color: C.border, width: 0.75 },
+    line: { color: C.linie, width: 0.75 },
   });
-  if (sectionLabel) {
-    slide.addText(sectionLabel, {
-      x: MARGIN_X,
-      y: SLIDE_H - 0.36,
-      w: 6,
-      h: 0.3,
-      fontFace: FONT_BODY,
-      fontSize: 9,
-      color: C.muted,
-      align: "left",
+  if (label) {
+    slide.addText(label, {
+      x: RAND,
+      y: FUSS_Y,
+      w: 5.5,
+      h: 0.26,
+      fontFace: FONT_MONO,
+      fontSize: 8.5,
+      color: C.textLeise,
+      charSpacing: 1,
       valign: "middle",
       margin: 0,
     });
   }
-  slide.addText(`${number} / ${total}`, {
-    x: SLIDE_W - MARGIN_X - 1.5,
-    y: SLIDE_H - 0.36,
-    w: 1.5,
-    h: 0.3,
+  // Fortschritt als Punktreihe – zeigt auf einen Blick, wie weit der Satz ist
+  const punkte = Math.min(gesamt, 20);
+  const aktiv = Math.max(1, Math.round((nummer / gesamt) * punkte));
+  slide.addText("•".repeat(aktiv), {
+    x: SLIDE_W - RAND - 3.15,
+    y: FUSS_Y,
+    w: 2.5,
+    h: 0.26,
     fontFace: FONT_BODY,
-    fontSize: 9,
-    color: C.muted,
+    fontSize: 7,
+    color: akzent.farbe,
+    align: "right",
+    valign: "middle",
+    margin: 0,
+  });
+  slide.addText(`${nummer}/${gesamt}`, {
+    x: SLIDE_W - RAND - 0.6,
+    y: FUSS_Y,
+    w: 0.6,
+    h: 0.26,
+    fontFace: FONT_MONO,
+    fontSize: 8.5,
+    color: C.textLeise,
     align: "right",
     valign: "middle",
     margin: 0,
   });
 }
 
-function heading(slide, title, eyebrow) {
-  if (eyebrow) {
-    slide.addText(String(eyebrow).toUpperCase(), {
-      x: MARGIN_X,
-      y: TITLE_Y - 0.05,
-      w: SLIDE_W - 2 * MARGIN_X,
-      h: 0.3,
-      fontFace: FONT_BODY,
-      fontSize: 11,
-      color: C.accent,
+function ueberschrift(slide, titel, label, akzent) {
+  if (label) {
+    slide.addText(String(label).toUpperCase(), {
+      x: RAND,
+      y: TITEL_Y - 0.04,
+      w: SLIDE_W - 2 * RAND,
+      h: 0.24,
+      fontFace: FONT_MONO,
+      fontSize: 9.5,
+      color: akzent.farbe,
       bold: true,
-      charSpacing: 4,
+      charSpacing: 2,
+      valign: "middle",
       margin: 0,
     });
   }
-  slide.addText(title, {
-    x: MARGIN_X,
-    y: eyebrow ? TITLE_Y + 0.25 : TITLE_Y,
-    w: SLIDE_W - 2 * MARGIN_X,
-    h: 0.8,
+  slide.addText(titel, {
+    x: RAND,
+    y: label ? TITEL_Y + 0.26 : TITEL_Y,
+    w: SLIDE_W - 2 * RAND,
+    h: 0.66,
     fontFace: FONT_BODY,
-    fontSize: 30,
-    color: C.title,
+    fontSize: 26,
+    color: C.textStark,
     bold: true,
     valign: "top",
     margin: 0,
@@ -138,129 +171,157 @@ function heading(slide, title, eyebrow) {
 }
 
 // ------------------------------------------------------------------- API
-// Alle Helfer bekommen die Folie als erstes Argument.
 
-function makeApi(pres) {
+function makeApi(pres, holeAkzent) {
   const api = {
     T,
     C,
+    AKZENTE,
 
-    /** Einleitungssatz direkt unter der Überschrift. */
     lead(slide, text, opts = {}) {
       slide.addText(text, {
-        x: MARGIN_X,
-        y: opts.y ?? 1.45,
-        w: opts.w ?? SLIDE_W - 2 * MARGIN_X,
-        h: opts.h ?? 0.45,
+        x: RAND,
+        y: opts.y ?? 1.4,
+        w: opts.w ?? SLIDE_W - 2 * RAND,
+        h: opts.h ?? 0.52,
         fontFace: FONT_BODY,
-        fontSize: opts.fontSize ?? 14,
-        color: opts.color ?? C.muted,
+        fontSize: opts.fontSize ?? 13,
+        color: opts.color ?? C.textLeise,
         valign: "top",
         margin: 0,
       });
     },
 
-    /** Aufzählung. items: string[] oder {text, bold}[] */
+    /** Aufzählung mit farbigen Merkzeichen. */
     bullets(slide, items, opts = {}) {
-      const arr = items.map((it, i) => {
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      const arr = [];
+      items.forEach((it, i) => {
         const isObj = typeof it === "object" && it !== null;
-        return {
+        arr.push({
+          text: opts.numbered ? `${i + 1}   ` : "▸   ",
+          options: { color: akzent.farbe, bold: true, breakLine: false },
+        });
+        arr.push({
           text: isObj ? it.text : it,
           options: {
-            bullet: opts.numbered ? { type: "number" } : { code: "2022" },
-            breakLine: i < items.length - 1,
-            paraSpaceAfter: opts.spaceAfter ?? 8,
+            color: isObj && it.color ? it.color : opts.color ?? C.text,
             bold: isObj ? !!it.bold : false,
-            color: isObj && it.color ? it.color : undefined,
+            breakLine: i < items.length - 1,
+            paraSpaceAfter: opts.spaceAfter ?? 9,
           },
-        };
+        });
       });
       slide.addText(arr, {
-        x: opts.x ?? MARGIN_X,
-        y: opts.y ?? CONTENT_TOP + 0.25,
-        w: opts.w ?? SLIDE_W - 2 * MARGIN_X,
-        h: opts.h ?? 3.1,
+        x: opts.x ?? RAND,
+        y: opts.y ?? INHALT_Y,
+        w: opts.w ?? SLIDE_W - 2 * RAND,
+        h: opts.h ?? 2.8,
         fontFace: FONT_BODY,
-        fontSize: opts.fontSize ?? 16,
-        color: opts.color ?? C.body,
+        fontSize: opts.fontSize ?? 14.5,
         valign: "top",
         margin: 0,
-        indentLevel: 0,
       });
     },
 
-    /** Monospace-Block mit hellem Hintergrund. */
+    /** Terminal-Kasten für Befehle. */
     code(slide, text, opts = {}) {
-      const x = opts.x ?? MARGIN_X;
-      const y = opts.y ?? CONTENT_TOP;
-      const w = opts.w ?? SLIDE_W - 2 * MARGIN_X;
-      const h = opts.h ?? 2.8;
+      const x = opts.x ?? RAND;
+      const y = opts.y ?? INHALT_Y;
+      const w = opts.w ?? SLIDE_W - 2 * RAND;
+      const h = opts.h ?? 2.3;
       slide.addShape(pres.shapes.RECTANGLE, {
-        x,
-        y,
-        w,
-        h,
-        fill: { color: opts.fill ?? C.codeBg },
-        line: { color: C.border, width: 0.75 },
+        x, y, w, h,
+        fill: { color: C.bgTief },
+        line: { color: C.linie, width: 1 },
+      });
+      slide.addShape(pres.shapes.RECTANGLE, {
+        x, y, w, h: 0.24,
+        fill: { color: C.flaeche },
+        line: { type: "none" },
+      });
+      slide.addText(opts.titel ?? "Terminal", {
+        x: x + 0.16,
+        y: y + 0.01,
+        w: w - 0.32,
+        h: 0.22,
+        fontFace: FONT_MONO,
+        fontSize: 8,
+        color: C.textLeise,
+        valign: "middle",
+        margin: 0,
       });
       slide.addText(text, {
-        x: x + 0.18,
-        y: y + 0.12,
-        w: w - 0.36,
-        h: h - 0.24,
-        fontFace: FONT_CODE,
-        fontSize: opts.fontSize ?? 13,
-        color: C.codeText,
+        x: x + 0.2,
+        y: y + 0.34,
+        w: w - 0.4,
+        h: h - 0.48,
+        fontFace: FONT_MONO,
+        fontSize: opts.fontSize ?? 12,
+        color: opts.color ?? C.gruen,
         valign: "top",
         margin: 0,
         paraSpaceAfter: 0,
       });
     },
 
-    /**
-     * Karte mit optionalem Titel.
-     * opts: x, y, w, h, title, tint ("accent"|"good"|"warn"|"bad"|"plain"),
-     *       body (string oder string[]), fontSize
-     */
+    /** Karte mit farbiger Kante links statt Rahmen ringsum. */
     card(slide, opts = {}) {
-      const tints = {
-        accent: { fill: C.accentSoft, line: C.accent, title: C.accentDark },
-        good: { fill: C.goodSoft, line: C.good, title: C.good },
-        warn: { fill: C.warnSoft, line: C.warn, title: C.warn },
-        bad: { fill: C.badSoft, line: C.bad, title: C.bad },
-        plain: { fill: C.highlightBg, line: C.border, title: C.title },
-      };
-      const t = tints[opts.tint ?? "plain"] ?? tints.plain;
-      const x = opts.x ?? MARGIN_X;
-      const y = opts.y ?? CONTENT_TOP;
-      const w = opts.w ?? SLIDE_W - 2 * MARGIN_X;
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      const x = opts.x ?? RAND;
+      const y = opts.y ?? INHALT_Y;
+      const w = opts.w ?? SLIDE_W - 2 * RAND;
       const h = opts.h ?? 1.2;
 
       slide.addShape(pres.shapes.RECTANGLE, {
-        x,
-        y,
-        w,
-        h,
-        fill: { color: t.fill },
-        line: { color: t.line, width: opts.tint && opts.tint !== "plain" ? 1 : 0.75 },
+        x, y, w, h,
+        fill: { color: opts.hell ? C.flaecheHell : C.flaeche },
+        line: { type: "none" },
       });
-      let cursor = y + 0.14;
-      if (opts.title) {
-        const titleH = opts.titleH ?? 0.3;
-        slide.addText(opts.title, {
-          x: x + 0.18,
-          y: cursor,
-          w: w - 0.36,
-          h: titleH,
-          fontFace: FONT_BODY,
-          fontSize: opts.titleSize ?? 14,
-          color: t.title,
+      slide.addShape(pres.shapes.RECTANGLE, {
+        x, y, w: 0.045, h,
+        fill: { color: akzent.farbe },
+        line: { type: "none" },
+      });
+
+      let cursor = y + 0.16;
+      const innenX = x + 0.26;
+      const innenW = w - 0.44;
+
+      if (opts.nummer) {
+        slide.addText(String(opts.nummer), {
+          x: innenX,
+          y: cursor - 0.06,
+          w: 0.42,
+          h: 0.45,
+          fontFace: FONT_MONO,
+          fontSize: 20,
+          color: akzent.farbe,
           bold: true,
           valign: "top",
           margin: 0,
         });
-        cursor += titleH + 0.06;
       }
+      const textX = opts.nummer ? innenX + 0.54 : innenX;
+      const textW = opts.nummer ? innenW - 0.54 : innenW;
+
+      if (opts.titel) {
+        const titleH = opts.titleH ?? 0.28;
+        slide.addText(opts.titel, {
+          x: textX,
+          y: cursor,
+          w: textW,
+          h: titleH,
+          fontFace: FONT_BODY,
+          fontSize: opts.titleSize ?? 13,
+          color: C.textStark,
+          bold: true,
+          valign: "top",
+          margin: 0,
+        });
+        cursor += titleH + 0.05;
+      }
+
       if (opts.body) {
         const body = Array.isArray(opts.body)
           ? opts.body.map((b, i) => ({
@@ -269,128 +330,118 @@ function makeApi(pres) {
             }))
           : opts.body;
         slide.addText(body, {
-          x: x + 0.18,
+          x: textX,
           y: cursor,
-          w: w - 0.36,
-          h: y + h - cursor - 0.12,
+          w: textW,
+          h: y + h - cursor - 0.13,
           fontFace: FONT_BODY,
-          fontSize: opts.fontSize ?? 12,
-          color: C.body,
+          fontSize: opts.fontSize ?? 11.5,
+          color: C.text,
           valign: "top",
           margin: 0,
         });
       }
     },
 
-    /**
-     * Mehrere gleich breite Karten nebeneinander.
-     * cards: [{title, body, tint}], opts: y, h, gap, fontSize
-     */
+    /** Mehrere Karten nebeneinander. opts.akzente: Farbnamen je Karte. */
     cardRow(slide, cards, opts = {}) {
-      const y = opts.y ?? CONTENT_TOP;
-      const h = opts.h ?? 2.6;
-      const gap = opts.gap ?? 0.22;
-      const total = SLIDE_W - 2 * MARGIN_X;
-      const w = (total - gap * (cards.length - 1)) / cards.length;
+      const y = opts.y ?? INHALT_Y;
+      const h = opts.h ?? 2.5;
+      const gap = opts.gap ?? 0.24;
+      const gesamt = SLIDE_W - 2 * RAND;
+      const w = (gesamt - gap * (cards.length - 1)) / cards.length;
+      const reihe = opts.akzente ?? [];
       cards.forEach((c, i) => {
         api.card(slide, {
           ...c,
-          x: MARGIN_X + i * (w + gap),
+          akzent: c.akzent ?? reihe[i],
+          x: RAND + i * (w + gap),
           y,
           w,
           h,
-          fontSize: c.fontSize ?? opts.fontSize ?? 12,
-          titleSize: c.titleSize ?? opts.titleSize ?? 14,
-          titleH: c.titleH ?? opts.titleH ?? 0.3,
+          fontSize: c.fontSize ?? opts.fontSize ?? 11.5,
+          titleSize: c.titleSize ?? opts.titleSize ?? 13,
+          titleH: c.titleH ?? opts.titleH ?? 0.28,
         });
       });
     },
 
-    /**
-     * Zeilenweise Tabelle ohne Rahmen – für Agenden und Zeitpläne.
-     * rows: [[links, rechts], ...]
-     */
+    /** Ablaufplan mit Monospace-Marken. */
     schedule(slide, rows, opts = {}) {
-      const y = opts.y ?? CONTENT_TOP;
-      const rowH = opts.rowH ?? 0.42;
-      const labelW = opts.labelW ?? 1.55;
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      const y = opts.y ?? INHALT_Y;
+      const rowH = opts.rowH ?? 0.38;
+      const labelW = opts.labelW ?? 1.1;
       rows.forEach((r, i) => {
         const ry = y + i * rowH;
-        if (i % 2 === 0) {
+        if (opts.streifen !== false && i % 2 === 0) {
           slide.addShape(pres.shapes.RECTANGLE, {
-            x: MARGIN_X,
+            x: RAND - 0.14,
             y: ry,
-            w: SLIDE_W - 2 * MARGIN_X,
+            w: SLIDE_W - 2 * RAND + 0.28,
             h: rowH,
-            fill: { color: C.highlightBg },
+            fill: { color: C.flaeche },
             line: { type: "none" },
           });
         }
         slide.addText(r[0], {
-          x: MARGIN_X + 0.15,
+          x: RAND,
           y: ry,
           w: labelW,
           h: rowH,
-          fontFace: FONT_BODY,
-          fontSize: opts.fontSize ?? 13,
-          color: C.accentDark,
+          fontFace: FONT_MONO,
+          fontSize: opts.fontSize ?? 11,
+          color: akzent.farbe,
           bold: true,
           valign: "middle",
           margin: 0,
         });
         slide.addText(r[1], {
-          x: MARGIN_X + 0.15 + labelW,
+          x: RAND + labelW,
           y: ry,
-          w: SLIDE_W - 2 * MARGIN_X - labelW - 0.3,
+          w: SLIDE_W - 2 * RAND - labelW,
           h: rowH,
           fontFace: FONT_BODY,
-          fontSize: opts.fontSize ?? 13,
-          color: C.body,
+          fontSize: opts.fontSize ?? 11,
+          color: C.text,
           valign: "middle",
           margin: 0,
         });
       });
     },
 
-    /**
-     * Waagerechter Zeitstrahl mit Stationen. stations: [{label, sub}]
-     * Die Beschriftungen der äußeren Stationen werden nach innen gerückt,
-     * damit sie nicht über den Folienrand hinausragen.
-     */
-    timeline(slide, stations, opts = {}) {
-      const y = opts.y ?? 2.5;
-      const boxW = opts.boxW ?? 1.5;
-      // Der Strahl beginnt und endet so weit innen, dass die halbe
-      // Beschriftungsbreite noch auf die Folie passt.
-      const x0 = MARGIN_X + boxW / 2;
-      const w = SLIDE_W - 2 * MARGIN_X - boxW;
+    /** Waagerechter Ablauf mit Stationen. */
+    timeline(slide, stationen, opts = {}) {
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      const y = opts.y ?? 2.9;
+      const boxW = opts.boxW ?? 1.32;
+      const x0 = RAND + boxW / 2;
+      const w = SLIDE_W - 2 * RAND - boxW;
       slide.addShape(pres.shapes.LINE, {
-        x: x0,
-        y,
-        w,
-        h: 0,
-        line: { color: C.border, width: 2 },
+        x: x0, y, w, h: 0,
+        line: { color: C.linie, width: 2 },
       });
-      const step = stations.length > 1 ? w / (stations.length - 1) : 0;
-      stations.forEach((st, i) => {
+      const step = stationen.length > 1 ? w / (stationen.length - 1) : 0;
+      stationen.forEach((st, i) => {
         const cx = x0 + i * step;
-        const isLast = i === stations.length - 1;
+        const letzte = i === stationen.length - 1;
+        const farbe = letzte ? C.rot : akzent.farbe;
         slide.addShape(pres.shapes.OVAL, {
-          x: cx - 0.075,
-          y: y - 0.075,
-          w: 0.15,
-          h: 0.15,
-          fill: { color: isLast ? C.bad : C.accent },
+          x: cx - 0.085,
+          y: y - 0.085,
+          w: 0.17,
+          h: 0.17,
+          fill: { color: farbe },
           line: { type: "none" },
         });
         slide.addText(st.label, {
           x: cx - boxW / 2,
-          y: y - 0.62,
+          y: y - 0.6,
           w: boxW,
-          h: 0.5,
-          fontFace: FONT_BODY,
-          fontSize: opts.fontSize ?? 12,
-          color: isLast ? C.bad : C.title,
+          h: 0.44,
+          fontFace: FONT_MONO,
+          fontSize: opts.fontSize ?? 10.5,
+          color: farbe,
           bold: true,
           align: "center",
           valign: "bottom",
@@ -401,10 +452,10 @@ function makeApi(pres) {
             x: cx - boxW / 2,
             y: y + 0.18,
             w: boxW,
-            h: 0.8,
+            h: 0.78,
             fontFace: FONT_BODY,
-            fontSize: opts.subSize ?? 11,
-            color: C.muted,
+            fontSize: opts.subSize ?? 9.5,
+            color: C.textLeise,
             align: "center",
             valign: "top",
             margin: 0,
@@ -413,16 +464,51 @@ function makeApi(pres) {
       });
     },
 
-    /** Große, zentrierte Aussage – für Merksätze und Übergänge. */
-    statement(slide, text, opts = {}) {
-      slide.addText(text, {
-        x: MARGIN_X + 0.3,
-        y: opts.y ?? 2.0,
-        w: SLIDE_W - 2 * MARGIN_X - 0.6,
-        h: opts.h ?? 1.4,
+    /** Große Kennzahl als Blickfang. */
+    kennzahl(slide, opts = {}) {
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      const x = opts.x ?? RAND;
+      const y = opts.y ?? INHALT_Y;
+      const w = opts.w ?? 2.4;
+      const zahlH = opts.zahlH ?? 0.8;
+      slide.addText(String(opts.zahl), {
+        x, y, w,
+        h: zahlH,
         fontFace: FONT_BODY,
-        fontSize: opts.fontSize ?? 26,
-        color: opts.color ?? C.accentDark,
+        fontSize: opts.fontSize ?? 40,
+        color: akzent.farbe,
+        bold: true,
+        align: opts.align ?? "left",
+        valign: "top",
+        margin: 0,
+      });
+      if (opts.label) {
+        slide.addText(opts.label, {
+          x,
+          y: y + zahlH,
+          w,
+          h: opts.labelH ?? 0.85,
+          fontFace: FONT_BODY,
+          fontSize: opts.labelSize ?? 11,
+          color: C.textLeise,
+          align: opts.align ?? "left",
+          valign: "top",
+          margin: 0,
+        });
+      }
+    },
+
+    /** Große, zentrierte Aussage. */
+    statement(slide, text, opts = {}) {
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      slide.addText(text, {
+        x: RAND + 0.3,
+        y: opts.y ?? 2.0,
+        w: SLIDE_W - 2 * RAND - 0.6,
+        h: opts.h ?? 1.25,
+        fontFace: FONT_BODY,
+        fontSize: opts.fontSize ?? 27,
+        color: opts.color ?? akzent.farbe,
         bold: true,
         align: "center",
         valign: "middle",
@@ -430,48 +516,61 @@ function makeApi(pres) {
       });
     },
 
-    /** Abschlusszeile am unteren Rand, z. B. eine Leitfrage. */
+    /** Abschlusszeile mit farbigem Strich davor. */
     kicker(slide, text, opts = {}) {
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      const y = opts.y ?? 4.5;
+      slide.addShape(pres.shapes.RECTANGLE, {
+        x: RAND,
+        y: y + 0.05,
+        w: 0.035,
+        h: 0.28,
+        fill: { color: akzent.farbe },
+        line: { type: "none" },
+      });
       slide.addText(text, {
-        x: MARGIN_X,
-        y: opts.y ?? 4.5,
-        w: SLIDE_W - 2 * MARGIN_X,
-        h: 0.45,
+        x: RAND + 0.2,
+        y,
+        w: SLIDE_W - 2 * RAND - 0.2,
+        h: 0.44,
         fontFace: FONT_BODY,
-        fontSize: opts.fontSize ?? 14,
-        color: opts.color ?? C.accentDark,
-        bold: true,
-        italic: opts.italic ?? true,
+        fontSize: opts.fontSize ?? 12,
+        color: opts.color ?? C.text,
+        italic: opts.italic ?? false,
+        bold: opts.bold ?? true,
         valign: "middle",
         margin: 0,
       });
     },
 
-    /** Bild mit Rahmen; ohne Datei wird ein beschrifteter Platzhalter gesetzt. */
+    /** Bild mit farbigem Rahmenakzent; ohne Datei ein Platzhalter. */
     photo(slide, opts = {}) {
-      const x = opts.x ?? MARGIN_X;
-      const y = opts.y ?? CONTENT_TOP;
-      const w = opts.w ?? 2.6;
-      const h = opts.h ?? 2.6;
+      const akzent = opts.akzent ? AKZENTE[opts.akzent] : holeAkzent();
+      const x = opts.x ?? RAND;
+      const y = opts.y ?? INHALT_Y;
+      const w = opts.w ?? 2.4;
+      const h = opts.h ?? 2.4;
       if (opts.path) {
+        slide.addShape(pres.shapes.RECTANGLE, {
+          x: x - 0.045,
+          y: y - 0.045,
+          w: w + 0.09,
+          h: h + 0.09,
+          fill: { color: akzent.farbe },
+          line: { type: "none" },
+        });
         slide.addImage({ path: opts.path, x, y, w, h, sizing: { type: "cover", w, h } });
       } else {
         slide.addShape(pres.shapes.RECTANGLE, {
-          x,
-          y,
-          w,
-          h,
-          fill: { color: C.highlightBg },
-          line: { color: C.faint, width: 1, dashType: "dash" },
+          x, y, w, h,
+          fill: { color: C.flaeche },
+          line: { color: C.linie, width: 1, dashType: "dash" },
         });
         slide.addText(opts.placeholder ?? "Foto", {
-          x,
-          y,
-          w,
-          h,
-          fontFace: FONT_BODY,
-          fontSize: 12,
-          color: C.faint,
+          x, y, w, h,
+          fontFace: FONT_MONO,
+          fontSize: 9.5,
+          color: C.textLeise,
           align: "center",
           valign: "middle",
           margin: 0,
@@ -488,104 +587,185 @@ function createDeck(meta = {}) {
   const pres = new pptxgen();
   pres.layout = "LAYOUT_16x9";
   pres.author = meta.author ?? "Jacob Menge";
-  pres.company = meta.company ?? "Cloudhelden";
+  pres.company = meta.company ?? "";
   pres.title = meta.title ?? "";
   pres.subject = meta.subject ?? "";
 
-  const api = makeApi(pres);
-  // Folien mit ihrem Sektionslabel merken, damit der Footer am Ende
-  // die richtige Gesamtzahl bekommt.
-  const numbered = [];
-  let section = "";
+  let aktiverAkzent = AKZENTE[meta.akzent ?? "gruen"];
+  const holeAkzent = () => aktiverAkzent;
+  const api = makeApi(pres, holeAkzent);
+
+  const nummeriert = [];
+  let label = "";
 
   const deck = {
     pres,
     api,
+    AKZENTE,
 
-    /** Setzt das Label, das ab jetzt links im Footer steht. */
-    section(label) {
-      section = label;
+    /** Setzt Fußzeilen-Label und Akzentfarbe für die folgenden Folien. */
+    abschnitt(neuesLabel, akzentName) {
+      label = neuesLabel;
+      if (akzentName && AKZENTE[akzentName]) aktiverAkzent = AKZENTE[akzentName];
       return deck;
     },
 
-    /** Titelfolie ohne Footer. */
+    /** Titelfolie. */
     title({ eyebrow, title, subtitle, note }) {
       const s = pres.addSlide();
       s.background = { color: C.bg };
+      const ak = aktiverAkzent;
+
       s.addShape(pres.shapes.RECTANGLE, {
-        x: 0,
-        y: 0,
-        w: 0.35,
-        h: SLIDE_H,
-        fill: { color: C.accent },
+        x: 0, y: 0, w: 0.2, h: SLIDE_H,
+        fill: { color: ak.farbe },
         line: { type: "none" },
       });
+      s.addShape(pres.shapes.RECTANGLE, {
+        x: 0.2, y: 0, w: 0.07, h: SLIDE_H,
+        fill: { color: ak.tief },
+        line: { type: "none" },
+      });
+
       if (eyebrow) {
         s.addText(String(eyebrow).toUpperCase(), {
-          x: 0.9,
-          y: 1.5,
-          w: 8.6,
-          h: 0.4,
-          fontFace: FONT_BODY,
-          fontSize: 12,
-          color: C.muted,
+          x: 1.0, y: 1.4, w: 8.35, h: 0.3,
+          fontFace: FONT_MONO,
+          fontSize: 11,
+          color: ak.farbe,
           bold: true,
-          charSpacing: 4,
+          charSpacing: 3,
           margin: 0,
         });
       }
       s.addText(title, {
-        x: 0.9,
-        y: 1.95,
-        w: 8.6,
-        h: 1.15,
+        x: 1.0, y: 1.84, w: 8.35, h: 1.12,
         fontFace: FONT_BODY,
-        fontSize: 48,
-        color: C.title,
+        fontSize: 42,
+        color: C.textStark,
         bold: true,
         valign: "top",
         margin: 0,
       });
       if (subtitle) {
         s.addText(subtitle, {
-          x: 0.9,
-          y: 3.15,
-          w: 8.6,
-          h: 0.9,
+          x: 1.0, y: 3.02, w: 8.35, h: 0.78,
           fontFace: FONT_BODY,
-          fontSize: 22,
-          color: C.accentDark,
+          fontSize: 17,
+          color: C.text,
           valign: "top",
           margin: 0,
         });
       }
       if (note) {
+        s.addShape(pres.shapes.LINE, {
+          x: 1.0, y: 4.36, w: 2.0, h: 0,
+          line: { color: C.linie, width: 1 },
+        });
         s.addText(note, {
-          x: 0.9,
-          y: 4.45,
-          w: 8.6,
-          h: 0.4,
-          fontFace: FONT_BODY,
-          fontSize: 13,
-          color: C.muted,
+          x: 1.0, y: 4.46, w: 8.35, h: 0.3,
+          fontFace: FONT_MONO,
+          fontSize: 9.5,
+          color: C.textLeise,
           margin: 0,
         });
       }
       return s;
     },
 
-    /** Abschnittstrenner – volle Akzentfläche, kein Footer. */
-    divider(title, subtitle) {
+    /** Kapiteltrenner mit großer Nummer. */
+    kapitel(titel, untertitel, opts = {}) {
+      const ak = opts.akzent ? AKZENTE[opts.akzent] : aktiverAkzent;
       const s = pres.addSlide();
-      s.background = { color: C.accentDark };
-      s.addText(title, {
-        x: MARGIN_X + 0.4,
-        y: 2.15,
-        w: SLIDE_W - 2 * MARGIN_X - 0.8,
-        h: 0.9,
+      s.background = { color: C.bgTief };
+
+      s.addShape(pres.shapes.RECTANGLE, {
+        x: 6.95, y: 0, w: 3.05, h: SLIDE_H,
+        fill: { color: ak.tief },
+        line: { type: "none" },
+      });
+      s.addShape(pres.shapes.RECTANGLE, {
+        x: 6.95, y: 0, w: 0.05, h: SLIDE_H,
+        fill: { color: ak.farbe },
+        line: { type: "none" },
+      });
+
+      if (opts.nummer) {
+        s.addText(String(opts.nummer), {
+          x: 7.25, y: 1.6, w: 2.4, h: 1.9,
+          fontFace: FONT_BODY,
+          fontSize: 88,
+          color: ak.farbe,
+          bold: true,
+          align: "center",
+          valign: "middle",
+          margin: 0,
+        });
+      }
+
+      s.addShape(pres.shapes.RECTANGLE, {
+        x: RAND, y: 2.06, w: 0.52, h: 0.055,
+        fill: { color: ak.farbe },
+        line: { type: "none" },
+      });
+      s.addText(titel, {
+        x: RAND, y: 2.28, w: 5.9, h: 0.95,
         fontFace: FONT_BODY,
-        fontSize: 36,
-        color: "FFFFFF",
+        fontSize: 30,
+        color: C.textStark,
+        bold: true,
+        valign: "top",
+        margin: 0,
+      });
+      if (untertitel) {
+        s.addText(untertitel, {
+          x: RAND, y: 3.3, w: 5.9, h: 0.6,
+          fontFace: FONT_BODY,
+          fontSize: 13.5,
+          color: C.textLeise,
+          valign: "top",
+          margin: 0,
+        });
+      }
+      return s;
+    },
+
+    /** Inhaltsfolie. */
+    content(titel, kopflabel, build) {
+      const s = pres.addSlide();
+      s.background = { color: C.bg };
+      const ak = aktiverAkzent;
+      akzentlinie(pres, s, ak);
+      ueberschrift(s, titel, kopflabel, ak);
+      nummeriert.push({ slide: s, label, akzent: ak });
+      if (typeof build === "function") build(s, api);
+      return s;
+    },
+
+    /** Folie ohne Überschrift. */
+    blank(build) {
+      const s = pres.addSlide();
+      s.background = { color: C.bg };
+      nummeriert.push({ slide: s, label, akzent: aktiverAkzent });
+      if (typeof build === "function") build(s, api);
+      return s;
+    },
+
+    /** Schlussfolie ohne Fußzeile. */
+    schluss({ title, subtitle, note }) {
+      const s = pres.addSlide();
+      s.background = { color: C.bgTief };
+      const ak = aktiverAkzent;
+      s.addShape(pres.shapes.RECTANGLE, {
+        x: 0, y: SLIDE_H - 0.16, w: SLIDE_W, h: 0.16,
+        fill: { color: ak.farbe },
+        line: { type: "none" },
+      });
+      s.addText(title, {
+        x: RAND, y: 2.0, w: SLIDE_W - 2 * RAND, h: 1.0,
+        fontFace: FONT_BODY,
+        fontSize: 32,
+        color: C.textStark,
         bold: true,
         align: "center",
         valign: "middle",
@@ -593,13 +773,22 @@ function createDeck(meta = {}) {
       });
       if (subtitle) {
         s.addText(subtitle, {
-          x: MARGIN_X + 0.4,
-          y: 3.05,
-          w: SLIDE_W - 2 * MARGIN_X - 0.8,
-          h: 0.5,
+          x: RAND, y: 3.05, w: SLIDE_W - 2 * RAND, h: 0.5,
+          fontFace: FONT_BODY,
+          fontSize: 14,
+          color: C.textLeise,
+          align: "center",
+          valign: "top",
+          margin: 0,
+        });
+      }
+      if (note) {
+        s.addText(note, {
+          x: RAND, y: 3.72, w: SLIDE_W - 2 * RAND, h: 0.5,
           fontFace: FONT_BODY,
           fontSize: 16,
-          color: "A5F3FC", // cyan-200
+          color: ak.farbe,
+          bold: true,
           align: "center",
           valign: "top",
           margin: 0,
@@ -608,39 +797,17 @@ function createDeck(meta = {}) {
       return s;
     },
 
-    /**
-     * Inhaltsfolie mit Akzentbalken, Überschrift und Footer.
-     * build(slide, api) füllt den Inhalt.
-     */
-    content(title, eyebrow, build) {
-      const s = pres.addSlide();
-      s.background = { color: C.bg };
-      accentBar(pres, s);
-      heading(s, title, eyebrow);
-      numbered.push({ slide: s, section });
-      if (typeof build === "function") build(s, api);
-      return s;
-    },
-
-    /** Leere Folie mit Footer, ohne Überschrift. */
-    blank(build) {
-      const s = pres.addSlide();
-      s.background = { color: C.bg };
-      accentBar(pres, s);
-      numbered.push({ slide: s, section });
-      if (typeof build === "function") build(s, api);
-      return s;
-    },
-
     async save(file) {
-      const total = numbered.length;
-      numbered.forEach((entry, i) => footer(pres, entry.slide, entry.section, i + 1, total));
+      const gesamt = nummeriert.length;
+      nummeriert.forEach((e, i) =>
+        fusszeile(pres, e.slide, e.label, i + 1, gesamt, e.akzent)
+      );
       await pres.writeFile({ fileName: file });
-      return { file, slides: pres.slides.length, numbered: total };
+      return { file, slides: pres.slides.length, numbered: gesamt };
     },
   };
 
   return deck;
 }
 
-module.exports = { createDeck, T, C, FONT_BODY, FONT_CODE };
+module.exports = { createDeck, T, C, AKZENTE, FONT_BODY, FONT_MONO };

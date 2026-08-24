@@ -214,7 +214,7 @@ Eine Sicherung enthält alles, was das Produktivsystem enthält – aber ohne de
 
 **Verschlüsselung.** Sicherungen werden auf dem Transportweg und im Ruhezustand verschlüsselt. Bei Medien, die das Haus verlassen, ist das keine Empfehlung – ein verlorenes unverschlüsseltes Band mit Personaldaten ist eine meldepflichtige Datenschutzverletzung.
 
-!!! danger "Der Schlüssel darf nicht nur dort liegen, was du retten willst"
+!!! danger "Der Schlüssel darf nicht in dem liegen, was du retten willst"
     Der häufigste und bitterste Fehler bei verschlüsselten Sicherungen: Der Schlüssel oder das Kennwort liegt im Passwortsafe – und der Passwortsafe liegt auf dem Server, der gerade verschlüsselt wurde. Der Schlüssel gehört an **mindestens zwei Orte außerhalb** der gesicherten Umgebung, einer davon offline: ausgedruckt im Tresor, in einem zweiten Passwortsafe an einem anderen Standort, beim Notar oder in der Hand von zwei Personen mit geteiltem Geheimnis. Diese Kopie gehört in den Wiederanlaufplan – als erster Schritt, nicht als Fußnote.
 
 **Rechte und Rollen.** Sichern, Wiederherstellen und das Löschen von Sicherungen sind drei verschiedene Berechtigungen und gehören getrennt.

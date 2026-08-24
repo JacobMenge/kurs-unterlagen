@@ -20,9 +20,6 @@ Ein integriertes System ist nur so viel wert, wie es **sicher und verfügbar** l
 
 <span class='badge badge-pruefung'>Prüfungsrelevant</span> &nbsp; Dieser Block gehört zum **prüfungsrelevanten Kern**. Sicherheit und Risiko ziehen sich durch fast jede Aufgabenstellung – von der Planung über den Betrieb bis zur Abnahme.
 
-!!! note "Status: teilweise ausgearbeitet <span class='badge badge-wip'>in Arbeit</span>"
-    **Fertig sind [Risikomanagement](risikomanagement.md), die [Vertiefung](risikomanagement-vertiefung.md) und der Aufgabensatz [Übungen: Risikoanalyse](uebungen-risikoanalyse.md)** – damit steht das Verfahren, das sich durch den ganzen Block zieht. Fertig sind außerdem die **[Grundlagen & Schutzziele](grundlagen.md)**, **[ISMS & Standards](isms.md)** und die Gruppenübung **[Sicherheitsrichtlinie](uebung-sicherheitsrichtlinie.md)**. Ebenfalls fertig ist der Reaktionsteil: **[Sicherheitsvorfälle](sicherheitsvorfaelle.md), [Beweissicherung & Prävention](beweissicherung-und-praevention.md) und die Gruppenübung [Vorfallbearbeitung](uebung-vorfallbearbeitung.md)**. Die übrigen Seiten werden Schritt für Schritt gefüllt; du siehst hier schon, **welche Themen kommen** und **wie sie zusammenhängen**.
-
 ---
 
 ## Seiten in diesem Block

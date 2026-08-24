@@ -41,7 +41,7 @@ In dieser Übung entwerft ihr für einen konkreten Betrieb eine vollständige Si
 
 ## Der Betrieb
 
-**Nordwerk Gebäudetechnik GmbH**, 165 Beschäftigte, zwei Standorte. Der Betrieb plant, baut und wartet gebäudetechnische Anlagen: Elektroinstallation, Heizung, Lüftung und Klima sowie – das ist der wachsende Bereich – **Sicherheitstechnik**: Schließanlagen, Zutrittskontrolle, Einbruchmelde- und Videoanlagen.
+**Nordwerk Gebäudetechnik GmbH**, 167 Beschäftigte, zwei Standorte. Der Betrieb plant, baut und wartet gebäudetechnische Anlagen: Elektroinstallation, Heizung, Lüftung und Klima sowie – das ist der wachsende Bereich – **Sicherheitstechnik**: Schließanlagen, Zutrittskontrolle, Einbruchmelde- und Videoanlagen.
 
 ### Struktur und Menschen
 

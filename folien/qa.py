@@ -57,14 +57,14 @@ def max_font_size(text_frame) -> float:
 def estimate_text_height(text: str, font_size_pt: float, width_in: float) -> float:
     """Grobe Schätzung, wie viel Höhe der Text braucht.
 
-    Kalibriert auf Calibri: die mittlere Zeichenbreite liegt bei etwa
-    0.47 x Schriftgröße, bei 12pt passen also rund 12 Zeichen pro Zoll.
+    Kalibriert auf Arial: die mittlere Zeichenbreite liegt bei etwa
+    0.51 x Schriftgröße, bei 12pt passen also rund 11 Zeichen pro Zoll.
     Zeilenhöhe 1.3. Bewusst leicht optimistisch, damit nicht jede zweite
     Folie einen Fehlalarm auslöst – echte Überläufe werden trotzdem sichtbar.
     """
     if not text or width_in <= 0:
         return 0.0
-    chars_per_inch = 12.0 * (12.0 / max(font_size_pt, 1))
+    chars_per_inch = 11.0 * (12.0 / max(font_size_pt, 1))
     chars_per_line = max(int(width_in * chars_per_inch), 5)
 
     lines = 0
