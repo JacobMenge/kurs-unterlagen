@@ -22,21 +22,19 @@ Stell dir den Betrieb wie das Cockpit eines Flugzeugs vor. Niemand fliegt blind 
 
 <span class='badge badge-pruefung'>Prüfungsrelevant</span> &nbsp; Dieser Block gehört zum **prüfungsrelevanten Kern**. Verfügbarkeit, Überwachung und Wiederherstellung sind das, woran man ein integriertes System im Alltag misst – und tauchen quer durch fast jede Aufgabe auf.
 
-!!! note "Status: Platzhalter <span class='badge badge-wip'>in Arbeit</span>"
-    Die Struktur dieses Blocks steht, die einzelnen Seiten werden Schritt für Schritt mit Inhalten gefüllt. Du siehst hier schon, **welche Themen kommen** und **wie sie zusammenhängen** – damit du den roten Faden kennst, bevor die Details folgen.
-
 ---
 
 ## Seiten in diesem Block
 
 | Seite | Inhalt | Relevanz |
 |-------|--------|----------|
-| [Monitoring & Betrieb](monitoring.md) | Laufenden Betrieb managen, Monitoring-Tools, Metriken, Schwellwerte, Alarmierung, Troubleshooting | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
+| [Monitoring & Betrieb](monitoring.md) | Die vier Signale, aktiv/passiv und Black-Box/White-Box, Metriken, Logs & Traces, Schwellenwerte, Alarmierung & Alarmmüdigkeit, SNMP, Syslog & Flussdaten, Wartungsfenster, Patch- und Change-Prozess, Incident/Problem/Change | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
 | [Backup & Recovery](backup-und-recovery.md) | Sicherungsarten, 3-2-1-Regel, Snapshots, unveränderliche Kopien, RTO & RPO, Restore-Test, Wiederanlaufplan, Rechte & Rollen | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
 | [Hochverfügbarkeit & Redundanz](hochverfuegbarkeit.md) | Verfügbarkeit rechnen, Verfügbarkeitskette, SPOF, Redundanzarten, Cluster & Quorum, Notstrom, Georedundanz, SLA, Business Impact Analyse | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Übungen: Verfügbarkeit & Datensicherung](uebungen-verfuegbarkeit.md) | Gruppenübung: Systemlandschaft bewerten, RTO & RPO festlegen, Verfügbarkeitskette rechnen, Redundanz- und Backupkonzept im Budget begründen | <span class='badge badge-praxis'>Gruppenarbeit</span> |
-| [Betriebsdaten analysieren](betriebsdaten-analysieren.md) | Betriebs-, Prozess- und Sensordaten, Visualisierung, Soll-Kennzahlen, Benchmarks | <span class='badge badge-vertiefung'>Vertiefung</span> |
-| [Incident Response & Business Continuity](incident-und-bcm.md) | Incident-Response-Strategien, BCM, IT-Resilienz, kritische Infrastrukturen | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Betriebsdaten analysieren](betriebsdaten-analysieren.md) | Betriebs-, Prozess- und Sensordaten, Zeitreihen & Aggregation, Datenqualität, Sollwert/Baseline/Benchmark, Perzentile statt Mittelwert, Trend & Korrelation, von der Abweichung zur Maßnahme | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Incident Response & Business Continuity](incident-und-bcm.md) | Störung/Sicherheitsvorfall/Notfall, die sechs Phasen der Incident Response, Rollen & Kommunikationsplan, BCM mit Notfallhandbuch und Notbetrieb, BIA, Notfallübungen, KRITIS | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Übung: Notfallübung](uebung-notfalluebung.md) | Tabletop-Übung: ein Störungsszenario spitzt sich über fünf Runden zum Notfall zu – entscheiden, informieren, dokumentieren. Mit Rundenkarten, Hilfekarten und Musterlösung | <span class='badge badge-praxis'>Gruppenarbeit</span> |
 
 ---
 
