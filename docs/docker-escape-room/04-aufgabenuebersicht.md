@@ -7,10 +7,10 @@ description: "Die 10 Aufgaben des Docker Escape Rooms – plus Bonus, Checkliste
 
 ## Ziel
 
-Ihr arbeitet heute in Gruppen als kleines DevOps-Team. Eure Aufgabe ist es, eine Mini-Plattform mit Docker zum Laufen zu bringen.
+Ihr arbeitet in Kleingruppen als kleines DevOps-Team. Eure Aufgabe ist es, eine Mini-Plattform mit Docker zum Laufen zu bringen.
 
-!!! warning "Heute kein Docker Compose"
-    Ihr nutzt heute bewusst **kein** Docker Compose. Ihr startet alle Container manuell mit Docker-Befehlen.
+!!! warning "Kein Docker Compose"
+    Ihr nutzt hier bewusst **kein** Docker Compose. Ihr startet alle Container manuell mit Docker-Befehlen.
 
     Damit wiederholt ihr alle Docker-Grundlagen: Images bauen, Container starten, Ports veröffentlichen, Container benennen, Umgebungsvariablen setzen, Netzwerke und Volumes verwenden, Logs lesen, Fehler analysieren.
 
@@ -409,7 +409,7 @@ compose.yaml
 docker-compose.yml
 ```
 
-Heute manuell. **Compose ist nächste Einheit.**
+Hier läuft alles manuell. **Compose kommt im nächsten Kapitel.**
 
 ---
 

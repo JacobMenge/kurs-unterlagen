@@ -29,7 +29,7 @@ Ein **Healthcheck** ist eine kleine Prüfung, die Docker **regelmäßig im Conta
 Das ist nützlich für:
 
 - **Debugging im Alltag:** `docker ps` zeigt sofort, welcher Container nicht antwortet.
-- **Compose mit `depends_on: condition: service_healthy`** (kommt in der nächsten Einheit – dort startet die App erst, wenn die DB `healthy` ist).
+- **Compose mit `depends_on: condition: service_healthy`** (kommt im Compose-Block – dort startet die App erst, wenn die DB `healthy` ist).
 - **Orchestrierungssysteme** wie Swarm oder Kubernetes nehmen unhealthy Container automatisch aus dem Loadbalancer.
 
 ---

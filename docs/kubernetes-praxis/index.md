@@ -1,6 +1,6 @@
 ---
 title: "Kubernetes – Hands-on von Grund auf"
-description: "Kubernetes praktisch von null: warum man Container orchestriert, die Grundbegriffe (Pod, Deployment, Service, Node), Installation für Windows/macOS/Linux und drei angeleitete Praxis-Übungen von Hello World bis zum skalierten Service – im Wechsel aus Theorie und Praxis."
+description: "Kubernetes praktisch von null: warum man Container orchestriert, die Grundbegriffe (Pod, Deployment, Service, Node), Installation für Windows/macOS/Linux, angeleitete Praxis-Übungen von Hello World bis zum skalierten Service und zum Abschluss der Schritt in die Cloud auf einen echten Managed-Cluster – im Wechsel aus Theorie und Praxis."
 ---
 
 # Kubernetes – Hands-on von Grund auf
@@ -38,6 +38,7 @@ flowchart LR
   T2 --> P2["Praxis 2<br/>Skalieren & Heilen"]
   P2 --> T3["Theorie<br/>Services"]
   T3 --> P3["Praxis 3<br/>Service & Last"]
+  P3 --> C["In die Cloud<br/>EKS & GKE"]
 ```
 
 | Seite | Inhalt | Art |
@@ -52,9 +53,12 @@ flowchart LR
 | [Praxis 3: Service](08-praxis-service.md) | Service anlegen, App erreichbar machen, Last auf viele Pods verteilen | Praxis |
 | [Hilfekarten](09-hilfekarten.md) | Abgestufte Hinweise, wenn etwas hakt | Referenz |
 | [Rückblick & Ausblick](10-rueckblick.md) | Was du mitnimmst und wie es weitergeht | Referenz |
+| [In die Cloud: Überblick](11-cloud-labs.md) | Vom lokalen minikube zum echten Managed-Cluster: was „managed" heißt und wie die geführten Labs ablaufen | Theorie |
+| [Praxis: EKS (AWS)](12-praxis-eks.md) | Einen echten Cluster bei AWS bauen, die App über einen Load-Balancer öffentlich machen, Selbstheilung testen | Praxis |
+| [Optional: GKE (Google)](13-praxis-gke.md) | Dieselbe Idee auf Google Kubernetes Engine – die freiwillige Zusatzaufgabe | Praxis – optional |
 
-!!! tip "Für heute"
-    Wir starten mit den ersten beiden Theorieseiten und der Installation, danach geht es in **Praxis 1**. Jede Praxis-Seite ist so geschnitten, dass sie dich rund **eine bis anderthalb Stunden** beschäftigt – mit einer komplett angeleiteten Übung und einer Aufgabe zum Selbermachen (Lösung ist dabei).
+!!! tip "So arbeitest du dich durch"
+    Beginn mit den ersten beiden Theorieseiten und der Installation, danach geht es in **Praxis 1**. Jede Praxis-Seite ist so geschnitten, dass sie dich rund **eine bis anderthalb Stunden** beschäftigt – mit einer komplett angeleiteten Übung und einer Aufgabe zum Selbermachen (Lösung ist dabei). Ganz am Ende folgt der Sprung in die Cloud: derselbe Stoff auf einem echten Managed-Cluster.
 
 ---
 

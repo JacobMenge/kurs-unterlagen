@@ -5,7 +5,7 @@ description: "Was ihr in den drei Praxis-Blöcken gelernt habt – und was als n
 
 # Rückblick & Ausblick
 
-Heute habt ihr einen kompletten Multi-Container-Stack mit **einer einzigen `compose.yaml`** hochgezogen, mit `.env`, mit Healthcheck, mit Persistenz und (vielleicht) mit ausgetauschtem Backend.
+In dieser Einheit habt ihr einen kompletten Multi-Container-Stack mit **einer einzigen `compose.yaml`** hochgezogen, mit `.env`, mit Healthcheck, mit Persistenz und (vielleicht) mit ausgetauschtem Backend.
 
 Das ist genau das, was im echten Projektalltag bei vielen Teams den Unterschied macht zwischen "läuft auf meinem Rechner, sonst nirgends" und "läuft überall mit `docker compose up`".
 
@@ -16,7 +16,7 @@ Das ist genau das, was im echten Projektalltag bei vielen Teams den Unterschied 
 ```mermaid
 flowchart LR
   ER["Docker Escape Room<br/>3 Container manuell"]
-  P1["Compose-Praxis (Block 4)<br/>Postgres + Adminer als compose.yaml"]
+  P1["Compose-Praxis<br/>Postgres + Adminer als compose.yaml"]
   MC["Mission Control<br/>4 Services + .env + Healthcheck"]
 
   ER -- "Was, wenn das alles in einer Datei stünde?" --> P1
@@ -26,8 +26,8 @@ flowchart LR
 | Block | Was war neu |
 |---|---|
 | Docker Escape Room | Drei Container, ein Netzwerk, ein Volume – **alles per Hand** |
-| Compose-Praxis (Block 4) | Genau dasselbe, aber als kleine `compose.yaml` |
-| **Mission Control (heute)** | Vier Services, internes Routing, `.env`, Healthcheck, Persistenz, Bonus-Swap |
+| Compose-Praxis | Genau dasselbe, aber als kleine `compose.yaml` |
+| **Mission Control** | Vier Services, internes Routing, `.env`, Healthcheck, Persistenz, Bonus-Swap |
 
 Wenn ihr von hier zurückguckt: ihr habt einen vollständigen Bogen geschafft, von "tipp jeden Befehl von Hand" bis "deklarativer Stack mit Konfigurations-Trennung und Healthcheck".
 
@@ -38,14 +38,14 @@ Wenn ihr von hier zurückguckt: ihr habt einen vollständigen Bogen geschafft, v
 Diskutiert kurz:
 
 1. Wo war die Compose-Variante **deutlich angenehmer** als der Escape Room?
-2. Wo war es heute **trotz** Compose noch knifflig (z.B. Healthcheck, Init-SQL)?
+2. Wo war es **trotz** Compose noch knifflig (z.B. Healthcheck, Init-SQL)?
 3. Welche **drei Compose-Bausteine** würdet ihr mitnehmen, wenn ihr morgen ein eigenes kleines Hobby-Projekt mit DB und Backend bauen würdet?
 
 ---
 
 ## Was Compose euch jetzt sicher abnimmt
 
-| Bisher manuell | Heute deklarativ |
+| Bisher manuell | Jetzt deklarativ |
 |---|---|
 | Netzwerke per Hand erstellen | Default-Netzwerk pro Projekt, automatisch |
 | Volumes per Hand erstellen | Top-Level `volumes:`-Block, automatisch |

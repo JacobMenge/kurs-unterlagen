@@ -7,7 +7,7 @@ description: "Die zwei Schichtenmodelle der Netzwerktechnik: das siebenstufige O
 
 Netzwerke sind kompliziert. **Sehr kompliziert.** Damit man nicht in jedem einzelnen Problem ertrinkt, hat man sich zwei Modelle ausgedacht, mit denen wir die Komplexität in **Schichten** zerlegen. Jede Schicht hat eine klare Aufgabe und redet nur mit ihren direkten Nachbarn.
 
-Diese Schichten-Idee ist der **wichtigste Denk-Werkzeug** in der Netzwerktechnik. Wer sie verinnerlicht, kann jedes Netzwerkproblem in zwei Sätzen einordnen.
+Diese Schichten-Idee ist das **wichtigste Denk-Werkzeug** in der Netzwerktechnik. Wer sie verinnerlicht, kann jedes Netzwerkproblem in zwei Sätzen einordnen.
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:

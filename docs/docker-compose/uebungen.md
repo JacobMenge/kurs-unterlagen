@@ -20,13 +20,13 @@ description: "Eigene Hands-on-Übungen zum Compose-Block – vier Schwierigkeits
     docker compose version
     ```
 - Ein Editor für Textdateien.
-- Idealerweise Block 3 (Aufbau) durchgearbeitet.
+- Idealerweise den [Aufbau-Block](../docker-aufbau/index.md) durchgearbeitet.
 
 ---
 
 ## 🟢 Einsteiger
 
-### Übung 4.1 – Erste `compose.yaml` mit nginx
+### Übung 1 – Erste `compose.yaml` mit nginx
 
 !!! info "Was du lernst"
     - Eine `compose.yaml`-Datei anlegen
@@ -120,7 +120,7 @@ Stoppt und entfernt alle Container des Stacks **und** das automatisch erzeugte N
 
 ---
 
-### Übung 4.2 – Mehrere Services in einer `compose.yaml`
+### Übung 2 – Mehrere Services in einer `compose.yaml`
 
 !!! info "Was du lernst"
     - Mehrere Container gleichzeitig deklarieren
@@ -165,7 +165,7 @@ Baue einen Stack mit **zwei** Services: `web` (nginx) und `proxy` (httpd). Unter
 
 ## 🟡 Mittel
 
-### Übung 4.3 – WordPress mit MySQL
+### Übung 3 – WordPress mit MariaDB
 
 !!! info "Was du lernst"
     - Ein echter Multi-Container-Stack (App + DB)
@@ -234,7 +234,7 @@ Wenn du **alle** Daten löschen willst: `docker compose down -v` (mit `-v`!).
 
 ---
 
-### Übung 4.4 – `.env` mit Compose
+### Übung 4 – `.env` mit Compose
 
 !!! info "Was du lernst"
     - Variablen aus `.env` in `compose.yaml` nutzen
@@ -242,7 +242,7 @@ Wenn du **alle** Daten löschen willst: `docker compose down -v` (mit `-v`!).
 
 #### Aufgabe
 
-Baue den WordPress-Stack aus Übung 4.3 **um**:
+Baue den WordPress-Stack aus Übung 3 **um**:
 
 - Alle Passwörter und Datenbank-Namen kommen aus einer `.env`-Datei.
 - In `compose.yaml` stehen nur `${VARIABLE}`-Platzhalter.
@@ -258,7 +258,7 @@ Baue den WordPress-Stack aus Übung 4.3 **um**:
 
 ## 🔴 Fortgeschritten
 
-### Übung 4.5 – Stack mit Healthcheck und depends_on-Condition
+### Übung 5 – Stack mit Healthcheck und depends_on-Condition
 
 !!! info "Was du lernst"
     - `depends_on` mit `condition: service_healthy`
@@ -271,7 +271,7 @@ Der `wordpress`-Container startet manchmal **bevor** die Datenbank bereit ist un
 
 #### Aufgabe
 
-Erweitere den WordPress-Stack aus Übung 4.3 so, dass:
+Erweitere den WordPress-Stack aus Übung 3 so, dass:
 
 1. `db` einen Healthcheck hat, der das offizielle `healthcheck.sh`-Skript des MariaDB-Images nutzt, alle 5 Sekunden, bis zu 10 Retries.
 2. `wordpress` mit `depends_on: db: condition: service_healthy` konfiguriert ist.
@@ -395,7 +395,7 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
 ## 🏆 Challenge
 
-### Challenge 4 – Vollständiger Tech-Stack mit Monitoring
+### Challenge – Vollständiger Tech-Stack
 
 !!! abstract "Aufgabe"
     Baue einen Stack mit **vier** Services, der dir sowohl eine kleine Web-App als auch Monitoring zeigt:

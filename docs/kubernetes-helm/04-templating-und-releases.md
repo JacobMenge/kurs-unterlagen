@@ -252,9 +252,9 @@ helm history station
 
 ```text
 REVISION	UPDATED                 	STATUS    	CHART          	APP VERSION	DESCRIPTION
-1       	Thu Jul 16 15:00:33 2026	superseded	webserver-0.1.0	1          	Install complete
-2       	Thu Jul 16 15:01:02 2026	superseded	webserver-0.1.0	1          	Upgrade complete
-3       	Thu Jul 16 15:01:20 2026	deployed  	webserver-0.1.0	1          	Rollback to 1
+1       	Fri Mar 15 15:00:33 2024	superseded	webserver-0.1.0	1          	Install complete
+2       	Fri Mar 15 15:01:02 2024	superseded	webserver-0.1.0	1          	Upgrade complete
+3       	Fri Mar 15 15:01:20 2024	deployed  	webserver-0.1.0	1          	Rollback to 1
 ```
 
 Lies die Tabelle spaltenweise: **REVISION** zählt hoch (1, 2, 3). **CHART** zeigt `webserver-0.1.0` – Chart-Name und Chart-Version zusammengeschrieben. **APP VERSION** steht auf `1`. Nur die erste Spalte bewegt sich, die anderen beiden stehen still – und das ist genau richtig: Du hast dreimal an diesem Release gedreht, aber weder das Paket noch die Software darin verändert. An **STATUS** siehst du außerdem, welche Revision gerade `deployed` ist – die übrigen sind `superseded`, also abgelöst.

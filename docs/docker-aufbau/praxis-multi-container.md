@@ -1,6 +1,6 @@
 ---
 title: "Praxis: Postgres & Adminer"
-description: "Schritt-für-Schritt-Anleitung für den heutigen Hands-on-Teil. Postgres-Datenbank mit Volume und ENV, Adminer über eigenes Netzwerk – alles nur mit offiziellen Images."
+description: "Schritt-für-Schritt-Anleitung für den Hands-on-Teil. Postgres-Datenbank mit Volume und ENV, Adminer über eigenes Netzwerk – alles nur mit offiziellen Images."
 ---
 
 # Praxis: Postgres & Adminer
@@ -198,7 +198,7 @@ Der Postgres-Container läuft schon – aber nicht im neuen Netzwerk. Zwei Wege:
 
     Dieser Weg ist sauberer – in der `docker ps`-Ausgabe siehst du sofort, dass `db` im richtigen Netz ist. Das Volume bleibt erhalten, die Daten sind also noch da.
 
-Für den Kurs nehmen wir **Variante B** – wir üben `stop` + `rm` + `run` noch einmal explizit.
+Wir nehmen hier **Variante B** – so übst du `stop` + `rm` + `run` noch einmal explizit.
 
 ### Schritt 2.3 – Adminer starten
 
@@ -297,8 +297,8 @@ In Adminer:
 
 4. Links in der Seitenleiste siehst du jetzt die Tabelle `teilnehmer`. Klick drauf → **Auswählen** → du siehst die drei Datensätze.
 
-!!! tip "Für den Kurs"
-    Lass die Teilnehmer hier kreativ sein – eigene Tabellen mit eigenen Daten. Jede Gruppe mit 2–3 Datensätzen. Das macht den Persistenz-Test gleich interessanter.
+!!! tip "Ruhig kreativ werden"
+    Leg gern eigene Tabellen mit eigenen Daten an – zwei bis drei Datensätze reichen. Das macht den Persistenz-Test gleich interessanter.
 
 ### Schritt 3.2 – Container zerstören
 
@@ -370,7 +370,7 @@ Das ist **das Kern-Werkzeug** für jede ernsthafte Container-Anwendung. Alles, w
 
 ## Aufräumen am Ende
 
-Wenn du für heute fertig bist:
+Wenn du fertig bist:
 
 ```bash
 docker stop adminer db
@@ -384,7 +384,7 @@ docker volume ls
 docker volume rm postgres-daten
 ```
 
-Das Image von Postgres bleibt auf deiner Platte – das ist okay, so musst du es beim nächsten Mal nicht erneut herunterladen.
+Das Image von Postgres bleibt auf deiner Platte – das ist okay, so musst du es beim nächsten Durchlauf nicht erneut herunterladen.
 
 ---
 
@@ -412,7 +412,7 @@ Siehe [Stolpersteine](stolpersteine.md) für eine ausführliche Liste. Die **Top
 
 Du hast gerade fünf einzelne `docker`-Befehle getippt (plus Stop/Rm-Zyklus). Das geht auch eleganter: **Docker Compose** beschreibt all das in **einer YAML-Datei** und startet es mit einem einzigen Befehl.
 
-Das ist das Thema für die **nächste 3-Stunden-Einheit** – siehe [Docker Compose](../docker-compose/index.md).
+Das ist das Thema des **Compose-Kapitels** – siehe [Docker Compose](../docker-compose/index.md).
 
 ---
 

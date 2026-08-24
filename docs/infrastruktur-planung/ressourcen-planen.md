@@ -172,7 +172,7 @@ Zum Vergleich - eigener kleiner Server:
 
 Dieselbe Maschine, derselbe Stundenpreis – aber der Dauerbetrieb kostet gut das Vierfache der Testumgebung, einfach weil sie öfter läuft. Daraus folgt die Faustregel: **Pay-as-you-go glänzt bei allem, was zeitweise oder schwankend läuft** – Testumgebungen, die abends ausgeschaltet werden, Lastspitzen im Weihnachtsgeschäft, ein Experiment für zwei Wochen. **Bei gleichmäßiger Dauerlast holt der gekaufte Server auf**, denn seine 50 € Abschreibung fallen an, egal ob er zu 10 % oder zu 90 % ausgelastet ist – je gleichmäßiger die Last, desto eher rechnet sich Besitz.
 
-Deine minikube-Übungen aus dem Kubernetes-Block sind übrigens das Lastprofil aus Fall 1 in Reinform: Der Cluster lief, solange du geübt hast – danach `minikube stop`, null Verbrauch. Genau solche Arbeitslasten sind in der Cloud pro Stunde bezahlt am günstigsten.
+Die minikube-Übungen aus dem Kubernetes-Block sind übrigens das Lastprofil aus Fall 1 in Reinform: Der Cluster läuft, solange geübt wird – danach `minikube stop`, null Verbrauch. Genau solche Arbeitslasten sind in der Cloud pro Stunde bezahlt am günstigsten.
 
 ### TCO: die Gesamtrechnung
 

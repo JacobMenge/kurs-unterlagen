@@ -5,7 +5,9 @@ description: "Prüfungsformat für den Geprüften Berufsspezialisten für System
 
 # Die Prüfung
 
-Der **18. März 2027** ist der Fixpunkt, auf den dieser Kurs hinarbeitet. Diese Seite erklärt, **was dich erwartet** – damit du von Anfang an weißt, worauf du lernst.
+Die schriftliche Prüfung ist der Fixpunkt, auf den der ganze Kurs hinarbeitet. Diese Seite erklärt, **was dich erwartet** – damit du von Anfang an weißt, worauf du lernst.
+
+Den konkreten Termin für deinen Kurs findest du in der **[Kursinfo](index.md#termine-dieses-kurses)**.
 
 !!! abstract "Das Wichtigste vorab"
     - **Zwei Teile:** eine schriftliche und eine mündliche Prüfung
@@ -42,8 +44,6 @@ Zusätzlich sollen die **Dimensionen nachhaltigen Wirtschaftens und deren ethisc
 ---
 
 ## Die schriftliche Prüfung
-
-**Termin für unseren Kurs: 18. März 2027.**
 
 So ist sie aufgebaut:
 

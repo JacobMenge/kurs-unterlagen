@@ -112,6 +112,6 @@ Themen:
 - Restart-Policies und Crash-Recovery
 - Image-Größen vergleichen (full vs. slim vs. alpine)
 
-Alternativ als Vorbereitung auf Donnerstag könnt ihr euch schon mal den ersten **Docker-Compose**-Teil anschauen – das ist die nächste Einheit:
+Alternativ könnt ihr euch als Vorbereitung schon den ersten **Docker-Compose**-Teil anschauen:
 
 → **[Docker Compose – Einführung](../docker-compose/einfuehrung.md)**

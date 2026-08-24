@@ -9,10 +9,10 @@ Diese Seite beantwortet die Fragen, die nichts mit Technik zu tun haben: **Wann 
 
 !!! abstract "Das Wichtigste in Kürze"
     - **Abschluss:** Geprüfter Berufsspezialist für Systemintegration und Vernetzung (IHK)
-    - **Unterricht:** montags und mittwochs, 18:00 bis 21:00 Uhr, online über Google Meet
-    - **Schriftliche Prüfung:** 18. März 2027
+    - **Unterricht:** zwei Abende pro Woche, online über Google Meet
     - **Anwesenheit:** über 70 Prozent – Voraussetzung für das Aufstiegs-BAföG
     - **Bei organisatorischen Fragen:** [beratung@cloudhelden.org](mailto:beratung@cloudhelden.org)
+    - **Konkrete Termine:** siehe [Termine dieses Kurses](#termine-dieses-kurses)
 
 ---
 
@@ -22,7 +22,7 @@ Der **Geprüfte Berufsspezialist für Systemintegration und Vernetzung** ist ein
 
 Mit dem Abschluss weist du nach, dass du **digitale Komponenten eigenständig planen, integrieren und störungsfrei betreiben** kannst – in klassischen IT-Infrastrukturen ebenso wie in automatisierten Anlagen der Produktion oder in der Gebäude- und Verkehrsinfrastruktur.
 
-Alles zum Prüfungsformat steht auf der Seite **[Die Prüfung](pruefung.md)**.
+Alles zum Prüfungsformat steht auf der Seite **[Die Prüfung](pruefung.md)**. Was die andere Lehrkraft unterrichtet, ordnet **[Weitere Prüfungsthemen](../weitere-themen.md)** ein.
 
 ---
 
@@ -41,25 +41,43 @@ Der Kurs besteht aus drei Themenschwerpunkten. Den größten Teil, die **Spezial
 
 ### Was wir in der Spezialisierung durchgehen
 
-1. **Planen und integrieren** – Netzwerke, Virtualisierung, Container, Architekturen, Speicherlösungen, Ressourcenplanung und Lizenzmodelle
-2. **Betrieb sicherstellen** – Ausfallsicherheit, Backup und Wiederanlauf, Monitoring, Betriebsdaten, Softwareverteilung und Automatisierung
-3. **Qualität und Sicherheit** – Risiken bewerten, Sicherheitskonzepte, Umgang mit Vorfällen, Tests, Optimierung und Übergabe an Anwender
+1. **[Thema 1 – Planung und Integration](../thema-1.md)** – Netzwerke, Virtualisierung, Container, Architekturen, Speicherlösungen, Ressourcenplanung und Lizenzmodelle
+2. **[Thema 2 – Laufender Betrieb](../thema-2.md)** – Ausfallsicherheit, Backup und Wiederanlauf, Monitoring, Betriebsdaten, Softwareverteilung und Orchestrierung
+3. **[Thema 3 – Qualität und Sicherheit](../thema-3.md)** – Risiken bewerten, Sicherheitskonzepte, Umgang mit Vorfällen, Tests, Optimierung und Übergabe
 
-Der **[Fahrplan](../fahrplan.md)** zeigt dir, in welcher Reihenfolge die Themen aufeinander aufbauen.
+Der **[Fahrplan](../fahrplan.md)** zeigt dir, in welcher Reihenfolge die Themen aufeinander aufbauen und wie ein Kursabend abläuft.
 
 ---
 
-## Termine und Zeiten
+## Termine dieses Kurses
 
-- **Unterricht:** montags und mittwochs, **18:00 bis 21:00 Uhr**
-- **Ort:** online über Google Meet, den Link bekommst du von Cloudhelden
-- **Dauer:** von August 2026 bis in den März 2027 hinein
-- **Schriftliche Prüfung:** 18. März 2027
+!!! info "Angaben für den aktuellen Kursdurchlauf"
+    Die folgenden Angaben gelten für **Kurs 26.2B**. Bei einem neuen Kursdurchlauf werden sie hier aktualisiert – alle übrigen Seiten dieser Unterlagen kommen ohne Datumsangaben aus.
 
-In der Woche vor der schriftlichen Prüfung gibt es zusätzlich eine **freiwillige, intensive Prüfungsvorbereitung**. Die Teilnahme lohnt sich – dort geht es gezielt um das Prüfungsformat.
+| | |
+|---|---|
+| **Unterrichtstage** | montags und mittwochs, 18:00 bis 21:00 Uhr |
+| **Kurszeitraum** | Ende August bis Anfang Februar |
+| **Kursfrei** | zwischen Weihnachten und Neujahr |
+| **Prüfungsvorbereitung** | mehrere Termine im Februar und März |
+| **Schriftliche Prüfung** | 18. März 2027 |
 
-!!! info "Die genaue Terminliste"
-    Alle konkreten Unterrichtstermine und eventuelle unterrichtsfreie Zeiten bekommst du von Cloudhelden. Wenn dir etwas unklar ist, frag kurz unter [beratung@cloudhelden.org](mailto:beratung@cloudhelden.org) nach.
+Den Zugangslink zum Unterricht und die vollständige Terminliste bekommst du von Cloudhelden. Wenn etwas unklar ist, frag kurz unter [beratung@cloudhelden.org](mailto:beratung@cloudhelden.org) nach.
+
+Vor der schriftlichen Prüfung gibt es eine **freiwillige, intensive Prüfungsvorbereitung**. Die Teilnahme lohnt sich – dort geht es gezielt um das Prüfungsformat.
+
+---
+
+## Wie ein Kursabend abläuft
+
+Die meisten Abende folgen demselben Muster:
+
+1. **Theorie im Hauptraum** – etwa 45 bis 60 Minuten: Begriffe, Zusammenhänge, das Warum.
+2. **Praxis in Kleingruppen** – der größere Teil des Abends. Ihr arbeitet in getrennten Räumen an einer Aufgabe, helft euch gegenseitig, und ich komme dazu, wenn etwas klemmt.
+3. **Gemeinsame Auswertung** – zurück im Hauptraum: Was ist herausgekommen, wo hat es gehakt, welche Lösungswege gab es?
+
+!!! tip "Die Praxis ist der Kern"
+    Der Kurs bereitet auf die Prüfung vor, aber vor allem sollt ihr die Dinge **anwenden**. Deshalb ist die Übungszeit kein Zusatz, sondern der wichtigste Teil des Abends.
 
 ---
 

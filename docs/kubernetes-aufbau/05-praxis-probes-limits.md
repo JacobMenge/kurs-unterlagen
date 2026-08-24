@@ -332,7 +332,7 @@ kubectl delete -f manifests/webserver-probes-limits.yaml --ignore-not-found
 kubectl delete -f manifests/speicherfresser.yaml --ignore-not-found
 ```
 
-Oder den ganzen Cluster für heute schlafen legen (er lässt sich später mit `minikube start` wiederbeleben):
+Oder den ganzen Cluster schlafen legen, wenn du fertig bist (er lässt sich später mit `minikube start` wiederbeleben):
 
 ```bash
 minikube stop

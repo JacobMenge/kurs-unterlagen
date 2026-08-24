@@ -79,7 +79,7 @@ Dashboard ist noch da (Volume `grafana-data`). Bei `docker compose down -v` wär
 
 ## Die ausgelieferten Dateien (zum Nachschauen)
 
-Diese Dateien schreibt ihr heute nicht selbst – sie liegen fertig im Projekt.
+Diese Dateien schreibt ihr nicht selbst – sie liegen fertig im Projekt.
 
 `compose.yaml`:
 

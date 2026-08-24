@@ -30,7 +30,7 @@ Docker ist kein einzelnes Produkt. Es gibt im Wesentlichen drei Wege, Docker auf
 
 Für den Kurs empfehle ich:
 
-- **Windows 11 / macOS:** Docker Desktop (einfachste Installation, bestes Zusammenspiel mit dem heutigen Stoff).
+- **Windows 11 / macOS:** Docker Desktop (einfachste Installation, bestes Zusammenspiel mit dem Stoff dieses Kapitels).
 - **Linux:** Docker Engine direkt.
 - **Firmenlaptop mit Lizenz-Problem:** Abschnitt „Alternativen" weiter unten.
 
@@ -45,7 +45,7 @@ Docker Desktop ist **für Privatpersonen, Bildung, kleinere Firmen und Open-Sour
 
     Die Lizenzpflicht betrifft **Docker Desktop** – nicht die Docker Engine auf Linux und **nicht** die Alternativen Colima, Podman, Rancher Desktop.
 
-    Wenn du nicht sicher bist, ob dein Arbeitgeber eine Lizenz hat: **frag kurz nach**, bevor du installierst. Für den heutigen Kurs auf deinem eigenen Laptop ist das in fast allen Fällen irrelevant.
+    Wenn du nicht sicher bist, ob dein Arbeitgeber eine Lizenz hat: **frag kurz nach**, bevor du installierst. Für die Übungen auf deinem eigenen Laptop ist das in fast allen Fällen irrelevant.
 
     Aktuelle Lizenzdetails: <https://www.docker.com/pricing/>
 
@@ -173,7 +173,7 @@ Wenn die Begrüßung erscheint, läuft alles.
 ## Installation auf macOS
 
 !!! info "Systemanforderungen macOS"
-    - **macOS 13.3 (Ventura) oder neuer** – Docker unterstützt offiziell die aktuelle und die zwei vorherigen macOS-Major-Versionen. Ältere macOS-Versionen werden mit Stand 2026 nicht mehr unterstützt.
+    - **macOS 13.3 (Ventura) oder neuer** – Docker unterstützt offiziell die aktuelle und die zwei vorherigen macOS-Major-Versionen. Ältere macOS-Versionen werden nicht mehr unterstützt.
     - **Apple Silicon (M1/M2/M3/M4)**: Rosetta 2 ist für die meisten Workflows **nicht mehr zwingend nötig**, kann aber für x86_64-Images sinnvoll sein (siehe Schritt 2).
     - **Mindestens 4 GB RAM**, empfohlen 8 GB oder mehr
     - **Ca. 2 GB Disk** für Docker Desktop plus Raum für Images
@@ -447,7 +447,7 @@ sudo usermod -aG docker $USER
     ```
 
 ??? info "Rootless Docker auf Linux"
-    Für Entwickler, die ohne `docker`-Gruppe arbeiten wollen, gibt es seit Docker 20.10 einen rootless-Modus (Docker läuft komplett im User-Space). Setup ist aber fummelig; für den heutigen Einstieg empfehle ich den klassischen Weg oben. Doku: <https://docs.docker.com/engine/security/rootless/>
+    Für Entwickler, die ohne `docker`-Gruppe arbeiten wollen, gibt es seit Docker 20.10 einen rootless-Modus (Docker läuft komplett im User-Space). Setup ist aber fummelig; für den Einstieg empfehle ich den klassischen Weg oben. Doku: <https://docs.docker.com/engine/security/rootless/>
 
 ---
 

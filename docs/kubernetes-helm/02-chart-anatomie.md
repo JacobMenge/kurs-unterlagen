@@ -211,7 +211,7 @@ Weil auch hier Platzhalter stehen, ist die Anleitung **auf deine Installation zu
 
 ## .helmignore – was draußen bleibt
 
-Die kürzeste Erklärung des Tages. Wenn du dein Chart zu einer Archivdatei schnürst (`helm package`), wandert normalerweise **alles** aus dem Ordner mit hinein. Nicht alles soll das:
+Die kürzeste Erklärung auf dieser Seite. Wenn du dein Chart zu einer Archivdatei schnürst (`helm package`), wandert normalerweise **alles** aus dem Ordner mit hinein. Nicht alles soll das:
 
 ```text
 .DS_Store

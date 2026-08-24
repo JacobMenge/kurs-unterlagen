@@ -124,7 +124,7 @@ Bleibt die Frage, warum sich überhaupt jemand für die eine oder andere Seite e
 Viele Hersteller fahren zweigleisig: eine kostenlose **Community-Ausgabe** für den Einstieg, daneben eine kostenpflichtige **Enterprise-Ausgabe** mit Support, Zusatzfunktionen oder Betriebsfreigaben. Das Modell heißt **Freemium** – und sein Kleingedrucktes ändert sich gern.
 
 !!! warning "Kurs-Anker: Docker Desktop"
-    Docker Desktop – das Werkzeug, mit dem du im Container-Block gearbeitet hast – ist gratis für Privatpersonen, Open-Source-Projekte und kleine Firmen. Ab einer bestimmten Unternehmensgröße (gemessen an Beschäftigten und Umsatz) ist ein kostenpflichtiges Abo Pflicht. Diese Grenze wurde nachträglich eingeführt: Wer das Werkzeug vorher kostenlos im Betrieb nutzte, musste nach einer Übergangsfrist ein Abo abschließen.
+    Docker Desktop – das Werkzeug aus dem Container-Block – ist gratis für Privatpersonen, Open-Source-Projekte und kleine Firmen. Ab einer bestimmten Unternehmensgröße (gemessen an Beschäftigten und Umsatz) ist ein kostenpflichtiges Abo Pflicht. Diese Grenze wurde nachträglich eingeführt: Wer das Werkzeug vorher kostenlos im Betrieb nutzte, musste nach einer Übergangsfrist ein Abo abschließen.
 
     Die Lehre daraus: **Lizenzbedingungen sind nicht statisch.** Was heute gratis ist, kann morgen abopflichtig sein – Lizenzen gehören deshalb regelmäßig auf Wiedervorlage, nicht einmalig in einen Ordner.
 
@@ -190,37 +190,37 @@ Bis hierhin klang eine Lizenz nach etwas, das man einkauft. In modernen Systemen
 <figure>
 <svg viewBox="0 0 720 350" width="100%" height="350" role="img" aria-label="Ein Turm aus fünf gestapelten Ebenen: unten die Cloud-Plattform als breitestes Fundament, darüber Betriebssystem und Basis-Image, darüber Frameworks, darüber Bibliotheken und Pakete, ganz oben der eigene Code. Jede Ebene trägt die darüberliegende und bringt eine eigene Lizenz mit.">
   <!-- Traegt-Pfeil links -->
-  <line x1="54" y1="318" x2="54" y2="54" stroke="#56c374" stroke-width="2"/>
-  <polygon points="54,42 48,56 60,56" fill="#56c374"/>
-  <text transform="rotate(-90 32 186)" x="32" y="186" text-anchor="middle" fill="#56c374" font-family="system-ui, sans-serif" font-size="12">trägt die Ebene darüber</text>
+  <line x1="54" y1="318" x2="54" y2="54" stroke="var(--md-typeset-a-color, #56c374)" stroke-width="2"/>
+  <polygon points="54,42 48,56 60,56" fill="var(--md-typeset-a-color, #56c374)"/>
+  <text transform="rotate(-90 32 186)" x="32" y="186" text-anchor="middle" fill="var(--md-typeset-a-color, #56c374)" font-family="system-ui, sans-serif" font-size="12">trägt die Ebene darüber</text>
 
   <!-- Ebene 5: Eigener Code -->
-  <rect x="175" y="44" width="230" height="52" rx="5" fill="rgba(125,255,154,0.07)" stroke="#56c374" stroke-width="2"/>
-  <text x="290" y="76" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">5</tspan><tspan fill="#e2ece6" dx="10">Eigener Code</tspan></text>
-  <text x="425" y="76" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">eigene Lizenz – passt sie nach unten?</text>
+  <rect x="175" y="44" width="230" height="52" rx="5" fill="rgba(125,255,154,0.07)" stroke="var(--md-typeset-a-color, #56c374)" stroke-width="2"/>
+  <text x="290" y="76" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="var(--md-typeset-a-color, #56c374)" font-weight="700">5</tspan><tspan fill="currentColor" dx="10">Eigener Code</tspan></text>
+  <text x="425" y="76" fill="var(--md-default-fg-color--light, #8fa498)" font-family="system-ui, sans-serif" font-size="12">eigene Lizenz – passt sie nach unten?</text>
 
   <!-- Ebene 4: Bibliotheken -->
-  <rect x="155" y="100" width="270" height="52" rx="5" fill="rgba(125,255,154,0.09)" stroke="#56c374" stroke-width="2"/>
-  <text x="290" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">4</tspan><tspan fill="#e2ece6" dx="10">Bibliotheken &amp; Pakete</tspan></text>
-  <text x="445" y="132" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">hunderte Lizenzen auf einmal</text>
+  <rect x="155" y="100" width="270" height="52" rx="5" fill="rgba(125,255,154,0.09)" stroke="var(--md-typeset-a-color, #56c374)" stroke-width="2"/>
+  <text x="290" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="var(--md-typeset-a-color, #56c374)" font-weight="700">4</tspan><tspan fill="currentColor" dx="10">Bibliotheken &amp; Pakete</tspan></text>
+  <text x="445" y="132" fill="var(--md-default-fg-color--light, #8fa498)" font-family="system-ui, sans-serif" font-size="12">hunderte Lizenzen auf einmal</text>
 
   <!-- Ebene 3: Frameworks -->
-  <rect x="135" y="156" width="310" height="52" rx="5" fill="rgba(125,255,154,0.11)" stroke="#56c374" stroke-width="2"/>
-  <text x="290" y="188" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">3</tspan><tspan fill="#e2ece6" dx="10">Frameworks</tspan></text>
-  <text x="465" y="188" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">Lizenz kann wechseln</text>
+  <rect x="135" y="156" width="310" height="52" rx="5" fill="rgba(125,255,154,0.11)" stroke="var(--md-typeset-a-color, #56c374)" stroke-width="2"/>
+  <text x="290" y="188" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="var(--md-typeset-a-color, #56c374)" font-weight="700">3</tspan><tspan fill="currentColor" dx="10">Frameworks</tspan></text>
+  <text x="465" y="188" fill="var(--md-default-fg-color--light, #8fa498)" font-family="system-ui, sans-serif" font-size="12">Lizenz kann wechseln</text>
 
   <!-- Ebene 2: Betriebssystem -->
-  <rect x="115" y="212" width="350" height="52" rx="5" fill="rgba(125,255,154,0.13)" stroke="#56c374" stroke-width="2"/>
-  <text x="290" y="244" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">2</tspan><tspan fill="#e2ece6" dx="10">Betriebssystem / Basis-Image</tspan></text>
-  <text x="485" y="244" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">lizenzpflichtig?</text>
+  <rect x="115" y="212" width="350" height="52" rx="5" fill="rgba(125,255,154,0.13)" stroke="var(--md-typeset-a-color, #56c374)" stroke-width="2"/>
+  <text x="290" y="244" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="var(--md-typeset-a-color, #56c374)" font-weight="700">2</tspan><tspan fill="currentColor" dx="10">Betriebssystem / Basis-Image</tspan></text>
+  <text x="485" y="244" fill="var(--md-default-fg-color--light, #8fa498)" font-family="system-ui, sans-serif" font-size="12">lizenzpflichtig?</text>
 
   <!-- Ebene 1: Cloud-Plattform -->
-  <rect x="95" y="268" width="390" height="52" rx="5" fill="rgba(125,255,154,0.16)" stroke="#7dff9a" stroke-width="2"/>
-  <text x="290" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="#7dff9a" font-weight="700">1</tspan><tspan fill="#e2ece6" dx="10">Cloud-Plattform</tspan></text>
-  <text x="505" y="300" fill="#8fa498" font-family="system-ui, sans-serif" font-size="12">eingepreist?</text>
+  <rect x="95" y="268" width="390" height="52" rx="5" fill="rgba(125,255,154,0.16)" stroke="var(--md-typeset-a-color, #56c374)" stroke-width="2"/>
+  <text x="290" y="300" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14"><tspan fill="var(--md-typeset-a-color, #56c374)" font-weight="700">1</tspan><tspan fill="currentColor" dx="10">Cloud-Plattform</tspan></text>
+  <text x="505" y="300" fill="var(--md-default-fg-color--light, #8fa498)" font-family="system-ui, sans-serif" font-size="12">eingepreist?</text>
 
   <!-- Fundamentplatte -->
-  <rect x="80" y="324" width="420" height="12" rx="3" fill="rgba(86,195,116,0.30)" stroke="#56c374" stroke-width="1"/>
+  <rect x="80" y="324" width="420" height="12" rx="3" fill="rgba(86,195,116,0.30)" stroke="var(--md-typeset-a-color, #56c374)" stroke-width="1"/>
 </svg>
 <figcaption>Der Stapel, auf dem eine moderne Anwendung steht: Jede Ebene trägt die darüberliegende – und bringt ihre eigene Lizenz mit, die sie jederzeit ändern kann.</figcaption>
 </figure>
@@ -364,7 +364,7 @@ Zum Abschluss die Punkte, die du in jedem Lizenzvertrag prüfen solltest – hie
 - **Änderungsvorbehalt**: Darf der Hersteller Metrik, Preis oder Bedingungen während der Laufzeit ändern – und was passiert dann? Genau hier entscheidet sich, ob eine Umstellung von „pro Nutzer" auf „pro Kern" dich mitten im Vertrag trifft oder erst zur Verlängerung.
 
 !!! note "Lizenzbedingungen sind auch ein Machtinstrument"
-    Wie eine Lizenz gestaltet ist, entscheidet nicht nur über Kosten, sondern über Wettbewerb. Ein bekanntes Beispiel: In Großbritannien läuft eine Sammelklage in Milliardenhöhe gegen Microsoft. Der Vorwurf lautet, dass Server-Lizenzen in der hauseigenen Cloud deutlich günstiger sind als bei konkurrierenden Anbietern – wer wechseln will, zahlt für dieselbe Software mehr.
+    Wie eine Lizenz gestaltet ist, entscheidet nicht nur über Kosten, sondern über Wettbewerb. Ein bekanntes Beispiel: In Großbritannien wurde eine Sammelklage in Milliardenhöhe gegen Microsoft eingereicht. Der Vorwurf lautet, dass Server-Lizenzen in der hauseigenen Cloud deutlich günstiger sind als bei konkurrierenden Anbietern – wer wechseln will, zahlt für dieselbe Software mehr.
 
     Für dich in der Planung heißt das: Der Preis einer Lizenz kann davon abhängen, **wo** du sie betreibst. Diese Frage gehört in jeden Cloud-Vergleich, sonst rechnest du zwei Angebote gegeneinander, deren Lizenzkosten gar nicht dieselbe Basis haben.
 

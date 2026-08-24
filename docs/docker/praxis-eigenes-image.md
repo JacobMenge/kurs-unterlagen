@@ -329,7 +329,7 @@ Ein anderer Container (oder ein anderes Programm) nutzt schon Port 9000. Entwede
 
 Ursache: du hast `index.html` geändert, aber **den alten Container** noch laufen. Der alte Container benutzt das **alte Image** mit der alten Datei. Neues Image bauen, alten Container entfernen, neuen starten – wie oben beschrieben.
 
-Alternative ohne Rebuild: ein **Bind Mount** von deinem Host-Ordner in den Container. Das ist das Thema für den nächsten Kursblock, wenn wir Volumes durchgehen.
+Alternative ohne Rebuild: ein **Bind Mount** von deinem Host-Ordner in den Container. Das ist das Thema des Volumes-Kapitels.
 
 ---
 

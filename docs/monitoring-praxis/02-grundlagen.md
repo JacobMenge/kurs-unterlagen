@@ -15,7 +15,7 @@ Eine **Metrik** ist eine **Zahl zu einem Zeitpunkt**: „Antwortzeit = 120 ms", 
 
 Ein **Log** ist ein **Text-Ereignis**: „14:03:12 Dienst gestartet". Logs erzählen, *was* passiert ist. Metriken zeigen, *wie viel* und *wie der Trend* ist.
 
-> Heute geht es um **Metriken**. Logs hast du in den Docker-Blöcken mit `docker compose logs` schon gesehen.
+> Hier geht es um **Metriken**. Logs kennst du aus Docker mit `docker compose logs`.
 
 ---
 

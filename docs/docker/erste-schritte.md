@@ -270,7 +270,7 @@ docker logs web
 Du siehst die Zugriffs-Logs von nginx – jeder Browser-Refresh erzeugt eine neue Zeile:
 
 ```text
-192.168.65.1 - - [21/Apr/2026:12:34:56 +0000] "GET / HTTP/1.1" 200 615 "-" "Mozilla/5.0..."
+192.168.65.1 - - [15/Mar/2024:12:34:56 +0000] "GET / HTTP/1.1" 200 615 "-" "Mozilla/5.0..."
 ```
 
 Mit `-f` kannst du live folgen (wie `tail -f`):

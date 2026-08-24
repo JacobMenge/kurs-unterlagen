@@ -5,7 +5,7 @@ description: "Angeleitete Übung: das Release station per „helm upgrade“ von
 
 # Praxis – hochziehen und zurückrollen
 
-<span class='badge badge-praxis'>Praxis – Pflicht</span> &nbsp; In Teil 2 hast du eine Farbe geändert und die Pods anschließend von Hand ausgetauscht. Heute machst du dasselbe mit **einem** Befehl. Und das Bessere daran: Du machst es mit **einem** Befehl auch wieder rückgängig.
+<span class='badge badge-praxis'>Praxis – Pflicht</span> &nbsp; In Teil 2 hast du eine Farbe geändert und die Pods anschließend von Hand ausgetauscht. Jetzt machst du dasselbe mit **einem** Befehl. Und das Bessere daran: Du machst es mit **einem** Befehl auch wieder rückgängig.
 
 Das hier ist die Übung, für die du Helm gelernt hast. Alles andere – Chart, Templates, Werte – war der Anlauf. Jetzt springt die Farbe zurück.
 
@@ -79,7 +79,7 @@ kubectl port-forward svc/station 8080:80
   <p class="as-meta">Server name: station-697cc5d946-t8qr6</p>
 </div>
 
-Merk dir dieses Bild. Am Ende der Stunde ist es wieder da – nach einem Umweg über Grün.
+Merk dir dieses Bild. Am Ende dieser Übung ist es wieder da – nach einem Umweg über Grün.
 
 ---
 
@@ -94,7 +94,7 @@ helm upgrade station ./webserver --set color="#2e9e5b" --set version=2 --set sta
 ```text
 Release "station" has been upgraded. Happy Helming!
 NAME: station
-LAST DEPLOYED: Thu Jul 16 15:01:02 2026
+LAST DEPLOYED: Fri Mar 15 15:01:02 2024
 NAMESPACE: default
 STATUS: deployed
 REVISION: 2
@@ -233,9 +233,9 @@ helm history station
 
 ```text
 REVISION	UPDATED                 	STATUS    	CHART          	APP VERSION	DESCRIPTION
-1       	Thu Jul 16 15:00:33 2026	superseded	webserver-0.1.0	1          	Install complete
-2       	Thu Jul 16 15:01:02 2026	superseded	webserver-0.1.0	1          	Upgrade complete
-3       	Thu Jul 16 15:01:20 2026	deployed  	webserver-0.1.0	1          	Rollback to 1
+1       	Fri Mar 15 15:00:33 2024	superseded	webserver-0.1.0	1          	Install complete
+2       	Fri Mar 15 15:01:02 2024	superseded	webserver-0.1.0	1          	Upgrade complete
+3       	Fri Mar 15 15:01:20 2024	deployed  	webserver-0.1.0	1          	Rollback to 1
 ```
 
 Lies die letzte Zeile genau. Da steht **nicht** „Revision 2 gelöscht". Da steht: **Revision 3, `Rollback to 1`**.
@@ -274,7 +274,7 @@ Lies die letzte Zeile genau. Da steht **nicht** „Revision 2 gelöscht". Da ste
   <text x="320" y="244" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#8fa498">Ein Rollback löscht nichts – er stellt einen alten Stand als neue Revision wieder her.</text>
 </svg>
 
-Das ist der Satz, den du dir aus dieser Stunde mitnimmst:
+Das ist der Satz, den du dir aus dieser Übung mitnimmst:
 
 !!! success "Merksatz zum Mitnehmen"
     **Ein Rollback ist kein Löschen. Es ist eine neue Revision, die einen alten Stand wiederherstellt.** Die Geschichte bleibt vollständig – man sieht später noch, dass es einen grünen Stand gab und dass jemand ihn zurückgeholt hat. Der Zähler läuft immer nur vorwärts, auch wenn der Inhalt zurückgeht.
@@ -363,7 +363,7 @@ Jetzt du. Versuch es erst **ohne** zu spicken – die Lösung ist darunter.
     - **Wie viele Revisionen `helm history` anzeigt**, steuert `--max`. Ohne Angabe zeigt der Befehl die letzten **256**.
     - **Wie viele Revisionen Helm überhaupt aufhebt**, steuert `--history-max` bei `helm upgrade`. Standard sind **10**. Ältere fallen hinten raus.
 
-    Im Kurs merkst du davon nichts – so viele Upgrades machst du heute nicht. In einem Cluster, in dem seit Monaten täglich ausgerollt wird, sieht das anders aus: Was älter als die letzten zehn Revisionen ist, holst du nicht mehr per `helm rollback` zurück. Dafür gibt es dann Git – die Werte-Dateien liegen ja dort.
+    Im Kurs merkst du davon nichts – so viele Upgrades machst du hier nicht. In einem Cluster, in dem seit Monaten täglich ausgerollt wird, sieht das anders aus: Was älter als die letzten zehn Revisionen ist, holst du nicht mehr per `helm rollback` zurück. Dafür gibt es dann Git – die Werte-Dateien liegen ja dort.
 
 ??? success "Erwartung"
     Du bist vor und zurück gesprungen, ohne dir dabei einen einzigen Wert merken zu müssen: `helm upgrade` hat eine neue Revision erzeugt, `helm rollback` hat einen alten Stand als **wieder neue** Revision zurückgeholt. Du hast gesehen, dass die Prüfsumme im Chart den Rollout von selbst auslöst – der Handgriff `kubectl rollout restart` aus Teil 2 entfällt, weil ihn jemand ins Paket eingebaut hat. Und du kennst den Unterschied, auf den es ankommt: `kubectl rollout undo` holt **ein Deployment** zurück, `helm rollback` das **ganze Paket**.
@@ -381,7 +381,7 @@ helm uninstall station
 Das entfernt alles, was zum Release gehört – ConfigMap, Secret, Service und Deployment – und dazu die gespeicherte History. Oder du lässt es einfach laufen: Es stört niemanden und in der [Praxis: Drei Umgebungen](07-lab-drei-umgebungen.md) taucht `station` ohnehin wieder auf.
 
 !!! tip "Tunnel beenden, Cluster behalten"
-    Das `port-forward`-Terminal schließt du mit **Ctrl+C** – das beendet nur den Tunnel, nicht die Pods. Und wenn für heute Schluss ist, leg den Cluster schlafen: `minikube stop`. Mit `minikube start` ist er später wieder da, samt Releases.
+    Das `port-forward`-Terminal schließt du mit **Ctrl+C** – das beendet nur den Tunnel, nicht die Pods. Und wenn du Schluss machst, leg den Cluster schlafen: `minikube stop`. Mit `minikube start` ist er später wieder da, samt Releases.
 
 ---
 
@@ -398,4 +398,4 @@ Die Seite bleibt blau, obwohl das Upgrade durch ist? `helm upgrade` bricht ab? D
 ## Weiter
 
 - **[Praxis: Drei Umgebungen](07-lab-drei-umgebungen.md)** – deine nächste Pflichtaufgabe: dieselbe App als dev, test und prod, aus einem einzigen Chart
-- [Fertige Charts nutzen](06-fertige-charts-nutzen.md) – zum Nachlesen: ein Chart, das jemand anderes gebaut hat. Das zeige ich im Hauptraum, du musst dafür nichts tippen
+- [Fertige Charts nutzen](06-fertige-charts-nutzen.md) – zum Nachlesen: ein Chart, das jemand anderes gebaut hat. Das wird einmal gemeinsam vorgeführt, du musst dafür nichts tippen

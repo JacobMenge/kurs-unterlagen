@@ -48,7 +48,7 @@ flowchart LR
 | **Runner** | Die Maschine, auf der ein Job läuft. Standard: GitHub-gehostete Ubuntu-VM. |
 | **Action** | Wiederverwendbarer Baustein, geschrieben von GitHub, der Community oder dir selbst. Liegt in einem eigenen Repo. |
 
-Wer aus dem letzten Block die Begriffe von [Pipeline-Konzept](pipeline-konzept.md) kennt: Job, Step, Runner sind hier dieselben.
+Wer die Begriffe aus [Pipeline-Konzept](pipeline-konzept.md) kennt: Job, Step, Runner sind hier dieselben.
 
 ---
 

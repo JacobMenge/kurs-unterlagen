@@ -11,13 +11,13 @@ description: "Manuelles Deployment ist mühsam, fehleranfällig und nicht nachvo
     - drei konkrete Schmerzpunkte beim manuellen Deployment benennen
     - erklären, warum „works on my machine" ein Symptom und keine Ursache ist
     - die wirtschaftliche Motivation hinter CI/CD in einem Satz formulieren
-    - die Brücke zwischen Block 5 (eigenes Image bauen) und diesem Block schlagen
+    - die Brücke vom eigenen Image-Bau zur automatisierten Auslieferung schlagen
 
 ---
 
 ## Brücke: Wo wir stehen
 
-Du hast in den letzten Blöcken gelernt:
+Bis hierher kennst du aus dem Docker-Teil:
 
 - ein **Dockerfile** schreiben
 - mit `docker build` ein **Image** erzeugen
@@ -149,7 +149,7 @@ In der Praxis sind das die drei Stellen, an denen Teams am häufigsten kippen:
 
 ## Was CI/CD **nicht** löst
 
-Wichtig zur Erwartungsmanagement:
+Wichtig zum Erwartungsmanagement:
 
 - **Keine guten Tests, keine gute Pipeline.** CI/CD führt nur das aus, was du ihr gibst. Wenn dein Test-Suite leer ist, kippt der Pipeline-Build niemals. Die Software ist trotzdem kaputt.
 - **Keine guten Architekturen, keine schöne Pipeline.** Wenn dein Deploy 47 manuelle Schritte braucht, weil das Schema-Migrations-Tool kaputt ist, hilft auch GitHub Actions nicht.
@@ -177,7 +177,7 @@ Teams **mit** automatisierter Pipeline deployen täglich, scheitern selten und b
 
 ## Das Bild für den Rest des Blocks
 
-Was wir in den nächsten Stunden bauen, sieht im Kleinen genau so aus:
+Was wir auf den folgenden Seiten bauen, sieht im Kleinen genau so aus:
 
 ```mermaid
 flowchart LR

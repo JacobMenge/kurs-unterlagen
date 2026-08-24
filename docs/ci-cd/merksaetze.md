@@ -1,9 +1,9 @@
 ---
 title: "Merksätze: CI/CD-Block"
-description: "Die Kern-Sätze aus Block 6 kompakt auf einer Seite."
+description: "Die Kern-Sätze aus dem CI/CD-Block kompakt auf einer Seite."
 ---
 
-# Merksätze: CI/CD-Einführung mit GitHub Actions (Block 6)
+# Merksätze: CI/CD-Einführung mit GitHub Actions
 
 ---
 

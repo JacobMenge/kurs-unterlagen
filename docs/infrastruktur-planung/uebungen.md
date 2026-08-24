@@ -7,7 +7,7 @@ description: "Denk- und Transferaufgaben zum ganzen Block an einem durchgehenden
 
 <span class='badge badge-praxis'>Aufgaben</span> &nbsp; Alle Aufgaben auf dieser Seite drehen sich um **ein** durchgehendes Szenario. Es sind schriftliche Denkaufgaben – du brauchst keinen Rechner, außer um auf den Theorieseiten nachzulesen. Zu jeder Aufgabe gibt es eine aufklappbare Musterlösung mit Erklärung.
 
-Kurz zur Arbeitsweise: Beantworte jede Aufgabe **erst selbst schriftlich** – auf Papier oder in einer Textdatei – und klapp die Musterlösung erst danach auf. Wer die Lösung vorab liest, nimmt sich genau den Lerneffekt, um den es hier geht. Die Aufgaben bauen aufeinander auf, funktionieren aber auch einzeln. Wenn du irgendwo hängst, lies die in der Aufgabe verlinkte Theorieseite und versuch es noch einmal. Und was danach offen bleibt, bringst du einfach mit – besprochen wird beim nächsten Termin.
+Kurz zur Arbeitsweise: Beantworte jede Aufgabe **erst selbst schriftlich** – auf Papier oder in einer Textdatei – und klapp die Musterlösung erst danach auf. Wer die Lösung vorab liest, nimmt sich genau den Lerneffekt, um den es hier geht. Die Aufgaben bauen aufeinander auf, funktionieren aber auch einzeln. Wenn du irgendwo hängst, lies die in der Aufgabe verlinkte Theorieseite und versuch es noch einmal.
 
 ---
 
@@ -21,7 +21,7 @@ Die **TransRegio Spedition GmbH** ist eine mittelständische Spedition mit 140 M
 - Telematik: 90 Lkw senden Positions- und Fahrzeugdaten an eine extern gehostete Plattform des Telematik-Anbieters
 - Personalakten und Bewerbungen liegen auf dem Fileserver in einem Ordner, auf den alle Mitarbeiter Lesezugriff haben
 - Internetanbindung: Hauptsitz 50 Mbit/s, Außenstellen je 16 Mbit/s
-- kein Monitoring, Dokumentation: eine Excel-Liste, zuletzt gepflegt 2021
+- kein Monitoring, Dokumentation: eine Excel-Liste, seit Jahren nicht mehr gepflegt
 
 Die Geschäftsführung plant die Übernahme eines Wettbewerbers (+60 Mitarbeiter, vierter Standort) und wünscht sich „möglichst wenig eigene Hardware in der Zukunft". Der Hersteller von TransPlan bietet die Software inzwischen auch als SaaS-Variante an. Du sollst die neue Ziel-Infrastruktur planen.
 
@@ -70,7 +70,7 @@ Lies die Ausgangslage noch einmal, diesmal mit dem Blick eines externen Beraters
     | Backups liegen auf demselben NAS wie die Originaldaten | Brand, Wasserschaden, Hardwaredefekt oder ein Verschlüsselungstrojaner treffen Original **und** Backup gleichzeitig. Ein Backup, das mit den Originaldaten untergeht, ist keins. |
     | Personalakten mit Lesezugriff für alle Mitarbeiter | Personalakten enthalten besonders schutzwürdige Daten (Gehälter, Krankmeldungen, Bewerbungen). Zugriff müsste auf die Personalabteilung beschränkt sein – die offene Freigabe ist ein Datenschutzverstoß mit realem Haftungsrisiko. |
     | Kein Monitoring | Ausfälle fallen erst auf, wenn sich Nutzer beschweren – im schlimmsten Fall montags um 7 Uhr die Disposition. Schleichende Probleme wie ein volllaufender Speicher werden gar nicht bemerkt, bis es knallt. |
-    | Dokumentation: eine Excel-Liste von 2021 | Niemand weiß verlässlich, was wo läuft und wie es konfiguriert ist. Jede Störungssuche dauert länger, jede Planung (etwa die anstehende Übernahme) startet blind und das Wissen steckt in einzelnen Köpfen. |
+    | Dokumentation: eine seit Jahren ungepflegte Excel-Liste | Niemand weiß verlässlich, was wo läuft und wie es konfiguriert ist. Jede Störungssuche dauert länger, jede Planung (etwa die anstehende Übernahme) startet blind und das Wissen steckt in einzelnen Köpfen. |
 
     **2. Warum so?** – Das Denkmodell dahinter: Geh jede Komponente der Ausgangslage durch und stell zwei Fragen. Erstens: **Was passiert, wenn das ausfällt?** Zweitens: **Wer kann darauf zugreifen – und sollte er das dürfen?** Die erste Frage findet Verfügbarkeits-Schwachstellen, die zweite Vertraulichkeits-Schwachstellen. Eine gute Schwachstellen-Formulierung besteht immer aus zwei Teilen: dem Zustand („Backup auf demselben NAS") plus der Folge („geht bei einem Vorfall zusammen mit den Daten verloren"). Ohne den zweiten Teil ist es nur eine Beobachtung.
 
@@ -424,7 +424,7 @@ Die Geschäftsführung fragt beim Budgetgespräch: „Was heißt das eigentlich 
 
     **4. Typischer Stolperstein**
 
-    Aus der ersten Zeile der Rechnung den Schluss zu ziehen: „Cloud ist immer billiger." Der Vergleich 33,60 gegen 144,00 Euro vergleicht nicht Cloud gegen Keller, sondern **Teilzeitbetrieb gegen Dauerbetrieb** in derselben Cloud. Wer eine Dauerlast zum Stundenpreis in die Cloud hebt, zahlt unter Umständen mehr als vorher – der OpEx-Vorteil kommt aus der Flexibilität, nicht aus dem Preisschild.
+    Aus der ersten Zeile der Rechnung den Schluss zu ziehen: „Cloud ist immer billiger." Der Vergleich 35,20 gegen 144,00 Euro vergleicht nicht Cloud gegen Keller, sondern **Teilzeitbetrieb gegen Dauerbetrieb** in derselben Cloud. Wer eine Dauerlast zum Stundenpreis in die Cloud hebt, zahlt unter Umständen mehr als vorher – der OpEx-Vorteil kommt aus der Flexibilität, nicht aus dem Preisschild.
 
 ---
 
@@ -783,7 +783,7 @@ Die Übernahme wird konkret: TransRegio kauft die **Lohmann Transporte GmbH** �
 
 | Software | Lizenzform | Bestand und Kleingedrucktes |
 |---|---|---|
-| „DispoLine" (Disposition) | Kauflizenz, 2019 erworben | 25 Arbeitsplätze, Wartungsvertrag 2.100 Euro im Jahr, kündbar mit 3 Monaten Frist zum Jahresende |
+| „DispoLine" (Disposition) | Kauflizenz, vor Jahren erworben | 25 Arbeitsplätze, Wartungsvertrag 2.100 Euro im Jahr, kündbar mit 3 Monaten Frist zum Jahresende |
 | Büro-Paket (Mail, Text, Tabellen) | Abo, Named User | 60 Konten zu 9 Euro je Nutzer und Monat, Vertrag auf den Namen der Lohmann Transporte GmbH, Restlaufzeit 14 Monate, danach automatische Verlängerung um 12 Monate |
 | „Zollprofi" (Zollabwicklung) | Named User, Kauf plus Pflege | 12 Lizenzen, Pflege 95 Euro je Lizenz und Jahr |
 | PDF-Werkzeug, Community-Ausgabe | kostenlos | „kostenfrei für Unternehmen bis 100 Beschäftigte", installierte Stückzahl unbekannt |
@@ -817,7 +817,7 @@ In der SaaS-Variante bekommt jede und jeder Beschäftigte ein TransPlan-Konto, w
 
     | Position | Die eigentliche Frage | Warum |
     |---|---|---|
-    | DispoLine (Kauf, 2019) | Geht das unbefristete Nutzungsrecht als Ganzes mit über? Zu welchen Bedingungen? | Bei einer einmalig bezahlten, unbefristeten Lizenz spricht viel für die Übertragbarkeit. Vorausgesetzt ist aber, dass Lohmann alle eigenen Kopien löscht und dass der Bestand nicht aufgeteilt wird. Der Wartungsvertrag ist davon nicht erfasst – der braucht die Zustimmung des Herstellers. |
+    | DispoLine (Kauf, unbefristet) | Geht das unbefristete Nutzungsrecht als Ganzes mit über? Zu welchen Bedingungen? | Bei einer einmalig bezahlten, unbefristeten Lizenz spricht viel für die Übertragbarkeit. Vorausgesetzt ist aber, dass Lohmann alle eigenen Kopien löscht und dass der Bestand nicht aufgeteilt wird. Der Wartungsvertrag ist davon nicht erfasst – der braucht die Zustimmung des Herstellers. |
     | Büro-Abo (Named User) | Kann der Vertrag auf TransRegio umgeschrieben werden? | Der Vertrag lautet auf die alte Firma. Als Dauerschuldverhältnis wandert er nicht von selbst mit; eine Umschreibung ist meist möglich, aber ein eigener Vorgang mit eigener Frist. Die Restlaufzeit läuft davon unbeeindruckt weiter. |
     | Zollprofi (Named User) | Wem sind die 12 Lizenzen namentlich zugeordnet? Bleiben diese Personen im Betrieb? | Named User hängen an Personen. Wechseln die Beschäftigten mit über, muss die Zuordnung neu dokumentiert werden. Wer nicht mitkommt, dessen Lizenz lässt sich in der Regel neu zuweisen – oft allerdings erst nach einer Sperrfrist von einigen Wochen. |
     | PDF-Werkzeug (kostenlos) | Hier gibt es nichts zu übertragen. Die Frage ist die **Schwelle**. | „Kostenfrei bis 100 Beschäftigte" war bei Lohmann mit 60 Personen erfüllt. Bei TransRegio ist die Bedingung schon heute nicht erfüllt, nach der Übernahme erst recht nicht. Aus einem sauberen Zustand wird ein unsauberer, ohne dass jemand etwas installiert. |
@@ -907,7 +907,7 @@ Der letzte Schritt der Planung ist kein technischer. Alles, was du in diesem Blo
 
     *Ausgangslage*
 
-    Die IT ist über Jahre gewachsen: drei Server im Keller des Hauptsitzes, je ein älterer Server in Dortmund und Leipzig, ein NAS, auf dem die Dateifreigaben und die nächtlichen Backups derselben Server gemeinsam liegen. Es gibt keine Überwachung, die Dokumentation ist eine Excel-Liste von 2021; die Außenstellen hängen an je 16 Mbit/s. Mit der Übernahme wächst das Unternehmen auf rund 200 Beschäftigte an vier Standorten – dafür ist die heutige Umgebung weder ausgelegt noch abgesichert.
+    Die IT ist über Jahre gewachsen: drei Server im Keller des Hauptsitzes, je ein älterer Server in Dortmund und Leipzig, ein NAS, auf dem die Dateifreigaben und die nächtlichen Backups derselben Server gemeinsam liegen. Es gibt keine Überwachung, die Dokumentation ist eine seit Jahren ungepflegte Excel-Liste; die Außenstellen hängen an je 16 Mbit/s. Mit der Übernahme wächst das Unternehmen auf rund 200 Beschäftigte an vier Standorten – dafür ist die heutige Umgebung weder ausgelegt noch abgesichert.
 
     *Die drei größten Risiken*
 
@@ -915,7 +915,7 @@ Der letzte Schritt der Planung ist kein technischer. Alles, was du in diesem Blo
     |---|---|
     | Backups liegen auf demselben Gerät wie die Originaldaten | Ein Brand, ein Wasserschaden oder ein Verschlüsselungstrojaner trifft Original und Sicherung gleichzeitig. Es gibt dann keinen Stand, auf den wir zurückgehen können, auch nicht für die Dispositionsdatenbank: Die Disposition von heute 90 und künftig 130 Lkw steht ohne absehbares Ende. |
     | Personalakten sind für alle Beschäftigten lesbar | Verstoß gegen den Datenschutz mit Melde- und Haftungsrisiko. Der Zustand besteht heute und an jedem weiteren Tag, an dem er nicht geändert wird. |
-    | Keine Überwachung, Dokumentation von 2021 | Störungen fallen erst auf, wenn die Disposition steht. Jede Fehlersuche dauert länger als nötig; die Integration des vierten Standorts beginnt ohne verlässliche Grundlage. |
+    | Keine Überwachung, seit Jahren ungepflegte Dokumentation | Störungen fallen erst auf, wenn die Disposition steht. Jede Fehlersuche dauert länger als nötig; die Integration des vierten Standorts beginnt ohne verlässliche Grundlage. |
 
     *Empfohlene Zielarchitektur*
 

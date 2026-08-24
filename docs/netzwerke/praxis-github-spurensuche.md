@@ -5,7 +5,7 @@ description: "Einsteiger-Praxisübung: Rekonstruiere mit echten Bordmittel-Befeh
 
 # Praxis: github.com – die Spurensuche
 
-<span class='badge badge-praxis'>Praxis</span> &nbsp; Du tippst jeden Tag `github.com` ein – heute schnüffelst du mit eigenen Befehlen heraus, was in der halben Sekunde danach wirklich im Netz passiert.
+<span class='badge badge-praxis'>Praxis</span> &nbsp; Du tippst jeden Tag `github.com` ein – jetzt schnüffelst du mit eigenen Befehlen heraus, was in der halben Sekunde danach wirklich im Netz passiert.
 
 !!! info "Auf einen Blick"
     - **Dauer:** ca. 45–60 Minuten

@@ -153,7 +153,7 @@ multipassd  1.14.0
     Default ist 1 vCPU, 1 GB RAM, 5 GB Disk. Für ernsthaftes Arbeiten in der VM:
 
     ```bash
-    multipass launch 22.04 --name demo --cpus 2 --memory 2G --disk 10G
+    multipass launch 24.04 --name demo --cpus 2 --memory 2G --disk 10G
     ```
 
     Das skaliert deutlich besser.
@@ -360,12 +360,12 @@ Das ist der Grund, warum Multipass sich so schnell anfühlt: Das Image muss nur 
 | `--cpus` | Anzahl der virtuellen CPUs | `--cpus 2` |
 | `--memory` | RAM für die VM | `--memory 2G` |
 | `--disk` | Größe der virtuellen Festplatte | `--disk 10G` |
-| Positional | Image-Name / Version | `22.04` oder `24.04` |
+| Positional | Image-Name / Version | `24.04` oder `22.04` |
 
 Beispiel mit allem:
 
 ```bash
-multipass launch 22.04 --name demo --cpus 2 --memory 2G --disk 10G
+multipass launch 24.04 --name demo --cpus 2 --memory 2G --disk 10G
 ```
 
 Ohne diese Flags nimmt Multipass **Defaults**: 1 CPU, 1 GB RAM, 5 GB Disk, aktuellstes LTS.
@@ -383,7 +383,7 @@ Wenn du auf einem Firmenlaptop sitzt und das Firmennetz Internetzugriffe filtert
         ```bash
         export HTTP_PROXY=http://proxy.firma:8080
         export HTTPS_PROXY=http://proxy.firma:8080
-        multipass launch 22.04 --name demo
+        multipass launch 24.04 --name demo
         ```
 
         Persistent machst du das, indem du die Umgebungsvariablen in dein Shell-Profil (`~/.zshrc`, `~/.bashrc`) einträgst.
@@ -392,7 +392,7 @@ Wenn du auf einem Firmenlaptop sitzt und das Firmennetz Internetzugriffe filtert
         ```powershell
         $env:HTTP_PROXY  = "http://proxy.firma:8080"
         $env:HTTPS_PROXY = "http://proxy.firma:8080"
-        multipass launch 22.04 --name demo
+        multipass launch 24.04 --name demo
         ```
 
         Persistent machst du das in PowerShell mit `[Environment]::SetEnvironmentVariable("HTTP_PROXY","http://proxy.firma:8080","User")` (User-Scope, ohne Admin-Rechte).
@@ -401,7 +401,7 @@ Wenn du auf einem Firmenlaptop sitzt und das Firmennetz Internetzugriffe filtert
         ```cmd
         set HTTP_PROXY=http://proxy.firma:8080
         set HTTPS_PROXY=http://proxy.firma:8080
-        multipass launch 22.04 --name demo
+        multipass launch 24.04 --name demo
         ```
 
         Persistent über `setx HTTP_PROXY "http://proxy.firma:8080"` (wirkt erst in **neu geöffneten** CMD-Fenstern).

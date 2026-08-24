@@ -41,7 +41,7 @@ Wer das nicht weiß, hat ein falsches mentales Modell – und kommt bei Ressourc
 !!! success "Merksatz 4"
     > **Image = unveränderliche Vorlage. Container = laufende Instanz mit beschreibbarem Top-Layer. Alles, was im Container-Layer lebt, ist nach dem Löschen weg.**
 
-Aus diesem Satz folgt die Notwendigkeit von **Volumes** oder **Bind Mounts**, wenn du Daten behalten willst. Das Thema kommt im nächsten Kursblock.
+Aus diesem Satz folgt die Notwendigkeit von **Volumes** oder **Bind Mounts**, wenn du Daten behalten willst. Das Thema kommt im Aufbau-Kapitel.
 
 ---
 
@@ -104,7 +104,7 @@ Das ist das Docker-Leben in einer Grafik.
 
 ## Was kommt als Nächstes?
 
-Im kommenden Kursblock gehen wir weiter:
+In den folgenden Kapiteln geht es weiter:
 
 - **Volumes & Bind Mounts** – damit Daten überleben.
 - **Netzwerke** – Container, die miteinander sprechen.
@@ -112,4 +112,4 @@ Im kommenden Kursblock gehen wir weiter:
 - **Best Practices** für Dockerfiles: Multi-Stage, `USER`, `HEALTHCHECK`.
 - Blick Richtung Orchestrierung (Kubernetes) und CI/CD.
 
-Aber das ist für heute alles. Wenn du die acht Merksätze oben kennst, hast du den Einstieg sicher geschafft.
+Für den Einstieg ist das aber alles. Wenn du die acht Merksätze oben kennst, hast du ihn sicher geschafft.

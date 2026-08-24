@@ -361,7 +361,7 @@ Ablauf:
 4. Das Gerät mit der Adresse antwortet: „Das bin ich, meine MAC ist 00:1A:2B:3C:4D:5E."
 5. Der Cache wird gefüllt. Das Frame kann mit der richtigen MAC verschickt werden.
 
-ARP läuft komplett **unsichtbar** im Hintergrund. Du sieht es nur, wenn etwas schiefläuft (z.B. **ARP-Spoofing** bei einem Sicherheitsangriff).
+ARP läuft komplett **unsichtbar** im Hintergrund. Du siehst es nur, wenn etwas schiefläuft (z.B. **ARP-Spoofing** bei einem Sicherheitsangriff).
 
 Auf der Kommandozeile sehen:
 

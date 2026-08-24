@@ -362,7 +362,7 @@ Die Agentur betreibt drei Virtualisierungs-Hosts an einem gemeinsamen SAN.
 
     **2. Warum so?** – Die ganze Aufgabe hängt an einer einzigen Einsicht: **Beweglichkeit entsteht dadurch, dass die Daten stillstehen.** Solange die Platten am Host kleben, klebt auch die VM. Sobald sie an einem Ort liegen, den alle Hosts erreichen, wird der Host austauschbar – für Wartung, für Lastverteilung, im Fehlerfall.
 
-    Dieselbe Idee kennst du aus dem Docker-Block: Ein Volume existiert unabhängig vom Container. Der Container ist wegwerfbar, die Daten leben weiter. Shared Storage ist genau dieses Prinzip eine Etage tiefer – und Teil 3 zeigt den Preis, den es überall hat: Was alle gemeinsam nutzen, fällt für alle gemeinsam aus.
+    Dieselbe Idee steckt hinter den Volumes im Docker-Block – falls du ihn schon kennst: Ein Volume existiert unabhängig vom Container. Der Container ist wegwerfbar, die Daten leben weiter. Shared Storage ist genau dieses Prinzip eine Etage tiefer – und Teil 3 zeigt den Preis, den es überall hat: Was alle gemeinsam nutzen, fällt für alle gemeinsam aus.
 
     **3. Auch gut wäre ...** – anzumerken, dass für den Umzug neben dem gemeinsamen Speicher weitere Voraussetzungen erfüllt sein müssen: ausreichend schnelles Netz zwischen den Hosts, kompatible Prozessoren und ein Cluster, der die VMs überhaupt verwaltet. Live-Migration ist keine Eigenschaft des Speichers allein. Ebenfalls stark ist der Hinweis, dass es moderne Alternativen gibt, die ohne zentrales SAN auskommen: Verfahren, die die lokalen Platten aller Hosts zu einem gemeinsamen, mehrfach gespiegelten Speicher zusammenfassen. Das Prinzip bleibt dasselbe – die Daten müssen von mehr als einem Host erreichbar sein.
 

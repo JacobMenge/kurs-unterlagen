@@ -36,21 +36,21 @@ description: "Schritt-für-Schritt: erste Ubuntu-VM starten, betreten, stoppen, 
         ```bash
         export HTTP_PROXY=http://proxy.firma:8080
         export HTTPS_PROXY=http://proxy.firma:8080
-        multipass launch 22.04 --name demo
+        multipass launch 24.04 --name demo
         ```
 
     === "Windows PowerShell"
         ```powershell
         $env:HTTP_PROXY  = "http://proxy.firma:8080"
         $env:HTTPS_PROXY = "http://proxy.firma:8080"
-        multipass launch 22.04 --name demo
+        multipass launch 24.04 --name demo
         ```
 
     === "Windows CMD"
         ```cmd
         set HTTP_PROXY=http://proxy.firma:8080
         set HTTPS_PROXY=http://proxy.firma:8080
-        multipass launch 22.04 --name demo
+        multipass launch 24.04 --name demo
         ```
 
 ## Grundregel für Befehle auf dieser Seite
@@ -79,8 +79,8 @@ Gekürzte Beispielausgabe:
 ```text
 Image                       Aliases           Version          Description
 20.04                       focal             20240419         Ubuntu 20.04 LTS
-22.04                       jammy,lts         20240419         Ubuntu 22.04 LTS
-24.04                       noble             20240419         Ubuntu 24.04 LTS
+22.04                       jammy             20240419         Ubuntu 22.04 LTS
+24.04                       noble,lts         20240419         Ubuntu 24.04 LTS
 ```
 
 Die Ausgabe kann je nach Multipass-Version variieren.
@@ -89,10 +89,10 @@ Die Ausgabe kann je nach Multipass-Version variieren.
 
 ## Schritt 2 – Die erste VM starten
 
-Wir starten bewusst **Ubuntu 22.04 LTS**, damit alle im Kurs dieselbe Version haben:
+Wir starten bewusst **Ubuntu 24.04 LTS**, damit alle Beispiele in diesen Unterlagen auf derselben Version laufen:
 
 ```bash
-multipass launch 22.04 --name demo
+multipass launch 24.04 --name demo
 ```
 
 Was du siehst:
@@ -118,7 +118,7 @@ Beispielausgabe:
 
 ```text
 Name                    State             IPv4             Image
-demo                    Running           192.168.64.5     Ubuntu 22.04 LTS
+demo                    Running           192.168.64.5     Ubuntu 24.04 LTS
 ```
 
 Die **IPv4-Adresse** ist die IP, unter der die VM in deinem lokalen virtuellen Netz erreichbar ist. Auf Mac/Windows liegt dieses Netz in einer internen Bridge, auf Linux je nach Multipass-Version ebenfalls.
@@ -135,7 +135,7 @@ Ausgabe (Auszug):
 Name:           demo
 State:          Running
 IPv4:           192.168.64.5
-Release:        Ubuntu 22.04.4 LTS
+Release:        Ubuntu 24.04.1 LTS
 Image hash:     abc123...
 Load:           0.02 0.01 0.00
 Disk usage:     1.6G out of 4.8G
@@ -282,7 +282,7 @@ Die VM bootet in wenigen Sekunden (keine Image-Download mehr, die Disk existiert
 Du kannst jederzeit eine zweite VM mit anderen Ressourcen starten:
 
 ```bash
-multipass launch 22.04 --name gross --cpus 2 --memory 2G --disk 10G
+multipass launch 24.04 --name gross --cpus 2 --memory 2G --disk 10G
 ```
 
 Nach dem Start hast du zwei voneinander unabhängige Ubuntu-VMs parallel:
@@ -293,8 +293,8 @@ multipass list
 
 ```text
 Name      State     IPv4            Image
-demo      Running   192.168.64.5    Ubuntu 22.04 LTS
-gross     Running   192.168.64.9    Ubuntu 22.04 LTS
+demo      Running   192.168.64.5    Ubuntu 24.04 LTS
+gross     Running   192.168.64.9    Ubuntu 24.04 LTS
 ```
 
 Jede VM kann für sich `apt install`, Netzwerktests, Experimente durchführen – ohne die andere zu beeinflussen.
@@ -323,8 +323,8 @@ multipass list
 
 ```text
 Name      State       IPv4   Image
-demo      Deleted     --     Ubuntu 22.04 LTS
-gross     Deleted     --     Ubuntu 22.04 LTS
+demo      Deleted     --     Ubuntu 24.04 LTS
+gross     Deleted     --     Ubuntu 24.04 LTS
 ```
 
 Der Status ist **`Deleted`**, aber die Einträge sind noch da. Mit `multipass recover demo` könntest du jetzt noch rückgängig machen.

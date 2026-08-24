@@ -56,9 +56,9 @@ Starten. Betreten. Anhalten. Entsorgen. Endgültig löschen. Fünf Verben, fünf
 
 ---
 
-## Für den nächsten Block vorbereitet
+## Vorbereitet auf den Docker-Block
 
-Merk dir besonders Satz 2 gut. Im nächsten Block geht es um **Docker** – und dort dreht sich die zentrale Frage genau um diesen einen Punkt:
+Merk dir besonders Satz 2 gut. Im Docker-Block dreht sich die zentrale Frage genau um diesen einen Punkt:
 
 > **Muss wirklich jede Einheit ihren eigenen Kernel mitbringen?**
 

@@ -243,12 +243,12 @@ Das Backup-Archiv (`demo-backup.tar.gz`) bleibt auf dem Host. Wenn du es nicht m
     Schreibe dir **selbst zwei Mini-Skripte** (eines bash, eines PowerShell), die ein Postgres-Volume sichern. Jedes Skript:
 
     - nimmt einen Volume-Namen als Argument
-    - hängt das aktuelle Datum ans Backup-Datei-Ende (z.B. `pg-data-2026-04-28.tar.gz`)
+    - hängt das aktuelle Datum ans Backup-Datei-Ende (z.B. `pg-data-2024-03-15.tar.gz`)
     - speichert ins aktuelle Verzeichnis
 
     **Datum-Tipp:**
 
-    - bash: `$(date +%F)` → liefert `2026-04-28`
+    - bash: `$(date +%F)` → liefert das Datum im Format `2024-03-15`
     - PowerShell: `Get-Date -Format "yyyy-MM-dd"`
 
 ??? success "Musterlösung – Bash"

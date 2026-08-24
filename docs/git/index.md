@@ -5,9 +5,9 @@ description: "Einstieg in Git: warum Versionskontrolle, wie Git denkt, lokale Ar
 
 # Git und GitHub – Versionskontrolle für die Praxis
 
-Bisher hast du Container gebaut, Stacks beschrieben und Pipelines geplant. Spätestens in [Block 6 (CI/CD)](../ci-cd/index.md) merkst du: ohne **Git** geht es nicht. Eine Pipeline lebt davon, dass jemand pusht. Eine Workflow-Datei liegt im Repo. Ein Tag ist ein Git-Tag.
+Sobald du Code über mehrere Tage, mehrere Versuche oder mehrere Personen hinweg verwaltest, brauchst du **Git**. Besonders deutlich wird das bei [CI/CD](../ci-cd/index.md) – eine Pipeline lebt davon, dass jemand pusht, eine Workflow-Datei liegt im Repo, ein Release-Tag ist ein Git-Tag.
 
-Dieser Block holt das jetzt sauber nach. Wir starten ganz bei den Basics. Du legst dein erstes Repository an, machst deinen ersten Commit, baust deine ersten Branches und merkst hautnah, wozu das alles gut ist. Am Ende kannst du nicht nur auf GitHub pushen, sondern verstehst auch, was dabei eigentlich passiert.
+Dieser Block macht dich damit von Grund auf vertraut. Wir starten ganz bei den Basics. Du legst dein erstes Repository an, machst deinen ersten Commit, baust deine ersten Branches und merkst hautnah, wozu das alles gut ist. Am Ende kannst du nicht nur auf GitHub pushen, sondern verstehst auch, was dabei eigentlich passiert.
 
 !!! abstract "Was du in diesem Block lernst"
     - die **Idee der Versionskontrolle** mit eigenen Worten erklären
@@ -20,18 +20,18 @@ Dieser Block holt das jetzt sauber nach. Wir starten ganz bei den Basics. Du leg
 
 ---
 
-## Bezug zum bisherigen Kurs
+## Wie dieser Block zu den anderen passt
 
-Der Git-Block sitzt absichtlich **zwischen Docker-Profi und CI/CD**. Hier ist warum:
+Git ist ein **Werkzeug-Block**: Er steht für sich und lässt sich jederzeit dazwischenschieben. Du brauchst keine Vorkenntnisse aus anderen Themen, und andere Themen setzen umgekehrt Git nur punktuell voraus.
 
-| Bisheriger Block | Was er nutzt |
-|------------------|--------------|
-| Docker-Block 1–5 | Lokale Dateien, lokales Bauen, kein Remote nötig |
-| Docker für Profis | Best Practices, Multi-Stage, Trivy – noch lokal |
-| **dieser Block** | **Versionskontrolle, Remote, GitHub** |
-| CI/CD-Einführung | Lebt komplett auf GitHub und braucht alles aus diesem Block |
+| Thema | Was es von Git braucht |
+|-------|------------------------|
+| Docker-Grundlagen | Nichts. Lokale Dateien, lokales Bauen, kein Remote nötig |
+| Docker für Profis | Nichts zwingend. Best Practices, Multi-Stage, Trivy – alles lokal |
+| **Git (dieser Block)** | **Versionskontrolle, Remote, GitHub** |
+| CI/CD mit GitHub Actions | Alles. Die Pipeline lebt auf GitHub und wird über Pushes ausgelöst |
 
-Wenn du den CI/CD-Block schon angefangen hast: die Schritte „GitHub-Repo anlegen", „lokal klonen", „pushen" werden hier ausführlich erklärt. Du kannst die Praxis-Seiten dieses Blocks als verlängerte Schritt-für-Schritt-Anleitung für den Einstieg in CI/CD lesen.
+Wenn du [CI/CD](../ci-cd/index.md) schon angefangen hast: die Schritte „GitHub-Repo anlegen", „lokal klonen", „pushen" werden hier ausführlich erklärt. Du kannst die Praxis-Seiten dieses Blocks als verlängerte Schritt-für-Schritt-Anleitung dazu lesen.
 
 ---
 
@@ -64,7 +64,7 @@ Wenn du den CI/CD-Block schon angefangen hast: die Schritte „GitHub-Repo anleg
 - Ein **Terminal**, das du bedienen kannst. Auf Windows 11 reicht die **PowerShell** oder die **Git Bash**, die mit Git automatisch mitkommt.
 - Ein **Editor** deiner Wahl. VSCode, Notepad++, vim – egal. Wichtig ist nur, dass er Dateien als reinen Text speichert.
 - Ein **GitHub-Account** spätestens ab Praxis 4. Anlegen unter <https://github.com/signup>, kostenlos.
-- Etwa **zwei Stunden** Zeit für die Theorie und die ersten drei Praxis-Seiten. Die restlichen Praxis-Seiten plus Gruppenübung schaffst du in einer zweiten Sitzung.
+- Etwa **zwei Stunden** Zeit für die Theorie und die ersten drei Praxis-Seiten. Die restlichen Praxis-Seiten plus Gruppenübung passen gut in eine zweite Sitzung.
 
 !!! info "Kein Vorwissen zu Git nötig"
     Wir starten bei null. Wenn du Git schon kennst, kannst du die ersten beiden Theorie-Seiten überspringen und direkt mit den [Branches](branches-und-merge.md) anfangen.

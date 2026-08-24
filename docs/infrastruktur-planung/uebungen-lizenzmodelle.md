@@ -605,7 +605,7 @@ Sucht für **jeden** der folgenden Lizenztypen mindestens ein Produkt, das ihr b
 4. **Sucht ein Produkt, das seine Lizenz in den letzten Jahren geändert hat.** Was war vorher, was ist jetzt – und wen hat das getroffen?
 
 ??? tip "Musterlösung & Erklärung"
-    **1. Musterantwort** – „Richtig" ist jede Zeile, die belegt ist. Diese Beispiele sind belastbar, wenn im Kurs nichts kommt:
+    **1. Musterantwort** – „Richtig" ist jede Zeile, die belegt ist. Diese Beispiele sind belastbar, falls euch selbst nichts einfällt:
 
     | Lizenztyp | Beispiel | Wo es steht |
     |---|---|---|
@@ -1350,7 +1350,7 @@ Die folgenden vier Aufgaben laufen anders: Ihr lest zuerst einen echten Fachbeit
 ??? tip "Musterlösung & Erklärung"
     **1. Musterantwort**
 
-    *Teil 1 – der Vorwurf:* In Großbritannien läuft eine Sammelklage in Milliardenhöhe gegen Microsoft. Der Kern des Vorwurfs: Server-Lizenzen sind in der hauseigenen Cloud des Herstellers deutlich günstiger als beim Betrieb in konkurrierenden Clouds. Wer dieselbe Software woanders betreiben will, zahlt dafür mehr – nach Ansicht der Klägerseite ein Ausnutzen der starken Marktstellung bei Server-Software zugunsten des eigenen Cloud-Geschäfts.
+    *Teil 1 – der Vorwurf:* In Großbritannien wurde eine Sammelklage in Milliardenhöhe gegen Microsoft eingereicht. Der Kern des Vorwurfs: Server-Lizenzen sind in der hauseigenen Cloud des Herstellers deutlich günstiger als beim Betrieb in konkurrierenden Clouds. Wer dieselbe Software woanders betreiben will, zahlt dafür mehr – nach Ansicht der Klägerseite ein Ausnutzen der starken Marktstellung bei Server-Software zugunsten des eigenen Cloud-Geschäfts.
 
     *Teil 2 – warum Wettbewerb:* Weil der Preisunterschied nicht aus einer Leistung entsteht, sondern aus einer **Vertragsbedingung**. Die Software ist dieselbe, die Hardware ist vergleichbar, der Aufwand für den Hersteller ist ähnlich – teurer wird es allein deshalb, weil sie bei einem Mitbewerber läuft. Damit wirkt die Lizenz wie eine Wechselgebühr: Sie verteuert nicht den Betrieb, sondern das Weggehen. Ein Kunde, der wechseln möchte, rechnet gegen einen Aufschlag an, den kein technisches Argument erklärt.
 

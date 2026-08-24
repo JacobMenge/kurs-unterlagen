@@ -1,9 +1,9 @@
 ---
 title: "Merksätze – Profi-Block"
-description: "Die Kern-Sätze aus Block 5 kompakt auf einer Seite."
+description: "Die Kern-Sätze aus dem Profi-Block kompakt auf einer Seite."
 ---
 
-# Merksätze – Docker für Profis (Block 5)
+# Merksätze – Docker für Profis
 
 ---
 
@@ -92,7 +92,7 @@ flowchart LR
   OUTPUT == "COPY --from=build" ==> ARTIFACT
 ```
 
-Das ist das **Produktionsimage-Muster**. Alles, was du heute gelernt hast, ist entweder im Build-Teil (Caching, Multi-Stage) oder im Runtime-Teil (USER, HEALTHCHECK, schlankes Basis-Image).
+Das ist das **Produktionsimage-Muster**. Alles, was du in diesem Block gelernt hast, ist entweder im Build-Teil (Caching, Multi-Stage) oder im Runtime-Teil (USER, HEALTHCHECK, schlankes Basis-Image).
 
 ---
 

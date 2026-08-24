@@ -48,15 +48,19 @@ Anders gesagt: ohne diesen Block fehlt dir das Vokabular, mit dem alle anderen T
 | [Grundbegriffe](grundbegriffe.md) | LAN, WAN, Topologien, Client/Server, Bandbreite, Latenz, Paket vs. Frame |
 | [OSI- und TCP/IP-Modell](osi-und-tcp-ip-modell.md) | Die zwei Schichtenmodelle und warum es überhaupt zwei gibt |
 | [Adressierung (MAC, IPv4, IPv6, Subnetting)](adressierung.md) | Wie Geräte im Netzwerk angesprochen werden – mit Subnetting im Kopf rechnen |
+| [Praxis: Subnetz-Architekten](praxis-subnetting.md) | **Praxis** – ein /24-Netz in Abteilungs-Subnetze schneiden, nur mit Papier und Stift |
 | [Routing und Switching](routing-und-switching.md) | Wie Datenpakete den Weg ins Ziel finden |
 | [DNS – Namensauflösung](dns.md) | Wie aus `github.com` eine IP-Adresse wird |
 | [DHCP – automatische Adressvergabe](dhcp.md) | Wie ein Gerät beim Verbinden seine Adresse bekommt |
 | [Transport-Protokolle (TCP/UDP)](transport-protokolle.md) | Der zuverlässige Brief vs. die schnelle Postkarte |
 | [Anwendungs-Protokolle](anwendungs-protokolle.md) | HTTP/HTTPS, SSH, FTP, SMTP, IMAP – die alltäglichen Protokolle |
+| [Praxis: github.com – die Spurensuche](praxis-github-spurensuche.md) | **Praxis** – den Weg eines Webaufrufs mit Bordmitteln selbst nachmessen |
 | [Netzwerk-Hardware](netzwerk-hardware.md) | Switch, Router, Firewall, Access Point, Modem – wer macht was |
 | [Segmentierung und VPN](segmentierung-und-vpn.md) | VLAN, DMZ, NAT, VPN – wie Netze logisch aufgeteilt werden |
 | [Industrie- und IoT-Protokolle](industrie-protokolle.md) | Profinet, OPC UA, MQTT, AMQP, SCADA – warum sie existieren |
 | [Netzwerk-Sicherheit](netzwerk-sicherheit.md) | Firewall-Typen, IDS/IPS, Zero Trust, sichere Architektur |
+| [Praxis: Netzwerk-Werkstatt](praxis-netzwerk-werkstatt.md) | **Praxis** – den eigenen Rechner Schicht für Schicht durchmessen und einen Diagnose-Werkzeugkasten aufbauen |
+| [Praxis: Netzwerk-Notruf](praxis-netzwerk-notruf.md) | **Praxis** – fünf Störungsfälle mit der Schicht-Checkliste aufklären |
 | [Merksätze](merksaetze.md) | Die Kern-Sätze des ganzen Blocks auf einer Seite |
 
 ---
@@ -67,15 +71,19 @@ Anders gesagt: ohne diesen Block fehlt dir das Vokabular, mit dem alle anderen T
 flowchart LR
   WHY(["Warum?"]) --> BASIS["Grundbegriffe<br/>+ Modelle"]
   BASIS --> ADRESS["Adressierung<br/>(MAC, IP, Subnetze)"]
-  ADRESS --> WEGE["Routing & Switching<br/>DNS, DHCP"]
+  ADRESS --> PSUB(["Praxis:<br/>Subnetz-Architekten"])
+  PSUB --> WEGE["Routing & Switching<br/>DNS, DHCP"]
   WEGE --> PROTO["Protokolle<br/>(TCP/UDP, HTTP, SSH)"]
-  PROTO --> HW["Netzwerk-<br/>Hardware"]
+  PROTO --> PSPUR(["Praxis:<br/>github.com-Spurensuche"])
+  PSPUR --> HW["Netzwerk-<br/>Hardware"]
   HW --> SEG["Segmentierung<br/>VLAN, VPN"]
   SEG --> IND["Industrie-<br/>Protokolle"]
   IND --> SEC["Netzwerk-<br/>Sicherheit"]
+  SEC --> PWERK(["Praxis:<br/>Netzwerk-Werkstatt"])
+  PWERK --> PNOT(["Praxis:<br/>Netzwerk-Notruf"])
 ```
 
-Wir bauen das Bild **von unten nach oben**: erst die Modelle und Adressen, dann die Wegfindung, dann die Protokolle, dann die Hardware drumherum, am Schluss Segmentierung, Industrie-Spezifika und Sicherheit.
+Wir bauen das Bild **von unten nach oben**: erst die Modelle und Adressen, dann die Wegfindung, dann die Protokolle, dann die Hardware drumherum, am Schluss Segmentierung, Industrie-Spezifika und Sicherheit. Die **Praxis-Seiten** (abgerundete Kästen) sitzen jeweils dort, wo die passende Theorie noch frisch ist – sie sind der Punkt, an dem das Gelesene zum ersten Mal anfassbar wird.
 
 ---
 

@@ -271,7 +271,7 @@ Das Dockerfile-Universum ist groß. Für den Einstieg reicht das, was oben steht
 - **`HEALTHCHECK`** – automatische Gesundheitsprüfung.
 - **`USER`** – als unprivilegierter Benutzer laufen (sinnvoll für Produktion).
 
-Alles Themen für den nächsten Kursblock. Für heute: `FROM`, `WORKDIR`, `COPY`, `RUN`, `CMD`, `EXPOSE`, `ENV` reichen, um ernsthaft anzufangen.
+Alles Themen für die späteren Kapitel. Für den Anfang reichen `FROM`, `WORKDIR`, `COPY`, `RUN`, `CMD`, `EXPOSE` und `ENV`, um ernsthaft loszulegen.
 
 ---
 

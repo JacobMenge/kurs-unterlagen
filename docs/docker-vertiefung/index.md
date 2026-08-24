@@ -5,15 +5,15 @@ description: "Fünf zusätzliche Docker-Übungen zwischen Escape Room und Compos
 
 # Docker-Vertiefung
 
-Diese fünf Übungen vertiefen das, was du in den Blöcken 2 und 3 gelernt und im **Docker Escape Room** geübt hast. Jede Übung ist **eigenständig** – du kannst sie in beliebiger Reihenfolge bearbeiten.
+Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufbau-Block gelernt und im **Docker Escape Room** geübt hast. Jede Übung ist **eigenständig** – du kannst sie in beliebiger Reihenfolge bearbeiten.
 
 !!! info "Wann ist dieser Block sinnvoll?"
-    - **Während des Kurses**, wenn du im Escape Room schnell fertig wirst und mehr machen willst.
-    - **Zwischen den Kurstagen**, als Vorbereitung auf Docker Compose.
-    - **Nach dem Kurs**, um die einzelnen Themen in eigenem Tempo nachzuschlagen.
+    - **Als Zugabe**, wenn du im Escape Room schnell fertig wirst und mehr machen willst.
+    - **Als Vorbereitung** auf Docker Compose.
+    - **Zum Nachschlagen**, um die einzelnen Themen in eigenem Tempo zu wiederholen.
 
 !!! warning "Kein Docker Compose"
-    Alle fünf Übungen funktionieren mit **reinen `docker`-Befehlen**. Compose kommt erst in der nächsten Einheit – und du wirst dort sehen, wie viele dieser Patterns Compose dir abnimmt.
+    Alle fünf Übungen funktionieren mit **reinen `docker`-Befehlen**. Compose kommt erst im Compose-Block – und du wirst dort sehen, wie viele dieser Patterns Compose dir abnimmt.
 
 ---
 
@@ -87,5 +87,5 @@ Das sind alles Patterns, die du im Compose-Block **wiedersehen** wirst – dort 
 
 ## Was kommt danach
 
-- [Docker Compose – Einführung](../docker-compose/einfuehrung.md) – nächste Einheit
+- [Docker Compose – Einführung](../docker-compose/einfuehrung.md) – Container-Stacks deklarativ beschreiben
 - [Docker für Profis](../docker-profi/index.md) – Best Practices, Multi-Stage, Image-Optimierung, Vulnerability-Scanning

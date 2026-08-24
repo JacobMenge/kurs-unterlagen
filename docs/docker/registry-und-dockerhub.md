@@ -237,7 +237,7 @@ Falls du Docker offline nutzen willst oder eine private Registry für dein Team 
   Danach ist unter `localhost:5000` eine kleine Registry aktiv. Für den Hausgebrauch nett, für Produktion zu spartanisch.
 - **Harbor** (<https://goharbor.io>): produktiv einsetzbare Registry mit Web-UI, Authentifizierung, Vulnerability-Scanning.
 
-Das geht über den heutigen Kurs hinaus, aber gut zu wissen, dass es möglich ist.
+Das geht über diesen Einstieg hinaus, aber gut zu wissen, dass es möglich ist.
 
 ---
 

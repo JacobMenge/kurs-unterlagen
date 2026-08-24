@@ -1,171 +1,157 @@
 ---
 title: "Fahrplan"
-description: "Dein roter Faden durch alle Themen: In welcher Reihenfolge lernst du am sinnvollsten, welche Themen bauen aufeinander auf und was ist prüfungsrelevant gegenüber reiner Praxis?"
+description: "Der rote Faden durch den Kurs: die drei Themenschwerpunkte, ihre Reihenfolge, wie die Blöcke aufeinander aufbauen und wie ein typischer Kursabend abläuft."
 hide:
   - navigation
 ---
 
-# Fahrplan – wo fange ich an?
+# Fahrplan
 
-Diese Seite ist deine **Landkarte** durch den ganzen Kurs. Sie beantwortet drei Fragen auf einmal:
+Diese Seite ist deine **Landkarte**. Sie zeigt, wie der Kurs aufgebaut ist, in welcher Reihenfolge die Themen kommen und warum gerade in dieser.
 
-- **Was zuerst?** – die sinnvolle Reihenfolge, weil viele Themen aufeinander aufbauen.
-- **Was ist am wichtigsten?** – welche Themen prüfungsrelevant sind und welche eher die Praxis schärfen.
-- **Wie hängt alles zusammen?** – welcher Block dir das Fundament für den nächsten legt.
-
-!!! tip "Kein Pflicht-Marathon"
-    Du musst nicht stur von oben nach unten durch. Der Fahrplan zeigt dir die **empfohlene** Route. Wenn dich ein Thema besonders interessiert oder im Job gerade brennt, spring hin – komm aber für die **prüfungsrelevanten** Themen auf jeden Fall zurück.
+!!! abstract "Der Kurs in einem Satz"
+    Drei Themenschwerpunkte, die aufeinander aufbauen: erst **planen und integrieren**, dann **betreiben**, dann **absichern und prüfen**.
 
 ---
 
-## So liest du den Fahrplan
-
-Jedes Thema ist mit einer kleinen Ampel gekennzeichnet:
-
-| Ampel | Bedeutung | Was das für dich heißt |
-|-------|-----------|------------------------|
-| <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Kerninhalt für die Prüfung | Hier solltest du wirklich sattelfest sein. Diese Themen tauchen erfahrungsgemäß in jeder Form von Aufgabe auf. |
-| <span class='badge badge-vertiefung'>Vertiefung</span> | Baut darauf auf, vertieft das Verständnis | Solltest du beherrschen. Kann geprüft werden, ist aber nicht der absolute Kern. |
-| <span class='badge badge-praxis'>Praxis</span> | Vor allem zum Anwenden, optional für die Prüfung | Fürs Anfassen und Selbermachen. Wertvoll für die Praxis, aber selten direkt prüfungsentscheidend. |
-
-!!! note "Warum diese Einteilung?"
-    Manche Blöcke sind bewusst Hands-on – sie geben dir **Praxisgefühl** (z. B. die Gruppen-Übungen mit Docker). Andere legen das **theoretische Fundament**, auf dem die Prüfung aufbaut. Die Ampel hilft dir, deine Zeit klug einzuteilen: erst die **prüfungsrelevanten** Themen sichern, dann die **Vertiefungen** und die **Praxis**-Themen nach Lust und Zeit.
-
----
-
-## Die Route auf einen Blick
+## Die drei Schwerpunkte
 
 ```mermaid
-flowchart TB
-  P1["① &nbsp;Fundament<br/><b>Netzwerke · Virtualisierung</b>"]
-  P2["② &nbsp;Aufbau & Integration<br/><b>Infrastruktur & Architektur · Docker → Compose</b>"]
-  P3["③ &nbsp;Betrieb, Sicherheit & Qualität<br/><b>Betrieb · IT-Sicherheit · Orchestrierung/CI-CD · Tests</b>"]
-  P4["④ &nbsp;Rahmen drumherum<br/><b>Recht & Datenschutz · Projekte & Koordination</b>"]
-  P1 --> P2 --> P3 --> P4
+flowchart LR
+  T1["<b>Thema 1</b><br/>Planung, Konzeptionierung,<br/>Integration<br/><small>Wie entsteht ein System?</small>"]
+  T2["<b>Thema 2</b><br/>Sicherstellung des<br/>laufenden Betriebs<br/><small>Wie bleibt es am Laufen?</small>"]
+  T3["<b>Thema 3</b><br/>Qualitätssicherung<br/>und IT-Sicherheit<br/><small>Läuft es richtig und sicher?</small>"]
+  T1 --> T2 --> T3
 ```
 
-Lies die Karte **von oben nach unten**: vier Phasen, die aufeinander aufbauen. Fang beim **Fundament** an (Netzwerke, Virtualisierung) – es trägt alles Weitere – und arbeite dich Phase für Phase nach unten. Welches Thema in welcher Phase liegt, steht direkt darunter.
+<div class="grid cards" markdown>
+
+-   :material-hammer-screwdriver:{ .lg .middle } __[Thema 1 – Planung und Integration](thema-1.md)__
+
+    ---
+
+    Netzwerke, Virtualisierung, Container und Infrastrukturplanung. Der größte Block – hier entsteht das Fundament für alles Weitere.
+
+    [:octicons-arrow-right-24: Worum es geht](thema-1.md)
+
+-   :material-server-network:{ .lg .middle } __[Thema 2 – Laufender Betrieb](thema-2.md)__
+
+    ---
+
+    Ausfallsicherheit, Backup und Wiederanlauf, Monitoring, Betriebsdaten, Softwareverteilung und Orchestrierung.
+
+    [:octicons-arrow-right-24: Worum es geht](thema-2.md)
+
+-   :material-shield-check-outline:{ .lg .middle } __[Thema 3 – Qualität und Sicherheit](thema-3.md)__
+
+    ---
+
+    Risikomanagement, Sicherheitskonzepte, Umgang mit Vorfällen, Testszenarien, Optimierung sowie Übergabe und Einweisung.
+
+    [:octicons-arrow-right-24: Worum es geht](thema-3.md)
+
+</div>
+
+Dazu kommen zwei Schwerpunkte, die von anderer Seite unterrichtet werden, aber ebenfalls in der Prüfung vorkommen: **[Weitere Prüfungsthemen](weitere-themen.md)**.
 
 ---
 
-## In welcher Reihenfolge lernen?
+## Die Reihenfolge im Detail
 
-=== "① Fundament"
-    Ohne diese zwei Blöcke hängt der Rest in der Luft. Sie liefern das Vokabular und die mentalen Modelle für alles Weitere.
+=== "Thema 1 · Planung und Integration"
 
-    1. [Netzwerke](netzwerke/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
-    2. [Virtualisierung](virtualisierung/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
+    | # | Block | Worum es geht |
+    |---|---|---|
+    | 1 | [Netzwerke](netzwerke/index.md) | Das Fundament: Adressierung, Subnetting, Routing, DNS, Protokolle bis hin zur Industriekommunikation |
+    | 2 | [Virtualisierung](virtualisierung/index.md) | Systeme entkoppeln: Hypervisor, virtuelle Maschinen, Werkzeuge |
+    | 3 | [Docker](docker/index.md) | Container verstehen: Images, eigene Container bauen |
+    | 4 | [Docker – Aufbau](docker-aufbau/index.md) | Daten, Konfiguration, Netzwerke zwischen Containern |
+    | 5 | [Docker Compose](docker-compose/index.md) | Mehrere Dienste als ein Stack beschreiben und starten |
+    | 6 | [Infrastruktur und Architektur](infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Ressourcen, Lizenzen |
 
-=== "② Aufbau & Integration"
-    Jetzt baust du auf dem Fundament auf: Wie plant man Infrastruktur und wie verpackt man Anwendungen in Container?
+    **Warum diese Reihenfolge?** Netzwerke zuerst, weil ohne sie nichts kommuniziert. Virtualisierung führt die Idee der Kapselung ein, Container treiben sie weiter. Die Planung kommt zum Schluss, weil man erst entscheiden kann, wenn man die Bausteine kennt.
 
-    3. [Infrastruktur & Architektur](infrastruktur-planung/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
-    4. [Docker – Einführung](docker/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
-    5. [Docker – Aufbau](docker-aufbau/index.md) &nbsp; <span class='badge badge-vertiefung'>Vertiefung</span>
-    6. [Docker Compose](docker-compose/index.md) &nbsp; <span class='badge badge-vertiefung'>Vertiefung</span>
+=== "Thema 2 · Laufender Betrieb"
 
-=== "③ Betrieb, Sicherheit & Qualität"
-    Ein System läuft – und jetzt? Hier geht es um Dauerbetrieb, Absicherung und Prüfung. Das Herzstück der Prüfung.
+    | # | Block | Worum es geht |
+    |---|---|---|
+    | 1 | [Betrieb und Verfügbarkeit](betrieb/index.md) | Ausfallrisiken, Redundanz, Backup, Wiederanlauf, Notbetrieb |
+    | 2 | [Monitoring](monitoring-praxis/index.md) | Metriken sammeln, Dashboards bauen, Alarme auslösen |
+    | 3 | [Softwareverteilung](orchestrierung/index.md) | Software automatisiert ausrollen, Deployment-Strategien |
+    | 4 | [Kubernetes](kubernetes-praxis/index.md) | Container über einen Cluster betreiben und skalieren |
+    | 5 | [CI/CD](ci-cd/index.md) | Automatisiert bauen, testen und ausliefern |
 
-    7. [Orchestrierung & Verteilung](orchestrierung/index.md) &nbsp; <span class='badge badge-vertiefung'>Vertiefung</span>
-    8. [CI/CD mit GitHub Actions](ci-cd/index.md) &nbsp; <span class='badge badge-vertiefung'>Vertiefung</span>
-    9. [Betrieb & Verfügbarkeit](betrieb/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
-    10. [IT-Sicherheit & Risiko](it-sicherheit/index.md) &nbsp; <span class='badge badge-pruefung'>Prüfungsrelevant</span>
-    11. [Tests & Qualität](testen-qualitaet/index.md) &nbsp; <span class='badge badge-vertiefung'>Vertiefung</span>
+    **Warum diese Reihenfolge?** Erst das Konzept – was heißt Verfügbarkeit, was kostet ein Ausfall –, dann die Werkzeuge. Monitoring kommt früh, weil man ohne Messung nicht beurteilen kann, ob eine Maßnahme wirkt.
 
-=== "④ Rahmen drumherum"
-    Die organisatorische und rechtliche Klammer um die Technik. Wichtig, um Lösungen sauber einzuordnen und zu übergeben.
+=== "Thema 3 · Qualität und Sicherheit"
 
-    12. [Recht & Datenschutz](recht-organisation/index.md) &nbsp; <span class='badge badge-vertiefung'>Vertiefung</span>
-    13. [Projekte & Koordination](projektmanagement/index.md) &nbsp; <span class='badge badge-vertiefung'>Vertiefung</span>
+    | # | Block | Worum es geht |
+    |---|---|---|
+    | 1 | [IT-Sicherheit und Risiko](it-sicherheit/index.md) | Schutzziele, Risikomanagement, ISMS, Sicherheitsvorfälle, Beweissicherung |
+    | 2 | [Tests und Qualität](testen-qualitaet/index.md) | Testszenarien, Testdurchführung, Optimierung, Übergabe |
 
-=== "Dazwischen: Praxis"
-    Die Hands-on-Blöcke schiebst du dort ein, wo sie didaktisch passen – sie wiederholen und festigen das Gelernte.
+    **Warum am Schluss?** Beide Themen setzen alles Vorherige voraus. Eine Risikoanalyse braucht Systemverständnis, ein Testplan braucht ein System, das getestet werden kann.
 
-    - [Docker – Vertiefung](docker-vertiefung/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– nach *Docker – Aufbau*
-    - [Praxis: Docker Escape Room](docker-escape-room/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– vor *Docker Compose*
-    - [Praxis: Mission Control](docker-compose-mission-control/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– nach *Docker Compose*
-    - [Praxis: Monitoring](monitoring-praxis/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– passt zum Betriebs-Thema
-    - [Praxis: Kubernetes](kubernetes-praxis/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– nach *Orchestrierung & Verteilung*
-    - [Praxis: Kubernetes Aufbau](kubernetes-aufbau/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– direkt nach *Praxis: Kubernetes*
-    - [Praxis: Kubernetes Helm](kubernetes-helm/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– der Abschluss des Kubernetes-Wegs
-    - [Docker für Profis](docker-profi/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– wenn die Basics sitzen
-    - [Git & GitHub](git/index.md) &nbsp; <span class='badge badge-praxis'>Praxis</span> &nbsp;– jederzeit, Werkzeug für CI/CD und Doku
+=== "Werkzeuge · jederzeit"
 
----
+    | Block | Worum es geht |
+    |---|---|
+    | [Git und GitHub](git/index.md) | Versionskontrolle: Änderungen nachvollziehen, im Team arbeiten |
+    | [Cheatsheets](cheatsheets/index.md) | Befehlsübersichten zum schnellen Nachschlagen |
+    | [Glossar](glossar.md) | Alle Fachbegriffe kompakt erklärt |
 
-## Alle Themen auf einen Blick
-
-Die vollständige Übersicht, gruppiert nach Themengebiet. „Schwerpunkt" sagt dir, ob ein Thema eher für die **Prüfung**, für die **Praxis** oder für beides zählt.
-
-### Grundlagen
-
-| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
-|-------|--------------|:-----------:|-------------|
-| [Netzwerke](netzwerke/index.md) | Das Fundament: OSI, IP, Routing, DNS, Protokolle, Industrie & Sicherheit | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung + Praxis |
-| [Virtualisierung](virtualisierung/index.md) | Hypervisor, VMs, Multipass – Systeme kapseln | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung + Praxis |
-| [Git & GitHub](git/index.md) | Versionskontrolle, Branches, Pull Requests | <span class='badge badge-praxis'>Praxis</span> | Praxis / Werkzeug |
-
-### Container
-
-| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
-|-------|--------------|:-----------:|-------------|
-| [Docker – Einführung](docker/index.md) | Container vs. VM, Images, erste eigene Container | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung + Praxis |
-| [Docker – Aufbau](docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung + Praxis |
-| [Docker – Vertiefung](docker-vertiefung/index.md) | Fünf eigenständige Hands-on-Übungen | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Praxis: Docker Escape Room](docker-escape-room/index.md) | Multi-Container-Challenge in der Gruppe | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Docker Compose](docker-compose/index.md) | Multi-Container-Stacks deklarativ | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung + Praxis |
-| [Praxis: Mission Control](docker-compose-mission-control/index.md) | Compose-Gruppenübung rund um eine Raumstation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Docker für Profis](docker-profi/index.md) | Best Practices, Image-Optimierung, Scanning | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-
-### Kubernetes & CI/CD
-
-| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
-|-------|--------------|:-----------:|-------------|
-| [Orchestrierung & Verteilung](orchestrierung/index.md) | Softwareverteilung, Kubernetes-Grundlagen | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
-| [Kubernetes Teil 1 – Einstieg](kubernetes-praxis/index.md) | Kubernetes Hands-on: Pod, Deployment, Service, Skalierung – mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Kubernetes Teil 2 – Aufbau](kubernetes-aufbau/index.md) | Betriebsreif: ConfigMap & Secret, Health-Probes, Requests & Limits | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [Kubernetes Teil 3 – Helm](kubernetes-helm/index.md) | Paket statt Handarbeit: eigenes Chart, Werte, Upgrade & Rollback, fertige Charts | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-| [CI/CD mit GitHub Actions](ci-cd/index.md) | Vom manuellen Push zur automatischen Pipeline | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung + Praxis |
-
-### Planung & Betrieb
-
-| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
-|-------|--------------|:-----------:|-------------|
-| [Infrastruktur & Architektur](infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Ressourcen, Lizenzen – mit Übungsaufgaben | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung |
-| [Betrieb & Verfügbarkeit](betrieb/index.md) | Monitoring, Backup/Recovery, Hochverfügbarkeit, BCM | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung |
-| [Praxis: Monitoring](monitoring-praxis/index.md) | Prometheus/Grafana-Gruppenübung mit Installation | <span class='badge badge-praxis'>Praxis</span> | v.a. Praxis |
-
-### Sicherheit & Qualität
-
-| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
-|-------|--------------|:-----------:|-------------|
-| [IT-Sicherheit & Risiko](it-sicherheit/index.md) | Schutzziele, Risikomanagement, ISMS, Vorfälle | <span class='badge badge-pruefung'>Prüfungsrelevant</span> | Prüfung |
-| [Tests & Qualität](testen-qualitaet/index.md) | Testszenarien, Integrationstests, Optimierung, Übergabe | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
-
-### Organisation & Projekte
-
-| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
-|-------|--------------|:-----------:|-------------|
-| [Recht & Datenschutz](recht-organisation/index.md) | DSGVO, Datensicherheitskonzepte, Compliance, Verträge | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
-| [Projekte & Koordination](projektmanagement/index.md) | Projektorganisation, Planung, Controlling, Schulung | <span class='badge badge-vertiefung'>Vertiefung</span> | Prüfung |
-
-### Nachschlagen
-
-| Thema | Worum geht's | Wichtigkeit | Schwerpunkt |
-|-------|--------------|:-----------:|-------------|
-| [Cheatsheets](cheatsheets/index.md) | Spickzettel für Multipass, Docker, Compose, Git, GitHub Actions und Helm | – | Hilfsmittel |
-| [Glossar](glossar.md) | Alle Begriffe kompakt erklärt | – | Hilfsmittel |
+    Git ist kein eigener Prüfungsschwerpunkt, sondern ein Werkzeug. Es taucht auf, sobald wir mit Konfigurationsdateien und Pipelines arbeiten – du kannst es aber jederzeit vorziehen.
 
 ---
 
-## Wenn die Zeit knapp ist
+## Wie ein Kursabend abläuft
 
-!!! abstract "Die Kurzversion"
-    Solltest du dich entscheiden müssen, womit du deine Zeit verbringst:
+Die meisten Abende folgen demselben Muster:
 
-    1. **Zuerst alles, was <span class='badge badge-pruefung'>Prüfungsrelevant</span> ist** – der Kerninhalt für die Prüfung.
-    2. **Dann die <span class='badge badge-vertiefung'>Vertiefung</span>-Themen** – sie runden das Bild ab und sind oft die Brücke zwischen zwei prüfungsrelevanten Themen.
-    3. **Die <span class='badge badge-praxis'>Praxis</span>-Themen**, wenn Zeit und Lust da sind – sie machen dich praktisch sicher, sind aber kein Prüfungs-Schwerpunkt.
+```mermaid
+flowchart LR
+  A["<b>Theorie</b><br/>im Hauptraum<br/><small>ca. 45–60 Minuten</small>"]
+  B["<b>Praxis</b><br/>in Kleingruppen<br/><small>der größere Teil des Abends</small>"]
+  C["<b>Auswertung</b><br/>gemeinsam<br/><small>zum Abschluss</small>"]
+  A --> B --> C
+```
 
-    Und ganz unabhängig von der Prüfung gilt: Die Praxis-Blöcke machen Spaß und lassen das Gelernte *klick* machen. Lass sie dir nicht entgehen, nur weil sie nicht prüfungszentral sind.
+**Theorie** – Begriffe, Zusammenhänge, das Warum. Kurz genug, dass Zeit zum Arbeiten bleibt.
+
+**Praxis in Kleingruppen** – ihr geht in getrennte Räume und arbeitet an einer Aufgabe. Ihr helft euch gegenseitig, ich komme dazu, wenn etwas klemmt. Hier passiert das eigentliche Lernen.
+
+**Gemeinsame Auswertung** – zurück im Hauptraum: Was ist herausgekommen, wo hat es gehakt, welche Lösungswege gab es? Genau dieses Besprechen macht den Unterschied zwischen „hat funktioniert" und „habe verstanden".
+
+!!! tip "Was das für dich heißt"
+    Die Praxisaufgaben sind kein Zusatz, sondern der Kern. Wenn du einen Abend verpasst, arbeite vor allem die Übung nach – die Theorie dazu steht ohnehin hier in den Unterlagen.
+
+---
+
+## Wie die Blöcke aufgebaut sind
+
+Jeder Themenblock folgt derselben Gliederung. Wenn du dich einmal zurechtgefunden hast, findest du dich überall zurecht:
+
+| Seitentyp | Was dich erwartet |
+|---|---|
+| **Überblick** | Worum es geht, was du lernst, wie die Seiten zusammenhängen |
+| **Theorie** | Die Inhalte mit Erklärungen, Analogien und Diagrammen |
+| **Praxis** | Schritt-für-Schritt-Anleitungen zum Mitmachen |
+| **Übungen** | Aufgaben mit Musterlösung – meist gestaffelt nach Schwierigkeit |
+| **Stolpersteine** | Was typischerweise schiefgeht und wie du es behebst |
+| **Merksätze** | Die Kernaussagen des Blocks auf einer Seite |
+
+---
+
+## Wenn die Zeit knapp wird
+
+!!! abstract "Die Prioritäten"
+    1. **Die Theorie jedes Themas** – sie ist die Grundlage für die Prüfung, und die Prüfungsaufgaben fragen Verständnis ab, nicht Handgriffe.
+    2. **Die Übungen mit Musterlösung** – wenn du sie nicht durchführen kannst, lies wenigstens Aufgabe und Lösung.
+    3. **Die Stolperstein-Seiten** – sie sparen dir im Ernstfall Stunden.
+    4. **Die Vertiefungen und Zusatzübungen** – wertvoll, aber verzichtbar, wenn die Zeit fehlt.
+
+    Und unabhängig von der Prüfung: Die Praxisblöcke machen den Stoff greifbar. Lass sie dir nicht entgehen, nur weil sie nicht direkt abgefragt werden.
+
+---
+
+Wo du im Kurs gerade stehst und was organisatorisch gilt, steht in der **[Kursinfo](kurs/index.md)**. Was in der Prüfung auf dich zukommt, erklärt die Seite **[Die Prüfung](kurs/pruefung.md)**.

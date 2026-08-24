@@ -7,7 +7,7 @@ description: "Elf Zusatzübungen zum Helm-Block in drei Stufen – vom zweiten R
 
 <span class='badge badge-bonus'>Bonus</span> &nbsp; **Diese Seite ist Kür, kein Pflichtprogramm.** Du bist mit der [Praxis](05-praxis-upgrade-rollback.md) und der [Praxis: Drei Umgebungen](07-lab-drei-umgebungen.md) durch und hast noch Zeit? Dann ist das hier deine Spielwiese. Alle Übungen laufen mit **demselben Chart**, das schon in `apps/kubernetes-helm/` liegt – du brauchst nichts Neues herunterzuladen.
 
-Diese Seite ist auch als **Selbstlern-Material für danach** gedacht. Du musst sie nicht heute schaffen und nicht der Reihe nach durchgehen. Nimm dir raus, was dich interessiert.
+Diese Seite ist auch als **Selbstlern-Material für danach** gedacht. Du musst sie nicht am Stück schaffen und nicht der Reihe nach durchgehen. Nimm dir raus, was dich interessiert.
 
 !!! abstract "Die drei Stufen"
     - **Einstieg** – die Handgriffe aus der Praxis noch einmal, aus einem anderen Blickwinkel

@@ -1,11 +1,11 @@
 ---
 title: "Merksätze – Aufbau-Block"
-description: "Die Kern-Sätze aus Block 3 kompakt auf einer Seite."
+description: "Die Kern-Sätze aus dem Aufbau-Block kompakt auf einer Seite."
 ---
 
-# Merksätze – Aufbau-Block (Block 3)
+# Merksätze – Aufbau-Block
 
-Wenn du dir diese Sätze einprägst, hast du die Kern-Ideen des heutigen Kurses beieinander.
+Wenn du dir diese Sätze einprägst, hast du die Kern-Ideen dieses Kapitels beieinander.
 
 ---
 
@@ -50,16 +50,16 @@ Im Default-Bridge gibt es **kein** DNS – deshalb für ernsthafte Setups immer 
 !!! success "Merksatz 5"
     > **Mit drei Standard-Befehlen – `docker volume create`, `docker network create`, `docker run -v ... -e ... --network ...` – baust du jeden Multi-Container-Stack manuell zusammen.**
 
-Heute hast du das mit **Postgres + Adminer** in 30–40 Minuten getan. Fünf `docker`-Befehle und du hast eine funktionierende, persistente Datenbank mit Web-GUI.
+Im Praxis-Teil hast du das mit **Postgres + Adminer** in 30–40 Minuten getan. Fünf `docker`-Befehle und du hast eine funktionierende, persistente Datenbank mit Web-GUI.
 
 ---
 
 ## 6. Der Ausblick-Satz
 
 !!! success "Merksatz 6"
-    > **Was heute manuell war, wird nächstes Mal deklarativ: Docker Compose beschreibt genau diesen Stack in einer einzigen YAML-Datei.**
+    > **Was hier manuell war, wird mit Docker Compose deklarativ: Compose beschreibt genau diesen Stack in einer einzigen YAML-Datei.**
 
-Das ist der Cliffhanger für den nächsten Block – [Docker Compose](../docker-compose/index.md).
+Das ist der Cliffhanger für den [Compose-Block](../docker-compose/index.md).
 
 ---
 
@@ -88,12 +88,12 @@ Das ist das Muster, das jede ernsthafte Container-Anwendung nutzt.
 
 ---
 
-## Für zu Hause
+## Zum Vertiefen
 
-- Baue den Stack zu Hause noch einmal auf, diesmal mit eigenen Daten in der Tabelle.
+- Baue den Stack noch einmal auf, diesmal mit eigenen Daten in der Tabelle.
 - Ändere das Passwort über eine `.env`-Datei statt inline.
 - Stoppe beide Container **ohne** das Volume zu löschen – prüfe, dass die Daten nach dem Neustart noch da sind.
 
-Wenn dir das alles locker fällt, bist du optimal vorbereitet für das nächste Mal – **Docker Compose**.
+Wenn dir das alles locker fällt, bist du optimal vorbereitet für **Docker Compose**.
 
-[→ Weiter zu: Docker Compose (Block 4)](../docker-compose/index.md)
+[→ Weiter zu: Docker Compose](../docker-compose/index.md)

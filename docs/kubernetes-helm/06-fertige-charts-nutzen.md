@@ -5,8 +5,8 @@ description: "Der zweite und viel häufigere Fall im Alltag: Jemand anders hat d
 
 # Fertige Charts nutzen
 
-!!! info "Das läuft im Hauptraum – du musst hier nichts tippen"
-    Diese Seite gehört zum Theorieteil: Den Monitoring-Stack rolle ich einmal für alle aus, du schaust zu. Zum Nachlesen ist die Seite da, zum Mitmachen nicht. Deine nächste Aufgabe ist die [Praxis: Drei Umgebungen](07-lab-drei-umgebungen.md).
+!!! info "Das wird vorgeführt – du musst hier nichts tippen"
+    Diese Seite gehört zum Theorieteil: Der Monitoring-Stack wird einmal für alle ausgerollt, du schaust zu. Zum Nachlesen ist die Seite da, zum Mitmachen nicht. Deine nächste Aufgabe ist die [Praxis: Drei Umgebungen](07-lab-drei-umgebungen.md).
 
 Bis hierher warst du der **Chart-Bauer**. Du hast in [Praxis: Dein erstes Chart](03-praxis-erstes-chart.md) dein eigenes Paket geschnürt und es in [Praxis: Upgrade & Rollback](05-praxis-upgrade-rollback.md) durch Revisionen geschoben. Das ist die eine Hälfte des Alltags – die für **deine eigene Software**.
 
@@ -115,8 +115,8 @@ Danach durchsuchst du `werte.yaml` in deinem Editor nach `replicas`, `resources`
 
 ## Die Demo – der ganze Monitoring-Stack mit einem Befehl
 
-!!! info "Das mache ich im Hauptraum – schau einfach zu"
-    Das hier ist **keine Übungsaufgabe** – tipp bitte nicht mit. Der Grund ist ganz praktisch: Der Stack zieht rund sechs Images. Wenn zwanzig Rechner das im selben Moment tun, dauert es ewig und wir laufen in die Rate-Limits der Registry. Also: einmal geteilt, alle schauen zu. Zum Nachlesen steht hier ohnehin alles.
+!!! info "Das wird einmal gemeinsam vorgeführt – schau einfach zu"
+    Das hier ist **keine Übungsaufgabe** – tipp bitte nicht mit. Der Grund ist ganz praktisch: Der Stack zieht rund sechs Images. Wenn zwanzig Rechner das im selben Moment tun, dauert es ewig und die Rate-Limits der Registry schlagen zu. Also: einmal geteilt, alle schauen zu. Zum Nachlesen steht hier ohnehin alles.
 
 Drei Befehle. Mehr ist es nicht:
 
@@ -166,14 +166,14 @@ Halte einen Moment inne bei dieser Liste. **35 Alarm-Regeln.** Die hat jemand ge
     Erinnerst du dich? Prometheus-Konfiguration schreiben, das Scrape-Target eintragen, Grafana danebenstellen, die Datenquelle verbinden, ein Dashboard zusammenklicken. Ein Nachmittag Arbeit, drei Dienste, alles selbst verdrahtet. Genau das war **richtig und wichtig**: Du weißt jetzt, was da drin passiert. Aber es war eben auch die Handarbeits-Variante von etwas, das jemand anders schon zu Ende gedacht hat – für 122 Objekte statt für drei.
 
 !!! note "Ehrlich bleiben bei den Zahlen"
-    Die 6.800 Zeilen, die 122 Objekte und die Verteilung oben gelten für **Chart-Version 87.16.1** (App-Version `v0.92.1`), gemessen am 16. Juli 2026. Bei dir wird eine neuere Version im Repository liegen und die Zahlen werden anders aussehen. Die Größenordnung bleibt – die genaue Zahl ist eine Momentaufnahme. Deshalb steht die Chart-Version hier immer dabei.
+    Die 6.800 Zeilen, die 122 Objekte und die Verteilung oben gelten für **Chart-Version 87.16.1** (App-Version `v0.92.1`). Bei dir wird eine neuere Version im Repository liegen und die Zahlen werden anders aussehen. Die Größenordnung bleibt – die genaue Zahl ist eine Momentaufnahme. Deshalb steht die Chart-Version hier immer dabei.
 
 ---
 
 ## Nicht jedes Chart ist ein gutes Chart
 
 !!! warning "Nicht jedes Chart ist ein gutes Chart"
-    Bis vor Kurzem hätte auf dieser Seite ein **bitnami**-Chart gestanden. Bitnami war jahrelang **die** Adresse für fertige Charts – sauber gebaut, für fast jede Software eines da. Praktisch jedes Helm-Tutorial im Netz benutzt bis heute `bitnami/nginx` oder `bitnami/postgresql` als Beispiel.
+    Früher hätte auf dieser Seite ein **bitnami**-Chart gestanden. Bitnami war jahrelang **die** Adresse für fertige Charts – sauber gebaut, für fast jede Software eines da. Praktisch jedes Helm-Tutorial im Netz benutzt bis heute `bitnami/nginx` oder `bitnami/postgresql` als Beispiel.
 
     Ende August 2025 hat **Broadcom** den Bitnami-Katalog umgestellt. Seitdem sind die **versionierten Images verschwunden**. Konkret:
 
@@ -189,7 +189,7 @@ Halte einen Moment inne bei dieser Liste. **35 Alarm-Regeln.** Die hat jemand ge
 
 Bleib einen Moment bei dem, was da passiert ist. Ein Anbieter trifft eine Geschäftsentscheidung – und über Nacht ziehen Deployments auf der ganzen Welt ein Image, das es so nicht mehr gibt. Nicht wegen eines Bugs. Nicht wegen eines Angriffs. Weil jemand den Stecker gezogen hat.
 
-**Ein Anbieter zieht den Stecker und deine Deployments stehen.** Das ist kein theoretisches Risiko, das ist letztes Jahr passiert – und zwar dem meistgenutzten Chart-Katalog überhaupt.
+**Ein Anbieter zieht den Stecker und deine Deployments stehen.** Das ist kein theoretisches Risiko, das ist genau so passiert – und zwar dem meistgenutzten Chart-Katalog überhaupt.
 
 Zwei Konsequenzen für dich – beide kennst du eigentlich schon:
 

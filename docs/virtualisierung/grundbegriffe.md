@@ -30,8 +30,8 @@ Sobald wir in der Praxis mit Multipass, VirtualBox oder Docker arbeiten, begegne
 | Begriff | Beispiel |
 |---------|----------|
 | Host | dein MacBook mit macOS 15 |
-| Gast | eine Ubuntu-22.04-VM, die auf dem MacBook läuft |
-| Gast-OS | Ubuntu 22.04 (das Betriebssystem im Gast) |
+| Gast | eine Ubuntu-24.04-VM, die auf dem MacBook läuft |
+| Gast-OS | Ubuntu 24.04 (das Betriebssystem im Gast) |
 
 !!! note "Ein Host, viele Gäste"
     Auf einem Host können gleichzeitig **mehrere Gäste** laufen. Dein Laptop kann z.B. eine Ubuntu-VM, eine Windows-VM und eine Debian-VM parallel betreiben – solange RAM und CPU mitspielen.

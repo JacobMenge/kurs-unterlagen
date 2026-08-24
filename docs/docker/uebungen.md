@@ -26,7 +26,7 @@ Hier sind Übungen, die du selbst ausprobieren kannst, um Docker zu vertiefen. A
 
 ## 🟢 Einsteiger
 
-### Übung 2.1 – hello-world und erster nginx
+### Übung 1 – hello-world und erster nginx
 
 !!! info "Was du lernst"
     - Was passiert bei `docker run`
@@ -158,7 +158,7 @@ Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg – die
 
 ---
 
-### Übung 2.2 – Eigene HTML-Seite im Container
+### Übung 2 – Eigene HTML-Seite im Container
 
 !!! info "Was du lernst"
     - Bind Mount: eigene Dateien in einen Container „reinhängen"
@@ -244,7 +244,7 @@ Du willst **nicht** die nginx-Standardseite zeigen, sondern deine eigene HTML-Se
 
 ## 🟡 Mittel
 
-### Übung 2.3 – Zwei Webserver gleichzeitig
+### Übung 3 – Zwei Webserver gleichzeitig
 
 !!! info "Was du lernst"
     - Mehrere Container parallel auf unterschiedlichen Ports
@@ -282,7 +282,7 @@ docker rm nginx httpd
 
 ---
 
-### Übung 2.4 – Dein erstes eigenes Image bauen
+### Übung 4 – Dein erstes eigenes Image bauen
 
 !!! info "Was du lernst"
     - Ein `Dockerfile` schreiben
@@ -320,7 +320,7 @@ Baue ein Image, das einen **personalisierten** nginx-Server startet – deine HT
 
 ## 🔴 Fortgeschritten
 
-### Übung 2.5 – Ein nginx-Container liefert mehrere Seiten aus
+### Übung 5 – Ein nginx-Container liefert mehrere Seiten aus
 
 !!! info "Was du lernst"
     - Dateisystem-Struktur innerhalb eines Web-Verzeichnisses
@@ -350,7 +350,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
 
 ## 🏆 Challenge
 
-### Challenge 2 – Dein Visitenkarten-Container
+### Challenge – Dein Visitenkarten-Container
 
 !!! abstract "Aufgabe"
     Erstelle ein eigenes Image namens `visitenkarte:1.0`, das einen nginx-Webserver mit folgendem Inhalt enthält:
@@ -423,13 +423,13 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     <html lang="de">
     <head>
       <meta charset="UTF-8">
-      <title>Visitenkarte – Jacob</title>
+      <title>Visitenkarte – Max Mustermann</title>
       <link rel="stylesheet" href="style.css">
     </head>
     <body>
-      <h1>Jacob Menge</h1>
+      <h1>Max Mustermann</h1>
       <p>IT-Dozent · DevOps-Engineer</p>
-      <p>Ort: München</p>
+      <p>Ort: Musterstadt</p>
       <p>Hobbies: Coden, Kochen, Laufen</p>
       <nav>
         <a href="cv.html">Lebenslauf</a>
@@ -453,9 +453,9 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     <body>
       <h1>Lebenslauf</h1>
       <ul>
-        <li>2026 – heute: Selbstständig, Kurse und Consulting</li>
-        <li>2023 – 2026: Cloud Engineer bei Firma X</li>
-        <li>2020 – 2023: Junior Dev bei Firma Y</li>
+        <li>Aktuell: Selbstständig, Kurse und Consulting</li>
+        <li>Davor drei Jahre: Cloud Engineer bei Firma X</li>
+        <li>Davor drei Jahre: Junior Dev bei Firma Y</li>
       </ul>
       <p><a href="index.html">Zurück zur Startseite</a></p>
     </body>

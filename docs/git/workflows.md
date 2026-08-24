@@ -595,7 +595,7 @@ Sechs Schritte. Davon ist **Schritt 1 (pullen)** der, der am häufigsten vergess
 
 #### Schritt 2.1: Sauberer Start auf main
 
-Setz voraus, du hast schon ein Remote-Repo (z.B. aus [Praxis 5](praxis-lokal-zu-github.md)) lokal liegen.
+Setz voraus, du hast schon ein Remote-Repo lokal liegen – z.B. `mein-erstes-remote-repo` aus [Praxis 4](praxis-github-neu.md).
 
 ```bash
 cd ~/mein-erstes-remote-repo

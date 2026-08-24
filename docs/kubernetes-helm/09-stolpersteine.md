@@ -43,14 +43,14 @@ helm version
 version.BuildInfo{Version:"v4.2.3", GitCommit:"43e8b7feece8beb0fcba47059ec9b522fd929a64", GitTreeState:"clean", GoVersion:"go1.26.5", KubeClientVersion:"v1.36"}
 ```
 
-Das ist **die** Falle dieser Einheit – und sie erwischt fast jeden genau einmal. Merk dir das Muster, es gilt für jedes Werkzeug, das du per `winget` nachinstallierst: erst die neue Sitzung macht den Befehl sichtbar.
+Das ist **die** Falle beim Einstieg – und sie erwischt fast jeden genau einmal. Merk dir das Muster, es gilt für jedes Werkzeug, das du per `winget` nachinstallierst: erst die neue Sitzung macht den Befehl sichtbar.
 
 !!! note "Kurz erklärt: macOS und Linux"
     Auf macOS installierst du mit `brew install helm`, auf Linux nach der [Anleitung auf helm.sh](https://helm.sh/docs/intro/install/). Das Prinzip bleibt gleich: Wenn die Shell den neuen Befehl nicht kennt, öffne ein neues Terminal.
 
 ### „cluster unreachable" – obwohl minikube läuft
 
-Der zweitwahrscheinlichste Fehler des Tages, besonders wenn dein Rechner seit der letzten Übung aus war:
+Der zweitwahrscheinlichste Fehler beim Einstieg, besonders wenn dein Rechner seit der letzten Übung aus war:
 
 ```text
 Error: INSTALLATION FAILED: cluster reachability check failed: kubernetes cluster unreachable: Get "https://127.0.0.1:55370/version": EOF
@@ -111,7 +111,7 @@ Die alten Namen funktionieren weiter, geben aber eine Deprecation-Warnung aus.
 **Lösung:** `helm version` zeigt dir schwarz auf weiß, was du hast. Steht dort `Version:"v4…"`, dann schlägt bei Widersprüchen die [offizielle Dokumentation](https://helm.sh/docs/) das Tutorial.
 
 !!! note "Kurz erklärt: warum du das trotzdem entspannt sehen kannst"
-    Helm 3 bekommt noch bis zum 10.02.2027 Sicherheitsfixes – dein Kollege mit Helm 3 arbeitet also nicht falsch, ihr arbeitet nur mit verschiedenen Ständen. Eine sichtbare Neuerung am Rande: `helm create` legt in Helm 4 zusätzlich eine `templates/httproute.yaml` an. Für unser Chart brauchen wir die nicht – raus damit.
+    Helm 3 bekommt bis zum 10.02.2027 Sicherheitsfixes – dein Kollege mit Helm 3 arbeitet also nicht falsch, ihr arbeitet nur mit verschiedenen Ständen. Eine sichtbare Neuerung am Rande: `helm create` legt in Helm 4 zusätzlich eine `templates/httproute.yaml` an. Für unser Chart brauchen wir die nicht – raus damit.
 
 ---
 
@@ -313,10 +313,10 @@ helm list -A
 
 ```text
 NAME   	NAMESPACE	REVISION	UPDATED                               	STATUS  	CHART          	APP VERSION
-station	default  	3       	2026-07-16 15:01:20.7176141 +0200 CEST	deployed	webserver-0.1.0	1
-station	dev      	1       	2026-07-16 15:01:41.5624155 +0200 CEST	deployed	webserver-0.1.0	1
-station	prod     	1       	2026-07-16 15:01:42.391452 +0200 CEST 	deployed	webserver-0.1.0	1
-station	test     	1       	2026-07-16 15:01:41.9583803 +0200 CEST	deployed	webserver-0.1.0	1
+station	default  	3       	2024-03-15 15:01:20.7176141 +0100 CET 	deployed	webserver-0.1.0	1
+station	dev      	1       	2024-03-15 15:01:41.5624155 +0100 CET 	deployed	webserver-0.1.0	1
+station	prod     	1       	2024-03-15 15:01:42.391452 +0100 CET  	deployed	webserver-0.1.0	1
+station	test     	1       	2024-03-15 15:01:41.9583803 +0100 CET 	deployed	webserver-0.1.0	1
 ```
 
 Oder gezielt in einem Namespace:

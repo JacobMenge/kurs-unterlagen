@@ -374,7 +374,7 @@ flowchart LR
 - **Volumes** geben ihm persistenten Speicher.
 - **Netzwerke** verbinden ihn mit anderen Containern.
 
-In der nächsten Praxis-Einheit setzen wir alle drei zusammen ein.
+Im Praxis-Teil setzen wir alle drei zusammen ein.
 
 ---
 

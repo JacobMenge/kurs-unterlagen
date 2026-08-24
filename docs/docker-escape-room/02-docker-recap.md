@@ -5,7 +5,7 @@ description: "Die Befehle, die du für den Docker Escape Room brauchst – alle 
 
 # Docker-Recap
 
-Diese Befehle solltest du für die Aufgabe kennen. Nichts davon ist neu – ihr habt das alles in den Blöcken 2 und 3 gesehen.
+Diese Befehle solltest du für die Aufgabe kennen. Nichts davon ist neu – ihr habt das alles in der Docker-Einführung und im Aufbau-Block gesehen.
 
 !!! tip "Diese Seite ist deine Referenz während der Aufgabe"
     Lass sie offen, während du arbeitest. Du musst dir nichts merken – schauen ist erlaubt.

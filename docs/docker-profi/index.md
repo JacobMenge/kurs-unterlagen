@@ -1,9 +1,9 @@
 ---
-title: "Docker für Profis (Block 5)"
+title: "Docker für Profis"
 description: "Dockerfile-Best-Practices, Multi-Stage-Builds, Image-Optimierung und Security-Scanning. Für Produktionsreife."
 ---
 
-# Docker für Profis (Block 5)
+# Docker für Profis
 
 Du kannst jetzt Container starten, Persistenz nutzen, Multi-Container-Stacks mit Compose beschreiben. Die nächste Frage ist: **Wie sorgst du dafür, dass deine eigenen Images professionell gebaut sind?**
 
@@ -12,7 +12,7 @@ Dieser Block adressiert zwei Themen, die in Produktion zählen:
 1. **Dockerfile-Best-Practices** – damit dein Image schlank, schnell gebaut und sicher ist.
 2. **Image-Optimierung und Security-Scanning** – damit du Angriffsflächen aktiv klein hältst.
 
-!!! abstract "Was du nach diesen 3 Stunden kannst"
+!!! abstract "Was du nach diesem Block kannst"
     - ein Dockerfile mit **Multi-Stage-Build** schreiben, das Build-Tools und Runtime trennt
     - einen Container **als unprivilegierten User** betreiben
     - **Layer-Caching** aktiv für Build-Zeit-Optimierung nutzen
@@ -21,20 +21,13 @@ Dieser Block adressiert zwei Themen, die in Produktion zählen:
 
 ---
 
-## Zeitplan – 3 Stunden
+## Umfang und Ablauf
 
-!!! note "Für Präsenzkurs und Selbstlerner"
-    Der Zeitplan ist für den **3-Stunden-Präsenzkurs** gedacht. Selbstlerner bearbeiten die Seiten in ihrem Tempo.
+!!! note "Aufwand"
+    Plane für den kompletten Block **rund 3 Stunden** ein – etwa zur Hälfte Theorie, zur Hälfte Praxis am eigenen Dockerfile. Wer allein lernt, bearbeitet die Seiten im eigenen Tempo.
 
-| Zeit | Was passiert | Seite |
-|------|--------------|-------|
-| **0:00 – 0:15** | Begrüßung, kurzer Rückblick Block 3/4 | — |
-| **0:15 – 0:40** | Theorie: Layer-Caching, Multi-Stage, `USER`, `HEALTHCHECK`, `CMD` vs. `ENTRYPOINT` | [Best-Practices](dockerfile-best-practices.md) |
-| **0:40 – 1:30** | Praxis 1: Bestehendes Dockerfile refactoren → Multi-Stage + USER + Cache-Order | [Best-Practices](dockerfile-best-practices.md) |
-| **1:30 – 1:40** | Pause | — |
-| **1:40 – 2:05** | Theorie: Basis-Images im Vergleich, Scanning, SBOMs | [Optimierung](image-optimierung.md) |
-| **2:05 – 2:50** | Praxis 2: Image von 1 GB auf < 200 MB bringen + Trivy-Scan | [Optimierung](image-optimierung.md) |
-| **2:50 – 3:00** | Abschluss-Diskussion, Ausblick (CI/CD, Orchestrierung) | — |
+1. **[Dockerfile-Best-Practices](dockerfile-best-practices.md)** – Theorie: Layer-Caching, Multi-Stage, `USER`, `HEALTHCHECK`, `CMD` vs. `ENTRYPOINT`; danach Praxis: ein bestehendes Dockerfile auf Multi-Stage + `USER` + saubere Cache-Reihenfolge umbauen
+2. **[Image-Optimierung](image-optimierung.md)** – Theorie: Basis-Images im Vergleich, Scanning, SBOMs; danach Praxis: ein Image von rund 1 GB auf unter 200 MB bringen und mit Trivy scannen
 
 ---
 
@@ -55,7 +48,7 @@ Dieser Block adressiert zwei Themen, die in Produktion zählen:
 - [Docker-Einführung](../docker/index.md) solide verstanden (eigenes Image bauen, `docker run`).
 - [Docker-Aufbau](../docker-aufbau/index.md) und [Compose](../docker-compose/index.md) idealerweise durchgearbeitet.
 - Docker installiert und aktuell.
-- Optional: `trivy` und `dive` vorab installiert (sonst im Kurs gemeinsam).
+- Optional: `trivy` und `dive` vorab installiert – die Installation ist auf der Seite [Image-Optimierung](image-optimierung.md) aber auch Schritt für Schritt beschrieben.
 
 ---
 

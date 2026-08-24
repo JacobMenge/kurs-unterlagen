@@ -120,21 +120,21 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
             ```bash
             export HTTP_PROXY=http://proxy.firma:8080
             export HTTPS_PROXY=http://proxy.firma:8080
-            multipass launch 22.04 --name demo
+            multipass launch 24.04 --name demo
             ```
 
         === "Windows PowerShell"
             ```powershell
             $env:HTTP_PROXY  = "http://proxy.firma:8080"
             $env:HTTPS_PROXY = "http://proxy.firma:8080"
-            multipass launch 22.04 --name demo
+            multipass launch 24.04 --name demo
             ```
 
         === "Windows CMD"
             ```cmd
             set HTTP_PROXY=http://proxy.firma:8080
             set HTTPS_PROXY=http://proxy.firma:8080
-            multipass launch 22.04 --name demo
+            multipass launch 24.04 --name demo
             ```
 
     4. Teste ggf. mit einem anderen Netz (Hotspot vom Handy), um zu isolieren, ob es am Firmen-Netz liegt.
@@ -277,7 +277,7 @@ Diese Seite ist deine **Nachschlagekarte**. Such dein Symptom unten, klicke die 
     3. **Auf Multipass wechseln**, das mit Hyper-V zusammenarbeitet.
 
 ??? warning "VirtualBox auf Apple Silicon – Performance und Kompatibilität"
-    **Stand April 2026:** VirtualBox 7.1 (seit September 2024) hat offiziellen Apple-Silicon-Support. Die „Developer Preview"-Phase ist damit abgeschlossen.
+    VirtualBox 7.1 hat offiziellen Apple-Silicon-Support. Die „Developer Preview"-Phase ist damit abgeschlossen.
 
     **Trotzdem gilt:**
 

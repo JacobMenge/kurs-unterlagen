@@ -1,9 +1,9 @@
 ---
 title: "Merksätze – Compose-Block"
-description: "Die Kern-Sätze aus Block 4 kompakt auf einer Seite."
+description: "Die Kern-Sätze aus dem Compose-Block kompakt auf einer Seite."
 ---
 
-# Merksätze – Docker Compose (Block 4)
+# Merksätze – Docker Compose
 
 ---
 

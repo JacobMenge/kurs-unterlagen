@@ -182,7 +182,7 @@ git log --oneline
 f2b3c4d (HEAD -> feature/statistik) Statistik: Ideen-Liste ergänzt
 f1a2b3c Statistik-Seite begonnen
 d4e5f6g (main) README: Inhaltsverzeichnis ergänzt
-c3d4e5f Eintrag: 21. Mai 2026
+c3d4e5f Eintrag: 15. März 2024
 b2c3d4e README: tägliche Eintragsfrequenz beschreiben
 a1b2c3d README mit erster Beschreibung anlegen
 ```
@@ -222,7 +222,7 @@ git log --oneline
 
 ```text
 d4e5f6g (HEAD -> main) README: Inhaltsverzeichnis ergänzt
-c3d4e5f Eintrag: 21. Mai 2026
+c3d4e5f Eintrag: 15. März 2024
 b2c3d4e README: tägliche Eintragsfrequenz beschreiben
 a1b2c3d README mit erster Beschreibung anlegen
 ```
@@ -242,7 +242,7 @@ Die Commits aus `feature/statistik` tauchen hier nicht mehr auf, weil HEAD jetzt
     * f2b3c4d (feature/statistik) Statistik: Ideen-Liste ergänzt
     * f1a2b3c Statistik-Seite begonnen
     * d4e5f6g (HEAD -> main) README: Inhaltsverzeichnis ergänzt
-    * c3d4e5f Eintrag: 21. Mai 2026
+    * c3d4e5f Eintrag: 15. März 2024
     * b2c3d4e README: tägliche Eintragsfrequenz beschreiben
     * a1b2c3d README mit erster Beschreibung anlegen
     ```
@@ -281,7 +281,7 @@ git log --oneline --all --graph
 * f2b3c4d (HEAD -> main, feature/statistik) Statistik: Ideen-Liste ergänzt
 * f1a2b3c Statistik-Seite begonnen
 * d4e5f6g README: Inhaltsverzeichnis ergänzt
-* c3d4e5f Eintrag: 21. Mai 2026
+* c3d4e5f Eintrag: 15. März 2024
 * b2c3d4e README: tägliche Eintragsfrequenz beschreiben
 * a1b2c3d README mit erster Beschreibung anlegen
 ```
@@ -369,7 +369,7 @@ git switch main
 In `README.md` eine kleine Zeile ergänzen, z.B.:
 
 ```markdown
-*Letztes Update: 2026-05-21*
+*Letztes Update: 2024-03-15*
 ```
 
 Speichern, stagen, committen:
@@ -499,7 +499,7 @@ git log --oneline --graph
 * f2b3c4d Statistik: Ideen-Liste ergänzt
 * f1a2b3c Statistik-Seite begonnen
 * d4e5f6g README: Inhaltsverzeichnis ergänzt
-* c3d4e5f Eintrag: 21. Mai 2026
+* c3d4e5f Eintrag: 15. März 2024
 * b2c3d4e README: tägliche Eintragsfrequenz beschreiben
 * a1b2c3d README mit erster Beschreibung anlegen
 ```

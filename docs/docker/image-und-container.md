@@ -137,7 +137,7 @@ Willst du Daten behalten, die ein Container erzeugt (z.B. eine Datenbank), musst
 - **Volumes** – von Docker verwaltet, leben länger als Container
 - **Bind Mounts** – direkt ein Host-Verzeichnis in den Container einhängen
 
-Diese Themen schauen wir uns im nächsten Kursblock an. Für heute merke dir: **Was nur im Container-Layer lebt, ist beim nächsten `docker rm` weg.**
+Diese Themen schauen wir uns im Aufbau-Kapitel an. Merke dir hier: **Was nur im Container-Layer lebt, ist beim nächsten `docker rm` weg.**
 
 ---
 

@@ -54,7 +54,7 @@ Das kippt an drei Stellen:
 
 Die Auflösung: **rund 6.800 Zeilen YAML. 122 Objekte.** Aus **einem** Befehl.
 
-Gemessen mit dem Chart `kube-prometheus-stack` in der Version 87.16.1. Die Zeilenzahl ändert sich mit jeder Chart-Version – die Größenordnung nicht. Ein paar der 122 Objekte kennst du längst (ConfigMap, Service, Deployment), die anderen sind Kubernetes-Objekte für Rechte und Messwerte. Die musst du heute nicht können – schau nur auf die Menge:
+Gemessen mit dem Chart `kube-prometheus-stack` in der Version 87.16.1. Die Zeilenzahl ändert sich mit jeder Chart-Version – die Größenordnung nicht. Ein paar der 122 Objekte kennst du längst (ConfigMap, Service, Deployment), die anderen sind Kubernetes-Objekte für Rechte und Messwerte. Die musst du hier nicht können – schau nur auf die Menge:
 
 ```text
   35 x PrometheusRule        11 x Service               5 x ClusterRole
@@ -88,7 +88,7 @@ Helm macht das für **Anwendungen im Cluster**. Statt einzelner Programme auf ei
 | nachsehen, was da ist | `winget list` | `helm list` |
 | entfernen | `winget uninstall Helm.Helm` | `helm uninstall station` |
 
-Die rechte Spalte ist keine Analogie, die irgendwann hinkt. Das sind die echten Befehle dieses Blocks – du wirst sie alle vier heute tippen.
+Die rechte Spalte ist keine Analogie, die irgendwann hinkt. Das sind die echten Befehle dieses Blocks – du wirst sie alle vier selbst tippen.
 
 ---
 
@@ -113,7 +113,7 @@ Merk dir den Satz. Er beantwortet später die Hälfte aller Fragen, die beim Deb
 
 Vier Wörter brauchst du, um über Helm zu reden. Drei davon kennst du aus der winget-Welt schon, ohne sie je so genannt zu haben.
 
-| Begriff | Was es ist | Bei winget | Bei uns heute |
+| Begriff | Was es ist | Bei winget | In diesem Block |
 |---|---|---|---|
 | **Chart** | das **Paket**: die Vorlagen plus die Standardwerte | das Installationspaket im Katalog | der Ordner `webserver/` |
 | **Release** | eine **Installation** davon – mit einem **Namen**, den du vergibst | die installierte Software auf deinem Rechner | `helm install station ./webserver` erzeugt das Release `station` |

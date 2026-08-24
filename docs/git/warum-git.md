@@ -87,10 +87,10 @@ Wenn du im Hinterkopf hast „Commit = Spielstand", verstehst du Git schon zur H
     Du legst neben deinem Dokument ein **Logbuch** an. Immer wenn du eine größere Änderung gemacht hast, schreibst du ins Logbuch eine Zeile dazu:
 
     ```text
-    2026-04-01 10:00  Erste Version der Einleitung.
-    2026-04-01 14:30  Abschnitt zu Methoden ergänzt.
-    2026-04-02 09:15  Quellenangaben überarbeitet.
-    2026-04-02 16:20  Fazit komplett neu geschrieben.
+    2024-03-14 10:00  Erste Version der Einleitung.
+    2024-03-14 14:30  Abschnitt zu Methoden ergänzt.
+    2024-03-15 09:15  Quellenangaben überarbeitet.
+    2024-03-15 16:20  Fazit komplett neu geschrieben.
     ```
 
     Und – und das ist der entscheidende Teil – das Logbuch hält **automatisch** auch immer eine vollständige Kopie des Dokuments zum Zeitpunkt jedes Eintrags fest. Im Hintergrund, ohne dass du sie manuell pflegen musst.

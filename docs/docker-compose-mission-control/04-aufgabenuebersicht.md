@@ -7,10 +7,10 @@ description: "Die 7 Missionen für Mission Control – plus Bonus, Checkliste, R
 
 ## Ziel
 
-Ihr arbeitet heute in Gruppen als kleines DevOps-Team. Eure Aufgabe ist es, das Mission-Control-Dashboard der Aurora Station mit **Docker Compose** wieder online zu bringen.
+Ihr arbeitet in Kleingruppen als kleines DevOps-Team. Eure Aufgabe ist es, das Mission-Control-Dashboard der Aurora Station mit **Docker Compose** wieder online zu bringen.
 
-!!! warning "Heute nur Compose"
-    Heute baut ihr ausschließlich mit Compose. **Keine** einzelnen `docker run`-Befehle für die Services. Wenn ihr in Versuchung kommt: das war der Escape Room. Heute geht es um die deklarative Variante.
+!!! warning "Nur Compose"
+    Ihr baut ausschließlich mit Compose. **Keine** einzelnen `docker run`-Befehle für die Services. Wenn ihr in Versuchung kommt: das war der Escape Room. Hier geht es um die deklarative Variante.
 
 ---
 
@@ -35,10 +35,10 @@ Konzentriert euch auf:
 ## Zeitrahmen
 
 ```text
-90 Minuten Gruppenarbeit
+rund 90 Minuten Arbeit in der Kleingruppe
 ```
 
-Danach gehen wir die Aufgabe gemeinsam durch und besprechen Probleme, typische Fehler und nützliche Befehle.
+Danach wird die Aufgabe gemeinsam durchgegangen: Probleme, typische Fehler und nützliche Befehle.
 
 ---
 

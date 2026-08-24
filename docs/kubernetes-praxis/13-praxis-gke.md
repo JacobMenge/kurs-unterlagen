@@ -45,11 +45,11 @@ Drei Aufgaben, die aufeinander aufbauen. Alle Befehle tippst du im Terminal auf 
 
 ### 1 – GKE-Cluster anlegen
 
-Erst das Projekt und die Region einstellen, dann den Cluster bauen. Die **Projekt-ID** findest du in der Google-Cloud-Konsole (oben in der Projektauswahl):
+Erst das Projekt und die Zone einstellen, dann den Cluster bauen. `us-central1-a` ist eine **Zone** (eine einzelne Rechenzone innerhalb der Region `us-central1`) – deshalb `compute/zone` und nicht `compute/region`. Die **Projekt-ID** findest du in der Google-Cloud-Konsole (oben in der Projektauswahl):
 
 ```bash
 gcloud config set project <PROJECT_ID>
-gcloud config set compute/region us-central1-a
+gcloud config set compute/zone us-central1-a
 
 gcloud container clusters create ps-cluster \
   --num-nodes=1 \

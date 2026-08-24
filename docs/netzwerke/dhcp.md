@@ -101,7 +101,7 @@ Der gewählte DHCP-Server bestätigt mit einem **ACK** (Acknowledgement). Der Cl
 
 Wenn etwas schiefläuft (z.B. die Adresse wurde zwischenzeitlich an jemanden anderen vergeben), bekommt der Client stattdessen ein **NAK** und muss neu anfangen.
 
-!!! info "DORA – ein Eselsbrücke"
+!!! info "DORA – eine Eselsbrücke"
     **D**iscover, **O**ffer, **R**equest, **A**cknowledge. In Prüfungen wird der Ablauf gerne abgefragt. Wer „DORA" sagen kann und den Ablauf kennt, ist hier durch.
 
 ---

@@ -1,6 +1,6 @@
 ---
 title: "In die Cloud: Überblick"
-description: "Vom lokalen minikube zum echten managed Cluster in der Cloud: warum der Schritt sich lohnt, was ein geführtes Hands-on-Lab ist und was du heute machst – Hauptaufgabe EKS auf AWS, optional GKE auf Google und ein Wiederholungs-Lab. Umgebung wird gestellt, keine Cloud-Kosten."
+description: "Vom lokalen minikube zum echten managed Cluster in der Cloud: warum der Schritt sich lohnt, was ein geführtes Hands-on-Lab ist und was dich erwartet – Hauptaufgabe EKS auf AWS, optional GKE auf Google und ein Wiederholungs-Lab. Umgebung wird gestellt, keine Cloud-Kosten."
 ---
 
 # In die Cloud: Überblick
@@ -54,19 +54,19 @@ In der Cloud gibt es zwei Arten, an einen Cluster zu kommen:
 | Weg | Wer betreibt die Steuerung? | Beispiel |
 |---|---|---|
 | **Selbst installiert** | Du richtest Kubernetes selbst auf einer Maschine ein. | dein lokales **minikube** – das hast du schon gemacht |
-| **Managed** | Der Cloud-Anbieter betreibt die Steuerung für dich. Du bekommst einen fertigen Cluster und nutzt ihn nur. | **EKS** von AWS (heute) und **GKE** von Google (optional) |
+| **Managed** | Der Cloud-Anbieter betreibt die Steuerung für dich. Du bekommst einen fertigen Cluster und nutzt ihn nur. | **EKS** von AWS (Hauptaufgabe) und **GKE** von Google (optional) |
 
 !!! note "Kurz erklärt: was „managed" bedeutet"
     Ein Kubernetes-Cluster hat einen **Steuerungsteil** (er hält den Soll-Zustand, verteilt die Pods, überwacht alles) und die **Arbeiter-Knoten**, auf denen die Container laufen. Bei **managed Kubernetes** übernimmt der Anbieter den Steuerungsteil komplett – du musst ihn nicht selbst aufsetzen und warten. Bei AWS heißt dieser Dienst **EKS** (Elastic Kubernetes Service), bei Google **GKE** (Google Kubernetes Engine). Genau das nutzen große Betriebe, damit sich niemand um die Cluster-Steuerung von Hand kümmern muss.
 
 ---
 
-## Was wir heute machen
+## Was in dieser Einheit ansteht
 
 Wir arbeiten mit den **geführten Hands-on-Labs** von Pluralsight. Jedes Lab bringt seine eigene, fertig eingerichtete Umgebung mit. Du musst nichts installieren – du brauchst nur einen Browser.
 
 **1. Hauptaufgabe: [Deine App auf AWS mit EKS](12-praxis-eks.md).**
-Das machst du heute. Du legst einen echten **EKS-Cluster** bei Amazon an, rollst eine Web-App darauf aus, machst sie über einen **Load-Balancer mit öffentlicher Adresse** aus dem Internet erreichbar und testest zum Schluss die **Selbstheilung**, indem du Server abschaltest und zusiehst, wie der Cluster sie ersetzt. Die vollständige deutsche Schritt-für-Schritt-Anleitung findest du auf der [EKS-Praxis-Seite](12-praxis-eks.md).
+Das ist die Pflichtaufgabe. Du legst einen echten **EKS-Cluster** bei Amazon an, rollst eine Web-App darauf aus, machst sie über einen **Load-Balancer mit öffentlicher Adresse** aus dem Internet erreichbar und testest zum Schluss die **Selbstheilung**, indem du Server abschaltest und zusiehst, wie der Cluster sie ersetzt. Die vollständige deutsche Schritt-für-Schritt-Anleitung findest du auf der [EKS-Praxis-Seite](12-praxis-eks.md).
 
 **2. Optional: [Dasselbe auf Google mit GKE](13-praxis-gke.md).**
 Wer mit EKS schnell durch ist oder den Vergleich sehen will: dieselbe Idee auf Google Kubernetes Engine – ein Stück einfacher, ebenfalls deutsch begleitet. Kein Muss.

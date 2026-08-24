@@ -16,14 +16,14 @@ description: "Eigene Hands-on-Übungen zum Profi-Block – Dockerfile-Optimierun
 ## Voraussetzung für alle Übungen
 
 - Docker läuft (`docker version` klappt).
-- Idealerweise Blöcke 2 und 3 durchgearbeitet.
+- Idealerweise die [Docker-Einführung](../docker/index.md) und den [Aufbau-Block](../docker-aufbau/index.md) durchgearbeitet.
 - Ein Editor.
 
 ---
 
 ## 🟢 Einsteiger
 
-### Übung 5.1 – Image-Größe beobachten
+### Übung 1 – Image-Größe beobachten
 
 !!! info "Was du lernst"
     - Größe eines Images prüfen
@@ -79,7 +79,7 @@ docker rmi python:3.12-slim
 
 ---
 
-### Übung 5.2 – Ein ineffizientes Dockerfile verbessern
+### Übung 2 – Ein ineffizientes Dockerfile verbessern
 
 !!! info "Was du lernst"
     - Schlechte Reihenfolge erkennen (Cache bricht)
@@ -178,7 +178,7 @@ docker rmi schlecht:1.0 schlecht:1.1 gut:1.0 gut:1.1
 
 ## 🟡 Mittel
 
-### Übung 5.3 – Multi-Stage-Build für Go
+### Übung 3 – Multi-Stage-Build für Go
 
 !!! info "Was du lernst"
     - Multi-Stage-Dockerfile
@@ -256,7 +256,7 @@ Du solltest ein Image unter **10 MB** sehen. Im Vergleich zu `golang:1.24` als R
 
 ---
 
-### Übung 5.4 – USER nicht-root in einem Python-Image
+### Übung 4 – USER nicht-root in einem Python-Image
 
 !!! info "Was du lernst"
     - Unprivilegierter User im Container
@@ -264,7 +264,7 @@ Du solltest ein Image unter **10 MB** sehen. Im Vergleich zu `golang:1.24` als R
 
 #### Aufgabe
 
-Nimm die Flask-App aus Übung 5.2 und ändere das Dockerfile so, dass der Container **nicht** als root läuft, sondern als neuer User `app`.
+Nimm die Flask-App aus Übung 2 und ändere das Dockerfile so, dass der Container **nicht** als root läuft, sondern als neuer User `app`.
 
 #### Anforderungen
 
@@ -284,7 +284,7 @@ Antwort: `app` (nicht `root`).
 
 ## 🔴 Fortgeschritten
 
-### Übung 5.5 – Image mit Trivy scannen und Lücken fixen
+### Übung 5 – Image mit Trivy scannen und Lücken fixen
 
 !!! info "Was du lernst"
     - Trivy installieren
@@ -360,7 +360,7 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 
 ## 🏆 Challenge
 
-### Challenge 5 – Produktions-fertiges Flask-Dockerfile
+### Challenge – Produktions-fertiges Flask-Dockerfile
 
 !!! abstract "Aufgabe"
     Nimm eine kleine Flask-App und baue ein **produktionsreifes** Image, das alle relevanten Best Practices vereint.
@@ -374,7 +374,7 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 
     @app.route("/")
     def home():
-        return "<h1>Challenge 5 – Produktions-Image</h1>"
+        return "<h1>Challenge – Produktions-Image</h1>"
 
     @app.route("/health")
     def health():
@@ -403,20 +403,20 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 
     **Erfolgs-Checks:**
 
-    - `docker build -t challenge5:1.0 .` läuft durch.
-    - `docker run -d --name c5 -p 8000:8000 challenge5:1.0` startet.
+    - `docker build -t challenge-image:1.0 .` läuft durch.
+    - `docker run -d --name challenge -p 8000:8000 challenge-image:1.0` startet.
     - `curl http://localhost:8000/` liefert die HTML-Seite.
     - `curl http://localhost:8000/health` liefert `{"status":"ok"}`.
-    - `docker exec c5 whoami` zeigt `app`.
+    - `docker exec challenge whoami` zeigt `app`.
     - `docker ps` zeigt nach 15 Sekunden `(healthy)`.
-    - `docker images challenge5:1.0` zeigt Größe unter **200 MB**.
+    - `docker images challenge-image:1.0` zeigt Größe unter **200 MB**.
 
 ??? success "Musterlösung"
 
     ### Projektstruktur
 
     ```
-    challenge5/
+    challenge-image/
     ├── Dockerfile
     ├── .dockerignore
     ├── app.py
@@ -480,27 +480,27 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
     CMD ["python", "app.py"]
 
     LABEL org.opencontainers.image.source="https://github.com/JacobMenge/kurs-unterlagen" \
-          org.opencontainers.image.description="Challenge 5 – Produktions-Image-Muster"
+          org.opencontainers.image.description="Challenge – Produktions-Image-Muster"
     ```
 
     ### Bauen und testen
 
     ```bash
-    docker build -t challenge5:1.0 .
-    docker run -d --name c5 -p 8000:8000 challenge5:1.0
+    docker build -t challenge-image:1.0 .
+    docker run -d --name challenge -p 8000:8000 challenge-image:1.0
 
     # Seite testen
     curl -s http://localhost:8000/
     curl -s http://localhost:8000/health
 
     # User-Check
-    docker exec c5 whoami        # muss 'app' zeigen
+    docker exec challenge whoami        # muss 'app' zeigen
 
     # Healthcheck
     docker ps                    # Status nach 15s: (healthy)
 
     # Groesse
-    docker images challenge5:1.0
+    docker images challenge-image:1.0
     ```
 
     **Was das Dockerfile technisch richtig macht:**
@@ -517,14 +517,14 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
     ### Aufräumen
 
     ```bash
-    docker stop c5
-    docker rm c5
-    docker rmi challenge5:1.0
+    docker stop challenge
+    docker rm challenge
+    docker rmi challenge-image:1.0
     ```
 
     **Bonus-Schritt (optional):** Trivy-Scan laufen lassen:
     ```bash
-    trivy image --severity HIGH,CRITICAL challenge5:1.0
+    trivy image --severity HIGH,CRITICAL challenge-image:1.0
     ```
     Du solltest wenige bis keine HIGH/CRITICAL-Funde haben.
 

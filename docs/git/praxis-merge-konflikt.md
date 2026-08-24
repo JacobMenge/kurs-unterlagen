@@ -230,7 +230,7 @@ Ein neuer Eintrag pro Tag, manchmal auch zwei.
 
 ## Inhalt
 
-- 21. Mai 2026 – Git gelernt
+- 15. März 2024 – Git gelernt
 
 ## Heutiges Highlight
 
@@ -270,7 +270,7 @@ Ein neuer Eintrag pro Tag, manchmal auch zwei.
 
 ## Inhalt
 
-- 21. Mai 2026 – Git gelernt
+- 15. März 2024 – Git gelernt
 
 ## Heutiges Highlight
 

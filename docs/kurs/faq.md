@@ -12,7 +12,7 @@ Die Fragen, die erfahrungsgemäß am häufigsten kommen. Wenn deine nicht dabei 
 ## Unterricht und Ablauf
 
 ??? question "Wann ist Unterricht?"
-    Montags und mittwochs von **18:00 bis 21:00 Uhr**, online über Google Meet. Den Zugangslink bekommst du von Cloudhelden.
+    An zwei Abenden pro Woche, online über Google Meet. Die konkreten Tage und Uhrzeiten stehen in der [Kursinfo](index.md#termine-dieses-kurses), den Zugangslink bekommst du von Cloudhelden.
 
 ??? question "Wird der Unterricht aufgezeichnet?"
     **Nein.** Der Unterricht findet live statt und wird nicht mitgeschnitten.
@@ -109,9 +109,9 @@ Die Fragen, die erfahrungsgemäß am häufigsten kommen. Wenn deine nicht dabei 
 Ausführlich steht alles auf der Seite **[Die Prüfung](pruefung.md)**. Hier die Kurzfassung.
 
 ??? question "Wann ist die Prüfung?"
-    Die **schriftliche Prüfung ist am 18. März 2027**. Die mündliche Prüfung folgt danach.
+    Den konkreten Termin für deinen Kurs findest du in der [Kursinfo](index.md#termine-dieses-kurses). Die mündliche Prüfung folgt nach der schriftlichen.
 
-    In der Woche vor der schriftlichen Prüfung gibt es eine freiwillige, intensive Prüfungsvorbereitung.
+    Vor der schriftlichen Prüfung gibt es eine freiwillige, intensive Prüfungsvorbereitung.
 
 ??? question "Wie läuft die Prüfung ab?"
     **Schriftlich:** Du bekommst die Beschreibung einer betrieblichen Situation und dazu zwei Aufgaben. Jede dauert mindestens 90 Minuten, zusammen höchstens 240 Minuten.

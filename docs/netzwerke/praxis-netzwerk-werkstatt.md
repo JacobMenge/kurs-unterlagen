@@ -87,8 +87,8 @@ Such im Block deines aktiven Adapters diese sechs Zeilen heraus:
        DHCP aktiviert. . . . . . . . . . : Ja
        IPv4-Adresse  . . . . . . . . . . : 192.168.2.33(Bevorzugt)
        Subnetzmaske  . . . . . . . . . . : 255.255.255.0
-       Lease erhalten. . . . . . . . . . : Dienstag, 2. Juni 2026 11:22:41
-       Lease läuft ab. . . . . . . . . . : Dienstag, 23. Juni 2026 11:22:37
+       Lease erhalten. . . . . . . . . . : Freitag, 15. März 2024 11:22:41
+       Lease läuft ab. . . . . . . . . . : Freitag, 5. April 2024 11:22:37
        Standardgateway . . . . . . . . . : 192.168.2.1
        DHCP-Server . . . . . . . . . . . : 192.168.2.1
        DNS-Server  . . . . . . . . . . . : 192.168.2.1
@@ -231,7 +231,7 @@ Jetzt zu [DNS](dns.md), dem Telefonbuch des Internets. Du fragst aktiv nach – 
     ```
 
 !!! note "Warum `google.com` für IPv6?"
-    Nicht jede Domain hat eine IPv6-Adresse. `github.com` liefert (Stand heute) **nur** IPv4 – `Resolve-DnsName github.com -Type AAAA` kommt leer zurück. `google.com` hat IPv6, deshalb nehmen wir die zum Zeigen. Das ist selbst schon eine Erkenntnis: IPv6 ist noch lange nicht überall.
+    Nicht jede Domain hat eine IPv6-Adresse. `github.com` liefert häufig **nur** IPv4 – `Resolve-DnsName github.com -Type AAAA` kommt leer zurück. `google.com` hat IPv6, deshalb nehmen wir die zum Zeigen. Das ist selbst schon eine Erkenntnis: IPv6 ist noch lange nicht überall.
 
 ### 4b – Den eigenen DNS-Server gegen einen öffentlichen vergleichen
 
@@ -380,7 +380,7 @@ Zum Schluss machst du die sonst unsichtbare Kette der **Router** zwischen dir un
     tracert -d github.com
     ```
 
-    Das `-d` ist wichtig: Es unterdrückt die Rückwärts-Namensauflösung jeder Zwischenstation – ohne `-d` wird `tracert` im Unterricht quälend langsam. Mit `-h 15` kannst du zusätzlich die maximale Hop-Zahl begrenzen.
+    Das `-d` ist wichtig: Es unterdrückt die Rückwärts-Namensauflösung jeder Zwischenstation – ohne `-d` wird `tracert` in dieser Übung quälend langsam. Mit `-h 15` kannst du zusätzlich die maximale Hop-Zahl begrenzen.
 
 === "macOS / Linux"
     ```bash

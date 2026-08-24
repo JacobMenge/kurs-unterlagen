@@ -80,7 +80,7 @@ Beantwortet kurz – mündlich in der Gruppe oder schriftlich auf dem Doku-Zette
 4. Warum braucht das Backend `PGHOST=db` und nicht `localhost`?
 5. Warum war **`down -v`** zwischendurch nötig (oder gefährlich)?
 6. Was wäre passiert, wenn ihr das Init-SQL **nach** dem ersten DB-Start hinzugefügt hättet?
-7. Welcher Compose-Vorteil ist euch heute **persönlich** am stärksten aufgefallen?
+7. Welcher Compose-Vorteil ist euch **persönlich** am stärksten aufgefallen?
 
 ---
 
@@ -96,7 +96,7 @@ Eine kleine Selbst-Checkliste, damit ihr für die Besprechung gut vorbereitet se
 - [ ] Persistenz mit `down`+`up` getestet?
 - [ ] Ihr könnt in eigenen Worten erklären, **warum** Compose hier so deutlich besser ist als zehn `docker run`-Befehle?
 
-Die Übung wird **nicht benotet**. Sie dient ausschließlich dazu, eure Compose-Praxis zu festigen, bevor wir uns Optimierungen, Multi-Stage-Builds und CI/CD ansehen.
+Die Übung wird **nicht benotet**. Sie dient ausschließlich dazu, eure Compose-Praxis zu festigen, bevor es an Optimierungen, Multi-Stage-Builds und CI/CD geht.
 
 ---
 

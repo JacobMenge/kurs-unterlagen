@@ -765,7 +765,7 @@ Standard-Checkout, aber mit einer wichtigen Erweiterung: `fetch-depth: 0` holt d
 
 Hier passiert etwas Subtiles. Der Workflow hat zwei mögliche Trigger: Tag-Push und manuell. Bei einem Tag-Push steht der Tag-Name in `GITHUB_REF_NAME` (eine Umgebungsvariable, die GitHub setzt). Bei einem manuellen Lauf gibt es kein Tag, dafür den Input `inputs.tag`.
 
-Mit einer Bash-`if`-Abfrage prüfen wir: Wenn `INPUT_TAG` nicht leer ist (also manueller Lauf mit Eingabe), nimm den. Sonst nimm den Tag aus dem Ref. Den ermittelten Namen schreiben wir in `$GITHUB_OUTPUT` und können ihn in nachfolgenden Steps über `${{ steps.tag.outputs.name }}` abgreifen. Diese „Step-Output"-Technik kennst du aus [Übung 6.9](uebungen.md).
+Mit einer Bash-`if`-Abfrage prüfen wir: Wenn `INPUT_TAG` nicht leer ist (also manueller Lauf mit Eingabe), nimm den. Sonst nimm den Tag aus dem Ref. Den ermittelten Namen schreiben wir in `$GITHUB_OUTPUT` und können ihn in nachfolgenden Steps über `${{ steps.tag.outputs.name }}` abgreifen. Diese „Step-Output"-Technik kennst du aus [Übung 9](uebungen.md).
 
 !!! warning "Warum den Input über `env:` und nicht direkt mit `${{ inputs.tag }}`?"
     Würden wir `${{ inputs.tag }}` direkt in den `run:`-Block schreiben, würde GitHub die Eingabe **vor** dem Start der Shell ins Skript einfügen. Trägt jemand einen bösartigen String ins Eingabefeld ein (z. B. `"; rm -rf /tmp; "`), würde der direkt mit ausgeführt. Das ist eine bekannte Klasse von **Script-Injection**-Lücken.
@@ -898,7 +898,7 @@ Hast du irgendwo ein Skript oder Tool, das andere Leute eventuell nutzen wollen 
 !!! info "Was du lernst"
     - eine reale kleine Web-Anwendung mit Tests vor dem Bauen prüfen
     - zwei Jobs mit `needs:` so verketten, dass nur grüne Tests einen Push auslösen
-    - Tests direkt auf dem Runner laufen lassen statt im Container (häufiger Misverstand)
+    - Tests direkt auf dem Runner laufen lassen statt im Container (häufiges Missverständnis)
     - das Image mit Commit-SHA **und** `latest` taggen
     - bei Pull Requests bauen, aber **nicht** in die Registry pushen
     - das ganze Werk auf [GHCR](../glossar.md#github) bringen
@@ -914,11 +914,11 @@ Du hast eine Web-App. Eine kleine Flask-API, ein Node-Server, irgendetwas, das e
 
 Das ist die Standard-Pipeline für eine containerisierte Web-App. In dieser Form siehst du sie in tausenden echter Repos.
 
-Sie unterscheidet sich von den [Übungen 6.7-6.9](uebungen.md) und der [Challenge](uebungen.md) in mehreren Punkten:
+Sie unterscheidet sich von den [Übungen 7–9](uebungen.md) und der [Challenge](uebungen.md) in mehreren Punkten:
 
 - **Zwei Jobs statt einem** – Tests und Build laufen in getrennten Jobs, mit `needs:` verbunden. So sind die beiden Phasen klar separat im Log.
 - **Tests auf dem Runner, nicht im Container** – das ist der schnellere und schlankere Weg für die meisten Web-Apps. Den Container brauchst du nicht, um pytest auszuführen.
-- **Eine echte App** mit Flask, mehreren Endpoints, mehreren Tests – kein bloßes nginx mit statischer HTML wie in 6.7.
+- **Eine echte App** mit Flask, mehreren Endpoints, mehreren Tests – kein bloßes nginx mit statischer HTML wie in Übung 7.
 
 ```mermaid
 flowchart LR
@@ -1401,7 +1401,7 @@ Falls das Image privat ist (Standard bei privaten Repos), kannst du es trotzdem 
 Damit hast du den Kreis geschlossen: Code → Tests → Build → Push → Pull → Run. Genau diesen Bogen meinen Leute, wenn sie „CI/CD-Pipeline für einen Container" sagen.
 
 !!! info "Privates Image? Erst einloggen"
-    Bei einem privaten Repo ist auch das Image privat. Vor dem Pull brauchst du dann einen Login mit einem [Personal Access Token (PAT)](../glossar.md#pat) mit Scope `read:packages`. Die Details (PAT anlegen, `docker login ghcr.io`) stehen in der Musterlösung zu [Übung 6.9](uebungen.md).
+    Bei einem privaten Repo ist auch das Image privat. Vor dem Pull brauchst du dann einen Login mit einem [Personal Access Token (PAT)](../glossar.md#pat) mit Scope `read:packages`. Die Details (PAT anlegen, `docker login ghcr.io`) stehen in der Musterlösung zu [Übung 9](uebungen.md).
 
 !!! success "Geschafft – das ist die Mini-Variante von etwas Großem"
     Diese Pipeline ist ungefähr 60 Zeilen YAML. In professionellen Setups kommen oft hinzu: ein Security-Scan ([Trivy](../glossar.md#cve)), ein Multi-Arch-Build (linux/amd64 + linux/arm64), eine Staging- und Prod-Umgebung mit `environment:`-Blöcken, ein Slack-Hinweis bei Fehlern. **Das Skelett bleibt dasselbe wie hier.** Wenn du diese Vorlage verstanden hast, kannst du die übrigen Bausteine später in Ruhe dazustecken.
@@ -1485,7 +1485,7 @@ Damit hast du die Vorlagen für die meisten realen GitHub-Actions-Workflows, die
 !!! info "Wie geht es jetzt weiter?"
     - Wenn dir ein Pattern aus den Beispielen unklar war, schau in die zugehörige [Übung](uebungen.md). Da steht jeder Baustein einzeln zerlegt.
     - Wenn du eine eigene Pipeline schreibst und an einem konkreten Detail hängst, schau ins [Cheatsheet](../cheatsheets/github-actions.md) und in die [Stolpersteine](stolpersteine.md).
-    - Wenn du das nächste Niveau willst (Multi-Container, mehrere Umgebungen, Compose in der Pipeline), arbeite die [Challenge](uebungen.md) aus dem Übungs-Block durch.
+    - Wenn du das nächste Niveau willst (Multi-Container, mehrere Umgebungen, Compose in der Pipeline), arbeite die [Challenge](uebungen.md) aus den Übungen durch.
 
 ---
 

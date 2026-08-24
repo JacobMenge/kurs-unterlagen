@@ -176,7 +176,13 @@ Bisher seht ihr nur die Werte, die die **App** selbst liefert. **cAdvisor** ist 
 
 Service + Scrape-Job stehen in der [Lösung](08-loesung.md#bonus-a-cadvisor). Danach baut ihr ein Panel mit `container_memory_usage_bytes` (Time series).
 
-## Bonus B – PromQL-Challenges
+## Bonus B – Host-Werte mit node-exporter
+
+cAdvisor misst die **Container**. Der **node-exporter** misst die Ebene darunter: den **Host** selbst – CPU, Arbeitsspeicher, Festplatte, Netzwerk. Damit beantwortet ihr die Frage „liegt es an meinem Dienst oder an der Maschine?".
+
+Service + Scrape-Job stehen in der [Lösung](08-loesung.md#bonus-b-node-exporter). Danach baut ihr ein Panel mit `node_memory_MemAvailable_bytes` (Time series) oder `rate(node_cpu_seconds_total{mode="idle"}[1m])`.
+
+## Bonus C – PromQL-Challenges
 
 Zwei etwas kniffligere Abfragen – baut daraus je ein Panel und überlegt, was sie aussagen:
 
@@ -185,7 +191,9 @@ Zwei etwas kniffligere Abfragen – baut daraus je ein Panel und überlegt, was 
 - **Anfragen pro Sekunde, nur erfolgreiche (Status 200):** `rate(aurora_http_requests_total{status="200"}[1m])`
     – dieselbe Rate wie in Übung 3, hier aber mit einem Label-Filter auf den HTTP-Status.
 
-## Bonus C – Drei Sätze fürs Protokoll
+Die Abfragen stehen auch in der [Lösung](08-loesung.md#bonus-c-promql).
+
+## Bonus D – Drei Sätze fürs Protokoll
 
 Was bringt euch dieses Monitoring konkret gegenüber „wir schauen ab und zu drauf"? Und welcher **eine** Alarm wäre für so eine Anwendung am wichtigsten?
 

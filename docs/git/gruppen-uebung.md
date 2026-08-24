@@ -22,7 +22,7 @@ description: "Erste der beiden Git-Gruppenübungen. 60 Minuten am selben GitHub-
 
 Willkommen zur **Git-Praxis-Wiederholung in der Gruppe – mit Konflikt-Fokus**.
 
-In den Praxis-Seiten hast du alle Bausteine schon einzeln gemacht – Branches, Merges, Konflikte, Pull Requests. Heute spielt ihr das **gemeinsam an einem Repo** durch. **In Gruppen, in 60 Minuten, mit einem absichtlich provozierten Konflikt.**
+In den Praxis-Seiten hast du alle Bausteine schon einzeln gemacht – Branches, Merges, Konflikte, Pull Requests. Jetzt spielt ihr das **gemeinsam an einem Repo** durch. **In Kleingruppen, in 60 Minuten, mit einem absichtlich provozierten Konflikt.**
 
 ---
 

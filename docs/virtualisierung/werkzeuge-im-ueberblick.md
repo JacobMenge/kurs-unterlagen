@@ -25,7 +25,7 @@ Es gibt dutzende Tools, um VMs zu betreiben. Im Kurs konzentrieren wir uns auf *
 | Tool | Host-OS | Kostet | Stärken | Schwächen |
 |------|---------|--------|---------|-----------|
 | **Multipass** | macOS / Linux / Windows | frei | Ubuntu-VMs per einem Befehl; gleiche CLI auf allen Hosts | Offiziell nur Ubuntu-Images; kein GUI |
-| **VirtualBox** | macOS / Linux / Windows | frei | Viele Gast-Betriebssysteme; gutes GUI; verbreitet in Lehrmaterial | Auf Apple Silicon (seit VirtualBox 7.1 / Sept 2024) offiziell unterstützt, aber spürbar langsamer als UTM/Parallels |
+| **VirtualBox** | macOS / Linux / Windows | frei | Viele Gast-Betriebssysteme; gutes GUI; verbreitet in Lehrmaterial | Auf Apple Silicon (seit VirtualBox 7.1) offiziell unterstützt, aber spürbar langsamer als UTM/Parallels |
 | **UTM** | macOS (Intel + Apple Silicon) | frei (App Store: kleiner Betrag) | ARM-native auf Apple Silicon; beliebig viele Gast-OS | GUI etwas eigen; Performance je nach Konfiguration |
 | **VMware Fusion / Workstation** | macOS / Windows / Linux | seit 2024 frei für privaten Gebrauch | Stabil, performant, viele Features | Registrierung notwendig; teils komplex |
 | **Parallels Desktop** | macOS | kostenpflichtig (~100 € / Jahr) | Beste Integration mit macOS; starke Windows-Performance | Lizenzkosten |
@@ -77,11 +77,11 @@ Seit Apples Wechsel auf die ARM-Architektur 2020 hat sich die VM-Welt auf macOS 
 ### Was schwieriger wurde
 
 - **Klassische Intel-Windows-VMs** (x86_64) laufen nicht mehr nativ – sie müssen über einen **Emulator** ausgeführt werden, was extrem langsam ist.
-- **Oracle VirtualBox** hat seit Version 7.1 (September 2024) offiziellen Apple-Silicon-Support – aber nicht so optimiert wie UTM oder Parallels. Für Performance-kritische Workloads sind die macOS-nativen Tools besser.
+- **Oracle VirtualBox** hat seit Version 7.1 offiziellen Apple-Silicon-Support – aber nicht so optimiert wie UTM oder Parallels. Für Performance-kritische Workloads sind die macOS-nativen Tools besser.
 - **Einige Docker-Images** liegen nur in x86_64-Versionen vor. Docker Desktop emuliert sie über Rosetta 2, aber mit Performance-Einbußen (siehe [Docker-Stolpersteine](../docker/stolpersteine.md)).
 
 !!! tip "Mac-User in diesem Kurs"
-    Für den heutigen Kursteil reicht Multipass mit Ubuntu ARM64 vollkommen aus. Wenn du später spezifische x86_64-Software in einer VM testen willst, sind UTM, VMware Fusion oder Parallels die bessere Wahl als VirtualBox.
+    Für die Übungen in diesen Unterlagen reicht Multipass mit Ubuntu ARM64 vollkommen aus. Wenn du später spezifische x86_64-Software in einer VM testen willst, sind UTM, VMware Fusion oder Parallels die bessere Wahl als VirtualBox.
 
 ---
 

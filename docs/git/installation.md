@@ -430,7 +430,7 @@ Für diesen Kurs ist die lokale Installation aber die Idealvariante. Du lernst d
     Damit verlässt du vim ohne zu speichern. Danach setze deinen Editor mit `git config --global core.editor "..."` auf etwas anderes (siehe oben).
 
 ??? info "Welche Git-Version brauche ich?"
-    Alles ab Git 2.30 ist okay. Aktuell (Stand 2026) sind 2.50+. Brandneue Funktionen brauchst du im Kurs nicht. Wenn dein System eine **Uralt-Version** wie 1.x mitliefert (manche LTS-Linux-Distributionen), upgrade über den Paketmanager.
+    Alles ab Git 2.30 ist okay. Aktuelle Versionen liegen bei 2.5x. Brandneue Funktionen brauchst du im Kurs nicht. Wenn dein System eine **Uralt-Version** wie 1.x mitliefert (manche LTS-Linux-Distributionen), upgrade über den Paketmanager.
 
 ---
 

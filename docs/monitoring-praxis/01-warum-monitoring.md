@@ -52,7 +52,7 @@ Gutes Monitoring beantwortet drei Fragen:
 
 ---
 
-## Was du heute tust
+## Was du in diesem Block tust
 
 Du richtest die zwei wichtigsten Open-Source-Werkzeuge der Branche ein – **Prometheus** und **Grafana** – und überwachst damit eine kleine Anwendung. Du liest Metriken, baust ein Dashboard und löst einen Alarm aus.
 

@@ -1,6 +1,6 @@
 ---
 title: "Übungen"
-description: "Eigene Hands-on-Übungen zum CI/CD-Block in vier Schwierigkeitsgraden. Von einfachen GitHub-Actions-Bausteinen bis zur Multi-Container-Anwendung in der Pipeline."
+description: "Eigene Hands-on-Übungen zum CI/CD-Teil in vier Schwierigkeitsgraden. Von einfachen GitHub-Actions-Bausteinen bis zur Multi-Container-Anwendung in der Pipeline."
 ---
 
 # Übungen: CI/CD mit GitHub Actions
@@ -22,13 +22,13 @@ Die Übungen sind so geordnet, dass du **Schritt für Schritt** Technik dazulern
 - Du hast die [Praxis-Übung](praxis-erste-pipeline.md) durchgespielt.
 - Dein Repo `mein-erster-workflow` ist auf GitHub und mindestens ein Lauf war grün.
 - Du kannst den **Actions-Tab** öffnen und Logs lesen.
-- Ab Übung 6.7 brauchst du außerdem ein lokal funktionierendes Docker (`docker version` muss klappen). Nicht zwingend für die Pipeline selbst. Aber gut um die Ergebnisse später zu prüfen.
+- Ab Übung 7 brauchst du außerdem ein lokal funktionierendes Docker (`docker version` muss klappen). Nicht zwingend für die Pipeline selbst. Aber gut um die Ergebnisse später zu prüfen.
 
 ---
 
 ## 🟢 Einsteiger
 
-### Übung 6.1: Bedingte Steps mit `if:`
+### Übung 1: Bedingte Steps mit `if:`
 
 !!! info "Was du lernst"
     - einen Step nur unter bestimmten Bedingungen ausführen
@@ -194,7 +194,7 @@ Lege die Datei `.github/workflows/bedingungen.yml` an mit folgenden Anforderunge
 
 ---
 
-### Übung 6.2: Zwei Jobs mit Abhängigkeit
+### Übung 2: Zwei Jobs mit Abhängigkeit
 
 !!! info "Was du lernst"
     - mehrere Jobs in einem Workflow definieren
@@ -226,7 +226,7 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
 
     **Schritt 2: Workflow-Kopf schreiben**
 
-    Genauso wie in 6.1:
+    Genauso wie in Übung 1:
 
     ```yaml
     name: Zwei Jobs
@@ -296,7 +296,7 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
 
     Jeder Job läuft auf einer **eigenen** frischen Ubuntu-VM. Die beiden Jobs teilen sich nicht dieselbe Maschine. `vorbereiten` startet auf VM A, läuft fertig, VM A wird weggeschmissen. Dann startet `arbeiten` auf einer komplett neuen VM B.
 
-    Folge daraus: erzeugt `vorbereiten` eine Datei, ist sie für `arbeiten` weg. Genau diese Lücke schließt Übung 6.6 mit Artefakten.
+    Folge daraus: erzeugt `vorbereiten` eine Datei, ist sie für `arbeiten` weg. Genau diese Lücke schließt Übung 6 mit Artefakten.
 
 ??? success "Musterlösung"
     ```yaml
@@ -326,7 +326,7 @@ Wichtig: nach dem ersten Push siehst du im Actions-Tab, dass `arbeiten` erst sta
 
 ## 🟡 Mittel
 
-### Übung 6.3: Code aus dem Repo nutzen
+### Übung 3: Code aus dem Repo nutzen
 
 !!! info "Was du lernst"
     - die wichtigste Action überhaupt: `actions/checkout`
@@ -481,7 +481,7 @@ Tipp: setze `continue-on-error: true` am ersten `cat`-Step, damit der Workflow n
 
 ---
 
-### Übung 6.4: Matrix-Build mit mehreren Versionen
+### Übung 4: Matrix-Build mit mehreren Versionen
 
 !!! info "Was du lernst"
     - einen Job parallel mit verschiedenen Parametern laufen lassen
@@ -651,7 +651,7 @@ Im Actions-Tab solltest du nach dem Push **drei** parallele Job-Läufe sehen, ei
 
 ---
 
-### Übung 6.5: Umgebungsvariablen sauber nutzen
+### Übung 5: Umgebungsvariablen sauber nutzen
 
 !!! info "Was du lernst"
     - Variablen auf **Workflow-, Job- und Step-Ebene** setzen
@@ -845,7 +845,7 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
 
 ---
 
-### Übung 6.6: Artefakte zwischen Jobs übergeben
+### Übung 6: Artefakte zwischen Jobs übergeben
 
 !!! info "Was du lernst"
     - dass jeder Job auf einer **eigenen frischen VM** läuft. Dateien sind nicht automatisch geteilt.
@@ -855,7 +855,7 @@ Lege `.github/workflows/env-variablen.yml` an mit folgenden Anforderungen:
 
 #### Worum geht's
 
-In Übung 6.2 hast du gesehen, dass `needs:` Jobs verkettet. Was du **noch nicht** gesehen hast: jeder Job startet auf einer **neuen, leeren Ubuntu-VM**. Dateien, die `job-a` erzeugt, sind in `job-b` weg. Das ist Absicht (saubere Trennung), aber unpraktisch, sobald du z.B. ein gebautes Binary, einen Test-Report oder ein Docker-Image-Tarball weitergeben willst.
+In Übung 2 hast du gesehen, dass `needs:` Jobs verkettet. Was du **noch nicht** gesehen hast: jeder Job startet auf einer **neuen, leeren Ubuntu-VM**. Dateien, die `job-a` erzeugt, sind in `job-b` weg. Das ist Absicht (saubere Trennung), aber unpraktisch, sobald du z.B. ein gebautes Binary, einen Test-Report oder ein Docker-Image-Tarball weitergeben willst.
 
 Die Lösung sind [Artefakte (Artifacts)](../glossar.md#artifact). GitHub speichert die Datei vorübergehend in seinem eigenen Storage. Und macht sie für nachfolgende Jobs verfügbar. Standard-Aufbewahrungszeit: **90 Tage**. Außerdem siehst du jedes Artefakt im **Actions-Tab** unter dem jeweiligen Workflow-Lauf bei „Artifacts". Du kannst es dort als `.zip` herunterladen. Auch wenn du gar keinen zweiten Job hast.
 
@@ -873,7 +873,7 @@ flowchart LR
     - **Artefakt** = explizit benannte Datei/Ordner, der von einem Job zum nächsten **weitergereicht** wird oder den ein Mensch nach dem Lauf herunterlädt.
     - **Cache** = Build-Cache (z.B. `node_modules/` oder Docker-Layer), den GitHub bei jedem Lauf **automatisch** liest und schreibt, wenn der passende Cache-Schlüssel vorhanden ist.
 
-    In Übung 6.8 lernst du den Cache speziell für Docker-Builds kennen.
+    In Übung 8 lernst du den Cache speziell für Docker-Builds kennen.
 
 #### Aufgabe
 
@@ -886,7 +886,7 @@ Lege `.github/workflows/artefakte.yml` an mit:
 3. Job `verwenden` (`needs: bauen`):
     - Lädt das Artefakt herunter (nach `output/` oder einem Ordner deiner Wahl).
     - Liest den Inhalt von `build.txt` mit `cat` aus.
-    - Zeigt einen Fehler-Vergleich: ein Step ganz am Anfang versucht **ohne** `download-artifact` die Datei zu lesen (`cat output/build.txt`). Das soll fehlschlagen. Damit der Workflow trotzdem weiterläuft. Gib dem Step `continue-on-error: true` mit. Siehe Übung 6.3.
+    - Zeigt einen Fehler-Vergleich: ein Step ganz am Anfang versucht **ohne** `download-artifact` die Datei zu lesen (`cat output/build.txt`). Das soll fehlschlagen. Damit der Workflow trotzdem weiterläuft. Gib dem Step `continue-on-error: true` mit. Siehe Übung 3.
 
 #### Hinweise
 
@@ -1057,13 +1057,13 @@ Lege `.github/workflows/artefakte.yml` an mit:
     !!! tip "Wann lohnen sich Artefakte?"
         - Ein **Build-Output** (Binary, Image-Tarball, dist-Ordner), der von einem Test-Job genutzt werden soll.
         - Ein **Test-Report**, den du nach dem Lauf herunterladen willst. Artefakte sind im Actions-Tab pro Workflow-Run unter „Artifacts" anklickbar.
-        - Achtung: für **echte** Docker-Images zwischen Jobs ist `cache-from: type=gha` in der `docker/build-push-action` praktischer (siehe Übung 6.8).
+        - Achtung: für **echte** Docker-Images zwischen Jobs ist `cache-from: type=gha` in der `docker/build-push-action` praktischer (siehe Übung 8).
 
 ---
 
 ## 🔴 Fortgeschritten
 
-### Übung 6.7: Erstes Docker-Image in der Pipeline bauen
+### Übung 7: Erstes Docker-Image in der Pipeline bauen
 
 !!! info "Was du lernst"
     - dass der Standard-Runner `ubuntu-latest` **Docker schon installiert** hat
@@ -1073,7 +1073,7 @@ Lege `.github/workflows/artefakte.yml` an mit:
 
 #### Worum geht's
 
-Bis hierher war jede Pipeline reine Text-Ausgabe. Jetzt machen wir den Schritt zur **echten Software-Verteilung**: ein [Dockerfile](../glossar.md#dockerfile) im Repo. Ein `docker build` in der Pipeline. Ein `docker run` zur Probe. **Kein Push** in eine [Registry](../glossar.md#registry). Das kommt in 6.9. Erst soll der Bau funktionieren.
+Bis hierher war jede Pipeline reine Text-Ausgabe. Jetzt machen wir den Schritt zur **echten Software-Verteilung**: ein [Dockerfile](../glossar.md#dockerfile) im Repo. Ein `docker build` in der Pipeline. Ein `docker run` zur Probe. **Kein Push** in eine [Registry](../glossar.md#registry). Das kommt in Übung 9. Erst soll der Bau funktionieren.
 
 ```mermaid
 flowchart LR
@@ -1170,7 +1170,7 @@ Lege drei Dateien an:
             uses: actions/checkout@v4
     ```
 
-    Wie in Übung 6.3: ohne diesen Step hat der Runner deinen Code nicht. Ohne Code kein Dockerfile zum Bauen.
+    Wie in Übung 3: ohne diesen Step hat der Runner deinen Code nicht. Ohne Code kein Dockerfile zum Bauen.
 
     **Schritt 6: Step (Docker prüfen)**
 
@@ -1251,7 +1251,7 @@ Lege drei Dateien an:
     - Smoke-Test: einer der Retry-Versuche klappt (meist der erste). Die ersten 5 Zeilen deiner `index.html` erscheinen im Log, der Container stoppt.
 
     !!! success "Geschafft!"
-        Du hast in einer Pipeline ein Docker-Image gebaut und als Container gestartet. Damit hast du die Brücke zwischen Docker und CI/CD geschlossen. Push in eine Registry kommt in 6.9.
+        Du hast in einer Pipeline ein Docker-Image gebaut und als Container gestartet. Damit hast du die Brücke zwischen Docker und CI/CD geschlossen. Push in eine Registry kommt in Übung 9.
 
     ??? warning "Was ist mit `curl: (52) Empty reply from server`?"
         Dieser Fehler tritt auf, wenn man zu schnell nach dem Start eine Antwort verlangt. nginx ist noch nicht durch mit dem Initialisieren. Die Retry-Schleife oben fängt das ab. Falls du in eigenen Workflows trotzdem mit `sleep N` arbeitest: lieber etwas großzügiger schätzen (5 statt 2 Sekunden). In der Pipeline-Logik dafür sorgen, dass der Step bei dauerhafter Nicht-Antwort scheitert, statt endlos zu hängen.
@@ -1314,7 +1314,7 @@ Lege drei Dateien an:
 
 ---
 
-### Übung 6.8: BuildKit, Cache und Smoke-Test mit der Build-Action
+### Übung 8: BuildKit, Cache und Smoke-Test mit der Build-Action
 
 !!! info "Was du lernst"
     - was [BuildKit](../glossar.md#buildkit) ist und warum es der heutige Docker-Build-Standard ist
@@ -1324,7 +1324,7 @@ Lege drei Dateien an:
 
 #### Worum geht's
 
-In 6.7 hast du `docker build` direkt aufgerufen. Das funktioniert, ist aber für reale Pipelines zu spartanisch:
+In Übung 7 hast du `docker build` direkt aufgerufen. Das funktioniert, ist aber für reale Pipelines zu spartanisch:
 
 - Kein **Layer-Cache** zwischen Läufen. Jeder Build lädt nginx neu.
 - Kein **Multi-Plattform**-Support (z.B. `linux/amd64` + `linux/arm64` parallel).
@@ -1363,7 +1363,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
 #### Hinweise
 
-- Du nutzt **dieselbe** `Dockerfile`/`index.html` aus Übung 6.7. Kein Neuanlegen.
+- Du nutzt **dieselbe** `Dockerfile`/`index.html` aus Übung 7. Kein Neuanlegen.
 - `load: true` und `push: true` schließen sich aus. Das Image kann nur entweder in den Daemon oder in die Registry.
 - Beim **zweiten** Push (ohne Code-Änderung am Image) solltest du im Log die Meldung `CACHED` sehen. Das ist der gha-Cache, der die Layer wiederverwendet.
 
@@ -1371,7 +1371,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
     **Schritt 1: Neue Workflow-Datei**
 
-    Du nutzt die **gleichen** Repo-Dateien wie in Übung 6.7 (`Dockerfile` und `index.html`). Es kommt nur eine neue Workflow-Datei hinzu:
+    Du nutzt die **gleichen** Repo-Dateien wie in Übung 7 (`Dockerfile` und `index.html`). Es kommt nur eine neue Workflow-Datei hinzu:
 
     `.github/workflows/docker-build-buildx.yml`
 
@@ -1412,7 +1412,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
     **Schritt 4: Image mit der build-push-action bauen**
 
-    Statt `docker build` per `run:` (wie in 6.7) nutzen wir jetzt eine fertige Action:
+    Statt `docker build` per `run:` (wie in Übung 7) nutzen wir jetzt eine fertige Action:
 
     ```yaml
           - name: Image bauen und in Daemon laden
@@ -1435,7 +1435,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
     **Schritt 5: Smoke-Test**
 
-    Genauso wie in 6.7:
+    Genauso wie in Übung 7:
 
     ```yaml
           - name: Smoke-Test
@@ -1474,7 +1474,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
     **Hinweis zum Mess-Effekt**
 
-    Bei diesem winzigen 2-Zeilen-Dockerfile (nur `FROM nginx:alpine` und `COPY index.html`) ist der Zeitgewinn klein, wenige Sekunden. Der **eigentliche** Cache-Effekt wird erst spürbar, wenn du längere `RUN`-Schritte hast. Zum Beispiel `RUN pip install` oder `RUN npm install` mit vielen Paketen. Da spart der gha-Cache pro Lauf locker **Minuten**. Das Pattern in 6.8 lernst du jetzt, der Nutzen kommt mit größeren Images.
+    Bei diesem winzigen 2-Zeilen-Dockerfile (nur `FROM nginx:alpine` und `COPY index.html`) ist der Zeitgewinn klein, wenige Sekunden. Der **eigentliche** Cache-Effekt wird erst spürbar, wenn du längere `RUN`-Schritte hast. Zum Beispiel `RUN pip install` oder `RUN npm install` mit vielen Paketen. Da spart der gha-Cache pro Lauf locker **Minuten**. Das Pattern aus Übung 8 lernst du jetzt, der Nutzen kommt mit größeren Images.
 
 ??? success "Musterlösung"
     ```yaml
@@ -1527,7 +1527,7 @@ Lege `.github/workflows/docker-build-buildx.yml` an mit:
 
 ---
 
-### Übung 6.9: Image in die GitHub Container Registry (GHCR) pushen
+### Übung 9: Image in die GitHub Container Registry (GHCR) pushen
 
 !!! info "Was du lernst"
     - was die **GitHub Container Registry** ([GHCR](../glossar.md#github)) ist und warum sie ohne extra Account funktioniert
@@ -1690,7 +1690,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
               cache-to: type=gha,mode=max
     ```
 
-    Genau wie in Übung 6.8, aber:
+    Genau wie in Übung 8, aber:
 
     - `push: true` statt `load: true`. Das Image geht in die Registry, nicht in den Daemon.
     - `tags:` mit dem senkrechten Strich `|` für eine **Liste** von Tags. Wir geben dem Image zwei Tags gleichzeitig:
@@ -1824,7 +1824,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
 ## 🏆 Challenge
 
-### Challenge 6: Multi-Container-Anwendung in der Pipeline
+### Challenge: Multi-Container-Anwendung in der Pipeline
 
 !!! abstract "Mission"
     Baue eine Pipeline, die einen **Multi-Container-Stack** in der Cloud startet, **beweist** dass er funktioniert und das eigene Image veröffentlicht. Hier gibt es bewusst **keine Schritt-für-Schritt-Anleitung**. Das WIE bist du. Die folgenden Vorgaben sagen, **was am Ende erfüllt sein muss**:
@@ -1850,7 +1850,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     **Tipps zum Selberdenken:**
 
-    - Du brauchst Anleihen aus 6.5 ([env](../glossar.md#umgebungsvariable)), 6.6 (Datei-Weitergabe. Brauchst du sie?), 6.7 (`docker build`), 6.8 ([BuildKit](../glossar.md#buildkit) mit [gha-Cache](../glossar.md#github-actions-cache)) und 6.9 ([GHCR](../glossar.md#github) mit [permissions](../glossar.md#permissions)).
+    - Du brauchst Anleihen aus Übung 5 ([env](../glossar.md#umgebungsvariable)), Übung 6 (Datei-Weitergabe. Brauchst du sie?), Übung 7 (`docker build`), Übung 8 ([BuildKit](../glossar.md#buildkit) mit [gha-Cache](../glossar.md#github-actions-cache)) und Übung 9 ([GHCR](../glossar.md#github) mit [permissions](../glossar.md#permissions)).
     - Wie beweist man im Test, dass zwei Container reden? Hinweis: ein Counter, eine Datenbank-Zeile, ein Cache-Eintrag. Irgendwas was sich **verändert**.
     - Wie räumst du auf, wenn ein vorheriger Step rot ist? Stichwort: [`if: always()`](https://docs.github.com/en/actions/learn-github-actions/expressions#always).
     - Soll die Pipeline einen oder mehrere Jobs haben? Beide Wege funktionieren. Bei einem Job hast du Compose-Stack und Push im selben Lauf. Bei zwei Jobs musst du das Image zwischen Jobs weitergeben.
@@ -1859,7 +1859,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
     Versuch die Pipeline **selbst zu schreiben**. Erst wenn du fest hängst, ein Blick in die Musterlösung. Sie zeigt **eine** mögliche Lösung. Deine Variante darf abweichen, solange sie die Anforderungen erfüllt.
 
 !!! info "Kurz-Wiederholung: wie Compose Container verbindet"
-    Diese Übung setzt voraus, dass du [Docker Compose](../glossar.md#compose) aus Block 4 kennst. Falls du das vergessen hast, hier die wichtigsten Konzepte in Kurzform:
+    Diese Übung setzt voraus, dass du [Docker Compose](../glossar.md#compose) kennst. Falls du das vergessen hast, hier die wichtigsten Konzepte in Kurzform:
 
     - Eine **`compose.yaml`** ist eine YAML-Datei, in der du **mehrere Container** auf einmal beschreibst. Jeden Container nennt man **Service**.
     - Compose legt beim `docker compose up -d` automatisch ein **eigenes Netzwerk** für deinen Stack an. Innerhalb dieses Netzwerks finden sich alle Services über **ihren Service-Namen als Hostname**. Steht in der `compose.yaml` ein Service `cache`, dann erreicht die Flask-App den Redis unter `cache:6379`. Das übernimmt der interne [DNS](../glossar.md#dns) von Docker. Keine IPs nötig.
@@ -1870,8 +1870,8 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     Die folgende Lösung nimmt **Flask mit Redis** und beweist die Kommunikation über einen **Besucherzähler**. Jeder Aufruf von `/` erhöht eine Zahl in Redis und gibt sie zurück. Im Smoke-Test ruft die Pipeline zweimal `/` auf und vergleicht die zwei Antworten. Sind sie gleich, ist Redis nicht beteiligt und der Test schlägt fehl.
 
-    !!! warning "Alte Dateien aus 6.7/6.8 entfernen"
-        In Übungen 6.7 und 6.8 hast du im Repo-Root ein **nginx**-`Dockerfile` und eine `index.html` angelegt. Für die Challenge **ersetzt** du das `Dockerfile` durch das untenstehende Python-Dockerfile. Die alten Workflow-Dateien `docker-build.yml` und `docker-build-buildx.yml` würden bei jedem Push scheitern, weil sie ein nginx-Image erwarten. Lösch sie oder kommentiere ihren `on:`-Trigger aus. Sonst hast du immer einen roten Workflow neben dem grünen.
+    !!! warning "Alte Dateien aus den Übungen 7 und 8 entfernen"
+        In den Übungen 7 und 8 hast du im Repo-Root ein **nginx**-`Dockerfile` und eine `index.html` angelegt. Für die Challenge **ersetzt** du das `Dockerfile` durch das untenstehende Python-Dockerfile. Die alten Workflow-Dateien `docker-build.yml` und `docker-build-buildx.yml` würden bei jedem Push scheitern, weil sie ein nginx-Image erwarten. Lösch sie oder kommentiere ihren `on:`-Trigger aus. Sonst hast du immer einen roten Workflow neben dem grünen.
 
     !!! tip "Vorgehen"
         Erst die Anwendung **lokal** zum Laufen bringen (`docker compose up -d`, im Browser prüfen). Erst danach an die Pipeline gehen. So weißt du, dass ein Pipeline-Fehler an der Pipeline liegt und nicht an einem App-Bug.
@@ -2010,7 +2010,7 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
         branches: [main]
       workflow_dispatch:
 
-    # Token darf in GHCR pushen (siehe Übung 6.9)
+    # Token darf in GHCR pushen (siehe Übung 9)
     permissions:
       contents: read
       packages: write
@@ -2148,14 +2148,14 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
     | Technik aus | Verwendet in Schritt |
     |-------------|----------------------|
-    | Übung 6.1 (`if:`)            | `if: always()` für Logs und Cleanup |
-    | Übung 6.2 (`needs:`)         | hier nicht nötig. Ein Job reicht. Der Smoke-Test läuft direkt im Build-Job |
-    | Übung 6.3 (`actions/checkout`) | erster Step |
-    | Übung 6.5 (`env:` / `${{ … }}`) | überall, wo SHA, Owner, Image-Name vorkommen |
-    | Übung 6.7 (`docker build`)   | hinter den Kulissen der build-push-action |
-    | Übung 6.8 (BuildKit + Cache) | `setup-buildx-action`, `cache-from`/`cache-to` |
-    | Übung 6.9 (GHCR-Push)        | letzte Steps mit Login und zweitem Build mit `push: true` |
-    | Compose aus Block 4          | `compose.yaml`, `docker compose up/down`, Service-DNS (`cache` als Hostname) |
+    | Übung 1 (`if:`)              | `if: always()` für Logs und Cleanup |
+    | Übung 2 (`needs:`)           | hier nicht nötig. Ein Job reicht. Der Smoke-Test läuft direkt im Build-Job |
+    | Übung 3 (`actions/checkout`) | erster Step |
+    | Übung 5 (`env:` / `${{ … }}`) | überall, wo SHA, Owner, Image-Name vorkommen |
+    | Übung 7 (`docker build`)     | hinter den Kulissen der build-push-action |
+    | Übung 8 (BuildKit + Cache)   | `setup-buildx-action`, `cache-from`/`cache-to` |
+    | Übung 9 (GHCR-Push)          | letzte Steps mit Login und zweitem Build mit `push: true` |
+    | Compose                      | `compose.yaml`, `docker compose up/down`, Service-DNS (`cache` als Hostname) |
 
     ### Häufige Stolperstellen
 
@@ -2187,15 +2187,15 @@ Lege `.github/workflows/ghcr-push.yml` an mit:
 
 ## Was du nach diesen Übungen kannst
 
-- **Bedingte Steps** mit `if:` schreiben (6.1)
-- **Mehrere Jobs** mit `needs:` verketten (6.2)
-- **Code aus dem Repo** auf den Runner holen (6.3)
-- **Matrix-Builds** für parallele Läufe nutzen (6.4)
-- **Umgebungsvariablen** auf den drei Ebenen sauber einsetzen (6.5)
-- **Artefakte** zwischen Jobs übergeben (6.6)
-- Ein **Docker-Image in der Pipeline bauen** und auf dem Runner verifizieren (6.7)
-- Mit **BuildKit + gha-Cache** schnell und reproduzierbar bauen (6.8)
-- Images zu **GHCR** pushen, mit korrekten Permissions und Tags (6.9)
+- **Bedingte Steps** mit `if:` schreiben (Übung 1)
+- **Mehrere Jobs** mit `needs:` verketten (Übung 2)
+- **Code aus dem Repo** auf den Runner holen (Übung 3)
+- **Matrix-Builds** für parallele Läufe nutzen (Übung 4)
+- **Umgebungsvariablen** auf den drei Ebenen sauber einsetzen (Übung 5)
+- **Artefakte** zwischen Jobs übergeben (Übung 6)
+- Ein **Docker-Image in der Pipeline bauen** und auf dem Runner verifizieren (Übung 7)
+- Mit **BuildKit + gha-Cache** schnell und reproduzierbar bauen (Übung 8)
+- Images zu **GHCR** pushen, mit korrekten Permissions und Tags (Übung 9)
 - Eine **Multi-Container-Anwendung** in der Pipeline starten, testen und veröffentlichen (Challenge)
 
 Damit hast du nicht nur das Vokabular, sondern auch die Praxis, eine echte Container-CI/CD-Pipeline für eigene Projekte aufzusetzen.

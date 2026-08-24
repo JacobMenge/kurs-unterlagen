@@ -163,7 +163,7 @@ Das ist die Adresse von `origin`, einmal fürs Holen, einmal fürs Pushen (in de
 
 Übungs-Repo aus dem Git-Block.
 
-## Was ich heute lerne
+## Was ich hier lerne
 
 - Repo auf GitHub anlegen
 - klonen
@@ -175,11 +175,11 @@ Speichern. Im Terminal:
 
 ```bash
 git add README.md
-git commit -m "README: Lernpfad für heute beschreiben"
+git commit -m "README: Lernpfad beschreiben"
 ```
 
 ```text
-[main b2c3d4e] README: Lernpfad für heute beschreiben
+[main b2c3d4e] README: Lernpfad beschreiben
  1 file changed, 6 insertions(+)
 ```
 
@@ -296,7 +296,7 @@ git log --oneline
 ```
 
 ```text
-b2c3d4e (HEAD -> main, origin/main) README: Lernpfad für heute beschreiben
+b2c3d4e (HEAD -> main, origin/main) README: Lernpfad beschreiben
 abc1234 Initial commit
 ```
 
@@ -334,7 +334,7 @@ git log --oneline
 
 ```text
 c3d4e5f (HEAD -> main, origin/main) Update README.md
-b2c3d4e README: Lernpfad für heute beschreiben
+b2c3d4e README: Lernpfad beschreiben
 abc1234 Initial commit
 ```
 
@@ -421,7 +421,7 @@ git log --oneline --graph
 * | f6g7h8i README: lokale Zeile angehängt
 |/
 * c3d4e5f Update README.md
-* b2c3d4e README: Lernpfad für heute beschreiben
+* b2c3d4e README: Lernpfad beschreiben
 * abc1234 Initial commit
 ```
 
@@ -496,7 +496,7 @@ Wenn du löschen willst:
 ??? warning "Authentifizierung fehlgeschlagen"
     Auf Windows kommt manchmal ein Browser-Fenster mit GitHub-Login. Schließe es nicht. Logge dich ein und autorisier die Anmeldung.
 
-    Falls du die Anmeldung über Token machst und es klemmt: prüfe, ob der Token noch gültig ist (im GitHub-Tab Settings → Developer settings → Tokens). Abgelaufene Token werden weiterhin akzeptiert für `clone`, aber für `push` brauchst du einen frischen.
+    Falls du die Anmeldung über Token machst und es klemmt: prüfe, ob der Token noch gültig ist (im GitHub-Tab Settings → Developer settings → Tokens). **Abgelaufene Token werden nicht mehr akzeptiert** – weder für `push` noch für `pull`. Leg dir dann einen frischen an. Dass ein `clone` trotzdem klappt, heißt nicht, dass der Token gültig ist: **öffentliche** Repos lassen sich ganz ohne Token klonen.
 
 ??? warning "`fatal: not a git repository`"
     Du bist im falschen Verzeichnis. `cd` ins richtige Verzeichnis. Mit `git rev-parse --show-toplevel` zeigt Git an, was sein Repo-Root wäre – wenn dieser Befehl fehlschlägt, bist du wirklich außerhalb.

@@ -5,7 +5,7 @@ description: "Eigene Hands-on-Übungen zum Virtualisierungs-Block – vier Schwi
 
 # Übungen – Virtualisierung
 
-Hier findest du Aufgaben, die **du selbst** ausprobieren kannst – zusätzlich zu dem, was wir im Unterricht gemeinsam machen. Wenn dir langweilig wird, arbeite dich nach oben.
+Hier findest du Aufgaben, die **du selbst** ausprobieren kannst – zusätzlich zu den angeleiteten Schritten aus [Praxis mit Multipass](praxis-multipass.md). Wenn dir langweilig wird, arbeite dich nach oben.
 
 !!! abstract "Konzept der Schwierigkeitsgrade"
     - 🟢 **Einsteiger** – jeder Schritt bis ins Detail erklärt, auch der Kontext rundherum
@@ -30,7 +30,7 @@ Hier findest du Aufgaben, die **du selbst** ausprobieren kannst – zusätzlich 
 
 ## 🟢 Einsteiger
 
-### Übung 1.1 – Deine erste VM
+### Übung 1 – Deine erste VM
 
 !!! info "Was du lernst"
     - Wie du eine virtuelle Maschine startest, betrittst und wieder löschst
@@ -175,7 +175,7 @@ Prüfen mit `multipass list` – die VM sollte nicht mehr auftauchen.
 
 ---
 
-### Übung 1.2 – VM mit eigenen Ressourcen
+### Übung 2 – VM mit eigenen Ressourcen
 
 !!! info "Was du lernst"
     - Wie du einer VM mehr CPU, RAM und Disk zuteilst
@@ -183,7 +183,7 @@ Prüfen mit `multipass list` – die VM sollte nicht mehr auftauchen.
 
 #### Worum geht's
 
-In Übung 1.1 hatte deine VM die Standardwerte: 1 CPU, 1 GB RAM, 5 GB Disk. Das reicht für Experimente, aber nicht für ernsthafte Arbeit. In dieser Übung baust du eine größere VM.
+In Übung 1 hatte deine VM die Standardwerte: 1 CPU, 1 GB RAM, 5 GB Disk. Das reicht für Experimente, aber nicht für ernsthafte Arbeit. In dieser Übung baust du eine größere VM.
 
 #### Aufgabe
 
@@ -200,7 +200,7 @@ Starte eine VM mit folgenden Werten:
 multipass launch --name uebung2 --cpus 2 --memory 2G --disk 10G
 ```
 
-Kleine Unterschiede zu Übung 1.1:
+Kleine Unterschiede zu Übung 1:
 
 - `--cpus 2` → gibt der VM zwei virtuelle CPU-Kerne
 - `--memory 2G` → gibt der VM 2 Gigabyte RAM
@@ -212,7 +212,7 @@ Prüfen, was die VM bekommen hat:
 multipass info uebung2
 ```
 
-Du siehst ganz unten die zugewiesenen Ressourcen. **Vergleiche** mit Übung 1.1 – merkst du den Unterschied?
+Du siehst ganz unten die zugewiesenen Ressourcen. **Vergleiche** mit Übung 1 – merkst du den Unterschied?
 
 #### Aufräumen
 
@@ -224,7 +224,7 @@ multipass delete uebung2 && multipass purge
 
 ## 🟡 Mittel
 
-### Übung 1.3 – Zwei VMs gleichzeitig
+### Übung 3 – Zwei VMs gleichzeitig
 
 !!! info "Was du lernst"
     - Mehrere VMs parallel betreiben
@@ -265,7 +265,7 @@ multipass purge
 
 ---
 
-### Übung 1.4 – Eigene Software in der VM installieren
+### Übung 4 – Eigene Software in der VM installieren
 
 !!! info "Was du lernst"
     - Pakete in Ubuntu installieren mit `apt`
@@ -327,7 +327,7 @@ multipass delete webserver && multipass purge
 
 ## 🔴 Fortgeschritten
 
-### Übung 1.5 – VM mit Cloud-Init vorkonfigurieren
+### Übung 5 – VM mit Cloud-Init vorkonfigurieren
 
 !!! info "Was du lernst"
     - Cloud-Init: VMs automatisiert beim Start konfigurieren
@@ -496,11 +496,11 @@ Beides sollte funktionieren.
     multipass delete blog && multipass purge
     ```
 
-    **Tipp für den nächsten Schritt:** In Block 2 bauen wir fast dasselbe nochmal – aber mit einem **Container** statt einer VM. Du wirst sehen, wie viel schneller und schlanker das geht.
+    **Tipp für den nächsten Schritt:** Im Docker-Block baust du fast dasselbe nochmal – aber mit einem **Container** statt einer VM. Du wirst sehen, wie viel schneller und schlanker das geht.
 
 ---
 
 ## Weiter mit
 
-- [Docker-Einführung](../docker/index.md) – der nächste Block mit eigenen Übungen
+- [Docker-Einführung](../docker/index.md) – der Docker-Block mit eigenen Übungen
 - [Stolpersteine Virtualisierung](stolpersteine.md) – falls etwas schiefläuft

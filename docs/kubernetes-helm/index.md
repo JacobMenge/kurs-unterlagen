@@ -12,6 +12,9 @@ Dieser Block ist der **letzte** des Kubernetes-Themas. Er bringt Ordnung in die 
 !!! info "Worauf wir aufbauen"
     Wir bleiben bei **derselben** Demo-App und **demselben** lokalen Cluster wie in Teil 1 und Teil 2: das schlanke nginx, das dir groß seine **Version**, den **Standort** und den **Pod-Namen** anzeigt. Neu ist kein einziges Kubernetes-Objekt – im Chart dieses Blocks steckt exakt das Deployment, der Service, die ConfigMap und das Secret, die du in Teil 2 selbst geschrieben hast. Neu ist allein die **Verpackung**. Du brauchst also kein neues Vorwissen, nur einen laufenden minikube und ein zusätzliches Werkzeug: `helm`.
 
+!!! note "Die Geschichte drumherum: die Aurora Station"
+    In den Beispielen dieses Blocks taucht immer wieder die **Aurora Station** auf – eine **fiktive Forschungsstation** in einer niedrigen Erdumlaufbahn, die du schon aus dem [Compose-Praxisblock](../docker-compose-mission-control/index.md) kennst. Dort hast du ihr Mission-Control-Dashboard mit Docker Compose aufgebaut; hier verpacken wir ihre kleine **Statusanzeige** als Helm-Chart. Deshalb heißt das Release in allen Befehlen `station` und der **Standort** auf der Seite ist der Ort, für den diese Installation gerade zuständig ist. Die Geschichte macht die Übung nur greifbarer – die Technik darunter ist genau die, mit der echte Teams arbeiten. Wer den Compose-Block nicht gemacht hat, verpasst nichts: Du musst dazu nichts nachlesen.
+
 Drei Probleme löst Helm – und zu jedem gibt es eine sichtbare Übung:
 
 - **Dieselbe App, drei Umgebungen.** Entwicklung, Test und Produktion unterscheiden sich in ein paar Werten: Anzahl der Pods, Farbe, Standort. Von Hand hieße das dreimal derselbe YAML-Stapel und dreimal Pflege. Ein **Chart** ist ein Paket mit **Stellschrauben** – einmal gebaut, dreimal anders installiert.
@@ -21,7 +24,7 @@ Drei Probleme löst Helm – und zu jedem gibt es eine sichtbare Übung:
 !!! note "Warum das für dich wichtig ist"
     Du wirst im Beruf selten die eine App auf dem einen Cluster betreuen. Du bekommst ein Dutzend Dienste, die voneinander abhängen, drei Umgebungen, in denen sie gleich laufen müssen, dazu Kollegen, die morgen dasselbe ausrollen wie du heute. Genau da hört „ich tippe das schnell von Hand" auf: Ein Paket ist die Form, in der ein Dienst **übergabefähig** wird – wiederholbar, nachvollziehbar und mit einem Rückweg, den auch jemand anderes findet.
 
-    Der Weg dahin geht über drei Stufen: von „läuft bei mir" über „läuft im Betrieb" zu „**lässt sich ausliefern**". Die ersten beiden hast du hinter dir. Heute kommt die dritte.
+    Der Weg dahin geht über drei Stufen: von „läuft bei mir" über „läuft im Betrieb" zu „**lässt sich ausliefern**". Die ersten beiden hast du hinter dir. Jetzt kommt die dritte.
 
 ---
 
@@ -58,14 +61,14 @@ flowchart LR
 | [Praxis: Dein erstes Chart](03-praxis-erstes-chart.md) | Das Chart der Demo-App prüfen, installieren und die Werte drehen | Praxis – Pflicht |
 | [Templating & Releases](04-templating-und-releases.md) | Platzhalter, Werte-Vorrang, Release und Revision – und wo Helm das alles merkt | Theorie |
 | [Praxis: Upgrade & Rollback](05-praxis-upgrade-rollback.md) | Ein Update ausrollen, die History lesen, per Rollback zurück | Praxis – Pflicht |
-| [Fertige Charts nutzen](06-fertige-charts-nutzen.md) | Ein fremdes Chart finden und hineinschauen – mit dem nötigen Misstrauen. Das Ausrollen zeige ich im Hauptraum | Demo – zuschauen |
+| [Fertige Charts nutzen](06-fertige-charts-nutzen.md) | Ein fremdes Chart finden und hineinschauen – mit dem nötigen Misstrauen. Das Ausrollen wird einmal gemeinsam vorgeführt | Demo – zuschauen |
 | [Praxis: Drei Umgebungen](07-lab-drei-umgebungen.md) | Dieselbe App als dev, test und prod – aus einem einzigen Chart | Praxis – Pflicht |
 | [Weitere Übungen](08-uebungen.md) | Elf Zusatzaufgaben zum Vertiefen, jeweils mit Lösung | Bonus |
 | [Stolpersteine](09-stolpersteine.md) | Die Fallen, die wirklich zuschlagen – und woran du sie erkennst | Referenz |
 | [Rückblick & Abschluss](10-rueckblick.md) | Was du mitnimmst und wie das Kubernetes-Thema endet | Referenz |
 
 !!! info "Die Theorieseiten sind länger als das, was wir besprechen"
-    Das ist Absicht. Im Hauptraum gehen wir den roten Faden durch, hier steht die ganze Geschichte – mit jedem Befehl, jeder Ausgabe und den Details, für die live keine Zeit ist. Wenn dir etwas zu schnell ging: Genau dafür sind diese Seiten da. Du musst sie vorher nicht lesen.
+    Das ist Absicht. Gemeinsam besprochen wird nur der rote Faden, hier steht die ganze Geschichte – mit jedem Befehl, jeder Ausgabe und den Details, für die live keine Zeit ist. Wenn dir etwas zu schnell ging: Genau dafür sind diese Seiten da. Du musst sie vorher nicht lesen.
 
     Die Übungen sind alle so gebaut, dass du sie **allein durcharbeiten** kannst – Schritt für Schritt, mit aufklappbarer Lösung. Niemand muss alles schaffen. Arbeite dich der Reihe nach durch und frag, wenn etwas klemmt.
 

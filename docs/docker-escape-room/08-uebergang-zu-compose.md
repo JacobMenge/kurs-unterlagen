@@ -1,11 +1,11 @@
 ---
 title: "Übergang zu Docker Compose"
-description: "Was ihr im Escape Room manuell gemacht habt, automatisiert Compose. Brücke zur nächsten Einheit."
+description: "Was ihr im Escape Room manuell gemacht habt, automatisiert Compose. Brücke zu Docker Compose."
 ---
 
 # Übergang zu Docker Compose
 
-Heute habt ihr ein Multi-Container-System **manuell** gestartet. Dafür brauchtet ihr viele einzelne Schritte:
+Im Escape Room habt ihr ein Multi-Container-System **manuell** gestartet. Dafür brauchtet ihr viele einzelne Schritte:
 
 - Netzwerk erstellen
 - Volume erstellen
@@ -69,7 +69,7 @@ docker compose down
 
 ## Was Compose euch konkret abnimmt
 
-Aus Sicht der heutigen Aufgabe:
+Aus Sicht dieser Aufgabe:
 
 | Bisher manuell | Mit Compose |
 |---|---|
@@ -87,9 +87,9 @@ Aus Sicht der heutigen Aufgabe:
 
 ## Wichtig
 
-In dieser Einheit **schreibt ihr noch keine Compose-Datei**. Das ist die nächste Einheit.
+In dieser Einheit **schreibt ihr noch keine Compose-Datei**. Das kommt im Compose-Kapitel.
 
-Aber wenn ihr es erlebt habt, wie viele Schritte ihr heute gebraucht habt, dann ist Compose nicht „noch ein Tool, das ich lernen muss" – sondern **die Erleichterung, die ihr euch sehnlich gewünscht habt**.
+Aber wenn ihr erlebt habt, wie viele Schritte ihr gebraucht habt, dann ist Compose nicht „noch ein Tool, das ich lernen muss" – sondern **die Erleichterung, die ihr euch sehnlich gewünscht habt**.
 
 ---
 
@@ -101,7 +101,7 @@ Aber wenn ihr es erlebt habt, wie viele Schritte ihr heute gebraucht habt, dann 
 
 ## Weiter
 
-In der nächsten Einheit:
+Im Compose-Kapitel geht es weiter:
 
 - [Docker Compose – Einführung](../docker-compose/einfuehrung.md)
 - [Compose – Grundlagen](../docker-compose/grundlagen.md)

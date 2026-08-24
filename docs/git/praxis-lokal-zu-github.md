@@ -28,7 +28,7 @@ description: "Schritt-für-Schritt: Ein lokales Git-Repository, das schon Commit
 
 ## Wann brauchst du diesen Weg?
 
-In [Praxis 4](praxis-github-neu.md) sind wir den Weg „GitHub zuerst, dann klonen" gegangen. Heute der umgekehrte:
+In [Praxis 4](praxis-github-neu.md) sind wir den Weg „GitHub zuerst, dann klonen" gegangen. Hier geht es um den umgekehrten Fall:
 
 - Du hast **schon lokal** ein Projekt mit Git initialisiert und ein paar Commits gemacht.
 - Jetzt willst du es auf GitHub bringen.

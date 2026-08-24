@@ -439,7 +439,7 @@ Für Bind Mount:
           -v postgres-daten:/data \
           -v $(pwd):/backup \
           alpine \
-          tar xzf /backup/postgres-backup-2026-04-21.tar.gz -C /data
+          tar xzf /backup/postgres-backup-2024-03-15.tar.gz -C /data
         ```
 
     === "Windows PowerShell"
@@ -448,7 +448,7 @@ Für Bind Mount:
           -v postgres-daten:/data `
           -v "${PWD}:/backup" `
           alpine `
-          tar xzf /backup/postgres-backup-2026-04-21.tar.gz -C /data
+          tar xzf /backup/postgres-backup-2024-03-15.tar.gz -C /data
         ```
 
     === "Windows CMD"
@@ -457,7 +457,7 @@ Für Bind Mount:
           -v postgres-daten:/data ^
           -v "%cd%:/backup" ^
           alpine ^
-          tar xzf /backup/postgres-backup-2026-04-21.tar.gz -C /data
+          tar xzf /backup/postgres-backup-2024-03-15.tar.gz -C /data
         ```
 
 ??? info "Wie viel Platz belegen meine Volumes?"

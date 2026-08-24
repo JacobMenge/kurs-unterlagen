@@ -6,7 +6,7 @@ description: "In 45 Minuten von docker run zur eigenen compose.yaml: Postgres + 
 # Praxis: erste compose.yaml
 
 !!! abstract "Ziel"
-    In **45 Minuten** baust du den Postgres + Adminer-Stack aus Block 3 nach – diesmal **nicht** mit fünf `docker run`-Befehlen, sondern mit **einer einzigen `compose.yaml`**.
+    In **45 Minuten** baust du den Postgres + Adminer-Stack aus dem Aufbau-Block nach – diesmal **nicht** mit fünf `docker run`-Befehlen, sondern mit **einer einzigen `compose.yaml`**.
 
     Am Ende kannst du:
 
@@ -15,15 +15,15 @@ description: "In 45 Minuten von docker run zur eigenen compose.yaml: Postgres + 
     - Status, Logs und Container-Shells über Compose-Befehle erreichen
     - die Persistenz eines benannten Volumes nachvollziehen
 
-!!! info "Anknüpfung an Block 3"
-    In [Block 3](../docker-aufbau/praxis-multi-container.md) hast du Postgres + Adminer **manuell** zusammengeschraubt: Netzwerk anlegen, Volume anlegen, beide Container mit vielen Flags starten. Heute übersetzen wir genau diesen Stack in eine deklarative Compose-Datei. Du brauchst **kein eigenes Dockerfile**, **keinen Build**, **keine Programmierung** – nur fertige Images und eine kleine YAML-Datei.
+!!! info "Anknüpfung an den Aufbau-Block"
+    Im [Aufbau-Block](../docker-aufbau/praxis-multi-container.md) hast du Postgres + Adminer **manuell** zusammengeschraubt: Netzwerk anlegen, Volume anlegen, beide Container mit vielen Flags starten. Jetzt übersetzen wir genau diesen Stack in eine deklarative Compose-Datei. Du brauchst **kein eigenes Dockerfile**, **keinen Build**, **keine Programmierung** – nur fertige Images und eine kleine YAML-Datei.
 
 ## Voraussetzungen
 
 - Docker und `docker compose` laufen (`docker compose version` klappt). Siehe [Installation](../docker/installation.md).
 - Ein Editor (VSCode, Notepad++, vim, was du magst).
 - Ca. **45 Minuten** Zeit.
-- Falls aus Block 3 noch Container laufen, einmal aufräumen:
+- Falls aus dem Aufbau-Block noch Container laufen, einmal aufräumen:
 
     === "macOS / Linux"
         ```bash
@@ -301,7 +301,7 @@ docker compose up -d
 Browser neu laden, in Adminer einloggen – die **Tabelle `teilnehmer` ist noch da**, mit allen drei Datensätzen.
 
 !!! success "Das ist der Persistenz-Beweis"
-    Container sind neu, Volume ist dasselbe. Genau wie in Block 3 – nur dass du diesmal nicht zwei lange `docker run`-Befehle tippen musstest, sondern nur **einen** `docker compose up -d`.
+    Container sind neu, Volume ist dasselbe. Genau wie beim manuellen Setup – nur dass du diesmal nicht zwei lange `docker run`-Befehle tippen musstest, sondern nur **einen** `docker compose up -d`.
 
 ---
 
@@ -322,10 +322,10 @@ Das `-v` löscht auch das benannte Volume. Danach ist wirklich nichts mehr von d
 
 ## Vergleich: manuell vs. Compose
 
-Was du in Block 3 noch von Hand getippt hast – und wie viel Compose dir abnimmt:
+Was du beim manuellen Setup noch von Hand getippt hast – und wie viel Compose dir abnimmt:
 
-| Schritt | Manuell (Block 3) | Compose (heute) |
-|---------|-------------------|-----------------|
+| Schritt | Manuell (`docker run`) | Compose |
+|---------|-----------------------|---------|
 | Netzwerk anlegen | `docker network create kurs-netz` | automatisch |
 | Volume anlegen | `docker volume create postgres-daten` | automatisch |
 | DB starten | `docker run -d --name db --network … -v … -e … -e … -e … postgres:16` | in `compose.yaml` deklariert |
@@ -405,19 +405,19 @@ Das ist genau der Sprung von **imperativer** zu **deklarativer** Konfiguration. 
 
 In den [Übungen](uebungen.md) findest du vier weitere Aufgaben mit aufsteigender Schwierigkeit:
 
-- 🟢 **Übung 4.1** – noch kompakter: nur ein nginx-Service
-- 🟢 **Übung 4.2** – zwei Services und Service-zu-Service-Kommunikation
-- 🟡 **Übung 4.3** – WordPress + MariaDB
-- 🟡 **Übung 4.4** – Variablen aus `.env` ziehen
-- 🔴 **Übung 4.5** – Healthchecks und `depends_on: condition: service_healthy`
-- 🏆 **Challenge 4** – vollständiger Tech-Stack mit vier Services, Bind Mount und Profiles
+- 🟢 **Übung 1** – noch kompakter: nur ein nginx-Service
+- 🟢 **Übung 2** – zwei Services und Service-zu-Service-Kommunikation
+- 🟡 **Übung 3** – WordPress + MariaDB
+- 🟡 **Übung 4** – Variablen aus `.env` ziehen
+- 🔴 **Übung 5** – Healthchecks und `depends_on: condition: service_healthy`
+- 🏆 **Challenge** – vollständiger Tech-Stack mit vier Services, Bind Mount und Healthchecks
 
 ---
 
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Was in Block 3 mehrere `docker run`-Befehle mit vielen Flags brauchte, steht jetzt in einer kleinen YAML-Datei. `docker compose up -d` startet den Stack, `docker compose down` baut ihn ab. Das benannte Volume sorgt dafür, dass die Datenbank über `down`/`up`-Zyklen hinweg ihre Daten behält.**
+    > **Was zuvor mehrere `docker run`-Befehle mit vielen Flags brauchte, steht jetzt in einer kleinen YAML-Datei. `docker compose up -d` startet den Stack, `docker compose down` baut ihn ab. Das benannte Volume sorgt dafür, dass die Datenbank über `down`/`up`-Zyklen hinweg ihre Daten behält.**
 
 ---
 

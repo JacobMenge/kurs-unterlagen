@@ -17,7 +17,7 @@ description: "Was Compose ist, warum es entstanden ist und wie sich das deklarat
 
 ## Der Auslöser: die vorige Einheit
 
-In der [Praxis-Einheit aus Block 3](../docker-aufbau/praxis-multi-container.md) haben wir gemerkt: sobald mehr als ein Container im Spiel ist, wird es mit `docker run` **mühsam**. Für jede Umgebungsvariable, jedes Volume, jedes Netzwerk schreibst du ein eigenes Flag. Für jede Änderung den ganzen Befehl neu.
+In der [Praxis-Einheit aus dem Aufbau-Block](../docker-aufbau/praxis-multi-container.md) haben wir gemerkt: sobald mehr als ein Container im Spiel ist, wird es mit `docker run` **mühsam**. Für jede Umgebungsvariable, jedes Volume, jedes Netzwerk schreibst du ein eigenes Flag. Für jede Änderung den ganzen Befehl neu.
 
 Die natürliche Frage:
 
@@ -98,7 +98,7 @@ Du wirst auf beides stoßen und der Unterschied ist wichtig:
 | `docker-compose` (mit Bindestrich) | Python-Programm, separat installiert | **Veraltet** (Compose V1) – erhält seit 2023 keine Updates mehr |
 | `docker compose` (mit Leerzeichen) | In Go geschrieben, als Docker-CLI-Plugin | **Aktuell** (Compose V2) – installiert sich mit Docker Desktop und modernen Docker-Engine-Paketen |
 
-**Empfehlung für diesen Kurs und für alles, was du ab heute machst: `docker compose`** (mit Leerzeichen).
+**Empfehlung für diese Unterlagen und für alles, was du ab jetzt machst: `docker compose`** (mit Leerzeichen).
 
 In alten Tutorials siehst du oft noch `docker-compose`. Fast immer funktioniert derselbe Befehl auch mit der neuen Variante.
 

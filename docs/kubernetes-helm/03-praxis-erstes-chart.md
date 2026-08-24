@@ -228,7 +228,7 @@ helm install station ./webserver
 
 ```text
 NAME: station
-LAST DEPLOYED: Thu Jul 16 15:00:33 2026
+LAST DEPLOYED: Fri Mar 15 15:00:33 2024
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1

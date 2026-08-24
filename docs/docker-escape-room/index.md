@@ -57,7 +57,7 @@ Dabei nutzt ihr bewusst **kein Docker Compose**. Stattdessen alle einzelnen Baus
     docker-compose up
     ```
 
-    Compose ist das Thema der nächsten Einheit. Heute spürt ihr, **warum** Compose erfunden wurde – indem ihr alles manuell macht.
+    Compose ist das Thema des nachfolgenden Kapitels. Hier spürt ihr, **warum** Compose erfunden wurde – indem ihr alles manuell macht.
 
 ---
 
@@ -98,7 +98,7 @@ flowchart TD
 
 ---
 
-## Ablauf im Kurs
+## Zeitlicher Rahmen
 
 | Phase | Dauer |
 |---|---:|
@@ -123,7 +123,7 @@ Wenn du den Block linear durcharbeitest:
 5. [Hilfekarten](05-hilfekarten.md) – nutzt sie nur, wenn ihr feststeckt
 6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md) – was am Ende vorgezeigt wird
 7. [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
-8. [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zur nächsten Einheit
+8. [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zu Docker Compose
 
 ---
 

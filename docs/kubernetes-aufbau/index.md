@@ -52,7 +52,7 @@ flowchart LR
 | [Hilfekarten](08-hilfekarten.md) | Abgestufte Hinweise, wenn etwas hakt | Referenz |
 | [Rückblick & Ausblick](09-rueckblick.md) | Was du mitnimmst und wie es weitergeht | Referenz |
 
-!!! tip "Für heute"
+!!! tip "So arbeitest du dich durch"
     Der Theorieteil (die drei Theorieseiten) ist als **rund 45 Minuten Input** gedacht – danach geht es an die Praxis. Du hast **zwei Wege**, die dasselbe üben:
 
     - die **lokalen Übungen** auf deinem minikube ([Config & Secrets](03-praxis-config-secrets.md), [Probes & Limits](05-praxis-probes-limits.md)) – komplett angeleitet, mit eigener Aufgabe und Lösung,

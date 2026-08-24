@@ -1,15 +1,15 @@
 ---
 title: "Mission Control – Compose-Praxis"
-description: "Praxis-Block zum Compose-Thema: Multi-Container-Anwendung Aurora Station mit Docker Compose aufbauen, 90 Minuten Gruppenarbeit."
+description: "Praxis-Block zum Compose-Thema: Multi-Container-Anwendung Aurora Station mit Docker Compose aufbauen – rund 90 Minuten Arbeit in Kleingruppen."
 ---
 
 # Mission Control – Compose-Praxis
 
 Willkommen zum **Compose-Praxis-Block**. 🛰️
 
-Im [Docker Escape Room](../docker-escape-room/index.md) habt ihr einen Multi-Container-Stack **manuell** zusammengeschraubt – Netzwerk, Volume, Container für Container. Heute macht ihr es **richtig**: alles in einer einzigen `compose.yaml`, gestartet mit einem einzigen Befehl.
+Im [Docker Escape Room](../docker-escape-room/index.md) habt ihr einen Multi-Container-Stack **manuell** zusammengeschraubt – Netzwerk, Volume, Container für Container. Jetzt macht ihr es **richtig**: alles in einer einzigen `compose.yaml`, gestartet mit einem einzigen Befehl.
 
-**In Gruppen, in 90 Minuten, mit Docker Compose.**
+**In Kleingruppen, in rund 90 Minuten, mit Docker Compose.**
 
 ---
 
@@ -53,8 +53,8 @@ Ihr schreibt dafür eine **eigene `compose.yaml`** und nutzt die wichtigsten Com
     - Das Frontend kennt das Backend ebenfalls über den Service-Namen (`backend`) – Nginx ist als Reverse-Proxy schon vorkonfiguriert.
     - Die Datenbank speichert ihre Daten in einem **benannten Volume**, damit ein `docker compose down` keine Einträge zerstört.
 
-!!! warning "Heute nur Compose"
-    In dieser Aufgabe baut ihr ausschließlich mit Compose. **Keine** einzelnen `docker run`-Befehle für die Services. Wenn ihr in Versuchung kommt: das war der Escape Room. Heute geht's um die deklarative Variante.
+!!! warning "Nur Compose"
+    In dieser Aufgabe baut ihr ausschließlich mit Compose. **Keine** einzelnen `docker run`-Befehle für die Services. Wenn ihr in Versuchung kommt: das war der Escape Room. Hier geht's um die deklarative Variante.
 
 ---
 
@@ -98,17 +98,17 @@ flowchart TD
 
 ---
 
-## Ablauf im Kurs
+## Ablauf und Aufwand
 
-| Phase | Dauer |
+| Phase | Aufwand |
 |---|---:|
-| Einstieg & Erklärung | 15 Min |
-| Compose-Recap | 10–15 Min |
-| **Gruppenarbeit (Missionen)** | **90 Min** |
-| Gemeinsame Besprechung | 30 Min |
-| Rückblick & Ausblick | 10 Min |
+| Einstieg & Erklärung | ca. 15 Min |
+| Compose-Recap | ca. 10–15 Min |
+| **Arbeit in Kleingruppen (Missionen)** | **ca. 90 Min** |
+| Gemeinsame Besprechung | ca. 30 Min |
+| Rückblick & Ausblick | ca. 10 Min |
 
-Insgesamt **rund 2:30 h**, davon 90 Minuten aktive Gruppenarbeit.
+Insgesamt **rund 2,5 Stunden**, davon etwa 90 Minuten aktive Gruppenarbeit.
 
 ---
 

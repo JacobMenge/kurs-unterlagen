@@ -1,6 +1,6 @@
 ---
 title: "Übungen: Git"
-description: "Eigene Hands-on-Übungen zum Git-Block in vier Schwierigkeitsgraden – von einfachen lokalen Operationen bis zum Multi-Branch-Refactoring mit Pull Request. Mit Schritt-für-Schritt-Anleitung und Musterlösung pro Übung."
+description: "Eigene Hands-on-Übungen zu Git in vier Schwierigkeitsgraden – von einfachen lokalen Operationen bis zum Multi-Branch-Refactoring mit Pull Request. Mit Schritt-für-Schritt-Anleitung und Musterlösung pro Übung."
 ---
 
 # Übungen: Git
@@ -21,13 +21,13 @@ Die Übungen sind so geordnet, dass du **Schritt für Schritt** mehr Sicherheit 
 
 - Du hast die [Praxis 1–6](praxis-erste-schritte.md) durchgespielt.
 - Du kannst `git status`, `git log`, `git diff` selbstständig lesen.
-- Ab Übung 7.5 brauchst du einen GitHub-Account und ein zugewiesenes Repo.
+- Ab Übung 6 brauchst du einen GitHub-Account und ein zugewiesenes Repo. Die Übungen davor laufen rein lokal.
 
 ---
 
 ## 🟢 Einsteiger
 
-### Übung 7.1: Sauberer Commit-Stapel
+### Übung 1: Sauberer Commit-Stapel
 
 !!! info "Was du lernst"
     - Gezielt einzelne Dateien stagen, statt `git add .`
@@ -133,7 +133,7 @@ Am Ende soll `git log --oneline` genau drei Commits zeigen, mit sinnvollen Messa
 
 ---
 
-### Übung 7.2: Änderung verwerfen und neu machen
+### Übung 2: Änderung verwerfen und neu machen
 
 !!! info "Was du lernst"
     - Den Unterschied zwischen Working Tree und letztem Commit erkennen
@@ -142,7 +142,7 @@ Am Ende soll `git log --oneline` genau drei Commits zeigen, mit sinnvollen Messa
 
 #### Aufgabe
 
-Im Repo `uebung-stapel` aus 7.1:
+Im Repo `uebung-stapel` aus Übung 1:
 
 1. Ändere `notizen.md` so, dass mindestens drei Zeilen anders sind als im letzten Commit.
 2. Schau dir mit `git diff` den Unterschied an.
@@ -228,7 +228,7 @@ Am Ende soll `git log` einen zusätzlichen Commit zeigen und `notizen.md` darf *
 
 ---
 
-### Übung 7.3: Commit-Message korrigieren
+### Übung 3: Commit-Message korrigieren
 
 !!! info "Was du lernst"
     - Eine Commit-Message nachträglich ändern, **bevor** sie gepusht wurde
@@ -294,7 +294,7 @@ Im Repo `uebung-stapel`:
 
 ## 🟡 Mittel
 
-### Übung 7.4: Branch-Switch mit ungespeicherten Änderungen
+### Übung 4: Branch-Switch mit ungespeicherten Änderungen
 
 !!! info "Was du lernst"
     - Was Git tut, wenn du den Branch wechseln willst, aber Änderungen im Working Tree sind
@@ -429,7 +429,7 @@ Im Repo `uebung-stapel`:
 
 ---
 
-### Übung 7.5: Bug-Fix-Branch nach Konflikt
+### Übung 5: Bug-Fix-Branch nach Konflikt
 
 !!! info "Was du lernst"
     - Eine realistische Branch-Geschichte selbst aufbauen
@@ -560,7 +560,7 @@ Im Repo `uebung-stapel`:
 
 ## 🔴 Fortgeschritten
 
-### Übung 7.6: PR-Workflow auf GitHub
+### Übung 6: PR-Workflow auf GitHub
 
 !!! info "Was du lernst"
     - Den kompletten PR-Workflow allein simulieren
@@ -688,7 +688,7 @@ Auf einem GitHub-Repo deiner Wahl (am einfachsten `mein-erstes-remote-repo`):
 
 ---
 
-### Übung 7.7: Konflikt aus einem PR heraus lösen
+### Übung 7: Konflikt aus einem PR heraus lösen
 
 !!! info "Was du lernst"
     - Was passiert, wenn dein PR mit `main` nicht mehr sauber mergt
@@ -762,7 +762,7 @@ Auf einem GitHub-Repo deiner Wahl (am einfachsten `mein-erstes-remote-repo`):
 
     **Schritt 8: Lokal aufräumen**
 
-    Genau wie in Übung 7.6.
+    Genau wie in Übung 6.
 
 ??? success "Musterlösung"
     Kernbefehle (auf dem Feature-Branch):
@@ -782,7 +782,7 @@ Auf einem GitHub-Repo deiner Wahl (am einfachsten `mein-erstes-remote-repo`):
 
 ## 🏆 Challenge
 
-### Übung 7.8: Multi-Branch-Refactoring
+### Übung 8: Multi-Branch-Refactoring
 
 !!! info "Worum es geht"
     Diese Übung hat **keine Schritt-Anleitung**. Eine Musterlösung mit Erklärung gibt es trotzdem zum Aufklappen. Versuch erst eigenständig.
@@ -908,7 +908,7 @@ Außerdem soll am Ende alles **auf GitHub** liegen, jede der drei Änderungen al
 ## Wie du die Übungen am besten nutzt
 
 - **Linear durchgehen**, wenn du Git neu lernst.
-- **Springen**, wenn du gezielt eine Lücke füllen willst (z.B. nur 7.5 für Konflikt-Übung).
+- **Springen**, wenn du gezielt eine Lücke füllen willst (z.B. nur Übung 5 für die Konflikt-Übung).
 - **Mehrmals machen**: die ersten paar Male mit Schritt-Anleitung, dann ohne, dann mit etwas Variation (anderer Dateiname, andere Branch-Namen).
 
 Wenn du an einer Stelle festhängst, schau in die [Stolpersteine](stolpersteine.md). Wenn du Lust auf eine Mehr-Personen-Variante hast, gibt es zwei Gruppenübungen mit unterschiedlichem Fokus: [Gruppenübung 1](gruppen-uebung.md) (60 Min, Konflikt-Auflösung) oder [Gruppenübung 2](praxis-team-workflow.md) (45 Min, sauberer Team-Workflow).
@@ -923,4 +923,4 @@ Wenn du an einer Stelle festhängst, schau in die [Stolpersteine](stolpersteine.
 - Pull Requests öffnen, Reviews mit Folge-Commits beantworten, mergen, aufräumen.
 - Größere Refactorings sauber in mehrere Branches zerlegen.
 
-Damit bist du startklar für den anschließenden [CI/CD-Block](../ci-cd/index.md), wo wir aus genau diesen Bausteinen automatisierte Pipelines bauen.
+Damit bist du startklar für den [CI/CD-Block](../ci-cd/index.md), wo wir aus genau diesen Bausteinen automatisierte Pipelines bauen.

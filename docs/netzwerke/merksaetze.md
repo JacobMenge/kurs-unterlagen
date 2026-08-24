@@ -182,10 +182,14 @@ Theorie ohne Anschauung verfliegt schnell. Theorie mit Anschauung bleibt für im
 
 ## Wie du weitermachst
 
-Du hast jetzt die **Theorie** des ganzen Blocks. Was als Nächstes kommt:
+Du hast jetzt die **Theorie** des ganzen Blocks. Was sich als Nächstes anbietet:
 
-- **Praxis-Übungen** zum Anfassen (in zukünftigen Blöcken)
-- **Vertiefung** in einzelne Themen – z.B. **IT-Sicherheit** als eigener Block
-- **Spezialthemen** wie **Cloud-Netzwerke** und **Software Defined Networking**
+- **Praxis zum Anfassen** – vier Seiten in diesem Block warten genau darauf:
+    - [Praxis: Subnetz-Architekten](praxis-subnetting.md) – Subnetting mit Papier und Stift
+    - [Praxis: github.com – die Spurensuche](praxis-github-spurensuche.md) – den Weg eines Webaufrufs nachmessen
+    - [Praxis: Netzwerk-Werkstatt](praxis-netzwerk-werkstatt.md) – den eigenen Rechner Schicht für Schicht durchmessen
+    - [Praxis: Netzwerk-Notruf](praxis-netzwerk-notruf.md) – Störungen systematisch aufklären
+- **Vertiefung** in einzelne Themen – vor allem [IT-Sicherheit & Risiko](../it-sicherheit/index.md), das direkt auf dem Sicherheitskapitel dieses Blocks aufsetzt
+- **Anwendung** des Wissens dort, wo Netzwerke praktisch gebraucht werden: in [Docker-Netzwerken](../docker-aufbau/index.md) und bei der [Infrastruktur-Planung](../infrastruktur-planung/index.md)
 
 Aber egal, wohin es weitergeht: das, was du hier gelernt hast, ist das **Fundament**. Es bleibt.

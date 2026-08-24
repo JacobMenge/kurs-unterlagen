@@ -369,4 +369,4 @@ docker rmi container-quest-api:1.0
 
 ## Weiter
 
-- [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zur nächsten Einheit
+- [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zu Docker Compose

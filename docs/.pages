@@ -1,35 +1,37 @@
 nav:
   - "Start": index.md
-  - "Der Kurs": kurs
   - "Fahrplan": fahrplan.md
-  - "Grundlagen":
+  - "Der Kurs": kurs
+  - "Thema 1 – Planung & Integration":
+      - "Worum es geht": thema-1.md
       - "Netzwerke": netzwerke
       - "Virtualisierung": virtualisierung
-      - "Git & GitHub": git
-  - "Container":
       - "Docker – Einführung": docker
       - "Docker – Aufbau": docker-aufbau
       - "Docker – Vertiefung": docker-vertiefung
-      - "Praxis: Docker Escape Room": docker-escape-room
+      - "Praxis: Escape Room": docker-escape-room
       - "Docker Compose": docker-compose
       - "Praxis: Mission Control": docker-compose-mission-control
       - "Docker für Profis": docker-profi
-  - "Kubernetes & CI/CD":
-      - "Orchestrierung & Verteilung": orchestrierung
-      - "Kubernetes Teil 1 – Einstieg": kubernetes-praxis
-      - "Kubernetes Teil 2 – Aufbau": kubernetes-aufbau
-      - "Kubernetes Teil 3 – Helm": kubernetes-helm
-      - "CI/CD mit GitHub Actions": ci-cd
-  - "Planung & Betrieb":
       - "Infrastruktur & Architektur": infrastruktur-planung
+  - "Thema 2 – Laufender Betrieb":
+      - "Worum es geht": thema-2.md
       - "Betrieb & Verfügbarkeit": betrieb
       - "Praxis: Monitoring": monitoring-praxis
-  - "Sicherheit & Qualität":
+      - "Softwareverteilung": orchestrierung
+      - "Kubernetes – Einstieg": kubernetes-praxis
+      - "Kubernetes – Aufbau": kubernetes-aufbau
+      - "Kubernetes – Helm": kubernetes-helm
+      - "CI/CD": ci-cd
+  - "Thema 3 – Qualität & Sicherheit":
+      - "Worum es geht": thema-3.md
       - "IT-Sicherheit & Risiko": it-sicherheit
       - "Tests & Qualität": testen-qualitaet
-  - "Organisation & Projekte":
+  - "Weitere Prüfungsthemen":
+      - "Überblick": weitere-themen.md
       - "Recht & Datenschutz": recht-organisation
       - "Projekte & Koordination": projektmanagement
-  - "Nachschlagen":
+  - "Werkzeuge & Nachschlagen":
+      - "Git & GitHub": git
       - "Cheatsheets": cheatsheets
       - "Glossar": glossar.md

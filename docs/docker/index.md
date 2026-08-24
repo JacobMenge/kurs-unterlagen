@@ -58,8 +58,8 @@ Für schnellen Befehls-Lookup: **[Cheatsheet Docker](../cheatsheets/docker.md)**
 ## Was in diesem Kapitel **nicht** drin ist
 
 - **Docker Compose** – kommt später, wenn wir mehrere Container orchestrieren wollen.
-- **Volumes / Bind Mounts** in Tiefe – kurz erwähnt, ausführlich im nächsten Kursblock.
-- **`ENTRYPOINT`, Multi-Stage-Builds, `docker network`** – jenseits des heutigen Einstiegs.
+- **Volumes / Bind Mounts** in Tiefe – kurz erwähnt, ausführlich im Aufbau-Kapitel.
+- **`ENTRYPOINT`, Multi-Stage-Builds, `docker network`** – jenseits dieses Einstiegs.
 - **Kubernetes** – ganz andere Liga, eigene Einheit.
 
 Dieser Block legt die Grundlage. Alles Weitergehende baut darauf auf.

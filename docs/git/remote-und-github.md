@@ -94,7 +94,7 @@ Alle vier sind **Git-Plattformen**. Das heißt: sie nutzen alle Git unter der Ha
 
 ### Warum dieser Block GitHub nimmt
 
-Wir konzentrieren uns hier auf **GitHub**, weil es die mit Abstand am weitesten verbreitete Plattform ist und im Anschluss-Block (CI/CD mit GitHub Actions) ohnehin gebraucht wird. **Alles, was du hier lernst, lässt sich praktisch 1:1 auf GitLab und Bitbucket übertragen.** Die Knöpfe heißen leicht anders, das Konzept ist dasselbe.
+Wir konzentrieren uns hier auf **GitHub**, weil es die mit Abstand am weitesten verbreitete Plattform ist und für [CI/CD mit GitHub Actions](../ci-cd/index.md) ohnehin gebraucht wird. **Alles, was du hier lernst, lässt sich praktisch 1:1 auf GitLab und Bitbucket übertragen.** Die Knöpfe heißen leicht anders, das Konzept ist dasselbe.
 
 ---
 

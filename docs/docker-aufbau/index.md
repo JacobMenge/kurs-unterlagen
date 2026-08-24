@@ -1,9 +1,9 @@
 ---
-title: "Docker – Aufbau (Block 3)"
+title: "Docker – Aufbau"
 description: "Die drei Säulen echter Docker-Anwendungen: Persistenz, Konfiguration und Netzwerk. In 3 Stunden praktisch erarbeitet."
 ---
 
-# Docker – Aufbau (Block 3)
+# Docker – Aufbau
 
 Im Einführungs-Block hast du einzelne Container gestartet und dein erstes eigenes Image gebaut. Dieser Block macht aus einzelnen Containern **echte Anwendungen**: solche, die Daten behalten, konfigurierbar sind und aus mehreren zusammenarbeitenden Teilen bestehen.
 
@@ -15,40 +15,37 @@ Im Einführungs-Block hast du einzelne Container gestartet und dein erstes eigen
 
 ---
 
-## Zeitplan – 3 Stunden
+## Aufwand und Reihenfolge
 
-!!! note "Für Präsenzkurs und Selbstlerner"
-    Der folgende Zeitplan ist für den **3-Stunden-Präsenzkurs** gedacht. Wenn du die Unterlagen alleine durcharbeitest, ignoriere die Zeiten und konzentriere dich auf die Inhalte – Reihenfolge und Aufbau sind aber auch fürs Selbststudium optimal.
+Plane für dieses Kapitel **etwa 3 Stunden** ein – rund ein Drittel davon Theorie, der Rest Praxis am eigenen Rechner.
 
-| Zeit | Was passiert | Seite |
-|------|--------------|-------|
-| **0:00 – 0:15** | Begrüßung, kurze Wiederholung Block 1/2, Zielbild | — |
-| **0:15 – 0:35** | Theorie-Folien: Volumes, ENV, Netzwerke (20 Min) | [Volumes](volumes.md) · [ENV](umgebungsvariablen.md) · [Netzwerke](docker-networks.md) |
-| **0:35 – 1:15** | Praxis 1: Postgres mit Volume + ENV starten | [Praxis Teil 1](praxis-multi-container.md#teil-1-postgres-mit-volume-und-env) |
-| **1:15 – 1:25** | Pause | — |
-| **1:25 – 2:05** | Praxis 2: Netzwerk anlegen, Adminer dazu | [Praxis Teil 2](praxis-multi-container.md#teil-2-adminer-dazu-das-netzwerk) |
-| **2:05 – 2:35** | Praxis 3: Daten testen, Persistenz erleben | [Praxis Teil 3](praxis-multi-container.md#teil-3-daten-und-persistenz-erleben) |
-| **2:35 – 2:55** | Probleme besprechen, Stolpersteine sammeln | [Stolpersteine](stolpersteine.md) |
-| **2:55 – 3:00** | Ausblick: Docker Compose nächstes Mal | [Compose-Block](../docker-compose/index.md) |
+Bewährte Reihenfolge:
+
+1. **Theorie:** [Volumes](volumes.md) · [Umgebungsvariablen](umgebungsvariablen.md) · [Netzwerke](docker-networks.md)
+2. **Praxis 1:** [Postgres mit Volume und ENV starten](praxis-multi-container.md#teil-1-postgres-mit-volume-und-env)
+3. **Praxis 2:** [Netzwerk anlegen, Adminer dazu](praxis-multi-container.md#teil-2-adminer-dazu-das-netzwerk)
+4. **Praxis 3:** [Daten testen, Persistenz erleben](praxis-multi-container.md#teil-3-daten-und-persistenz-erleben)
+5. **Nacharbeit:** [Stolpersteine](stolpersteine.md) durchgehen, [Merksätze](merksaetze.md) wiederholen
+6. **Ausblick:** [Docker Compose](../docker-compose/index.md)
 
 ---
 
 ## Seiten in diesem Block
 
-| Seite | Inhalt | Für den Kurs |
+| Seite | Inhalt | Rolle |
 |-------|--------|--------------|
 | [Volumes & Persistenz](volumes.md) | Warum Container flüchtig sind, Volumes vs. Bind Mounts, Backup-Strategien | Theorie-Grundlage + Praxis Teil 1 |
 | [Umgebungsvariablen](umgebungsvariablen.md) | `-e`, `--env-file`, `.env`, Secrets-Abgrenzung | Theorie-Grundlage + Praxis Teil 1 |
 | [Docker-Netzwerke](docker-networks.md) | Bridge, User-Defined, Docker-DNS, Container-zu-Container | Theorie-Grundlage + Praxis Teil 2 |
 | [Praxis: Postgres & Adminer](praxis-multi-container.md) | Hands-on Schritt für Schritt – keine Programmierkenntnisse nötig | Der Praxis-Teil |
 | [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen | Training |
-| [Stolpersteine](stolpersteine.md) | Typische Probleme in allen drei Bereichen | Für die Gruppenarbeit und Besprechung |
+| [Stolpersteine](stolpersteine.md) | Typische Probleme in allen drei Bereichen | Zum Nachschlagen |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung | Zum Wiederholen |
 
-!!! tip "Für dich zum Nachlesen – nicht für den Kurs heute"
-    Das Thema **Docker Compose** wäre jetzt der logische nächste Schritt, um alles Manuelle zu automatisieren. Weil das aber eigene 3 Stunden verdient, haben wir es als [eigenen Block](../docker-compose/index.md) geplant – zum nächsten Mal.
+!!! tip "Für dich zum Nachlesen – nicht Teil dieses Kapitels"
+    Das Thema **Docker Compose** wäre jetzt der logische nächste Schritt, um alles Manuelle zu automatisieren. Weil das aber eigene 3 Stunden verdient, liegt es in einem [eigenen Kapitel](../docker-compose/index.md).
 
-    Wer später Images richtig schlank und sicher bauen möchte, findet das im [Profi-Block](../docker-profi/index.md).
+    Wer Images richtig schlank und sicher bauen möchte, findet das im [Profi-Block](../docker-profi/index.md).
 
 ---
 

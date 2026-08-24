@@ -5,12 +5,12 @@ description: "Typische Probleme rund um Volumes, Umgebungsvariablen, Netzwerke u
 
 # Stolpersteine Aufbau-Block
 
-Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund um Volumes, Umgebungsvariablen, Netzwerke und den heutigen Postgres+Adminer-Hands-on.
+Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund um Volumes, Umgebungsvariablen, Netzwerke und den Postgres+Adminer-Hands-on.
 
 !!! info "Weitere Stolpersteine"
     - **Docker-Installation und Einstieg**: [Docker-Stolpersteine im Einführungs-Block](../docker/stolpersteine.md)
-    - **Compose-spezifisches**: [Stolpersteine Compose](../docker-compose/stolpersteine.md) (nächster Kurstag)
-    - **Image-Build-Probleme**: [Stolpersteine Profi-Block](../docker-profi/stolpersteine.md) (späterer Kurstag)
+    - **Compose-spezifisches**: [Stolpersteine Compose](../docker-compose/stolpersteine.md)
+    - **Image-Build-Probleme**: [Stolpersteine Profi-Block](../docker-profi/stolpersteine.md)
 
 ---
 
@@ -273,7 +273,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
 ## Allgemein
 
 ??? info "Mein Laptop läuft heiß nach der Praxis"
-    Postgres und Adminer laufen und verbrauchen Ressourcen. Nach dem Kurs:
+    Postgres und Adminer laufen und verbrauchen Ressourcen. Wenn du fertig bist:
     ```bash
     docker stop adminer db
     docker rm adminer db
@@ -295,7 +295,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
         for /f "tokens=*" %i in ('docker ps -q') do docker stop %i
         ```
 
-??? info "Ich will alle Docker-Reste aus diesem Kurs loswerden"
+??? info "Ich will alle Docker-Reste aus diesen Übungen loswerden"
     === "macOS / Linux"
         ```bash
         docker stop adminer db 2>/dev/null

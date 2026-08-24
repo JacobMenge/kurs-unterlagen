@@ -36,7 +36,7 @@ Ein kleines Projekt namens `mein-tagebuch`. Es enthält am Ende zwei Dateien:
 ```text
 mein-tagebuch/
 ├── README.md
-└── eintrag-2026-05-21.md
+└── eintrag-2024-03-15.md
 ```
 
 Wir lassen es bewusst klein. Worum es geht, sind die **Git-Konzepte**, nicht der Inhalt.
@@ -261,7 +261,7 @@ Ausgabe:
 ```text
 commit a1b2c3d4e5f6789012345678901234567890abcd (HEAD -> main)
 Author: Vorname Nachname <deine.adresse@example.com>
-Date:   Thu May 21 14:32:15 2026 +0200
+Date:   Fri Mar 15 14:32:15 2024 +0100
 
     README mit erster Beschreibung anlegen
 ```
@@ -397,10 +397,10 @@ Zwei Commits, beide auf `main`, HEAD zeigt auf den neuesten.
 
 Jetzt kommt der spannende Teil. Wir legen einen Tagebucheintrag an und ändern gleichzeitig die README – sollen aber in **zwei verschiedenen Commits** landen.
 
-Erstelle die Datei `eintrag-2026-05-21.md`:
+Erstelle die Datei `eintrag-2024-03-15.md`:
 
 ```markdown
-# 21. Mai 2026
+# 15. März 2024
 
 Heute habe ich Git gelernt. Das mit dem Vorbereitungstisch leuchtet ein.
 ```
@@ -416,7 +416,7 @@ Ein neuer Eintrag pro Tag, manchmal auch zwei.
 
 ## Inhalt
 
-- 21. Mai 2026 – Git gelernt
+- 15. März 2024 – Git gelernt
 ```
 
 Beide Dateien speichern. Im Terminal:
@@ -434,17 +434,17 @@ Changes not staged for commit:
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-        eintrag-2026-05-21.md
+        eintrag-2024-03-15.md
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
-Beide Sachen liegen da, jeweils im richtigen Zustand: `README.md` ist **modified**, `eintrag-2026-05-21.md` ist **untracked**.
+Beide Sachen liegen da, jeweils im richtigen Zustand: `README.md` ist **modified**, `eintrag-2024-03-15.md` ist **untracked**.
 
 Wir wollen jetzt **erst den Eintrag** committen, **dann die README**. So bleibt die Historie sauber.
 
 ```bash
-git add eintrag-2026-05-21.md
+git add eintrag-2024-03-15.md
 git status
 ```
 
@@ -452,7 +452,7 @@ git status
 On branch main
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
-        new file:   eintrag-2026-05-21.md
+        new file:   eintrag-2024-03-15.md
 
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
@@ -463,13 +463,13 @@ Changes not staged for commit:
 Genau richtig: der Eintrag ist gestaged, die README nicht. Commit:
 
 ```bash
-git commit -m "Eintrag: 21. Mai 2026"
+git commit -m "Eintrag: 15. März 2024"
 ```
 
 ```text
-[main c3d4e5f] Eintrag: 21. Mai 2026
+[main c3d4e5f] Eintrag: 15. März 2024
  1 file changed, 3 insertions(+)
- create mode 100644 eintrag-2026-05-21.md
+ create mode 100644 eintrag-2024-03-15.md
 ```
 
 Jetzt die README dazu:
@@ -492,7 +492,7 @@ git log --oneline
 
 ```text
 d4e5f6g (HEAD -> main) README: Inhaltsverzeichnis ergänzt
-c3d4e5f Eintrag: 21. Mai 2026
+c3d4e5f Eintrag: 15. März 2024
 b2c3d4e README: tägliche Eintragsfrequenz beschreiben
 a1b2c3d README mit erster Beschreibung anlegen
 ```
@@ -621,7 +621,7 @@ git log --oneline
 ```text
 e5f6g7h (HEAD -> main) .gitignore: lokale Notizen und Editor-Müll ausschließen
 d4e5f6g README: Inhaltsverzeichnis ergänzt
-c3d4e5f Eintrag: 21. Mai 2026
+c3d4e5f Eintrag: 15. März 2024
 b2c3d4e README: tägliche Eintragsfrequenz beschreiben
 a1b2c3d README mit erster Beschreibung anlegen
 ```

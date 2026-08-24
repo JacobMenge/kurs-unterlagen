@@ -101,7 +101,7 @@ flowchart LR
 ### Was eine gute Build-Phase ausmacht
 
 - **Reproduzierbar**: Gleiche Inputs → gleiche Outputs. Keine zufälligen Build-Nummern, keine zufälligen Zeitstempel im Image-Hash.
-- **Schnell**: Layer-Caching nutzen, Dependencies cachen. Mehr dazu in den [Best-Practices aus Block 5](../docker-profi/dockerfile-best-practices.md#1-layer-caching-aktiv-nutzen).
+- **Schnell**: Layer-Caching nutzen, Dependencies cachen. Mehr dazu in den [Dockerfile-Best-Practices](../docker-profi/dockerfile-best-practices.md#1-layer-caching-aktiv-nutzen).
 - **Versioniert**: Das Ergebnis hat einen **eindeutigen Tag**, meist die Git-Commit-SHA oder den Git-Tag.
 
 ---
@@ -174,7 +174,7 @@ ghcr.io/jacobmenge/cicd-demo:latest                  # gleitend (immer "neueste"
 ghcr.io/jacobmenge/cicd-demo:main                    # Branch
 ghcr.io/jacobmenge/cicd-demo:abc1234                 # Commit-SHA (kurz)
 ghcr.io/jacobmenge/cicd-demo:v1.4.2                  # Semver-Tag
-ghcr.io/jacobmenge/cicd-demo:2026-05-07.142          # Zeit + Build-Nummer
+ghcr.io/jacobmenge/cicd-demo:2024-03-15.142          # Datum + Build-Nummer
 ```
 
 !!! danger "`:latest` allein ist gefährlich"

@@ -354,7 +354,7 @@ Oder direkt in Docker selbst:
 docker buildx build --sbom=true -t kurs-app:1.0 .
 ```
 
-SBOMs sind ein wachsendes Thema. Für den heutigen Kursrahmen reicht es zu wissen, was das ist.
+SBOMs sind ein wachsendes Thema. Für diese Unterlagen reicht es zu wissen, was das ist.
 
 ---
 

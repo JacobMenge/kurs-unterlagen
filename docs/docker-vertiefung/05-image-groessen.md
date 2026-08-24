@@ -126,7 +126,7 @@ Beim ersten Mal werden alle drei Basis-Images aus Docker Hub gezogen – das dau
 docker images size-demo --format "table {{.Tag}}\t{{.Size}}"
 ```
 
-Erwartet (Werte können je nach Architektur leicht abweichen, hier: Apple Silicon ARM64, April 2026):
+Erwartet (Werte können je nach Architektur und Image-Version leicht abweichen, hier: Apple Silicon ARM64):
 
 ```text
 TAG       SIZE
@@ -233,7 +233,7 @@ docker rmi node:22 node:22-slim node:22-alpine
     !!! tip "Reihenfolge im Dockerfile zählt"
         Beachte, dass `COPY package*.json ./` und `RUN npm install` **vor** `COPY index.js ./` stehen. So bleibt der `npm install`-Layer im Cache, solange sich `package.json` nicht ändert. Würdest du `COPY index.js .` als erstes machen, würde sich der Cache bei jeder Code-Änderung invalidieren – und npm install läuft jedes Mal neu.
 
-    **Beobachtetes Ergebnis (April 2026, Apple Silicon):**
+    **Beobachtetes Ergebnis (Apple Silicon):**
 
     ```text
     TAG       SIZE

@@ -100,10 +100,10 @@ helm list -A
 
 ```text
 NAME   	NAMESPACE	REVISION	UPDATED                               	STATUS  	CHART          	APP VERSION
-station	default  	3       	2026-07-16 15:01:20.7176141 +0200 CEST	deployed	webserver-0.1.0	1
-station	dev      	1       	2026-07-16 15:01:41.5624155 +0200 CEST	deployed	webserver-0.1.0	1
-station	prod     	1       	2026-07-16 15:01:42.391452 +0200 CEST 	deployed	webserver-0.1.0	1
-station	test     	1       	2026-07-16 15:01:41.9583803 +0200 CEST	deployed	webserver-0.1.0	1
+station	default  	3       	2024-03-15 15:01:20.7176141 +0100 CET 	deployed	webserver-0.1.0	1
+station	dev      	1       	2024-03-15 15:01:41.5624155 +0100 CET 	deployed	webserver-0.1.0	1
+station	prod     	1       	2024-03-15 15:01:42.391452 +0100 CET  	deployed	webserver-0.1.0	1
+station	test     	1       	2024-03-15 15:01:41.9583803 +0100 CET 	deployed	webserver-0.1.0	1
 ```
 
 Viermal `station`, vier Namespaces, alle `deployed`. Die Zeile mit `default` ist das Release aus der [vorherigen Praxis](05-praxis-upgrade-rollback.md) – deshalb steht dort auch schon **Revision 3**, während deine drei neuen bei **Revision 1** anfangen. Wenn du `default` vorher aufgeräumt hast, fehlt die Zeile einfach.
@@ -165,7 +165,7 @@ Was dir dabei **nicht** passiert: Die Zeile **Server name** wechselt nicht, auch
 
 ## Aufgabe 5 – Die Denkaufgabe
 
-Das ist der eigentliche Kern dieser Seite. Nimm dir dafür ein paar Minuten und denk es **wirklich** durch – gern laut, wenn ihr zu mehreren im Breakout sitzt – bevor du unten aufklappst.
+Das ist der eigentliche Kern dieser Seite. Nimm dir dafür ein paar Minuten und denk es **wirklich** durch – gern laut, wenn ihr zu mehreren an einem Rechner sitzt – bevor du unten aufklappst.
 
 > **Warum nehmen wir drei Werte-Dateien und nicht einfach drei Kopien des Charts?**
 >
@@ -267,7 +267,7 @@ kubectl get secret -n prod -l owner=helm
 
     Der Beweis daraus: **Helm merkt sich nichts auf deinem Rechner.** Der Zustand liegt **im Cluster**, im Namespace des Releases. Drei Schlussfolgerungen für den Betrieb:
 
-    - **Jeder, der auf denselben Cluster zugreift, sieht mit `helm list -A` dieselben Releases.** Helm ist kein persönliches Werkzeug, sondern liest den gemeinsamen Stand. (Heute merkst du davon nichts: Du hast deinen eigenen minikube, deine Kollegin hat ihren. Im Betrieb teilt sich ein ganzes Team einen Cluster – und genau dann zählt dieser Punkt.)
+    - **Jeder, der auf denselben Cluster zugreift, sieht mit `helm list -A` dieselben Releases.** Helm ist kein persönliches Werkzeug, sondern liest den gemeinsamen Stand. (In dieser Übung merkst du davon nichts: Du hast deinen eigenen minikube, deine Kollegin hat ihren. Im Betrieb teilt sich ein ganzes Team einen Cluster – und genau dann zählt dieser Punkt.)
     - `helm rollback` funktioniert deshalb auch von einem anderen Rechner aus – die alte Revision liegt im Cluster, nicht in deinem Terminal-Verlauf.
     - Wer `kubectl delete namespace prod` macht, löscht die Historie gleich mit. Das Chart im Git bleibt, die Release-Geschichte ist weg.
 
@@ -332,7 +332,7 @@ Zur Selbstkontrolle. Wenn du die hier beantworten kannst, sitzt das Thema. Denk 
 
 ## Wenn du nicht weiterkommst
 
-Erst selbst noch einmal hinsehen, dann hier nachlesen – und wenn es dann immer noch hakt, hol mich einfach in den Breakout:
+Erst selbst noch einmal hinsehen, dann hier nachlesen – und wenn es dann immer noch hakt, frag nach:
 
 - [Stolpersteine](09-stolpersteine.md) – die häufigsten Fallen auf dieser Seite (falscher Namespace, `--set` und Anführungszeichen)
 - [Helm-Cheatsheet](../cheatsheets/helm.md) – alle Befehle dieser Seite auf einen Blick

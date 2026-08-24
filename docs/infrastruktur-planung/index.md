@@ -16,7 +16,7 @@ In diesem Block schauen wir uns das **gedankliche Fundament** an: Wie ermittelst
     - wie du **Ressourcen** in vier Dimensionen planst – technisch, personell, zeitlich, finanziell – und mit welcher **Migrationsstrategie** du vom Ist zum Soll kommst
     - welche **Lizenzmodelle** es gibt und worauf du bei Auswahl, Kosten und Support achtest
     - dazu zu **jedem einzelnen Themenblock** ein eigener Aufgabensatz mit acht bis neun Übungen, jede mit ausführlicher Musterlösung
-    - und am Ende wendest du alles zusammen an: **zehn Übungsaufgaben** an einem durchgehenden Szenario
+    - und am Ende wendest du alles zusammen an: **vierzehn Übungsaufgaben** an einem durchgehenden Szenario
 
 ---
 

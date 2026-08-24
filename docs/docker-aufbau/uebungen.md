@@ -16,7 +16,7 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block – Volumes, Env-Variabl
 ## Voraussetzung für alle Übungen
 
 - Docker läuft (`docker version` klappt).
-- Aufräumen von alten Übungen der vorherigen Blöcke:
+- Aufräumen von alten Übungen aus den vorherigen Kapiteln:
 
     === "macOS / Linux"
         ```bash
@@ -36,7 +36,7 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block – Volumes, Env-Variabl
 
 ## 🟢 Einsteiger
 
-### Übung 3.1 – Redis mit persistentem Volume
+### Übung 1 – Redis mit persistentem Volume
 
 !!! info "Was du lernst"
     - Volume anlegen und einen Container damit starten
@@ -141,7 +141,7 @@ docker volume rm redis-daten
 
 ---
 
-### Übung 3.2 – nginx mit Umgebungsvariable konfigurieren
+### Übung 2 – nginx mit Umgebungsvariable konfigurieren
 
 !!! info "Was du lernst"
     - Eine Umgebungsvariable beim Start übergeben
@@ -181,7 +181,7 @@ Viele Container-Images sind über Umgebungsvariablen konfigurierbar. Wir demonst
 
 ## 🟡 Mittel
 
-### Übung 3.3 – Postgres + eigenes Netzwerk + Adminer als GUI
+### Übung 3 – Postgres + eigenes Netzwerk + Adminer als GUI
 
 !!! info "Was du lernst"
     - Eigenes Netzwerk anlegen
@@ -234,7 +234,7 @@ docker volume rm postgres-daten
 
 ---
 
-### Übung 3.4 – App liest Konfiguration aus `.env`-Datei
+### Übung 4 – App liest Konfiguration aus `.env`-Datei
 
 !!! info "Was du lernst"
     - `--env-file` beim `docker run`
@@ -269,7 +269,7 @@ Lege eine `.gitignore` an, die `.env` ausschließt. Das ist die Gewohnheit, die 
 
 ## 🔴 Fortgeschritten
 
-### Übung 3.5 – Drei Services, zwei Netzwerke (Segmentierung)
+### Übung 5 – Drei Services, zwei Netzwerke (Segmentierung)
 
 !!! info "Was du lernst"
     - Netzwerk-Segmentierung
@@ -324,7 +324,7 @@ Alle Container und beide Netzwerke entfernen.
 
 ## 🏆 Challenge
 
-### Challenge 3 – Notizbuch-Stack mit echter Persistenz
+### Challenge – Notizbuch-Stack mit echter Persistenz
 
 !!! abstract "Aufgabe"
     Baue einen Stack, mit dem du **persönliche Notizen in einer Postgres-Datenbank** speichern und per Browser ansehen kannst.
@@ -398,7 +398,7 @@ Alle Container und beide Netzwerke entfernen.
     );
 
     INSERT INTO notizen (titel, inhalt) VALUES
-      ('Dockerkurs', 'Heute Volumes gelernt – geil.'),
+      ('Dockerkurs', 'Volumes gelernt – geil.'),
       ('Einkaufsliste', 'Milch, Brot, Kaffee.'),
       ('Ideen', 'Mini-Blog in einem Container hosten.');
     ```
