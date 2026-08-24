@@ -513,29 +513,24 @@ deck.content("Womit ihr lernt", "Materialien", (s, api) => {
       {
         nummer: "1",
         titel: "Die Folien",
-        body: "Führen durch den Abend, zum Nacharbeiten.",
+        body: "Führen durch den Kursabend – ihr findet sie danach in der Akademie zum Nacharbeiten.",
       },
       {
         nummer: "2",
-        titel: "Die Kursunterlagen",
-        body: "Alles im Detail: Erklärungen, Befehle, Übungen mit Lösungen, Glossar.",
+        titel: "Die Akademie",
+        icon: LOGO.cloudhelden,
+        body: "Eure zentrale Lernplattform: Lernmodule zum Selbstlernen mit Quiz und Labs – alles zum Vertiefen an einem Ort.",
       },
       {
         nummer: "3",
-        titel: "Die Akademie",
-        icon: LOGO.cloudhelden,
-        body: "Lernmodule zum Selbstlernen mit Quiz und Labs – plus alle Foliensätze und Probeklausuren.",
-      },
-      {
-        nummer: "4",
         titel: "Pluralsight",
         icon: LOGO.pluralsight,
-        body: "Geführte Übungen in echten Cloud-Umgebungen.",
+        body: "Geführte Übungen in echten Cloud-Umgebungen. Den Zugang bekommt ihr gestellt.",
       },
     ],
-    { y: 1.72, h: 2.4, fontSize: 10.5, titleH: 0.46, titleSize: 12 }
+    { y: 1.72, h: 2.35, fontSize: 11, titleH: 0.32, titleSize: 12.5 }
   );
-  api.kicker(s, "Den Link zu den Kursunterlagen bekommt ihr gleich im Anschluss.", { y: 4.5 });
+  api.kicker(s, "Alles läuft über akademie.cloudhelden.org – dort ist auch der Meeting-Link.", { y: 4.4 });
 });
 
 deck.content("Wenn etwas ist", "Kontakt", (s, api) => {
@@ -580,7 +575,7 @@ deck.content("Beim nächsten Mal geht es richtig los", "Ausblick", (s, api) => {
     [
       "Bringt nichts weiter mit als euren Rechner.",
       "Software installieren wir gemeinsam, wenn wir sie brauchen.",
-      "Wer mag, schaut vorher schon in die Kursunterlagen – Pflicht ist das nicht.",
+      "Wer mag, schaut vorher in die Lernmodule in der Akademie – Pflicht ist das nicht.",
     ],
     { y: 3.15, h: 1.15, fontSize: 13 }
   );
