@@ -197,15 +197,15 @@ deck.kapitel("Wo führt das alles hin?", "Der Weg bis zur Prüfung", { nummer: "
 deck.content("Was ihr am Ende in der Hand habt", "Der Abschluss", (s, api) => {
   api.lead(s, "Ein bundesweit anerkannter IHK-Fortbildungsabschluss.");
   api.kennzahl(s, {
-    x: 0.62, y: 2.16, w: 2.6, zahl: "DQR 5", fontSize: 32,
+    x: 0.62, y: 2.16, w: 2.6, zahl: "DQR 5", fontSize: 32, align: "center",
     label: "Erste Stufe der höher-\nqualifizierenden Berufsbildung",
   });
   api.kennzahl(s, {
-    x: 3.55, y: 2.16, w: 2.6, zahl: "400+", fontSize: 32,
+    x: 3.55, y: 2.16, w: 2.6, zahl: "400+", fontSize: 32, align: "center",
     label: "Stunden Lernumfang laut Verordnung –\nKurs und Selbststudium zusammen",
   });
   api.kennzahl(s, {
-    x: 6.5, y: 2.16, w: 2.9, zahl: "5", fontSize: 32,
+    x: 6.5, y: 2.16, w: 2.9, zahl: "5", fontSize: 32, align: "center",
     label: "Qualifikationsschwerpunkte,\ndie in der Prüfung vorkommen",
   });
   api.kicker(s, "Ihr weist nach, dass ihr Systeme eigenständig planen, integrieren und betreiben könnt.", { y: 4.5 });
@@ -428,15 +428,15 @@ deck.content("Die mündliche Prüfung", "Prüfungsformat", (s, api) => {
 deck.content("Was zum Bestehen zählt", "Bewertung", (s, api) => {
   api.lead(s, "Jede einzelne Leistung braucht mindestens 50 von 100 Punkten.");
   api.kennzahl(s, {
-    x: 0.62, y: 2.16, w: 2.1, zahl: "4", fontSize: 40,
+    x: 0.62, y: 2.16, w: 2.1, zahl: "4", fontSize: 40, align: "center",
     label: "Einzelleistungen: zwei schriftliche\nAufgaben, Präsentation, Fachgespräch",
   });
   api.kennzahl(s, {
-    x: 3.05, y: 2.16, w: 2.1, zahl: "50", fontSize: 40,
+    x: 3.05, y: 2.16, w: 2.1, zahl: "50", fontSize: 40, align: "center",
     label: "Punkte Mindestmaß –\nin jeder Leistung einzeln",
   });
   api.kennzahl(s, {
-    x: 5.5, y: 2.16, w: 2.2, zahl: "50/50", fontSize: 30,
+    x: 5.5, y: 2.16, w: 2.2, zahl: "50/50", fontSize: 30, align: "center",
     label: "Gewichtung von schriftlicher\nund mündlicher Prüfung",
   });
   api.card(s, {

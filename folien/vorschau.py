@@ -80,7 +80,7 @@ def absatz_html(absatz) -> str:
             f'<span style="{";".join(stil)}">{html.escape(run.text)}</span>'
         )
     inhalt = "".join(teile) or "&nbsp;"
-    ausricht = {1: "center", 2: "right", 3: "justify"}.get(
+    ausricht = {1: "left", 2: "center", 3: "right", 4: "justify"}.get(
         absatz.alignment.value if absatz.alignment else None, "left"
     )
     groessen = [r.font.size.pt for r in absatz.runs if r.font.size is not None]
