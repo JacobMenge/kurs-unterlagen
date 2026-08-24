@@ -24,6 +24,8 @@ const LOGO = {
   github: iconPng("github"),
   actions: iconPng("githubactions"),
   trivy: iconPng("trivy"),
+  terraform: iconPng("terraform"),
+  mqtt: iconPng("mqtt"),
   meet: iconPng("googlemeet"),
   pluralsight: iconPng("pluralsight"),
 };
@@ -307,18 +309,18 @@ deck.content("Womit ihr arbeiten werdet", "Technik", (s, api) => {
     {
       titel: "Thema 1 · Planung & Integration",
       items: [
-        { icon: LOGO.ubuntu, label: "Ubuntu Linux" },
-        { icon: LOGO.multipass, label: "Multipass" },
-        { icon: LOGO.docker, label: "Docker & Compose" },
         { icon: LOGO.wireshark, label: "Netzwerk-Werkzeuge" },
+        { icon: LOGO.ubuntu, label: "Linux & Multipass" },
+        { icon: LOGO.docker, label: "Docker & Compose" },
+        { icon: LOGO.mqtt, label: "MQTT & IoT-Protokolle" },
       ],
     },
     {
       titel: "Thema 2 · Laufender Betrieb",
       items: [
-        { icon: LOGO.prometheus, label: "Prometheus" },
-        { icon: LOGO.grafana, label: "Grafana" },
         { icon: LOGO.kubernetes, label: "Kubernetes & Helm" },
+        { icon: LOGO.terraform, label: "Terraform" },
+        { icon: LOGO.grafana, label: "Prometheus & Grafana" },
         { icon: LOGO.actions, label: "Git & GitHub Actions" },
       ],
     },
@@ -343,7 +345,7 @@ deck.content("Womit ihr arbeiten werdet", "Technik", (s, api) => {
     });
     api.logoChips(s, sp.items, { x, y: 2.44, w: spaltenW, chipH: 0.42, gap: 0.11 });
   });
-  api.kicker(s, "Alles wird gemeinsam installiert – bringt nur euren Rechner mit.", { y: 4.72 });
+  api.kicker(s, "Dazu AWS-Cloud-Übungen über euren Pluralsight-Zugang. Alles wird gemeinsam eingerichtet.", { y: 4.72 });
 });
 
 deck.content("Cloud zum Anfassen", "Pluralsight", (s, api) => {
@@ -457,7 +459,7 @@ deck.content("Der Rahmen", "Kursregeln", (s, api) => {
   api.bullets(
     s,
     [
-      "Live über Google Meet, zweimal pro Woche am Abend.",
+      "Live über Google Meet – den Link findet ihr im Kursdashboard der Akademie.",
       "Der Unterricht wird nicht aufgezeichnet – seid also möglichst dabei.",
       "Für das Aufstiegs-BAföG braucht ihr eine Teilnahmequote von über 70 Prozent.",
       "Ihr müsst euch nicht abmelden – behaltet nur eure Quote im Blick.",
@@ -522,7 +524,7 @@ deck.content("Womit ihr lernt", "Materialien", (s, api) => {
         nummer: "3",
         titel: "Die Akademie",
         icon: LOGO.cloudhelden,
-        body: "Die Lernplattform von Cloudhelden mit zusätzlichem Material.",
+        body: "Lernmodule zum Selbstlernen mit Quiz und Labs – plus alle Foliensätze und Probeklausuren.",
       },
       {
         nummer: "4",
