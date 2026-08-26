@@ -585,19 +585,22 @@ function osiTcpip() {
   const H = 275;
   const teile = [];
 
+  // Jede OSI-Zeile trägt ihre Aufgabe gleich mit – die Folie soll sich
+  // ohne Erklärung von außen lesen lassen.
   const osi = [
-    { nr: 7, name: "Anwendung" },
-    { nr: 6, name: "Darstellung" },
-    { nr: 5, name: "Sitzung" },
-    { nr: 4, name: "Transport" },
-    { nr: 3, name: "Vermittlung" },
-    { nr: 2, name: "Sicherung" },
-    { nr: 1, name: "Physisch" },
+    { nr: 7, name: "Anwendung", was: "Protokolle der Programme: Web, Mail, DNS" },
+    { nr: 6, name: "Darstellung", was: "Formate und Kodierung – heute Teil von 7" },
+    { nr: 5, name: "Sitzung", was: "Sitzungen verwalten – heute Teil von 7" },
+    { nr: 4, name: "Transport", was: "Ende-zu-Ende über Ports: TCP oder UDP" },
+    { nr: 3, name: "Vermittlung", was: "Wege zwischen Netzen: IP und Routing" },
+    { nr: 2, name: "Sicherung", was: "Zustellung im lokalen Netz: MAC, Frames" },
+    { nr: 1, name: "Physisch", was: "Bits aufs Medium: Kabel, Funk, Stecker" },
   ];
 
-  const spaltenW = 232;
+  const spaltenW = 446;
   const linksX = 0;
-  const rechtsX = 318;
+  const rechtsX = 560;
+  const tcpW = 316;
   const zeilenH = 30;
   const gap = 3;
   const y0 = 26;
@@ -605,13 +608,14 @@ function osiTcpip() {
   teile.push(t(linksX, 14, "OSI – das Lehrmodell", { groesse: 11.5, fett: true, farbe: F.blau, spacing: 0.6 }));
   teile.push(t(rechtsX, 14, "TCP/IP – das gebaute Internet", { groesse: 11.5, fett: true, farbe: F.teal, spacing: 0.6 }));
 
-  osi.forEach((s, i) => {
+  osi.forEach((sch, i) => {
     const y = y0 + i * (zeilenH + gap);
     teile.push(kasten(linksX, y, spaltenW, zeilenH, { fuellung: F.flaecheHell, radius: 3 }));
     teile.push(`<rect x="${linksX}" y="${y}" width="26" height="${zeilenH}" rx="3" fill="${F.blau}"/>`);
     teile.push(`<rect x="${linksX + 20}" y="${y}" width="6" height="${zeilenH}" fill="${F.blau}"/>`);
-    teile.push(t(linksX + 13, y + zeilenH / 2 + 4, String(s.nr), { groesse: 11, fett: true, farbe: F.weiss, align: "mitte" }));
-    teile.push(t(linksX + 36, y + zeilenH / 2 + 4, s.name, { groesse: 12, fett: true, farbe: F.textStark }));
+    teile.push(t(linksX + 13, y + zeilenH / 2 + 4, String(sch.nr), { groesse: 11, fett: true, farbe: F.weiss, align: "mitte" }));
+    teile.push(t(linksX + 36, y + zeilenH / 2 + 4, sch.name, { groesse: 12, fett: true, farbe: F.textStark }));
+    teile.push(t(linksX + spaltenW - 12, y + zeilenH / 2 + 4, sch.was, { groesse: 10.5, farbe: F.textLeise, align: "rechts" }));
   });
 
   const tcp = [
@@ -626,7 +630,6 @@ function osiTcpip() {
     const yBot = y0 + g.bis * (zeilenH + gap) + zeilenH;
     const h = yBot - yTop;
 
-    // Klammer zwischen den Spalten
     const kx = linksX + spaltenW + 14;
     const mitte = (yTop + yBot) / 2;
     if (yBot - yTop >= 44) {
@@ -640,35 +643,14 @@ function osiTcpip() {
       teile.push(linie(kx, mitte, rechtsX - 4, mitte, { farbe: F.teal, breite: 1.8, pfeil: "pfeilTeal" }));
     }
 
-    teile.push(kasten(rechtsX, yTop, spaltenW, h, { fuellung: F.tealTief, rand: F.teal, randBreite: 1.4, radius: 3 }));
+    teile.push(kasten(rechtsX, yTop, tcpW, h, { fuellung: F.tealTief, rand: F.teal, randBreite: 1.4, radius: 3 }));
     if (h < 44) {
-      // Einzeilige Gruppe: Name und Beispiele nebeneinander, sauber mittig
       teile.push(t(rechtsX + 14, mitte + 4.5, g.name, { groesse: 12.5, fett: true, farbe: F.textStark }));
-      teile.push(t(rechtsX + spaltenW - 12, mitte + 4, g.beispiele, { groesse: 9.5, farbe: F.text, align: "rechts" }));
+      teile.push(t(rechtsX + tcpW - 12, mitte + 4, g.beispiele, { groesse: 9.5, farbe: F.text, align: "rechts" }));
     } else {
       teile.push(t(rechtsX + 14, mitte - 2, g.name, { groesse: 12.5, fett: true, farbe: F.textStark }));
       teile.push(t(rechtsX + 14, mitte + 14, g.beispiele, { groesse: 10.5, farbe: F.text }));
     }
-  });
-
-  // Merksatz rechts außen
-  const mx = rechtsX + spaltenW + 30;
-  teile.push(kasten(mx, y0, B - mx, 226, { fuellung: F.flaeche, radius: 4 }));
-  teile.push(`<rect x="${mx}" y="${y0}" width="4" height="226" rx="2" fill="${F.bernstein}"/>`);
-  const merk = [
-    "Sitzung und Darstellung",
-    "gibt es im echten Netz",
-    "nicht als eigene Schicht.",
-    "",
-    "Sie stecken in dem, was",
-    "die Anwendung selbst",
-    "macht – zum Beispiel",
-    "die Verschlüsselung",
-    "durch TLS.",
-  ];
-  merk.forEach((z, i) => {
-    if (!z) return;
-    teile.push(t(mx + 16, y0 + 26 + i * 17, z, { groesse: 11, farbe: F.text }));
   });
 
   return render("osi-tcpip", svg(B, H, teile.join("")), B);
