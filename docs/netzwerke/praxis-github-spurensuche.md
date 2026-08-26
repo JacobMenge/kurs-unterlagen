@@ -431,7 +431,7 @@ Und genau deshalb ist `ping` ohne Antwort kein Beweis für „offline": Die Schr
 !!! abstract "Bezug zur Leitfrage"
     > **Was passiert technisch, wenn ich `https://github.com` in den Browser eintippe – und welche Komponenten sind daran beteiligt?**
 
-    Genau diese Frage hast du gerade nicht nur gelesen, sondern an deinem eigenen Rechner **gemessen und protokolliert**. Wenn du jetzt am Whiteboard stehst, hast du echte Zahlen im Kopf.
+    Genau diese Frage hast du gerade nicht nur gelesen, sondern an deinem eigenen Rechner **gemessen und protokolliert**. Wenn du sie jetzt erklärst, hast du echte Zahlen im Kopf.
 
 ---
 

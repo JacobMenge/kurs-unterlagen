@@ -104,7 +104,7 @@ Wo es Sinn macht, gibt es kleine Berechnungs-Beispiele (vor allem bei Subnetting
 
 ## Voraussetzungen
 
-- Keine. Du brauchst kein Vorwissen über Netzwerke. Wer schon mit Docker- oder VM-Netzwerken gearbeitet hat, hat einen kleinen Vorsprung, aber auch komplette Einsteiger holen wir hier ab.
+- Keine. Wer aus einer IT-Ausbildung kommt, kennt das meiste hier dem Grunde nach – dann ist dieser Block Auffrischung und Standortbestimmung. Wer neu einsteigt, wird trotzdem abgeholt.
 - Ein **PC oder Laptop**, mit dem du im Browser unsere Beispiele und Konfigurationen nachschauen kannst.
 - Etwas **Geduld**: Netzwerke sind ein großes Thema. Lieber langsam und gründlich als oberflächlich und schnell vergessen.
 
@@ -117,4 +117,4 @@ Wo es Sinn macht, gibt es kleine Berechnungs-Beispiele (vor allem bei Subnetting
 
 > **Was passiert technisch, wenn ich `https://github.com` in den Browser eintippe – und welche Komponenten sind alle daran beteiligt?**
 
-Am Ende dieses Blocks beantwortest du diese Frage in zehn Minuten am Whiteboard, ohne ins Stocken zu kommen. Von der DNS-Anfrage über die TCP-Verbindung, die TLS-Aushandlung, den HTTP-Request, das Routing über mehrere Hops, bis zur fertig gerenderten Seite. Wer das im Schlaf erklären kann, kann alle weiteren Themen gelassen angehen.
+Am Ende dieses Blocks beantwortest du diese Frage in zehn Minuten am Stück, ohne ins Stocken zu kommen. Von der DNS-Anfrage über die TCP-Verbindung, die TLS-Aushandlung, den HTTP-Request, das Routing über mehrere Hops, bis zur fertig gerenderten Seite. Wer das im Schlaf erklären kann, kann alle weiteren Themen gelassen angehen.

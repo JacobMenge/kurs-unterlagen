@@ -1,52 +1,48 @@
 ---
 title: "Praxis: Der Schichten-Check"
-description: "Erste Praxisübung im Netzwerk-Block (ca. 50 Minuten): Nimm deinen eigenen Rechner mit Bordmitteln auseinander und ordne jeden Messwert und jeden Befehl der richtigen OSI-Schicht zu. Vier Stationen – Netz-Steckbrief, Befehle in Aktion, Störungen einsortieren und Wege vergleichen. Ohne Installation, für Windows, macOS und Linux."
+description: "Praxisübung zum Einstieg in den Netzwerk-Block (ca. 55 Minuten): Nimm deinen eigenen Rechner mit Bordmitteln auseinander, ordne jeden Messwert und jeden Befehl einer Schicht zu und arbeite fünf Störungsfälle systematisch von unten nach oben ab. Befehle für Windows, macOS und Linux zum Kopieren."
 ---
 
 # Praxis: Der Schichten-Check
 
-<span class='badge badge-praxis'>Praxis</span> &nbsp; Das Schichtenmodell kennst du aus der Ausbildung. Die Frage ist, ob du es im Ernstfall auch **benutzt** – oder ob du wie alle anderen anfängst, Dinge auszuprobieren. Genau das trennt diese Übung.
+<span class='badge badge-praxis'>Praxis</span> &nbsp; Die sieben Schichten kann fast jeder aufsagen. Interessanter ist, was passiert, wenn etwas kaputt ist: Dann wird der Browser neu gestartet, das WLAN aus- und wieder eingeschaltet und der Kollege gefragt. Hier übst du die andere Variante.
 
 !!! info "Auf einen Blick"
-    - **Dauer:** ca. 50 Minuten. Station 1 und 2 gehen schnell, Station 3 ist der Kern.
+    - **Dauer:** ca. 55 Minuten. Station 1 und 2 gehen schnell, Station 3 ist der Kern.
     - **Gruppen:** 3–4 Personen. Eine Person teilt den Bildschirm, alle tippen bei sich mit.
-    - **Material:** dein eigener Rechner. **Keine Installation nötig** – alles sind Bordmittel.
-    - **Voraussetzung:** keine. Wer auffrischen will: [Grundbegriffe](grundbegriffe.md) und [OSI- und TCP/IP-Modell](osi-und-tcp-ip-modell.md).
-    - **Ergebnis:** ein ausgefüllter Netz-Steckbrief und eine Zuordnung „Befehl → Schicht", die dich den ganzen Kurs über begleitet.
+    - **Material:** dein eigener Rechner. Keine Administratorrechte nötig.
+    - **Systeme:** Windows, macOS und Linux sind überall getrennt aufgeführt. Nimm den Reiter für dein System.
+    - **Ergebnis:** ein ausgefüllter Netz-Steckbrief und eine Zuordnung „Befehl → Schicht", die dich durch den ganzen Kurs trägt.
 
 ---
 
 ## Worum es geht
 
-Fast jeder kann die sieben Schichten aufsagen. Deutlich weniger benutzen sie, wenn es klemmt – dann wird der Browser neu gestartet, das WLAN aus- und eingeschaltet und der Kollege gefragt. Das Schichtenmodell ist im Betrieb kein Lernstoff, sondern ein **Suchraster**: Wer weiß, auf welcher Schicht das Problem sitzt, ist in zwei Minuten fertig statt in einer Stunde.
+Im Betrieb ist das Schichtenmodell kein Lernstoff, sondern ein **Suchraster**. Es beantwortet die Frage, die zählt: Wo muss ich hinschauen? Wer das kann, ist in zwei Minuten fertig. Wer es nicht kann, probiert eine Stunde herum und weiß hinterher trotzdem nicht, warum es wieder läuft.
 
-Die ersten beiden Stationen gehen deshalb zügig – sie stellen nur sicher, dass alle dieselben Werte vor Augen haben. **Das eigentliche Stück Arbeit ist Station 3.** Dort geht es nicht mehr um Befehle, sondern um die Frage, wie du systematisch von einem Symptom auf die Ursache kommst.
+Station 1 und 2 sind Aufwärmen. Die Befehle kennst du, es geht nur darum, dass alle dieselben Werte vor Augen haben. Die Arbeit steckt in **Station 3**: von einem Symptom auf die Ursache kommen, ohne zu raten.
 
 !!! tip "Spielregel"
-    Tipp jeden Befehl **selbst** und lies die Ausgabe, bevor du die Auflösung aufklappst. Deine Werte sehen anders aus als die Beispiele hier – das ist genau richtig, denn es ist dein Netz.
+    Tipp jeden Befehl selbst und lies die Ausgabe, bevor du eine Auflösung aufklappst. Deine Werte sehen anders aus als die Beispiele hier. Das ist kein Fehler, das ist dein Netz.
 
 ---
 
-## Vorbereitung: das richtige Fenster öffnen
+## Vorbereitung
 
-=== "Windows"
-    Öffne die **PowerShell**: Startmenü → `PowerShell` tippen → Enter.
+Windows: **PowerShell**, nicht die Eingabeaufforderung – `Test-NetConnection` aus Station 2 gibt es nur dort. macOS und Linux: dein übliches Terminal.
 
-    Nimm nicht die alte Eingabeaufforderung (`cmd`). Die klassischen Befehle laufen dort zwar auch, aber `Test-NetConnection` aus Station 2 gibt es **nur** in der PowerShell.
+Alle Befehle hier lesen nur. Sie verändern nichts an deiner Konfiguration.
 
-=== "macOS"
-    Öffne das **Terminal**: `⌘ + Leertaste` → `Terminal` → Enter.
+!!! warning "Zwei Dinge vorweg, die sonst Zeit kosten"
+    **Der richtige Adapter.** Du hast fast sicher mehrere: WLAN, Ethernet, dazu virtuelle von VirtualBox, Hyper-V, WSL oder dem VPN. Maßgeblich ist der Adapter, über den die Standardroute läuft – der mit dem **Standardgateway**. Bei aktivem VPN ist das der VPN-Adapter, und dann sind deine Werte die des VPN. Auch das ist ein Befund.
 
-=== "Linux"
-    Öffne ein **Terminal**: meist `Strg + Alt + T`.
-
-Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen nur, sie verändern nichts an deinem System.
+    **ICMP wird oft gefiltert.** Auf Firmenlaptops, hinter VPN-Gateways und bei manchen Anbietern läuft `ping` ins Leere, obwohl das Ziel einwandfrei erreichbar ist. Wenn `ping` fehlschlägt, der Test auf Port 443 aber klappt: Das Ziel lebt, nur ICMP kommt nicht durch. Notier es und mach weiter.
 
 ---
 
 ## Station 1 – Dein Netz-Steckbrief
 
-**Zügig, etwa 8 Minuten.** Die Befehle kennst du. Es geht nicht ums Finden, sondern um die rechte Spalte der Tabelle: **Welcher Wert gehört zu welcher Schicht?** Dort geht es erfahrungsgemäß auseinander.
+**Etwa 8 Minuten.** Die Befehle kennst du. Es geht um die rechte Spalte: Wohin gehört welcher Wert?
 
 === "Windows"
     ```powershell
@@ -55,31 +51,35 @@ Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen n
 
 === "macOS"
     ```bash
-    ifconfig            # IP-Adresse und Subnetzmaske
-    netstat -rn         # die Zeile "default" ist dein Gateway
-    scutil --dns        # deine DNS-Server
+    route -n get default                       # welcher Adapter, welches Gateway
+    ifconfig en0                               # inet, netmask (hexadezimal!), ether = MAC
+    scutil --dns | grep nameserver             # DNS-Server
+    ipconfig getoption en0 server_identifier   # DHCP-Server, leer = keine DHCP-Lease
     ```
+
+    `en0` ist meist das WLAN. `route -n get default` sagt dir in der Zeile `interface:`, welchen Adapter du wirklich nehmen musst.
 
 === "Linux"
     ```bash
-    ip addr             # IP-Adresse und Subnetzmaske
-    ip route            # die Zeile "default via ..." ist dein Gateway
-    resolvectl status   # deine DNS-Server (oder: cat /etc/resolv.conf)
+    ip -brief addr                    # Adapter, Status, IP mit Präfix
+    ip route | grep default           # Gateway
+    ip -brief link                    # MAC-Adressen
+    resolvectl status                 # DNS-Server, Abschnitt des aktiven Links
+    ip -4 addr show                   # steht dort "dynamic", kam die Adresse per DHCP
     ```
 
-!!! warning "Achtung: der richtige Adapter"
-    Ein moderner Rechner hat selten nur **eine** Netzwerkkarte. Typisch sind WLAN und Ethernet, dazu virtuelle Adapter von VirtualBox, VMware, Hyper-V oder einem VPN. **Dein aktiver Adapter ist der, bei dem ein Standardgateway eingetragen ist.** Alles andere ignorierst du.
+    Finger weg von `cat /etc/resolv.conf`: Auf allem mit systemd-resolved steht dort nur `127.0.0.53`, der lokale Stub. Das ist nicht dein DNS-Server.
 
-### Trag deine Werte ein
+### Trag ein
 
-| Wert | dein Ergebnis | welche Schicht? |
+| Wert | dein Ergebnis | gehört zu Schicht |
 |---|---|---|
 | IPv4-Adresse | | |
-| Subnetzmaske (auch als /xx) | | |
+| Subnetzmaske bzw. Präfix | | |
 | Standardgateway | | |
 | DNS-Server | | |
 | Physische Adresse (MAC) | | |
-| DHCP aktiviert? | ja / nein | |
+| Per DHCP oder fest? | | |
 
 ??? success "Beispiel-Ausgabe (Windows, gekürzt)"
     ```text
@@ -94,112 +94,129 @@ Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen n
        DNS-Server  . . . . . . . . . . . : 192.168.2.1
     ```
 
-    **Deutung:** Dieser Rechner hat die private Adresse `192.168.2.33` in einem /24-Netz. Sein Router `192.168.2.1` ist gleichzeitig Gateway, DHCP- und DNS-Server – im Heim- und kleinen Büronetz ist das der Normalfall.
+    **Deutung:** Private Adresse in einem /24. Der Router `192.168.2.1` ist gleichzeitig Gateway, DHCP- und DNS-Server – im Heim- und kleinen Büronetz der Normalfall. Unter macOS steht die Maske hexadezimal da, `0xffffff00` ist dasselbe wie `255.255.255.0`.
 
-??? tip "Auflösung: die Schichtzuordnung"
+??? tip "Auflösung"
     | Wert | Schicht | Warum |
     |---|---|---|
-    | IPv4-Adresse | **3** – Vermittlung | IP-Adressen sind das Adressschema von Layer 3. |
-    | Subnetzmaske | **3** – Vermittlung | Sie sagt, welcher Teil der IP das Netz bezeichnet. |
-    | Standardgateway | **3** – Vermittlung | Der Router, der zwischen Netzen vermittelt. |
-    | DNS-Server | **7** – Anwendung | DNS ist ein Dienst, kein Adressschema. |
-    | MAC-Adresse | **2** – Sicherung | Die Adresse, mit der im lokalen Netz zugestellt wird. |
-    | DHCP | **7** – Anwendung | Auch DHCP ist ein Dienst, der Layer-3-Werte verteilt. |
+    | IPv4-Adresse | 3 | das Adressschema der Vermittlungsschicht |
+    | Subnetzmaske / Präfix | 3 | trennt Netz- von Hostanteil |
+    | Standardgateway | 3 | der Router, der zwischen Netzen vermittelt |
+    | MAC-Adresse | 2 | damit wird im lokalen Netz zugestellt |
+    | DNS-Server | 3 **und** 7 | der Eintrag selbst ist eine IP-Adresse, der Dienst dahinter sitzt auf 7 |
+    | DHCP | 3 **und** 7 | verteilt Layer-3-Werte, ist aber selbst ein Anwendungsdienst über UDP |
 
-    Der Punkt dahinter: Auf einem einzigen Bildschirm siehst du gleichzeitig Werte aus drei verschiedenen Schichten. Sie stehen untereinander, gehören aber in völlig unterschiedliche Ebenen des Modells.
+    **Deutung:** Eine einzige Bildschirmausgabe, drei verschiedene Schichten. `ipconfig` sortiert nach Adapter, nicht nach Modell – die Einordnung machst du selbst. Die beiden letzten Zeilen sind die interessanten. Wer nur „DNS ist Layer 7" sagt, übersieht, dass der Wert in der Konfiguration eine Adresse ist.
 
-!!! question "Diskutiert in der Gruppe"
-    Haben alle in eurer Gruppe eine Adresse, die mit `192.168.` beginnt? Wenn ja: Wieso ist das kein Zufall – und wieso ist das kein Problem, obwohl ihr alle dieselbe Adresse haben könntet?
+!!! question "Für die Gruppe"
+    Haben alle bei euch eine Adresse aus `192.168.`? Warum ist das kein Zufall – und warum stört es nicht, dass mehrere von euch dieselbe Adresse haben können?
+
+    Und noch eine: `ipconfig /all` zeigt auch IPv6, mindestens eine Adresse mit `fe80::`. Weiß jemand aus dem Kopf, wozu die gut ist?
 
 ---
 
 ## Station 2 – Die Schichten in Aktion
 
-**Etwa 12 Minuten.** Auch diese Befehle sind dir vertraut. Die Frage ist eine andere: **Was genau beweist ein erfolgreicher Befehl – und was beweist er ausdrücklich nicht?**
+**Etwa 12 Minuten.** Auch diese Befehle sind dir vertraut. Die Frage ist eine andere: Was beweist ein erfolgreicher Befehl – und was beweist er ausdrücklich nicht?
 
 === "Windows"
     ```powershell
-    ping 192.168.2.1                          # eure eigene Gateway-Adresse einsetzen
+    ping 192.168.2.1                          # eigene Gateway-Adresse einsetzen
     arp -a
     nslookup github.com
-    tracert github.com
+    tracert -d github.com                     # -d spart die Rückwärtsauflösung, deutlich schneller
     Test-NetConnection github.com -Port 443
     ```
 
-=== "macOS / Linux"
+=== "macOS"
     ```bash
-    ping -c 4 192.168.2.1        # eure eigene Gateway-Adresse einsetzen
-    arp -a                       # Linux auch: ip neigh
+    ping -c 4 192.168.2.1        # eigene Gateway-Adresse einsetzen
+    arp -a
     nslookup github.com          # oder: dig github.com
-    traceroute github.com
+    traceroute -n github.com     # -n spart die Rückwärtsauflösung
     nc -vz github.com 443
     ```
 
-!!! tip "Wenn tracert ewig läuft"
-    Viele Router antworten nicht auf die Anfragen und laufen als `* * *` durch. Die ersten fünf Zeilen reichen völlig – brich danach mit `Strg + C` ab.
+=== "Linux"
+    ```bash
+    ping -c 4 192.168.2.1        # eigene Gateway-Adresse einsetzen
+    ip neigh                     # die ARP-Tabelle; "arp -a" gibt es oft nicht mehr
+    resolvectl query github.com  # oder: dig / nslookup, falls installiert
+    tracepath -n github.com      # traceroute ist selten vorinstalliert
+    nc -vz github.com 443
+    ```
 
-### Trag deine Zuordnung ein
+    Kein `nc` an Bord? Das hier geht mit jeder Bash, ohne Nachinstallieren:
 
-| Befehl | welche Schicht? | woran erkennst du das? |
+    ```bash
+    timeout 3 bash -c 'cat < /dev/null > /dev/tcp/github.com/443' && echo offen || echo zu
+    ```
+
+!!! tip "Wenn die Wegverfolgung ewig läuft"
+    Sternchen sind normal, viele Router antworten schlicht nicht. Der eigentliche Zeitfresser ist die Rückwärtsauflösung jedes Hops – deshalb steht oben überall `-d` bzw. `-n`. Fünf Zeilen reichen, danach abbrechen mit ++ctrl+c++.
+
+### Trag ein
+
+| Befehl | prüft Schicht | woran erkennst du das? |
 |---|---|---|
 | `ping <Gateway>` | | |
-| `arp -a` | | |
-| `nslookup github.com` | | |
-| `tracert github.com` | | |
-| `Test-NetConnection … -Port 443` | | |
+| `arp -a` / `ip neigh` | | |
+| `nslookup` / `resolvectl query` | | |
+| `tracert` / `traceroute` / `tracepath` | | |
+| `Test-NetConnection` / `nc -vz` | | |
 
 ??? tip "Auflösung"
-    | Befehl | Schicht | Was er wirklich beweist |
+    | Befehl | Schicht | Was er beweist – und was nicht |
     |---|---|---|
-    | `ping` | **3** – Vermittlung | Ein IP-Paket kommt hin und zurück. Sagt nichts darüber, ob ein Dienst läuft. |
-    | `arp -a` | **2** – Sicherung | Die Tabelle „welche IP gehört zu welcher MAC" – nur für das **lokale** Netz. |
-    | `nslookup` | **7** – Anwendung | Ein Dienst wird gefragt und liefert eine Layer-3-Adresse zurück. |
-    | `tracert` | **3** – Vermittlung | Der **Weg** über die Router: jede Zeile ist ein Hop, also ein Layer-3-Gerät. |
-    | `Test-NetConnection` | **4** – Transport | Ein TCP-Verbindungsaufbau auf einen **Port**. Ports gibt es erst auf Layer 4. |
+    | `ping` | 3 | Ein IP-Paket kommt hin und zurück. Sagt nichts darüber, ob dort ein Dienst läuft. Und ein Fehlschlag beweist keinen Ausfall, solange ICMP gefiltert sein kann. |
+    | `arp -a` / `ip neigh` | 2, an der Naht zu 3 | Die Zuordnung IP zu MAC, ausschließlich für das lokale Netz. ARP steckt direkt im Ethernet-Frame mit eigenem EtherType und wird nicht geroutet, arbeitet aber mit Layer-3-Adressen. Deshalb findest du es in Büchern mal auf 2 und mal auf 3 – wichtig ist, dass du beide Begründungen kennst. |
+    | `nslookup` | 7 | Ein Dienst wird gefragt und liefert eine Layer-3-Adresse zurück. |
+    | `tracert` | 3 | Der Weg über die Router. Jede Zeile ist ein Hop, also ein Layer-3-Gerät. |
+    | `Test-NetConnection` | 4 | Ein TCP-Verbindungsaufbau auf einen Port. Ports gibt es erst ab Schicht 4. Achtung: Der Befehl löst vorher den Namen auf – bei einem Fehlschlag lies genau, ob er über DNS oder über TCP gestolpert ist. |
 
-    **Die entscheidende Beobachtung:** `ping` erfolgreich und `Test-NetConnection` fehlgeschlagen ist ein völlig normales Ergebnis. Der Rechner ist erreichbar (Schicht 3 in Ordnung), aber der Dienst auf dem Port antwortet nicht (Schicht 4 oder 7 gestört). Genau diese Unterscheidung ist der Grund, warum das Schichtenmodell im Betrieb überhaupt etwas taugt.
+    **Wichtig:** `ping` erfolgreich und der Porttest fehlgeschlagen ist kein Widerspruch, sondern der Normalfall. Der Rechner ist erreichbar, der Dienst auf dem Port nicht. Diese Unterscheidung – **erreichbar** gegen **funktioniert** – ist die halbe Miete im Betrieb.
 
-??? question "Zusatzfrage für Schnelle"
-    Führe `arp -a` aus und suche die MAC deines Gateways. Ruf dann irgendeine Webseite auf und schau erneut. Warum taucht die MAC-Adresse von GitHub **nicht** in deiner ARP-Tabelle auf, obwohl du gerade mit dem Server gesprochen hast?
+??? question "Für alle, die schneller sind"
+    Schau in die ARP-Tabelle und such die MAC deines Gateways. Ruf danach irgendeine Webseite auf und schau erneut. Warum taucht die MAC-Adresse von GitHub dort **nicht** auf, obwohl du gerade mit dem Server gesprochen hast?
 
-    **Antwort:** ARP funktioniert nur im lokalen Netz. Für alles, was außerhalb liegt, trägt dein Rechner als Ziel-MAC immer die MAC des **Gateways** ein – die Ziel-IP zeigt auf GitHub, die Ziel-MAC auf den nächsten Hop. Adresse des Endziels und Adresse des nächsten Schritts liegen auf verschiedenen Schichten.
+    **Deutung:** ARP arbeitet nur im lokalen Netz. Für alles außerhalb trägt dein Rechner als Ziel-MAC die des **Gateways** ein – die Ziel-IP zeigt auf GitHub, die Ziel-MAC auf den nächsten Hop. Endziel und nächster Schritt liegen auf verschiedenen Schichten. Das ist der Grund, warum es beide Adressarten überhaupt gibt.
 
 ---
 
 ## Station 3 – Fünf Störungen einsortieren
 
-**Der Kern der Übung, etwa 20 Minuten.** Zu jedem Fall drei Antworten: **Welche Schicht ist betroffen? Mit welchem Befehl weist du es nach? Und was ist die wahrscheinlichste Ursache dahinter?**
+**Der Kern, etwa 20 Minuten.** Zu jedem Fall drei Antworten: Welche Schicht ist betroffen? Mit welchem Befehl weist du es nach? Und was steckt wahrscheinlich dahinter?
 
-Diskutiert die Fälle in der Gruppe aus. Bei mindestens zweien davon ist die naheliegende Antwort nicht die vollständige.
+Diskutiert die Fälle in der Gruppe aus. Bei mindestens zweien ist die naheliegende Antwort nicht die vollständige.
 
-| # | Störungsmeldung | Schicht | Nachweis |
-|---:|---|---|---|
-| 1 | Das Netzwerksymbol zeigt ein rotes Kreuz, es steckt kein Kabel. | | |
-| 2 | Der Rechner hat die Adresse `169.254.12.7` und erreicht nichts. | | |
-| 3 | `ping 8.8.8.8` funktioniert, `ping google.de` bringt einen Fehler. | | |
-| 4 | Der Server antwortet auf `ping`, aber die Webseite lädt nicht. | | |
-| 5 | Alles ist erreichbar, aber quälend langsam. | | |
+| # | Störungsmeldung | Schicht | Nachweis | Ursache dahinter |
+|---:|---|---|---|---|
+| 1 | Das Netzwerksymbol zeigt ein Kreuz, es steckt kein Kabel. | | | |
+| 2 | Der Rechner hat die Adresse `169.254.12.7` und kommt nirgends hin. | | | |
+| 3 | `ping 8.8.8.8` läuft, `ping google.de` bringt einen Fehler. | | | |
+| 4 | Der Server antwortet auf `ping`, aber die Webseite lädt nicht. | | | |
+| 5 | Alles ist erreichbar, aber quälend langsam. | | | |
 
 ??? tip "Auflösung"
-    **1 – Kein Kabel: Schicht 1 (physisch).**
-    Ohne Signal auf der Leitung hilft keine Konfiguration. `ipconfig` zeigt beim Adapter „Medium getrennt". Der Klassiker, den man gerade deshalb zuerst prüft, weil er so banal wirkt.
+    **1 – Kein Kabel: Schicht 1.**
+    Ohne Signal auf der Leitung hilft keine Konfiguration. `ipconfig` meldet „Medium getrennt", unter Linux zeigt `ip -brief link` den Status `DOWN`. Der Klassiker, den man gerade deshalb zuerst prüft, weil er so banal wirkt.
 
-    **2 – `169.254.x.x`: Schicht 3, verursacht durch einen fehlenden Dienst.**
-    Dieser Bereich heißt **APIPA** und ist die Notadresse, die ein Rechner sich selbst gibt, wenn er **keinen DHCP-Server erreicht**. Die Adresse ist damit nicht die Krankheit, sondern das Symptom. Nachweis: `ipconfig /all` zeigt keinen DHCP-Server; `ping` auf das Gateway schlägt fehl. Ursache kann auch auf Schicht 1 oder 2 liegen – deshalb prüft man von unten nach oben.
+    **2 – `169.254.x.x`: Symptom auf Schicht 3, Ursache woanders.**
+    Das ist **APIPA**, die Notadresse, die sich ein Rechner selbst gibt, wenn keine DHCP-Antwort kommt. Die Adresse ist nicht die Krankheit, sondern das Fieber. Der DHCP-Server kann tot sein (Schicht 7), der Weg zum DHCP-Relay unterbrochen (Schicht 3) oder schlicht das Kabel ab (Schicht 1). Nachweis: `ipconfig /all` zeigt keinen DHCP-Server, `ping` aufs Gateway schlägt fehl. **Dieser Fall ist der Grund, warum „von unten nach oben" nicht heißt „die erste stumme Schicht ist der Schuldige".**
 
-    **3 – Nur Namen gehen nicht: Schicht 7 (DNS).**
-    Die IP-Verbindung steht (Schicht 3 in Ordnung), nur die Namensauflösung scheitert. Nachweis: `nslookup google.de` schlägt fehl, `ping 8.8.8.8` klappt. Das ist der häufigste Fehler mit dem irreführendsten Symptom – die Anwender melden „Internet ist weg".
+    **3 – Nur Namen gehen nicht: Schicht 7, DNS.**
+    Die IP-Verbindung steht, nur die Namensauflösung scheitert. Nachweis: `nslookup google.de` schlägt fehl, `ping 8.8.8.8` läuft. Der häufigste Fehler mit dem irreführendsten Symptom – gemeldet wird er als „Internet ist weg".
 
     **4 – `ping` ja, Webseite nein: Schicht 4 oder 7.**
-    Der Rechner lebt, der Dienst nicht. Nachweis: `Test-NetConnection <server> -Port 443` beziehungsweise `nc -vz <server> 443`. Antwortet der Port nicht, ist entweder der Dienst gestoppt oder eine Firewall blockiert – das unterscheidest du erst im nächsten Schritt.
+    Der Rechner lebt, der Dienst nicht. Nachweis: `Test-NetConnection <server> -Port 443` bzw. `nc -vz <server> 443`. Antwortet der Port nicht, ist der Dienst gestoppt oder eine Firewall blockt. Antwortet er und die Seite lädt trotzdem nicht, bist du auf 7: Zertifikat abgelaufen, Anwendung im Fehler, falscher virtueller Host.
 
     **5 – Alles langsam: kein Ausfall, sondern eine Leistungsfrage.**
-    Hier gibt es keine Schicht, die „nicht antwortet". Schau in die `ping`-Ausgabe: Ist die **Zeit** hoch (Latenz) oder gehen **Pakete verloren**? Hohe Latenz bei null Verlust deutet auf lange Wege, Paketverlust auf ein überlastetes oder gestörtes Glied. Und sehr oft ist gar nicht das Netz schuld, sondern eine wartende Anwendung oder ein überlasteter Server.
+    Hier schweigt keine Schicht. Schau in die `ping`-Ausgabe: Ist die **Zeit** hoch, oder gehen **Pakete verloren**? Hohe Latenz bei null Verlust heißt langer Weg. Paketverlust heißt überlastetes oder gestörtes Glied. Und sehr oft ist das Netz gar nicht schuld, sondern eine wartende Anwendung oder ein überlasteter Server.
 
-!!! abstract "Das Vorgehen dahinter"
-    **Von unten nach oben prüfen. Die erste Schicht, die nicht antwortet, ist die Ursache.**
+!!! abstract "Das Vorgehen"
+    **Von unten nach oben prüfen. Die unterste Schicht, die nicht antwortet, sagt dir, wo du weitersuchst – nicht zwingend, woran es liegt.**
 
-    Kabel → Adresse → Weg → Port → Dienst. Wer stattdessen oben anfängt und erst mal den Browser neu startet, verliert Zeit – und weiß hinterher nicht, warum es wieder läuft. Systematisch von unten heißt: Du kannst den Fehler auch beim zweiten Mal finden.
+    Kabel → Adresse → Weg → Port → Dienst. Fall 2 ist das Musterbeispiel: Das kaputte Ergebnis steht auf Schicht 3, der Grund dafür sitzt eine Etage höher oder zwei tiefer. Wer stattdessen oben anfängt und erst mal den Browser neu startet, findet den Fehler vielleicht auch – aber beim nächsten Mal nicht wieder.
 
 ---
 
@@ -207,48 +224,51 @@ Diskutiert die Fälle in der Gruppe aus. Bei mindestens zweien davon ist die nah
 
 **Für alle, die früh fertig sind.** Bis hierher hat jeder für sich gemessen. Jetzt legt ihr eure Ergebnisse nebeneinander.
 
-Jeder in der Gruppe führt denselben Befehl aus und teilt die ersten fünf Zeilen:
-
 === "Windows"
     ```powershell
-    tracert github.com
+    tracert -d github.com
     ```
 
-=== "macOS / Linux"
+=== "macOS"
     ```bash
-    traceroute github.com
+    traceroute -n github.com
     ```
 
-Dann vergleicht ihr:
+=== "Linux"
+    ```bash
+    tracepath -n github.com
+    ```
 
-- **Ab welchem Punkt sehen eure Wege gleich aus?** Und wo unterscheiden sie sich?
-- **Welche Zeilen gehören noch zu eurem eigenen Netz**, welche schon zu eurem Anbieter?
-- **Warum beginnt der erste Hop bei fast allen mit `192.168`** – und beim übernächsten nicht mehr?
+Jeder teilt die ersten fünf bis acht Zeilen. Dann vergleicht ihr:
+
+- Ab welchem Punkt sehen eure Wege gleich aus? Wo unterscheiden sie sich?
+- Welche Zeilen gehören noch zu eurem eigenen Netz, welche schon zum Anbieter?
+- Ab welchem Hop werden die Adressen öffentlich – und bei wem passiert das später als bei den anderen?
 
 ??? tip "Was ihr dabei seht"
-    Es gibt **nicht den einen Weg** ins Internet. Jeder von euch startet in seinem eigenen lokalen Netz, geht über seinen eigenen Anbieter und trifft die anderen erst irgendwo weiter draußen – dort, wo die großen Netze zusammenlaufen.
+    Es gibt nicht den einen Weg ins Internet. Jeder startet in seinem eigenen lokalen Netz, geht über seinen eigenen Anbieter und trifft die anderen erst weiter draußen, wo die großen Netze zusammenlaufen.
 
-    Der erste Hop ist immer euer eigener Router, deshalb die private Adresse. Ab dem zweiten Hop seid ihr im Netz eures Anbieters und die Adressen werden öffentlich. Und je weiter es geht, desto ähnlicher werden eure Wege, weil am Ziel alle durch dieselbe Tür müssen.
+    Hop 1 ist immer dein eigener Router, daher die private Adresse. Wie schnell danach öffentliche Adressen auftauchen, ist sehr unterschiedlich: bei DSL meist ab Hop 2. Wer über Kabel oder Mobilfunk-Tethering online ist, hängt hinter **CGNAT** und sieht noch mehrere Hops lang Adressen aus `100.64.0.0/10`. Wer über ein VPN arbeitet, sieht zuerst den Weg zum VPN-Konzentrator. Diese Unterschiede sind das Interessante an der Übung.
 
-    Genau das ist die Maschen-Topologie aus der Theorie – nur eben als echte Messung statt als Zeichnung an der Tafel.
+    Ein Hinweis für den Vergleich: Windows misst mit ICMP, `traceroute` unter macOS und Linux standardmäßig mit UDP. Abweichende Wege können also auch daher kommen und nicht nur von eurem Anbieter.
 
 ---
 
 ## Was du mitnimmst
 
-- Du hast **an einer echten Maschine** gesehen, dass Werte aus drei Schichten nebeneinander auf einem Bildschirm stehen.
-- Du hast einen **Werkzeugkasten** mit fünf Befehlen, von denen jeder eine andere Schicht prüft. Diese fünf begleiten dich durch den ganzen Kurs – auch bei Containern, virtuellen Maschinen und in der Cloud.
-- Du kennst das **Diagnoseprinzip**: von unten nach oben, die erste stumme Schicht ist die Ursache.
-- Du hast den Unterschied zwischen **„erreichbar"** und **„funktioniert"** verstanden – der Unterschied zwischen Schicht 3 und Schicht 7.
+- Werte aus drei Schichten stehen auf einer einzigen Bildschirmausgabe nebeneinander. Sortieren musst du selbst.
+- Fünf Befehle, von denen jeder eine andere Schicht prüft. Die begleiten dich durch den ganzen Kurs – bei Containern, virtuellen Maschinen und in der Cloud sind es dieselben.
+- Der Unterschied zwischen **erreichbar** und **funktioniert**: Schicht 3 gegen Schicht 4 und 7.
+- Das Diagnoseprinzip: von unten nach oben, und die unterste stumme Schicht ist der Anfang der Suche, nicht ihr Ende.
 
 !!! tip "Nicht fertig geworden?"
-    Kein Problem. Arbeite die fehlenden Stationen in Ruhe nach – gerade Station 3 lohnt sich, weil dieses Vorgehen im ganzen weiteren Kurs wiederkommt.
+    Kein Problem. Station 3 lohnt sich zum Nacharbeiten, das Vorgehen kommt im ganzen weiteren Kurs wieder.
 
 ---
 
 ## Weiterlesen
 
 - [Adressierung (MAC, IPv4, IPv6, Subnetting)](adressierung.md) – als Nächstes dran: was hinter deiner Subnetzmaske steckt
-- [Routing und Switching](routing-und-switching.md) – warum `tracert` überhaupt mehrere Zeilen ausgibt
+- [Routing und Switching](routing-und-switching.md) – warum die Wegverfolgung überhaupt mehrere Zeilen ausgibt
 - [DNS – Namensauflösung](dns.md) – die ganze Geschichte hinter Störung 3
 - [Praxis: Netzwerk-Werkstatt](praxis-netzwerk-werkstatt.md) – die große Version dieser Übung, mit sechs Stationen

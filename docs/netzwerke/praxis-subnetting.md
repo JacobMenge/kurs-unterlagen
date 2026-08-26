@@ -1,6 +1,6 @@
 ---
 title: "Praxis: Subnetz-Architekten"
-description: "Ein Subnetting-Design-Wettbewerb in Gruppen: Teilt das Netz 192.168.10.0/24 sauber in Abteilungs-Subnetze auf. Nur Papier und Whiteboard nötig, optional ein Online-Subnetz-Rechner zum Selbstcheck."
+description: "Ein Subnetting-Design-Wettbewerb in Gruppen: Teilt das Netz 192.168.10.0/24 sauber in Abteilungs-Subnetze auf. Nur Papier und Stift nötig, optional ein Online-Subnetz-Rechner zum Selbstcheck."
 ---
 
 # Praxis: Subnetz-Architekten
@@ -10,7 +10,7 @@ description: "Ein Subnetting-Design-Wettbewerb in Gruppen: Teilt das Netz 192.16
 !!! info "Auf einen Blick"
     - **Dauer:** ca. 30–45 Minuten
     - **Gruppen:** 2–4 Personen
-    - **Material:** Papier oder Whiteboard, Stift. Optional ein Online-Subnetz-Rechner zum Selbstcheck.
+    - **Material:** Papier und Stift. Optional ein Online-Subnetz-Rechner zum Selbstcheck.
     - **Kein PC nötig** – ihr rechnet im Kopf und auf dem Papier.
     - **Voraussetzung:** Du hast [Adressierung (MAC, IPv4, IPv6, Subnetting)](adressierung.md) gelesen und kannst die drei Standard-Aufgaben.
 
@@ -71,7 +71,7 @@ Beginnt bei `192.168.10.0` und legt die Subnetze **lückenlos hintereinander**. 
     Die **Blockgröße** ist `256 − Maskenwert` (im vierten Oktett). Sie sagt euch, **wo das nächste Subnetz anfängt**. Beispiel: bei der Maske `255.255.255.128` (`/25`) ist die Blockgröße `256 − 128 = 128` – die Subnetze starten also bei `.0` und `.128`. So springt ihr von Block zu Block, ohne euch zu verrechnen.
 
 **Schritt 4 – Planungstabelle ausfüllen.**
-Übertragt alles in diese Tabelle. Sie ist eure **Abgabe** – malt sie aufs Whiteboard oder aufs Papier:
+Übertragt alles in diese Tabelle. Sie ist eure **Abgabe** – schreibt sie ins gemeinsame Dokument oder aufs Papier:
 
 | Abteilung | benötigt | Präfix | Netzadresse | erste nutzbare | letzte nutzbare | Broadcast |
 |---|---:|---|---|---|---|---|

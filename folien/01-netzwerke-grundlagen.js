@@ -10,6 +10,7 @@
 const path = require("path");
 const { createDeck } = require("./lib/theme");
 const { iconPng, svgPng } = require("./lib/icons");
+const D = require("./lib/diagramme");
 
 const LOGO = {
   cloudhelden: svgPng(
@@ -28,76 +29,6 @@ const { C, T } = deck.api;
 const pres = deck.pres;
 
 // ------------------------------------------------------- eigener Baustein
-
-/**
- * Schichtenstapel: eine Zeile je Schicht, mit Nummer, Name und Beispiel.
- * rows: [{ nr, name, beispiel, hervor? }]
- */
-function schichten(s, rows, opts = {}) {
-  const x = opts.x ?? T.RAND;
-  const w = opts.w ?? T.SLIDE_W - 2 * T.RAND;
-  const y0 = opts.y ?? 1.75;
-  const rowH = opts.rowH ?? 0.38;
-  const gap = opts.gap ?? 0.04;
-  const nrW = 0.34;
-
-  rows.forEach((r, i) => {
-    const y = y0 + i * (rowH + gap);
-    const hervor = !!r.hervor;
-    s.addShape(pres.shapes.RECTANGLE, {
-      x,
-      y,
-      w,
-      h: rowH,
-      fill: { color: hervor ? C.flaecheHell : C.flaeche },
-      line: { type: "none" },
-    });
-    s.addShape(pres.shapes.RECTANGLE, {
-      x,
-      y,
-      w: nrW,
-      h: rowH,
-      fill: { color: hervor ? C.blau : C.textLeise },
-      line: { type: "none" },
-    });
-    s.addText(String(r.nr), {
-      x,
-      y,
-      w: nrW,
-      h: rowH,
-      fontFace: T.FONT_MONO,
-      fontSize: 12,
-      color: "FFFFFF",
-      bold: true,
-      align: "center",
-      valign: "middle",
-      margin: 0,
-    });
-    s.addText(r.name, {
-      x: x + nrW + 0.16,
-      y,
-      w: opts.nameW ?? 2.85,
-      h: rowH,
-      fontFace: T.FONT_BODY,
-      fontSize: opts.fontSize ?? 12,
-      color: C.textStark,
-      bold: true,
-      valign: "middle",
-      margin: 0,
-    });
-    s.addText(r.beispiel, {
-      x: x + nrW + 0.16 + (opts.nameW ?? 2.85),
-      y,
-      w: w - nrW - 0.32 - (opts.nameW ?? 2.85),
-      h: rowH,
-      fontFace: T.FONT_BODY,
-      fontSize: opts.fontSize ?? 12,
-      color: C.text,
-      valign: "middle",
-      margin: 0,
-    });
-  });
-}
 
 /** Zweispaltige Begriffstabelle mit Kopfzeile. */
 function tabelle(s, kopf, rows, opts = {}) {
@@ -181,14 +112,14 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
   api.schedule(
     s,
     [
-      ["18:00", "Ankommen und Einstieg: eine Frage, die den ganzen Block trägt"],
-      ["18:10", "Warum Netzwerke – und die Grundbegriffe, die überall auftauchen"],
-      ["18:40", "Das OSI-Modell: sieben Schichten"],
-      ["18:55", "Pause"],
-      ["19:05", "TCP/IP, Kapselung und Schicht-Denken als Diagnosewerkzeug"],
-      ["19:25", "Briefing für die Breakout-Übung"],
-      ["19:35", "Breakout: der Schichten-Check am eigenen Rechner"],
-      ["20:25", "Auswertung im Plenum – wir tragen eure Ergebnisse zusammen"],
+      ["18:00", "Ankommen, Technik, Einstieg"],
+      ["18:10", "Warum Netzwerke – und was in der Ausbildung nicht vorkam"],
+      ["18:25", "Auffrischung im Schnellgang: Topologien, Dateneinheiten, Kennzahlen"],
+      ["18:45", "Pause"],
+      ["18:55", "OSI und TCP/IP, Kapselung, der Werkzeugkasten"],
+      ["19:20", "Briefing für die Breakout-Übung"],
+      ["19:30", "Breakout: der Schichten-Check am eigenen Rechner"],
+      ["20:25", "Auswertung im Plenum"],
       ["20:55", "Ausblick und offene Fragen"],
     ],
     { y: 2.14, rowH: 0.26, fontSize: 10.5 }
@@ -206,7 +137,7 @@ deck.content("Die Frage, an der wir uns festhalten", "Leitfrage", (s, api) => {
     y: 3.45,
     h: 1.0,
     titel: "Am Ende dieses Blocks",
-    body: "erklärt ihr das in zehn Minuten am Whiteboard, ohne ins Stocken zu geraten – von der Namensauflösung über die Verbindung bis zur fertigen Seite.",
+    body: "erklärt ihr das am Stück, ohne ins Stocken zu geraten – von der Namensauflösung über die Verbindung bis zur fertigen Seite.",
     fontSize: 11.5,
   });
   api.kicker(s, "Heute legen wir das Raster, in das später jede Antwort einsortiert wird.", { y: 4.6 });
@@ -214,17 +145,8 @@ deck.content("Die Frage, an der wir uns festhalten", "Leitfrage", (s, api) => {
 
 deck.content("Wo wir gerade stehen", "Einordnung", (s, api) => {
   api.lead(s, "Netzwerke sind der erste Baustein von Thema 1 – und das Vokabular für alles, was danach kommt.");
-  api.timeline(
-    s,
-    [
-      { label: "Netzwerke", sub: "Wie Systeme sich erreichen" },
-      { label: "Virtualisierung", sub: "Systeme entkoppeln" },
-      { label: "Container", sub: "Anwendungen verpacken" },
-      { label: "Infrastruktur", sub: "Alles zusammenbringen" },
-    ],
-    { y: 3.0, boxW: 1.9 }
-  );
-  api.kicker(s, "Ohne Netzwerkwissen fehlt euch später die Sprache für Container-Netze, Cloud-Architekturen und Sicherheitszonen.", { y: 4.5 });
+  s.addImage({ path: D.wegThema1(), x: T.RAND, y: 2.1, w: T.INHALT_W, h: 1.9 });
+  api.kicker(s, "Ohne Netzwerkwissen fehlt euch später die Sprache für Container-Netze, Cloud-Architekturen und Sicherheitszonen.", { y: 4.28 });
 });
 
 // ============================================================ Warum
@@ -266,19 +188,22 @@ deck.content("Drei Situationen aus dem Berufsalltag", "Praxisbezug", (s, api) =>
     s,
     [
       {
-        nummer: "1",
         titel: "Filiale anbinden",
         body: "Welches Subnetz? Wie kommt sie sicher an die Zentrale? Wer vergibt die Adressen?",
+        icon: D.iconDatei("standort", D.F.blau),
+        iconGroesse: 0.44,
       },
       {
-        nummer: "2",
         titel: "Anlage ans MES",
         body: "Die Maschine spricht Profinet oder OPC UA, die Auswertung erwartet MQTT. Wer übersetzt?",
+        icon: D.iconDatei("anlage", D.F.teal),
+        iconGroesse: 0.44,
       },
       {
-        nummer: "3",
         titel: "Ab in die Cloud",
         body: "Dieselbe Anwendung, neuer Ort. Latenz, Adressen und Firewall-Regeln ändern sich alle.",
+        icon: D.iconDatei("cloud", D.F.bernstein),
+        iconGroesse: 0.44,
       },
     ],
     { y: 2.16, h: 2.1, titleH: 0.3 }
@@ -352,50 +277,15 @@ deck.kapitel("Auffrischung", "Die Begriffe, bei denen es erfahrungsgemäß ausei
 });
 
 deck.content("Topologien – nur die eine Frage", "Kurzcheck", (s, api) => {
-  api.cardRow(
-    s,
-    [
-      {
-        titel: "Stern",
-        body: [
-          "Alle an einen zentralen Switch.",
-          "Heute der Normalfall im LAN.",
-          "Ausfall des Sterns trifft alle.",
-        ],
-      },
-      {
-        titel: "Ring",
-        body: [
-          "Jeder mit zwei Nachbarn.",
-          "In der Industrie verbreitet.",
-          "Bruch wird umgeleitet.",
-        ],
-      },
-      {
-        titel: "Bus",
-        body: [
-          "Alle an einer Leitung.",
-          "Historisch, heute selten.",
-          "Ein Defekt legt alles lahm.",
-        ],
-      },
-      {
-        titel: "Masche",
-        body: [
-          "Viele Wege zum Ziel.",
-          "Grundprinzip des Internets.",
-          "Teuer, aber ausfallsicher.",
-        ],
-      },
-    ],
-    { y: 1.8, h: 2.25, gap: 0.18, titleH: 0.3, fontSize: 11 }
-  );
+  s.addImage({ path: D.topologien(), x: T.RAND, y: 1.72, w: T.INHALT_W, h: 1.95 });
   api.card(s, {
-    y: 4.2,
-    h: 0.62,
+    y: 3.85,
+    h: 0.95,
     hell: true,
-    body: "Die Bilder kennt ihr. Interessant ist nur die Folge: Welcher Ausfall legt wie viel lahm? Der Ring ist der Grund, warum die Industrie anders baut als das Büro.",
+    titel: "Die Frage, auf die es ankommt",
+    body: "Nicht wie es aussieht, sondern was ausfällt. Der Ring ist der Grund, warum die Industrie anders baut als das Büro – dort darf ein einzelner Kabelbruch die Linie nicht anhalten.",
     fontSize: 11.5,
+    titleH: 0.26,
   });
 });
 
@@ -417,21 +307,16 @@ deck.content("Was fließt eigentlich durch das Netz?", "Dateneinheiten", (s, api
 });
 
 deck.content("Bandbreite ist nicht gleich Geschwindigkeit", "Kennzahlen", (s, api) => {
-  api.lead(s, "Vier Kennzahlen, die im Betrieb ständig durcheinandergeworfen werden.");
-  const y = 2.3;
-  api.kennzahl(s, { x: 0.62, y, w: 2.05, zahl: "Mbit/s", label: "Bandbreite\nwie viel gleichzeitig durchpasst", fontSize: 21, zahlH: 0.5, align: "center" });
-  api.kennzahl(s, { x: 2.87, y, w: 2.05, zahl: "ms", label: "Latenz\nwie lange ein Paket unterwegs ist", fontSize: 21, zahlH: 0.5, align: "center" });
-  api.kennzahl(s, { x: 5.12, y, w: 2.05, zahl: "± ms", label: "Jitter\nwie stark die Latenz schwankt", fontSize: 21, zahlH: 0.5, align: "center" });
-  api.kennzahl(s, { x: 7.37, y, w: 2.05, zahl: "%", label: "Paketverlust\nwas unterwegs verloren geht", fontSize: 21, zahlH: 0.5, align: "center" });
-  api.card(s, {
-    y: 3.85,
-    h: 1.0,
-    hell: true,
-    titel: "Das Bild dazu",
-    body: "Bandbreite ist die Zahl der Fahrspuren, Latenz die Fahrzeit. Eine zwölfspurige Autobahn hilft nicht, wenn der Weg um die halbe Welt führt.",
-    fontSize: 11,
-    titleH: 0.26,
-  });
+  s.addImage({ path: D.bandbreiteLatenz(), x: T.RAND, y: 1.78, w: T.INHALT_W, h: 1.75 });
+  api.cardRow(
+    s,
+    [
+      { titel: "Jitter", body: "Wie stark die Latenz schwankt. Killt Sprache und Video, nicht Downloads." },
+      { titel: "Paketverlust", body: "Was unterwegs verloren geht. TCP holt es nach – das kostet Zeit." },
+      { titel: "Der Alltagsfall", body: "„Die Leitung ist zu klein\" stimmt selten. Meist wartet etwas anderes." },
+    ],
+    { y: 3.66, h: 1.2, titleH: 0.26, fontSize: 11 }
+  );
 });
 
 // ============================================================ OSI
@@ -452,63 +337,30 @@ deck.content("Warum überhaupt Schichten?", "Grundidee", (s, api) => {
     { y: 2.16, h: 1.7, fontSize: 13.5 }
   );
   api.card(s, {
-    y: 3.8,
-    h: 1.05,
-    titel: "Die Post-Analogie",
-    body: "Ihr schreibt den Brief (Schicht 7), steckt ihn in einen Umschlag mit Adresse (Schicht 3), die Post sortiert nach Postleitzahl und der Fahrer kennt nur die nächste Station (Schicht 2).",
-    fontSize: 11,
+    y: 3.85,
+    h: 0.95,
+    hell: true,
+    titel: "Der Nutzen im Alltag",
+    body: "Ein Fehler sitzt immer auf einer bestimmten Schicht. Wer die findet, hört auf zu raten. Das ist der ganze Trick – und der Rest des Abends.",
+    fontSize: 11.5,
     titleH: 0.26,
   });
 });
 
-deck.content("Das OSI-Modell", "Sieben Schichten", (s) => {
-  schichten(s, [
-    { nr: 7, name: "Anwendung", beispiel: "HTTP, DNS, SSH – was der Nutzer sieht", hervor: true },
-    { nr: 6, name: "Darstellung", beispiel: "Verschlüsselung, Kompression, Zeichensatz" },
-    { nr: 5, name: "Sitzung", beispiel: "Auf- und Abbau von Sitzungen" },
-    { nr: 4, name: "Transport", beispiel: "TCP und UDP, Portnummern", hervor: true },
-    { nr: 3, name: "Vermittlung", beispiel: "IP-Adressen, Routing zwischen Netzen", hervor: true },
-    { nr: 2, name: "Sicherung", beispiel: "MAC-Adressen, Switch, Frames", hervor: true },
-    { nr: 1, name: "Physisch", beispiel: "Kabel, Stecker, Funk, Signalpegel", hervor: true },
-  ], { y: 1.72, rowH: 0.37, gap: 0.04 });
-  deck.api.kicker(s, "Die fünf hervorgehobenen Schichten braucht ihr täglich. 5 und 6 tauchen in der Praxis kaum getrennt auf.", { y: 4.62 });
-});
-
-deck.content("Das TCP/IP-Modell", "Vier Schichten – das echte Internet", (s, api) => {
-  api.lead(s, "Die Zuordnung sitzt erfahrungsgemäß nicht mehr sauber – deshalb einmal nebeneinander.");
-  tabelle(
-    s,
-    ["TCP/IP", "entspricht OSI", "Was dort passiert"],
-    [
-      ["Anwendung", "7, 6, 5", "HTTP, DNS, SSH, TLS"],
-      ["Transport", "4", "TCP, UDP, Ports"],
-      ["Internet", "3", "IP, Routing, ICMP"],
-      ["Netzzugang", "2, 1", "Ethernet, WLAN, Kabel"],
-    ],
-    { y: 2.16, rowH: 0.4, spalten: [1.9, 2.3], fontSize: 12 }
-  );
-  api.kicker(s, "Faustregel: OSI zum Erklären, TCP/IP zum Arbeiten.", { y: 4.5 });
+deck.content("Die beiden Modelle nebeneinander", "Auffrischung", (s, api) => {
+  s.addImage({ path: D.osiTcpip(), x: T.RAND, y: 1.66, w: T.INHALT_W, h: 2.75 });
+  api.kicker(s, "Faustregel: OSI zum Erklären, TCP/IP zum Arbeiten. Gerechnet und gemessen wird auf 2, 3 und 4.", { y: 4.56 });
 });
 
 deck.content("Kapselung – der Umschlag im Umschlag", "Was mit euren Daten passiert", (s, api) => {
-  api.lead(s, "Auf dem Weg nach unten bekommt jede Schicht ihren eigenen Kopfteil dazu.");
-  api.timeline(
-    s,
-    [
-      { label: "Daten", sub: "„Hallo Server“" },
-      { label: "+ Port", sub: "Segment, Layer 4" },
-      { label: "+ IP", sub: "Paket, Layer 3" },
-      { label: "+ MAC", sub: "Frame, Layer 2" },
-      { label: "Signal", sub: "Bits, Layer 1" },
-    ],
-    { y: 2.95, boxW: 1.55, akzent: "teal" }
-  );
+  s.addImage({ path: D.kapselung(), x: T.RAND, y: 1.7, w: T.INHALT_W, h: 2.05 });
   api.card(s, {
-    y: 4.02,
-    h: 0.78,
+    y: 3.92,
+    h: 0.88,
     hell: true,
-    body: "Beim Empfänger läuft es rückwärts: jede Schicht packt ihren Teil aus und reicht den Rest nach oben. Genau deshalb kann ein Router die IP lesen, ohne die Anwendung zu kennen.",
+    body: "Deshalb kann ein Router die IP lesen, ohne die Anwendung zu kennen: Er packt nur bis Schicht 3 aus, entscheidet, wohin es weitergeht, und verpackt wieder. Was darin steckt, geht ihn nichts an.",
     fontSize: 11.5,
+    akzent: "teal",
   });
 });
 
@@ -539,23 +391,12 @@ deck.content("Wofür ihr das wirklich braucht", "Schicht-Denken im Alltag", (s, 
 });
 
 deck.content("Ein Befehl je Schicht", "Der Werkzeugkasten", (s, api) => {
-  tabelle(
-    s,
-    ["Schicht", "Frage", "Befehl (Windows)"],
-    [
-      ["1 – physisch", "Ist überhaupt eine Verbindung da?", "ipconfig"],
-      ["2 – Sicherung", "Wen sehe ich im lokalen Netz?", "arp -a"],
-      ["3 – Vermittlung", "Erreiche ich das Ziel, und wie?", "ping / tracert"],
-      ["4 – Transport", "Ist der Port offen?", "Test-NetConnection"],
-      ["7 – Anwendung", "Kennt jemand diesen Namen?", "nslookup"],
-    ],
-    { y: 1.78, rowH: 0.38, spalten: [1.9, 3.9], fontSize: 11.5 }
-  );
+  s.addImage({ path: D.diagnoseLeiter(), x: T.RAND, y: 1.66, w: T.INHALT_W, h: 2.55 });
   api.card(s, {
-    y: 4.25,
-    h: 0.55,
+    y: 4.3,
+    h: 0.52,
     hell: true,
-    body: "macOS und Linux: ip addr · traceroute · nc -vz host port · dig statt nslookup.",
+    body: "macOS und Linux: ip addr oder ifconfig · traceroute · nc -vz host port · dig statt nslookup.",
     fontSize: 11,
     akzent: "teal",
   });
@@ -564,128 +405,72 @@ deck.content("Ein Befehl je Schicht", "Der Werkzeugkasten", (s, api) => {
 // ============================================================ Breakout
 deck.abschnitt("Breakout", "bernstein");
 
-deck.kapitel("Der Schichten-Check", "50 Minuten in Gruppen – euer eigener Rechner ist das Labor", {
+deck.kapitel("Der Schichten-Check", "55 Minuten in Gruppen – euer eigener Rechner ist das Labor", {
   nummer: "04",
   akzent: "bernstein",
 });
 
-deck.content("Der Auftrag", "Breakout · 50 Minuten", (s, api) => {
-  api.lead(s, "Ihr messt an eurem eigenen Rechner nach, was wir gerade an der Tafel hatten. Keine Installation nötig.");
-  api.cardRow(
+deck.content("Der Auftrag", "Breakout · 55 Minuten", (s, api) => {
+  api.lead(s, "Jetzt messt ihr an eurem eigenen Rechner nach, was wir eben zusammen aufgebaut haben. Nichts zu installieren.");
+  api.schedule(
     s,
     [
-      {
-        nummer: "1",
-        titel: "Netz-Steckbrief",
-        body: "Sechs Werte über euren Rechner heraussuchen – und jedem die richtige Schicht zuordnen.",
-      },
-      {
-        nummer: "2",
-        titel: "Schichten live",
-        body: "Fünf Befehle ausführen und notieren, welche Schicht jeder davon beweist.",
-      },
-      {
-        nummer: "3",
-        titel: "Fehlerbilder",
-        body: "Fünf Störungen einsortieren: Welche Schicht ist schuld, welcher Befehl zeigt es?",
-      },
+      ["8 min", "Netz-Steckbrief: sechs Werte, jeder auf seine Schicht einsortiert"],
+      ["12 min", "Fünf Befehle – und die Frage, was ein Erfolg jeweils beweist"],
+      ["20 min", "Fünf Störungen einsortieren. Das ist der Kern, dafür ist Zeit"],
+      ["Kür", "Eure tracert-Ausgaben nebeneinanderlegen und vergleichen"],
     ],
-    { y: 2.16, h: 2.05, titleH: 0.3 }
-  );
-  api.kicker(s, "Station 3 ist die wichtigste. Wer früh fertig ist, bekommt die Kür in Station 4.", { y: 4.5 });
-});
-
-deck.content("So arbeitet ihr", "Spielregeln", (s, api) => {
-  api.bullets(
-    s,
-    [
-      "Gruppen zu dritt oder viert. Einer teilt den Bildschirm, alle tippen bei sich mit.",
-      "Öffnet unter Windows die PowerShell, nicht die alte Eingabeaufforderung.",
-      "Schreibt eure Ergebnisse ins gemeinsame Dokument – wir gehen sie nachher durch.",
-      "Eure Werte sehen anders aus als meine Beispiele. Genau das ist der Punkt.",
-      "Ich komme in jeden Raum. Wenn es klemmt: ruft mich, oder schreibt in den Chat.",
-    ],
-    { y: 1.78, h: 2.2, fontSize: 13, akzent: "bernstein" }
+    { y: 2.2, rowH: 0.44, labelW: 0.95, fontSize: 12, akzent: "bernstein" }
   );
   api.card(s, {
-    y: 4.05,
-    h: 0.8,
-    body: "Die Anleitung mit allen Befehlen und Notizfeldern steht auf der Kursseite: Netzwerke → Praxis: Der Schichten-Check.",
-    fontSize: 11.5,
-    akzent: "bernstein",
-  });
-});
-
-deck.content("Station 1 – der Netz-Steckbrief", "Breakout", (s, api) => {
-  api.lead(s, "Findet diese sechs Werte und schreibt daneben, zu welcher Schicht sie gehören.");
-  api.code(
-    s,
-    "PS C:\\> ipconfig /all\n\n# macOS / Linux\n$ ip addr        # oder: ifconfig\n$ ip route       # Zeile \"default via ...\" = Gateway",
-    { y: 2.1, h: 1.6, titel: "PowerShell", fontSize: 11 }
-  );
-  api.bullets(
-    s,
-    [
-      "IPv4-Adresse und Subnetzmaske · Standardgateway · DNS-Server",
-      "Physische Adresse (MAC) · DHCP aktiviert ja oder nein",
-    ],
-    { y: 3.82, h: 0.6, fontSize: 12, akzent: "bernstein" }
-  );
-  api.kicker(s, "Achtung: Der richtige Adapter ist der mit einem Standardgateway.", { y: 4.5 });
-});
-
-deck.content("Station 2 – die Schichten in Aktion", "Breakout", (s, api) => {
-  api.code(
-    s,
-    "ping <euer Gateway>            # kommt ihr bis zum Router?\narp -a                         # wen sieht euer Rechner lokal?\nnslookup github.com            # welche IP steckt hinter dem Namen?\ntracert github.com             # welchen Weg nimmt das Paket?\nTest-NetConnection github.com -Port 443",
-    { y: 1.78, h: 1.85, titel: "PowerShell", fontSize: 11 }
-  );
-  api.card(s, {
-    y: 3.78,
-    h: 1.0,
-    titel: "Eure Aufgabe",
-    body: "Notiert zu jedem Befehl: Welche Schicht prüft er, und woran seht ihr das in der Ausgabe? Bei tracert reichen die ersten fünf Zeilen.",
+    y: 4.06,
+    h: 0.76,
+    hell: true,
+    titel: "Alle Befehle zum Kopieren – für Windows, macOS und Linux",
+    body: "jacobmenge.github.io/kurs-unterlagen  →  Netzwerke  →  Praxis: Der Schichten-Check",
     fontSize: 11.5,
     titleH: 0.26,
     akzent: "bernstein",
   });
 });
 
-deck.content("Station 3 – fünf Störungen einsortieren", "Breakout", (s, api) => {
-  api.lead(s, "Zu jedem Fall: Welche Schicht ist betroffen, und mit welchem Befehl weist ihr es nach?");
+deck.content("So arbeitet ihr", "Spielregeln", (s, api) => {
   api.bullets(
     s,
     [
-      "Das Netzwerksymbol zeigt ein rotes Kreuz, kein Kabel steckt.",
-      "Der Rechner hat die Adresse 169.254.12.7 und kommt nirgendwo hin.",
-      "ping 8.8.8.8 funktioniert, ping google.de bringt einen Fehler.",
+      "Gruppen zu dritt oder viert. Eine Person teilt den Bildschirm, alle tippen bei sich mit.",
+      "Öffnet den Link zur Kursseite jetzt, bevor die Räume aufgehen – im Breakout-Raum seht ihr diese Folie nicht mehr.",
+      "Bestimmt jemanden, der nachher für eure Gruppe spricht.",
+      "Windows: PowerShell, nicht die Eingabeaufforderung. Test-NetConnection gibt es nur dort.",
+      "Wenn es klemmt: in eurem Raum auf „Um Hilfe bitten“ klicken. Dann komme ich rein.",
+    ],
+    { y: 1.86, h: 2.2, fontSize: 12.5, akzent: "bernstein" }
+  );
+  api.card(s, {
+    y: 3.94,
+    h: 0.9,
+    titel: "Um 20:25 sind alle wieder hier",
+    body: "Schreibt mit. Was nicht im Dokument steht, haben wir nachher nicht.",
+    fontSize: 11.5,
+    titleH: 0.26,
+    akzent: "bernstein",
+  });
+});
+
+deck.content("Die fünf Störungen", "Breakout · Station 3", (s, api) => {
+  api.lead(s, "Zu jedem Fall drei Antworten: Welche Schicht? Welcher Befehl weist es nach? Und was steckt wahrscheinlich dahinter?");
+  api.bullets(
+    s,
+    [
+      "Das Netzwerksymbol zeigt ein Kreuz, es steckt kein Kabel.",
+      "Der Rechner hat die Adresse 169.254.12.7 und kommt nirgends hin.",
+      "ping 8.8.8.8 läuft, ping google.de bringt einen Fehler.",
       "Der Server antwortet auf ping, aber die Webseite lädt nicht.",
       "Alles ist erreichbar, aber quälend langsam.",
     ],
-    { y: 2.16, h: 2.0, fontSize: 12.5, numbered: true, akzent: "bernstein" }
+    { y: 2.3, h: 1.9, fontSize: 12.5, numbered: true, akzent: "bernstein" }
   );
-  api.kicker(s, "Genau so landen diese Fälle im Job auf eurem Tisch – meist als „Internet geht nicht“.", { y: 4.5 });
-});
-
-deck.content("Station 4 – die Kür: Wege vergleichen", "Breakout · für Schnelle", (s, api) => {
-  api.lead(s, "Wenn ihr früh fertig seid: Vergleicht eure Ausgaben von tracert untereinander.");
-  api.bullets(
-    s,
-    [
-      "Jeder führt tracert github.com aus und teilt die ersten fünf Zeilen.",
-      "Ab welchem Punkt sehen eure Wege gleich aus – und wo unterscheiden sie sich?",
-      "Welche Zeilen gehören noch zu eurem eigenen Netz, welche schon zum Anbieter?",
-      "Warum hat der erste Hop bei fast allen eine Adresse, die mit 192.168 beginnt?",
-    ],
-    { y: 2.16, h: 1.85, fontSize: 12.5, akzent: "bernstein" }
-  );
-  api.card(s, {
-    y: 4.05,
-    h: 0.8,
-    body: "Der Gewinn dabei: Ihr seht an echten Daten, dass es keinen einen Weg ins Internet gibt – jeder von euch nimmt einen anderen, bis sie sich irgendwo treffen.",
-    fontSize: 11.5,
-    akzent: "bernstein",
-  });
+  api.kicker(s, "Bei mindestens zweien ist die naheliegende Antwort nicht die vollständige.", { y: 4.4 });
 });
 
 // ============================================================ Auswertung
@@ -700,19 +485,20 @@ deck.content("Das gehen wir gemeinsam durch", "Auswertung · 30 Minuten", (s, ap
   api.schedule(
     s,
     [
-      ["1", "Reihum: eine Gruppe zeigt ihren Steckbrief, die anderen ergänzen"],
-      ["2", "Warum hat fast jeder eine 192.168er-Adresse? – private Adressbereiche"],
-      ["3", "Die fünf Befehle, jeder einer Schicht zugeordnet"],
-      ["4", "Die fünf Störungen – auflösen und begründen"],
-      ["5", "Was war unerwartet? Woran seid ihr hängengeblieben?"],
+      ["1", "Eine Gruppe zeigt ihren Steckbrief, die anderen ergänzen nur Abweichungen"],
+      ["2", "Warum hat fast jeder eine 192.168er-Adresse?"],
+      ["3", "Die fünf Befehle – was beweist ein Erfolg, was beweist er nicht?"],
+      ["4", "Die Störungen: jede Gruppe nimmt einen Fall und begründet ihn"],
+      ["5", "Erst danach die Auflösung – und die Fälle, bei denen es nicht reicht"],
+      ["6", "Euer Satz: Was hat euch überrascht?"],
     ],
-    { y: 1.9, rowH: 0.42, labelW: 0.45, fontSize: 12 }
+    { y: 1.86, rowH: 0.4, labelW: 0.45, fontSize: 12 }
   );
   api.card(s, {
-    y: 4.05,
-    h: 0.78,
+    y: 4.36,
+    h: 0.46,
     hell: true,
-    body: "Wichtiger als die richtige Antwort ist die Begründung: Woran habt ihr die Schicht erkannt? Wer das sagen kann, findet auch den nächsten Fehler.",
+    body: "Die Begründung zählt mehr als die Antwort. Woran habt ihr die Schicht erkannt?",
     fontSize: 11.5,
   });
 });
@@ -722,15 +508,15 @@ deck.content("Die Auflösung der fünf Störungen", "Auswertung", (s, api) => {
     s,
     ["Fall", "Schicht", "Nachweis"],
     [
-      ["Kein Kabel", "1 – physisch", "ipconfig: Medium getrennt"],
-      ["169.254.x.x", "3 – Adresse", "kein DHCP erreichbar, Selbstvergabe"],
-      ["Nur Name geht nicht", "7 – DNS", "nslookup schlägt fehl, ping auf IP klappt"],
+      ["Kein Kabel", "1", "ipconfig: Medium getrennt"],
+      ["169.254.x.x", "Symptom auf 3", "Ursache: kein DHCP erreichbar – oder Schicht 1"],
+      ["Nur Name geht nicht", "7 – DNS", "nslookup scheitert, ping auf die IP läuft"],
       ["ping ja, Web nein", "4 oder 7", "Test-NetConnection auf Port 443"],
-      ["Alles langsam", "kein Ausfall", "Latenz und Verlust in ping ansehen"],
+      ["Alles langsam", "kein Ausfall", "Zeit und Verlust in der ping-Ausgabe"],
     ],
     { y: 1.78, rowH: 0.42, spalten: [2.3, 2.0], fontSize: 11.5 }
   );
-  api.kicker(s, "Von unten nach oben prüfen. Die erste Schicht, die nicht antwortet, ist die Ursache.", { y: 4.5 });
+  api.kicker(s, "Von unten nach oben. Die unterste stumme Schicht sagt euch, wo ihr weitersucht – nicht immer, woran es liegt.", { y: 4.5 });
 });
 
 // ============================================================ Abschluss
@@ -740,11 +526,11 @@ deck.content("Das nehmt ihr heute mit", "Kern des Abends", (s, api) => {
   api.bullets(
     s,
     [
-      { text: "Ein Netz braucht drei Dinge: Verbindung, Adressen, Regeln.", bold: true },
       { text: "Dieselben Daten heißen je nach Schicht Frame, Paket oder Segment.", bold: true },
-      { text: "OSI hat sieben Schichten, TCP/IP vier – ihr müsst sie zuordnen können.", bold: true },
+      { text: "Kapselung: nichts wird ersetzt, es kommt nur außen etwas dazu.", bold: true },
+      { text: "OSI sieben Schichten, TCP/IP vier. Gearbeitet wird auf 2, 3 und 4.", bold: true },
       { text: "Bandbreite ist nicht Geschwindigkeit. Latenz ist die andere Hälfte.", bold: true },
-      { text: "Fehlersuche heißt: von unten nach oben, Schicht für Schicht.", bold: true },
+      { text: "Fehlersuche: von unten nach oben, und jeder Befehl beweist nur seine Schicht.", bold: true },
     ],
     { y: 1.85, h: 2.0, fontSize: 13.5 }
   );
@@ -753,7 +539,7 @@ deck.content("Das nehmt ihr heute mit", "Kern des Abends", (s, api) => {
     h: 1.05,
     hell: true,
     titel: "Die Begriffe von heute",
-    body: "Schichtenmodell · OSI · TCP/IP · Topologie · Client-Server · Latenz · Bandbreite · Frame, Paket, Segment. Diese Begriffe begleiten euch bis zum Schluss – im Kurs wie in der Prüfung.",
+    body: "Schichtenmodell · OSI · TCP/IP · Topologie · Latenz · Bandbreite · Jitter · Frame, Paket, Segment · Kapselung. Die Begriffe begleiten euch bis zum Schluss – im Kurs wie in der Prüfung.",
     fontSize: 11,
     titleH: 0.26,
   });
@@ -765,12 +551,12 @@ deck.content("Bis Montag", "Nacharbeit", (s, api) => {
     s,
     [
       {
-        titel: "Lesen",
-        body: "Die Seiten „Grundbegriffe“ und „OSI- und TCP/IP-Modell“ in Ruhe durchgehen, inklusive der Selbstkontrollfragen am Ende.",
+        titel: "Nur wenn etwas hakte",
+        body: "Die Seiten „Grundbegriffe“ und „OSI- und TCP/IP-Modell“ stehen auf der Kursseite. Gedacht für die Stellen, an denen ihr heute gestockt habt – nicht zum Durchlesen.",
       },
       {
         titel: "Nachholen",
-        body: "Wer im Breakout nicht bis Station 3 gekommen ist: Der Schichten-Check steht vollständig auf der Kursseite.",
+        body: "Wer nicht bis zu den Störungen gekommen ist: Station 3 lohnt sich. Die Auflösungen stehen zum Aufklappen darunter.",
       },
       {
         titel: "Vorbereiten",
