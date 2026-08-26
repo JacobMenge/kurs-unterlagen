@@ -639,7 +639,7 @@ function diagnoseLeiter() {
   teile.push(t(pfeilX + 16, 48, "nach oben", { groesse: 12, fett: true, farbe: F.textStark }));
   teile.push(t(pfeilX + 16, 74, "Die erste Stufe,", { groesse: 11, farbe: F.textLeise }));
   teile.push(t(pfeilX + 16, 90, "die stumm bleibt,", { groesse: 11, farbe: F.textLeise }));
-  teile.push(t(pfeilX + 16, 106, "ist die Ursache.", { groesse: 11, farbe: F.textLeise }));
+  teile.push(t(pfeilX + 16, 106, "zeigt, wo du suchst.", { groesse: 11, farbe: F.textLeise }));
 
   // Grundlinie unter der untersten Stufe
   teile.push(linie(0, basisY + 3, stufeW, basisY + 3, { farbe: F.linie, breite: 2 }));

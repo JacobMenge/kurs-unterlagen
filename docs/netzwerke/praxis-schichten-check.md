@@ -5,7 +5,7 @@ description: "Praxisübung zum Einstieg in den Netzwerk-Block (ca. 55 Minuten): 
 
 # Praxis: Der Schichten-Check
 
-<span class='badge badge-praxis'>Praxis</span> &nbsp; Die sieben Schichten kann fast jeder aufsagen. Interessanter ist, was passiert, wenn etwas kaputt ist: Dann wird der Browser neu gestartet, das WLAN aus- und wieder eingeschaltet und der Kollege gefragt. Hier übst du die andere Variante.
+<span class='badge badge-praxis'>Praxis</span> &nbsp; Das Schichtenmodell einmal an einer echten Maschine benutzen statt es aufzusagen: sechs Werte, fünf Befehle, fünf Störungen – jedes davon auf seine Schicht einsortiert. Dein eigener Rechner ist dabei das Labor.
 
 !!! info "Auf einen Blick"
     - **Dauer:** ca. 55 Minuten. Station 1 und 2 gehen schnell, Station 3 ist der Kern.
@@ -18,7 +18,7 @@ description: "Praxisübung zum Einstieg in den Netzwerk-Block (ca. 55 Minuten): 
 
 ## Worum es geht
 
-Im Betrieb ist das Schichtenmodell kein Lernstoff, sondern ein **Suchraster**. Es beantwortet die Frage, die zählt: Wo muss ich hinschauen? Wer das kann, ist in zwei Minuten fertig. Wer es nicht kann, probiert eine Stunde herum und weiß hinterher trotzdem nicht, warum es wieder läuft.
+Im Betrieb ist das Schichtenmodell ein **Suchraster**. Es beantwortet die Frage, die zählt: Wo muss ich hinschauen? Wer sie beantworten kann, ist in zwei Minuten fertig. Wer sie umgeht, probiert eine Stunde herum – und weiß hinterher nicht, warum es wieder läuft.
 
 Station 1 und 2 sind Aufwärmen. Die Befehle kennst du, es geht nur darum, dass alle dieselben Werte vor Augen haben. Die Arbeit steckt in **Station 3**: von einem Symptom auf die Ursache kommen, ohne zu raten.
 
@@ -54,10 +54,10 @@ Alle Befehle hier lesen nur. Sie verändern nichts an deiner Konfiguration.
     route -n get default                       # welcher Adapter, welches Gateway
     ifconfig en0                               # inet, netmask (hexadezimal!), ether = MAC
     scutil --dns | grep nameserver             # DNS-Server
-    ipconfig getoption en0 server_identifier   # DHCP-Server, leer = keine DHCP-Lease
+    ipconfig getoption en0 server_identifier   # DHCP-Server; leer = keine Lease ODER falscher Adapter
     ```
 
-    `en0` ist meist das WLAN. `route -n get default` sagt dir in der Zeile `interface:`, welchen Adapter du wirklich nehmen musst.
+    `en0` ist meist das WLAN. `route -n get default` sagt dir in der Zeile `interface:`, welchen Adapter du wirklich nehmen musst – am Dongle ist es eben nicht `en0`. Gegenprobe bei leerer DHCP-Ausgabe: `ipconfig getpacket <adapter>`. Kommt dort auch nichts, gibt es wirklich keine Lease.
 
 === "Linux"
     ```bash
@@ -65,10 +65,12 @@ Alle Befehle hier lesen nur. Sie verändern nichts an deiner Konfiguration.
     ip route | grep default           # Gateway
     ip -brief link                    # MAC-Adressen
     resolvectl status                 # DNS-Server, Abschnitt des aktiven Links
-    ip -4 addr show                   # steht dort "dynamic", kam die Adresse per DHCP
+    ip -4 addr show                   # steht dort "dynamic", läuft die Adresse auf einer Lease
     ```
 
-    Finger weg von `cat /etc/resolv.conf`: Auf allem mit systemd-resolved steht dort nur `127.0.0.53`, der lokale Stub. Das ist nicht dein DNS-Server.
+    Finger weg von `cat /etc/resolv.conf`: Auf allem mit systemd-resolved steht dort nur `127.0.0.53`, der lokale Stub. Das ist nicht dein DNS-Server. Ohne systemd-resolved – etwa unter Alpine oder mit NetworkManager pur – ist `resolv.conf` dagegen die richtige Quelle, und `resolvectl` gibt es dann gar nicht.
+
+    Zu `dynamic`: Das Flag heißt, die Adresse hat eine begrenzte Gültigkeit. Fast immer ist das DHCP, es kann aber auch IPv6-Autokonfiguration sein.
 
 ### Trag ein
 
@@ -106,7 +108,7 @@ Alle Befehle hier lesen nur. Sie verändern nichts an deiner Konfiguration.
     | DNS-Server | 3 **und** 7 | der Eintrag selbst ist eine IP-Adresse, der Dienst dahinter sitzt auf 7 |
     | DHCP | 3 **und** 7 | verteilt Layer-3-Werte, ist aber selbst ein Anwendungsdienst über UDP |
 
-    **Deutung:** Eine einzige Bildschirmausgabe, drei verschiedene Schichten. `ipconfig` sortiert nach Adapter, nicht nach Modell – die Einordnung machst du selbst. Die beiden letzten Zeilen sind die interessanten. Wer nur „DNS ist Layer 7" sagt, übersieht, dass der Wert in der Konfiguration eine Adresse ist.
+    Eine einzige Bildschirmausgabe, drei verschiedene Schichten. `ipconfig` sortiert nach Adapter, nicht nach Modell – die Einordnung machst du selbst. Die beiden letzten Zeilen sind die interessanten. Wer nur „DNS ist Layer 7" sagt, übersieht, dass der Wert in der Konfiguration eine Adresse ist.
 
 !!! question "Für die Gruppe"
     Haben alle bei euch eine Adresse aus `192.168.`? Warum ist das kein Zufall – und warum stört es nicht, dass mehrere von euch dieselbe Adresse haben können?
@@ -179,7 +181,7 @@ Alle Befehle hier lesen nur. Sie verändern nichts an deiner Konfiguration.
 ??? question "Für alle, die schneller sind"
     Schau in die ARP-Tabelle und such die MAC deines Gateways. Ruf danach irgendeine Webseite auf und schau erneut. Warum taucht die MAC-Adresse von GitHub dort **nicht** auf, obwohl du gerade mit dem Server gesprochen hast?
 
-    **Deutung:** ARP arbeitet nur im lokalen Netz. Für alles außerhalb trägt dein Rechner als Ziel-MAC die des **Gateways** ein – die Ziel-IP zeigt auf GitHub, die Ziel-MAC auf den nächsten Hop. Endziel und nächster Schritt liegen auf verschiedenen Schichten. Das ist der Grund, warum es beide Adressarten überhaupt gibt.
+    **Antwort:** ARP arbeitet nur im lokalen Netz. Für alles außerhalb trägt dein Rechner als Ziel-MAC die des **Gateways** ein – die Ziel-IP zeigt auf GitHub, die Ziel-MAC auf den nächsten Hop. Endziel und nächster Schritt liegen auf verschiedenen Schichten. Das ist der Grund, warum es beide Adressarten überhaupt gibt.
 
 ---
 
@@ -202,7 +204,7 @@ Diskutiert die Fälle in der Gruppe aus. Bei mindestens zweien ist die naheliege
     Ohne Signal auf der Leitung hilft keine Konfiguration. `ipconfig` meldet „Medium getrennt", unter Linux zeigt `ip -brief link` den Status `DOWN`. Der Klassiker, den man gerade deshalb zuerst prüft, weil er so banal wirkt.
 
     **2 – `169.254.x.x`: Symptom auf Schicht 3, Ursache woanders.**
-    Das ist **APIPA**, die Notadresse, die sich ein Rechner selbst gibt, wenn keine DHCP-Antwort kommt. Die Adresse ist nicht die Krankheit, sondern das Fieber. Der DHCP-Server kann tot sein (Schicht 7), der Weg zum DHCP-Relay unterbrochen (Schicht 3) oder schlicht das Kabel ab (Schicht 1). Nachweis: `ipconfig /all` zeigt keinen DHCP-Server, `ping` aufs Gateway schlägt fehl. **Dieser Fall ist der Grund, warum „von unten nach oben" nicht heißt „die erste stumme Schicht ist der Schuldige".**
+    Das ist **APIPA**, die Notadresse, die sich ein Rechner selbst gibt, wenn keine DHCP-Antwort kommt. Die Adresse ist nicht die Krankheit, sondern das Fieber. Der DHCP-Server kann tot sein (Schicht 7), der Weg zum Relay unterbrochen (Schicht 3) oder das Kabel steckt nicht (Schicht 1). Nachweis: `ipconfig /all` zeigt keinen DHCP-Server, `ping` aufs Gateway schlägt fehl. **Dieser Fall ist der Grund, warum „von unten nach oben" nicht heißt „die erste stumme Schicht ist der Schuldige".**
 
     **3 – Nur Namen gehen nicht: Schicht 7, DNS.**
     Die IP-Verbindung steht, nur die Namensauflösung scheitert. Nachweis: `nslookup google.de` schlägt fehl, `ping 8.8.8.8` läuft. Der häufigste Fehler mit dem irreführendsten Symptom – gemeldet wird er als „Internet ist weg".
@@ -211,7 +213,7 @@ Diskutiert die Fälle in der Gruppe aus. Bei mindestens zweien ist die naheliege
     Der Rechner lebt, der Dienst nicht. Nachweis: `Test-NetConnection <server> -Port 443` bzw. `nc -vz <server> 443`. Antwortet der Port nicht, ist der Dienst gestoppt oder eine Firewall blockt. Antwortet er und die Seite lädt trotzdem nicht, bist du auf 7: Zertifikat abgelaufen, Anwendung im Fehler, falscher virtueller Host.
 
     **5 – Alles langsam: kein Ausfall, sondern eine Leistungsfrage.**
-    Hier schweigt keine Schicht. Schau in die `ping`-Ausgabe: Ist die **Zeit** hoch, oder gehen **Pakete verloren**? Hohe Latenz bei null Verlust heißt langer Weg. Paketverlust heißt überlastetes oder gestörtes Glied. Und sehr oft ist das Netz gar nicht schuld, sondern eine wartende Anwendung oder ein überlasteter Server.
+    Hier schweigt keine Schicht. Schau in die `ping`-Ausgabe: Ist die **Zeit** hoch, oder gehen **Pakete verloren**? Hohe Latenz bei null Verlust heißt: langer Weg – oder es steht etwas in der Warteschlange. Gegenprobe: `ping` im Leerlauf gegen `ping`, während jemand lädt. Paketverlust heißt überlastetes oder gestörtes Glied. Und sehr oft ist das Netz gar nicht schuld, sondern eine wartende Anwendung oder ein überlasteter Server.
 
 !!! abstract "Das Vorgehen"
     **Von unten nach oben prüfen. Die unterste Schicht, die nicht antwortet, sagt dir, wo du weitersuchst – nicht zwingend, woran es liegt.**
@@ -222,7 +224,7 @@ Diskutiert die Fälle in der Gruppe aus. Bei mindestens zweien ist die naheliege
 
 ## Station 4 – Die Kür: Wege vergleichen
 
-**Für alle, die früh fertig sind.** Bis hierher hat jeder für sich gemessen. Jetzt legt ihr eure Ergebnisse nebeneinander.
+**Der gemeinsame Abschluss, etwa 15 Minuten.** Bis hierher hat jeder für sich gemessen. Jetzt legt ihr eure Ergebnisse nebeneinander.
 
 === "Windows"
     ```powershell
@@ -248,7 +250,7 @@ Jeder teilt die ersten fünf bis acht Zeilen. Dann vergleicht ihr:
 ??? tip "Was ihr dabei seht"
     Es gibt nicht den einen Weg ins Internet. Jeder startet in seinem eigenen lokalen Netz, geht über seinen eigenen Anbieter und trifft die anderen erst weiter draußen, wo die großen Netze zusammenlaufen.
 
-    Hop 1 ist immer dein eigener Router, daher die private Adresse. Wie schnell danach öffentliche Adressen auftauchen, ist sehr unterschiedlich: bei DSL meist ab Hop 2. Wer über Kabel oder Mobilfunk-Tethering online ist, hängt hinter **CGNAT** und sieht noch mehrere Hops lang Adressen aus `100.64.0.0/10`. Wer über ein VPN arbeitet, sieht zuerst den Weg zum VPN-Konzentrator. Diese Unterschiede sind das Interessante an der Übung.
+    Hop 1 ist immer dein eigener Router, daher die private Adresse. Wie schnell danach öffentliche Adressen auftauchen, ist sehr unterschiedlich: bei DSL meist ab Hop 2. Wer über Kabel oder Mobilfunk online ist, hängt oft hinter **CGNAT** und sieht dann einen oder zwei Hops mit Adressen aus `100.64.0.0/10` – manchmal auch nur Sternchen, weil die Geräte nicht antworten. Wer über ein VPN arbeitet, sieht zuerst den Weg zum VPN-Konzentrator. Diese Unterschiede sind das Interessante an der Übung.
 
     Ein Hinweis für den Vergleich: Windows misst mit ICMP, `traceroute` unter macOS und Linux standardmäßig mit UDP. Abweichende Wege können also auch daher kommen und nicht nur von eurem Anbieter.
 
@@ -271,4 +273,4 @@ Jeder teilt die ersten fünf bis acht Zeilen. Dann vergleicht ihr:
 - [Adressierung (MAC, IPv4, IPv6, Subnetting)](adressierung.md) – als Nächstes dran: was hinter deiner Subnetzmaske steckt
 - [Routing und Switching](routing-und-switching.md) – warum die Wegverfolgung überhaupt mehrere Zeilen ausgibt
 - [DNS – Namensauflösung](dns.md) – die ganze Geschichte hinter Störung 3
-- [Praxis: Netzwerk-Werkstatt](praxis-netzwerk-werkstatt.md) – die große Version dieser Übung, mit sechs Stationen
+- [Praxis: Netzwerk-Werkstatt](praxis-netzwerk-werkstatt.md) – die große Version dieser Übung, von Layer 1 bis Layer 7

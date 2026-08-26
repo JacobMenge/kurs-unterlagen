@@ -12,6 +12,12 @@ const { createDeck } = require("./lib/theme");
 const { iconPng, svgPng } = require("./lib/icons");
 const D = require("./lib/diagramme");
 
+// Vor dem Unterricht prüfen: Die Übungsseite steht fest, das Ergebnis-Dokument
+// legt Jacob je Termin neu an. Beide erscheinen auf der Auftrags-Folie, weil
+// Meet den Hauptraum-Chat in den Breakout-Räumen nicht mitnimmt.
+const LINK_UEBUNG = "jacobmenge.github.io/kurs-unterlagen/netzwerke/praxis-schichten-check/";
+const LINK_DOKUMENT = "<Link zum Ergebnis-Dokument hier eintragen>";
+
 const LOGO = {
   cloudhelden: svgPng(
     path.join(__dirname, "assets", "logos", "cloudhelden.svg"),
@@ -146,7 +152,7 @@ deck.content("Die Frage, an der wir uns festhalten", "Leitfrage", (s, api) => {
 deck.content("Wo wir gerade stehen", "Einordnung", (s, api) => {
   api.lead(s, "Netzwerke sind der erste Baustein von Thema 1 – und das Vokabular für alles, was danach kommt.");
   s.addImage({ path: D.wegThema1(), x: T.RAND, y: 2.1, w: T.INHALT_W, h: 1.9 });
-  api.kicker(s, "Ohne Netzwerkwissen fehlt euch später die Sprache für Container-Netze, Cloud-Architekturen und Sicherheitszonen.", { y: 4.28 });
+  api.kicker(s, "Container-Netze, Cloud-Subnetze, Sicherheitszonen: dieselben Begriffe, anderer Ort.", { y: 4.28 });
 });
 
 // ============================================================ Warum
@@ -290,7 +296,7 @@ deck.content("Topologien – nur die eine Frage", "Kurzcheck", (s, api) => {
 });
 
 deck.content("Was fließt eigentlich durch das Netz?", "Dateneinheiten", (s, api) => {
-  api.lead(s, "Dieselben Daten heißen auf jeder Schicht anders – und das ist kein Zufall.");
+  api.lead(s, "Fünf Namen für dieselben Daten. Der Unterschied ist nur, was drumherum steht.");
   tabelle(
     s,
     ["Einheit", "Schicht", "Was drumherum steht"],
@@ -329,10 +335,10 @@ deck.content("Warum überhaupt Schichten?", "Grundidee", (s, api) => {
   api.bullets(
     s,
     [
-      "Jede Schicht löst genau ein Problem und nutzt die Schicht darunter.",
+      "Jede Schicht löst ein Problem und nutzt die Schicht darunter.",
       "Jede Schicht ist austauschbar: WLAN statt Kabel ändert nichts an eurer Anwendung.",
-      "Fehler lassen sich eingrenzen, statt zu raten – das ist der Alltagsnutzen.",
-      "Hersteller können unabhängig voneinander entwickeln und bleiben kompatibel.",
+      "Fehler lassen sich eingrenzen, statt zu raten. Das ist der Alltagsnutzen.",
+      "Auch die Abwehr sitzt schichtweise: Portsicherheit auf 2, Firewall auf 3 und 4, Web-Filter auf 7.",
     ],
     { y: 2.16, h: 1.7, fontSize: 13.5 }
   );
@@ -364,40 +370,17 @@ deck.content("Kapselung – der Umschlag im Umschlag", "Was mit euren Daten pass
   });
 });
 
-deck.content("Wofür ihr das wirklich braucht", "Schicht-Denken im Alltag", (s, api) => {
-  api.lead(s, "Schichten sind nichts zum Auswendiglernen, sondern ein Suchraster für den Alltag.");
-  api.cardRow(
-    s,
-    [
-      {
-        titel: "Fehlersuche",
-        body: "Von unten nach oben prüfen: Kabel, Adresse, Weg, Port, Dienst. Die erste Schicht, die scheitert, ist die Ursache.",
-        akzent: "teal",
-      },
-      {
-        titel: "Sicherheit",
-        body: "Jede Schicht hat ihre eigene Abwehr: Portsicherheit auf 2, Firewall auf 3 und 4, Web-Filter auf 7.",
-        akzent: "bernstein",
-      },
-      {
-        titel: "Leistung",
-        body: "Langsam heißt selten „das Netz“. Es ist Latenz, Paketverlust oder eine wartende Anwendung.",
-        akzent: "blau",
-      },
-    ],
-    { y: 2.16, h: 2.1, titleH: 0.3 }
-  );
-  api.kicker(s, "Genau dieses Vorgehen probt ihr gleich im Breakout.", { y: 4.5 });
-});
-
 deck.content("Ein Befehl je Schicht", "Der Werkzeugkasten", (s, api) => {
   s.addImage({ path: D.diagnoseLeiter(), x: T.RAND, y: 1.66, w: T.INHALT_W, h: 2.55 });
   api.card(s, {
-    y: 4.3,
-    h: 0.52,
+    y: 4.22,
+    h: 0.6,
     hell: true,
-    body: "macOS und Linux: ip addr oder ifconfig · traceroute · nc -vz host port · dig statt nslookup.",
-    fontSize: 11,
+    body: [
+      "macOS: ifconfig · arp -a · traceroute · dig",
+      "Linux: ip -brief addr · ip neigh · tracepath · resolvectl query",
+    ],
+    fontSize: 10.5,
     akzent: "teal",
   });
 });
@@ -418,18 +401,21 @@ deck.content("Der Auftrag", "Breakout · 55 Minuten", (s, api) => {
       ["8 min", "Netz-Steckbrief: sechs Werte, jeder auf seine Schicht einsortiert"],
       ["12 min", "Fünf Befehle – und die Frage, was ein Erfolg jeweils beweist"],
       ["20 min", "Fünf Störungen einsortieren. Das ist der Kern, dafür ist Zeit"],
-      ["Kür", "Eure tracert-Ausgaben nebeneinanderlegen und vergleichen"],
+      ["15 min", "Eure Wegverfolgungen nebeneinanderlegen und vergleichen"],
     ],
-    { y: 2.2, rowH: 0.44, labelW: 0.95, fontSize: 12, akzent: "bernstein" }
+    { y: 2.14, rowH: 0.4, labelW: 0.95, fontSize: 12, akzent: "bernstein" }
   );
   api.card(s, {
-    y: 4.06,
-    h: 0.76,
+    y: 3.86,
+    h: 0.96,
     hell: true,
-    titel: "Alle Befehle zum Kopieren – für Windows, macOS und Linux",
-    body: "jacobmenge.github.io/kurs-unterlagen  →  Netzwerke  →  Praxis: Der Schichten-Check",
-    fontSize: 11.5,
-    titleH: 0.26,
+    titel: "Jetzt öffnen – beides braucht ihr gleich im Raum",
+    body: [
+      "Befehle für alle drei Systeme:   " + LINK_UEBUNG,
+      "Ergebnisse eintragen:   " + LINK_DOKUMENT,
+    ],
+    fontSize: 10,
+    titleH: 0.24,
     akzent: "bernstein",
   });
 });
@@ -440,7 +426,7 @@ deck.content("So arbeitet ihr", "Spielregeln", (s, api) => {
     [
       "Gruppen zu dritt oder viert. Eine Person teilt den Bildschirm, alle tippen bei sich mit.",
       "Öffnet den Link zur Kursseite jetzt, bevor die Räume aufgehen – im Breakout-Raum seht ihr diese Folie nicht mehr.",
-      "Bestimmt jemanden, der nachher für eure Gruppe spricht.",
+      "Sprecher und euer Auswertungsfall stehen fest – bearbeitet trotzdem alle fünf Störungen.",
       "Windows: PowerShell, nicht die Eingabeaufforderung. Test-NetConnection gibt es nur dort.",
       "Wenn es klemmt: in eurem Raum auf „Um Hilfe bitten“ klicken. Dann komme ich rein.",
     ],
@@ -485,22 +471,17 @@ deck.content("Das gehen wir gemeinsam durch", "Auswertung · 30 Minuten", (s, ap
   api.schedule(
     s,
     [
-      ["1", "Eine Gruppe zeigt ihren Steckbrief, die anderen ergänzen nur Abweichungen"],
-      ["2", "Warum hat fast jeder eine 192.168er-Adresse?"],
-      ["3", "Die fünf Befehle – was beweist ein Erfolg, was beweist er nicht?"],
-      ["4", "Die Störungen: jede Gruppe nimmt einen Fall und begründet ihn"],
+      ["1", "Ein Steckbrief – und warum fast alle eine 192.168er-Adresse haben"],
+      ["2", "Die fe80::-Adresse, die dabei mit aufgetaucht ist"],
+      ["3", "Die fünf Befehle: Was beweist ein Erfolg, was beweist er nicht?"],
+      ["4", "Die Störungen: jede Gruppe begründet ihren Fall"],
       ["5", "Erst danach die Auflösung – und die Fälle, bei denen es nicht reicht"],
-      ["6", "Euer Satz: Was hat euch überrascht?"],
+      ["6", "Wer bei der Kür war: zwei Wegverfolgungen nebeneinander"],
+      ["7", "Euer Satz: Was hat euch überrascht?"],
     ],
-    { y: 1.86, rowH: 0.4, labelW: 0.45, fontSize: 12 }
+    { y: 1.8, rowH: 0.38, labelW: 0.45, fontSize: 11.5 }
   );
-  api.card(s, {
-    y: 4.36,
-    h: 0.46,
-    hell: true,
-    body: "Die Begründung zählt mehr als die Antwort. Woran habt ihr die Schicht erkannt?",
-    fontSize: 11.5,
-  });
+  api.kicker(s, "Die Begründung zählt mehr als die Antwort. Woran habt ihr die Schicht erkannt?", { y: 4.56 });
 });
 
 deck.content("Die Auflösung der fünf Störungen", "Auswertung", (s, api) => {
@@ -511,7 +492,7 @@ deck.content("Die Auflösung der fünf Störungen", "Auswertung", (s, api) => {
       ["Kein Kabel", "1", "ipconfig: Medium getrennt"],
       ["169.254.x.x", "Symptom auf 3", "Ursache: kein DHCP erreichbar – oder Schicht 1"],
       ["Nur Name geht nicht", "7 – DNS", "nslookup scheitert, ping auf die IP läuft"],
-      ["ping ja, Web nein", "4 oder 7", "Test-NetConnection auf Port 443"],
+      ["ping ja, Web nein", "4 oder 7", "Test-NetConnection oder nc -vz auf Port 443"],
       ["Alles langsam", "kein Ausfall", "Zeit und Verlust in der ping-Ausgabe"],
     ],
     { y: 1.78, rowH: 0.42, spalten: [2.3, 2.0], fontSize: 11.5 }
