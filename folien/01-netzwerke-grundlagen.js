@@ -344,9 +344,8 @@ deck.content("Bandbreite ist nicht Geschwindigkeit", "Kennzahlen", (s, api) => {
   api.cardRow(
     s,
     [
-      { titel: "Jitter", body: "Schwankende Latenz. Stört Sprache und Video." },
-      { titel: "Paketverlust", body: "Was unterwegs verloren geht. TCP holt es nach – das kostet Zeit." },
-      { titel: "Der Alltagsfall", body: "„Die Leitung ist zu klein\" stimmt selten. Meist wartet etwas anderes." },
+      { titel: "Jitter", body: "Schwankende Latenz. Stört Telefonie und Video – ein Download merkt davon nichts." },
+      { titel: "Paketverlust", body: "Was unterwegs verloren geht. TCP schickt es nach – und das Nachschicken kostet die Zeit." },
     ],
     { y: 3.66, h: 1.2, titleH: 0.26, fontSize: 11 }
   );
