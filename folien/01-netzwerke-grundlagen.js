@@ -279,18 +279,47 @@ deck.kapitel("Auffrischung", "Die Begriffe, bei denen es gern auseinandergeht", 
   nummer: "02",
 });
 
-deck.content("Topologien – nur die eine Frage", "Kurzcheck", (s, api) => {
-  s.addImage({ path: D.topologien(), x: T.RAND, y: 1.72, w: T.INHALT_W, h: 1.95 });
-  api.card(s, {
-    y: 3.85,
-    h: 0.95,
-    hell: true,
-    titel: "Die Frage, auf die es ankommt",
-    body: "Nicht wie es aussieht, sondern was ausfällt. Der Ring ist der Grund, warum die Industrie anders baut als das Büro – dort darf ein einzelner Kabelbruch die Linie nicht anhalten.",
-    fontSize: 11.5,
-    titleH: 0.26,
+// Topologien als Mitmach-Moment: erst sammeln die Teilnehmenden Beispiele im
+// Chat, dann deckt jeder Klick eine Spalte auf. Der Generator kann keine
+// PowerPoint-Animationen – identische Folgefolien wirken beim Durchklicken
+// genauso, solange alle Positionen exakt gleich bleiben.
+const TOPO_BEISPIELE = [
+  { akzent: "blau", zeilen: ["Büro-LAN am Switch", "WLAN am Access Point", "kurz: fast jedes LAN"] },
+  { akzent: "teal", zeilen: ["Maschinennetz mit MRP", "Metro-Ringe im WAN", "früher: Token Ring"] },
+  { akzent: "rot", zeilen: ["CAN-Bus im Auto", "Profibus, Modbus RTU", "früher: Koax-Ethernet"] },
+  { akzent: "bernstein", zeilen: ["Router im Internet", "WLAN-Mesh zuhause", "Spine-Leaf im RZ"] },
+];
+
+for (let stufe = 0; stufe <= TOPO_BEISPIELE.length; stufe++) {
+  deck.content("Topologien – nur die eine Frage", "Kurzcheck", (s, api) => {
+    s.addImage({ path: D.topologien(), x: T.RAND, y: 1.72, w: T.INHALT_W, h: 1.95 });
+
+    if (stufe === 0) {
+      api.card(s, {
+        y: 3.85,
+        h: 0.95,
+        titel: "In den Chat",
+        body: "Wo ist euch jede dieser Formen schon begegnet – im Job oder zuhause? Ein Beispiel je Form reicht. Aufgelöst wird Klick für Klick.",
+        fontSize: 11.5,
+        titleH: 0.26,
+        akzent: "bernstein",
+      });
+    } else {
+      for (let i = 0; i < stufe; i++) {
+        const b = TOPO_BEISPIELE[i];
+        api.card(s, {
+          x: T.RAND + i * 2.24,
+          y: 3.8,
+          w: 2.04,
+          h: 0.92,
+          body: b.zeilen,
+          fontSize: 10,
+          akzent: b.akzent,
+        });
+      }
+    }
   });
-});
+}
 
 deck.content("Was fließt eigentlich durch das Netz?", "Dateneinheiten", (s, api) => {
   api.lead(s, "Fünf Namen für dieselben Daten. Der Unterschied ist nur, was drumherum steht.");
@@ -298,14 +327,15 @@ deck.content("Was fließt eigentlich durch das Netz?", "Dateneinheiten", (s, api
     s,
     ["Einheit", "Schicht", "Was drumherum steht"],
     [
-      ["Bit", "1 – physisch", "nichts, nur Signal auf der Leitung"],
-      ["Frame", "2 – Sicherung", "MAC-Adressen von Sender und Empfänger"],
-      ["Paket", "3 – Vermittlung", "IP-Adressen von Quelle und Ziel"],
-      ["Segment", "4 – Transport", "Portnummern und Reihenfolge"],
+      ["Bit", "1 – physisch", "nichts – nur das Signal"],
+      ["Frame", "2 – Sicherung", "MAC von Sender und Empfänger"],
+      ["Paket", "3 – Vermittlung", "IP von Quelle und Ziel"],
+      ["Segment", "4 – Transport", "Portnummern, Reihenfolge"],
       ["Daten", "7 – Anwendung", "die eigentliche Nachricht"],
     ],
-    { y: 2.16, rowH: 0.36, spalten: [1.6, 2.2], fontSize: 11.5 }
+    { y: 2.16, rowH: 0.36, w: 6.0, spalten: [1.35, 1.9], fontSize: 11.5 }
   );
+  s.addImage({ path: D.dateneinheiten(), x: 6.86, y: 2.56, w: 2.52, h: 1.8 });
   api.kicker(s, "Wenn jemand von „Paket“ spricht, meint er Layer 3. Bei „Frame“ ist er auf Layer 2.", { y: 4.56 });
 });
 

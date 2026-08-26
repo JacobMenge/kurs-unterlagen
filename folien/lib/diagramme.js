@@ -271,6 +271,80 @@ function wegThema1() {
   return render("weg-thema1", svg(B, H, teile.join("")), B);
 }
 
+// ==================================================== Dateneinheiten
+
+/**
+ * Mini-Umschläge für die Dateneinheiten-Tabelle: eine Glyphe je Tabellenzeile,
+ * exakt auf das Zeilenraster der Tabelle gelegt (rowH 0,36" = 36 Einheiten).
+ * Dieselben Farben wie im Kapselungs-Schaubild – die Teilnehmenden sehen das
+ * Bild dort vier Folien später in groß wieder.
+ */
+function dateneinheiten() {
+  const B = 252;
+  const H = 180;
+  const teile = [];
+  const blockH = 24;
+
+  function block(x, w, y, farbe, label, labelFarbe) {
+    let out = kasten(x, y, w, blockH, { fuellung: farbe, radius: 3 });
+    if (label) {
+      out += t(x + w / 2, y + blockH / 2 + 3.2, label, {
+        groesse: label.length > 4 ? 8.5 : 9,
+        fett: true,
+        farbe: labelFarbe ?? F.weiss,
+        align: "mitte",
+      });
+    }
+    return out;
+  }
+
+  function zeile(i, bauen) {
+    const cy = i * 36 + 18;
+    teile.push(bauen(cy - blockH / 2, cy));
+  }
+
+  // Bit: nur das Signal
+  zeile(0, (y, cy) => {
+    const pkte = [];
+    let x = 14;
+    let oben = true;
+    while (x < 230) {
+      pkte.push(`${x},${cy + (oben ? -8 : 8)}`);
+      x += 18;
+      pkte.push(`${x},${cy + (oben ? -8 : 8)}`);
+      oben = !oben;
+    }
+    return `<polyline points="${pkte.join(" ")}" fill="none" stroke="${F.textLeise}" stroke-width="2.4" stroke-linejoin="round"/>`;
+  });
+
+  // Frame: alles verpackt, mit Prüfsumme am Ende
+  zeile(1, (y) =>
+    block(12, 34, y, F.textLeise, "MAC") +
+    block(48, 32, y, F.blau, "IP") +
+    block(82, 34, y, F.teal, "TCP") +
+    block(118, 114, y, F.bernstein, "Daten") +
+    block(234, 18, y, F.textLeise, "FCS")
+  );
+
+  // Paket: ohne Rahmen der Sicherungsschicht
+  zeile(2, (y) =>
+    block(48, 32, y, F.blau, "IP") +
+    block(82, 34, y, F.teal, "TCP") +
+    block(118, 114, y, F.bernstein, "Daten")
+  );
+
+  // Segment: nur noch Transportkopf
+  zeile(3, (y) =>
+    block(82, 34, y, F.teal, "TCP") +
+    block(118, 114, y, F.bernstein, "Daten")
+  );
+
+  // Daten: die nackte Nachricht
+  zeile(4, (y) => block(118, 114, y, F.bernstein, "Daten"));
+
+  return render("dateneinheiten", svg(B, H, teile.join("")), B);
+}
+
 // ==================================================== Einzel-Icons
 
 /**
@@ -658,6 +732,6 @@ function diagnoseLeiter() {
 }
 
 module.exports = {
-  topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, iconDatei,
+  topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, dateneinheiten, iconDatei,
   icon, ICONS, F, render, svg, t, kasten, linie, knoten,
 };
