@@ -40,7 +40,7 @@ const C = {
   // Sekundärfarben, bewusst gedämpft
   teal: "0F7C86",
   tealTief: "E6F4F5",
-  bernstein: "A96D12",
+  bernstein: "9A6310",
   bernsteinTief: "FBF2E3",
   rot: "B33A3A",
   rotTief: "FAECEC",
