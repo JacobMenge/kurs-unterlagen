@@ -76,6 +76,39 @@ const T = {
   INHALT_W: SLIDE_W - 2 * RAND,
 };
 
+// -------------------------------------------------- Textmaß-Schätzung
+
+// Arial bei 12 pt schafft etwa 11 Zeichen pro Zoll; fett etwas weniger.
+// Bewusst konservativ (Faktor 0.93), damit ein knapper Titel lieber eine
+// Zeile mehr bekommt, als in den Fließtext darunter zu laufen.
+function zeilenBedarf(text, breite, pt, fett) {
+  if (!text || breite <= 0) return 1;
+  const proZoll = 11 * (12 / Math.max(pt, 1)) * (fett ? 0.95 : 1) * 0.93;
+  const proZeile = Math.max(Math.floor(breite * proZoll), 4);
+  let zeilen = 0;
+  for (const absatz of String(text).split("\n")) {
+    const woerter = absatz.split(/\s+/).filter(Boolean);
+    if (!woerter.length) { zeilen += 1; continue; }
+    let laenge = 0;
+    let z = 1;
+    for (const w of woerter) {
+      const noetig = (laenge ? laenge + 1 : 0) + w.length;
+      if (noetig <= proZeile) {
+        laenge = noetig;
+      } else if (w.length > proZeile) {
+        // Überlanges Wort: bricht mitten im Wort um
+        z += Math.ceil((w.length - (proZeile - laenge)) / proZeile);
+        laenge = ((w.length - (proZeile - laenge)) % proZeile) || proZeile;
+      } else {
+        z += 1;
+        laenge = w.length;
+      }
+    }
+    zeilen += z;
+  }
+  return zeilen;
+}
+
 // ------------------------------------------------------------- Bausteine
 
 function akzentlinie(pres, slide, akzent) {
@@ -274,8 +307,11 @@ function makeApi(pres, holeAkzent) {
       const innenX = x + 0.26;
       const innenW = w - 0.44;
 
+      // Ein Icon bekommt eine eigene Spalte rechts – Text läuft nie darunter.
+      let iconRand = 0;
       if (opts.icon) {
         const ig = opts.iconGroesse ?? 0.3;
+        iconRand = ig + 0.14;
         slide.addImage({
           path: opts.icon,
           x: x + w - ig - 0.16,
@@ -303,14 +339,19 @@ function makeApi(pres, holeAkzent) {
       const textW = opts.nummer ? innenW - 0.54 : innenW;
 
       if (opts.titel) {
-        const titleH = opts.titleH ?? 0.28;
+        // Bricht der Titel um, wächst seine Box nach dem echten Bedarf –
+        // ein großzügig übergebenes titleH bleibt unangetastet.
+        const tSize = opts.titleSize ?? 13;
+        const titelW = textW - iconRand;
+        const zeilen = zeilenBedarf(opts.titel, titelW, tSize, true);
+        const titleH = Math.max(opts.titleH ?? 0.28, (zeilen * tSize * 1.3) / 72 + 0.03);
         slide.addText(opts.titel, {
           x: textX,
           y: cursor,
-          w: textW,
+          w: titelW,
           h: titleH,
           fontFace: FONT_BODY,
-          fontSize: opts.titleSize ?? 13,
+          fontSize: tSize,
           color: C.textStark,
           bold: true,
           valign: "top",
@@ -320,6 +361,8 @@ function makeApi(pres, holeAkzent) {
       }
 
       if (opts.body) {
+        // Beginnt der Fließtext auf Icon-Höhe, weicht er dem Icon aus
+        const bodyRand = opts.icon && cursor < y + 0.14 + (opts.iconGroesse ?? 0.3) ? iconRand : 0;
         const body = Array.isArray(opts.body)
           ? opts.body.map((b, i) => ({
               text: b,
@@ -329,7 +372,7 @@ function makeApi(pres, holeAkzent) {
         slide.addText(body, {
           x: textX,
           y: cursor,
-          w: textW,
+          w: textW - bodyRand,
           h: y + h - cursor - 0.13,
           fontFace: FONT_BODY,
           fontSize: opts.fontSize ?? 12,
@@ -681,10 +724,11 @@ function createDeck(meta = {}) {
           margin: 0,
         });
       }
+      const titelGroesse = zeilenBedarf(title, 8.35, 42, true) > 1 ? 33 : 42;
       s.addText(title, {
         x: 1.0, y: 1.84, w: 8.35, h: 1.12,
         fontFace: FONT_BODY,
-        fontSize: 42,
+        fontSize: titelGroesse,
         color: C.textStark,
         bold: true,
         valign: "top",

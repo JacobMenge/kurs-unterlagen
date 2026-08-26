@@ -89,15 +89,40 @@ def textteile(shape):
     return teile
 
 
-def hoehe_geschaetzt(text: str, pt: float, breite: float) -> float:
+def hoehe_geschaetzt(text: str, pt: float, breite: float, fett: bool = False,
+                     zeilenabstand: float | None = None) -> float:
+    """Wortweise Umbruchrechnung – wie PowerPoint bricht, nicht wie eine
+    Zeichenzählung es gern hätte. Fett läuft breiter; dazu eine kleine
+    Sicherheitsmarge, damit Grenzfälle gemeldet statt geschluckt werden."""
     if not text or breite <= 0:
         return 0.0
     pro_zoll = ZEICHEN_PRO_ZOLL_BEI_12PT * (12.0 / max(pt, 1))
+    if fett:
+        pro_zoll *= 0.95
+    pro_zoll *= 0.99  # kleine Sicherheitsmarge – Grenzfälle melden, ohne ständig falschen Alarm zu schlagen
     pro_zeile = max(int(breite * pro_zoll), 4)
     zeilen = 0
     for absatz in text.split("\n"):
-        zeilen += max((len(absatz) + pro_zeile - 1) // pro_zeile, 1) if absatz else 1
-    return zeilen * (pt * ZEILENHOEHE) / 72.0
+        woerter = absatz.split()
+        if not woerter:
+            zeilen += 1
+            continue
+        z, laenge = 1, 0
+        for w in woerter:
+            noetig = (laenge + 1 if laenge else 0) + len(w)
+            if noetig <= pro_zeile:
+                laenge = noetig
+            elif len(w) > pro_zeile:
+                rest = len(w) - max(pro_zeile - laenge, 0)
+                z += (rest + pro_zeile - 1) // pro_zeile
+                laenge = rest % pro_zeile or pro_zeile
+            else:
+                z += 1
+                laenge = len(w)
+        zeilen += z
+    # Zeilenhöhe: Arial-Grundmaß mal tatsächlich gesetztem Abstand
+    hoehe = 1.24 * (zeilenabstand if zeilenabstand else 1.0)
+    return zeilen * (pt * max(hoehe, 0.9)) / 72.0
 
 
 def ueberschneidung(a, b, tol=0.03):
@@ -140,6 +165,7 @@ def main() -> int:
 
         flaechen = []  # (box, farbe) – gefüllte Rechtecke
         texte = []  # (box, text, groesse, farbe, fett)
+        bilder = []  # Boxen eingebetteter Bilder (Icons, Schaubilder)
 
         for shape in folie.shapes:
             b = box(shape)
@@ -151,6 +177,9 @@ def main() -> int:
                     f"({x:.2f}, {y:.2f}) Größe {w:.2f}x{h:.2f}"
                 )
 
+            if shape.shape_type == 13:  # eingebettetes Bild
+                bilder.append(b)
+
             farbe = fuellfarbe(shape)
             if farbe:
                 flaechen.append((b, farbe))
@@ -159,7 +188,16 @@ def main() -> int:
             if teile:
                 volltext = shape.text_frame.text
                 max_pt = max(t[1] for t in teile)
-                noetig = hoehe_geschaetzt(volltext, max_pt, w)
+                irgend_fett = any(t[3] for t in teile)
+                abstand = None
+                try:
+                    for para in shape.text_frame.paragraphs:
+                        ls = para.line_spacing
+                        if isinstance(ls, float):
+                            abstand = max(abstand or 0, ls)
+                except Exception:
+                    pass
+                noetig = hoehe_geschaetzt(volltext, max_pt, w, irgend_fett, abstand)
                 if noetig > h + 0.10:
                     meldungen.append(
                         f"Text zu groß für seinen Kasten: braucht ~{noetig:.2f}\", "
@@ -192,6 +230,16 @@ def main() -> int:
                     meldungen.append(
                         f"Kontrast zu schwach ({k:.1f}:1, nötig {grenze}:1): "
                         f"#{tf} auf #{hintergrund}, {pt:.0f}pt – „{txt[:35].strip()}…\""
+                    )
+
+        # Bild über Text (z. B. Icon einer Karte läuft in den Fließtext)
+        for bb in bilder:
+            for tb, volltext, _pt, _teile in texte:
+                u = ueberschneidung(bb, tb, tol=0.04)
+                if u:
+                    meldungen.append(
+                        f"Bild überlappt Text ({u[0]:.2f}x{u[1]:.2f} Zoll): "
+                        f"„{volltext[:40].strip()}…“"
                     )
 
         # Text über Text

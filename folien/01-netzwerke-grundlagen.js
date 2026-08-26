@@ -105,7 +105,7 @@ function tabelle(s, kopf, rows, opts = {}) {
 deck.title({
   eyebrow: "Thema 1 · Abend 1",
   title: "Netzwerke – das Fundament",
-  subtitle: "Auffrischung auf gemeinsamen Stand – und der Blick auf das, was in der Ausbildung nicht vorkam",
+  subtitle: "Auffrischung auf gemeinsamen Stand – und der Blick auf das, was dort meist zu kurz kam",
   note: "Mittwoch, 26. August 2026 · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
@@ -119,7 +119,7 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
     s,
     [
       ["18:00", "Ankommen, Technik, Einstieg"],
-      ["18:10", "Warum Netzwerke – und was in der Ausbildung nicht vorkam"],
+      ["18:10", "Warum Netzwerke – und was bisher meist zu kurz kam"],
       ["18:25", "Auffrischung im Schnellgang: Topologien, Dateneinheiten, Kennzahlen"],
       ["18:45", "Pause"],
       ["18:55", "OSI und TCP/IP, Kapselung, der Werkzeugkasten"],
@@ -168,19 +168,16 @@ deck.content("Warum wir mit Bekanntem anfangen", "Einordnung", (s, api) => {
     s,
     [
       {
-        nummer: "1",
         titel: "Gemeinsame Sprache",
         body: "Ihr kommt aus verschiedenen Betrieben und Jahrgängen. Ab Montag rechnen wir – da müssen die Begriffe bei allen gleich sitzen.",
       },
       {
-        nummer: "2",
         titel: "Standortbestimmung",
         body: "Nach der Ausbildung liegt vieles ein paar Jahre zurück. Heute merkt jeder selbst, wo es hakt – ohne dass es jemand mitbekommt.",
       },
       {
-        nummer: "3",
         titel: "Der neue Teil",
-        body: "Die Industrie- und Anlagenvernetzung stand in keiner FISI-Ausbildung. Genau dort liegt der Kern dieser Fortbildung.",
+        body: "Industrie- und Anlagenvernetzung kam in den meisten Ausbildungen höchstens am Rand vor. Dort liegt der Kern dieser Fortbildung.",
       },
     ],
     { y: 2.16, h: 2.1, titleH: 0.3 }
@@ -234,7 +231,7 @@ deck.content("Klassische IT trifft Industrie", "Zwei Welten", (s, api) => {
   api.kicker(s, "Wer beide Welten verbindet, muss die Regeln von beiden Seiten kennen.", { y: 4.56 });
 });
 
-deck.content("Was in der Ausbildung nicht vorkam", "Der Kern dieser Fortbildung", (s, api) => {
+deck.content("Was bisher meist zu kurz kam", "Der Kern dieser Fortbildung", (s, api) => {
   api.lead(s, "Eure Ausbildung hat euch die Office-IT gegeben. Hier kommt die andere Hälfte dazu.");
   api.cardRow(
     s,
@@ -272,7 +269,7 @@ deck.content("Was in der Ausbildung nicht vorkam", "Der Kern dieser Fortbildung"
     ],
     { y: 2.16, h: 2.1, titleH: 0.3, fontSize: 11 }
   );
-  api.kicker(s, "Die Netzwerkabende sind der einzige größere Wiederholungsteil. Ab Abend 7 wird es für alle neu.", { y: 4.5 });
+  api.kicker(s, "Die Netzwerkabende sind der einzige größere Wiederholungsteil. Ab Abend 7 wird es für die meisten neu.", { y: 4.5 });
 });
 
 // ============================================================ Grundbegriffe
@@ -312,12 +309,12 @@ deck.content("Was fließt eigentlich durch das Netz?", "Dateneinheiten", (s, api
   api.kicker(s, "Wenn jemand von „Paket“ spricht, meint er Layer 3. Bei „Frame“ ist er auf Layer 2.", { y: 4.56 });
 });
 
-deck.content("Bandbreite ist nicht gleich Geschwindigkeit", "Kennzahlen", (s, api) => {
+deck.content("Bandbreite ist nicht Geschwindigkeit", "Kennzahlen", (s, api) => {
   s.addImage({ path: D.bandbreiteLatenz(), x: T.RAND, y: 1.78, w: T.INHALT_W, h: 1.75 });
   api.cardRow(
     s,
     [
-      { titel: "Jitter", body: "Wie stark die Latenz schwankt. Killt Sprache und Video, nicht Downloads." },
+      { titel: "Jitter", body: "Schwankende Latenz. Stört Sprache und Video." },
       { titel: "Paketverlust", body: "Was unterwegs verloren geht. TCP holt es nach – das kostet Zeit." },
       { titel: "Der Alltagsfall", body: "„Die Leitung ist zu klein\" stimmt selten. Meist wartet etwas anderes." },
     ],
@@ -355,7 +352,7 @@ deck.content("Warum überhaupt Schichten?", "Grundidee", (s, api) => {
 
 deck.content("Die beiden Modelle nebeneinander", "Auffrischung", (s, api) => {
   s.addImage({ path: D.osiTcpip(), x: T.RAND, y: 1.66, w: T.INHALT_W, h: 2.75 });
-  api.kicker(s, "Faustregel: OSI zum Erklären, TCP/IP zum Arbeiten. Gerechnet und gemessen wird auf 2, 3 und 4.", { y: 4.56 });
+  api.kicker(s, "Faustregel: OSI zum Erklären, TCP/IP zum Arbeiten – die Schicht-Nummern nimmt trotzdem jeder aus OSI.", { y: 4.56 });
 });
 
 deck.content("Kapselung – der Umschlag im Umschlag", "Was mit euren Daten passiert", (s, api) => {
@@ -509,7 +506,7 @@ deck.content("Das nehmt ihr heute mit", "Kern des Abends", (s, api) => {
     [
       { text: "Dieselben Daten heißen je nach Schicht Frame, Paket oder Segment.", bold: true },
       { text: "Kapselung: nichts wird ersetzt, es kommt nur außen etwas dazu.", bold: true },
-      { text: "OSI sieben Schichten, TCP/IP vier. Gearbeitet wird auf 2, 3 und 4.", bold: true },
+      { text: "OSI sieben Schichten, TCP/IP vier – gemessen habt ihr heute auf allen außer 5 und 6.", bold: true },
       { text: "Bandbreite ist nicht Geschwindigkeit. Latenz ist die andere Hälfte.", bold: true },
       { text: "Fehlersuche: von unten nach oben, und jeder Befehl beweist nur seine Schicht.", bold: true },
     ],
@@ -527,7 +524,7 @@ deck.content("Das nehmt ihr heute mit", "Kern des Abends", (s, api) => {
 });
 
 deck.content("Bis Montag", "Nacharbeit", (s, api) => {
-  api.lead(s, "Eine Bitte und drei Angebote – die Bitte zuerst.");
+  api.lead(s, "Eine Bitte und zwei Angebote – die Bitte zuerst.");
   api.cardRow(
     s,
     [
@@ -537,19 +534,15 @@ deck.content("Bis Montag", "Nacharbeit", (s, api) => {
         akzent: "bernstein",
       },
       {
-        titel: "Nur wenn etwas hakte",
-        body: "„Grundbegriffe“ und „OSI- und TCP/IP-Modell“ stehen auf der Kursseite – für die Stellen, an denen ihr heute gestockt habt.",
-      },
-      {
-        titel: "Nachholen",
-        body: "Wer nicht bis zu den Störungen kam: Station 3 lohnt sich. Die Auflösungen stehen zum Aufklappen darunter.",
+        titel: "Wenn etwas hakte",
+        body: "„Grundbegriffe“ und „OSI und TCP/IP“ stehen auf der Kursseite. Und wer nicht bis zu den Störungen kam: Station 3 lohnt sich.",
       },
       {
         titel: "Vorbereiten",
         body: "Montag rechnen wir Subnetze. Papier und Stift reichen – Taschenrechner braucht ihr nicht.",
       },
     ],
-    { y: 2.16, h: 2.1, gap: 0.18, titleH: 0.42, fontSize: 10.5, titleSize: 12 }
+    { y: 2.16, h: 2.1, titleH: 0.28 }
   );
   api.kicker(s, "Nächster Termin: Montag, 31. August, 18:00 Uhr – Adressierung und Subnetting.", { y: 4.5 });
 });

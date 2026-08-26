@@ -299,7 +299,7 @@ function topologien() {
   const gap = (B - 4 * panelW) / 3;
   const teile = [];
 
-  const mitteY = 78;
+  const mitteY = 62; // Panel ist 126 hoch – Zeichnung mittig, nichts ragt heraus
   const r = 7.5;
 
   function panel(i, titel, unterzeile, zeichnung, akzent) {
@@ -315,7 +315,7 @@ function topologien() {
     const arme = [];
     for (let k = 0; k < 6; k++) {
       const w = (Math.PI * 2 * k) / 6 - Math.PI / 2;
-      arme.push([cx + 62 * Math.cos(w), cy + 44 * Math.sin(w)]);
+      arme.push([cx + 60 * Math.cos(w), cy + 40 * Math.sin(w)]);
     }
     let out = arme.map(([x, y]) => linie(cx, cy, x, y, { farbe: F.kante, breite: 2 })).join("");
     out += `<rect x="${cx - 17}" y="${cy - 11}" width="34" height="22" rx="3" fill="${F.blau}"/>`;
@@ -324,7 +324,7 @@ function topologien() {
   }, F.blau);
 
   // Ring: sechs Knoten im Kreis, geschlossene Kette
-  panel(1, "Ring", "Bruch wird umgeleitet", (cx, cy) => {
+  panel(1, "Ring", "Redundant: Bruch wird verkraftet", (cx, cy) => {
     const R = 42;
     const p = [];
     for (let k = 0; k < 6; k++) {
@@ -555,16 +555,26 @@ function osiTcpip() {
     // Klammer zwischen den Spalten
     const kx = linksX + spaltenW + 14;
     const mitte = (yTop + yBot) / 2;
-    teile.push(
-      `<path d="M${kx},${yTop + 3} L${kx + 12},${yTop + 3} L${kx + 12},${mitte - 6} L${kx + 24},${mitte} ` +
-        `L${kx + 12},${mitte + 6} L${kx + 12},${yBot - 3} L${kx},${yBot - 3}" ` +
-        `fill="none" stroke="${F.teal}" stroke-width="1.8" stroke-linejoin="round"/>`
-    );
-    teile.push(linie(kx + 24, mitte, rechtsX - 4, mitte, { farbe: F.teal, breite: 1.8, pfeil: "pfeilTeal" }));
+    if (yBot - yTop >= 44) {
+      teile.push(
+        `<path d="M${kx},${yTop + 3} L${kx + 12},${yTop + 3} L${kx + 12},${mitte - 6} L${kx + 24},${mitte} ` +
+          `L${kx + 12},${mitte + 6} L${kx + 12},${yBot - 3} L${kx},${yBot - 3}" ` +
+          `fill="none" stroke="${F.teal}" stroke-width="1.8" stroke-linejoin="round"/>`
+      );
+      teile.push(linie(kx + 24, mitte, rechtsX - 4, mitte, { farbe: F.teal, breite: 1.8, pfeil: "pfeilTeal" }));
+    } else {
+      teile.push(linie(kx, mitte, rechtsX - 4, mitte, { farbe: F.teal, breite: 1.8, pfeil: "pfeilTeal" }));
+    }
 
     teile.push(kasten(rechtsX, yTop, spaltenW, h, { fuellung: F.tealTief, rand: F.teal, randBreite: 1.4, radius: 3 }));
-    teile.push(t(rechtsX + 14, mitte - 2, g.name, { groesse: 12.5, fett: true, farbe: F.textStark }));
-    teile.push(t(rechtsX + 14, mitte + 14, g.beispiele, { groesse: 10.5, farbe: F.text }));
+    if (h < 44) {
+      // Einzeilige Gruppe: Name und Beispiele nebeneinander, sauber mittig
+      teile.push(t(rechtsX + 14, mitte + 4.5, g.name, { groesse: 12.5, fett: true, farbe: F.textStark }));
+      teile.push(t(rechtsX + spaltenW - 12, mitte + 4, g.beispiele, { groesse: 9.5, farbe: F.text, align: "rechts" }));
+    } else {
+      teile.push(t(rechtsX + 14, mitte - 2, g.name, { groesse: 12.5, fett: true, farbe: F.textStark }));
+      teile.push(t(rechtsX + 14, mitte + 14, g.beispiele, { groesse: 10.5, farbe: F.text }));
+    }
   });
 
   // Merksatz rechts außen

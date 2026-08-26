@@ -260,7 +260,7 @@ deck.content("Unser gemeinsamer Teil", "Die Spezialisierung", (s, api) => {
       {
         nummer: "1",
         titel: "Planen und integrieren",
-        body: "Netzwerke, Virtualisierung, Container, Architekturen, Speicher, Ressourcen und Lizenzen. Wie entsteht eine Infrastruktur?",
+        body: "Netzwerke, Virtualisierung, Container, Speicher, Ressourcen, Lizenzen – wie entsteht eine Infrastruktur?",
       },
       {
         nummer: "2",
