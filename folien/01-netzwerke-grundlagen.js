@@ -168,7 +168,7 @@ function tabelle(s, kopf, rows, opts = {}) {
 deck.title({
   eyebrow: "Thema 1 · Abend 1",
   title: "Netzwerke – das Fundament",
-  subtitle: "Grundbegriffe, OSI- und TCP/IP-Modell – und warum Schichten denken alles einfacher macht",
+  subtitle: "Auffrischung auf gemeinsamen Stand – und der Blick auf das, was in der Ausbildung fehlte",
   note: "Mittwoch, 26. August 2026 · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
@@ -234,31 +234,30 @@ deck.kapitel("Warum Netzwerke zuerst", "Das Querschnittsthema, auf dem der ganze
   nummer: "01",
 });
 
-deck.content("Was ein Netzwerk im Kern ist", "Definition", (s, api) => {
-  api.statement(s, "Zwei oder mehr Geräte, die nach vereinbarten Regeln Daten austauschen.", {
-    y: 1.8,
-    h: 1.0,
-    fontSize: 21,
-  });
+deck.content("Warum wir mit Bekanntem anfangen", "Einordnung", (s, api) => {
+  api.lead(s, "Ihr seid ausgebildete Fachinformatiker. Das meiste von heute Abend habt ihr schon einmal gehört – und das ist Absicht.");
   api.cardRow(
     s,
     [
       {
-        titel: "Verbindung",
-        body: "Ein Medium, über das Signale laufen: Kupfer, Glasfaser oder Funk.",
+        nummer: "1",
+        titel: "Gemeinsame Sprache",
+        body: "Ihr kommt aus verschiedenen Betrieben und Jahrgängen. Ab Montag rechnen wir – da müssen die Begriffe bei allen gleich sitzen.",
       },
       {
-        titel: "Adressen",
-        body: "Jedes Gerät braucht eine eindeutige Kennung, sonst weiß niemand, wohin.",
+        nummer: "2",
+        titel: "Standortbestimmung",
+        body: "Nach der Ausbildung liegt vieles ein paar Jahre zurück. Heute merkt jeder selbst, wo es hakt – ohne dass es jemand mitbekommt.",
       },
       {
-        titel: "Regeln",
-        body: "Protokolle legen fest, wie gefragt, geantwortet und quittiert wird.",
+        nummer: "3",
+        titel: "Der neue Teil",
+        body: "Die Industrie- und Anlagenvernetzung stand in keiner FISI-Ausbildung. Genau dort liegt der Kern dieser Fortbildung.",
       },
     ],
-    { y: 3.0, h: 1.45, titleH: 0.28 }
+    { y: 2.16, h: 2.1, titleH: 0.3 }
   );
-  api.kicker(s, "Fehlt einer der drei Punkte, gibt es keine Kommunikation – nur Rauschen.", { y: 4.6 });
+  api.kicker(s, "Heute wird es schnell gehen. Sagt Bescheid, wenn ich zu schnell bin – oder zu langsam.", { y: 4.5 });
 });
 
 deck.content("Drei Situationen aus dem Berufsalltag", "Praxisbezug", (s, api) => {
@@ -304,31 +303,55 @@ deck.content("Klassische IT trifft Industrie", "Zwei Welten", (s, api) => {
   api.kicker(s, "Wer beide Welten verbindet, muss die Regeln von beiden Seiten kennen.", { y: 4.56 });
 });
 
+deck.content("Was in der Ausbildung nicht vorkam", "Der Kern dieser Fortbildung", (s, api) => {
+  api.lead(s, "Eure Ausbildung hat euch die Office-IT gegeben. Hier kommt die andere Hälfte dazu.");
+  api.cardRow(
+    s,
+    [
+      {
+        titel: "Kennt ihr schon",
+        body: [
+          "OSI und TCP/IP",
+          "Subnetting und Routing",
+          "DNS, DHCP, VLAN, VPN",
+          "Switches, Firewalls",
+          "Virtualisierung",
+        ],
+        akzent: "blau",
+      },
+      {
+        titel: "Kommt neu dazu",
+        body: [
+          "Profinet, OPC UA, MQTT",
+          "Cyber-physische Systeme",
+          "Container und Orchestrierung",
+          "Verfügbarkeit rechnen, BCM",
+          "ISMS und Testmanagement",
+        ],
+        akzent: "teal",
+      },
+      {
+        titel: "Der eigentliche Sprung",
+        body: [
+          "Vom Ausführen zum Planen.",
+          "Ihr habt Systeme betrieben – jetzt konzipiert, bewertet und verantwortet ihr sie.",
+        ],
+        akzent: "bernstein",
+      },
+    ],
+    { y: 2.16, h: 2.1, titleH: 0.3, fontSize: 11 }
+  );
+  api.kicker(s, "Die Netzwerkabende sind der einzige größere Wiederholungsteil. Ab Abend 7 wird es für alle neu.", { y: 4.5 });
+});
+
 // ============================================================ Grundbegriffe
 deck.abschnitt("Grundbegriffe", "blau");
 
-deck.kapitel("Die Begriffe des Alltags", "Reichweiten, Topologien, Rollen und Kennzahlen", {
+deck.kapitel("Auffrischung", "Die Begriffe, bei denen es erfahrungsgemäß auseinandergeht", {
   nummer: "02",
 });
 
-deck.content("Netze nach Reichweite", "Begriffe", (s, api) => {
-  api.lead(s, "Die Abkürzungen unterscheiden sich nur in einem Buchstaben – und in Kilometern.");
-  tabelle(
-    s,
-    ["Typ", "Reichweite", "Typisches Beispiel"],
-    [
-      ["PAN", "wenige Meter", "Kopfhörer per Bluetooth am Handy"],
-      ["LAN", "Gebäude oder Gelände", "Büronetz, Werkshalle, Heimnetz"],
-      ["WLAN", "Gebäude, drahtlos", "dasselbe LAN, nur über Funk"],
-      ["MAN", "Stadtgebiet", "Standorte einer Stadtverwaltung"],
-      ["WAN", "Land oder weltweit", "Standortkopplung, das Internet"],
-    ],
-    { y: 2.16, rowH: 0.36, spalten: [1.5, 2.4], fontSize: 11.5 }
-  );
-  api.kicker(s, "Merksatz: LAN ist das, was euch gehört. WAN ist das, was ihr mietet.", { y: 4.56 });
-});
-
-deck.content("Topologien – wie die Geräte verbunden sind", "Begriffe", (s, api) => {
+deck.content("Topologien – nur die eine Frage", "Kurzcheck", (s, api) => {
   api.cardRow(
     s,
     [
@@ -371,38 +394,9 @@ deck.content("Topologien – wie die Geräte verbunden sind", "Begriffe", (s, ap
     y: 4.2,
     h: 0.62,
     hell: true,
-    body: "Wichtig ist nicht das Bild, sondern die Folge: Welcher Ausfall legt wie viel lahm?",
+    body: "Die Bilder kennt ihr. Interessant ist nur die Folge: Welcher Ausfall legt wie viel lahm? Der Ring ist der Grund, warum die Industrie anders baut als das Büro.",
     fontSize: 11.5,
   });
-});
-
-deck.content("Client/Server oder gleichberechtigt?", "Rollen", (s, api) => {
-  api.lead(s, "Zwei Modelle, wie Geräte ihre Aufgaben untereinander verteilen.");
-  api.cardRow(
-    s,
-    [
-      {
-        titel: "Client-Server",
-        body: [
-          "Ein Dienst wartet, viele fragen an.",
-          "Zentral verwaltbar: Rechte, Backup, Updates an einer Stelle.",
-          "Der Server ist der Engpass und das Ausfallrisiko.",
-          "Beispiele: Webserver, Datenbank, Dateiserver.",
-        ],
-      },
-      {
-        titel: "Peer-to-Peer",
-        body: [
-          "Jeder ist zugleich Anbieter und Nutzer.",
-          "Kein zentraler Punkt, der ausfallen kann.",
-          "Schwer zu verwalten und abzusichern.",
-          "Beispiele: Dateifreigaben im Kleinbüro, Blockchain.",
-        ],
-      },
-    ],
-    { y: 2.16, h: 2.2, titleH: 0.3, fontSize: 11.5 }
-  );
-  api.kicker(s, "Im Unternehmen fast immer Client-Server – wegen Verwaltbarkeit, nicht wegen Technik.", { y: 4.56 });
 });
 
 deck.content("Was fließt eigentlich durch das Netz?", "Dateneinheiten", (s, api) => {
@@ -446,7 +440,7 @@ deck.abschnitt("OSI und TCP/IP", "teal");
 deck.kapitel("Schichten denken", "Das wichtigste Werkzeug des ganzen Abends", { nummer: "03" });
 
 deck.content("Warum überhaupt Schichten?", "Grundidee", (s, api) => {
-  api.lead(s, "Ein Netzwerk hat zu viele Aufgaben, um sie an einem Stück zu lösen. Also zerlegt man sie.");
+  api.lead(s, "Bekannt – aber die wenigsten benutzen es im Alltag wirklich. Genau darum geht es heute.");
   api.bullets(
     s,
     [
@@ -481,7 +475,7 @@ deck.content("Das OSI-Modell", "Sieben Schichten", (s) => {
 });
 
 deck.content("Das TCP/IP-Modell", "Vier Schichten – das echte Internet", (s, api) => {
-  api.lead(s, "OSI ist das Lehrmodell, TCP/IP das tatsächlich gebaute. Beide müsst ihr zuordnen können.");
+  api.lead(s, "Die Zuordnung sitzt erfahrungsgemäß nicht mehr sauber – deshalb einmal nebeneinander.");
   tabelle(
     s,
     ["TCP/IP", "entspricht OSI", "Was dort passiert"],

@@ -5,22 +5,22 @@ description: "Erste Praxisübung im Netzwerk-Block (ca. 50 Minuten): Nimm deinen
 
 # Praxis: Der Schichten-Check
 
-<span class='badge badge-praxis'>Praxis</span> &nbsp; Das Schichtenmodell ist erst dann wirklich deins, wenn du es an einer echten Maschine wiedererkennst. Genau das machst du hier – an deinem eigenen Rechner, mit Befehlen, die auf jedem System schon installiert sind.
+<span class='badge badge-praxis'>Praxis</span> &nbsp; Das Schichtenmodell kennst du aus der Ausbildung. Die Frage ist, ob du es im Ernstfall auch **benutzt** – oder ob du wie alle anderen anfängst, Dinge auszuprobieren. Genau das trennt diese Übung.
 
 !!! info "Auf einen Blick"
-    - **Dauer:** ca. 50 Minuten (drei Stationen, plus eine Kür für Schnelle)
+    - **Dauer:** ca. 50 Minuten. Station 1 und 2 gehen schnell, Station 3 ist der Kern.
     - **Gruppen:** 3–4 Personen. Eine Person teilt den Bildschirm, alle tippen bei sich mit.
     - **Material:** dein eigener Rechner. **Keine Installation nötig** – alles sind Bordmittel.
-    - **Voraussetzung:** [Grundbegriffe](grundbegriffe.md) und [OSI- und TCP/IP-Modell](osi-und-tcp-ip-modell.md).
+    - **Voraussetzung:** keine. Wer auffrischen will: [Grundbegriffe](grundbegriffe.md) und [OSI- und TCP/IP-Modell](osi-und-tcp-ip-modell.md).
     - **Ergebnis:** ein ausgefüllter Netz-Steckbrief und eine Zuordnung „Befehl → Schicht", die dich den ganzen Kurs über begleitet.
 
 ---
 
 ## Worum es geht
 
-In der Theorie sind die sieben Schichten eine Liste, die man auswendig lernt und wieder vergisst. Im Betrieb sind sie etwas ganz anderes: ein **Suchraster für Fehler**. Wer weiß, auf welcher Schicht ein Problem sitzt, hat es schon fast gelöst – wer es nicht weiß, probiert eine Stunde lang herum.
+Fast jeder kann die sieben Schichten aufsagen. Deutlich weniger benutzen sie, wenn es klemmt – dann wird der Browser neu gestartet, das WLAN aus- und eingeschaltet und der Kollege gefragt. Das Schichtenmodell ist im Betrieb kein Lernstoff, sondern ein **Suchraster**: Wer weiß, auf welcher Schicht das Problem sitzt, ist in zwei Minuten fertig statt in einer Stunde.
 
-Diese Übung baut genau diese Verbindung auf. Du misst sechs Werte an deinem Rechner und ordnest sie ein. Du führst fünf Befehle aus und stellst fest, dass jeder von ihnen eine andere Schicht prüft. Und zum Schluss sortierst du fünf Störungen ein, wie sie dir im Job auf den Tisch kommen – meist verpackt als „Internet geht nicht“.
+Die ersten beiden Stationen gehen deshalb zügig – sie stellen nur sicher, dass alle dieselben Werte vor Augen haben. **Das eigentliche Stück Arbeit ist Station 3.** Dort geht es nicht mehr um Befehle, sondern um die Frage, wie du systematisch von einem Symptom auf die Ursache kommst.
 
 !!! tip "Spielregel"
     Tipp jeden Befehl **selbst** und lies die Ausgabe, bevor du die Auflösung aufklappst. Deine Werte sehen anders aus als die Beispiele hier – das ist genau richtig, denn es ist dein Netz.
@@ -46,7 +46,7 @@ Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen n
 
 ## Station 1 – Dein Netz-Steckbrief
 
-**Ziel:** sechs Werte über deinen Rechner finden – und jeden einer Schicht zuordnen.
+**Zügig, etwa 8 Minuten.** Die Befehle kennst du. Es geht nicht ums Finden, sondern um die rechte Spalte der Tabelle: **Welcher Wert gehört zu welcher Schicht?** Dort geht es erfahrungsgemäß auseinander.
 
 === "Windows"
     ```powershell
@@ -115,7 +115,7 @@ Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen n
 
 ## Station 2 – Die Schichten in Aktion
 
-**Ziel:** Fünf Befehle ausführen und zu jedem notieren, **welche Schicht er prüft** und **woran du das in der Ausgabe siehst**.
+**Etwa 12 Minuten.** Auch diese Befehle sind dir vertraut. Die Frage ist eine andere: **Was genau beweist ein erfolgreicher Befehl – und was beweist er ausdrücklich nicht?**
 
 === "Windows"
     ```powershell
@@ -168,7 +168,9 @@ Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen n
 
 ## Station 3 – Fünf Störungen einsortieren
 
-**Ziel:** die wichtigste Station. Zu jedem Fall zwei Antworten: **Welche Schicht ist betroffen?** und **Mit welchem Befehl weist du es nach?**
+**Der Kern der Übung, etwa 20 Minuten.** Zu jedem Fall drei Antworten: **Welche Schicht ist betroffen? Mit welchem Befehl weist du es nach? Und was ist die wahrscheinlichste Ursache dahinter?**
+
+Diskutiert die Fälle in der Gruppe aus. Bei mindestens zweien davon ist die naheliegende Antwort nicht die vollständige.
 
 | # | Störungsmeldung | Schicht | Nachweis |
 |---:|---|---|---|
