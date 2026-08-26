@@ -390,15 +390,12 @@ deck.content("Kapselung – der Umschlag im Umschlag", "Was mit euren Daten pass
 });
 
 deck.content("Ein Befehl je Schicht", "Der Werkzeugkasten", (s, api) => {
-  s.addImage({ path: D.diagnoseLeiter(), x: T.RAND, y: 1.66, w: T.INHALT_W, h: 2.55 });
+  s.addImage({ path: D.diagnoseLeiter(), x: T.RAND, y: 1.62, w: T.INHALT_W, h: 2.7 });
   api.card(s, {
-    y: 4.22,
-    h: 0.6,
+    y: 4.4,
+    h: 0.48,
     hell: true,
-    body: [
-      "macOS: ifconfig · arp -a · traceroute · dig",
-      "Linux: ip -brief addr · ip neigh · tracepath · resolvectl query",
-    ],
+    body: "macOS: ifconfig · arp -a · traceroute · dig · nc -vz host port",
     fontSize: 10.5,
     akzent: "teal",
   });

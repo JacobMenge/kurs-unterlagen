@@ -692,41 +692,42 @@ function osiTcpip() {
  */
 function diagnoseLeiter() {
   const B = 876;
-  const H = 255;
+  const H = 270;
   const teile = [];
 
+  // Windows als Hauptfall, Linux direkt darunter an jeder Stufe –
+  // niemand muss für seinen Befehl die Folie verlassen.
   const stufen = [
-    { nr: "1", frage: "Steckt überhaupt etwas?", befehl: "ipconfig", farbe: F.textLeise },
-    { nr: "2", frage: "Wen sehe ich lokal?", befehl: "arp -a", farbe: F.textLeise },
-    { nr: "3", frage: "Komme ich ans Ziel?", befehl: "ping · tracert", farbe: F.blau },
-    { nr: "4", frage: "Ist der Port offen?", befehl: "Test-NetConnection", farbe: F.teal },
-    { nr: "7", frage: "Kennt jemand den Namen?", befehl: "nslookup", farbe: F.bernstein },
+    { nr: "1", frage: "Steckt überhaupt etwas?", win: "ipconfig", linux: "ip -brief addr", farbe: F.textLeise },
+    { nr: "2", frage: "Wen sehe ich lokal?", win: "arp -a", linux: "ip neigh", farbe: F.textLeise },
+    { nr: "3", frage: "Komme ich ans Ziel?", win: "ping · tracert", linux: "ping · tracepath", farbe: F.blau },
+    { nr: "4", frage: "Ist der Port offen?", win: "Test-NetConnection", linux: "nc -vz", farbe: F.teal },
+    { nr: "7", frage: "Kennt jemand den Namen?", win: "nslookup", linux: "resolvectl query", farbe: F.bernstein },
   ];
 
-  const stufeH = 34;
-  const stufeGap = 7;
+  const stufeH = 40;
+  const stufeGap = 6;
   const stufeW = 372;
   const versatz = 58;
   const basisY = H - 30;
 
-  stufen.forEach((s, i) => {
+  stufen.forEach((st, i) => {
     const y = basisY - (i + 1) * (stufeH + stufeGap) + stufeGap;
     const w = stufeW;
     const x = i * versatz;
 
-    // Stufenkante nach unten, damit die Treppe als Treppe lesbar wird
     if (i > 0) {
       teile.push(linie(x, y + stufeH, x, y + stufeH + stufeGap, { farbe: F.linie, breite: 1.5 }));
     }
     teile.push(kasten(x, y, w, stufeH, { fuellung: F.flaeche, radius: 3 }));
-    teile.push(`<rect x="${x}" y="${y}" width="30" height="${stufeH}" rx="3" fill="${s.farbe}"/>`);
-    teile.push(`<rect x="${x + 24}" y="${y}" width="6" height="${stufeH}" fill="${s.farbe}"/>`);
-    teile.push(t(x + 15, y + stufeH / 2 + 4.5, s.nr, { groesse: 12, fett: true, farbe: F.weiss, align: "mitte" }));
-    teile.push(t(x + 42, y + stufeH / 2 + 4.5, s.frage, { groesse: 12, fett: true, farbe: F.textStark }));
-    teile.push(t(x + w - 14, y + stufeH / 2 + 4.5, s.befehl, { groesse: 11, farbe: s.farbe, align: "rechts" }));
+    teile.push(`<rect x="${x}" y="${y}" width="30" height="${stufeH}" rx="3" fill="${st.farbe}"/>`);
+    teile.push(`<rect x="${x + 24}" y="${y}" width="6" height="${stufeH}" fill="${st.farbe}"/>`);
+    teile.push(t(x + 15, y + stufeH / 2 + 4.5, st.nr, { groesse: 12, fett: true, farbe: F.weiss, align: "mitte" }));
+    teile.push(t(x + 42, y + stufeH / 2 + 4.5, st.frage, { groesse: 12, fett: true, farbe: F.textStark }));
+    teile.push(t(x + w - 14, y + 17, st.win, { groesse: 10.5, farbe: st.farbe, align: "rechts" }));
+    teile.push(t(x + w - 14, y + 32, "Linux: " + st.linux, { groesse: 9.5, farbe: F.textLeise, align: "rechts" }));
   });
 
-  // Aufwärtspfeil links
   const pfeilX = B - 146;
   teile.push(linie(pfeilX, basisY - 4, pfeilX, 14, { farbe: F.text, breite: 2, pfeil: "pfeil" }));
   teile.push(t(pfeilX + 16, 30, "von unten", { groesse: 12, fett: true, farbe: F.textStark }));
@@ -735,7 +736,6 @@ function diagnoseLeiter() {
   teile.push(t(pfeilX + 16, 90, "die stumm bleibt,", { groesse: 11, farbe: F.textLeise }));
   teile.push(t(pfeilX + 16, 106, "zeigt, wo du suchst.", { groesse: 11, farbe: F.textLeise }));
 
-  // Grundlinie unter der untersten Stufe
   teile.push(linie(0, basisY + 3, stufeW, basisY + 3, { farbe: F.linie, breite: 2 }));
 
   return render("diagnose-leiter", svg(B, H, teile.join("")), B);
