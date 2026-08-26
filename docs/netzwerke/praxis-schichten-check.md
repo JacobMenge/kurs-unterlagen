@@ -12,6 +12,8 @@ description: "Praxisübung zum Einstieg in den Netzwerk-Block (ca. 55 Minuten): 
     - **Gruppen:** 3–4 Personen. Eine Person teilt den Bildschirm, alle tippen bei sich mit.
     - **Material:** dein eigener Rechner. Keine Administratorrechte nötig.
     - **Systeme:** Windows, macOS und Linux sind überall getrennt aufgeführt. Nimm den Reiter für dein System.
+    - **Festhalten:** Eure Antworten kommen ins gemeinsame Ergebnis-Dokument – den Link zeigt die Briefing-Folie. Die Tabellen hier auf der Seite sind die Vorlage dafür.
+    - **Für die Auswertung:** Sprecher und zugeteilter Störungsfall stehen aus dem Briefing fest – bearbeitet trotzdem alle fünf Fälle.
     - **Ergebnis:** ein ausgefüllter Netz-Steckbrief und eine Zuordnung „Befehl → Schicht", die dich durch den ganzen Kurs trägt.
 
 ---
@@ -73,6 +75,8 @@ Alle Befehle hier lesen nur. Sie verändern nichts an deiner Konfiguration.
     Zu `dynamic`: Das Flag heißt, die Adresse hat eine begrenzte Gültigkeit. Fast immer ist das DHCP, es kann aber auch IPv6-Autokonfiguration sein.
 
 ### Trag ein
+
+Kopiert euch die Tabelle ins Ergebnis-Dokument und füllt sie dort aus – hier auf der Seite geht das nicht.
 
 | Wert | dein Ergebnis | gehört zu Schicht |
 |---|---|---|
