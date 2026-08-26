@@ -105,7 +105,7 @@ function tabelle(s, kopf, rows, opts = {}) {
 deck.title({
   eyebrow: "Thema 1 · Abend 1",
   title: "Netzwerke – das Fundament",
-  subtitle: "Auffrischung auf gemeinsamen Stand – und der Blick auf das, was in der Ausbildung fehlte",
+  subtitle: "Auffrischung auf gemeinsamen Stand – und der Blick auf das, was in der Ausbildung nicht vorkam",
   note: "Mittwoch, 26. August 2026 · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
@@ -278,7 +278,7 @@ deck.content("Was in der Ausbildung nicht vorkam", "Der Kern dieser Fortbildung"
 // ============================================================ Grundbegriffe
 deck.abschnitt("Grundbegriffe", "blau");
 
-deck.kapitel("Auffrischung", "Die Begriffe, bei denen es erfahrungsgemäß auseinandergeht", {
+deck.kapitel("Auffrischung", "Die Begriffe, bei denen es gern auseinandergeht", {
   nummer: "02",
 });
 
@@ -552,7 +552,7 @@ deck.content("Bis Montag", "Nacharbeit", (s, api) => {
 deck.schluss({
   title: "Fragen?",
   subtitle: "Alles von heute steht zum Nachlesen auf der Kursseite – der ganze Netzwerk-Block ist schon online.",
-  note: "Montag, 31. August · Adressierung und Subnetting",
+  note: "Montag, 31. August · Adressierung und Subnetting · Papier und Stift mitbringen",
 });
 
 // ============================================================ Bauen
