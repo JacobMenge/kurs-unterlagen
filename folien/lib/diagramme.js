@@ -521,55 +521,83 @@ function bandbreiteLatenz() {
  */
 function kapselung() {
   const B = 876;
-  const H = 205;
+  const H = 252;
   const teile = [];
 
-  const ebenen = [
-    { name: "Frame", schicht: "Schicht 2", kopf: "MAC", farbe: F.textLeise, tief: F.flaeche, schwanz: "FCS" },
-    { name: "Paket", schicht: "Schicht 3", kopf: "IP", farbe: F.blau, tief: F.blauTief },
-    { name: "Segment", schicht: "Schicht 4", kopf: "TCP", farbe: F.teal, tief: F.tealTief },
+  // Zeilenweise statt verschachtelt: Jede Zeile zeigt einen Einpack-Schritt,
+  // benennt die Schicht links, die neue Hülle im Block und den entstehenden
+  // Namen rechts. Die Nachricht selbst ist als HTTP ausgewiesen.
+  const rowH = 44;
+  const gap = 12;
+  const y0 = 8;
+
+  // Feste Spalten: die Nachricht bleibt an Ort und Stelle, Kopfteile kommen links dazu
+  const NUTZ = { x: 460, w: 310 };
+  const TCP = { x: 372, w: 84 };
+  const IP = { x: 284, w: 84 };
+  const MAC = { x: 196, w: 84 };
+  const FCS = { x: 774, w: 44 };
+
+  function blockM(x, w, y, farbe, haupt, sub) {
+    let out = kasten(x, y, w, rowH, { fuellung: farbe, radius: 4 });
+    out += t(x + w / 2, y + (sub ? 19 : 26), haupt, { groesse: 11.5, fett: true, farbe: F.weiss, align: "mitte" });
+    if (sub) out += t(x + w / 2, y + 34, sub, { groesse: 8.5, farbe: F.weiss, align: "mitte" });
+    return out;
+  }
+
+  const zeilen = [
+    {
+      links: ["Schicht 7 · Anwendung", "schreibt die Nachricht"],
+      name: "Daten", nameFarbe: F.bernstein,
+      bloecke: (y) => blockM(NUTZ.x, NUTZ.w, y, F.bernstein, "HTTP", "\u201EGET /index.html\u201C"),
+    },
+    {
+      links: ["Schicht 4 · Transport", "ergänzt die Ports"],
+      name: "Segment", nameFarbe: F.teal,
+      bloecke: (y) =>
+        blockM(TCP.x, TCP.w, y, F.teal, "TCP", "Ports") +
+        blockM(NUTZ.x, NUTZ.w, y, F.bernstein, "HTTP", "\u201EGET /index.html\u201C"),
+    },
+    {
+      links: ["Schicht 3 · Vermittlung", "ergänzt die IP-Adressen"],
+      name: "Paket", nameFarbe: F.blau,
+      bloecke: (y) =>
+        blockM(IP.x, IP.w, y, F.blau, "IP", "Quelle → Ziel") +
+        blockM(TCP.x, TCP.w, y, F.teal, "TCP", "Ports") +
+        blockM(NUTZ.x, NUTZ.w, y, F.bernstein, "HTTP", "\u201EGET /index.html\u201C"),
+    },
+    {
+      links: ["Schicht 2 · Sicherung", "rahmt fürs Kabel, mit Prüfsumme"],
+      name: "Frame", nameFarbe: F.textLeise,
+      bloecke: (y) =>
+        blockM(MAC.x, MAC.w, y, F.textLeise, "MAC", "im LAN") +
+        blockM(IP.x, IP.w, y, F.blau, "IP", "Quelle → Ziel") +
+        blockM(TCP.x, TCP.w, y, F.teal, "TCP", "Ports") +
+        blockM(NUTZ.x, NUTZ.w, y, F.bernstein, "HTTP", "\u201EGET /index.html\u201C") +
+        blockM(FCS.x, FCS.w, y, F.textLeise, "FCS", "Prüfung"),
+    },
   ];
 
-  const y0 = 22;
-  const hoeheAussen = 116;
-  const einzug = 16;
-
-  ebenen.forEach((e, i) => {
-    const x = i * (einzug + 34);
-    const y = y0 + i * einzug;
-    const w = B - 2 * x;
-    const h = hoeheAussen - 2 * i * einzug;
-
-    teile.push(kasten(x, y, w, h, { fuellung: e.tief, rand: e.farbe, randBreite: 1.8, radius: 4 }));
-    // Kopfteil links
-    teile.push(
-      `<rect x="${x}" y="${y}" width="34" height="${h}" rx="4" fill="${e.farbe}"/>` +
-        `<rect x="${x + 26}" y="${y}" width="8" height="${h}" fill="${e.farbe}"/>`
-    );
-    teile.push(t(x + 17, y + h / 2 + 4, e.kopf, { groesse: 11, fett: true, farbe: F.weiss, align: "mitte" }));
-    // Beschriftung über dem Kasten
-    teile.push(t(x + 42, y - 6, `${e.name} · ${e.schicht}`, { groesse: 10.5, fett: true, farbe: e.farbe }));
-    // Schwanz nur beim Frame
-    if (e.schwanz) {
-      teile.push(`<rect x="${x + w - 30}" y="${y}" width="30" height="${h}" rx="4" fill="${e.farbe}"/>`);
-      teile.push(`<rect x="${x + w - 30}" y="${y}" width="8" height="${h}" fill="${e.farbe}"/>`);
-      teile.push(t(x + w - 15, y + h / 2 + 4, e.schwanz, { groesse: 9.5, fett: true, farbe: F.weiss, align: "mitte" }));
+  zeilen.forEach((z, i) => {
+    const y = y0 + i * (rowH + gap);
+    const cy = y + rowH / 2;
+    teile.push(t(180, cy - 2, z.links[0], { groesse: 11, fett: true, farbe: F.textStark, align: "rechts" }));
+    teile.push(t(180, cy + 14, z.links[1], { groesse: 9.5, farbe: F.textLeise, align: "rechts" }));
+    teile.push(z.bloecke(y));
+    teile.push(t(874, cy + 4, z.name, { groesse: 12, fett: true, farbe: z.nameFarbe, align: "rechts" }));
+    // Pfeil zwischen den Zeilen: es ist derselbe Inhalt, eine Hülle mehr
+    if (i < zeilen.length - 1) {
+      const px = NUTZ.x + NUTZ.w / 2;
+      teile.push(linie(px, y + rowH + 1.5, px, y + rowH + gap - 1.5, { farbe: F.kante, breite: 2, pfeil: "pfeil" }));
     }
   });
 
-  // Innerster Kern: die eigentlichen Daten
-  const kx = 2 * (einzug + 34) + 34 + 8;
-  const ky = y0 + 2 * einzug + 8;
-  const kw = B - 2 * (2 * (einzug + 34)) - 34 - 16;
-  const kh = hoeheAussen - 4 * einzug - 16;
-  teile.push(kasten(kx, ky, kw, kh, { fuellung: F.bernstein, radius: 3 }));
-  teile.push(t(kx + kw / 2, ky + kh / 2 + 5, "Nutzdaten – „GET /index.html“", { groesse: 12.5, fett: true, farbe: F.weiss, align: "mitte" }));
-
   // Leserichtung unten
-  teile.push(linie(30, 178, 330, 178, { farbe: F.text, breite: 1.6, pfeil: "pfeil" }));
-  teile.push(t(30, 172, "beim Senden: von innen nach außen verpacken", { groesse: 10.5, farbe: F.textLeise }));
-  teile.push(linie(846, 196, 546, 196, { farbe: F.text, breite: 1.6, pfeil: "pfeil" }));
-  teile.push(t(846, 190, "beim Empfangen: von außen nach innen auspacken", { groesse: 10.5, farbe: F.textLeise, align: "rechts" }));
+  const fy = y0 + 4 * rowH + 3 * gap + 22;
+  teile.push(linie(196, fy - 4, 320, fy - 4, { farbe: F.text, breite: 1.6, pfeil: "pfeil" }));
+  teile.push(t(330, fy, "Senden: von oben nach unten", { groesse: 10.5, farbe: F.textLeise }));
+  teile.push(linie(818, fy - 4, 694, fy - 4, { farbe: F.text, breite: 1.6, pfeil: "pfeil" }));
+  teile.push(t(684, fy, "Empfangen: von unten nach oben", { groesse: 10.5, farbe: F.textLeise, align: "rechts" }));
 
   return render("kapselung", svg(B, H, teile.join("")), B);
 }
@@ -589,8 +617,8 @@ function osiTcpip() {
   // ohne Erklärung von außen lesen lassen.
   const osi = [
     { nr: 7, name: "Anwendung", was: "Protokolle der Programme: Web, Mail, DNS" },
-    { nr: 6, name: "Darstellung", was: "Formate und Kodierung – heute Teil von 7" },
-    { nr: 5, name: "Sitzung", was: "Sitzungen verwalten – heute Teil von 7" },
+    { nr: 6, name: "Darstellung", was: "Formate, Verschlüsselung – macht heute die Anwendung" },
+    { nr: 5, name: "Sitzung", was: "Sitzungen verwalten – macht heute die Anwendung" },
     { nr: 4, name: "Transport", was: "Ende-zu-Ende über Ports: TCP oder UDP" },
     { nr: 3, name: "Vermittlung", was: "Wege zwischen Netzen: IP und Routing" },
     { nr: 2, name: "Sicherung", was: "Zustellung im lokalen Netz: MAC, Frames" },

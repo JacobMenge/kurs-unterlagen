@@ -385,15 +385,8 @@ deck.content("Die beiden Modelle nebeneinander", "Auffrischung", (s, api) => {
 });
 
 deck.content("Kapselung – der Umschlag im Umschlag", "Was mit euren Daten passiert", (s, api) => {
-  s.addImage({ path: D.kapselung(), x: T.RAND, y: 1.7, w: T.INHALT_W, h: 2.05 });
-  api.card(s, {
-    y: 3.92,
-    h: 0.88,
-    hell: true,
-    body: "Deshalb kann ein Router die IP lesen, ohne die Anwendung zu kennen: Er packt nur bis Schicht 3 aus, entscheidet, wohin es weitergeht, und verpackt wieder. Was darin steckt, geht ihn nichts an.",
-    fontSize: 11.5,
-    akzent: "teal",
-  });
+  s.addImage({ path: D.kapselung(), x: T.RAND, y: 1.68, w: T.INHALT_W, h: 2.52 });
+  api.kicker(s, "Ein Router packt nur bis Schicht 3 aus – was in der HTTP-Nachricht steht, geht ihn nichts an.", { y: 4.44 });
 });
 
 deck.content("Ein Befehl je Schicht", "Der Werkzeugkasten", (s, api) => {
