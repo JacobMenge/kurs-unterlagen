@@ -47,6 +47,7 @@ Anders gesagt: ohne diesen Block fehlt dir das Vokabular, mit dem alle anderen T
 | [Warum Netzwerke?](warum-netzwerke.md) | Motivation, alltägliche Beispiele, was wirklich passiert, wenn du eine URL eintippst |
 | [Grundbegriffe](grundbegriffe.md) | LAN, WAN, Topologien, Client/Server, Bandbreite, Latenz, Paket vs. Frame |
 | [OSI- und TCP/IP-Modell](osi-und-tcp-ip-modell.md) | Die zwei Schichtenmodelle und warum es überhaupt zwei gibt |
+| [Praxis: Der Schichten-Check](praxis-schichten-check.md) | **Praxis** – den eigenen Rechner mit Bordmitteln durchmessen und jeden Wert und Befehl einer Schicht zuordnen |
 | [Adressierung (MAC, IPv4, IPv6, Subnetting)](adressierung.md) | Wie Geräte im Netzwerk angesprochen werden – mit Subnetting im Kopf rechnen |
 | [Praxis: Subnetz-Architekten](praxis-subnetting.md) | **Praxis** – ein /24-Netz in Abteilungs-Subnetze schneiden, nur mit Papier und Stift |
 | [Routing und Switching](routing-und-switching.md) | Wie Datenpakete den Weg ins Ziel finden |
@@ -70,7 +71,8 @@ Anders gesagt: ohne diesen Block fehlt dir das Vokabular, mit dem alle anderen T
 ```mermaid
 flowchart LR
   WHY(["Warum?"]) --> BASIS["Grundbegriffe<br/>+ Modelle"]
-  BASIS --> ADRESS["Adressierung<br/>(MAC, IP, Subnetze)"]
+  BASIS --> PCHK(["Praxis:<br/>Schichten-Check"])
+  PCHK --> ADRESS["Adressierung<br/>(MAC, IP, Subnetze)"]
   ADRESS --> PSUB(["Praxis:<br/>Subnetz-Architekten"])
   PSUB --> WEGE["Routing & Switching<br/>DNS, DHCP"]
   WEGE --> PROTO["Protokolle<br/>(TCP/UDP, HTTP, SSH)"]

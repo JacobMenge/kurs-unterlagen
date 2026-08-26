@@ -3,6 +3,7 @@ nav:
   - "Warum Netzwerke?": warum-netzwerke.md
   - "Grundbegriffe": grundbegriffe.md
   - "OSI- und TCP/IP-Modell": osi-und-tcp-ip-modell.md
+  - "Praxis: Der Schichten-Check": praxis-schichten-check.md
   - "Adressierung (MAC, IPv4, IPv6, Subnetting)": adressierung.md
   - "Praxis: Subnetz-Architekten": praxis-subnetting.md
   - "Routing und Switching": routing-und-switching.md
