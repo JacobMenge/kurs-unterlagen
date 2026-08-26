@@ -1,6 +1,6 @@
 ---
 title: "Praxis: Der Schichten-Check"
-description: "Erste Praxisübung im Netzwerk-Block (ca. 40 Minuten): Nimm deinen eigenen Rechner mit Bordmitteln auseinander und ordne jeden Messwert und jeden Befehl der richtigen OSI-Schicht zu. Drei Stationen – Netz-Steckbrief, Befehle in Aktion, Störungen einsortieren. Ohne Installation, für Windows, macOS und Linux."
+description: "Erste Praxisübung im Netzwerk-Block (ca. 50 Minuten): Nimm deinen eigenen Rechner mit Bordmitteln auseinander und ordne jeden Messwert und jeden Befehl der richtigen OSI-Schicht zu. Vier Stationen – Netz-Steckbrief, Befehle in Aktion, Störungen einsortieren und Wege vergleichen. Ohne Installation, für Windows, macOS und Linux."
 ---
 
 # Praxis: Der Schichten-Check
@@ -8,7 +8,7 @@ description: "Erste Praxisübung im Netzwerk-Block (ca. 40 Minuten): Nimm deinen
 <span class='badge badge-praxis'>Praxis</span> &nbsp; Das Schichtenmodell ist erst dann wirklich deins, wenn du es an einer echten Maschine wiedererkennst. Genau das machst du hier – an deinem eigenen Rechner, mit Befehlen, die auf jedem System schon installiert sind.
 
 !!! info "Auf einen Blick"
-    - **Dauer:** ca. 40 Minuten (drei Stationen)
+    - **Dauer:** ca. 50 Minuten (drei Stationen, plus eine Kür für Schnelle)
     - **Gruppen:** 3–4 Personen. Eine Person teilt den Bildschirm, alle tippen bei sich mit.
     - **Material:** dein eigener Rechner. **Keine Installation nötig** – alles sind Bordmittel.
     - **Voraussetzung:** [Grundbegriffe](grundbegriffe.md) und [OSI- und TCP/IP-Modell](osi-und-tcp-ip-modell.md).
@@ -20,7 +20,7 @@ description: "Erste Praxisübung im Netzwerk-Block (ca. 40 Minuten): Nimm deinen
 
 In der Theorie sind die sieben Schichten eine Liste, die man auswendig lernt und wieder vergisst. Im Betrieb sind sie etwas ganz anderes: ein **Suchraster für Fehler**. Wer weiß, auf welcher Schicht ein Problem sitzt, hat es schon fast gelöst – wer es nicht weiß, probiert eine Stunde lang herum.
 
-Diese Übung baut genau diese Verbindung auf. Du misst sechs Werte an deinem Rechner und ordnest sie ein. Du führst fünf Befehle aus und stellst fest, dass jeder von ihnen eine andere Schicht prüft. Und zum Schluss sortierst du fünf Störungen ein, wie sie dir im Job und in der Prüfung begegnen.
+Diese Übung baut genau diese Verbindung auf. Du misst sechs Werte an deinem Rechner und ordnest sie ein. Du führst fünf Befehle aus und stellst fest, dass jeder von ihnen eine andere Schicht prüft. Und zum Schluss sortierst du fünf Störungen ein, wie sie dir im Job auf den Tisch kommen – meist verpackt als „Internet geht nicht“.
 
 !!! tip "Spielregel"
     Tipp jeden Befehl **selbst** und lies die Ausgabe, bevor du die Auflösung aufklappst. Deine Werte sehen anders aus als die Beispiele hier – das ist genau richtig, denn es ist dein Netz.
@@ -197,7 +197,38 @@ Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen n
 !!! abstract "Das Vorgehen dahinter"
     **Von unten nach oben prüfen. Die erste Schicht, die nicht antwortet, ist die Ursache.**
 
-    Kabel → Adresse → Weg → Port → Dienst. Wer stattdessen oben anfängt und den Browser neu startet, verliert Zeit. In der Prüfung wird genau dieses systematische Vorgehen erwartet – nicht das Raten der richtigen Antwort.
+    Kabel → Adresse → Weg → Port → Dienst. Wer stattdessen oben anfängt und erst mal den Browser neu startet, verliert Zeit – und weiß hinterher nicht, warum es wieder läuft. Systematisch von unten heißt: Du kannst den Fehler auch beim zweiten Mal finden.
+
+---
+
+## Station 4 – Die Kür: Wege vergleichen
+
+**Für alle, die früh fertig sind.** Bis hierher hat jeder für sich gemessen. Jetzt legt ihr eure Ergebnisse nebeneinander.
+
+Jeder in der Gruppe führt denselben Befehl aus und teilt die ersten fünf Zeilen:
+
+=== "Windows"
+    ```powershell
+    tracert github.com
+    ```
+
+=== "macOS / Linux"
+    ```bash
+    traceroute github.com
+    ```
+
+Dann vergleicht ihr:
+
+- **Ab welchem Punkt sehen eure Wege gleich aus?** Und wo unterscheiden sie sich?
+- **Welche Zeilen gehören noch zu eurem eigenen Netz**, welche schon zu eurem Anbieter?
+- **Warum beginnt der erste Hop bei fast allen mit `192.168`** – und beim übernächsten nicht mehr?
+
+??? tip "Was ihr dabei seht"
+    Es gibt **nicht den einen Weg** ins Internet. Jeder von euch startet in seinem eigenen lokalen Netz, geht über seinen eigenen Anbieter und trifft die anderen erst irgendwo weiter draußen – dort, wo die großen Netze zusammenlaufen.
+
+    Der erste Hop ist immer euer eigener Router, deshalb die private Adresse. Ab dem zweiten Hop seid ihr im Netz eures Anbieters und die Adressen werden öffentlich. Und je weiter es geht, desto ähnlicher werden eure Wege, weil am Ziel alle durch dieselbe Tür müssen.
+
+    Genau das ist die Maschen-Topologie aus der Theorie – nur eben als echte Messung statt als Zeichnung an der Tafel.
 
 ---
 
@@ -209,7 +240,7 @@ Du brauchst **keine Administratorrechte**. Alle Befehle in dieser Übung lesen n
 - Du hast den Unterschied zwischen **„erreichbar"** und **„funktioniert"** verstanden – der Unterschied zwischen Schicht 3 und Schicht 7.
 
 !!! tip "Nicht fertig geworden?"
-    Kein Problem. Arbeite die fehlenden Stationen in Ruhe nach – gerade Station 3 lohnt sich, weil sie dem Aufgabenformat der Prüfung am nächsten kommt.
+    Kein Problem. Arbeite die fehlenden Stationen in Ruhe nach – gerade Station 3 lohnt sich, weil dieses Vorgehen im ganzen weiteren Kurs wiederkommt.
 
 ---
 

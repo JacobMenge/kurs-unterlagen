@@ -183,13 +183,13 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
     [
       ["18:00", "Ankommen und Einstieg: eine Frage, die den ganzen Block trägt"],
       ["18:10", "Warum Netzwerke – und die Grundbegriffe, die überall auftauchen"],
-      ["18:45", "Das OSI-Modell: sieben Schichten"],
-      ["19:00", "Pause"],
-      ["19:10", "TCP/IP, Kapselung und Schicht-Denken als Diagnosewerkzeug"],
-      ["19:30", "Briefing für die Breakout-Übung"],
-      ["19:40", "Breakout: der Schichten-Check am eigenen Rechner"],
-      ["20:20", "Auswertung im Plenum – wir tragen eure Ergebnisse zusammen"],
-      ["20:50", "Prüfungsbegriffe, Ausblick, offene Fragen"],
+      ["18:40", "Das OSI-Modell: sieben Schichten"],
+      ["18:55", "Pause"],
+      ["19:05", "TCP/IP, Kapselung und Schicht-Denken als Diagnosewerkzeug"],
+      ["19:25", "Briefing für die Breakout-Übung"],
+      ["19:35", "Breakout: der Schichten-Check am eigenen Rechner"],
+      ["20:25", "Auswertung im Plenum – wir tragen eure Ergebnisse zusammen"],
+      ["20:55", "Ausblick und offene Fragen"],
     ],
     { y: 2.14, rowH: 0.26, fontSize: 10.5 }
   );
@@ -301,7 +301,7 @@ deck.content("Klassische IT trifft Industrie", "Zwei Welten", (s, api) => {
     ],
     { y: 2.16, rowH: 0.36, spalten: [2.2, 2.6], fontSize: 11.5 }
   );
-  api.kicker(s, "Wer beide Welten verbindet, muss die Regeln beider Seiten kennen – genau das prüft die IHK.", { y: 4.56 });
+  api.kicker(s, "Wer beide Welten verbindet, muss die Regeln von beiden Seiten kennen.", { y: 4.56 });
 });
 
 // ============================================================ Grundbegriffe
@@ -371,7 +371,7 @@ deck.content("Topologien – wie die Geräte verbunden sind", "Begriffe", (s, ap
     y: 4.2,
     h: 0.62,
     hell: true,
-    body: "Prüfungsrelevant ist nicht das Bild, sondern die Folge: Welcher Ausfall legt wie viel lahm?",
+    body: "Wichtig ist nicht das Bild, sondern die Folge: Welcher Ausfall legt wie viel lahm?",
     fontSize: 11.5,
   });
 });
@@ -493,7 +493,7 @@ deck.content("Das TCP/IP-Modell", "Vier Schichten – das echte Internet", (s, a
     ],
     { y: 2.16, rowH: 0.4, spalten: [1.9, 2.3], fontSize: 12 }
   );
-  api.kicker(s, "Faustregel für die Prüfung: OSI zum Erklären, TCP/IP zum Arbeiten.", { y: 4.5 });
+  api.kicker(s, "Faustregel: OSI zum Erklären, TCP/IP zum Arbeiten.", { y: 4.5 });
 });
 
 deck.content("Kapselung – der Umschlag im Umschlag", "Was mit euren Daten passiert", (s, api) => {
@@ -519,7 +519,7 @@ deck.content("Kapselung – der Umschlag im Umschlag", "Was mit euren Daten pass
 });
 
 deck.content("Wofür ihr das wirklich braucht", "Schicht-Denken im Alltag", (s, api) => {
-  api.lead(s, "Schichten sind kein Prüfungsstoff zum Auswendiglernen, sondern ein Suchraster.");
+  api.lead(s, "Schichten sind nichts zum Auswendiglernen, sondern ein Suchraster für den Alltag.");
   api.cardRow(
     s,
     [
@@ -570,12 +570,12 @@ deck.content("Ein Befehl je Schicht", "Der Werkzeugkasten", (s, api) => {
 // ============================================================ Breakout
 deck.abschnitt("Breakout", "bernstein");
 
-deck.kapitel("Der Schichten-Check", "40 Minuten in Gruppen – euer eigener Rechner ist das Labor", {
+deck.kapitel("Der Schichten-Check", "50 Minuten in Gruppen – euer eigener Rechner ist das Labor", {
   nummer: "04",
   akzent: "bernstein",
 });
 
-deck.content("Der Auftrag", "Breakout · 40 Minuten", (s, api) => {
+deck.content("Der Auftrag", "Breakout · 50 Minuten", (s, api) => {
   api.lead(s, "Ihr messt an eurem eigenen Rechner nach, was wir gerade an der Tafel hatten. Keine Installation nötig.");
   api.cardRow(
     s,
@@ -598,7 +598,7 @@ deck.content("Der Auftrag", "Breakout · 40 Minuten", (s, api) => {
     ],
     { y: 2.16, h: 2.05, titleH: 0.3 }
   );
-  api.kicker(s, "Station 3 ist die wichtigste – wenn die Zeit knapp wird, kürzt Station 2.", { y: 4.5 });
+  api.kicker(s, "Station 3 ist die wichtigste. Wer früh fertig ist, bekommt die Kür in Station 4.", { y: 4.5 });
 });
 
 deck.content("So arbeitet ihr", "Spielregeln", (s, api) => {
@@ -670,7 +670,28 @@ deck.content("Station 3 – fünf Störungen einsortieren", "Breakout", (s, api)
     ],
     { y: 2.16, h: 2.0, fontSize: 12.5, numbered: true, akzent: "bernstein" }
   );
-  api.kicker(s, "Das ist genau das Aufgabenformat, das euch in der Prüfung begegnet.", { y: 4.5 });
+  api.kicker(s, "Genau so landen diese Fälle im Job auf eurem Tisch – meist als „Internet geht nicht“.", { y: 4.5 });
+});
+
+deck.content("Station 4 – die Kür: Wege vergleichen", "Breakout · für Schnelle", (s, api) => {
+  api.lead(s, "Wenn ihr früh fertig seid: Vergleicht eure Ausgaben von tracert untereinander.");
+  api.bullets(
+    s,
+    [
+      "Jeder führt tracert github.com aus und teilt die ersten fünf Zeilen.",
+      "Ab welchem Punkt sehen eure Wege gleich aus – und wo unterscheiden sie sich?",
+      "Welche Zeilen gehören noch zu eurem eigenen Netz, welche schon zum Anbieter?",
+      "Warum hat der erste Hop bei fast allen eine Adresse, die mit 192.168 beginnt?",
+    ],
+    { y: 2.16, h: 1.85, fontSize: 12.5, akzent: "bernstein" }
+  );
+  api.card(s, {
+    y: 4.05,
+    h: 0.8,
+    body: "Der Gewinn dabei: Ihr seht an echten Daten, dass es keinen einen Weg ins Internet gibt – jeder von euch nimmt einen anderen, bis sie sich irgendwo treffen.",
+    fontSize: 11.5,
+    akzent: "bernstein",
+  });
 });
 
 // ============================================================ Auswertung
@@ -697,7 +718,7 @@ deck.content("Das gehen wir gemeinsam durch", "Auswertung · 30 Minuten", (s, ap
     y: 4.05,
     h: 0.78,
     hell: true,
-    body: "Wichtiger als die richtige Antwort ist die Begründung: Woran habt ihr die Schicht erkannt? Genau danach fragt die Prüfung.",
+    body: "Wichtiger als die richtige Antwort ist die Begründung: Woran habt ihr die Schicht erkannt? Wer das sagen kann, findet auch den nächsten Fehler.",
     fontSize: 11.5,
   });
 });
@@ -737,8 +758,8 @@ deck.content("Das nehmt ihr heute mit", "Kern des Abends", (s, api) => {
     y: 3.9,
     h: 1.05,
     hell: true,
-    titel: "Prüfungsbegriffe von heute",
-    body: "Schichtenmodell · OSI · TCP/IP · Topologie · Client-Server · Latenz · Bandbreite · Frame, Paket, Segment.",
+    titel: "Die Begriffe von heute",
+    body: "Schichtenmodell · OSI · TCP/IP · Topologie · Client-Server · Latenz · Bandbreite · Frame, Paket, Segment. Diese Begriffe begleiten euch bis zum Schluss – im Kurs wie in der Prüfung.",
     fontSize: 11,
     titleH: 0.26,
   });
