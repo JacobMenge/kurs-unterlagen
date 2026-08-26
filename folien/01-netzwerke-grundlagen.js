@@ -527,24 +527,29 @@ deck.content("Das nehmt ihr heute mit", "Kern des Abends", (s, api) => {
 });
 
 deck.content("Bis Montag", "Nacharbeit", (s, api) => {
-  api.lead(s, "Alles freiwillig – aber der Montag wird deutlich leichter, wenn ihr das gemacht habt.");
+  api.lead(s, "Eine Bitte und drei Angebote – die Bitte zuerst.");
   api.cardRow(
     s,
     [
       {
+        titel: "Standortbestimmung",
+        body: "Das Formular aus dem Chat: gut 20 Minuten, bis Montag. Kein Test – es zeigt mir, wo wir gründlich einsteigen müssen.",
+        akzent: "bernstein",
+      },
+      {
         titel: "Nur wenn etwas hakte",
-        body: "Die Seiten „Grundbegriffe“ und „OSI- und TCP/IP-Modell“ stehen auf der Kursseite. Gedacht für die Stellen, an denen ihr heute gestockt habt – nicht zum Durchlesen.",
+        body: "„Grundbegriffe“ und „OSI- und TCP/IP-Modell“ stehen auf der Kursseite – für die Stellen, an denen ihr heute gestockt habt.",
       },
       {
         titel: "Nachholen",
-        body: "Wer nicht bis zu den Störungen gekommen ist: Station 3 lohnt sich. Die Auflösungen stehen zum Aufklappen darunter.",
+        body: "Wer nicht bis zu den Störungen kam: Station 3 lohnt sich. Die Auflösungen stehen zum Aufklappen darunter.",
       },
       {
         titel: "Vorbereiten",
-        body: "Am Montag rechnen wir Subnetze. Bringt Papier, Stift und einen wachen Kopf mit – Taschenrechner braucht ihr nicht.",
+        body: "Montag rechnen wir Subnetze. Papier und Stift reichen – Taschenrechner braucht ihr nicht.",
       },
     ],
-    { y: 2.16, h: 2.1, titleH: 0.28 }
+    { y: 2.16, h: 2.1, gap: 0.18, titleH: 0.42, fontSize: 10.5, titleSize: 12 }
   );
   api.kicker(s, "Nächster Termin: Montag, 31. August, 18:00 Uhr – Adressierung und Subnetting.", { y: 4.5 });
 });
