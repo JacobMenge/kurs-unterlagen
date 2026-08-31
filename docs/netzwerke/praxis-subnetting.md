@@ -8,9 +8,11 @@ description: "Ein Subnetting-Design-Wettbewerb in Gruppen: Teilt das Netz 192.16
 <span class='badge badge-praxis'>Praxis</span> &nbsp; Schluss mit Theorie – jetzt baust du selbst ein echtes Firmennetz, gegen die Uhr und gegen die anderen Gruppen.
 
 !!! info "Auf einen Blick"
-    - **Dauer:** ca. 30–45 Minuten
-    - **Gruppen:** 2–4 Personen
+    - **Dauer:** ca. 50 Minuten
+    - **Gruppen:** 3–4 Personen – dieselben wie beim Schichten-Check.
     - **Material:** Papier und Stift. Optional ein Online-Subnetz-Rechner zum Selbstcheck.
+    - **Festhalten:** Eure fertige Planungstabelle kommt ins gemeinsame Ergebnis-Dokument – den Link zeigt die Briefing-Folie.
+    - **Für die Auswertung:** Der Sprecher eurer Gruppe zeigt nachher die Tabelle – kurz, nur die Eckwerte.
     - **Kein PC nötig** – ihr rechnet im Kopf und auf dem Papier.
     - **Voraussetzung:** Du hast [Adressierung (MAC, IPv4, IPv6, Subnetting)](adressierung.md) gelesen und kannst die drei Standard-Aufgaben.
 

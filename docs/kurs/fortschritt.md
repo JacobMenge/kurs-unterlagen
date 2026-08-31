@@ -53,29 +53,29 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Orientierung und Kennenlernen**
+    **Netzwerke: Grundlagen und Schichtenmodelle**
 
-    Ablauf des Kurses, Weg bis zur Prüfung, Kursregeln und Materialien.
+    OSI und TCP/IP, Kapselung – und der Schichten-Check am eigenen Rechner.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Netzwerke – Grundlagen**
+    **Adressierung und Subnetting**
 
-    Warum Netzwerke, Grundbegriffe, OSI- und TCP/IP-Modell.
+    Rechnen mit Maske und Blockgröße – und die Subnetz-Architekten in Gruppen.
 
-    [:octicons-arrow-right-24: Zum Block](../netzwerke/index.md)
+    [:octicons-arrow-right-24: Zur Übung](../netzwerke/praxis-subnetting.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
     ---
 
-    **Adressierung und Subnetting**
+    **Routing, VLAN und Sicherheit**
 
-    MAC, IPv4, IPv6, Subnetzmasken – und die erste Praxisübung dazu.
+    Das Finale des Netzwerkblocks – danach startet die Virtualisierung.
 
-    [:octicons-arrow-right-24: Vorbereiten](../netzwerke/adressierung.md)
+    [:octicons-arrow-right-24: Vorbereiten](../netzwerke/routing-und-switching.md)
 
 </div>
 

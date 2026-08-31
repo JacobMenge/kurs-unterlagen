@@ -345,6 +345,244 @@ function dateneinheiten() {
   return render("dateneinheiten", svg(B, H, teile.join("")), B);
 }
 
+// ==================================================== Abend 2: Adressierung
+
+/**
+ * Umfrage-Rückblick: drei Netzwerkfragen als gestapelte Balken.
+ * Personalisiert den Einstieg – die Gruppe sieht ihr eigenes Ergebnis.
+ */
+function umfrageNetz() {
+  const B = 876;
+  const H = 205;
+  const teile = [];
+  const zeilen = [
+    { frage: "Wofür ist DNS zuständig?", richtig: 14, wn: 0, falsch: 0 },
+    { frage: "Aufgabe des Standardgateways?", richtig: 14, wn: 0, falsch: 0 },
+    { frage: "/26 – wie viele Geräte passen hinein?", richtig: 8, wn: 2, falsch: 4 },
+  ];
+  const labelW = 300;
+  const barX = labelW + 16;
+  const barMax = B - barX - 120;
+  const rowH = 34;
+  const gap = 16;
+  const y0 = 14;
+
+  zeilen.forEach((z, i) => {
+    const y = y0 + i * (rowH + gap);
+    teile.push(t(labelW, y + rowH / 2 + 4, z.frage, { groesse: 12, fett: true, farbe: F.textStark, align: "rechts" }));
+    let x = barX;
+    const teileB = [
+      [z.richtig, F.teal],
+      [z.wn, F.kante],
+      [z.falsch, F.rot],
+    ];
+    teileB.forEach(([anz, farbe]) => {
+      if (!anz) return;
+      const w = (anz / 14) * barMax;
+      teile.push(kasten(x, y, w, rowH, { fuellung: farbe, radius: 3 }));
+      if (w > 30) {
+        teile.push(t(x + w / 2, y + rowH / 2 + 4, String(anz), { groesse: 12, fett: true, farbe: F.weiss, align: "mitte" }));
+      }
+      x += w + 2;
+    });
+    const zusatz = z.falsch ? `${z.richtig} von 14` : "alle 14";
+    teile.push(t(x + 8, y + rowH / 2 + 4, zusatz, { groesse: 11, farbe: F.textLeise }));
+  });
+
+  // Legende
+  const ly = y0 + 3 * (rowH + gap) + 10;
+  const legende = [["richtig", F.teal], ["weiß (noch) nicht", F.kante], ["daneben", F.rot]];
+  let lx = barX;
+  legende.forEach(([label, farbe]) => {
+    teile.push(kasten(lx, ly, 16, 16, { fuellung: farbe, radius: 3 }));
+    teile.push(t(lx + 22, ly + 12.5, label, { groesse: 11, farbe: F.text }));
+    lx += 22 + label.length * 5.6 + 26;
+  });
+
+  return render("umfrage-netz", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * Aufbau einer IPv4-Adresse: vier Oktette dezimal und binär,
+ * Netzanteil gegen Hostanteil, darunter die Maske in denselben Farben.
+ */
+function ipAufbau() {
+  const B = 876;
+  const H = 235;
+  const teile = [];
+  const oktette = [
+    { dez: "192", bin: "11000000", netz: true },
+    { dez: "168", bin: "10101000", netz: true },
+    { dez: "2", bin: "00000010", netz: true },
+    { dez: "33", bin: "00100001", netz: false },
+  ];
+  const maske = [
+    { dez: "255", bin: "11111111" },
+    { dez: "255", bin: "11111111" },
+    { dez: "255", bin: "11111111" },
+    { dez: "0", bin: "00000000" },
+  ];
+  const boxW = 168;
+  const gap = 14;
+  const x0 = 60;
+
+  teile.push(t(x0, 22, "Die Adresse:", { groesse: 12, fett: true, farbe: F.textStark }));
+  teile.push(t(x0 + 110, 22, "192.168.2.33 /24", { groesse: 13, fett: true, farbe: F.blau }));
+
+  oktette.forEach((o, i) => {
+    const x = x0 + i * (boxW + gap);
+    const farbe = o.netz ? F.blau : F.bernstein;
+    const tief = o.netz ? F.blauTief : F.bernsteinTief;
+    teile.push(kasten(x, 36, boxW, 58, { fuellung: tief, rand: farbe, randBreite: 1.8, radius: 4 }));
+    teile.push(t(x + boxW / 2, 60, o.dez, { groesse: 17, fett: true, farbe: F.textStark, align: "mitte" }));
+    teile.push(t(x + boxW / 2, 82, o.bin, { groesse: 11.5, farbe: farbe, align: "mitte", spacing: 1.5 }));
+  });
+
+  // Maske darunter, bitgenau in denselben Farben
+  teile.push(t(x0, 108, "Die Maske:  255.255.255.0", { groesse: 12, fett: true, farbe: F.textStark }));
+  maske.forEach((m, i) => {
+    const x = x0 + i * (boxW + gap);
+    const einsen = m.bin.startsWith("1");
+    const farbe = einsen ? F.blau : F.bernstein;
+    teile.push(kasten(x, 114, boxW, 42, { fuellung: F.flaeche, radius: 4 }));
+    teile.push(t(x + boxW / 2, 131, m.dez, { groesse: 12.5, fett: true, farbe: F.textStark, align: "mitte" }));
+    teile.push(t(x + boxW / 2, 149, m.bin, { groesse: 11, farbe: farbe, align: "mitte", spacing: 1.5 }));
+  });
+
+  // Klammern unten: Netzanteil / Hostanteil
+  const netzEnde = x0 + 3 * boxW + 2 * gap;
+  teile.push(linie(x0, 170, netzEnde, 170, { farbe: F.blau, breite: 2.4 }));
+  teile.push(t((x0 + netzEnde) / 2, 190, "Netzanteil – 24 Einsen in der Maske, deshalb /24", { groesse: 11.5, fett: true, farbe: F.blau, align: "mitte" }));
+  const hostStart = netzEnde + gap;
+  teile.push(linie(hostStart, 170, hostStart + boxW, 170, { farbe: F.bernstein, breite: 2.4 }));
+  teile.push(t(hostStart + boxW / 2, 190, "Hostanteil", { groesse: 11.5, fett: true, farbe: F.bernstein, align: "mitte" }));
+  teile.push(t((x0 + netzEnde) / 2, 210, "sagt, in welchem Netz du wohnst", { groesse: 10.5, farbe: F.textLeise, align: "mitte" }));
+  teile.push(t(hostStart + boxW / 2, 210, "sagt, welches Gerät du bist", { groesse: 10.5, farbe: F.textLeise, align: "mitte" }));
+
+  return render("ip-aufbau", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * Der 62-statt-64-Fehler: ein /26-Block als Adressleiste – Netzadresse und
+ * Broadcast sind reserviert, dazwischen die nutzbaren Geräte.
+ */
+function block26() {
+  const B = 876;
+  const H = 175;
+  const teile = [];
+  const y = 40;
+  const h = 56;
+  const x0 = 10;
+  const gesamt = B - 20;
+  const randW = 118;
+
+  teile.push(t(x0, 22, "Ein /26-Block: 2⁶ = 64 Adressen, hier 192.168.10.64 bis .127", { groesse: 12.5, fett: true, farbe: F.textStark }));
+
+  teile.push(kasten(x0, y, randW, h, { fuellung: F.rot, radius: 4 }));
+  teile.push(t(x0 + randW / 2, y + 24, ".64", { groesse: 13, fett: true, farbe: F.weiss, align: "mitte" }));
+  teile.push(t(x0 + randW / 2, y + 42, "Netzadresse", { groesse: 9.5, farbe: F.weiss, align: "mitte" }));
+
+  const mitteX = x0 + randW + 4;
+  const mitteW = gesamt - 2 * randW - 8;
+  teile.push(kasten(mitteX, y, mitteW, h, { fuellung: F.teal, radius: 4 }));
+  teile.push(t(mitteX + mitteW / 2, y + 24, "62 nutzbare Adressen", { groesse: 14, fett: true, farbe: F.weiss, align: "mitte" }));
+  teile.push(t(mitteX + mitteW / 2, y + 42, ".65 bis .126 – hier wohnen die Geräte", { groesse: 10.5, farbe: F.weiss, align: "mitte" }));
+
+  const rechtsX = x0 + gesamt - randW;
+  teile.push(kasten(rechtsX, y, randW, h, { fuellung: F.rot, radius: 4 }));
+  teile.push(t(rechtsX + randW / 2, y + 24, ".127", { groesse: 13, fett: true, farbe: F.weiss, align: "mitte" }));
+  teile.push(t(rechtsX + randW / 2, y + 42, "Broadcast", { groesse: 9.5, farbe: F.weiss, align: "mitte" }));
+
+  teile.push(t(x0 + gesamt / 2, y + h + 34, "64 Adressen − Netzadresse − Broadcast = 62 Geräte. Wer 64 antwortet, hat die beiden Reservierten vergessen.", { groesse: 12, fett: true, farbe: F.textStark, align: "mitte" }));
+  teile.push(t(x0 + gesamt / 2, y + h + 56, "Das gilt in jedem IPv4-Netz: erste Adresse benennt das Netz, letzte ruft alle.", { groesse: 11, farbe: F.textLeise, align: "mitte" }));
+
+  return render("block26", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * NAT: zwei Haushalte mit identischem privatem Netz, draußen zählt nur die
+ * öffentliche Adresse des Routers.
+ */
+function natWeg() {
+  const B = 876;
+  const H = 235;
+  const teile = [];
+
+  function haus(x, y, oeffentlich) {
+    // Heimnetz-Kasten mit Gerät und Router
+    teile.push(kasten(x, y, 300, 84, { fuellung: F.blauTief, rand: F.blau, randBreite: 1.6, radius: 5 }));
+    teile.push(t(x + 12, y + 20, "Heimnetz 192.168.2.0/24", { groesse: 10.5, fett: true, farbe: F.blau }));
+    teile.push(kasten(x + 14, y + 32, 128, 38, { fuellung: F.weiss, rand: F.kante, randBreite: 1.2, radius: 4 }));
+    teile.push(t(x + 78, y + 48, "Laptop", { groesse: 10.5, fett: true, farbe: F.textStark, align: "mitte" }));
+    teile.push(t(x + 78, y + 63, "192.168.2.33", { groesse: 10, farbe: F.text, align: "mitte" }));
+    teile.push(linie(x + 142, y + 51, x + 168, y + 51, { farbe: F.kante, breite: 2 }));
+    teile.push(kasten(x + 170, y + 32, 116, 38, { fuellung: F.blau, radius: 4 }));
+    teile.push(t(x + 228, y + 48, "Router (NAT)", { groesse: 10.5, fett: true, farbe: F.weiss, align: "mitte" }));
+    teile.push(t(x + 228, y + 63, oeffentlich, { groesse: 10, farbe: F.weiss, align: "mitte" }));
+  }
+
+  haus(10, 16, "203.0.113.7");
+  haus(10, 128, "198.51.100.42");
+
+  // Internet-Wolke rechts
+  const wx = 700, wy = 112;
+  teile.push(`<path d="M${wx - 60},${wy + 30} A34,34 0 0 1 ${wx - 56},${wy - 26} A42,42 0 0 1 ${wx + 28},${wy - 34} A32,32 0 0 1 ${wx + 62},${wy + 28} Z" fill="${F.tealTief}" stroke="${F.teal}" stroke-width="2"/>`);
+  teile.push(t(wx, wy + 4, "Internet", { groesse: 13, fett: true, farbe: F.teal, align: "mitte" }));
+
+  // Pfeile von beiden Routern in die Wolke, beschriftet mit der öffentlichen IP
+  teile.push(linie(320, 67, wx - 66, wy - 6, { farbe: F.teal, breite: 2.2, pfeil: "pfeilTeal" }));
+  teile.push(linie(320, 179, wx - 66, wy + 22, { farbe: F.teal, breite: 2.2, pfeil: "pfeilTeal" }));
+  teile.push(t(475, 88, "draußen sichtbar: 203.0.113.7", { groesse: 10.5, farbe: F.teal }));
+  teile.push(t(475, 168, "draußen sichtbar: 198.51.100.42", { groesse: 10.5, farbe: F.teal }));
+
+  // Merkzeile
+  teile.push(t(438, 224, "Zweimal dieselbe 192.168.2.33 – kein Konflikt: Nach draußen tritt nur die öffentliche Adresse des Routers auf.", { groesse: 11.5, fett: true, farbe: F.textStark, align: "mitte" }));
+
+  return render("nat-weg", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * IPv6 kompakt: eine Adresse in Präfix und Interface-ID zerlegt,
+ * darunter die link-lokale fe80-Adresse.
+ */
+function ipv6Aufbau() {
+  const B = 876;
+  const H = 190;
+  const teile = [];
+  const gruppen = ["2001", "0db8", "2b00", "0001", "0000", "0000", "0000", "0033"];
+  const boxW = 96;
+  const gap = 8;
+  const x0 = 22;
+  const y = 34;
+
+  teile.push(t(x0, 20, "Eine globale IPv6-Adresse: 2001:db8:2b00:1::33", { groesse: 12.5, fett: true, farbe: F.textStark }));
+
+  gruppen.forEach((g, i) => {
+    const x = x0 + i * (boxW + gap);
+    const netz = i < 4;
+    teile.push(kasten(x, y, boxW, 40, {
+      fuellung: netz ? F.blauTief : F.bernsteinTief,
+      rand: netz ? F.blau : F.bernstein,
+      randBreite: 1.6, radius: 4,
+    }));
+    teile.push(t(x + boxW / 2, y + 25, g, { groesse: 13, fett: true, farbe: F.textStark, align: "mitte", spacing: 1 }));
+  });
+
+  const mitte = x0 + 4 * (boxW + gap) - gap / 2;
+  teile.push(linie(x0, y + 54, mitte - 6, y + 54, { farbe: F.blau, breite: 2.4 }));
+  teile.push(t((x0 + mitte) / 2, y + 74, "Präfix /64 – das Netz, kommt vom Anbieter oder Router", { groesse: 11, fett: true, farbe: F.blau, align: "mitte" }));
+  teile.push(linie(mitte + 6, y + 54, x0 + 8 * (boxW + gap) - gap, y + 54, { farbe: F.bernstein, breite: 2.4 }));
+  teile.push(t(mitte + (4 * (boxW + gap)) / 2, y + 74, "Interface-ID – das Gerät, oft selbst gewürfelt", { groesse: 11, fett: true, farbe: F.bernstein, align: "mitte" }));
+
+  // fe80-Zeile
+  const fy = y + 96;
+  teile.push(kasten(x0, fy, 200, 34, { fuellung: F.tealTief, rand: F.teal, randBreite: 1.6, radius: 4 }));
+  teile.push(t(x0 + 100, fy + 22, "fe80::…", { groesse: 13, fett: true, farbe: F.teal, align: "mitte" }));
+  teile.push(t(x0 + 214, fy + 22, "Link-local: gibt sich jedes Gerät selbst, gilt nur im eigenen Netzsegment – euer Fund aus dem Schichten-Check.", { groesse: 11, farbe: F.text }));
+
+  return render("ipv6-aufbau", svg(B, H, teile.join("")), B);
+}
+
 // ==================================================== Einzel-Icons
 
 /**
@@ -742,6 +980,7 @@ function diagnoseLeiter() {
 }
 
 module.exports = {
-  topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, dateneinheiten, iconDatei,
+  topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, dateneinheiten,
+  umfrageNetz, ipAufbau, block26, natWeg, ipv6Aufbau, iconDatei,
   icon, ICONS, F, render, svg, t, kasten, linie, knoten,
 };
