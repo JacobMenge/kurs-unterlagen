@@ -583,6 +583,73 @@ function ipv6Aufbau() {
   return render("ipv6-aufbau", svg(B, H, teile.join("")), B);
 }
 
+/**
+ * Bildspalte zur Präfix-Tabelle: je Zeile ein /24-Streifen, unterteilt in
+ * Blöcke der jeweiligen Größe – der erste Block gefüllt. Zeigt ohne Worte,
+ * dass jeder Präfix-Schritt den Block halbiert.
+ */
+function praefixBalken() {
+  const B = 252;
+  const rowH = 31;
+  const zeilen = [1, 2, 4, 8, 16, 32, 64];
+  const H = zeilen.length * rowH;
+  const teile = [];
+  const barW = 204;
+  const barH = 19;
+
+  zeilen.forEach((n, i) => {
+    const y = i * rowH + (rowH - barH) / 2;
+    teile.push(kasten(0, y, barW, barH, { fuellung: F.flaeche, rand: F.linie, randBreite: 1, radius: 2 }));
+    teile.push(kasten(0, y, barW / n, barH, { fuellung: F.teal, radius: 2 }));
+    for (let k = 1; k < n; k++) {
+      const x = (barW / n) * k;
+      teile.push(`<line x1="${x.toFixed(1)}" y1="${y}" x2="${x.toFixed(1)}" y2="${y + barH}" stroke="${F.weiss}" stroke-width="${n > 16 ? 0.8 : 1.4}"/>`);
+    }
+    teile.push(t(barW + 10, y + barH / 2 + 4, "×" + n, { groesse: 10.5, fett: true, farbe: F.teal }));
+  });
+
+  return render("praefix-balken", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * Zahlenstrahl für die Rechenwerkstatt: das letzte Oktett als vier
+ * /26-Blöcke, die gesuchte Adresse als Marker im richtigen Block.
+ */
+function blockStrahl() {
+  const B = 876;
+  const H = 122;
+  const teile = [];
+  const y = 34;
+  const h = 44;
+  const blockW = B / 4;
+
+  ["0", "64", "128", "192"].forEach((start, i) => {
+    const x = i * blockW;
+    const aktiv = i === 1;
+    teile.push(kasten(x + 2, y, blockW - 4, h, {
+      fuellung: aktiv ? F.teal : F.flaeche,
+      rand: aktiv ? F.teal : F.linie,
+      randBreite: 1.2,
+      radius: 3,
+    }));
+    teile.push(t(x + 6, y - 8, "." + start, { groesse: 11, fett: true, farbe: aktiv ? F.teal : F.textLeise }));
+    if (aktiv) {
+      teile.push(t(x + 14, y + h / 2 + 4, "Netz .64", { groesse: 10.5, fett: true, farbe: F.weiss }));
+      teile.push(t(x + blockW - 16, y + h / 2 + 4, "Broadcast .127", { groesse: 10.5, fett: true, farbe: F.weiss, align: "rechts" }));
+    }
+  });
+  teile.push(t(B - 4, y - 8, ".255", { groesse: 11, fett: true, farbe: F.textLeise, align: "rechts" }));
+
+  // Marker für die gesuchte .77
+  const mx = blockW + ((77 - 64) / 64) * blockW;
+  teile.push(`<path d="M${mx - 7},${y - 16} L${mx + 7},${y - 16} L${mx},${y - 4} Z" fill="${F.blau}"/>`);
+  teile.push(t(mx + 12, y - 14, ".77", { groesse: 12, fett: true, farbe: F.blau }));
+
+  teile.push(t(B / 2, y + h + 30, "Blockgröße 64 – die /26-Netze starten bei .0, .64, .128, .192. Die .77 fällt in den Block ab .64.", { groesse: 11.5, fett: true, farbe: F.textStark, align: "mitte" }));
+
+  return render("block-strahl", svg(B, H, teile.join("")), B);
+}
+
 // ==================================================== Einzel-Icons
 
 /**
@@ -981,6 +1048,6 @@ function diagnoseLeiter() {
 
 module.exports = {
   topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, dateneinheiten,
-  umfrageNetz, ipAufbau, block26, natWeg, ipv6Aufbau, iconDatei,
+  umfrageNetz, ipAufbau, block26, natWeg, ipv6Aufbau, praefixBalken, blockStrahl, iconDatei,
   icon, ICONS, F, render, svg, t, kasten, linie, knoten,
 };

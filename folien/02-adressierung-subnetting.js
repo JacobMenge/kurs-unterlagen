@@ -148,21 +148,28 @@ deck.content("Eine Adresse, zwei Hälften", "Aufbau", (s, api) => {
 });
 
 deck.content("Die Präfixe, mit denen ihr rechnen werdet", "Referenz", (s, api) => {
-  api.lead(s, "Diese Tabelle ist euer Werkzeug für heute. Blockgröße = 2 hoch Hostbits.");
+  api.lead(s, "Euer Werkzeug für heute. Blockgröße = 2 hoch Hostbits – jeder Schritt halbiert.", { h: 0.3 });
   tabelle(
     s,
-    ["Präfix", "Maske", "Blockgröße · nutzbare Geräte"],
+    ["Präfix", "Maske", "Blockgröße · nutzbar"],
     [
-      ["/24", "255.255.255.0", "256 Adressen · 254 Geräte"],
-      ["/25", "255.255.255.128", "128 Adressen · 126 Geräte"],
-      ["/26", "255.255.255.192", "64 Adressen · 62 Geräte"],
-      ["/27", "255.255.255.224", "32 Adressen · 30 Geräte"],
-      ["/28", "255.255.255.240", "16 Adressen · 14 Geräte"],
-      ["/30", "255.255.255.252", "4 Adressen · 2 Geräte – klassisch für Router-Kopplungen"],
+      ["/24", "255.255.255.0", "256 · 254 Geräte"],
+      ["/25", "255.255.255.128", "128 · 126 Geräte"],
+      ["/26", "255.255.255.192", "64 · 62 Geräte"],
+      ["/27", "255.255.255.224", "32 · 30 Geräte"],
+      ["/28", "255.255.255.240", "16 · 14 Geräte"],
+      ["/29", "255.255.255.248", "8 · 6 Geräte"],
+      ["/30", "255.255.255.252", "4 · 2 – Router-Kopplung"],
     ],
-    { y: 2.08, rowH: 0.33, spalten: [1.1, 2.3], fontSize: 11.5 }
+    { y: 1.95, rowH: 0.31, w: 6.0, spalten: [1.0, 2.1], fontSize: 11 }
   );
-  api.kicker(s, "Auffällig: nutzbar ist immer Blockgröße minus 2. Warum – nächste Folie.", { y: 4.56 });
+  s.addText("SO OFT PASST DER BLOCK INS /24", {
+    x: 6.86, y: 1.95, w: 2.52, h: 0.3,
+    fontFace: T.FONT_BODY, fontSize: 10.5, color: C.teal, bold: true,
+    charSpacing: 0.8, valign: "middle", margin: 0,
+  });
+  s.addImage({ path: D.praefixBalken(), x: 6.86, y: 2.35, w: 2.52, h: 2.17 });
+  api.kicker(s, "Auffällig: nutzbar ist immer Blockgröße minus 2. Warum – nächste Folie.", { y: 4.6 });
 });
 
 deck.content("Warum 62 und nicht 64", "Die Frage aus der Umfrage", (s, api) => {
@@ -213,7 +220,7 @@ deck.content("Das Rezept", "In vier Schritten zu jedem Netz", (s, api) => {
     ],
     { y: 1.9, h: 2.3, gap: 0.18, titleH: 0.3, fontSize: 11 }
   );
-  api.kicker(s, "Mit diesen vier Schritten löst ihr jede Aufgabe von heute – und die aus der Prüfung gleich mit.", { y: 4.5 });
+  api.kicker(s, "Mit diesen vier Schritten löst ihr jede Aufgabe von heute – und jede, die euch draußen begegnet.", { y: 4.5 });
 });
 
 // Drei Aufgaben, jeweils Frage-Folie und Auflösungs-Folie – beim Präsentieren
@@ -223,12 +230,8 @@ const AUFGABEN = [
     nr: "A",
     frage: "Die Adresse 192.168.10.77 liegt in einem /26-Netz.",
     auftrag: "Netzadresse, erste und letzte nutzbare Adresse, Broadcast?",
-    loesung: [
-      "Blockgröße 64 → die Netze starten bei .0, .64, .128, .192",
-      ".77 liegt im Block ab .64 → Netzadresse 192.168.10.64",
-      "nutzbar .65 bis .126 · Broadcast .127",
-    ],
-    merke: "Der Blockanfang ist nie ein Gerät – er benennt das Netz.",
+    bild: () => D.blockStrahl(),
+    merke: "Nutzbar .65 bis .126 – der Blockanfang benennt das Netz, die letzte Adresse ruft alle.",
   },
   {
     nr: "B",
@@ -267,7 +270,10 @@ AUFGABEN.forEach((a) => {
         titleH: 0.32,
         akzent: "teal",
       });
-      if (aufgeloest) {
+      if (aufgeloest && a.bild) {
+        s.addImage({ path: a.bild(), x: T.RAND, y: 3.05, w: T.INHALT_W, h: 1.22 });
+        api.kicker(s, a.merke, { y: 4.5 });
+      } else if (aufgeloest) {
         api.bullets(s, a.loesung, { y: 3.1, h: 1.25, fontSize: 12.5, numbered: true, akzent: "teal" });
         api.kicker(s, a.merke, { y: 4.5 });
       } else {
@@ -311,7 +317,7 @@ deck.kapitel("Subnetz-Architekten", "50 Minuten in Gruppen – ihr plant das Net
 });
 
 deck.content("Der Auftrag", "Breakout · 50 Minuten", (s, api) => {
-  api.lead(s, "Die Müller GmbH zieht um. Ihr bekommt ein /24 und schneidet daraus die Abteilungsnetze – auf Papier, wie in der Prüfung.");
+  api.lead(s, "Die Müller GmbH zieht um. Ihr bekommt ein /24 und schneidet daraus die Abteilungsnetze – nur mit Stift, Papier und dem Rezept von eben.");
   api.schedule(
     s,
     [
