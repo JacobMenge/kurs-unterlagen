@@ -8,9 +8,11 @@ description: "Troubleshooting-Krimi für Gruppen: Mit der Schicht-Checkliste (La
 <span class='badge badge-praxis'>Praxis</span> &nbsp; Es klingelt: „Das Netzwerk geht nicht!" Mehr weiß der Anrufer nicht. Jetzt bist du dran – als Netzwerk-Detektiv, der aus ein paar Befehlsausgaben die wahre Ursache herausliest.
 
 !!! info "Auf einen Blick"
-    - **Dauer:** ~30–45 Minuten
-    - **Gruppen:** 2–4 Personen
-    - **Material:** nur die **Fall-Karten** (dieses Blatt, ausgedruckt oder am Bildschirm). Optional darfst du die Befehle am eigenen Rechner gegenchecken – nötig ist das nicht.
+    - **Dauer:** ca. 50 Minuten für alle fünf Fälle
+    - **Gruppen:** 3–4 Personen – dieselben wie bei den letzten Übungen.
+    - **Material:** nur die **Fall-Karten** auf dieser Seite. Optional darfst du die Befehle am eigenen Rechner gegenchecken – nötig ist das nicht.
+    - **Festhalten:** Zu jedem Fall vier Stichpunkte ins gemeinsame Ergebnis-Dokument – Schicht, Beweis aus der Ausgabe, Ursache, Fix.
+    - **Für die Auswertung:** Jede Gruppe stellt einen zugeteilten Fall vor – bearbeitet trotzdem alle fünf.
     - **Voraussetzung:** möglichst der ganze Netzwerk-Block, mindestens aber [Adressierung](adressierung.md), [DNS](dns.md) und [DHCP](dhcp.md).
 
 In jedem Fall liegt ein **echter** Fehler vor – nicht zwei, nicht „irgendwie kaputt". Genau einer. Eure Aufgabe ist es, ihn zu benennen, der richtigen **Schicht** zuzuordnen und einen Fix vorzuschlagen. Wer systematisch vorgeht, ist schneller als jeder, der wild herumprobiert.

@@ -650,6 +650,208 @@ function blockStrahl() {
   return render("block-strahl", svg(B, H, teile.join("")), B);
 }
 
+// ==================================================== Abend 3: Routing & Co
+
+/**
+ * Routing-Entscheidung: ein Paket, eine Routing-Tabelle, der längste
+ * passende Präfix gewinnt.
+ */
+function routingWeg() {
+  const B = 876;
+  const H = 225;
+  const teile = [];
+
+  // Das Paket links
+  teile.push(kasten(0, 62, 190, 64, { fuellung: F.bernstein, radius: 5 }));
+  teile.push(t(95, 88, "Paket an", { groesse: 11, farbe: F.weiss, align: "mitte" }));
+  teile.push(t(95, 108, "172.16.5.7", { groesse: 14, fett: true, farbe: F.weiss, align: "mitte" }));
+  teile.push(linie(196, 94, 246, 94, { farbe: F.text, breite: 2.2, pfeil: "pfeil" }));
+
+  // Die Routing-Tabelle
+  const tx = 256;
+  const tw = 400;
+  const zeilen = [
+    { ziel: "192.168.10.0/24", weg: "direkt – eigenes Netz", trifft: false },
+    { ziel: "172.16.0.0/16", weg: "über 192.168.10.254", trifft: false },
+    { ziel: "172.16.5.0/24", weg: "über 192.168.10.253", trifft: true },
+    { ziel: "0.0.0.0/0", weg: "Default: 192.168.10.1", trifft: false },
+  ];
+  teile.push(t(tx, 24, "Routing-Tabelle des Routers", { groesse: 11, fett: true, farbe: F.textStark }));
+  zeilen.forEach((z, i) => {
+    const y = 34 + i * 40;
+    teile.push(kasten(tx, y, tw, 34, {
+      fuellung: z.trifft ? F.teal : F.flaeche,
+      rand: z.trifft ? F.teal : F.linie,
+      randBreite: 1.2, radius: 3,
+    }));
+    teile.push(t(tx + 12, y + 22, z.ziel, { groesse: 12, fett: true, farbe: z.trifft ? F.weiss : F.textStark }));
+    teile.push(t(tx + tw - 12, y + 22, z.weg, { groesse: 10.5, farbe: z.trifft ? F.weiss : F.text, align: "rechts" }));
+  });
+
+  // Erklärung rechts
+  const ex = tx + tw + 26;
+  teile.push(linie(ex - 2, 34 + 2 * 40 + 17, ex + 22, 34 + 2 * 40 + 17, { farbe: F.teal, breite: 2.2, pfeil: "pfeilTeal" }));
+  teile.push(t(ex + 30, 92, "/24 schlägt /16:", { groesse: 12, fett: true, farbe: F.teal }));
+  teile.push(t(ex + 30, 110, "die spezifischste", { groesse: 11.5, farbe: F.text }));
+  teile.push(t(ex + 30, 126, "Route gewinnt.", { groesse: 11.5, farbe: F.text }));
+  teile.push(t(ex + 30, 152, "Passt gar nichts,", { groesse: 11, farbe: F.textLeise }));
+  teile.push(t(ex + 30, 168, "fängt die Default-", { groesse: 11, farbe: F.textLeise }));
+  teile.push(t(ex + 30, 184, "Route alles auf.", { groesse: 11, farbe: F.textLeise }));
+
+  teile.push(t(B / 2, 214, "Zwei Einträge passen auf 172.16.5.7 – genommen wird der mit dem längeren Präfix.", { groesse: 11.5, fett: true, farbe: F.textStark, align: "mitte" }));
+
+  return render("routing-weg", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * VLAN: ein physischer Switch, zwei logische Netze. Kontakt gibt es nur
+ * über den Router – und dessen Regeln.
+ */
+function vlanSwitch() {
+  const B = 876;
+  const H = 240;
+  const teile = [];
+
+  // Geräte oben: links Büro (blau), rechts Gäste (bernstein)
+  const geraet = (x, label, farbe) => {
+    teile.push(kasten(x, 10, 120, 36, { fuellung: F.weiss, rand: farbe, randBreite: 1.6, radius: 4 }));
+    teile.push(t(x + 60, 32, label, { groesse: 10.5, fett: true, farbe: F.textStark, align: "mitte" }));
+  };
+  geraet(60, "PC Buchhaltung", F.blau);
+  geraet(200, "PC Vertrieb", F.blau);
+  geraet(520, "Gast-Laptop", F.bernstein);
+  geraet(660, "Gast-Handy", F.bernstein);
+
+  // Kabel zu den Ports
+  [120, 260, 580, 720].forEach((x, i) => {
+    teile.push(linie(x, 46, x, 78, { farbe: i < 2 ? F.blau : F.bernstein, breite: 2.2 }));
+  });
+
+  // Der Switch mit Ports und logischer Trennung
+  teile.push(kasten(40, 78, 760, 64, { fuellung: F.flaeche, rand: F.kante, randBreite: 1.6, radius: 5 }));
+  teile.push(t(420, 100, "EIN physischer Switch", { groesse: 11, fett: true, farbe: F.textStark, align: "mitte" }));
+  [100, 240, 560, 700].forEach((x, i) => {
+    teile.push(kasten(x, 82, 40, 16, { fuellung: i < 2 ? F.blau : F.bernstein, radius: 2 }));
+  });
+  teile.push(t(200, 128, "VLAN 10 · Büro", { groesse: 11.5, fett: true, farbe: F.blau, align: "mitte" }));
+  teile.push(t(640, 128, "VLAN 20 · Gäste", { groesse: 11.5, fett: true, farbe: F.bernstein, align: "mitte" }));
+  teile.push(`<line x1="420" y1="106" x2="420" y2="140" stroke="${F.rot}" stroke-width="3" stroke-dasharray="7 5"/>`);
+  teile.push(t(420, 156, "logisch getrennt – kein Frame kommt hier direkt rüber", { groesse: 10.5, fett: true, farbe: F.rot, align: "mitte" }));
+
+  // Router darunter als einziger Übergang
+  teile.push(linie(240, 142, 380, 186, { farbe: F.blau, breite: 2 }));
+  teile.push(linie(600, 142, 460, 186, { farbe: F.bernstein, breite: 2 }));
+  teile.push(kasten(370, 186, 100, 38, { fuellung: F.teal, radius: 4 }));
+  teile.push(t(420, 202, "Router /", { groesse: 10.5, fett: true, farbe: F.weiss, align: "mitte" }));
+  teile.push(t(420, 216, "Firewall", { groesse: 10.5, fett: true, farbe: F.weiss, align: "mitte" }));
+  teile.push(t(660, 210, "Der einzige Weg zwischen den VLANs –", { groesse: 11, farbe: F.text }));
+  teile.push(t(660, 226, "und dort gelten Regeln.", { groesse: 11, farbe: F.text }));
+
+  return render("vlan-switch", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * Zonenmodell: Internet, DMZ, Büro-LAN und Server-VLAN – die Firewall
+ * entscheidet, wer wohin darf.
+ */
+function zonenModell() {
+  const B = 876;
+  const H = 235;
+  const teile = [];
+  const zy = 30;
+  const zh = 120;
+
+  const zonen = [
+    { x: 0, w: 170, name: "Internet", sub: "alles da draußen", farbe: F.textLeise, tief: F.flaeche },
+    { x: 236, w: 180, name: "DMZ", sub: "Webserver, Mail", farbe: F.teal, tief: F.tealTief },
+    { x: 482, w: 180, name: "Büro-LAN", sub: "Clients, Drucker", farbe: F.blau, tief: F.blauTief },
+    { x: 706, w: 170, name: "Server-VLAN", sub: "Daten, Backup", farbe: F.bernstein, tief: F.bernsteinTief },
+  ];
+  zonen.forEach((z) => {
+    teile.push(kasten(z.x, zy, z.w, zh, { fuellung: z.tief, rand: z.farbe, randBreite: 1.8, radius: 5 }));
+    teile.push(t(z.x + z.w / 2, zy + 26, z.name, { groesse: 13, fett: true, farbe: z.farbe, align: "mitte" }));
+    teile.push(t(z.x + z.w / 2, zy + 46, z.sub, { groesse: 10.5, farbe: F.textLeise, align: "mitte" }));
+  });
+
+  // Firewall-Mauern zwischen den Zonen
+  [188, 434, 680].forEach((x) => {
+    teile.push(kasten(x, zy - 6, 30, zh + 12, { fuellung: F.rot, radius: 3 }));
+    for (let yy = zy + 4; yy < zy + zh; yy += 18) {
+      teile.push(`<line x1="${x + 4}" y1="${yy}" x2="${x + 26}" y2="${yy}" stroke="${F.weiss}" stroke-width="1.6"/>`);
+    }
+  });
+  teile.push(t(203, zy + zh + 26, "Firewall", { groesse: 10, fett: true, farbe: F.rot, align: "mitte" }));
+
+  // Erlaubte und verbotene Wege
+  teile.push(linie(60, zy + 78, 250, zy + 78, { farbe: F.teal, breite: 2.4, pfeil: "pfeilTeal" }));
+  teile.push(t(150, zy + 72, "nur Port 443", { groesse: 9.5, fett: true, farbe: F.teal, align: "mitte" }));
+  teile.push(linie(560, zy + 92, 740, zy + 92, { farbe: F.teal, breite: 2.4, pfeil: "pfeilTeal" }));
+  teile.push(t(636, zy + 84, "nur benötigte Ports", { groesse: 9.5, fett: true, farbe: F.teal, align: "mitte" }));
+  // Internet direkt ins LAN: verboten
+  teile.push(linie(60, zy + 104, 470, zy + 104, { farbe: F.rot, breite: 2, gestrichelt: true }));
+  teile.push(`<line x1="439" y1="${zy + 94}" x2="459" y2="${zy + 114}" stroke="${F.rot}" stroke-width="3.5"/>`);
+  teile.push(`<line x1="459" y1="${zy + 94}" x2="439" y2="${zy + 114}" stroke="${F.rot}" stroke-width="3.5"/>`);
+  teile.push(t(265, zy + 118, "direkt ins LAN: gesperrt", { groesse: 9.5, fett: true, farbe: F.rot }));
+
+  teile.push(t(B / 2, zy + zh + 56, "Wer von wo wohin darf, entscheidet die Firewall – nicht die Verkabelung. Der Webserver steht vorn in der DMZ, damit ein Einbruch dort nicht gleich das LAN kostet.", { groesse: 11, fett: true, farbe: F.textStark, align: "mitte" }));
+
+  return render("zonen-modell", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * Das Blockfinale: der Weg von github.com, Station für Station enthüllbar.
+ * stufe 0 = alles offen, 1–5 = so viele Stationen aufgedeckt.
+ */
+function wegGithub(stufe) {
+  const B = 876;
+  const H = 250;
+  const teile = [];
+
+  // Browserzeile oben
+  teile.push(kasten(238, 8, 400, 34, { fuellung: F.flaeche, rand: F.linie, randBreite: 1.4, radius: 17 }));
+  teile.push(t(438, 30, "https://github.com", { groesse: 13, fett: true, farbe: F.textStark, align: "mitte" }));
+
+  const stationen = [
+    { name: "Name auflösen", z1: "DNS fragt sich durch:", z2: "github.com → 140.82.121.4" },
+    { name: "Verbindung", z1: "TCP auf Port 443,", z2: "dann TLS-Schlüsseltausch" },
+    { name: "Anfrage", z1: "HTTP: GET / –", z2: "verpackt wie im Umschlag-Bild" },
+    { name: "Der Weg", z1: "Gateway, NAT, viele Router –", z2: "tracert lässt grüßen" },
+    { name: "Antwort", z1: "HTML kommt zurück,", z2: "der Browser rendert" },
+  ];
+
+  const cy = 92;
+  const r = 26;
+  const schritt = (B - 176) / 4;
+  stationen.forEach((st, i) => {
+    const cx = 88 + i * schritt;
+    const offen = i < stufe;
+    const farbe = offen ? (i === stufe - 1 ? F.blau : F.teal) : F.kante;
+    if (i > 0) {
+      const vor = 88 + (i - 1) * schritt;
+      teile.push(linie(vor + r + 6, cy, cx - r - 6, cy, {
+        farbe: i < stufe ? F.teal : F.linie, breite: 2.4,
+        pfeil: i < stufe ? "pfeilTeal" : undefined,
+      }));
+    }
+    teile.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${offen ? farbe : F.weiss}" stroke="${farbe}" stroke-width="2.4"/>`);
+    teile.push(t(cx, cy + 6, String(i + 1), { groesse: 16, fett: true, farbe: offen ? F.weiss : F.kante, align: "mitte" }));
+    teile.push(t(cx, cy + r + 22, st.name, { groesse: 12, fett: true, farbe: offen ? F.textStark : F.textLeise, align: "mitte" }));
+    if (offen) {
+      teile.push(t(cx, cy + r + 42, st.z1, { groesse: 10, farbe: F.text, align: "mitte" }));
+      teile.push(t(cx, cy + r + 57, st.z2, { groesse: 10, farbe: F.text, align: "mitte" }));
+    } else {
+      teile.push(t(cx, cy + r + 42, "?", { groesse: 14, fett: true, farbe: F.linie, align: "mitte" }));
+    }
+  });
+
+  const schluss = stufe >= 5
+    ? "Das war die Leitfrage vom ersten Abend – und ihr habt sie gerade selbst beantwortet."
+    : "Wer erzählt die nächste Station?";
+  teile.push(t(B / 2, 238, schluss, { groesse: 11.5, fett: true, farbe: stufe >= 5 ? F.teal : F.textLeise, align: "mitte" }));
+
+  return render("weg-github-" + stufe, svg(B, H, teile.join("")), B);
+}
+
 // ==================================================== Einzel-Icons
 
 /**
@@ -1048,6 +1250,7 @@ function diagnoseLeiter() {
 
 module.exports = {
   topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, dateneinheiten,
-  umfrageNetz, ipAufbau, block26, natWeg, ipv6Aufbau, praefixBalken, blockStrahl, iconDatei,
+  umfrageNetz, ipAufbau, block26, natWeg, ipv6Aufbau, praefixBalken, blockStrahl,
+  routingWeg, vlanSwitch, zonenModell, wegGithub, iconDatei,
   icon, ICONS, F, render, svg, t, kasten, linie, knoten,
 };
