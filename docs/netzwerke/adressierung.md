@@ -244,7 +244,7 @@ Ein paar IP-Adressen haben spezielle Bedeutung:
 
 ## Subnetting im Kopf
 
-Jetzt der Teil, vor dem viele Respekt haben. Subnetting heißt: **ein größeres Netz in kleinere unterteilen**. Zwei Standard-Aufgaben.
+Jetzt der Teil, vor dem viele Respekt haben. Subnetting heißt: **ein größeres Netz in kleinere unterteilen**. Drei Standard-Aufgaben.
 
 ### Aufgabe 1: Liegt eine IP im Subnetz?
 
