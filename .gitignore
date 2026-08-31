@@ -35,12 +35,8 @@ apps/**/node_modules/
 .tmp_*
 
 # Folien-Werkzeuge (lokal installiert, nicht ins Repo)
-folien/node_modules/
-folien/package.json
-folien/package-lock.json
 
 # Erzeugte Foliensätze werden bewusst mitgeliefert – nur Zwischenstände nicht
-folien/dist/*.tmp
 
 # Interne Unterlagen gehören nach ../kurs-26.2b-orga und niemals hierher
 *vertrag*
@@ -49,4 +45,3 @@ folien/dist/*.tmp
 *rahmenlehrplan*
 
 # Vorschau-HTML der Foliensätze (wird bei Bedarf neu erzeugt)
-folien/dist/*.vorschau.html
