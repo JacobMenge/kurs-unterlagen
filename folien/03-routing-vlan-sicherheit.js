@@ -22,6 +22,13 @@ const LINK_DOKUMENT = "<Link zum Ergebnis-Dokument hier eintragen>";
 // Bezüge auf unsere Abende raus, Anschluss an seinen Docker-Faden rein.
 const P = process.env.KURS === "parallel";
 
+// ===================== JE KURS ANPASSEN =====================
+const TERMIN_HEUTE = "Mittwoch, 2. September 2026";
+const TERMIN_NAECHSTER = "Montag, 7. September";
+const TERMIN_HEUTE_P = "Donnerstag, 3. September 2026";
+// Dazu oben: LINK_DOKUMENT je Termin frisch eintragen.
+// ============================================================
+
 const LOGO = {
   cloudhelden: svgPng(
     path.join(__dirname, "assets", "logos", "cloudhelden.svg"),
@@ -43,7 +50,7 @@ deck.title({
   eyebrow: "Thema 1 · Abend 3",
   title: "Routing, VLAN und Sicherheit",
   subtitle: P ? "Teil zwei und Finale – am Ende beantwortet ihr die eine große Frage" : "Das Finale des Netzwerkblocks – am Ende beantwortet ihr die Frage vom ersten Abend",
-  note: P ? "Donnerstag, 3. September 2026 · 18:00–21:00 Uhr" : "Mittwoch, 2. September 2026 · 18:00–21:00 Uhr",
+  note: (P ? TERMIN_HEUTE_P : TERMIN_HEUTE) + " · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
 
@@ -358,7 +365,7 @@ deck.content(P ? "Wie es weitergeht" : "Bis Montag", "Ausblick", (s, api) => {
         ],
     { y: 2.16, h: 2.1, titleH: 0.28 }
   );
-  api.kicker(s, P ? "Danke, dass ich zu Gast sein durfte – und gutes Bauen mit Docker!" : "Nächster Termin: Montag, 7. September, 18:00 Uhr – Virtualisierung.", { y: 4.5 });
+  api.kicker(s, P ? "Danke, dass ich zu Gast sein durfte – und gutes Bauen mit Docker!" : "Nächster Termin: " + TERMIN_NAECHSTER + ", 18:00 Uhr – Virtualisierung.", { y: 4.5 });
 });
 
 deck.schluss({
@@ -366,7 +373,7 @@ deck.schluss({
   subtitle: P
     ? "Rechnen, Wege, Trennung, Diagnose – alles zum Nachlesen auf der Kursseite."
     : "Drei Abende, zwei Übungen, eine beantwortete Leitfrage – alles zum Nachlesen auf der Kursseite.",
-  note: P ? "Weiter geht es mit Philipp – Docker wartet." : "Montag, 7. September · Virtualisierung",
+  note: P ? "Weiter geht es mit Philipp – Docker wartet." : TERMIN_NAECHSTER + " · Virtualisierung",
 });
 
 // ============================================================ Bauen

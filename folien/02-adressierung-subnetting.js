@@ -21,6 +21,14 @@ const LINK_DOKUMENT = "<Link zum Ergebnis-Dokument hier eintragen>";
 // ohne Umfrage-Bezüge, ohne Verweise auf unsere Abende, Docker-Anschluss.
 const P = process.env.KURS === "parallel";
 
+// ===================== JE KURS ANPASSEN =====================
+const TERMIN_HEUTE = "Montag, 31. August 2026";
+const TERMIN_NAECHSTER = "Mittwoch, 2. September";
+const TERMIN_HEUTE_P = "Dienstag, 1. September 2026";
+const TERMIN_NAECHSTER_P = "Donnerstag, 3. September";
+// Dazu oben: LINK_DOKUMENT je Termin frisch eintragen.
+// ============================================================
+
 const LOGO = {
   cloudhelden: svgPng(
     path.join(__dirname, "assets", "logos", "cloudhelden.svg"),
@@ -107,7 +115,7 @@ deck.title({
   eyebrow: "Thema 1 · Abend 2",
   title: "Adressierung und Subnetting",
   subtitle: "Heute wird gerechnet – Papier und Stift reichen, Taschenrechner braucht ihr nicht",
-  note: P ? "Dienstag, 1. September 2026 · 18:00–21:00 Uhr" : "Montag, 31. August 2026 · 18:00–21:00 Uhr",
+  note: (P ? TERMIN_HEUTE_P : TERMIN_HEUTE) + " · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
 
@@ -467,13 +475,13 @@ deck.content(P ? "Bis Donnerstag" : "Bis Mittwoch", "Nacharbeit", (s, api) => {
     ],
     { y: 2.16, h: 2.1, titleH: 0.28 }
   );
-  api.kicker(s, P ? "Nächster Termin: Donnerstag, 3. September, 18:00 Uhr – Teil zwei und das Finale." : "Nächster Termin: Mittwoch, 2. September, 18:00 Uhr – das Finale des Netzwerkblocks.", { y: 4.5 });
+  api.kicker(s, P ? "Nächster Termin: " + TERMIN_NAECHSTER_P + ", 18:00 Uhr – Teil zwei und das Finale." : "Nächster Termin: " + TERMIN_NAECHSTER + ", 18:00 Uhr – das Finale des Netzwerkblocks.", { y: 4.5 });
 });
 
 deck.schluss({
   title: "Fragen?",
   subtitle: "Aufgaben, Lösungswege und die ganze Theorie stehen zum Nachlesen auf der Kursseite.",
-  note: P ? "Donnerstag, 3. September · Routing, VLAN und Sicherheit" : "Mittwoch, 2. September · Routing, VLAN und Sicherheit – das Blockfinale",
+  note: P ? TERMIN_NAECHSTER_P + " · Routing, VLAN und Sicherheit" : TERMIN_NAECHSTER + " · Routing, VLAN und Sicherheit – das Blockfinale",
 });
 
 // ============================================================ Bauen

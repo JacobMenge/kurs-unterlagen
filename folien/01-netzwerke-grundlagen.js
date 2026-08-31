@@ -12,6 +12,12 @@ const { createDeck } = require("./lib/theme");
 const { iconPng, svgPng } = require("./lib/icons");
 const D = require("./lib/diagramme");
 
+// ===================== JE KURS ANPASSEN =====================
+const TERMIN_HEUTE = "Mittwoch, 26. August 2026";
+const TERMIN_NAECHSTER = "Montag, 31. August";
+// Dazu unten: LINK_DOKUMENT je Termin frisch eintragen.
+// ============================================================
+
 // Vor dem Unterricht prüfen: Die Übungsseite steht fest, das Ergebnis-Dokument
 // legt Jacob je Termin neu an. Beide erscheinen auf der Auftrags-Folie, weil
 // Meet den Hauptraum-Chat in den Breakout-Räumen nicht mitnimmt.
@@ -106,7 +112,7 @@ deck.title({
   eyebrow: "Thema 1 · Abend 1",
   title: "Netzwerke – das Fundament",
   subtitle: "Auffrischung auf gemeinsamen Stand – und der Blick auf das, was dort meist zu kurz kam",
-  note: "Mittwoch, 26. August 2026 · 18:00–21:00 Uhr",
+  note: TERMIN_HEUTE + " · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
 
@@ -563,13 +569,13 @@ deck.content("Bis Montag", "Nacharbeit", (s, api) => {
     ],
     { y: 2.16, h: 2.1, titleH: 0.28 }
   );
-  api.kicker(s, "Nächster Termin: Montag, 31. August, 18:00 Uhr – Adressierung und Subnetting.", { y: 4.5 });
+  api.kicker(s, "Nächster Termin: " + TERMIN_NAECHSTER + ", 18:00 Uhr – Adressierung und Subnetting.", { y: 4.5 });
 });
 
 deck.schluss({
   title: "Fragen?",
   subtitle: "Alles von heute steht zum Nachlesen auf der Kursseite – der ganze Netzwerk-Block ist schon online.",
-  note: "Montag, 31. August · Adressierung und Subnetting · Papier und Stift mitbringen",
+  note: TERMIN_NAECHSTER + " · Adressierung und Subnetting · Papier und Stift mitbringen",
 });
 
 // ============================================================ Bauen

@@ -9,6 +9,11 @@ const path = require("path");
 const { createDeck } = require("./lib/theme");
 const { iconPng, svgPng } = require("./lib/icons");
 
+// ===================== JE KURS ANPASSEN =====================
+const TERMIN_HEUTE = "24. August 2026";
+const PRUEFUNGSTERMIN = "18. März 2027";
+// ============================================================
+
 // Technologie-Logos (werden nach assets/icons/ gerendert und eingebettet)
 const LOGO = {
   cloudhelden: svgPng(path.join(__dirname, "assets", "logos", "cloudhelden.svg"), "cloudhelden"),
@@ -47,7 +52,7 @@ deck.title({
   eyebrow: "Kursstart",
   title: "Herzlich willkommen",
   subtitle: "Geprüfter Berufsspezialist für Systemintegration und Vernetzung",
-  note: "Orientierungsabend · 24. August 2026",
+  note: "Orientierungsabend · " + TERMIN_HEUTE,
   logo: LOGO.cloudhelden,
 });
 
@@ -290,7 +295,7 @@ deck.content("Der grobe Fahrplan", "Zeitplan", (s, api) => {
       { label: "THEMA 2", sub: "Laufender\nBetrieb" },
       { label: "THEMA 3", sub: "Qualität und\nSicherheit" },
       { label: "RECHT+PM", sub: "andere\nLehrkraft" },
-      { label: "PRÜFUNG", sub: "18. März 2027\nschriftlich" },
+      { label: "PRÜFUNG", sub: PRUEFUNGSTERMIN + "\nschriftlich" },
     ],
     { y: 2.95 }
   );
@@ -377,7 +382,7 @@ deck.content("Cloud zum Anfassen", "Pluralsight", (s, api) => {
 });
 
 deck.content("Die schriftliche Prüfung", "Prüfungsformat", (s, api) => {
-  api.lead(s, "Am 18. März 2027. Keine Wissensabfrage, sondern ein Fall aus dem Betrieb, den ihr durchdenkt und löst.");
+  api.lead(s, "Am " + PRUEFUNGSTERMIN + ". Keine Wissensabfrage, sondern ein Fall aus dem Betrieb, den ihr durchdenkt und löst.");
   api.bullets(
     s,
     [
