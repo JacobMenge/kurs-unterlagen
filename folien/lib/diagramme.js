@@ -532,8 +532,8 @@ function natWeg() {
   // Pfeile von beiden Routern in die Wolke, beschriftet mit der öffentlichen IP
   teile.push(linie(320, 67, wx - 66, wy - 6, { farbe: F.teal, breite: 2.2, pfeil: "pfeilTeal" }));
   teile.push(linie(320, 179, wx - 66, wy + 22, { farbe: F.teal, breite: 2.2, pfeil: "pfeilTeal" }));
-  teile.push(t(475, 88, "draußen sichtbar: 203.0.113.7", { groesse: 10.5, farbe: F.teal }));
-  teile.push(t(475, 168, "draußen sichtbar: 198.51.100.42", { groesse: 10.5, farbe: F.teal }));
+  teile.push(t(480, 72, "draußen sichtbar: 203.0.113.7", { groesse: 10.5, farbe: F.teal }));
+  teile.push(t(480, 180, "draußen sichtbar: 198.51.100.42", { groesse: 10.5, farbe: F.teal }));
 
   // Merkzeile
   teile.push(t(438, 224, "Zweimal dieselbe 192.168.2.33 – kein Konflikt: Nach draußen tritt nur die öffentliche Adresse des Routers auf.", { groesse: 11.5, fett: true, farbe: F.textStark, align: "mitte" }));
@@ -904,6 +904,80 @@ function rezeptWeg() {
   teile.push(t(438, boxY + boxH + 40, "Ergebnis: Netz 172.16.8.64/27 · nutzbar .65 bis .94 · Broadcast .95", { groesse: 12, fett: true, farbe: F.textStark, align: "mitte" }));
 
   return render("rezept-weg", svg(B, H, teile.join("")), B);
+}
+
+/**
+ * Aufgaben als Gegeben/Gesucht-Bild: oben der Gegeben-Chip, darunter die
+ * Gesucht-Felder. Ungelöst zeigen sie Fragezeichen, gelöst die Werte –
+ * identische Geometrie, der Klick füllt die Felder an Ort und Stelle.
+ */
+const AUFGABEN_BILDER = {
+  a: {
+    chip: "Gegeben: die Adresse 192.168.10.77 in einem /26-Netz",
+    slots: [
+      { label: "Netzadresse", wert: "192.168.10.64" },
+      { label: "erste nutzbare", wert: ".65" },
+      { label: "letzte nutzbare", wert: ".126" },
+      { label: "Broadcast", wert: ".127" },
+    ],
+    note: "Der Blockanfang benennt das Netz, die letzte Adresse ruft alle – beide sind kein Gerät.",
+  },
+  b: {
+    chip: "Gegeben: eine Abteilung braucht Platz für 40 Geräte",
+    slots: [
+      { label: "Hostbits", wert: "6" },
+      { label: "nutzbare Adressen", wert: "2⁶ − 2 = 62" },
+      { label: "Präfix", wert: "/26" },
+    ],
+    note: "Eine Stufe kleiner (/27) böte nur 30 – zu klein für 40. Die kleinste Blockgröße, die reicht.",
+  },
+  c: {
+    chip: "Gegeben: die Adresse 172.16.4.130 in einem /23-Netz",
+    slots: [
+      { label: "Netzadresse", wert: "172.16.4.0 /23" },
+      { label: "nutzbar von – bis", wert: "4.1 – 5.254" },
+      { label: "Broadcast", wert: "172.16.5.255" },
+    ],
+    note: "Blockgröße 512: Das dritte Oktett zählt mit, in Zweierschritten – 4.0 und 5.255 gehören zum selben Block.",
+  },
+};
+
+function aufgabeBild(nr, geloest) {
+  const konf = AUFGABEN_BILDER[nr];
+  const B = 876;
+  const H = 168;
+  const teile = [];
+
+  const chipW = Math.max(360, konf.chip.length * 7.2 + 40);
+  teile.push(kasten((B - chipW) / 2, 6, chipW, 32, { fuellung: F.bernstein, radius: 16 }));
+  teile.push(t(B / 2, 27, konf.chip, { groesse: 12.5, fett: true, farbe: F.weiss, align: "mitte" }));
+
+  const n = konf.slots.length;
+  const gap = 26;
+  const slotW = (B - (n - 1) * gap) / n;
+  const boxY = 78;
+  const boxH = 46;
+
+  konf.slots.forEach((slot, i) => {
+    const x = i * (slotW + gap);
+    teile.push(t(x + slotW / 2, boxY - 8, slot.label, { groesse: 10.5, fett: true, farbe: F.textLeise, align: "mitte" }));
+    if (geloest) {
+      teile.push(kasten(x, boxY, slotW, boxH, { fuellung: F.teal, radius: 5 }));
+      teile.push(t(x + slotW / 2, boxY + boxH / 2 + 6, slot.wert, { groesse: 16, fett: true, farbe: F.weiss, align: "mitte" }));
+    } else {
+      teile.push(
+        `<rect x="${x}" y="${boxY}" width="${slotW}" height="${boxH}" rx="5" fill="${F.flaeche}" ` +
+          `stroke="${F.kante}" stroke-width="1.6" stroke-dasharray="7 5"/>`
+      );
+      teile.push(t(x + slotW / 2, boxY + boxH / 2 + 7, "?", { groesse: 19, fett: true, farbe: F.kante, align: "mitte" }));
+    }
+  });
+
+  if (geloest) {
+    teile.push(t(B / 2, boxY + boxH + 34, konf.note, { groesse: 11.5, fett: true, farbe: F.textStark, align: "mitte" }));
+  }
+
+  return render(`aufgabe-${nr}-${geloest ? "geloest" : "frage"}`, svg(B, H, teile.join("")), B);
 }
 
 // ==================================================== Einzel-Icons
@@ -1305,6 +1379,6 @@ function diagnoseLeiter() {
 module.exports = {
   topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, dateneinheiten,
   umfrageNetz, ipAufbau, block26, natWeg, ipv6Aufbau, praefixBalken, blockStrahl,
-  routingWeg, vlanSwitch, zonenModell, wegGithub, rezeptWeg, iconDatei,
+  routingWeg, vlanSwitch, zonenModell, wegGithub, rezeptWeg, aufgabeBild, iconDatei,
   icon, ICONS, F, render, svg, t, kasten, linie, knoten,
 };

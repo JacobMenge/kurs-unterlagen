@@ -212,64 +212,29 @@ deck.content("Das Rezept", "In vier Schritten zu jedem Netz", (s, api) => {
   api.kicker(s, "Mit diesen vier Schritten löst ihr jede Aufgabe von heute – und jede, die euch draußen begegnet.", { y: 4.5 });
 });
 
-// Drei Aufgaben, jeweils Frage-Folie und Auflösungs-Folie – beim Präsentieren
-// wirkt der Klick wie eine Animation, solange die Positionen gleich bleiben.
+// Drei Aufgaben als Gegeben/Gesucht-Bilder: Die Frage zeigt leere Felder,
+// der Klick zur Auflösung füllt dieselben Felder – Positionen identisch.
 const AUFGABEN = [
-  {
-    nr: "A",
-    frage: "Die Adresse 192.168.10.77 liegt in einem /26-Netz.",
-    auftrag: "Netzadresse, erste und letzte nutzbare Adresse, Broadcast?",
-    bild: () => D.blockStrahl(),
-    merke: "Nutzbar .65 bis .126 – der Blockanfang benennt das Netz, die letzte Adresse ruft alle.",
-  },
-  {
-    nr: "B",
-    frage: "Eine Abteilung braucht Platz für 40 Geräte.",
-    auftrag: "Welches Präfix nehmt ihr – und warum nicht eins kleiner?",
-    loesung: [
-      "5 Hostbits: 2⁵ − 2 = 30 nutzbar → reicht nicht für 40",
-      "6 Hostbits: 2⁶ − 2 = 62 nutzbar → passt",
-      "Präfix = 32 − 6 = /26",
-    ],
-    merke: "Immer die kleinste Blockgröße, die noch reicht – plus Blick auf morgen: Wächst die Abteilung?",
-  },
-  {
-    nr: "C",
-    frage: "Die Adresse 172.16.4.130 liegt in einem /23-Netz.",
-    auftrag: "Netzadresse und Broadcast? Vorsicht, hier reicht das letzte Oktett nicht.",
-    loesung: [
-      "9 Hostbits → Blockgröße 512: das dritte Oktett spielt mit, in Zweierschritten",
-      "Netze: 172.16.0.0, 172.16.2.0, 172.16.4.0 … → .4.130 liegt in 172.16.4.0/23",
-      "nutzbar 172.16.4.1 bis 172.16.5.254 · Broadcast 172.16.5.255",
-    ],
-    merke: "Ein Präfix unter /24 heißt: Der Block läuft über mehrere dritte Oktette hinweg.",
-  },
+  { nr: "a", titel: "Aufgabe A", strahl: true },
+  { nr: "b", titel: "Aufgabe B" },
+  { nr: "c", titel: "Aufgabe C" },
 ];
 
 AUFGABEN.forEach((a) => {
-  for (const aufgeloest of [false, true]) {
-    deck.content(`Aufgabe ${a.nr}`, aufgeloest ? "Auflösung" : "Rechnet – Antwort in den Chat", (s, api) => {
-      api.card(s, {
-        y: 1.78,
-        h: 1.1,
-        titel: a.frage,
-        body: a.auftrag,
-        fontSize: 13,
-        titleSize: 14,
-        titleH: 0.32,
-        akzent: "teal",
-      });
-      if (aufgeloest && a.bild) {
-        s.addImage({ path: a.bild(), x: T.RAND, y: 3.05, w: T.INHALT_W, h: 1.22 });
-        api.kicker(s, a.merke, { y: 4.5 });
-      } else if (aufgeloest) {
-        api.bullets(s, a.loesung, { y: 3.1, h: 1.25, fontSize: 12.5, numbered: true, akzent: "teal" });
-        api.kicker(s, a.merke, { y: 4.5 });
-      } else {
-        api.kicker(s, "Das Rezept: Hostbits → Blockgröße → Block finden → minus zwei.", { y: 4.5, color: C.textLeise });
-      }
-    });
-  }
+  deck.content(a.titel, "Rechnet – Antwort in den Chat", (s, api) => {
+    s.addImage({ path: D.aufgabeBild(a.nr, false), x: T.RAND, y: 2.05, w: T.INHALT_W, h: 1.68 });
+    api.kicker(s, "Das Rezept: Hostbits → Blockgröße → Block finden → minus zwei.", { y: 4.5, color: C.textLeise });
+  });
+
+  deck.content(a.titel, "Auflösung", (s, api) => {
+    if (a.strahl) {
+      s.addImage({ path: D.aufgabeBild(a.nr, true), x: T.RAND, y: 1.72, w: T.INHALT_W, h: 1.68 });
+      s.addImage({ path: D.blockStrahl(), x: T.RAND, y: 3.5, w: T.INHALT_W, h: 1.22 });
+    } else {
+      s.addImage({ path: D.aufgabeBild(a.nr, true), x: T.RAND, y: 2.05, w: T.INHALT_W, h: 1.68 });
+      api.kicker(s, "Das Rezept: Hostbits → Blockgröße → Block finden → minus zwei.", { y: 4.5, color: C.textLeise });
+    }
+  });
 });
 
 // ============================================================ NAT & IPv6
