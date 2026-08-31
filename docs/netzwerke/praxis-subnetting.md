@@ -70,7 +70,7 @@ Beginnt bei `192.168.10.0` und legt die Subnetze **lückenlos hintereinander**. 
 - die **Subnetzmaske**
 
 !!! tip "Tipp: Blockgröße als Sprungweite"
-    Die **Blockgröße** ist `256 − Maskenwert` (im vierten Oktett). Sie sagt euch, **wo das nächste Subnetz anfängt**. Beispiel: bei der Maske `255.255.255.128` (`/25`) ist die Blockgröße `256 − 128 = 128` – die Subnetze starten also bei `.0` und `.128`. So springt ihr von Block zu Block, ohne euch zu verrechnen.
+    Die **Blockgröße** ist `256 − Maskenwert` (im vierten Oktett). Sie sagt euch, **wo das nächste Subnetz anfängt**. Beispiel: bei der Maske `255.255.255.128` (`/25`) ist die Blockgröße `256 − 128 = 128` – die Subnetze starten also bei `.0` und `.128`. So springt ihr von Block zu Block, ohne euch zu verrechnen. (Das ist übrigens dieselbe Zahl wie `2^Hostbits` – nur ein schnellerer Rechenweg dorthin.)
 
 **Schritt 4 – Planungstabelle ausfüllen.**
 Übertragt alles in diese Tabelle. Sie ist eure **Abgabe** – schreibt sie ins gemeinsame Dokument oder aufs Papier:
