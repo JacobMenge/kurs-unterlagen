@@ -857,6 +857,55 @@ function wegGithub(stufe, neutral) {
   return render("weg-github-" + stufe + (neutral ? "-neutral" : ""), svg(B, H, teile.join("")), B);
 }
 
+/**
+ * Das Subnetting-Rezept als durchlaufendes Beispiel: 172.16.8.90/27 wandert
+ * durch die vier Schritte, jedes Zwischenergebnis steht groß im Kasten.
+ */
+function rezeptWeg() {
+  const B = 876;
+  const H = 250;
+  const teile = [];
+
+  // Beispiel-Chip oben
+  teile.push(kasten(288, 6, 300, 32, { fuellung: F.bernstein, radius: 16 }));
+  teile.push(t(438, 27, "Beispiel: 172.16.8.90 /27", { groesse: 13, fett: true, farbe: F.weiss, align: "mitte" }));
+  teile.push(linie(438, 40, 438, 56, { farbe: F.kante, breite: 2, pfeil: "pfeil" }));
+
+  const boxY = 62;
+  const boxH = 128;
+  const boxW = 198;
+  const gap = (B - 4 * boxW) / 3;
+
+  const schritte = [
+    { nr: "1", name: "Hostbits", klein: "32 − Präfix", gross: "32 − 27 = 5", sub: ["fünf Bits gehören", "den Geräten"] },
+    { nr: "2", name: "Blockgröße", klein: "2 hoch Hostbits", gross: "2⁵ = 32", sub: ["Netze starten bei", ".0 · .32 · .64 · .96 …"] },
+    { nr: "3", name: "Block finden", klein: "Wo liegt die .90?", gross: ".90 → ab .64", sub: ["Blockanfang =", "Netzadresse .64"] },
+    { nr: "4", name: "Minus zwei", klein: "Netz + Broadcast weg", gross: "32 − 2 = 30", sub: ["nutzbar .65 – .94,", "Broadcast .95"] },
+  ];
+
+  schritte.forEach((st, i) => {
+    const x = i * (boxW + gap);
+    teile.push(kasten(x, boxY, boxW, boxH, { fuellung: F.tealTief, rand: F.teal, randBreite: 1.6, radius: 5 }));
+    teile.push(`<circle cx="${x + 22}" cy="${boxY + 22}" r="13" fill="${F.teal}"/>`);
+    teile.push(t(x + 22, boxY + 27, st.nr, { groesse: 12, fett: true, farbe: F.weiss, align: "mitte" }));
+    teile.push(t(x + 44, boxY + 27, st.name, { groesse: 12.5, fett: true, farbe: F.textStark }));
+    teile.push(t(x + boxW / 2, boxY + 50, st.klein, { groesse: 10, farbe: F.textLeise, align: "mitte" }));
+    teile.push(t(x + boxW / 2, boxY + 78, st.gross, { groesse: 17, fett: true, farbe: F.teal, align: "mitte" }));
+    teile.push(t(x + boxW / 2, boxY + 100, st.sub[0], { groesse: 10, farbe: F.text, align: "mitte" }));
+    teile.push(t(x + boxW / 2, boxY + 115, st.sub[1], { groesse: 10, farbe: F.text, align: "mitte" }));
+    if (i < 3) {
+      teile.push(linie(x + boxW + 4, boxY + boxH / 2, x + boxW + gap - 4, boxY + boxH / 2, { farbe: F.teal, breite: 2.2, pfeil: "pfeilTeal" }));
+    }
+  });
+
+  // Ergebniszeile
+  teile.push(kasten(138, boxY + boxH + 18, 600, 34, { fuellung: F.flaecheHell, radius: 4 }));
+  teile.push(`<rect x="138" y="${boxY + boxH + 18}" width="5" height="34" rx="2.5" fill="${F.teal}"/>`);
+  teile.push(t(438, boxY + boxH + 40, "Ergebnis: Netz 172.16.8.64/27 · nutzbar .65 bis .94 · Broadcast .95", { groesse: 12, fett: true, farbe: F.textStark, align: "mitte" }));
+
+  return render("rezept-weg", svg(B, H, teile.join("")), B);
+}
+
 // ==================================================== Einzel-Icons
 
 /**
@@ -1256,6 +1305,6 @@ function diagnoseLeiter() {
 module.exports = {
   topologien, kapselung, osiTcpip, diagnoseLeiter, wegThema1, bandbreiteLatenz, dateneinheiten,
   umfrageNetz, ipAufbau, block26, natWeg, ipv6Aufbau, praefixBalken, blockStrahl,
-  routingWeg, vlanSwitch, zonenModell, wegGithub, iconDatei,
+  routingWeg, vlanSwitch, zonenModell, wegGithub, rezeptWeg, iconDatei,
   icon, ICONS, F, render, svg, t, kasten, linie, knoten,
 };

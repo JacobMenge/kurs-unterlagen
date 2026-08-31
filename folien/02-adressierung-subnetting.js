@@ -208,32 +208,7 @@ deck.kapitel("Jetzt rechnet ihr", "Drei Aufgaben, Antworten in den Chat – aufg
 });
 
 deck.content("Das Rezept", "In vier Schritten zu jedem Netz", (s, api) => {
-  api.cardRow(
-    s,
-    [
-      {
-        titel: "1 · Hostbits",
-        body: "32 minus Präfix. Bei /26: 32 − 26 = 6 Hostbits.",
-        akzent: "teal",
-      },
-      {
-        titel: "2 · Blockgröße",
-        body: "2 hoch Hostbits. 2⁶ = 64 – die Netze starten bei 0, 64, 128, 192.",
-        akzent: "teal",
-      },
-      {
-        titel: "3 · Block finden",
-        body: "In welchem Block liegt die Adresse? Der Blockanfang ist die Netzadresse.",
-        akzent: "teal",
-      },
-      {
-        titel: "4 · Minus zwei",
-        body: "Erste Adresse = Netz, letzte = Broadcast. Nutzbar ist, was dazwischen liegt.",
-        akzent: "teal",
-      },
-    ],
-    { y: 1.9, h: 2.3, gap: 0.18, titleH: 0.3, fontSize: 11 }
-  );
+  s.addImage({ path: D.rezeptWeg(), x: T.RAND, y: 1.72, w: T.INHALT_W, h: 2.5 });
   api.kicker(s, "Mit diesen vier Schritten löst ihr jede Aufgabe von heute – und jede, die euch draußen begegnet.", { y: 4.5 });
 });
 
