@@ -18,6 +18,10 @@ const D = require("./lib/diagramme");
 const LINK_UEBUNG = "jacobmenge.github.io/kurs-unterlagen/netzwerke/praxis-netzwerk-notruf/";
 const LINK_DOKUMENT = "<Link zum Ergebnis-Dokument hier eintragen>";
 
+// Mit KURS=parallel entsteht die Fassung für Philipps Kurs (Do, 03.09.):
+// Bezüge auf unsere Abende raus, Anschluss an seinen Docker-Faden rein.
+const P = process.env.KURS === "parallel";
+
 const LOGO = {
   cloudhelden: svgPng(
     path.join(__dirname, "assets", "logos", "cloudhelden.svg"),
@@ -38,8 +42,8 @@ const { C, T } = deck.api;
 deck.title({
   eyebrow: "Thema 1 · Abend 3",
   title: "Routing, VLAN und Sicherheit",
-  subtitle: "Das Finale des Netzwerkblocks – am Ende beantwortet ihr die Frage vom ersten Abend",
-  note: "Mittwoch, 2. September 2026 · 18:00–21:00 Uhr",
+  subtitle: P ? "Teil zwei und Finale – am Ende beantwortet ihr die eine große Frage" : "Das Finale des Netzwerkblocks – am Ende beantwortet ihr die Frage vom ersten Abend",
+  note: P ? "Donnerstag, 3. September 2026 · 18:00–21:00 Uhr" : "Mittwoch, 2. September 2026 · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
 
@@ -50,7 +54,7 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
   api.schedule(
     s,
     [
-      ["18:00", "Warmup: eine Kopfrechenaufgabe von Montag"],
+      P ? ["18:00", "Warmup: eine Kopfrechenaufgabe von Dienstag"] : ["18:00", "Warmup: eine Kopfrechenaufgabe von Montag"],
       ["18:10", "Routing: Wie ein Paket seinen Weg findet"],
       ["18:25", "Netze trennen: VLAN, DMZ und die Firewall dazwischen"],
       ["18:45", "Pause"],
@@ -59,17 +63,17 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
       ["19:25", "Breakout: Netzwerk-Notruf – fünf Fälle"],
       ["20:15", "Auswertung: eure Diagnosen"],
       ["20:35", "Das Finale: github.com – ihr erzählt, ich klicke"],
-      ["20:55", "Blockabschluss und Ausblick auf Montag"],
+      P ? ["20:55", "Abschluss – und zurück in euren Kursplan"] : ["20:55", "Blockabschluss und Ausblick auf Montag"],
     ],
     { y: 1.92, rowH: 0.26, fontSize: 10.5 }
   );
-  api.kicker(s, "Ab Montag heißt es Virtualisierung – heute machen wir das Netz fertig.", { y: 4.6 });
+  api.kicker(s, P ? "Danach geht es mit Philipp bei Docker weiter – mit dem Netz darunter im Rücken." : "Ab Montag heißt es Virtualisierung – heute machen wir das Netz fertig.", { y: 4.6 });
 });
 
 // Warmup als Klick-Auflösung – knüpft an Montag an
 deck.content("Warmup", "Antwort in den Chat – 40 Sekunden", (s, api) => {
   api.statement(s, "Ein /27-Netz:\nWie viele Geräte passen hinein?", { y: 2.0, h: 1.3, fontSize: 26 });
-  api.kicker(s, "Das Rezept von Montag: Hostbits → Blockgröße → minus zwei.", { y: 4.5, color: C.textLeise });
+  api.kicker(s, P ? "Das Rezept von Dienstag: Hostbits → Blockgröße → minus zwei." : "Das Rezept von Montag: Hostbits → Blockgröße → minus zwei.", { y: 4.5, color: C.textLeise });
 });
 
 deck.content("Warmup", "Auflösung", (s, api) => {
@@ -78,7 +82,7 @@ deck.content("Warmup", "Auflösung", (s, api) => {
     y: 3.5,
     h: 1.0,
     titel: "30 Geräte",
-    body: "5 Hostbits → 2⁵ = 32 Adressen, minus Netzadresse und Broadcast. Wer 32 gesagt hat: willkommen im Klub von Montag – jetzt sitzt es.",
+    body: P ? "5 Hostbits → 2⁵ = 32 Adressen, minus Netzadresse und Broadcast. Wer 32 gesagt hat: willkommen im Klub von Dienstag – jetzt sitzt es." : "5 Hostbits → 2⁵ = 32 Adressen, minus Netzadresse und Broadcast. Wer 32 gesagt hat: willkommen im Klub von Montag – jetzt sitzt es.",
     fontSize: 11.5,
     titleH: 0.28,
     akzent: "teal",
@@ -113,19 +117,19 @@ deck.kapitel("Getrennt, obwohl verkabelt", "VLAN, DMZ und die Firewall dazwische
 
 deck.content("VLAN – ein Switch, mehrere Netze", "Logische Trennung", (s, api) => {
   s.addImage({ path: D.vlanSwitch(), x: T.RAND, y: 1.72, w: T.INHALT_W, h: 2.4 });
-  api.kicker(s, "Das ist die technische Antwort auf euren Subnetz-Plan von Montag: Gäste und Server trennt man nicht nur auf dem Papier.", { y: 4.5 });
+  api.kicker(s, P ? "Das ist die technische Antwort auf euren Subnetz-Plan von Dienstag: Gäste und Server trennt man nicht nur auf dem Papier." : "Das ist die technische Antwort auf euren Subnetz-Plan von Montag: Gäste und Server trennt man nicht nur auf dem Papier.", { y: 4.5 });
 });
 
 deck.content("Das Zonenmodell", "Wer darf wohin?", (s, api) => {
   s.addImage({ path: D.zonenModell(), x: T.RAND, y: 1.7, w: T.INHALT_W, h: 2.35 });
-  api.kicker(s, "Merkt euch das Muster – es kommt beim Sicherheitsblock wieder und trägt jede Infrastrukturplanung.", { y: 4.44 });
+  api.kicker(s, P ? "Merkt euch das Muster – ihr seht es in jeder Firmenumgebung wieder, bis hinein in Container-Netze." : "Merkt euch das Muster – es kommt beim Sicherheitsblock wieder und trägt jede Infrastrukturplanung.", { y: 4.44 });
 });
 
 // ============================================================ Quickcheck
 deck.abschnitt("Quickcheck", "teal");
 
 deck.content("Quickcheck DNS & DHCP", "Antwort in den Chat", (s, api) => {
-  api.lead(s, "Laut eurer Standortbestimmung sitzt beides – der Beweis in zwei Fragen.");
+  api.lead(s, P ? "Zwei Fragen, die im Betrieb ständig auftauchen – erst raten, dann klicke ich." : "Laut eurer Standortbestimmung sitzt beides – der Beweis in zwei Fragen.");
   api.cardRow(
     s,
     [
@@ -184,9 +188,9 @@ deck.content("Der Auftrag", "Breakout · 50 Minuten", (s, api) => {
     [
       ["Fall 1", "„Ich komme nirgendwo hin“ – der Klassiker zum Warmwerden"],
       ["Fall 2", "„Webseiten gehen nicht, aber …“ – genau hinsehen"],
-      ["Fall 3", "„Nur das Internet fehlt“ – Montag hilft"],
-      ["Fall 4", "„Komische Adresse“ – Montag hilft sehr"],
-      ["Fall 5", "„Server pingt, aber die App nicht“ – der Mittwochsfall"],
+      P ? ["Fall 3", "„Nur das Internet fehlt“ – Dienstag hilft"] : ["Fall 3", "„Nur das Internet fehlt“ – Montag hilft"],
+      P ? ["Fall 4", "„Komische Adresse“ – Dienstag hilft sehr"] : ["Fall 4", "„Komische Adresse“ – Montag hilft sehr"],
+      P ? ["Fall 5", "„Server pingt, aber die App nicht“ – der Fall für heute"] : ["Fall 5", "„Server pingt, aber die App nicht“ – der Mittwochsfall"],
     ],
     { y: 2.16, rowH: 0.34, labelW: 0.95, fontSize: 11.5, akzent: "bernstein" }
   );
@@ -209,7 +213,7 @@ deck.content("So arbeitet ihr", "Spielregeln", (s, api) => {
   api.bullets(
     s,
     [
-      "Gleiche Gruppen, gleiche Sprecher. Eine Person teilt den Bildschirm.",
+      P ? "Gruppen wie am Dienstag, gleiche Sprecher. Eine Person teilt den Bildschirm." : "Gleiche Gruppen, gleiche Sprecher. Eine Person teilt den Bildschirm.",
       "Arbeitet die Checkliste von unten nach oben ab – sie ist euer Werkzeug, nicht eure Fessel.",
       "Pro Fall festhalten: Schicht, Beweis aus der Ausgabe, Ursache, Fix – ein Satz je Punkt reicht.",
       "Hilfekarten erst nach ehrlichem Versuch. Die Lösungen bleiben zu, bis wir auswerten.",
@@ -238,7 +242,7 @@ deck.content("Eure Diagnosen", "Auswertung · 20 Minuten", (s, api) => {
       ["1", "Jede Gruppe stellt ihren Fall vor: Schicht, Beweis, Ursache, Fix"],
       ["2", "Das Plenum prüft: Hätte ein anderer Befehl schneller ans Ziel geführt?"],
       ["3", "Der fünfte Fall gemeinsam – wer hat ihn geknackt?"],
-      ["4", "Dann die Auflösungstabelle – und die Fälle, wo Montag geholfen hat"],
+      P ? ["4", "Dann die Auflösungstabelle – und die Fälle, wo Dienstag geholfen hat"] : ["4", "Dann die Auflösungstabelle – und die Fälle, wo Montag geholfen hat"],
     ],
     { y: 1.96, rowH: 0.44, labelW: 0.45, fontSize: 12 }
   );
@@ -258,7 +262,7 @@ deck.content("Die Auflösung der fünf Fälle", "Auswertung", (s, api) => {
       ["Fall 1", "APIPA, kein DHCP erreichbar – Symptom auf 3, Ursache dahinter"],
       ["Fall 2", "DNS antwortet nicht – IP-Ping läuft, Namen sterben (Schicht 7)"],
       ["Fall 3", "Falsches Default-Gateway – lokal alles gut, draußen nichts (Schicht 3)"],
-      ["Fall 4", "Falsche Subnetzmaske /24 statt /25 – der Montags-Fall in freier Wildbahn"],
+      P ? ["Fall 4", "Falsche Subnetzmaske /24 statt /25 – der Dienstags-Fall in freier Wildbahn"] : ["Fall 4", "Falsche Subnetzmaske /24 statt /25 – der Montags-Fall in freier Wildbahn"],
       ["Fall 5", "Firewall blockt den Port – ping ja, Dienst nein (Schicht 4)"],
     ],
     { y: 1.9, rowH: 0.42, labelW: 0.95, fontSize: 11.5 }
@@ -269,18 +273,18 @@ deck.content("Die Auflösung der fünf Fälle", "Auswertung", (s, api) => {
 // ============================================================ Finale
 deck.abschnitt("Das Finale", "blau");
 
-deck.kapitel("Die Leitfrage", "Was passiert, wenn ich github.com eintippe? Ihr erzählt – ich klicke.", {
+deck.kapitel(P ? "Die Schlussfrage" : "Die Leitfrage", "Was passiert, wenn ich github.com eintippe? Ihr erzählt – ich klicke.", {
   nummer: "04",
 });
 
 for (let stufe = 0; stufe <= 5; stufe++) {
   deck.content(
-    "Die Leitfrage vom ersten Abend",
+    P ? "Eine Frage, alle Schichten" : "Die Leitfrage vom ersten Abend",
     stufe === 0 ? "Eure Antwort, Station für Station" : `Station ${stufe} von 5`,
     (s, api) => {
-      s.addImage({ path: D.wegGithub(stufe), x: T.RAND, y: 1.75, w: T.INHALT_W, h: 2.5 });
+      s.addImage({ path: D.wegGithub(stufe, P), x: T.RAND, y: 1.75, w: T.INHALT_W, h: 2.5 });
       if (stufe === 5) {
-        api.kicker(s, "Vom ersten Abend bis heute: Modell, Adressen, Weg, Trennung – alles steckt in dieser einen Antwort.", { y: 4.52 });
+        api.kicker(s, P ? "Modell, Adressen, Weg, Trennung – alles aus zwei Abenden steckt in dieser einen Antwort." : "Vom ersten Abend bis heute: Modell, Adressen, Weg, Trennung – alles steckt in dieser einen Antwort.", { y: 4.52 });
       }
     }
   );
@@ -289,13 +293,13 @@ for (let stufe = 0; stufe <= 5; stufe++) {
 // ============================================================ Abschluss
 deck.abschnitt("Abschluss", "blau");
 
-deck.content("Was der Netzwerkblock euch gegeben hat", "Drei Abende, ein Werkzeugkasten", (s, api) => {
+deck.content(P ? "Was diese zwei Abende euch gegeben haben" : "Was der Netzwerkblock euch gegeben hat", P ? "Zwei Abende, ein Werkzeugkasten" : "Drei Abende, ein Werkzeugkasten", (s, api) => {
   api.cardRow(
     s,
     [
       {
         titel: "Ein Raster",
-        body: "Die Schichten als Suchraster: von unten nach oben, jeder Befehl beweist seine Schicht. Heute habt ihr fünf echte Fälle damit gelöst.",
+        body: "Die Schichten als Suchraster: von unten nach oben, jeder Befehl beweist seine Schicht. Heute habt ihr fünf echte Fälle so gelöst.",
       },
       {
         titel: "Ein Handwerk",
@@ -304,7 +308,7 @@ deck.content("Was der Netzwerkblock euch gegeben hat", "Drei Abende, ein Werkzeu
       },
       {
         titel: "Ein Muster",
-        body: "Netze trennt man mit Absicht: VLAN, DMZ, Firewall-Regeln. Das Zonenmodell seht ihr im Sicherheitsblock wieder.",
+        body: P ? "Netze trennt man mit Absicht: VLAN, DMZ, Firewall-Regeln. Das Muster trägt bis in eure Container-Netze." : "Netze trennt man mit Absicht: VLAN, DMZ, Firewall-Regeln. Das Zonenmodell seht ihr im Sicherheitsblock wieder.",
         akzent: "bernstein",
       },
     ],
@@ -319,37 +323,54 @@ deck.content("Was der Netzwerkblock euch gegeben hat", "Drei Abende, ein Werkzeu
   });
 });
 
-deck.content("Bis Montag", "Ausblick", (s, api) => {
-  api.lead(s, "Ab Montag bauen wir – der Netzwerkblock ist geschafft.");
+deck.content(P ? "Wie es weitergeht" : "Bis Montag", "Ausblick", (s, api) => {
+  api.lead(s, P ? "Zurück in euren Kursplan – mit dem Netz im Rücken." : "Ab Montag bauen wir – der Netzwerkblock ist geschafft.");
   api.cardRow(
     s,
-    [
-      {
-        titel: "Virtualisierung",
-        body: "Hypervisor, virtuelle Maschinen, virtuelle Netze – und ihr startet eure erste eigene VM. Das Werkzeug dafür richten wir gemeinsam ein.",
-      },
-      {
-        titel: "Nichts vorbereiten",
-        body: "Ihr braucht nur euren Rechner. Wer mag, liest vorab die Seite „Virtualisierung“ auf der Kursseite an – Pflicht ist das nicht.",
-      },
-      {
-        titel: "Offene Rechnungen",
-        body: "Wer bei den Fällen 3 und 4 geschwommen ist: Die Montags-Seiten zu Adressierung und Routing schließen die Lücke.",
-      },
-    ],
+    P
+      ? [
+          {
+            titel: "Weiter mit Philipp",
+            body: "Ihr steigt wieder in euren Docker-Faden ein – Container-Netze, Bridges und Port-Weitergaben lesen sich ab jetzt deutlich leichter.",
+          },
+          {
+            titel: "Zum Nachschlagen",
+            body: "Die Kursseite bleibt für euch offen: Theorie, beide Übungen samt Lösungen und die Aufgaben mit Lösungsweg.",
+          },
+          {
+            titel: "Offene Rechnungen",
+            body: "Wer bei den Fällen 3 und 4 geschwommen ist: Die Seiten zu Adressierung und Routing schließen die Lücke.",
+          },
+        ]
+      : [
+          {
+            titel: "Virtualisierung",
+            body: "Hypervisor, virtuelle Maschinen, virtuelle Netze – und ihr startet eure erste eigene VM. Das Werkzeug dafür richten wir gemeinsam ein.",
+          },
+          {
+            titel: "Nichts vorbereiten",
+            body: "Ihr braucht nur euren Rechner. Wer mag, liest vorab die Seite „Virtualisierung“ auf der Kursseite an – Pflicht ist das nicht.",
+          },
+          {
+            titel: "Offene Rechnungen",
+            body: "Wer bei den Fällen 3 und 4 geschwommen ist: Die Montags-Seiten zu Adressierung und Routing schließen die Lücke.",
+          },
+        ],
     { y: 2.16, h: 2.1, titleH: 0.28 }
   );
-  api.kicker(s, "Nächster Termin: Montag, 7. September, 18:00 Uhr – Virtualisierung.", { y: 4.5 });
+  api.kicker(s, P ? "Danke, dass ich zu Gast sein durfte – und gutes Bauen mit Docker!" : "Nächster Termin: Montag, 7. September, 18:00 Uhr – Virtualisierung.", { y: 4.5 });
 });
 
 deck.schluss({
-  title: "Netzwerkblock: geschafft.",
-  subtitle: "Drei Abende, zwei Übungen, eine beantwortete Leitfrage – alles zum Nachlesen auf der Kursseite.",
-  note: "Montag, 7. September · Virtualisierung",
+  title: P ? "Zwei Abende Netzwerk: geschafft." : "Netzwerkblock: geschafft.",
+  subtitle: P
+    ? "Rechnen, Wege, Trennung, Diagnose – alles zum Nachlesen auf der Kursseite."
+    : "Drei Abende, zwei Übungen, eine beantwortete Leitfrage – alles zum Nachlesen auf der Kursseite.",
+  note: P ? "Weiter geht es mit Philipp – Docker wartet." : "Montag, 7. September · Virtualisierung",
 });
 
 // ============================================================ Bauen
 
-deck.save(path.join(__dirname, "dist", "03-routing-vlan-sicherheit.pptx")).then((r) => {
+deck.save(path.join(__dirname, "dist", P ? "03-routing-vlan-sicherheit-parallelkurs.pptx" : "03-routing-vlan-sicherheit.pptx")).then((r) => {
   console.log(`Fertig: ${r.file} – ${r.slides} Folien`);
 });

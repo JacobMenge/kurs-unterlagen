@@ -545,7 +545,7 @@ function natWeg() {
  * IPv6 kompakt: eine Adresse in Präfix und Interface-ID zerlegt,
  * darunter die link-lokale fe80-Adresse.
  */
-function ipv6Aufbau() {
+function ipv6Aufbau(neutral) {
   const B = 876;
   const H = 190;
   const teile = [];
@@ -578,9 +578,12 @@ function ipv6Aufbau() {
   const fy = y + 96;
   teile.push(kasten(x0, fy, 200, 34, { fuellung: F.tealTief, rand: F.teal, randBreite: 1.6, radius: 4 }));
   teile.push(t(x0 + 100, fy + 22, "fe80::…", { groesse: 13, fett: true, farbe: F.teal, align: "mitte" }));
-  teile.push(t(x0 + 214, fy + 22, "Link-local: gibt sich jedes Gerät selbst, gilt nur im eigenen Netzsegment – euer Fund aus dem Schichten-Check.", { groesse: 11, farbe: F.text }));
+  const fe80Text = neutral
+    ? "Link-local: gibt sich jedes Gerät selbst, gilt nur im eigenen Netzsegment – taucht in jedem ipconfig auf."
+    : "Link-local: gibt sich jedes Gerät selbst, gilt nur im eigenen Netzsegment – euer Fund aus dem Schichten-Check.";
+  teile.push(t(x0 + 214, fy + 22, fe80Text, { groesse: 11, farbe: F.text }));
 
-  return render("ipv6-aufbau", svg(B, H, teile.join("")), B);
+  return render(neutral ? "ipv6-aufbau-neutral" : "ipv6-aufbau", svg(B, H, teile.join("")), B);
 }
 
 /**
@@ -802,7 +805,7 @@ function zonenModell() {
  * Das Blockfinale: der Weg von github.com, Station für Station enthüllbar.
  * stufe 0 = alles offen, 1–5 = so viele Stationen aufgedeckt.
  */
-function wegGithub(stufe) {
+function wegGithub(stufe, neutral) {
   const B = 876;
   const H = 250;
   const teile = [];
@@ -845,11 +848,13 @@ function wegGithub(stufe) {
   });
 
   const schluss = stufe >= 5
-    ? "Das war die Leitfrage vom ersten Abend – und ihr habt sie gerade selbst beantwortet."
+    ? (neutral
+        ? "Eine Frage, alle Schichten – und ihr habt sie gerade selbst beantwortet."
+        : "Das war die Leitfrage vom ersten Abend – und ihr habt sie gerade selbst beantwortet.")
     : "Wer erzählt die nächste Station?";
   teile.push(t(B / 2, 238, schluss, { groesse: 11.5, fett: true, farbe: stufe >= 5 ? F.teal : F.textLeise, align: "mitte" }));
 
-  return render("weg-github-" + stufe, svg(B, H, teile.join("")), B);
+  return render("weg-github-" + stufe + (neutral ? "-neutral" : ""), svg(B, H, teile.join("")), B);
 }
 
 // ==================================================== Einzel-Icons

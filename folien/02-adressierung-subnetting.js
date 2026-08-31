@@ -17,6 +17,10 @@ const D = require("./lib/diagramme");
 const LINK_UEBUNG = "jacobmenge.github.io/kurs-unterlagen/netzwerke/praxis-subnetting/";
 const LINK_DOKUMENT = "<Link zum Ergebnis-Dokument hier eintragen>";
 
+// Mit KURS=parallel entsteht die Fassung für Philipps Kurs (Di, 01.09.):
+// ohne Umfrage-Bezüge, ohne Verweise auf unsere Abende, Docker-Anschluss.
+const P = process.env.KURS === "parallel";
+
 const LOGO = {
   cloudhelden: svgPng(
     path.join(__dirname, "assets", "logos", "cloudhelden.svg"),
@@ -103,7 +107,7 @@ deck.title({
   eyebrow: "Thema 1 · Abend 2",
   title: "Adressierung und Subnetting",
   subtitle: "Heute wird gerechnet – Papier und Stift reichen, Taschenrechner braucht ihr nicht",
-  note: "Montag, 31. August 2026 · 18:00–21:00 Uhr",
+  note: P ? "Dienstag, 1. September 2026 · 18:00–21:00 Uhr" : "Montag, 31. August 2026 · 18:00–21:00 Uhr",
   logo: LOGO.cloudhelden,
 });
 
@@ -114,7 +118,7 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
   api.schedule(
     s,
     [
-      ["18:00", "Eure Standortbestimmung – die ersten Ergebnisse"],
+      P ? ["18:00", "Ankommen und Einstieg"] : ["18:00", "Eure Standortbestimmung – die ersten Ergebnisse"],
       ["18:10", "Die Adresse auseinandergenommen: Aufbau, Maske, Präfixe"],
       ["18:25", "Rechnen: Blockgrößen, Netz- und Broadcast-Adresse, drei Aufgaben"],
       ["18:45", "Pause"],
@@ -122,14 +126,16 @@ deck.content("Was uns heute Abend erwartet", "Ablauf", (s, api) => {
       ["19:15", "Briefing für die Breakout-Übung"],
       ["19:25", "Breakout: Subnetz-Architekten"],
       ["20:15", "Auswertung: eure Netzpläne im Vergleich"],
-      ["20:50", "Ausblick auf Mittwoch"],
+      P ? ["20:50", "Ausblick auf Donnerstag"] : ["20:50", "Ausblick auf Mittwoch"],
     ],
     { y: 1.98, rowH: 0.28, fontSize: 11 }
   );
-  api.kicker(s, "Am Mittwoch schließen wir den Netzwerkblock ab – danach geht es in die Virtualisierung.", { y: 4.58 });
+  api.kicker(s, P
+    ? "Am Donnerstag folgt Teil zwei: Routing, VLAN und Sicherheit – das Finale."
+    : "Am Mittwoch schließen wir den Netzwerkblock ab – danach geht es in die Virtualisierung.", { y: 4.58 });
 });
 
-deck.content("Eure Standortbestimmung – danke!", "14 von 14 haben geantwortet", (s, api) => {
+if (!P) deck.content("Eure Standortbestimmung – danke!", "14 von 14 haben geantwortet", (s, api) => {
   api.lead(s, "Drei Netzwerkfragen aus dem Formular. Zwei davon habt ihr komplett abgeräumt.");
   s.addImage({ path: D.umfrageNetz(), x: T.RAND, y: 2.1, w: T.INHALT_W, h: 2.05 });
   api.kicker(s, "Die dritte Frage ist kein Zufallstreffer – am Ende des Abends beantwortet sie jeder hier im Schlaf.", { y: 4.4 });
@@ -172,7 +178,7 @@ deck.content("Die Präfixe, mit denen ihr rechnen werdet", "Referenz", (s, api) 
   api.kicker(s, "Auffällig: nutzbar ist immer Blockgröße minus 2. Warum – nächste Folie.", { y: 4.6 });
 });
 
-deck.content("Warum 62 und nicht 64", "Die Frage aus der Umfrage", (s, api) => {
+deck.content("Warum 62 und nicht 64", P ? "Der Klassiker" : "Die Frage aus der Umfrage", (s, api) => {
   s.addImage({ path: D.block26(), x: T.RAND, y: 1.75, w: T.INHALT_W, h: 1.75 });
   api.card(s, {
     y: 3.7,
@@ -286,7 +292,7 @@ AUFGABEN.forEach((a) => {
 // ============================================================ NAT & IPv6
 deck.abschnitt("Privat und v6", "blau");
 
-deck.kapitel("Wem gehört 192.168?", "Die Antwort auf die Frage vom Mittwoch – und der Blick auf IPv6", {
+deck.kapitel("Wem gehört 192.168?", P ? "Warum ihr alle dieselbe private Adresse haben dürft – und der Blick auf IPv6" : "Die Antwort auf die Frage vom Mittwoch – und der Blick auf IPv6", {
   nummer: "03",
 });
 
@@ -296,7 +302,7 @@ deck.content("Private Adressen und NAT", "Warum ihr alle dieselbe Adresse haben 
 });
 
 deck.content("IPv6 in fünf Minuten", "Der Blick nach vorn", (s, api) => {
-  s.addImage({ path: D.ipv6Aufbau(), x: T.RAND, y: 1.7, w: T.INHALT_W, h: 1.9 });
+  s.addImage({ path: D.ipv6Aufbau(P), x: T.RAND, y: 1.7, w: T.INHALT_W, h: 1.9 });
   api.cardRow(
     s,
     [
@@ -347,7 +353,7 @@ deck.content("So arbeitet ihr", "Spielregeln", (s, api) => {
   api.bullets(
     s,
     [
-      "Gleiche Gruppen wie beim Schichten-Check. Eine Person teilt den Bildschirm.",
+      P ? "Gruppen zu dritt oder viert. Eine Person teilt den Bildschirm." : "Gleiche Gruppen wie beim Schichten-Check. Eine Person teilt den Bildschirm.",
       "Öffnet den Link zur Kursseite jetzt – im Breakout-Raum seht ihr diese Folie nicht mehr.",
       "Rechnet laut und gemeinsam. Wer einen anderen Weg hat: sagen, nicht schweigen.",
       "Der Online-Rechner ist der Schiedsrichter – aber erst nach eurer Rechnung, nicht statt ihr.",
@@ -381,7 +387,7 @@ deck.content("Das gehen wir gemeinsam durch", "Auswertung · 35 Minuten", (s, ap
       ["2", "Vergleich: Wo unterscheiden sich die Pläne – und sind beide richtig?"],
       ["3", "Die Probe: Passen alle Blöcke zusammen in das /24?"],
       ["4", "Was bleibt übrig – und warum ist Reserve kein Fehler?"],
-      ["5", "Der Bogen zur Umfrage: die /26-Frage, noch einmal für alle"],
+      P ? ["5", "Zum Schluss für alle: /26 – wie viele Geräte? Jetzt kann es jeder"] : ["5", "Der Bogen zur Umfrage: die /26-Frage, noch einmal für alle"],
     ],
     { y: 1.9, rowH: 0.42, labelW: 0.45, fontSize: 12 }
   );
@@ -436,8 +442,8 @@ deck.content("Das nehmt ihr heute mit", "Kern des Abends", (s, api) => {
   });
 });
 
-deck.content("Bis Mittwoch", "Nacharbeit", (s, api) => {
-  api.lead(s, "Zwei Angebote, keine Pflicht – Mittwoch machen wir den Netzwerkblock fertig.");
+deck.content(P ? "Bis Donnerstag" : "Bis Mittwoch", "Nacharbeit", (s, api) => {
+  api.lead(s, P ? "Zwei Angebote, keine Pflicht – Donnerstag machen wir das Netz fertig." : "Zwei Angebote, keine Pflicht – Mittwoch machen wir den Netzwerkblock fertig.");
   api.cardRow(
     s,
     [
@@ -449,24 +455,29 @@ deck.content("Bis Mittwoch", "Nacharbeit", (s, api) => {
         titel: "Weiterlesen",
         body: "Wer wissen will, wie der Weg eines Aufrufs wirklich aussieht: „Praxis: github.com – die Spurensuche“ auf der Kursseite.",
       },
-      {
-        titel: "Mittwoch",
-        body: "Routing, VLAN und Netzwerksicherheit kompakt – und zum Abschluss lösen wir die Leitfrage vom ersten Abend ein.",
-      },
+      P
+        ? {
+            titel: "Donnerstag",
+            body: "Routing, VLAN und Netzwerksicherheit kompakt – und zum Abschluss beantwortet ihr eine Frage, in der alles von heute steckt.",
+          }
+        : {
+            titel: "Mittwoch",
+            body: "Routing, VLAN und Netzwerksicherheit kompakt – und zum Abschluss lösen wir die Leitfrage vom ersten Abend ein.",
+          },
     ],
     { y: 2.16, h: 2.1, titleH: 0.28 }
   );
-  api.kicker(s, "Nächster Termin: Mittwoch, 2. September, 18:00 Uhr – das Finale des Netzwerkblocks.", { y: 4.5 });
+  api.kicker(s, P ? "Nächster Termin: Donnerstag, 3. September, 18:00 Uhr – Teil zwei und das Finale." : "Nächster Termin: Mittwoch, 2. September, 18:00 Uhr – das Finale des Netzwerkblocks.", { y: 4.5 });
 });
 
 deck.schluss({
   title: "Fragen?",
   subtitle: "Aufgaben, Lösungswege und die ganze Theorie stehen zum Nachlesen auf der Kursseite.",
-  note: "Mittwoch, 2. September · Routing, VLAN und Sicherheit – das Blockfinale",
+  note: P ? "Donnerstag, 3. September · Routing, VLAN und Sicherheit" : "Mittwoch, 2. September · Routing, VLAN und Sicherheit – das Blockfinale",
 });
 
 // ============================================================ Bauen
 
-deck.save(path.join(__dirname, "dist", "02-adressierung-subnetting.pptx")).then((r) => {
+deck.save(path.join(__dirname, "dist", P ? "02-adressierung-subnetting-parallelkurs.pptx" : "02-adressierung-subnetting.pptx")).then((r) => {
   console.log(`Fertig: ${r.file} – ${r.slides} Folien`);
 });
