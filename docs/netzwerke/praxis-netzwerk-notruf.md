@@ -49,7 +49,7 @@ Ein guter Detektiv rät nicht. Er arbeitet eine Liste ab – **von unten nach ob
     - **Schicht:** Auf welcher Ebene liegt der Fehler?
     - **Fix:** Was würdest du tun, um es zu beheben?
 4. **Feststecken erlaubt.** Erst selbst diskutieren – dann (und nur dann) eine **Hilfekarte** aufklappen.
-5. **Rotieren.** Wenn ihr fertig seid, gebt den Fall weiter und nehmt den nächsten. Wer alle fünf knackt, ist Netzwerk-Kommissar.
+5. **Rotieren.** Wenn ihr fertig seid, gebt den Fall weiter und nehmt den nächsten. Wer alle fünf knackt, ist Netzwerk-Kommissar – und nimmt sich Fall 6, den Bonus mit dem Wissen von heute Abend. Wer auch den löst: Hauptkommissar.
 
 !!! warning "Spielregel"
     Die **Lösungen** ganz unten erst aufklappen, wenn ihr eure eigene Diagnose **aufgeschrieben** habt. Sonst nehmt ihr euch den schönsten Teil – den Aha-Moment.
@@ -260,6 +260,43 @@ TcpTestSucceeded : False
 
 Der Rechner ist da, der Name stimmt, nur die **Tür bleibt zu**. Wer hält sie zu?
 
+### Fall 6 (Bonus) – „Der Neue kommt nicht an die Ablage"
+
+!!! note "Kür für schnelle Gruppen"
+    Diesen Fall knackt ihr mit dem Wissen von **heute Abend**. Erst dran, wenn eure fünf Pflichtfälle stehen.
+
+Erster Arbeitstag: Der neue Kollege bekommt einen frisch verkabelten Arbeitsplatz. Internet läuft, Mail läuft – aber die **Dateiablage** (`\\ablage.firma.local`) öffnet sich nicht, und auch der Drucker im Flur taucht nicht auf. Die Kollegin am Nachbartisch hat keinerlei Probleme. Ihr vergleicht die beiden Rechner:
+
+```text
+C:\> ipconfig          (neuer Kollege)
+
+Ethernet-Adapter Ethernet:
+   IPv4-Adresse  . . . . . . . . . . : 192.168.20.61
+   Subnetzmaske  . . . . . . . . . . : 255.255.255.0
+   Standardgateway . . . . . . . . . : 192.168.20.1
+```
+
+```text
+C:\> ipconfig          (Kollegin nebenan, alles funktioniert)
+
+Ethernet-Adapter Ethernet:
+   IPv4-Adresse  . . . . . . . . . . : 192.168.10.34
+   Subnetzmaske  . . . . . . . . . . : 255.255.255.0
+   Standardgateway . . . . . . . . . : 192.168.10.1
+```
+
+Beide haben eine Adresse per DHCP bekommen, beide erreichen ihr Gateway. Der Ping auf die Ablage scheitert beim Neuen trotzdem:
+
+```text
+C:\> ping ablage.firma.local
+
+Ping wird ausgeführt für ablage.firma.local [192.168.10.20] mit 32 Bytes Daten:
+Zeitüberschreitung der Anforderung.
+Zeitüberschreitung der Anforderung.
+```
+
+Zwei Rechner, gleicher Raum, gleicher Switch – und trotzdem **zwei verschiedene Netze**. Wie kann das sein, und warum ist es beim Neuen das falsche?
+
 ---
 
 ## Hilfekarten
@@ -281,6 +318,9 @@ Der Rechner ist da, der Name stimmt, nur die **Tür bleibt zu**. Wer hält sie z
 
 ??? info "Hinweis zu Fall 5"
     `ping` geht (Layer 3 steht), DNS stimmt (Layer 7-Name passt). Bis zu welcher Schicht ist also **alles in Ordnung**? Der `Test-NetConnection` auf **Port 443** sagt `TcpTestSucceeded : False`. Der Rechner antwortet auf Ping, aber **dieser eine Port** nimmt keine Verbindung an. Was sitzt typischerweise zwischen dir und einem einzelnen Port und entscheidet, ob er offen ist?
+
+??? info "Hinweis zu Fall 6"
+    Ein Switch, zwei Netze – das war heute Abend Thema. Der Neue bekommt seine Adresse **per DHCP**, aber aus dem Bereich `192.168.20.x`, die Kollegin aus `192.168.10.x`. Der DHCP-Server antwortet **pro Netz** – entscheidend ist also, in welchem logischen Netz die **Switch-Dose** des Neuen hängt. (Siehe [Segmentierung](segmentierung-und-vpn.md).)
 
 ---
 
@@ -334,6 +374,16 @@ Der Rechner ist da, der Name stimmt, nur die **Tür bleibt zu**. Wer hält sie z
     Merksatz: **Ping prüft den Weg (Layer 3), der Port-Test prüft die Tür (Layer 4).** Mehr zu Ports unter [Transport-Protokolle](transport-protokolle.md), mehr zu Firewalls in den [Merksätzen](merksaetze.md).
 
 ---
+
+??? success "Lösung Fall 6 (Bonus) – Switch-Port im falschen VLAN"
+    - **Ursache:** Die Netzwerkdose des neuen Arbeitsplatzes ist auf dem Switch dem **falschen VLAN** zugewiesen (dem Gäste-Netz `192.168.20.0/24` statt dem Büro-Netz `192.168.10.0/24`). Deshalb antwortet dort der DHCP-Server des Gäste-Netzes – Adresse, Gateway, alles ist in sich stimmig, nur eben im **falschen logischen Netz**. Die Firewall lässt Gäste nicht an die interne Ablage – genau dafür ist die Trennung ja da.
+    - **Schicht:** **Layer 2** (der Switch-Port bestimmt das VLAN). Das Symptom sieht nach Layer 3 aus – die Ursache sitzt eine Schicht tiefer.
+    - **Fix:**
+        1. Am Switch den Port der Dose ins **richtige VLAN** (Büro) umhängen – das macht die Netzwerk-Administration, nicht der Client.
+        2. Danach am PC die Adresse neu holen: `ipconfig /release` und `ipconfig /renew` – jetzt kommt eine `192.168.10.x`.
+        3. Gegenprobe: `ping ablage.firma.local` – die Ablage antwortet.
+
+    Merksatz: **Wenn DHCP eine „richtige" Adresse aus dem falschen Netz liefert, hängt der Port im falschen VLAN.**
 
 ## Was du dabei gelernt hast
 
