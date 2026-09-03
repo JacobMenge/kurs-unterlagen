@@ -38,6 +38,8 @@ Netzwerke unterscheidet man als erstes nach **Reichweite und Größe**. Vier Beg
 
 ## Topologien – wie die Geräte verbunden sind
 
+![Die vier Grundtopologien: Bus, Stern, Ring und Mesh](../assets/diagramme/topologien.png){ .diagramm }
+
 Eine **Topologie** beschreibt, **wie die Geräte verkabelt** (oder verbunden) sind. Sechs Grundformen, alle wichtig:
 
 ### Stern-Topologie
@@ -197,6 +199,8 @@ P2P spielt im Geschäftsalltag eine kleinere Rolle als Client-Server, aber **es 
 ---
 
 ## Was fließt durch ein Netz? – Frame, Paket, Segment
+
+![Vom Bit-Signal zum Frame: jede Schicht packt ihren Kopf davor](../assets/diagramme/dateneinheiten.png){ .diagramm }
 
 Daten werden im Netzwerk nicht als großer Block übertragen, sondern in kleine **Häppchen** zerlegt. Je nachdem, auf welcher Schicht du gerade bist, heißt das Häppchen anders.
 

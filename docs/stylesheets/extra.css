@@ -1492,3 +1492,14 @@
 .md-typeset pre > code {
   overflow-x: auto;
 }
+
+/* Diagramme aus den Foliensätzen: weiße Karte, damit sie im dunklen
+   Theme lesbar bleiben. Einbinden mit { .diagramm } hinter dem Bild. */
+img.diagramm {
+  display: block;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 1.2em auto;
+  max-width: 100%;
+}

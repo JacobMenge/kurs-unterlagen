@@ -214,6 +214,8 @@ Wird seltener gebraucht, aber wichtig z.B. bei Mail-Servern – Spam-Filter prü
 
 ## Caching – warum DNS oft schnell ist
 
+![DNS-Caching: der Resolver liefert die alte Antwort, bis die TTL abläuft](../assets/diagramme/dns-ttl.png){ .diagramm }
+
 Damit nicht jede Anfrage die volle Hierarchie durchläuft, gibt es **Caching** auf mehreren Ebenen:
 
 - **Browser-Cache** – einige Minuten

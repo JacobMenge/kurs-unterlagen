@@ -99,6 +99,10 @@ Hier kommt der Router ins Spiel.
 
 ## Routing – die lange Strecke
 
+![Das Problem: ein Paket, vier mögliche Ausgänge – welcher ist richtig?](../assets/diagramme/routing-problem.png){ .diagramm }
+
+![Die Antwort: die Routing-Tabelle – der längste passende Präfix gewinnt](../assets/diagramme/routing-weg-1.png){ .diagramm }
+
 Ein **Router** ist ein Gerät, das auf **Layer 3** arbeitet. Er kennt **IP-Adressen** und entscheidet, **zu welchem Netzwerk** ein Paket geht.
 
 ### Was ein Router tut
@@ -256,6 +260,8 @@ Was du dir merken solltest:
 ---
 
 ## Switching + Routing zusammen: der ganze Weg
+
+![Hop für Hop: jeder Router liest dieselbe Ziel-IP und fragt seine eigene Tabelle](../assets/diagramme/hop-reise-3.png){ .diagramm }
 
 Lass uns ein durchgängiges Beispiel anschauen: dein PC zu Hause ruft `github.com` auf.
 

@@ -21,6 +21,14 @@ Jeder Befehl, jede Erklärung und jede Übung aus dem Unterricht steht hier zum 
 
     [:octicons-arrow-right-24: Zum Fahrplan](fahrplan.md)
 
+-   :material-dumbbell:{ .lg .middle } __Direkt in die Praxis__
+
+    ---
+
+    Alle **[Übungen](uebungen.md)** auf einer Seite – von der Netzwerk-Diagnose über Docker und Kubernetes bis zum Testkonzept, gruppiert nach Themenblock.
+
+    [:octicons-arrow-right-24: Zu den Übungen](uebungen.md)
+
 -   :material-information-outline:{ .lg .middle } __Organisatorisches__
 
     ---

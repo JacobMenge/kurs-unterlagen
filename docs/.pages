@@ -1,6 +1,7 @@
 nav:
   - "Start": index.md
   - "Fahrplan": fahrplan.md
+  - "Übungen": uebungen.md
   - "Kursinfo": kurs
   - "1 · Planung & Integration":
       - "Worum es geht": thema-1.md

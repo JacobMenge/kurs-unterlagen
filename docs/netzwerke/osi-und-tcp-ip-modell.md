@@ -143,6 +143,8 @@ Auch hier ist die Trennung in der Praxis nicht so sauber. **TLS** lebt formal au
 
 ## Das TCP/IP-Modell – vier Schichten
 
+![OSI- und TCP/IP-Modell nebeneinander, Schicht für Schicht](../assets/diagramme/osi-tcpip.png){ .diagramm }
+
 Das praktische Modell, mit dem das Internet wirklich gebaut wurde:
 
 ```mermaid
@@ -168,6 +170,8 @@ Du siehst: die TCP/IP-Anwendungsschicht **bündelt** OSI-Schichten 5, 6 und 7. D
 ---
 
 ## Die Post-Analogie
+
+![Kapselung: die Daten wandern wie ein Brief durch immer neue Umschläge](../assets/diagramme/kapselung.png){ .diagramm }
 
 Damit das alles greifbar wird, eine durchgängige Analogie. Stell dir vor, du verschickst einen Brief an eine Freundin in Hamburg. So funktioniert das im Postnetz – und genauso (nur abstrakter) im Computernetz.
 

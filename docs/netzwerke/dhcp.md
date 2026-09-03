@@ -61,6 +61,8 @@ Was tatsächlich vergeben wird, hängt vom DHCP-Server ab. In Standard-Heimnetze
 
 ## Der DORA-Ablauf
 
+![DORA: Discover, Offer, Request, Acknowledge – inklusive Broadcast und Lease](../assets/diagramme/dhcp-dora.png){ .diagramm }
+
 Wenn ein neuer Client (z.B. dein Notebook) sich verbindet, läuft ein **vierstufiger Vorgang** ab, der unter dem Eselsbrücken-Wort **DORA** bekannt ist:
 
 ```mermaid

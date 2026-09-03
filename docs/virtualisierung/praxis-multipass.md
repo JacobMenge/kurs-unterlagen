@@ -303,6 +303,11 @@ Jede VM kann für sich `apt install`, Netzwerktests, Experimente durchführen �
 
 ## Schritt 7 – Aufräumen (wichtig!)
 
+!!! warning "Geht es bei euch mit der Snapshot-Übung weiter?"
+    Dann lösche hier nur die Kür-VM `gross` – die `demo` brauchst du für
+    [Netz-Detektiv & Snapshot](praxis-vm-experimente.md) noch. Gestoppt
+    (`multipass stop demo`) kostet sie fast nichts.
+
 !!! warning "Ohne diesen Schritt bleibt die VM bestehen und belegt weiter Plattenplatz"
     VMs verschwinden nicht von selbst. Wer sie nicht aktiv entfernt, hat irgendwann eine volle Festplatte.
 

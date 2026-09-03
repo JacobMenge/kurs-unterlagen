@@ -76,6 +76,8 @@ Obwohl die MAC ab Werk eingebrannt ist, kannst du sie auf deinem System **softwa
 
 ## IPv4-Adressen
 
+![Wie der Computer eine IPv4-Adresse liest: vier Zahlen, 32 Bits](../assets/diagramme/binaer-bruecke.png){ .diagramm }
+
 Eine **IPv4-Adresse** ist eine **32-Bit-Zahl**, geschrieben in vier Dezimalzahlen von 0 bis 255, getrennt durch Punkte:
 
 ```text
@@ -228,6 +230,8 @@ Nicht jede IP-Adresse darf im Internet auftauchen. Es gibt drei **private Adress
 
 ## Sonder-Adressen, die du kennen musst
 
+![Netzadresse und Broadcast: die erste und letzte Adresse jedes Blocks sind reserviert](../assets/diagramme/block-abzug-1.png){ .diagramm }
+
 Ein paar IP-Adressen haben spezielle Bedeutung:
 
 | Adresse | Name | Wofür |
@@ -243,6 +247,8 @@ Ein paar IP-Adressen haben spezielle Bedeutung:
 ---
 
 ## Subnetting im Kopf
+
+![Das Subnetting-Rezept in vier Schritten am Beispiel 172.16.8.90/27](../assets/diagramme/rezept-weg.png){ .diagramm }
 
 Jetzt der Teil, vor dem viele Respekt haben. Subnetting heißt: **ein größeres Netz in kleinere unterteilen**. Drei Standard-Aufgaben.
 
@@ -306,6 +312,10 @@ Die vier Subnetze sind:
 
 ## IPv6 – warum es nötig wurde
 
+![IPv4 ist aufgebraucht, IPv6 hat Adressen im Überfluss – und ist längst im Einsatz](../assets/diagramme/ipv6-warum.png){ .diagramm }
+
+![Eine IPv6-Adresse lesen: acht Gruppen, Kurzschreibweise, Hexadezimal](../assets/diagramme/ipv6-aufbau-neutral.png){ .diagramm }
+
 **Problem:** 4,3 Mrd. IPv4-Adressen reichen nicht für die Welt. Smartphones, IoT-Geräte, Industrieanlagen, Server – inzwischen sind viele Adressen vergeben. Es gibt zwar NAT als Pflaster, aber das bringt eigene Probleme.
 
 **Lösung:** **IPv6** mit **128-Bit-Adressen**. Das sind **2¹²⁸**, oder etwa **3,4 × 10³⁸** Adressen. Zum Vergleich: das wären mehrere Milliarden Adressen für **jedes Sandkorn der Erde** – nicht für die ganze Erde, sondern für **jedes einzelne Sandkorn**. Damit kann jedes Gerät weltweit eine eindeutige öffentliche Adresse haben, mit gigantischem Spielraum für die Zukunft.
@@ -350,6 +360,8 @@ Gekürzt: 2001:db8:85a3::8a2e:370:7334
 ---
 
 ## ARP – wie IP und MAC zusammenkommen
+
+![ARP: per Broadcast nach der MAC zur bekannten IP fragen](../assets/diagramme/arp-bild-neutral.png){ .diagramm }
 
 Ein wichtiges Detail: Sobald ein Paket im **lokalen Netz** zugestellt werden soll, muss aus einer **IP-Adresse** die zugehörige **MAC-Adresse** herausgefunden werden. Das macht das **Address Resolution Protocol (ARP)**.
 

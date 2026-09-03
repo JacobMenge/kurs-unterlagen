@@ -6,6 +6,7 @@ nav:
   - "Werkzeuge im Überblick": werkzeuge-im-ueberblick.md
   - "Multipass – Einstieg": multipass-einstieg.md
   - "Praxis mit Multipass": praxis-multipass.md
+  - "Praxis: Netz-Detektiv & Snapshot": praxis-vm-experimente.md
   - "Übungen": uebungen.md
   - "Stolpersteine": stolpersteine.md
   - "Merksätze": merksaetze.md

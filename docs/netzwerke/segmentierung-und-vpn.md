@@ -46,6 +46,10 @@ Mit Segmentierung:
 
 ## VLAN – virtuelles LAN
 
+![Ein Switch, zwei Netze: VLANs trennen per Software](../assets/diagramme/vlan-switch.png){ .diagramm }
+
+![VLANs über mehrere Switches: auf dem Trunk trägt jedes Frame sein VLAN-Etikett](../assets/diagramme/vlan-trunk.png){ .diagramm }
+
 Ein **VLAN** (Virtual LAN) ist eine **logische Trennung** innerhalb eines physischen Netzwerks. Mehrere VLANs nutzen dieselben Switches und Kabel, sind aber **so getrennt, als wären sie separate Switches**.
 
 ```mermaid
@@ -118,6 +122,8 @@ Welche VLAN miteinander reden dürfen, steuert die Firewall.
 
 ## DMZ – die entmilitarisierte Zone
 
+![Das Zonenmodell: Internet, DMZ, LAN und Server-VLAN – die Firewall entscheidet](../assets/diagramme/zonen-modell.png){ .diagramm }
+
 Eine **DMZ** (DeMilitarized Zone) ist eine **Pufferzone** zwischen dem **Internet** und dem **internen Netz**, in der man **öffentliche Dienste** platziert.
 
 ```mermaid
@@ -167,6 +173,8 @@ Heute ist der reine **Drei-Zonen-Aufbau** (Internet ↔ DMZ ↔ Intern) oft erwe
 ---
 
 ## NAT – Network Address Translation
+
+![NAT: viele private Adressen teilen sich eine öffentliche](../assets/diagramme/nat-weg.png){ .diagramm }
 
 **NAT** „übersetzt" eine IP-Adresse beim Durchqueren eines Routers. Der Hauptgrund: **private IP-Adressen** im LAN, **öffentliche IP-Adressen** im Internet.
 
