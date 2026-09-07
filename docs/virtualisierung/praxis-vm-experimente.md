@@ -38,9 +38,13 @@ Zwei Ermittlungen, ein Ziel: Die VM soll aufhören, eine Blackbox zu sein. In **
 
     Sobald der Server bereit ist:
 
-    1. Server in der Liste anklicken – die Details klappen auf.
-    2. **Open Terminal** öffnet die Web-Konsole (kein SSH-Client nötig).
-    3. Anmelden mit Benutzer `cloud_user` und dem angezeigten temporären Passwort.
+    1. Server in der Liste anklicken – die Details klappen auf. Hier stehen
+       **Username**, **Temporary Password** und die **IP-Adressen**.
+    2. **Open Terminal** öffnet die Web-Konsole **in einem neuen Browser-Tab**
+       (kein SSH-Client nötig). Lasst den ersten Tab offen – die Adressen
+       darin braucht ihr in A3.
+    3. Im schwarzen Fenster erscheint `… login:` – dort **erst den Benutzernamen**
+       `cloud_user` eintippen und Enter, **dann** das temporäre Passwort.
 
     !!! warning "Beim ersten Login wirst du das Passwort los"
         Der Server verlangt sofort einen Wechsel: temporäres Passwort eingeben → **noch einmal** dasselbe → dann zweimal ein neues. Das Passwort ist beim Tippen unsichtbar – das ist normal, nicht kaputt. Denk dir etwas Einfaches aus, der Server ist heute Abend Wegwerfware.
@@ -58,7 +62,7 @@ Zwei Ermittlungen, ein Ziel: Die VM soll aufhören, eine Blackbox zu sein. In **
 
 ### A2 – Die Sicht von innen
 
-In der VM (beides Linux-Befehle – die VM ist ein Linux, egal womit du sie erreichst):
+Jetzt im Terminal-Tab, also **in** der VM (beides Linux-Befehle – die VM ist ein Linux, egal womit du sie erreichst):
 
 ```text
 ip a
@@ -71,7 +75,7 @@ Beantworte mit den Ausgaben drei Fragen – alles Handwerk aus dem Netzwerk-Bloc
 2. **Gateway:** Welche Adresse steht in `ip route` hinter `default via …` – und in welchem Netz liegt sie?
 3. **DHCP:** Die VM hat ihre Adresse automatisch bekommen. Wer hat sie wohl vergeben – und wo läuft dieser Dienst?
 
-### A3 – Die zwei Gesichter der VM
+### A3 – Private und öffentliche Adresse vergleichen
 
 === "Cloud Server (im Kurs)"
 
@@ -114,7 +118,7 @@ Diskutiert in der Gruppe und schreibt einen Satz auf:
 
 1. **Wessen Hardware?** Auf welchem physischen Rechner läuft eure VM – und wo steht der ungefähr? *(Tipp: Der Zone-Name und die öffentliche Adresse verraten mehr, als man denkt.)*
 2. **Welcher Hypervisor-Typ?** Typ 1 oder Typ 2 – und woran macht ihr das fest?
-3. **Was habt ihr gemietet?** Das Blech, den Hypervisor oder nur den Gast?
+3. **Was habt ihr gemietet?** Die physische Hardware, den Hypervisor oder nur den Gast?
 
 > Formuliert es als einen Satz nach dem Muster: „Unsere VM ist ein Gast auf …, der Hypervisor ist Typ …, und uns gehört davon …"
 
@@ -184,10 +188,10 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
 ## Hilfekarten
 
 ??? info "Hinweis zu Teil A"
-    Findet ihr in `ip a` mehrere Einträge? `lo` ist die Loopback-Adresse des Systems selbst (127.0.0.1) – die zählt nicht. Interessant ist die Karte mit der echten Adresse (oft `eth0` oder `ens…`). `ip a` zeigt die Adresse mit Präfix (z. B. `/24`) – Netzadresse rechnen wie im Subnetting geübt. Das `default via …` aus `ip route` liegt im selben Netz wie die VM. Zwei verschiedene Adressen innen und außen, und trotzdem kommt alles an? Der Übersetzer dazwischen war ein eigenes Thema im Netzwerk-Block. (Siehe [DHCP](../netzwerke/dhcp.md) und [Segmentierung/NAT](../netzwerke/segmentierung-und-vpn.md).)
+    Findet ihr in `ip a` mehrere Einträge? `lo` ist die Loopback-Adresse des Systems selbst (127.0.0.1) – die zählt nicht. Interessant ist die Netzwerkkarte mit der echten Adresse – wie sie heißt, ist je nach System verschieden (`eth0`, `ens5`, `enX0` …). Entscheidend: alles außer `lo`. `ip a` zeigt die Adresse mit Präfix (z. B. `/24`) – Netzadresse rechnen wie im Subnetting geübt. Das `default via …` aus `ip route` liegt im selben Netz wie die VM. Zwei verschiedene Adressen innen und außen, und trotzdem kommt alles an? Der Übersetzer dazwischen war ein eigenes Thema im Netzwerk-Block. (Siehe [DHCP](../netzwerke/dhcp.md) und [Segmentierung/NAT](../netzwerke/segmentierung-und-vpn.md).)
 
 ??? info "Hinweis zu Teil B"
-    Konntet ihr die Hardware anfassen? Habt ihr ein Betriebssystem unter dem Hypervisor gesehen? Und: Über die [Hypervisor-Typen](hypervisor-typen.md) verrät die Antwort auf „Wo steht das Blech?" fast alles.
+    Konntet ihr die Hardware anfassen? Habt ihr ein Betriebssystem unter dem Hypervisor gesehen? Und: Über die [Hypervisor-Typen](hypervisor-typen.md) verrät die Antwort auf „Wo steht die physische Hardware?" fast alles.
 
 ??? info "Hinweis zu Teil C"
     `multipass snapshot` verlangt eine **gestoppte** VM – erst `multipass stop`. Beim `restore` fragt Multipass nach Bestätigung; mit `--destructive` überspringst du die Nachfrage. Wenn `cowsay` nach dem Restore fehlt: Hast du den Snapshot **nach** der Installation angelegt?
@@ -203,11 +207,11 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
     - Die VM wohnt in einem **privaten Netz**. Auf den Pluralsight-Servern ist das in aller Regel etwas wie `172.31.x.x` – also der private Bereich **172.16.0.0/12** vom Adressierungs-Abend. Netzadresse: Adresse + Präfix, gerechnet wie immer. (Lokal mit Multipass sieht man je nach System `10.x.x.x` oder `192.168.x.x` – dieselbe Idee, andere Zahlen.)
     - Das **Gateway** liegt im selben Netz wie die VM – in der Cloud ist es der Ausgang des virtuellen Anbieter-Netzes, lokal spielt der eigene Host den Router.
     - Die **Adresse vergibt ein DHCP-Dienst der Virtualisierungs-Umgebung** – in der Cloud der des Anbieters, lokal der von Multipass/Hypervisor. Der Heim-Router sieht davon nichts.
-    - **Die zwei Gesichter (Cloud Server):** `ip a` zeigt **nur die private Adresse** – die öffentliche kennt die VM gar nicht. Sie steht ausschließlich in der Weboberfläche. Dazwischen sitzt **NAT beim Anbieter**: Er ordnet der privaten Adresse eine öffentliche zu und übersetzt in beide Richtungen. Genau das NAT-Prinzip vom Adressierungs-Abend, nur im Rechenzentrum statt im Heim-Router. Dass die **Public IPv4 sich bei jedem Start ändert**, passt ins Bild: Sie gehört nicht der VM, sondern wird ihr geliehen – die private Adresse dagegen bleibt.
+    - **Innen privat, außen öffentlich (Cloud Server):** `ip a` zeigt **nur die private Adresse** – die öffentliche kennt die VM gar nicht. Sie steht ausschließlich in der Weboberfläche. Dazwischen sitzt **NAT beim Anbieter**: Er ordnet der privaten Adresse eine öffentliche zu und übersetzt in beide Richtungen. Genau das NAT-Prinzip vom Adressierungs-Abend, nur im Rechenzentrum statt im Heim-Router. Dass die **Public IPv4 sich bei jedem Start ändert**, passt ins Bild: Sie gehört nicht der VM, sondern wird ihr geliehen – die private Adresse dagegen bleibt.
     - **(Lokale Variante:** VM→Internet ja, Host→VM ja, Handy→VM nein – die VM ist hinter dem NAT des Hosts unsichtbar.)
 
 ??? success "Lösung Teil B – die Einordnung"
-    Ein möglicher Satz: „Unsere VM ist ein **Gast auf einem Server im Rechenzentrum eines Cloud-Anbieters**, der Hypervisor ist **Typ 1** (direkt auf dem Blech, dafür gebaut, ständig fremde Gäste zu tragen) – und uns gehört davon **nur der Gast**: gemietete CPU-Zeit, RAM und Platte."
+    Ein möglicher Satz: „Unsere VM ist ein **Gast auf einem Server im Rechenzentrum eines Cloud-Anbieters**, der Hypervisor ist **Typ 1** (läuft direkt auf der Hardware, dafür gebaut, ständig fremde Gäste zu tragen) – und uns gehört davon **nur der Gast**: gemietete CPU-Zeit, RAM und Platte."
 
     **Die Indizien, die euch dahin führen:**
 
@@ -216,7 +220,7 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
     - Die **private Adresse aus dem 172.31er-Bereich** ist typisch für die Standard-Netze großer Cloud-Anbieter – wer die **öffentliche Adresse** nachschlägt (z. B. auf einer Whois-Seite), landet beim Betreiber des Rechenzentrums. Bei unserem Test war das **AWS**.
     - Für Typ 1 spricht die reine Ökonomie: Ein Anbieter, der Tausende fremder Gäste gleichzeitig trägt, packt sich kein Desktop-Betriebssystem unter den Hypervisor.
 
-    Das Blech seht ihr nie – genau das ist das Geschäftsmodell „Cloud".
+    Die physische Hardware seht ihr nie – genau das ist das Geschäftsmodell „Cloud".
 
 ??? success "Lösung Teil C – was der Snapshot kann"
     - Der Restore holt **den kompletten Zustand zum Snapshot-Zeitpunkt** zurück: `beweis.txt`, `cowsay` und `/etc/hosts` sind wieder da. Alles **nach** dem Snapshot ist weg – auch das gehört zur Wahrheit.
