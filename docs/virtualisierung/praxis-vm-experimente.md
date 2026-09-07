@@ -1,13 +1,13 @@
 ---
 title: "Praxis: VM-Detektiv"
-description: "Gruppenübung: das Netz einer echten VM mit Netzwerk-Wissen entschlüsseln und einordnen, auf wessen Hardware sie eigentlich läuft – wahlweise auf einer Cloud-Sandbox oder einer lokalen VM. Mit Snapshot-Experiment als Kür."
+description: "Gruppenübung: das Netz einer echten VM mit Netzwerk-Wissen entschlüsseln und einordnen, auf wessen Hardware sie eigentlich läuft – wahlweise auf einem Cloud Server oder einer lokalen VM. Mit Snapshot-Experiment als Kür."
 ---
 
 # Praxis: VM-Detektiv
 
 !!! info "Auf einen Blick"
     - **Dauer:** ca. 50 Minuten in Gruppen.
-    - **Du brauchst:** irgendeine Linux-VM mit Terminal. Im Kurs: ein Server aus der **Pluralsight-Cloud-Sandbox**. Zu Hause tut es genauso eine lokale VM (`multipass launch 24.04 --name demo`, siehe [Multipass-Einstieg](multipass-einstieg.md)).
+    - **Du brauchst:** irgendeine Linux-VM mit Terminal. Im Kurs: ein **Cloud Server** aus dem Pluralsight-**Hands-on-Playground**. Zu Hause tut es genauso eine lokale VM (`multipass launch 24.04 --name demo`, siehe [Multipass-Einstieg](multipass-einstieg.md)).
     - **Festhalten:** die drei Netz-Antworten aus Teil A und euren Einordnungs-Satz aus Teil B.
     - **Kür:** das Snapshot-Experiment in Teil C – braucht einen Hypervisor unter eigener Kontrolle (Multipass), dauert zu Hause etwa zehn Minuten.
 
@@ -19,9 +19,33 @@ Zwei Ermittlungen, ein Ziel: Die VM soll aufhören, eine Blackbox zu sein. In **
 
 ### A1 – Verbinden und umsehen
 
-=== "Cloud-Sandbox (im Kurs)"
+=== "Cloud Server (im Kurs)"
 
-    Starte in Pluralsight einen Linux-Server aus der Cloud-Sandbox und verbinde dich – per Browser-Terminal oder SSH mit den angezeigten Zugangsdaten. Notiere dabei die **Adresse, über die du dich verbindest** – sie spielt in A3 die Hauptrolle.
+    In Pluralsight: links im Menü **Hands-on** → oben der Reiter **Cloud Servers** → Knopf **Create New Server**.
+
+    | Feld | Wert für heute |
+    |---|---|
+    | Distribution | **Ubuntu 24.04 – Noble Numbat** |
+    | Zone | **Europe** |
+    | Size | **Micro** – 1 Unit, ~2 CPU / 1 GiB (reicht völlig) |
+
+    !!! tip "Der Server braucht ein paar Minuten – das ist normal"
+        Er durchläuft sichtbar mehrere Stufen: *Creating* → *Starting* →
+        *Verifying SSH* → *Running Commands* → **Ready**. Rechnet mit rund
+        fünf Minuten. Solange steht rechts „Terminal N/A" – das ist kein
+        Fehler, sondern heißt nur: noch nicht so weit. Nutzt die Zeit und
+        lest schon mal Teil A2 durch.
+
+    Sobald der Server bereit ist:
+
+    1. Server in der Liste anklicken – die Details klappen auf.
+    2. **Open Terminal** öffnet die Web-Konsole (kein SSH-Client nötig).
+    3. Anmelden mit Benutzer `cloud_user` und dem angezeigten temporären Passwort.
+
+    !!! warning "Beim ersten Login wirst du das Passwort los"
+        Der Server verlangt sofort einen Wechsel: temporäres Passwort eingeben → **noch einmal** dasselbe → dann zweimal ein neues. Das Passwort ist beim Tippen unsichtbar – das ist normal, nicht kaputt. Denk dir etwas Einfaches aus, der Server ist heute Abend Wegwerfware.
+
+    Lass die aufgeklappten **Server-Details offen** – die Adressen darin brauchst du in A3.
 
 === "Lokale VM (Multipass)"
 
@@ -49,14 +73,21 @@ Beantworte mit den Ausgaben drei Fragen – alles Handwerk aus dem Netzwerk-Bloc
 
 ### A3 – Die zwei Gesichter der VM
 
-=== "Cloud-Sandbox (im Kurs)"
+=== "Cloud Server (im Kurs)"
 
-    Vergleiche zwei Adressen:
+    Der Server zeigt euch seine Adressen selbst: In den aufgeklappten Server-Details steht unter **IP Address** sowohl eine **Public IPv4** als auch eine **Private IPv4**.
 
-    - die Adresse aus `ip a` (innen),
-    - die Adresse, über die du dich **verbunden** hast (außen, aus den Sandbox-Zugangsdaten).
+    Vergleicht drei Dinge:
 
-    Sie sind verschieden – warum funktioniert die Verbindung trotzdem? Welcher Mechanismus aus dem Netzwerk-Block steckt dahinter, und wo sitzt er?
+    - die Adresse aus `ip a` **in** der VM,
+    - die **Private IPv4** aus den Details,
+    - die **Public IPv4** aus den Details.
+
+    Fragen dazu:
+
+    1. Welche der beiden Adressen kennt die VM selbst – und welche sieht sie nie?
+    2. Die Public IPv4 ist bei jedem Start eine andere, die Private bleibt. Was sagt das über die beiden aus?
+    3. Welcher Mechanismus aus dem Netzwerk-Block verbindet die zwei Adressen – und wo sitzt er?
 
 === "Lokale VM (Multipass)"
 
@@ -81,7 +112,7 @@ Beantworte mit den Ausgaben drei Fragen – alles Handwerk aus dem Netzwerk-Bloc
 
 Diskutiert in der Gruppe und schreibt einen Satz auf:
 
-1. **Wessen Hardware?** Auf welchem physischen Rechner läuft eure VM – und wo steht der ungefähr?
+1. **Wessen Hardware?** Auf welchem physischen Rechner läuft eure VM – und wo steht der ungefähr? *(Tipp: Der Zone-Name und die öffentliche Adresse verraten mehr, als man denkt.)*
 2. **Welcher Hypervisor-Typ?** Typ 1 oder Typ 2 – und woran macht ihr das fest?
 3. **Was habt ihr gemietet?** Das Blech, den Hypervisor oder nur den Gast?
 
@@ -92,7 +123,7 @@ Diskutiert in der Gruppe und schreibt einen Satz auf:
 ## Teil C (Kür) – Snapshot: kaputt machen erlaubt
 
 !!! note "Braucht Multipass"
-    In der Cloud-Sandbox kannst du keine Snapshots ziehen – dafür brauchst du einen Hypervisor unter eigener Kontrolle. Zu Hause mit Multipass dauert das Experiment etwa zehn Minuten. Snapshots gibt es ab **Multipass 1.13** (`multipass version`).
+    Auf dem Cloud Server kannst du keine Snapshots ziehen – dafür brauchst du einen Hypervisor unter eigener Kontrolle. Zu Hause mit Multipass dauert das Experiment etwa zehn Minuten. Snapshots gibt es ab **Multipass 1.13** (`multipass version`).
 
 ### C1 – Spuren hinterlassen
 
@@ -153,7 +184,7 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
 ## Hilfekarten
 
 ??? info "Hinweis zu Teil A"
-    `ip a` zeigt die Adresse mit Präfix (z. B. `/24`) – Netzadresse rechnen wie im Subnetting geübt. Das `default via …` aus `ip route` liegt im selben Netz wie die VM. Zwei verschiedene Adressen innen und außen, und trotzdem kommt alles an? Der Übersetzer dazwischen war ein eigenes Thema im Netzwerk-Block. (Siehe [DHCP](../netzwerke/dhcp.md) und [Segmentierung/NAT](../netzwerke/segmentierung-und-vpn.md).)
+    Findet ihr in `ip a` mehrere Einträge? `lo` ist die Loopback-Adresse des Systems selbst (127.0.0.1) – die zählt nicht. Interessant ist die Karte mit der echten Adresse (oft `eth0` oder `ens…`). `ip a` zeigt die Adresse mit Präfix (z. B. `/24`) – Netzadresse rechnen wie im Subnetting geübt. Das `default via …` aus `ip route` liegt im selben Netz wie die VM. Zwei verschiedene Adressen innen und außen, und trotzdem kommt alles an? Der Übersetzer dazwischen war ein eigenes Thema im Netzwerk-Block. (Siehe [DHCP](../netzwerke/dhcp.md) und [Segmentierung/NAT](../netzwerke/segmentierung-und-vpn.md).)
 
 ??? info "Hinweis zu Teil B"
     Konntet ihr die Hardware anfassen? Habt ihr ein Betriebssystem unter dem Hypervisor gesehen? Und: Über die [Hypervisor-Typen](hypervisor-typen.md) verrät die Antwort auf „Wo steht das Blech?" fast alles.
@@ -169,13 +200,23 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
     Erst aufklappen, wenn eure Antworten aus Teil A und der Satz aus Teil B stehen.
 
 ??? success "Lösung Teil A – das VM-Netz"
-    - Die VM wohnt in einem **privaten Netz** (typisch `10.x.x.x` oder `172.x`/`192.168.x` – Cloud-Anbieter wie Multipass nutzen dieselben privaten Bereiche aus dem Netzwerk-Block). Netzadresse: Adresse + Präfix, gerechnet wie immer.
+    - Die VM wohnt in einem **privaten Netz**. Auf den Pluralsight-Servern ist das in aller Regel etwas wie `172.31.x.x` – also der private Bereich **172.16.0.0/12** vom Adressierungs-Abend. Netzadresse: Adresse + Präfix, gerechnet wie immer. (Lokal mit Multipass sieht man je nach System `10.x.x.x` oder `192.168.x.x` – dieselbe Idee, andere Zahlen.)
     - Das **Gateway** liegt im selben Netz wie die VM – in der Cloud ist es der Ausgang des virtuellen Anbieter-Netzes, lokal spielt der eigene Host den Router.
     - Die **Adresse vergibt ein DHCP-Dienst der Virtualisierungs-Umgebung** – in der Cloud der des Anbieters, lokal der von Multipass/Hypervisor. Der Heim-Router sieht davon nichts.
-    - **Die zwei Gesichter (Cloud):** Innen eine private Adresse, verbunden habt ihr euch über eine öffentliche – dazwischen sitzt **NAT bzw. die 1:1-Zuordnung des Anbieters**. Genau das NAT-Prinzip vom Adressierungs-Abend, nur bei Amazon & Co. statt zu Hause. **(Lokal:** VM→Internet ja, Host→VM ja, Handy→VM nein – die VM ist hinter dem NAT des Hosts unsichtbar.)
+    - **Die zwei Gesichter (Cloud Server):** `ip a` zeigt **nur die private Adresse** – die öffentliche kennt die VM gar nicht. Sie steht ausschließlich in der Weboberfläche. Dazwischen sitzt **NAT beim Anbieter**: Er ordnet der privaten Adresse eine öffentliche zu und übersetzt in beide Richtungen. Genau das NAT-Prinzip vom Adressierungs-Abend, nur im Rechenzentrum statt im Heim-Router. Dass die **Public IPv4 sich bei jedem Start ändert**, passt ins Bild: Sie gehört nicht der VM, sondern wird ihr geliehen – die private Adresse dagegen bleibt.
+    - **(Lokale Variante:** VM→Internet ja, Host→VM ja, Handy→VM nein – die VM ist hinter dem NAT des Hosts unsichtbar.)
 
 ??? success "Lösung Teil B – die Einordnung"
-    Ein möglicher Satz: „Unsere VM ist ein **Gast auf einem Server im Rechenzentrum des Cloud-Anbieters**, der Hypervisor ist **Typ 1** (direkt auf dem Blech, dafür gebaut, ständig fremde Gäste zu tragen) – und uns gehört davon **nur der Gast**: gemietete CPU-Zeit, RAM und Platte, minutenweise." Das Blech seht ihr nie – genau das ist das Geschäftsmodell „Cloud".
+    Ein möglicher Satz: „Unsere VM ist ein **Gast auf einem Server im Rechenzentrum eines Cloud-Anbieters**, der Hypervisor ist **Typ 1** (direkt auf dem Blech, dafür gebaut, ständig fremde Gäste zu tragen) – und uns gehört davon **nur der Gast**: gemietete CPU-Zeit, RAM und Platte."
+
+    **Die Indizien, die euch dahin führen:**
+
+    - Ihr konntet **kein Betriebssystem unter dem Hypervisor** sehen und die Hardware nirgends anfassen – erst recht steht sie nicht bei euch.
+    - Die **Zone** („Europe") ist eine Rechenzentrums-Region, kein Gerät.
+    - Die **private Adresse aus dem 172.31er-Bereich** ist typisch für die Standard-Netze großer Cloud-Anbieter – wer die **öffentliche Adresse** nachschlägt (z. B. auf einer Whois-Seite), landet beim Betreiber des Rechenzentrums. Bei unserem Test war das **AWS**.
+    - Für Typ 1 spricht die reine Ökonomie: Ein Anbieter, der Tausende fremder Gäste gleichzeitig trägt, packt sich kein Desktop-Betriebssystem unter den Hypervisor.
+
+    Das Blech seht ihr nie – genau das ist das Geschäftsmodell „Cloud".
 
 ??? success "Lösung Teil C – was der Snapshot kann"
     - Der Restore holt **den kompletten Zustand zum Snapshot-Zeitpunkt** zurück: `beweis.txt`, `cowsay` und `/etc/hosts` sind wieder da. Alles **nach** dem Snapshot ist weg – auch das gehört zur Wahrheit.
