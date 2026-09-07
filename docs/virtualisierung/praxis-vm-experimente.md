@@ -9,7 +9,8 @@ description: "Gruppenübung: das Netz einer echten VM mit Netzwerk-Wissen entsch
     - **Dauer:** ca. 50 Minuten in Gruppen.
     - **Du brauchst:** irgendeine Linux-VM mit Terminal. Im Kurs: ein **Cloud Server** aus dem Pluralsight-**Hands-on-Playground**. Zu Hause tut es genauso eine lokale VM (`multipass launch 24.04 --name demo`, siehe [Multipass-Einstieg](multipass-einstieg.md)).
     - **Festhalten:** die drei Netz-Antworten aus Teil A und euren Einordnungs-Satz aus Teil B.
-    - **Kür:** das Snapshot-Experiment in Teil C – braucht einen Hypervisor unter eigener Kontrolle (Multipass), dauert zu Hause etwa zehn Minuten.
+    - **Bonus (Teil C):** Wer früher fertig ist, quetscht die VM in vier Experimenten aus – rund 30 Minuten, alles auf demselben Server.
+    - **Kür für zu Hause (Teil D):** das Snapshot-Experiment – braucht einen Hypervisor unter eigener Kontrolle (Multipass), dauert etwa zehn Minuten.
 
 Zwei Ermittlungen, ein Ziel: Die VM soll aufhören, eine Blackbox zu sein. In **Teil A** wendest du dein Netzwerk-Wissen auf die VM an. In **Teil B** ordnest du ein, was du da eigentlich benutzt – und wem die Hardware darunter gehört.
 
@@ -132,12 +133,76 @@ Diskutiert in der Gruppe und schreibt einen Satz auf:
 
 ---
 
-## Teil C (Kür) – Snapshot: kaputt machen erlaubt
+## Teil C (Bonus) – Die VM ausquetschen
+
+!!! tip "Für alle, die mit A und B durch sind"
+    Vier Experimente auf eurem Cloud Server, rund 30 Minuten. Sie beweisen
+    mit Befehlen, was ihr in Teil B nur vermutet habt.
+
+### C1 – Was steckt wirklich drin?
+
+Ihr habt „Micro" bestellt. Prüft nach, was geliefert wurde:
+
+```text
+nproc
+free -h
+df -h /
+```
+
+`nproc` zählt die Prozessorkerne, `free -h` zeigt den Arbeitsspeicher, `df -h /` den freien Platz auf der Systemplatte. Vergleicht mit der Angabe aus dem Bestellformular (~2 CPU, 1 GiB).
+
+**Frage:** Warum zeigt `free -h` etwas weniger Arbeitsspeicher an, als versprochen war?
+
+### C2 – Die VM verrät ihren eigenen Hypervisor
+
+Jetzt fragt ihr das System direkt, statt zu raten:
+
+```text
+systemd-detect-virt
+hostnamectl
+```
+
+**Fragen:** Was antwortet `systemd-detect-virt`? Welche Zeile in `hostnamectl` bestätigt, dass ihr in einer virtuellen Maschine sitzt? Passt das zu eurem Satz aus Teil B?
+
+### C3 – Wie findet die VM ihre öffentliche Adresse?
+
+In `ip a` stand nur die private Adresse. Die VM kann ihre öffentliche trotzdem herausfinden – sie muss nur jemanden von außen fragen:
+
+```text
+curl -s https://api.ipify.org; echo
+```
+
+??? note "Falls `curl` fehlt"
+    ```text
+    sudo apt-get update && sudo apt-get install -y curl
+    ```
+
+**Fragen:** Stimmt die Antwort mit der Public IPv4 aus der Weboberfläche überein? Und warum muss die VM dafür einen fremden Dienst fragen, statt einfach in sich selbst zu schauen?
+
+### C4 – Der Härtetest: ein Webserver aus der Cloud
+
+Installiert einen echten Webserver und stellt eine eigene Seite ins Netz:
+
+```text
+sudo apt-get update
+sudo apt-get install -y nginx
+echo "<h1>Hallo aus unserer VM</h1>" | sudo tee /var/www/html/index.html
+curl localhost
+```
+
+`curl localhost` sollte eure Zeile zurückgeben – der Webserver läuft. Jetzt der spannende Teil: Öffnet in einem **neuen Browser-Tab** `http://<eure-Public-IPv4>`.
+
+**Beide Ausgänge sind lehrreich:**
+
+- **Ihr seht eure Seite:** Ihr habt gerade in wenigen Minuten einen Server im Internet veröffentlicht – über genau die öffentliche Adresse aus A3.
+- **Es lädt nicht:** Dann blockiert eine Firewall den Weg von außen. Auch das ist eine richtige Antwort – überlegt: Wo müsste diese Regel sitzen, damit `curl localhost` **in** der VM funktioniert, der Zugriff von außen aber nicht?
+
+## Teil D (Kür für zu Hause) – Snapshot: kaputt machen erlaubt
 
 !!! note "Braucht Multipass"
     Auf dem Cloud Server kannst du keine Snapshots ziehen – dafür brauchst du einen Hypervisor unter eigener Kontrolle. Zu Hause mit Multipass dauert das Experiment etwa zehn Minuten. Snapshots gibt es ab **Multipass 1.13** (`multipass version`).
 
-### C1 – Spuren hinterlassen
+### D1 – Spuren hinterlassen
 
 In der VM (`multipass shell demo`):
 
@@ -148,7 +213,7 @@ sudo apt-get install -y cowsay
 exit
 ```
 
-### C2 – Das Lesezeichen setzen
+### D2 – Das Lesezeichen setzen
 
 Snapshots gehen nur bei **gestoppter** VM:
 
@@ -158,7 +223,7 @@ multipass snapshot demo --name sauber
 multipass list --snapshots
 ```
 
-### C3 – Mit Absicht kaputt machen
+### D3 – Mit Absicht kaputt machen
 
 ```text
 multipass start demo
@@ -176,7 +241,7 @@ exit
 
 Spätestens die gelöschte `/etc/hosts` wäre im Alltag ein echtes Problem – genau richtig für unser Experiment.
 
-### C4 – Zurück zum Lesezeichen
+### D4 – Zurück zum Lesezeichen
 
 ```text
 multipass stop demo
@@ -187,7 +252,7 @@ multipass shell demo
 
 Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da"`? Existiert `/etc/hosts`?
 
-### C5 – Die Grenze des Snapshots
+### D5 – Die Grenze des Snapshots
 
 > Der Snapshot liegt auf derselben Platte wie die VM. Gegen welche Sorte Probleme hilft er – und gegen welche **nicht**?
 
@@ -201,7 +266,10 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
 ??? info "Hinweis zu Teil B"
     Konntet ihr die Hardware anfassen? Habt ihr ein Betriebssystem unter dem Hypervisor gesehen? Und: Über die [Hypervisor-Typen](hypervisor-typen.md) verrät die Antwort auf „Wo steht die physische Hardware?" fast alles.
 
-??? info "Hinweis zu Teil C"
+??? info "Hinweis zu Teil C (Bonus)"
+    **C1:** Ein Teil des Arbeitsspeichers geht immer für das Betriebssystem selbst drauf – `free -h` zeigt, was übrig bleibt, nicht was zugeteilt wurde. **C2:** `systemd-detect-virt` gibt ein einziges Wort zurück; googelt es, wenn ihr es nicht kennt. **C3:** Die öffentliche Adresse steht nirgends auf der VM – nur der Weg nach draußen führt zur Antwort. **C4:** `curl localhost` fragt den Webserver von innen, der Browser von außen. Zwischen diesen beiden Wegen liegt alles, was ein Netz ausmacht.
+
+??? info "Hinweis zu Teil D"
     `multipass snapshot` verlangt eine **gestoppte** VM – erst `multipass stop`. Beim `restore` fragt Multipass nach Bestätigung; mit `--destructive` überspringst du die Nachfrage. Wenn `cowsay` nach dem Restore fehlt: Hast du den Snapshot **nach** der Installation angelegt?
 
 ---
@@ -232,9 +300,15 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
 
     **Wer lokal mit Multipass gearbeitet hat, kommt zum Gegenteil – und das ist genauso richtig:** „Unsere VM ist ein **Gast auf unserem eigenen Laptop**, der Hypervisor ist **Typ 2** (er läuft als Programm auf unserem Betriebssystem) – und uns gehört **alles davon**: Hardware, Hypervisor und Gast." Dieselben Handgriffe, dieselbe Technik – nur wohnt die VM einmal im Rechenzentrum und einmal unter eurem Schreibtisch. Und im Netz zeigt sich derselbe Unterschied: Beim Cloud Server übersetzt der Anbieter zwischen privater und öffentlicher Adresse, lokal übernimmt euer eigener Rechner diese Rolle.
 
-??? success "Lösung Teil C – was der Snapshot kann"
+??? success "Lösung Teil C – die Bonus-Experimente"
+    - **C1:** `nproc` meldet die zugeteilten Kerne, `free -h` etwas **unter** 1 GiB. Der Grund: Ein Teil des Speichers ist für Kernel und laufende Dienste reserviert – „1 GiB" ist die Zuteilung des Hypervisors, nicht der frei verfügbare Rest. Genau dieser Unterschied ist der **Overhead** von der Stärken-und-Grenzen-Folie.
+    - **C2:** `systemd-detect-virt` antwortet mit dem Namen der Virtualisierung – bei Cloud-Servern typischerweise `kvm` oder `amazon`. `hostnamectl` zeigt dieselbe Information in der Zeile **Virtualization**. Damit ist eure Vermutung aus Teil B kein Rätselraten mehr, sondern belegt: Die VM weiß selbst, dass sie eine ist – und auf welcher Technik sie läuft.
+    - **C3:** Die Antwort stimmt mit der Public IPv4 der Weboberfläche überein. Fragen muss die VM trotzdem jemanden draußen, weil die öffentliche Adresse ihr nie zugewiesen wurde: Sie gehört dem NAT-Übersetzer des Anbieters. Die VM sieht sich selbst nur privat – wie euer Laptop zu Hause.
+    - **C4:** Läuft die Seite, habt ihr in fünf Minuten einen öffentlich erreichbaren Webserver gebaut – das ist im Kern der ganze Zauber von „Cloud". Lädt sie nicht, sitzt eine **Firewall** davor: entweder auf dem Server selbst oder – häufiger – als Regel des Anbieters vor der VM. `curl localhost` geht trotzdem, weil diese Anfrage die VM nie verlässt und deshalb an keiner Firewall vorbeimuss.
+
+??? success "Lösung Teil D – was der Snapshot kann"
     - Der Restore holt **den kompletten Zustand zum Snapshot-Zeitpunkt** zurück: `beweis.txt`, `cowsay` und `/etc/hosts` sind wieder da. Alles **nach** dem Snapshot ist weg – auch das gehört zur Wahrheit.
-    - **C5:** Der Snapshot hilft gegen **kaputte Software-Zustände** (Fehlkonfiguration, missglücktes Update, gelöschte Dateien). Er hilft **nicht** gegen den Verlust von Platte oder Rechner – dafür braucht es ein **Backup an einem anderen Ort**. Merksatz: **Snapshot = Lesezeichen, Backup = Kopie woanders.**
+    - **D5:** Der Snapshot hilft gegen **kaputte Software-Zustände** (Fehlkonfiguration, missglücktes Update, gelöschte Dateien). Er hilft **nicht** gegen den Verlust von Platte oder Rechner – dafür braucht es ein **Backup an einem anderen Ort**. Merksatz: **Snapshot = Lesezeichen, Backup = Kopie woanders.**
 
 ---
 
