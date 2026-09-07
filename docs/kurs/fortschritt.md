@@ -71,11 +71,11 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Virtuelle Netze & Snapshots**
+    **Docker – Einführung**
 
-    In die VM hineinschauen, sie mit Absicht kaputt machen – und per Snapshot zurückspringen.
+    Kapseln ohne Ballast: erster Container in Sekunden, dann ein eigenes Image.
 
-    [:octicons-arrow-right-24: Vorbereiten](../virtualisierung/grundbegriffe.md)
+    [:octicons-arrow-right-24: Vorbereiten](../docker/warum-docker.md)
 
 </div>
 

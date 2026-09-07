@@ -23,7 +23,7 @@ Diese Seite ist die Abkürzung in die Praxis: **jede Übung der Kursunterlagen, 
 ## Virtualisierung
 
 - **[Multipass: die erste eigene VM](virtualisierung/praxis-multipass.md)** – VM starten, hineinschauen, wieder aufräumen.
-- **[Netz-Detektiv & Snapshot](virtualisierung/praxis-vm-experimente.md)** – das VM-Netz mit Netzwerk-Wissen entschlüsseln, dann kaputt machen und per Snapshot zurückspringen.
+- **[VM-Detektiv](virtualisierung/praxis-vm-experimente.md)** – das Netz einer echten (Cloud-)VM entschlüsseln und einordnen, wessen Hardware darunter steckt; Snapshot-Experiment als Kür.
 - **[Übungen zur Virtualisierung](virtualisierung/uebungen.md)** – Grundbegriffe, Hypervisor-Typen und Snapshots festigen.
 
 ## Docker & Compose
