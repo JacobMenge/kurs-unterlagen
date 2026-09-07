@@ -51,6 +51,14 @@ Zwei Ermittlungen, ein Ziel: Die VM soll aufhören, eine Blackbox zu sein. In **
 
     Lass die aufgeklappten **Server-Details offen** – die Adressen darin brauchst du in A3.
 
+    !!! success "Keine Sorge wegen Kosten oder Vergessen"
+        Der Server gehört zur Lizenz, es gibt keine Abrechnung nach Stunden –
+        begrenzt ist nur die Anzahl (9 Einheiten pro Person, ein Micro-Server
+        kostet 1). Vier Stunden nach dem Start schaltet Pluralsight ihn
+        **automatisch ab**, nach 14 Tagen ohne Nutzung wird er gelöscht.
+        Kurz: Kaputt machen ist ausdrücklich erlaubt. Wer trotzdem aufräumen
+        will – *Quick Actions → Delete*.
+
 === "Lokale VM (Multipass)"
 
     ```text
@@ -221,6 +229,8 @@ Prüfe: Ist `~/beweis.txt` wieder da? Funktioniert `/usr/games/cowsay "wieder da
     - Für Typ 1 spricht die reine Ökonomie: Ein Anbieter, der Tausende fremder Gäste gleichzeitig trägt, packt sich kein Desktop-Betriebssystem unter den Hypervisor.
 
     Die physische Hardware seht ihr nie – genau das ist das Geschäftsmodell „Cloud".
+
+    **Wer lokal mit Multipass gearbeitet hat, kommt zum Gegenteil – und das ist genauso richtig:** „Unsere VM ist ein **Gast auf unserem eigenen Laptop**, der Hypervisor ist **Typ 2** (er läuft als Programm auf unserem Betriebssystem) – und uns gehört **alles davon**: Hardware, Hypervisor und Gast." Dieselben Handgriffe, dieselbe Technik – nur wohnt die VM einmal im Rechenzentrum und einmal unter eurem Schreibtisch. Und im Netz zeigt sich derselbe Unterschied: Beim Cloud Server übersetzt der Anbieter zwischen privater und öffentlicher Adresse, lokal übernimmt euer eigener Rechner diese Rolle.
 
 ??? success "Lösung Teil C – was der Snapshot kann"
     - Der Restore holt **den kompletten Zustand zum Snapshot-Zeitpunkt** zurück: `beweis.txt`, `cowsay` und `/etc/hosts` sind wieder da. Alles **nach** dem Snapshot ist weg – auch das gehört zur Wahrheit.
