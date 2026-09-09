@@ -101,7 +101,7 @@ COPY index.html /usr/share/nginx/html/index.html
 
 Zwei Zeilen:
 
-1. **`FROM nginx:alpine`** – nimm das offizielle nginx-Image in der Alpine-Variante. Alpine-Linux ist ein sehr kleines Linux, das ganze Image ist nur ca. 20 MB groß.
+1. **`FROM nginx:alpine`** – nimm das offizielle nginx-Image in der Alpine-Variante. Alpine-Linux ist ein besonders schlankes Linux: Das fertige Image wiegt rund **90 MB**, das gewöhnliche `nginx:latest` dagegen etwa **270 MB**. Ein Drittel der Größe für dieselbe Aufgabe.
 2. **`COPY index.html /usr/share/nginx/html/index.html`** – kopiere unsere HTML-Datei an den Pfad, unter dem nginx die Default-Seite ausliefert. Damit wird unsere Seite zur neuen Startseite.
 
 Mehr muss das Dockerfile nicht. Kein `CMD` – denn das Basis-Image `nginx:alpine` hat bereits ein passendes `CMD` gesetzt, das nginx im Vordergrund startet. Das haben wir von der Basis geerbt.
@@ -184,10 +184,16 @@ docker images | grep mein-bild
 Du siehst:
 
 ```text
-mein-bild   1.0   abcd1234   5 seconds ago   22MB
+mein-bild   1.0   abcd1234   5 seconds ago   91.8MB
 ```
 
-22 MB für den **ganzen Container**, inklusive Alpine-Linux und nginx. Ziemlich schlank.
+Rund 90 MB für **alles zusammen**: Alpine-Linux, nginx und deine Seite. Die genaue Zahl schwankt je nach Prozessor (Apple Silicon, Intel) und Image-Version um einige MB – wichtig ist der Vergleich: Dasselbe mit dem normalen `nginx:latest` als Basis wären rund **270 MB**.
+
+!!! tip "Selbst nachrechnen"
+    ```bash
+    docker images nginx
+    ```
+    Zeigt dir beide Varianten nebeneinander, sobald du sie geladen hast – `alpine` gegen `latest`.
 
 ---
 
@@ -330,6 +336,109 @@ Ein anderer Container (oder ein anderes Programm) nutzt schon Port 9000. Entwede
 Ursache: du hast `index.html` geändert, aber **den alten Container** noch laufen. Der alte Container benutzt das **alte Image** mit der alten Datei. Neues Image bauen, alten Container entfernen, neuen starten – wie oben beschrieben.
 
 Alternative ohne Rebuild: ein **Bind Mount** von deinem Host-Ordner in den Container. Das ist das Thema des Volumes-Kapitels.
+
+---
+
+## Bonus-Experimente – für alle, die mehr wollen
+
+!!! tip "Vier Experimente, rund 30 Minuten"
+    Alles baut auf dem auf, was du schon hast. Jedes Experiment beantwortet eine Frage, die im Alltag mit Containern sofort auftaucht.
+
+### Bonus 1 – Schau in den laufenden Container hinein
+
+Ein Container ist ein eigenes kleines Linux. Sieh es dir an – starte einen nginx-Container und geh hinein:
+
+```bash
+docker run -d --name spion -p 8090:80 nginx
+docker exec -it spion sh
+```
+
+Du bist jetzt **im Container**. Probier dort:
+
+```bash
+hostname
+whoami
+cat /etc/os-release
+ls /usr/share/nginx/html/
+```
+
+Mit `exit` kommst du wieder heraus.
+
+**Was dir auffallen sollte:** Der Hostname ist eine kryptische ID (die Container-ID), du bist `root`, und das System meldet sich als Debian – obwohl dein Rechner vielleicht macOS oder Windows ist. Probier einmal `ps aux`. Es **fehlt**. Frag dich: Warum sind in diesem Linux so wenige Werkzeuge installiert?
+
+??? success "Antwort"
+    Weil ein Image nur enthält, was die Anwendung wirklich braucht. Kein Texteditor, keine Prozesstabelle, kein Paketmanager-Ballast – nginx und seine Bibliotheken, mehr nicht. Genau daher kommt der Größenunterschied zur VM von Montag: Die bringt ein komplettes Betriebssystem mit, der Container nur das Nötigste.
+
+### Bonus 2 – Die Wegwerf-Lektion
+
+Ändere die Seite **im laufenden Container**:
+
+```bash
+docker exec spion sh -c 'echo "<h1>Von Hand geaendert</h1>" > /usr/share/nginx/html/index.html'
+curl localhost:8090
+```
+
+Deine Änderung ist da. Jetzt der Test:
+
+```bash
+docker rm -f spion
+docker run -d --name spion -p 8090:80 nginx
+curl localhost:8090
+```
+
+**Was ist mit deiner Änderung passiert?** Und viel wichtiger: Wo müsste sie liegen, damit sie einen neuen Container überlebt?
+
+??? success "Antwort"
+    Die Änderung ist **weg**. Der neue Container startet wieder frisch aus dem unveränderten Image – alles, was du im laufenden Container anfasst, lebt nur so lange wie dieser eine Container.
+
+    Das ist kein Fehler, sondern das Prinzip: Container sind wegwerfbar. Wer Daten behalten will, muss ihnen einen Platz **außerhalb** des Containers geben. Genau dafür gibt es **Volumes** – das Thema der nächsten Einheit.
+
+### Bonus 3 – Zwei Versionen nebeneinander
+
+Ändere deine `index.html` (schreib „Version 2" hinein) und bau daraus eine zweite Version:
+
+```bash
+docker build -t mein-bild:2.0 .
+docker images mein-bild
+```
+
+Beide Versionen existieren jetzt nebeneinander. Starte sie gleichzeitig auf verschiedenen Ports:
+
+```bash
+docker run -d -p 8081:80 --name v1 mein-bild:1.0
+docker run -d -p 8082:80 --name v2 mein-bild:2.0
+```
+
+Ruf `http://localhost:8081` und `http://localhost:8082` auf.
+
+**Die Erkenntnis:** Ein Image lässt sich nachträglich nicht ändern – du baust ein **neues** und gibst ihm ein anderes Tag. Alte Version kaputt? Einfach den Container aus `1.0` wieder starten. Genau so funktioniert später auch ein Rollback im Betrieb.
+
+### Bonus 4 – Wie viel Platz belegt das alles?
+
+```bash
+docker system df
+```
+
+Du siehst vier Zeilen: Images, Container, Volumes und Build-Cache – jeweils mit der Spalte **RECLAIMABLE**, also dem, was du gefahrlos freigeben könntest.
+
+**Vergleich zu Montag:** Eine einzelne Cloud-VM bringt schnell mehrere Gigabyte mit. Wie viel wiegen deine Container im Vergleich – und wo steckt der meiste Platz wirklich?
+
+??? success "Antwort und Aufräum-Befehl"
+    Der meiste Platz liegt fast immer bei den **Images** und im **Build-Cache**, nicht bei den Containern selbst – ein laufender Container kostet oft nur ein paar hundert Kilobyte, weil er sich das Image mit allen anderen teilt (das Copy-on-Write-Prinzip).
+
+    Aufräumen, wenn es eng wird:
+
+    ```bash
+    docker system prune
+    ```
+
+    Das entfernt gestoppte Container, ungenutzte Netze und den Build-Cache. Mit `-a` verschwinden zusätzlich alle Images, die kein Container benutzt – dann lädt der nächste `docker run` sie neu herunter.
+
+### Zum Schluss: aufräumen
+
+```bash
+docker rm -f spion v1 v2
+```
 
 ---
 

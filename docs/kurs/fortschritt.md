@@ -22,9 +22,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 <div class="fortschritt-block t1" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 1 · Planung, Konzeptionierung, Integration</span>
-<span class="fortschritt-wert">1 von 6 Blöcken fertig</span>
+<span class="fortschritt-wert">2 von 6 Blöcken fertig</span>
 </div>
-<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 17%"></div></div>
+<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 33%"></div></div>
 </div>
 
 <div class="fortschritt-block t2" markdown>
@@ -53,21 +53,11 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Der komplette Netzwerkblock**
-
-    Schichten, Subnetting, Routing, VLAN – zum Abschluss der Netzwerk-Notruf und die beantwortete Leitfrage.
-
--   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
-
-    ---
-
     **Virtualisierung**
 
-    Hypervisor, VM und Container – ihr baut eure erste eigene virtuelle Maschine.
+    Hypervisor-Typen, Einsatz vom Rechenzentrum bis zur Cloud – und eine echte Cloud-VM als VM-Detektiv untersucht.
 
-    [:octicons-arrow-right-24: Zur Übung](../virtualisierung/praxis-multipass.md)
-
--   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+-   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
@@ -75,7 +65,17 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     Kapseln ohne Ballast: erster Container in Sekunden, dann ein eigenes Image.
 
-    [:octicons-arrow-right-24: Vorbereiten](../docker/warum-docker.md)
+    [:octicons-arrow-right-24: Zur Übung](../docker/erste-schritte.md)
+
+-   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+
+    ---
+
+    **Docker – Aufbau**
+
+    Volumes, Container-Netze und Umgebungsvariablen – damit Daten den Container überleben.
+
+    [:octicons-arrow-right-24: Vorbereiten](../docker-aufbau/index.md)
 
 </div>
 
@@ -90,8 +90,8 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 | Status | Block | Inhalt |
 |:---:|---|---|
 | <span class="status-fertig">✓</span> | [Netzwerke](../netzwerke/index.md) | Modelle, Adressierung, Routing, Protokolle, Sicherheit |
-| <span class="status-laeuft">●</span> | [Virtualisierung](../virtualisierung/index.md) | Hypervisor, virtuelle Maschinen, Werkzeuge |
-| <span class="status-offen">○</span> | [Docker – Einführung](../docker/index.md) | Container, Images, eigene Container bauen |
+| <span class="status-fertig">✓</span> | [Virtualisierung](../virtualisierung/index.md) | Hypervisor, virtuelle Maschinen, Werkzeuge |
+| <span class="status-laeuft">●</span> | [Docker – Einführung](../docker/index.md) | Container, Images, eigene Container bauen |
 | <span class="status-offen">○</span> | [Docker – Aufbau](../docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke |
 | <span class="status-offen">○</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
 | <span class="status-offen">○</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen |
