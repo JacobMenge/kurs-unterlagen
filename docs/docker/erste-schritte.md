@@ -1,6 +1,6 @@
 ---
 title: "Erste Schritte mit Docker"
-description: "Die ersten Container mit hello-world, nginx und httpd – Schritt für Schritt, mit erwarteter Ausgabe und Erklärung jedes Flags."
+description: "Die ersten Container mit hello-world, nginx und httpd. Schritt für Schritt, mit erwarteter Ausgabe und Erklärung jedes Flags."
 ---
 
 # Erste Schritte mit Docker
@@ -26,7 +26,7 @@ Check, dass Docker läuft:
 docker version
 ```
 
-Du solltest Block für Client und Server bekommen. Wenn nur der Client steht und der Server fehlt, läuft der Daemon nicht – siehe Box direkt darunter.
+Du solltest Block für Client und Server bekommen. Wenn nur der Client steht und der Server fehlt, läuft der Daemon nicht, siehe Box direkt darunter.
 
 ??? danger "`Cannot connect to the Docker daemon`"
     Der Daemon läuft nicht. Schnell-Fix nach OS:
@@ -55,7 +55,7 @@ Du solltest Block für Client und Server bekommen. Wenn nur der Client steht und
 
 ---
 
-## Schritt 1 – Hello World
+## Schritt 1: Hello World
 
 ```bash
 docker run hello-world
@@ -76,12 +76,12 @@ This message shows that your installation appears to be working correctly.
 
 **Was passiert Schritt für Schritt:**
 
-1. Docker sucht lokal nach einem Image namens `hello-world:latest` – findet keines.
+1. Docker sucht lokal nach einem Image namens `hello-world:latest`, findet keines.
 2. Docker holt es aus Docker Hub (Standard-Registry, siehe [Registry und Docker Hub](registry-und-dockerhub.md)).
 3. Docker erzeugt einen Container aus dem Image.
 4. Docker startet den Container. Der Container führt sein `CMD` aus (ein kleines Programm, das die Begrüßung druckt) und beendet sich sofort wieder.
 
-Das ist ein komplett normaler Container-Lebenszyklus – nur sehr kurz.
+Das ist ein komplett normaler Container-Lebenszyklus, nur sehr kurz.
 
 ### Wo ist der Container jetzt?
 
@@ -128,7 +128,7 @@ docker rm abc1
 
 ---
 
-## Schritt 2 – nginx im Hintergrund starten
+## Schritt 2: nginx im Hintergrund starten
 
 Jetzt etwas Nützlicheres: ein Webserver.
 
@@ -152,7 +152,7 @@ Erwartete Ausgabe:
 abcd1234...  (eine Container-ID)
 ```
 
-Nichts weiter – denn der Container läuft im Hintergrund.
+Nichts weiter, denn der Container läuft im Hintergrund.
 
 ### Kurz prüfen, dass er wirklich läuft
 
@@ -170,7 +170,7 @@ abcd1234       nginx   ...   Up 3 seconds  0.0.0.0:8080->80/tcp    web
 - **Status `Up`** heißt: der Container läuft.
 - **PORTS** zeigt: Host-Port 8080 leitet zu Container-Port 80 weiter.
 
-Erscheint er nicht in `docker ps`, probier `docker ps -a` – dann siehst du, ob er abgestürzt ist und kannst mit `docker logs web` den Grund lesen.
+Erscheint er nicht in `docker ps`, probier `docker ps -a`, dann siehst du, ob er abgestürzt ist und kannst mit `docker logs web` den Grund lesen.
 
 ### Im Browser ansehen
 
@@ -179,7 +179,7 @@ Erscheint er nicht in `docker ps`, probier `docker ps -a` – dann siehst du, ob
 Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
 
 ??? warning "Browser zeigt „Diese Seite ist nicht erreichbar" oder lädt nichts"
-    Vier häufige Ursachen – systematisch durchgehen:
+    Vier häufige Ursachen, systematisch durchgehen:
 
     1. **Läuft der Container überhaupt?**
        ```bash
@@ -192,7 +192,7 @@ Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
 
     3. **Port-Mapping umgedreht?** (häufigster Fehler)
        Richtig: `-p HOST:CONTAINER` → `-p 8080:80`.
-       Falsch: `-p 80:8080` (dann hört Docker auf Host-Port 80 und leitet auf Container-Port 8080 – aber nginx im Container hört intern auf Port 80, nicht 8080).
+       Falsch: `-p 80:8080` (dann hört Docker auf Host-Port 80 und leitet auf Container-Port 8080, aber nginx im Container hört intern auf Port 80, nicht 8080).
 
     4. **Anderer Prozess belegt den Host-Port bereits?**
 
@@ -224,7 +224,7 @@ Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
             Invoke-WebRequest -Uri http://localhost:8080 -UseBasicParsing
             ```
 
-        Kommt hier eine Antwort, liegt das Problem nur im Browser oder Netzwerk – nicht bei Docker.
+        Kommt hier eine Antwort, liegt das Problem nur im Browser oder Netzwerk, nicht bei Docker.
 
     Mehr in [Stolpersteine → Ports](stolpersteine.md).
 
@@ -267,7 +267,7 @@ Du siehst: läuft, hört auf Port 8080→80, Name ist `web`.
 docker logs web
 ```
 
-Du siehst die Zugriffs-Logs von nginx – jeder Browser-Refresh erzeugt eine neue Zeile:
+Du siehst die Zugriffs-Logs von nginx, jeder Browser-Refresh erzeugt eine neue Zeile:
 
 ```text
 192.168.65.1 - - [15/Mar/2024:12:34:56 +0000] "GET / HTTP/1.1" 200 615 "-" "Mozilla/5.0..."
@@ -279,7 +279,7 @@ Mit `-f` kannst du live folgen (wie `tail -f`):
 docker logs -f web
 ```
 
-Abbrechen mit `Ctrl+C` – das beendet nur das Mitlesen, nicht den Container.
+Abbrechen mit `Ctrl+C`, das beendet nur das Mitlesen, nicht den Container.
 
 ### In den Container schauen
 
@@ -295,7 +295,7 @@ docker exec -it web bash
 | `-i` | interaktiv, also Stdin offen halten |
 | `-t` | Terminal emulieren (TTY) |
 | `web` | Name des Containers |
-| `bash` | Der Befehl – hier eine Bash-Shell |
+| `bash` | Der Befehl, hier eine Bash-Shell |
 
 Innerhalb des Containers:
 
@@ -334,7 +334,7 @@ docker images
 
 ---
 
-## Schritt 3 – Ein zweiter Webserver: Apache httpd
+## Schritt 3: Ein zweiter Webserver mit Apache httpd
 
 Um zu zeigen, dass Docker **nicht „nur nginx"** kann, nehmen wir einen ganz anderen Webserver:
 
@@ -348,7 +348,7 @@ Erwartete Ausgabe: eine Container-ID.
 
 Im Browser: <http://localhost:8081>
 
-Du siehst: „It works!" – die Default-Seite von Apache httpd.
+Du siehst: „It works!", die Default-Seite von Apache httpd.
 
 **Was das zeigt:**
 
@@ -364,7 +364,7 @@ docker rm web-alt
 
 ---
 
-## Schritt 4 – Mehrere Container parallel
+## Schritt 4: Mehrere Container parallel
 
 Starte nochmal beide parallel:
 
@@ -389,7 +389,7 @@ Zwei Webserver, zwei Ports, ein Host. Du kannst beide im Browser gleichzeitig au
 
 ---
 
-## Schritt 5 – Aufräumen
+## Schritt 5: Aufräumen
 
 !!! warning "Ohne Aufräumen sammeln sich Container und Images auf der Platte"
 
@@ -446,7 +446,7 @@ Oder **alle ungenutzten Images**:
 docker image prune -a
 ```
 
-Das räumt aggressiv auf – nach dem Befehl musst du alles, was du später brauchst, neu pullen.
+Das räumt aggressiv auf, nach dem Befehl musst du alles, was du später brauchst, neu pullen.
 
 ---
 
@@ -459,6 +459,6 @@ Das räumt aggressiv auf – nach dem Befehl musst du alles, was du später brau
 
 ## Weiterlesen
 
-- [Praxis: eigenes Image](praxis-eigenes-image.md) – als Nächstes: dein **eigenes** Image
+- [Praxis: eigenes Image](praxis-eigenes-image.md): als Nächstes dein **eigenes** Image
 - [Stolpersteine](stolpersteine.md)
 - [Cheatsheet Docker](../cheatsheets/docker.md)

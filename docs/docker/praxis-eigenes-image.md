@@ -20,12 +20,12 @@ description: "Schritt-für-Schritt ein eigenes nginx-Image mit eigener HTML-Seit
 - Ein **Editor** für Texte (VSCode, Sublime, nano, vim, egal).
 - Kleine Lust, HTML zu schreiben (oder kopieren).
 
-??? info "Ich habe noch nie ein `Dockerfile` gesehen – was ist das?"
-    Ein `Dockerfile` ist ein Text-Rezept, aus dem Docker ein Image baut. Eine ausführliche Erklärung findest du unter [Dockerfile – Grundlagen](dockerfile-grundlagen.md). Für diese Übung reicht es, das Beispiel unten zu kopieren und den Ablauf mitzumachen.
+??? info "Ich habe noch nie ein `Dockerfile` gesehen, was ist das?"
+    Ein `Dockerfile` ist ein Text-Rezept, aus dem Docker ein Image baut. Eine ausführliche Erklärung findest du unter [Dockerfile. Grundlagen](dockerfile-grundlagen.md). Für diese Übung reicht es, das Beispiel unten zu kopieren und den Ablauf mitzumachen.
 
 ---
 
-## Schritt 1 – Projektordner anlegen
+## Schritt 1: Projektordner anlegen
 
 Wir arbeiten in einem frischen Ordner, damit der Build-Kontext klar ist:
 
@@ -52,7 +52,7 @@ Wir arbeiten in einem frischen Ordner, damit der Build-Kontext klar ist:
 
 ---
 
-## Schritt 2 – HTML-Seite erstellen
+## Schritt 2: HTML-Seite erstellen
 
 Lege eine Datei namens `index.html` an, z.B. mit `nano index.html` (oder deinem Lieblings-Editor):
 
@@ -89,9 +89,9 @@ Speichern und schließen.
 
 ---
 
-## Schritt 3 – Dockerfile erstellen
+## Schritt 3: Dockerfile erstellen
 
-Im **selben Ordner** legst du eine Datei namens `Dockerfile` an – **ohne Endung**, exakt so geschrieben:
+Im **selben Ordner** legst du eine Datei namens `Dockerfile` an, **ohne Endung**, exakt so geschrieben:
 
 ```dockerfile
 FROM nginx:alpine
@@ -101,14 +101,14 @@ COPY index.html /usr/share/nginx/html/index.html
 
 Zwei Zeilen:
 
-1. **`FROM nginx:alpine`** – nimm das offizielle nginx-Image in der Alpine-Variante. Alpine-Linux ist ein besonders schlankes Linux: Das fertige Image wiegt rund **90 MB**, das gewöhnliche `nginx:latest` dagegen etwa **270 MB**. Ein Drittel der Größe für dieselbe Aufgabe.
-2. **`COPY index.html /usr/share/nginx/html/index.html`** – kopiere unsere HTML-Datei an den Pfad, unter dem nginx die Default-Seite ausliefert. Damit wird unsere Seite zur neuen Startseite.
+1. **`FROM nginx:alpine`**, nimm das offizielle nginx-Image in der Alpine-Variante. Alpine-Linux ist ein besonders schlankes Linux: Das fertige Image wiegt rund **90 MB**, das gewöhnliche `nginx:latest` dagegen etwa **270 MB**. Ein Drittel der Größe für dieselbe Aufgabe.
+2. **`COPY index.html /usr/share/nginx/html/index.html`**, kopiere unsere HTML-Datei an den Pfad, unter dem nginx die Default-Seite ausliefert. Damit wird unsere Seite zur neuen Startseite.
 
-Mehr muss das Dockerfile nicht. Kein `CMD` – denn das Basis-Image `nginx:alpine` hat bereits ein passendes `CMD` gesetzt, das nginx im Vordergrund startet. Das haben wir von der Basis geerbt.
+Mehr muss das Dockerfile nicht. Kein `CMD`, denn das Basis-Image `nginx:alpine` hat bereits ein passendes `CMD` gesetzt, das nginx im Vordergrund startet. Das haben wir von der Basis geerbt.
 
 ---
 
-## Schritt 4 – Kontrolle: was liegt im Ordner?
+## Schritt 4: Was liegt jetzt im Ordner?
 
 ```bash
 ls -la
@@ -121,11 +121,11 @@ Dockerfile
 index.html
 ```
 
-Zwei Dateien – das reicht.
+Zwei Dateien, das reicht.
 
 ---
 
-## Schritt 5 – Image bauen
+## Schritt 5: Image bauen
 
 ```bash
 docker build -t mein-bild:1.0 .
@@ -139,7 +139,7 @@ docker build -t mein-bild:1.0 .
     pwd        # bin ich in mein-bild?
     ls -la     # liegt Dockerfile UND index.html hier?
     ```
-    Der Punkt am Ende von `docker build -t mein-bild:1.0 .` ist der **Build-Kontext** – also der Ordner, aus dem `COPY` Dateien nimmt.
+    Der Punkt am Ende von `docker build -t mein-bild:1.0 .` ist der **Build-Kontext**, also der Ordner, aus dem `COPY` Dateien nimmt.
 
 ??? warning "Build hängt beim Schritt „Pulling nginx:alpine""
     Image-Download ist langsam oder blockiert.
@@ -173,7 +173,7 @@ Erwartete Ausgabe (gekürzt):
  => => naming to docker.io/library/mein-bild:1.0
 ```
 
-**Das sollte schnell gehen** (< 10 Sekunden beim ersten Mal, wenn das Basis-Image bereits lokal ist – sonst plus Download).
+**Das sollte schnell gehen** (< 10 Sekunden beim ersten Mal, wenn das Basis-Image bereits lokal ist, sonst plus Download).
 
 ### Kontrolle
 
@@ -187,17 +187,17 @@ Du siehst:
 mein-bild   1.0   abcd1234   5 seconds ago   91.8MB
 ```
 
-Rund 90 MB für **alles zusammen**: Alpine-Linux, nginx und deine Seite. Die genaue Zahl schwankt je nach Prozessor (Apple Silicon, Intel) und Image-Version um einige MB – wichtig ist der Vergleich: Dasselbe mit dem normalen `nginx:latest` als Basis wären rund **270 MB**.
+Rund 90 MB für **alles zusammen**: Alpine-Linux, nginx und deine Seite. Die genaue Zahl schwankt je nach Prozessor (Apple Silicon, Intel) und Image-Version um einige MB, wichtig ist der Vergleich: Dasselbe mit dem normalen `nginx:latest` als Basis wären rund **270 MB**.
 
 !!! tip "Selbst nachrechnen"
     ```bash
     docker images nginx
     ```
-    Zeigt dir beide Varianten nebeneinander, sobald du sie geladen hast – `alpine` gegen `latest`.
+    Zeigt dir beide Varianten nebeneinander, sobald du sie geladen hast, `alpine` gegen `latest`.
 
 ---
 
-## Schritt 6 – Container starten
+## Schritt 6: Container starten
 
 ```bash
 docker run -d --name mein-web -p 9000:80 mein-bild:1.0
@@ -207,11 +207,11 @@ Gleiches Muster wie bei den offiziellen Images, nur mit **unserem** Image-Namen 
 
 Im Browser: <http://localhost:9000>
 
-Du solltest deine eigene Seite sehen – „Hallo aus dem Container!" auf dunklem Grund mit Phosphor-Grün.
+Du solltest deine eigene Seite sehen, „Hallo aus dem Container!" auf dunklem Grund mit Phosphor-Grün.
 
 ---
 
-## Schritt 7 – Die HTML ändern und Cache beobachten
+## Schritt 7: Die HTML ändern und Cache beobachten
 
 Öffne `index.html` nochmal. Ändere den Überschriften-Text:
 
@@ -233,7 +233,7 @@ Achte auf die Ausgabe: Du siehst, dass Docker beim **FROM**-Schritt sagt `CACHED
  => [2/2] COPY index.html /usr/share/nginx/html/index.html
 ```
 
-Der erste Layer (Basis-Image) wird nicht neu geladen – er liegt schon lokal und nichts hat sich daran geändert. Nur der `COPY`-Layer wird neu gebaut, weil wir die Datei geändert haben.
+Der erste Layer (Basis-Image) wird nicht neu geladen, er liegt schon lokal und nichts hat sich daran geändert. Nur der `COPY`-Layer wird neu gebaut, weil wir die Datei geändert haben.
 
 **Das ist Layer-Caching in Aktion.**
 
@@ -256,7 +256,7 @@ Browser neu laden: der neue Text erscheint.
 
 ---
 
-## Schritt 8 – Mehrere Varianten parallel
+## Schritt 8: Mehrere Varianten parallel
 
 Starten wir zum Spaß beide Versionen auf unterschiedlichen Ports:
 
@@ -277,7 +277,7 @@ Aus **einem** Dockerfile und zwei Builds laufen **zwei unabhängige Container** 
 
 ---
 
-## Schritt 9 – Aufräumen
+## Schritt 9: Aufräumen
 
 Container stoppen:
 
@@ -333,20 +333,20 @@ Ein anderer Container (oder ein anderes Programm) nutzt schon Port 9000. Entwede
 
 ### Änderungen erscheinen nicht im Browser
 
-Ursache: du hast `index.html` geändert, aber **den alten Container** noch laufen. Der alte Container benutzt das **alte Image** mit der alten Datei. Neues Image bauen, alten Container entfernen, neuen starten – wie oben beschrieben.
+Ursache: du hast `index.html` geändert, aber **den alten Container** noch laufen. Der alte Container benutzt das **alte Image** mit der alten Datei. Neues Image bauen, alten Container entfernen, neuen starten, wie oben beschrieben.
 
 Alternative ohne Rebuild: ein **Bind Mount** von deinem Host-Ordner in den Container. Das ist das Thema des Volumes-Kapitels.
 
 ---
 
-## Bonus-Experimente – für alle, die mehr wollen
+## Bonus-Experimente: für alle, die mehr wollen
 
 !!! tip "Vier Experimente, rund 30 Minuten"
     Alles baut auf dem auf, was du schon hast. Jedes Experiment beantwortet eine Frage, die im Alltag mit Containern sofort auftaucht.
 
-### Bonus 1 – Schau in den laufenden Container hinein
+### Bonus 1: Schau in den laufenden Container hinein
 
-Ein Container ist ein eigenes kleines Linux. Sieh es dir an – starte einen nginx-Container und geh hinein:
+Ein Container ist ein eigenes kleines Linux. Sieh es dir an, starte einen nginx-Container und geh hinein:
 
 ```bash
 docker run -d --name spion -p 8090:80 nginx
@@ -364,12 +364,12 @@ ls /usr/share/nginx/html/
 
 Mit `exit` kommst du wieder heraus.
 
-**Was dir auffallen sollte:** Der Hostname ist eine kryptische ID (die Container-ID), du bist `root`, und das System meldet sich als Debian – obwohl dein Rechner vielleicht macOS oder Windows ist. Probier einmal `ps aux`. Es **fehlt**. Frag dich: Warum sind in diesem Linux so wenige Werkzeuge installiert?
+**Was dir auffallen sollte:** Der Hostname ist eine kryptische ID (die Container-ID), du bist `root`, und das System meldet sich als Debian, obwohl dein Rechner vielleicht macOS oder Windows ist. Probier einmal `ps aux`. Es **fehlt**. Frag dich: Warum sind in diesem Linux so wenige Werkzeuge installiert?
 
 ??? success "Antwort"
-    Weil ein Image nur enthält, was die Anwendung wirklich braucht. Kein Texteditor, keine Prozesstabelle, kein Paketmanager-Ballast – nginx und seine Bibliotheken, mehr nicht. Genau daher kommt der Größenunterschied zur VM von Montag: Die bringt ein komplettes Betriebssystem mit, der Container nur das Nötigste.
+    Weil ein Image nur enthält, was die Anwendung wirklich braucht. Kein Texteditor, keine Prozesstabelle, kein Paketmanager-Ballast, nginx und seine Bibliotheken, mehr nicht. Genau daher kommt der Größenunterschied zur VM von Montag: Die bringt ein komplettes Betriebssystem mit, der Container nur das Nötigste.
 
-### Bonus 2 – Die Wegwerf-Lektion
+### Bonus 2: Die Wegwerf-Lektion
 
 Ändere die Seite **im laufenden Container**:
 
@@ -389,11 +389,11 @@ curl localhost:8090
 **Was ist mit deiner Änderung passiert?** Und viel wichtiger: Wo müsste sie liegen, damit sie einen neuen Container überlebt?
 
 ??? success "Antwort"
-    Die Änderung ist **weg**. Der neue Container startet wieder frisch aus dem unveränderten Image – alles, was du im laufenden Container anfasst, lebt nur so lange wie dieser eine Container.
+    Die Änderung ist **weg**. Der neue Container startet wieder frisch aus dem unveränderten Image, alles, was du im laufenden Container anfasst, lebt nur so lange wie dieser eine Container.
 
-    Das ist kein Fehler, sondern das Prinzip: Container sind wegwerfbar. Wer Daten behalten will, muss ihnen einen Platz **außerhalb** des Containers geben. Genau dafür gibt es **Volumes** – das Thema der nächsten Einheit.
+    Das ist kein Fehler, sondern das Prinzip: Container sind wegwerfbar. Wer Daten behalten will, muss ihnen einen Platz **außerhalb** des Containers geben. Genau dafür gibt es **Volumes**, das Thema der nächsten Einheit.
 
-### Bonus 3 – Zwei Versionen nebeneinander
+### Bonus 3: Zwei Versionen nebeneinander
 
 Ändere deine `index.html` (schreib „Version 2" hinein) und bau daraus eine zweite Version:
 
@@ -411,20 +411,20 @@ docker run -d -p 8082:80 --name v2 mein-bild:2.0
 
 Ruf `http://localhost:8081` und `http://localhost:8082` auf.
 
-**Die Erkenntnis:** Ein Image lässt sich nachträglich nicht ändern – du baust ein **neues** und gibst ihm ein anderes Tag. Alte Version kaputt? Einfach den Container aus `1.0` wieder starten. Genau so funktioniert später auch ein Rollback im Betrieb.
+**Die Erkenntnis:** Ein Image lässt sich nachträglich nicht ändern, du baust ein **neues** und gibst ihm ein anderes Tag. Alte Version kaputt? Einfach den Container aus `1.0` wieder starten. Genau so funktioniert später auch ein Rollback im Betrieb.
 
-### Bonus 4 – Wie viel Platz belegt das alles?
+### Bonus 4: Wie viel Platz belegt das alles?
 
 ```bash
 docker system df
 ```
 
-Du siehst vier Zeilen: Images, Container, Volumes und Build-Cache – jeweils mit der Spalte **RECLAIMABLE**, also dem, was du gefahrlos freigeben könntest.
+Du siehst vier Zeilen: Images, Container, Volumes und Build-Cache, jeweils mit der Spalte **RECLAIMABLE**, also dem, was du gefahrlos freigeben könntest.
 
-**Vergleich zu Montag:** Eine einzelne Cloud-VM bringt schnell mehrere Gigabyte mit. Wie viel wiegen deine Container im Vergleich – und wo steckt der meiste Platz wirklich?
+**Vergleich zu Montag:** Eine einzelne Cloud-VM bringt schnell mehrere Gigabyte mit. Wie viel wiegen deine Container im Vergleich, und wo steckt der meiste Platz wirklich?
 
 ??? success "Antwort und Aufräum-Befehl"
-    Der meiste Platz liegt fast immer bei den **Images** und im **Build-Cache**, nicht bei den Containern selbst – ein laufender Container kostet oft nur ein paar hundert Kilobyte, weil er sich das Image mit allen anderen teilt (das Copy-on-Write-Prinzip).
+    Der meiste Platz liegt fast immer bei den **Images** und im **Build-Cache**, nicht bei den Containern selbst, ein laufender Container kostet oft nur ein paar hundert Kilobyte, weil er sich das Image mit allen anderen teilt (das Copy-on-Write-Prinzip).
 
     Aufräumen, wenn es eng wird:
 
@@ -432,7 +432,7 @@ Du siehst vier Zeilen: Images, Container, Volumes und Build-Cache – jeweils mi
     docker system prune
     ```
 
-    Das entfernt gestoppte Container, ungenutzte Netze und den Build-Cache. Mit `-a` verschwinden zusätzlich alle Images, die kein Container benutzt – dann lädt der nächste `docker run` sie neu herunter.
+    Das entfernt gestoppte Container, ungenutzte Netze und den Build-Cache. Mit `-a` verschwinden zusätzlich alle Images, die kein Container benutzt, dann lädt der nächste `docker run` sie neu herunter.
 
 ### Zum Schluss: aufräumen
 
@@ -462,6 +462,6 @@ Das ist schon sehr ordentlich fürs erste Mal. Alles, was ab hier kommt (Volumes
 
 ## Weiterlesen
 
-- [Stolpersteine Docker](stolpersteine.md) – wenn etwas nicht geht
-- [Merksätze – Docker](merksaetze.md)
+- [Stolpersteine Docker](stolpersteine.md): wenn etwas nicht geht
+- [Merksätze. Docker](merksaetze.md)
 - [Cheatsheet Docker](../cheatsheets/docker.md)

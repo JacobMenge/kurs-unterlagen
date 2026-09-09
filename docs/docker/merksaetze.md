@@ -1,9 +1,9 @@
 ---
-title: "Merksätze – Docker"
+title: "Merksätze. Docker"
 description: "Die wichtigsten Kern-Sätze des Docker-Blocks kompakt auf einer Seite."
 ---
 
-# Merksätze – Docker
+# Merksätze: Docker
 
 Diese Seite ist reiner Spickzettel. Wenn du dir diese Sätze einprägst, hast du die Kern-Ideen des Docker-Blocks beieinander.
 
@@ -21,7 +21,7 @@ Der zentrale Satz des Blocks. Alles Weitere ist Folge davon.
 ## 2. Warum Container leicht sind
 
 !!! success "Merksatz 2"
-    > **Container teilen den Kernel des Hosts und isolieren sich über Namespaces, cgroups und Capabilities. Darum starten sie schnell und brauchen wenig RAM – bezahlen das aber mit schwächerer Isolation als echte VMs.**
+    > **Container teilen den Kernel des Hosts und isolieren sich über Namespaces, cgroups und Capabilities. Darum starten sie schnell und brauchen wenig RAM, bezahlen das aber mit schwächerer Isolation als echte VMs.**
 
 Das ist der technische Unterbau für Merksatz 1.
 
@@ -32,7 +32,7 @@ Das ist der technische Unterbau für Merksatz 1.
 !!! success "Merksatz 3"
     > **Docker Desktop auf Mac und Windows ist eine Linux-VM mit sichtbarer docker-CLI am Host. Die Container laufen in dieser VM, nicht direkt auf macOS oder Windows.**
 
-Wer das nicht weiß, hat ein falsches mentales Modell – und kommt bei Ressourcenverbrauch und Dateizugriffen durcheinander.
+Wer das nicht weiß, hat ein falsches mentales Modell, und kommt bei Ressourcenverbrauch und Dateizugriffen durcheinander.
 
 ---
 
@@ -48,7 +48,7 @@ Aus diesem Satz folgt die Notwendigkeit von **Volumes** oder **Bind Mounts**, we
 ## 5. Registry und Image-Namen
 
 !!! success "Merksatz 5"
-    > **Ein Image-Name hat vier Teile: Registry, Namespace, Image-Name, Tag. Fehlt ein Teil, nimmt Docker einen Default. Der Default-Tag ist `:latest` – und genau deshalb ist er in Produktion tabu.**
+    > **Ein Image-Name hat vier Teile: Registry, Namespace, Image-Name, Tag. Fehlt ein Teil, nimmt Docker einen Default. Der Default-Tag ist `:latest`, und genau deshalb ist er in Produktion tabu.**
 
 In der Entwicklung kannst du mit `:latest` spielen. In Produktion setzt du immer eine konkrete Version.
 
@@ -59,7 +59,7 @@ In der Entwicklung kannst du mit `:latest` spielen. In Produktion setzt du immer
 !!! success "Merksatz 6"
     > **`RUN` läuft beim Bauen des Images, `CMD` beim Start des Containers. Alles, was du im Container haben willst, muss per `COPY` vom Host ins Image gekommen sein.**
 
-Wer `RUN` und `CMD` verwechselt, baut ein Image, das beim Start nichts tut – oder umgekehrt.
+Wer `RUN` und `CMD` verwechselt, baut ein Image, das beim Start nichts tut, oder umgekehrt.
 
 ---
 
@@ -106,9 +106,9 @@ Das ist das Docker-Leben in einer Grafik.
 
 In den folgenden Kapiteln geht es weiter:
 
-- **Volumes & Bind Mounts** – damit Daten überleben.
-- **Netzwerke** – Container, die miteinander sprechen.
-- **Docker Compose** – mehrere Container deklarativ starten.
+- **Volumes & Bind Mounts**, damit Daten überleben.
+- **Netzwerke**. Container, die miteinander sprechen.
+- **Docker Compose**, mehrere Container deklarativ starten.
 - **Best Practices** für Dockerfiles: Multi-Stage, `USER`, `HEALTHCHECK`.
 - Blick Richtung Orchestrierung (Kubernetes) und CI/CD.
 

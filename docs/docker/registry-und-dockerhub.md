@@ -30,7 +30,7 @@ Es gibt viele Registries. Einige Beispiele:
 | Registry | Betreiber | Hinweis |
 |----------|-----------|---------|
 | **Docker Hub** | Docker Inc. | Der Default, den `docker` nimmt, wenn du nichts anderes angibst |
-| **GitHub Container Registry** | GitHub / Microsoft | `ghcr.io` – oft für Open-Source-Projekte |
+| **GitHub Container Registry** | GitHub / Microsoft | `ghcr.io`, oft für Open-Source-Projekte |
 | **GitLab Container Registry** | GitLab | Teil einer GitLab-Instanz |
 | **AWS ECR** | Amazon Web Services | Für AWS-Workloads |
 | **Azure Container Registry** | Microsoft Azure | Für Azure-Workloads |
@@ -41,7 +41,7 @@ Fast alle Registries sprechen dasselbe Protokoll, sodass Docker-Clients mit alle
 
 ---
 
-## Docker Hub – die Standard-Registry
+## Docker Hub: die Standard-Registry
 
 **Docker Hub** (<https://hub.docker.com>) ist die Default-Registry. Wenn du `docker run nginx` tippst, landet die Anfrage **dort**, es sei denn du gibst eine andere Quelle an.
 
@@ -197,7 +197,7 @@ Technisch ist `:latest` **nichts Besonderes**. Es ist einfach der Tag, der gezog
 
 ## Warum `:latest` ein Anti-Pattern ist
 
-Stell dir vor, du baust heute eine Anwendung, die auf `nginx:latest` setzt. Das funktioniert. Vier Monate später stellt jemand den Server neu auf – und zieht wieder `nginx:latest`. Nur: `latest` zeigt inzwischen auf eine **neuere Version** mit **anderem Verhalten**. Deine Anwendung bricht, scheinbar ohne dass sich etwas geändert hat.
+Stell dir vor, du baust heute eine Anwendung, die auf `nginx:latest` setzt. Das funktioniert. Vier Monate später stellt jemand den Server neu auf, und zieht wieder `nginx:latest`. Nur: `latest` zeigt inzwischen auf eine **neuere Version** mit **anderem Verhalten**. Deine Anwendung bricht, scheinbar ohne dass sich etwas geändert hat.
 
 !!! warning "Regel für Produktion"
     In Produktion nimmst du **immer** explizite Versionen:
@@ -225,7 +225,7 @@ Docker Hub hat seit 2021 **Pull-Limits**:
 - Mit kostenlosem Account: 200 Pulls pro 6 Stunden.
 - Bezahlte Accounts: höhere oder keine Limits.
 
-Für den Unterricht ist das kein Problem. In CI/CD-Pipelines kann es stören – eine Abhilfe ist, häufig verwendete Images in eine eigene Registry (z.B. GitHub Container Registry) zu spiegeln.
+Für den Unterricht ist das kein Problem. In CI/CD-Pipelines kann es stören, eine Abhilfe ist, häufig verwendete Images in eine eigene Registry (z.B. GitHub Container Registry) zu spiegeln.
 
 ---
 
@@ -244,11 +244,11 @@ Das geht über diesen Einstieg hinaus, aber gut zu wissen, dass es möglich ist.
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Ein Image-Name hat vier Teile: Registry, Namespace, Image-Name, Tag. Fehlt ein Teil, nimmt Docker einen Default. Der Default-Tag ist `:latest` – und genau deshalb ist er in Produktion tabu.**
+    > **Ein Image-Name hat vier Teile: Registry, Namespace, Image-Name, Tag. Fehlt ein Teil, nimmt Docker einen Default. Der Default-Tag ist `:latest`, und genau deshalb ist er in Produktion tabu.**
 
 ---
 
 ## Weiterlesen
 
-- [Dockerfile – Grundlagen](dockerfile-grundlagen.md) – jetzt bauen wir ein Image selbst
-- [Erste Schritte](erste-schritte.md) – erste Container mit `docker run`
+- [Dockerfile. Grundlagen](dockerfile-grundlagen.md): jetzt bauen wir ein Image selbst
+- [Erste Schritte](erste-schritte.md): erste Container mit `docker run`

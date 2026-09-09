@@ -1,16 +1,16 @@
 ---
 title: "Stolpersteine Docker"
-description: "Docker-Probleme von Installation bis Laufzeit – Portkonflikte, Platform-Flags, Cache, WSL2, Apple Silicon und mehr. Alles mit aufklappbaren Detail-Lösungen."
+description: "Docker-Probleme von Installation bis Laufzeit. Portkonflikte, Platform-Flags, Cache, WSL2, Apple Silicon und mehr. Alles mit aufklappbaren Detail-Lösungen."
 ---
 
 # Stolpersteine Docker
 
-Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die Box auf – darunter steht Ursache und Lösung.
+Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die Box auf, darunter steht Ursache und Lösung.
 
 !!! abstract "Aufbau jedes Eintrags"
-    - **Problem** – was du siehst
-    - **Ursache** – was dahinter steckt
-    - **Lösung** – was du konkret tun kannst
+    - **Problem**, was du siehst
+    - **Ursache**, was dahinter steckt
+    - **Lösung**, was du konkret tun kannst
 
 !!! tip "Wo du genauer suchen kannst"
     - Installationsfragen → [Docker installieren](installation.md)
@@ -29,7 +29,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     === "macOS / Windows"
         **Docker Desktop starten.** Erkennbar am Wal-Icon in der Menüleiste (macOS) oder im Tray (Windows).
 
-        - Ist Docker Desktop offen, aber das Icon zeigt rot/gelb: kurz warten, der Daemon braucht 10–30 Sekunden zum Hochfahren.
+        - Ist Docker Desktop offen, aber das Icon zeigt rot/gelb: kurz warten, der Daemon braucht 10 bis 30 Sekunden zum Hochfahren.
         - Im Dashboard ganz unten: „Engine running" = grün = alles gut.
 
     === "Linux"
@@ -57,14 +57,14 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
         newgrp docker    # oder ab- und anmelden
         ```
 
-??? danger "Docker Desktop startet nicht – Wal-Symbol bleibt grau"
+??? danger "Docker Desktop startet nicht. Wal-Symbol bleibt grau"
     **Ursache:** Irgendwas im Docker-Desktop-Kern ist hängen geblieben.
 
     **Lösung in Eskalationsstufen:**
 
     1. **Docker Desktop beenden und neu starten.** In der Menüleiste Wal-Icon → Quit Docker Desktop, dann wieder öffnen.
     2. **Rechner neu starten.** Klingt banal, löst gefühlt 40 % aller Docker-Desktop-Probleme.
-    3. **Docker Desktop → Troubleshoot → Clean / Purge data.** Löscht alle Container, Images, Volumes – ist also wie ein Reset der Docker-Datenbank. Radikal, aber zuverlässig.
+    3. **Docker Desktop → Troubleshoot → Clean / Purge data.** Löscht alle Container, Images, Volumes, ist also wie ein Reset der Docker-Datenbank. Radikal, aber zuverlässig.
     4. **Letzte Option:** Docker Desktop deinstallieren und neu installieren (siehe [Installation](installation.md)).
 
 ??? warning "Windows: WSL2-Fehlermeldung beim Start"
@@ -138,13 +138,13 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     ```
 
     !!! tip "Merksatz"
-        **H**ost zuerst, **C**ontainer danach – alphabetisch stimmt das.
+        **H**ost zuerst, **C**ontainer danach, alphabetisch stimmt das.
 
 ??? warning "Container läuft, Port freigegeben, aber im Browser nur weiße Seite"
     **Mögliche Ursachen:**
 
     1. **Anwendung hört im Container auf `127.0.0.1` statt auf `0.0.0.0`.** Von außen erreichst du dann die App nicht. Lösung: in der Anwendung auf `0.0.0.0` binden.
-    2. **Firewall auf dem Host** blockiert den Zugriff. Testen: `curl http://localhost:8080` direkt auf dem Host – kommt eine Antwort? Ja → Problem liegt im Browser/Netz. Nein → Container oder Firewall.
+    2. **Firewall auf dem Host** blockiert den Zugriff. Testen: `curl http://localhost:8080` direkt auf dem Host, kommt eine Antwort? Ja → Problem liegt im Browser/Netz. Nein → Container oder Firewall.
     3. **Docker Desktop auf Mac:** Achtung, `host.docker.internal` ist der Host aus Container-Sicht, `localhost` im Container ist der Container selbst. Im Browser auf dem Host bleibst du bei `localhost:<port>`.
 
 ---
@@ -156,7 +156,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
     **Ursache:** Ein Container lebt **nur so lange, wie sein Hauptprozess läuft**. Das Image `ubuntu` hat als Default-Command eine Shell. Ohne interaktives Terminal beendet sich diese Shell sofort.
 
-    **Lösung – interaktiv mit TTY starten:**
+    **Lösung, interaktiv mit TTY starten:**
 
     ```bash
     docker run -it --name shell ubuntu bash
@@ -171,11 +171,11 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     Jetzt bist du in einer Ubuntu-Shell. `exit` beendet den Container sauber.
 
 ??? warning "Webserver-Container im Detached-Modus beendet sich trotzdem sofort"
-    **Symptom:** `docker run -d nginx:alpine` – Container-ID kommt, aber kurz danach ist der Container weg.
+    **Symptom:** `docker run -d nginx:alpine`. Container-ID kommt, aber kurz danach ist der Container weg.
 
     **Ursache:** Meist ein **Config-Fehler** im Container. Der nginx-Prozess crasht, das Haupt-Command endet, der Container beendet sich.
 
-    **Lösung – Fehler sichtbar machen:**
+    **Lösung. Fehler sichtbar machen:**
 
     ```bash
     docker logs <container-id-oder-name>
@@ -186,7 +186,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 ??? warning "Wie behalte ich einen Container zum Debuggen am Leben?"
     **Szenario:** Dein Container crasht, du willst in die Umgebung schauen.
 
-    **Lösung – den Container mit einer endlos laufenden Shell starten:**
+    **Lösung, den Container mit einer endlos laufenden Shell starten:**
 
     ```bash
     docker run -it --name debug dein-image sh
@@ -214,7 +214,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
         ```bash
         docker run --platform linux/amd64 <image>
         ```
-        Der Container läuft dann über Rosetta 2 – funktioniert, aber langsamer.
+        Der Container läuft dann über Rosetta 2, funktioniert, aber langsamer.
 
     === "Sauber (ARM-Variante)"
         Prüfe, ob es eine ARM-Variante gibt:
@@ -233,7 +233,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     1. **x86_64-Image emuliert.** Siehe Eintrag oben.
     2. **Rosetta-Integration nicht aktiviert.** Docker Desktop → Settings → General → „Use Rosetta for x86_64/amd64 emulation on Apple Silicon" anhaken.
     3. **VirtioFS-Performance bei Bind Mounts.** Docker Desktop → Settings → General → „Choose file sharing implementation" → VirtioFS wählen (ist mittlerweile Default, aber auf alten Installationen manchmal noch `gRPC FUSE`).
-    4. **Zu wenig Ressourcen** für die Docker-Desktop-VM. Settings → Resources → RAM auf 4–6 GB, CPUs auf 4.
+    4. **Zu wenig Ressourcen** für die Docker-Desktop-VM. Settings → Resources → RAM auf 4 bis 6 GB, CPUs auf 4.
 
 ??? info "Welche Images haben ARM-Support?"
     Die meisten offiziellen Images (nginx, httpd, python, node, postgres, redis) haben ARM-Varianten. Docker Hub zeigt das in der Image-Übersicht an.
@@ -254,14 +254,14 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
     **Lösung Schritt für Schritt:**
 
-    1. `ls -la` im Build-Ordner – liegt die Datei wirklich da?
-    2. `cat .dockerignore` – wird die Datei dort gelistet?
+    1. `ls -la` im Build-Ordner, liegt die Datei wirklich da?
+    2. `cat .dockerignore`, wird die Datei dort gelistet?
     3. `docker build -t foo .` **muss aus dem Ordner aufgerufen werden, der die Datei UND das `Dockerfile` enthält**. Der Punkt am Ende ist der Build-Kontext.
 
 ??? warning "Änderungen im `Dockerfile` zeigen keine Wirkung"
     **Ursache:** Docker-Build-Cache findet, dass sich „effektiv" nichts geändert hat und nimmt alte Layer aus dem Cache.
 
-    **Lösung – Cache-Ignorieren erzwingen:**
+    **Lösung. Cache-Ignorieren erzwingen:**
 
     ```bash
     docker build --no-cache -t mein-bild .
@@ -272,9 +272,9 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     **Prävention:** Reihenfolge im Dockerfile so bauen, dass **selten geänderte Dinge** (Abhängigkeiten) **vor** **oft geänderten Dingen** (dein Code) stehen:
 
     ```dockerfile
-    COPY requirements.txt .      # selten geändert – Layer wird gecached
+    COPY requirements.txt .      # selten geändert, Layer wird gecached
     RUN pip install -r requirements.txt
-    COPY app.py .                # oft geändert – nur dieser Layer wird neu gebaut
+    COPY app.py .                # oft geändert, nur dieser Layer wird neu gebaut
     ```
 
 ??? warning "Alter Container nutzt neues Image nicht"
@@ -293,7 +293,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 ??? info "Dangling Images aufräumen"
     **Symptom:** `docker images` zeigt viele Einträge mit `<none>:<none>`.
 
-    **Ursache:** Ältere Image-Versionen, die nach einem Rebuild verwaist sind – ihr Tag wurde auf die neue Version umgebogen. Sie belegen weiter Platz.
+    **Ursache:** Ältere Image-Versionen, die nach einem Rebuild verwaist sind, ihr Tag wurde auf die neue Version umgebogen. Sie belegen weiter Platz.
 
     **Lösung:**
 
@@ -313,25 +313,25 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     docker: Error response from daemon: ... no space left on device.
     ```
 
-    **Ursache:** Docker hat die Platte vollgeschrieben – Images, gestoppte Container, ungenutzte Volumes und Netzwerke summieren sich.
+    **Ursache:** Docker hat die Platte vollgeschrieben. Images, gestoppte Container, ungenutzte Volumes und Netzwerke summieren sich.
 
-    **Lösung – Eskalationsstufen:**
+    **Lösung. Eskalationsstufen:**
 
-    === "Stufe 1 – milde"
+    === "Stufe 1, milde"
         ```bash
         docker system df              # was belegt wie viel?
         docker container prune        # alle gestoppten Container weg
         docker image prune            # dangling Images weg
         ```
 
-    === "Stufe 2 – mittel"
+    === "Stufe 2, mittel"
         ```bash
         docker image prune -a         # auch alle unbenutzten Images
         docker volume prune           # verwaiste Volumes
         docker network prune          # ungenutzte Netzwerke
         ```
 
-    === "Stufe 3 – aggressiv"
+    === "Stufe 3, aggressiv"
         ```bash
         docker system prune -a --volumes
         ```
@@ -366,7 +366,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     # oder: ab- und wieder anmelden
     ```
 
-    **Was macht `newgrp docker` genau?** Es eröffnet eine neue Shell, in der die frisch hinzugefügte Gruppe aktiv ist. Nur in **dieser** Shell – andere Terminals brauchen einen Neu-Login.
+    **Was macht `newgrp docker` genau?** Es eröffnet eine neue Shell, in der die frisch hinzugefügte Gruppe aktiv ist. Nur in **dieser** Shell, andere Terminals brauchen einen Neu-Login.
 
     **Sauberster Weg:** einmal komplett ausloggen und wieder einloggen. Danach aktiv in allen Terminals.
 
@@ -382,7 +382,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
         Mitglieder der `docker`-Gruppe können mit einem Container den ganzen Host mounten und damit effektiv Root werden. Für Entwicklerrechner okay, in Multi-User-Systemen eine Entscheidung, die dokumentiert werden sollte. Alternative: **Rootless Docker** (siehe <https://docs.docker.com/engine/security/rootless/>) oder **Podman** (läuft ohne Daemon und ohne `docker`-Gruppe).
 
 ??? danger "Linux (Fedora/RHEL/Rocky/Alma): `permission denied` beim Bind Mount"
-    **Symptom:** Dein Container crasht beim Start oder kann Dateien aus dem Mount nicht lesen – obwohl die Datei-Permissions offensichtlich passen.
+    **Symptom:** Dein Container crasht beim Start oder kann Dateien aus dem Mount nicht lesen, obwohl die Datei-Permissions offensichtlich passen.
 
     **Ursache:** **SELinux** ist aktiv und blockiert den Zugriff des Containers auf Host-Pfade.
 
@@ -425,8 +425,8 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
       ```
     - Danach: `sudo update-grub && sudo reboot`
 
-??? info "Ubuntu/Debian: AppArmor – meist unauffällig, selten ein Problem"
-    **AppArmor** ist auf Ubuntu und Debian aktiv und begrenzt, was ein Prozess tun darf. Docker bringt sein eigenes AppArmor-Profil mit – im Regelfall transparent.
+??? info "Ubuntu/Debian: AppArmor, meist unauffällig, selten ein Problem"
+    **AppArmor** ist auf Ubuntu und Debian aktiv und begrenzt, was ein Prozess tun darf. Docker bringt sein eigenes AppArmor-Profil mit, im Regelfall transparent.
 
     **Wenn doch mal**: `dmesg | grep apparmor` zeigt, ob AppArmor etwas blockiert hat.
 
@@ -450,7 +450,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
             ```
 
         === "Windows PowerShell"
-            Auf Windows existieren Linux-UID/GID am Host nicht direkt – Docker Desktop übersetzt automatisch. Wenn du eine fixe UID/GID brauchst (z.B. weil sie auch im Image existiert):
+            Auf Windows existieren Linux-UID/GID am Host nicht direkt. Docker Desktop übersetzt automatisch. Wenn du eine fixe UID/GID brauchst (z.B. weil sie auch im Image existiert):
             ```powershell
             docker run --rm -u 1000:1000 -v "${PWD}:/app" my-image
             ```
@@ -470,15 +470,15 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
     **Ursachen und Lösungen:**
 
-    1. **DNS-Problem** – oft bei Firmennetzen mit speziellen DNS-Servern:
+    1. **DNS-Problem**, oft bei Firmennetzen mit speziellen DNS-Servern:
        ```bash
        docker run --dns 8.8.8.8 <image>
        ```
-    2. **Proxy** – Docker Desktop → Settings → Resources → Proxies eintragen.
+    2. **Proxy**. Docker Desktop → Settings → Resources → Proxies eintragen.
     3. **VPN auf dem Host** zerschießt das Docker-Netzwerk:
        - VPN kurz trennen und testen.
        - Falls das hilft: VPN-Software updaten oder Routen-Konfig prüfen.
-    4. **Kaputtes Docker-Netzwerk** – Aufräumen und Docker-Desktop neu starten:
+    4. **Kaputtes Docker-Netzwerk**. Aufräumen und Docker-Desktop neu starten:
        ```bash
        docker network prune
        ```
@@ -492,7 +492,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     docker run -d --name web --network mein-netz -p 8080:80 meine-app
     ```
 
-    Innerhalb von `mein-netz` können sich die Container mit ihren Namen ansprechen (`db`, `web`). Das ist der manuelle Weg – `docker compose` macht das später komfortabler.
+    Innerhalb von `mein-netz` können sich die Container mit ihren Namen ansprechen (`db`, `web`). Das ist der manuelle Weg, `docker compose` macht das später komfortabler.
 
 ---
 
@@ -555,13 +555,13 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
 ---
 
-## Prävention – Gute Gewohnheiten
+## Prävention: Gute Gewohnheiten
 
 !!! tip "Damit du selten hierher zurückmusst"
     - **Aktuelle Docker-Desktop-Version** verwenden. Viele Bugs sind in den neuesten Releases schon behoben.
     - **Regelmäßig aufräumen**, z.B. einmal im Monat `docker system prune -a`.
     - **Explizite Image-Versionen** in Produktion, `:latest` nur für Experimente.
-    - **Ressourcen im Blick behalten** – `docker stats` zeigt live, wer wie viel verbraucht.
+    - **Ressourcen im Blick behalten**, `docker stats` zeigt live, wer wie viel verbraucht.
     - **Vernünftige Container-Namen** (`--name frontend`, nicht zufällig), dann findest du dich in `docker ps` wieder.
     - **Ein Einwurf-Container (`--rm`) ist dein Freund:**
        ```bash

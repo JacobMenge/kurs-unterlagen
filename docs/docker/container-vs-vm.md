@@ -1,9 +1,9 @@
 ---
 title: "Container vs. VM"
-description: "Der technische Unterschied zwischen Container und VM auf Kernel-Ebene – mit Diagramm und Vergleichstabelle."
+description: "Der technische Unterschied zwischen Container und VM auf Kernel-Ebene, mit Diagramm und Vergleichstabelle."
 ---
 
-# Container vs. VM – der technische Unterschied
+# Container vs. VM: der technische Unterschied
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
@@ -17,7 +17,7 @@ description: "Der technische Unterschied zwischen Container und VM auf Kernel-Eb
 
 ## Warum das wichtig ist
 
-„Container sind leichter als VMs" – diesen Satz liest man überall. Er ist richtig, aber er ist nur **die Folge**, nicht die Ursache. Die Ursache liegt einen Stock tiefer, beim **Kernel**.
+„Container sind leichter als VMs", diesen Satz liest man überall. Er ist richtig, aber er ist nur **die Folge**, nicht die Ursache. Die Ursache liegt einen Stock tiefer, beim **Kernel**.
 
 Wer das versteht, kann auch einordnen, wann eine VM **die bessere Wahl** ist als ein Container.
 
@@ -66,9 +66,9 @@ Rechts: alle Container **teilen sich den einen Kernel des Hosts**. Die Container
 
 Ein Container ist aus Sicht des Linux-Kernels **ein normaler Prozess**. Das Besondere ist: dieser Prozess wurde mit drei Kernel-Features eingepackt, die ihn **isolieren** und **zügeln**.
 
-### 1. Namespaces – „sieht nur, was er sehen soll"
+### 1. Namespaces: „sieht nur, was er sehen soll"
 
-**Namespaces** sind ein **Linux-Kernel-Feature** – sie sind also nicht „etwas, das Docker erfunden hat", sondern existieren direkt im Kernel (seit Kernel 2.6.24). Docker nutzt sie nur geschickt aus.
+**Namespaces** sind ein **Linux-Kernel-Feature**, sie sind also nicht „etwas, das Docker erfunden hat", sondern existieren direkt im Kernel (seit Kernel 2.6.24). Docker nutzt sie nur geschickt aus.
 
 Namespaces teilen Systemressourcen so auf, dass ein Prozess **nur das sieht, was sein Namespace enthält**. Andere Prozesse auf demselben Host können in einem anderen Namespace leben und bemerken sich gegenseitig gar nicht. Das ist der Trick, mit dem Container sich „isoliert" anfühlen, obwohl sie sich denselben Kernel teilen.
 
@@ -85,7 +85,7 @@ Es gibt mehrere Arten von Namespaces:
 
 Ein Container sieht also seine eigenen Prozesse, sein eigenes Netzwerk, sein eigenes Dateisystem. Andere Container und der Host bleiben unsichtbar.
 
-### 2. cgroups – „darf nur so viel nehmen"
+### 2. cgroups: „darf nur so viel nehmen"
 
 **Control Groups (cgroups)** sind Kernel-Features, die festlegen, **wie viel Ressourcen** ein Prozess verbrauchen darf:
 
@@ -96,7 +96,7 @@ Ein Container sieht also seine eigenen Prozesse, sein eigenes Netzwerk, sein eig
 
 So wird verhindert, dass ein außer Kontrolle geratener Container den ganzen Host auffrisst.
 
-### 3. Capabilities – „darf nur bestimmte Kernel-Aktionen"
+### 3. Capabilities: „darf nur bestimmte Kernel-Aktionen"
 
 Statt einem einzelnen Root-Account, der **alles** darf, kennt Linux **feinkörnige Rechte** (Capabilities): „darf Ports unter 1024 öffnen", „darf Kernel-Module laden", „darf Netzwerk-Konfiguration ändern". Container bekommen meist nur ein **stark reduziertes** Set dieser Capabilities, damit sie nicht aus ihrer Hülle ausbrechen können.
 
@@ -108,8 +108,8 @@ Statt einem einzelnen Root-Account, der **alles** darf, kennt Linux **feinkörni
 |-------------|---------------------|-----------|
 | **Eigener Kernel** | Ja | Nein (teilt sich den Host-Kernel) |
 | **Startzeit** | Sekunden bis Minuten | Millisekunden bis Sekunden |
-| **RAM-Overhead pro Instanz** | ca. 400 MB–mehrere GB | wenige MB bis wenige Dutzend MB |
-| **Plattenbedarf für OS** | 1–5 GB pro VM | meist 10–300 MB pro Image |
+| **RAM-Overhead pro Instanz** | ca. 400 MB bis mehrere GB | wenige MB bis wenige Dutzend MB |
+| **Plattenbedarf für OS** | 1 bis 5 GB pro VM | meist 10 bis 300 MB pro Image |
 | **Isolation** | Sehr stark (eigener Kernel) | Mittelstark (geteilter Kernel) |
 | **Anderes Gast-OS möglich** | Ja (Linux-Host kann Windows-VM) | Nein (Linux-Container brauchen Linux-Kernel) |
 | **Portabilität** | Hoch (virtuelle Disk) | Sehr hoch (Image, klein, standardisiert) |
@@ -137,10 +137,10 @@ In der Praxis mischt man oft beides: Container laufen **in VMs**, VMs laufen **i
 
 ---
 
-## Wichtige Einschränkung – jetzt schon merken
+## Wichtige Einschränkung: jetzt schon merken
 
 !!! warning "Container brauchen einen passenden Kernel"
-    Wir haben gerade gesagt: „Container teilen den Kernel des Hosts." Das stimmt – aber es ist **ein Linux-Kernel**, den sie teilen.
+    Wir haben gerade gesagt: „Container teilen den Kernel des Hosts." Das stimmt, aber es ist **ein Linux-Kernel**, den sie teilen.
 
     - Ein **Linux-Container** braucht einen **Linux-Kernel** unter sich.
     - Auf einem **Windows-Host** gibt es keinen Linux-Kernel nativ.
@@ -171,11 +171,11 @@ Für Multi-Mandanten-Umgebungen (z.B. Cloud-Anbieter, die zahlende Kunden strikt
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Container teilen den Kernel des Hosts und isolieren sich über Namespaces, cgroups und Capabilities. Darum starten sie schnell und brauchen wenig RAM – bezahlen das aber mit schwächerer Isolation als echte VMs.**
+    > **Container teilen den Kernel des Hosts und isolieren sich über Namespaces, cgroups und Capabilities. Darum starten sie schnell und brauchen wenig RAM, bezahlen das aber mit schwächerer Isolation als echte VMs.**
 
 ---
 
 ## Weiterlesen
 
-- [Docker Desktop ist eine VM](docker-desktop-wahrheit.md) – unbedingt als Nächstes, wenn du Mac oder Windows nutzt
+- [Docker Desktop ist eine VM](docker-desktop-wahrheit.md): unbedingt als Nächstes, wenn du Mac oder Windows nutzt
 - [Image und Container](image-und-container.md)

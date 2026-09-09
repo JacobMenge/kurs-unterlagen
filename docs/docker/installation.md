@@ -1,6 +1,6 @@
 ---
 title: "Docker installieren"
-description: "Schritt-für-Schritt-Installation von Docker auf Windows 11, macOS und Linux – mit offiziellen Links, Systemanforderungen, Fallstricken und Troubleshooting."
+description: "Schritt-für-Schritt-Installation von Docker auf Windows 11, macOS und Linux, mit offiziellen Links, Systemanforderungen, Fallstricken und Troubleshooting."
 ---
 
 # Docker installieren
@@ -36,14 +36,14 @@ Für den Kurs empfehle ich:
 
 ---
 
-## Docker-Desktop-Lizenz – kurz, aber wichtig
+## Docker-Desktop-Lizenz: kurz, aber wichtig
 
 Docker Desktop ist **für Privatpersonen, Bildung, kleinere Firmen und Open-Source-Arbeit kostenlos**. Aber seit 2022 gilt:
 
 !!! warning "Lizenzpflicht für größere Unternehmen"
     Nutzt **eine Firma mit mehr als 250 Mitarbeitenden oder mehr als 10 Mio USD Jahresumsatz** Docker Desktop, braucht diese Firma eine **kostenpflichtige Lizenz**: „Pro", „Team" oder „Business".
 
-    Die Lizenzpflicht betrifft **Docker Desktop** – nicht die Docker Engine auf Linux und **nicht** die Alternativen Colima, Podman, Rancher Desktop.
+    Die Lizenzpflicht betrifft **Docker Desktop**, nicht die Docker Engine auf Linux und **nicht** die Alternativen Colima, Podman, Rancher Desktop.
 
     Wenn du nicht sicher bist, ob dein Arbeitgeber eine Lizenz hat: **frag kurz nach**, bevor du installierst. Für die Übungen auf deinem eigenen Laptop ist das in fast allen Fällen irrelevant.
 
@@ -59,24 +59,24 @@ Docker Desktop ist **für Privatpersonen, Bildung, kleinere Firmen und Open-Sour
     - **Hardware-Virtualisierung im BIOS/UEFI** aktiviert (Intel VT-x oder AMD-V), zusätzlich **SLAT-fähige 64-Bit-CPU**
     - **Mindestens 4 GB RAM**, empfohlen 8 GB oder mehr
     - **Ca. 2 GB freier Plattenplatz** für Docker Desktop selbst, dazu Raum für Images
-    - **Editionen**: offiziell unterstützt sind Pro / Enterprise / Education. **Home** funktioniert in der Praxis ebenfalls über WSL2 – Docker dokumentiert das nicht als „supported", in den meisten Fällen klappt es aber problemlos.
+    - **Editionen**: offiziell unterstützt sind Pro / Enterprise / Education. **Home** funktioniert in der Praxis ebenfalls über WSL2. Docker dokumentiert das nicht als „supported", in den meisten Fällen klappt es aber problemlos.
 
-### Schritt 1 – Vorbereitung prüfen
+### Schritt 1: Vorbereitung prüfen
 
 ??? note "Hardware-Virtualisierung im BIOS prüfen (meistens schon aktiv)"
     Öffne den **Task-Manager** (Strg + Shift + Esc), gehe auf den Tab **Leistung** → **CPU**. Rechts unten steht „Virtualisierung: Aktiviert" oder „Deaktiviert".
 
     Ist sie deaktiviert:
 
-    1. Rechner neu starten, ins BIOS/UEFI gehen (meist F2, F10, Entf beim Booten – je nach Hersteller).
+    1. Rechner neu starten, ins BIOS/UEFI gehen (meist F2, F10, Entf beim Booten, je nach Hersteller).
     2. Nach „Virtualization Technology", „VT-x", „SVM Mode" oder „AMD-V" suchen.
     3. Aktivieren, speichern, neu starten.
 
     Ohne aktivierte Hardware-Virtualisierung läuft weder Docker Desktop noch eine VM.
 
-### Schritt 2 – WSL2 einrichten (empfohlener Weg)
+### Schritt 2: WSL2 einrichten (empfohlener Weg)
 
-Docker Desktop nutzt unter Windows standardmäßig **WSL2**, das Microsoft Windows Subsystem for Linux. Das ist die schnellste und reibungsärmste Variante. WSL2 installiert sich mit einem einzigen Befehl – als Admin-PowerShell öffnen (Rechtsklick auf das Start-Menü → „Terminal (Admin)"), dann:
+Docker Desktop nutzt unter Windows standardmäßig **WSL2**, das Microsoft Windows Subsystem for Linux. Das ist die schnellste und reibungsärmste Variante. WSL2 installiert sich mit einem einzigen Befehl, als Admin-PowerShell öffnen (Rechtsklick auf das Start-Menü → „Terminal (Admin)"), dann:
 
 ```powershell
 wsl --install
@@ -85,7 +85,7 @@ wsl --install
 Danach Windows neu starten, wenn gefordert.
 
 ??? info "Was passiert bei `wsl --install`?"
-    Dieser Befehl aktiviert die Windows-Features „Virtual Machine Platform" und „Windows Subsystem for Linux" und installiert standardmäßig Ubuntu als Linux-Distribution. Für Docker Desktop brauchst du die Ubuntu-Distribution nicht zwingend – es reicht, dass WSL2 selbst vorhanden ist. Wenn du Ubuntu später nicht nutzen willst, kannst du es einfach stehen lassen oder mit `wsl --unregister Ubuntu` entfernen.
+    Dieser Befehl aktiviert die Windows-Features „Virtual Machine Platform" und „Windows Subsystem for Linux" und installiert standardmäßig Ubuntu als Linux-Distribution. Für Docker Desktop brauchst du die Ubuntu-Distribution nicht zwingend, es reicht, dass WSL2 selbst vorhanden ist. Wenn du Ubuntu später nicht nutzen willst, kannst du es einfach stehen lassen oder mit `wsl --unregister Ubuntu` entfernen.
 
 ??? warning "Fehler bei `wsl --install`? Ältere Windows-Version?"
     Falls der Befehl „Hilfe anzeigen" statt einer Installation ausführt, ist dein Windows zu alt. Dann:
@@ -94,17 +94,17 @@ Danach Windows neu starten, wenn gefordert.
     2. **Windows Update** durchführen, bis die Version passt.
     3. Alternativer manueller Weg: WSL2-Kernel-Update von Microsoft laden: <https://learn.microsoft.com/windows/wsl/install-manual>
 
-    Das **WSL2-Kernel-Update** ist ein **echter Linux-Kernel von Microsoft** (ca. 100 MB), der neben deinem Windows-Kernel läuft – aber nur, wenn WSL2 aktiv genutzt wird. Verwechsle ihn nicht mit deinem Windows-Kernel.
+    Das **WSL2-Kernel-Update** ist ein **echter Linux-Kernel von Microsoft** (ca. 100 MB), der neben deinem Windows-Kernel läuft, aber nur, wenn WSL2 aktiv genutzt wird. Verwechsle ihn nicht mit deinem Windows-Kernel.
 
     **Bei Firmen-Proxy**: das Update kommt direkt von Microsoft-Servern. Falls der Download scheitert, bitte deine IT, `aka.ms` und `microsoft.com` in die Proxy-Whitelist aufzunehmen.
 
-### Schritt 3 – Docker Desktop herunterladen
+### Schritt 3: Docker Desktop herunterladen
 
 **Download:** <https://www.docker.com/products/docker-desktop/>
 
-Wähle „Download for Windows – AMD64" (für normale Intel-/AMD-PCs) oder „Windows – ARM64" (nur für Windows-Rechner mit ARM-Prozessor, z.B. manche Surface-Modelle).
+Wähle „Download for Windows. AMD64" (für normale Intel-/AMD-PCs) oder „Windows. ARM64" (nur für Windows-Rechner mit ARM-Prozessor, z.B. manche Surface-Modelle).
 
-### Schritt 4 – Docker Desktop installieren
+### Schritt 4: Docker Desktop installieren
 
 1. Doppelklick auf die heruntergeladene `Docker Desktop Installer.exe`.
 2. Den Haken bei **„Use WSL 2 instead of Hyper-V (recommended)"** aktiviert lassen.
@@ -113,7 +113,7 @@ Wähle „Download for Windows – AMD64" (für normale Intel-/AMD-PCs) oder „
     - Nutzungsbedingungen akzeptieren (beachte die Lizenz-Hinweise oben).
     - Optional einen Docker-Account verknüpfen (nicht nötig für unseren Kurs).
 
-### Schritt 5 – Funktion prüfen
+### Schritt 5: Funktion prüfen
 
 PowerShell oder Terminal öffnen (**kein** Admin nötig):
 
@@ -149,9 +149,9 @@ Wenn die Begrüßung erscheint, läuft alles.
 
     1. BIOS-Virtualisierung prüfen (siehe oben im Schritt 1).
     2. Andere Virtualisierungs-Apps (VirtualBox, VMware, Hyper-V Server-Rolle) beenden oder deinstallieren.
-    3. **Windows-Feature „Hyper-V"** in den Windows-Features *aktiviert* haben – WSL2 setzt darauf auf. Unter **Systemsteuerung → Programme → Windows-Features aktivieren oder deaktivieren** die Haken bei „Hyper-V", „Virtual Machine Platform" und „Windows Subsystem for Linux" setzen.
+    3. **Windows-Feature „Hyper-V"** in den Windows-Features *aktiviert* haben. WSL2 setzt darauf auf. Unter **Systemsteuerung → Programme → Windows-Features aktivieren oder deaktivieren** die Haken bei „Hyper-V", „Virtual Machine Platform" und „Windows Subsystem for Linux" setzen.
 
-??? warning "Windows 11 Home statt Pro – geht Docker trotzdem?"
+??? warning "Windows 11 Home statt Pro, geht Docker trotzdem?"
     **Ja.** Früher brauchte Docker Desktop Hyper-V in der Pro-Edition. Seit der WSL2-Umstellung geht Docker Desktop auch auf Windows 11 Home, weil WSL2 auf Home verfügbar ist.
 
     Nur *Multipass* benötigt weiterhin die Pro-Edition (Hyper-V). Für den Virtualisierungs-Teil des Kurses auf Home-Windows ist deshalb **VirtualBox** eine gute Alternative.
@@ -166,35 +166,35 @@ Wenn die Begrüßung erscheint, läuft alles.
     Sprich im Zweifel mit eurer IT, bevor du dir die Haare raufst.
 
 ??? warning "Docker-Befehle im PowerShell funktionieren nicht (Executable not found)"
-    Docker Desktop war noch nicht (oder nicht vollständig) gestartet, als du das Terminal aufgemacht hast. Erst Docker Desktop öffnen, auf „Engine running" warten, dann ein **neues** Terminal-Fenster – der PATH wird erst beim Öffnen gesetzt.
+    Docker Desktop war noch nicht (oder nicht vollständig) gestartet, als du das Terminal aufgemacht hast. Erst Docker Desktop öffnen, auf „Engine running" warten, dann ein **neues** Terminal-Fenster, der PATH wird erst beim Öffnen gesetzt.
 
 ---
 
 ## Installation auf macOS
 
 !!! info "Systemanforderungen macOS"
-    - **macOS 13.3 (Ventura) oder neuer** – Docker unterstützt offiziell die aktuelle und die zwei vorherigen macOS-Major-Versionen. Ältere macOS-Versionen werden nicht mehr unterstützt.
+    - **macOS 13.3 (Ventura) oder neuer**. Docker unterstützt offiziell die aktuelle und die zwei vorherigen macOS-Major-Versionen. Ältere macOS-Versionen werden nicht mehr unterstützt.
     - **Apple Silicon (M1/M2/M3/M4)**: Rosetta 2 ist für die meisten Workflows **nicht mehr zwingend nötig**, kann aber für x86_64-Images sinnvoll sein (siehe Schritt 2).
     - **Mindestens 4 GB RAM**, empfohlen 8 GB oder mehr
     - **Ca. 2 GB Disk** für Docker Desktop plus Raum für Images
 
-### Schritt 1 – Richtige Variante wählen
+### Schritt 1: Richtige Variante wählen
 
 **Download:** <https://www.docker.com/products/docker-desktop/>
 
 Zwei Varianten stehen zur Wahl:
 
-- **Mac with Apple Chip** – für M1, M2, M3, M4 (alle Macs ab ca. 2020).
-- **Mac with Intel Chip** – für ältere Macs mit Intel-Prozessor.
+- **Mac with Apple Chip**, für M1, M2, M3, M4 (alle Macs ab ca. 2020).
+- **Mac with Intel Chip**, für ältere Macs mit Intel-Prozessor.
 
 Wenn du unsicher bist: **Apfel-Menü → Über diesen Mac**. Steht dort „Apple M…" → Apple Chip. Steht „Intel" → Intel Chip.
 
 ??? danger "Falsche Variante heruntergeladen?"
     Docker Desktop verweigert den Start mit einer etwas kryptischen Fehlermeldung, wenn du die falsche Architektur gewählt hast. Einfach die richtige Version runterladen und drüberinstallieren.
 
-### Schritt 2 – Rosetta 2 installieren (nur Apple Silicon)
+### Schritt 2: Rosetta 2 installieren (nur Apple Silicon)
 
-Rosetta 2 ist Apples Übersetzer für x86_64-Software. Viele Docker-Images gibt es **nur** in x86_64-Version – ohne Rosetta 2 musst du bei jedem solchen Image einen Emulations-Workaround fahren.
+Rosetta 2 ist Apples Übersetzer für x86_64-Software. Viele Docker-Images gibt es **nur** in x86_64-Version, ohne Rosetta 2 musst du bei jedem solchen Image einen Emulations-Workaround fahren.
 
 ```bash
 softwareupdate --install-rosetta --agree-to-license
@@ -205,23 +205,23 @@ Wenn Rosetta schon installiert ist: kein Schaden, die Meldung sagt es dir.
 ??? info "Was genau macht Rosetta 2?"
     Rosetta 2 übersetzt x86_64-Befehle in ARM64-Befehle, die der Apple-Silicon-Chip versteht. Docker Desktop nutzt ab Version 4.25 eine optimierte Rosetta-Integration (sichtbar unter **Settings → Features in development → Use Rosetta for x86_64/amd64 emulation on Apple Silicon**), die deutlich schneller ist als die klassische Emulation per QEMU.
 
-### Schritt 3 – Docker Desktop installieren
+### Schritt 3: Docker Desktop installieren
 
 1. `.dmg`-Datei doppelklicken.
 2. Das Docker-Symbol in den Programme-Ordner ziehen.
-3. Im Programme-Ordner „Docker" doppelklicken – beim ersten Start fragt macOS, ob das Programm wirklich geöffnet werden soll (Programme aus dem Internet), mit **Öffnen** bestätigen.
-4. Docker fragt nach Admin-Rechten, um ein paar Helper-Tools zu installieren – zustimmen.
+3. Im Programme-Ordner „Docker" doppelklicken, beim ersten Start fragt macOS, ob das Programm wirklich geöffnet werden soll (Programme aus dem Internet), mit **Öffnen** bestätigen.
+4. Docker fragt nach Admin-Rechten, um ein paar Helper-Tools zu installieren, zustimmen.
 
-### Schritt 4 – Grund-Einstellungen vornehmen
+### Schritt 4: Grund-Einstellungen vornehmen
 
 Nach dem Start öffnet sich das Docker-Dashboard. **Unbedingt einmal durchschauen:**
 
 - **Settings → General:** Autostart beim Login aktivieren, wenn du Docker oft nutzt.
 - **Settings → Resources → Advanced:** Standardmäßig bekommt Docker 2 GB RAM und 2 CPUs. Für ernsthafte Arbeit dreh auf **4 GB RAM, 4 CPUs** hoch.
 - **Settings → Resources → File sharing:** Standardmäßig sind `~` und `/Users` freigegeben. Für Bind Mounts später musst du hier eventuell Verzeichnisse ergänzen.
-- **Settings → Features in development:** Wenn du Apple Silicon hast, aktiviere „Use Rosetta for x86_64/amd64 emulation on Apple Silicon" – macht x86_64-Container merklich schneller.
+- **Settings → Features in development:** Wenn du Apple Silicon hast, aktiviere „Use Rosetta for x86_64/amd64 emulation on Apple Silicon", macht x86_64-Container merklich schneller.
 
-### Schritt 5 – Funktion prüfen
+### Schritt 5: Funktion prüfen
 
 Terminal öffnen, dann:
 
@@ -281,12 +281,12 @@ Auf Linux bekommst du Docker **direkt**, ohne Desktop-GUI und ohne umhüllende V
 
 !!! info "Systemanforderungen Linux"
     - **64-Bit-Kernel**, Version 3.10 oder neuer (alle aktuellen Distributionen erfüllen das).
-    - Distribution: Ubuntu 22.04 LTS oder 24.04 LTS, Debian 11 oder 12, Fedora 38+, Rocky/Alma 9+ – offiziell unterstützt.
+    - Distribution: Ubuntu 22.04 LTS oder 24.04 LTS, Debian 11 oder 12, Fedora 38+, Rocky/Alma 9+, offiziell unterstützt.
     - Andere Distributionen gehen auch, mit etwas mehr Handarbeit.
 
 Die folgenden Schritte sind für **Ubuntu/Debian**. Für andere Distributionen findest du die Anleitung hier: <https://docs.docker.com/engine/install/>
 
-### Schritt 1 – Alte Docker-Reste entfernen
+### Schritt 1: Alte Docker-Reste entfernen
 
 Falls du früher eine ältere Docker-Version oder ein Distri-Paket installiert hattest, räume zuerst auf:
 
@@ -298,7 +298,7 @@ done
 
 Falls nichts zu entfernen ist, passiert nichts. Daten in `/var/lib/docker` bleiben erhalten.
 
-### Schritt 2 – Docker-Repository hinzufügen
+### Schritt 2: Docker-Repository hinzufügen
 
 Ubuntu/Debian-Nutzer fahren mit dem offiziellen Docker-Repository am besten. So bekommst du Updates automatisch.
 
@@ -322,7 +322,7 @@ echo \
 !!! tip "Debian statt Ubuntu?"
     In beiden URLs `ubuntu` durch `debian` ersetzen.
 
-### Schritt 3 – Docker installieren
+### Schritt 3: Docker installieren
 
 ```bash
 sudo apt-get update
@@ -331,13 +331,13 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 
 Das installiert:
 
-- `docker-ce` – die Docker Engine selbst
-- `docker-ce-cli` – das `docker`-Kommando
-- `containerd.io` – die Container-Runtime
-- `docker-buildx-plugin` – moderner Image-Builder (z.B. für Multi-Arch)
-- `docker-compose-plugin` – der Nachfolger von `docker-compose` als Unterkommando `docker compose`
+- `docker-ce`, die Docker Engine selbst
+- `docker-ce-cli`, das `docker`-Kommando
+- `containerd.io`, die Container-Runtime
+- `docker-buildx-plugin`, moderner Image-Builder (z.B. für Multi-Arch)
+- `docker-compose-plugin`, der Nachfolger von `docker-compose` als Unterkommando `docker compose`
 
-### Schritt 4 – Ohne `sudo` benutzen können
+### Schritt 4: Ohne `sudo` benutzen können
 
 Standardmäßig braucht `docker` root-Rechte. Für den Alltag nimmst du deinen User in die `docker`-Gruppe auf:
 
@@ -355,7 +355,7 @@ sudo usermod -aG docker $USER
 ??? warning "Sicherheitshinweis: `docker`-Gruppe = Root-Zugriff"
     Wer in der `docker`-Gruppe ist, kann effektiv Root auf dem Host werden (z.B. indem er einen Container startet, der den ganzen Host mountet). Das ist für einen Entwicklerrechner völlig okay, aber für Mehr-Benutzer-Systeme eine bewusste Entscheidung.
 
-### Schritt 5 – Daemon starten und aktivieren
+### Schritt 5: Daemon starten und aktivieren
 
 Der Docker-Daemon sollte bei der Installation schon gestartet und als Systemdienst aktiviert worden sein. Prüfen:
 
@@ -370,7 +370,7 @@ sudo systemctl start docker
 sudo systemctl enable docker
 ```
 
-### Schritt 6 – Funktion prüfen
+### Schritt 6: Funktion prüfen
 
 ```bash
 docker version
@@ -379,7 +379,7 @@ docker run hello-world
 
 Wenn die Begrüßung läuft: fertig. Glückwunsch, du hast Docker Engine auf Linux installiert.
 
-### Fedora / RHEL / Rocky / AlmaLinux – Kurzanleitung
+### Fedora / RHEL / Rocky / AlmaLinux: Kurzanleitung
 
 Für RPM-basierte Distributionen nutzt du `dnf` statt `apt`:
 
@@ -453,9 +453,9 @@ sudo usermod -aG docker $USER
 
 ## Alternativen zu Docker Desktop
 
-Falls du Docker Desktop nicht installieren kannst oder willst (Lizenz, Performance, Vorliebe), hier die wichtigsten Alternativen. **Die CLI bleibt jeweils `docker` – nur die Engine darunter ist anders.**
+Falls du Docker Desktop nicht installieren kannst oder willst (Lizenz, Performance, Vorliebe), hier die wichtigsten Alternativen. **Die CLI bleibt jeweils `docker`, nur die Engine darunter ist anders.**
 
-??? info "OrbStack (macOS) – schnell und Mac-nativ"
+??? info "OrbStack (macOS), schnell und Mac-nativ"
     <https://orbstack.dev/>
 
     - Nur für macOS.
@@ -464,16 +464,16 @@ Falls du Docker Desktop nicht installieren kannst oder willst (Lizenz, Performan
     - Installation: DMG laden, in den Programme-Ordner ziehen, starten.
     - Der Befehl `docker` funktioniert danach wie gewohnt.
 
-??? info "Colima (macOS, Linux) – Open Source, CLI-first"
+??? info "Colima (macOS, Linux). Open Source, CLI-first"
     <https://github.com/abiosoft/colima>
 
     - Open Source, schlanke CLI-Lösung auf Basis von Lima (Mac-VM für Linux) und containerd.
     - Installation auf Mac: `brew install colima`
     - Start: `colima start`
     - Danach `docker`-Befehle wie gewohnt.
-    - Keine GUI – für Terminal-Menschen perfekt, für GUI-Freunde nicht die erste Wahl.
+    - Keine GUI, für Terminal-Menschen perfekt, für GUI-Freunde nicht die erste Wahl.
 
-??? info "Podman Desktop – Red Hats Alternative"
+??? info "Podman Desktop. Red Hats Alternative"
     <https://podman-desktop.io/>
 
     - Cross-Platform (Mac, Windows, Linux).
@@ -481,7 +481,7 @@ Falls du Docker Desktop nicht installieren kannst oder willst (Lizenz, Performan
     - Nutzt Podman als Runtime; Container laufen ohne zentralen Daemon.
     - Alias für `docker`-Befehle möglich: `alias docker=podman`
 
-??? info "Rancher Desktop – K8s built-in"
+??? info "Rancher Desktop. K8s built-in"
     <https://rancherdesktop.io/>
 
     - Open Source, SUSE.
@@ -494,7 +494,7 @@ Falls du Docker Desktop nicht installieren kannst oder willst (Lizenz, Performan
     - **Firmen mit strengen Lizenz-Vorgaben:** Podman Desktop oder Rancher Desktop
     - **Kubernetes-Lernende:** Rancher Desktop
 
-    Für diesen Kurs ist jede dieser Alternativen fein – alle verstehen `docker run`, `docker build`, `docker ps` usw.
+    Für diesen Kurs ist jede dieser Alternativen fein, alle verstehen `docker run`, `docker build`, `docker ps` usw.
 
 ---
 
@@ -513,6 +513,6 @@ Hakt es irgendwo? Das entsprechende Abschnitt-Troubleshooting oben durchgehen, o
 
 ## Danach weiterlesen
 
-- [Erste Schritte mit Docker](erste-schritte.md) – die ersten Container starten
-- [Dockerfile – Grundlagen](dockerfile-grundlagen.md) – eigene Images bauen
-- [Stolpersteine](stolpersteine.md) – wenn es doch mal hakt
+- [Erste Schritte mit Docker](erste-schritte.md): die ersten Container starten
+- [Dockerfile. Grundlagen](dockerfile-grundlagen.md): eigene Images bauen
+- [Stolpersteine](stolpersteine.md): wenn es doch mal hakt

@@ -1,9 +1,9 @@
 ---
-title: "Dockerfile – Grundlagen"
+title: "Dockerfile. Grundlagen"
 description: "Die wichtigsten Dockerfile-Instruktionen (FROM, WORKDIR, COPY, RUN, CMD) mit klaren Beispielen und einer soliden Erklärung."
 ---
 
-# Dockerfile – Grundlagen
+# Dockerfile: Grundlagen
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
@@ -17,13 +17,13 @@ description: "Die wichtigsten Dockerfile-Instruktionen (FROM, WORKDIR, COPY, RUN
 
 ## Warum das wichtig ist
 
-Bisher haben wir fertige Images verwendet. Das reicht nur so weit, wie jemand anderes das Image gebaut hat, was wir brauchen. Sobald du **eigene Anwendungen** in Container stecken willst, brauchst du ein **Dockerfile** – das Rezept, nach dem ein Image gebaut wird.
+Bisher haben wir fertige Images verwendet. Das reicht nur so weit, wie jemand anderes das Image gebaut hat, was wir brauchen. Sobald du **eigene Anwendungen** in Container stecken willst, brauchst du ein **Dockerfile**, das Rezept, nach dem ein Image gebaut wird.
 
 ---
 
 ## Was ist ein Dockerfile?
 
-Ein **Dockerfile** ist eine Textdatei mit Anweisungen, wie ein Image gebaut werden soll. Der Dateiname ist exakt so: `Dockerfile` – ohne Endung. Docker liest diese Datei von oben nach unten und erzeugt Schritt für Schritt ein Image.
+Ein **Dockerfile** ist eine Textdatei mit Anweisungen, wie ein Image gebaut werden soll. Der Dateiname ist exakt so: `Dockerfile`, ohne Endung. Docker liest diese Datei von oben nach unten und erzeugt Schritt für Schritt ein Image.
 
 ---
 
@@ -42,10 +42,10 @@ CMD ["python", "app.py"]
 
 Vier Zeilen. Was passiert hier?
 
-1. **`FROM python:3.12-slim`** – nimm das offizielle Python-3.12-Image (Slim-Variante, etwa 160 MB) als Basis.
-2. **`WORKDIR /app`** – setze das Arbeitsverzeichnis im Image auf `/app`. Wenn der Ordner nicht existiert, wird er angelegt.
-3. **`COPY app.py .`** – kopiere die Datei `app.py` vom Host (aus dem Build-Kontext) ins aktuelle Arbeitsverzeichnis des Images (also `/app`).
-4. **`CMD ["python", "app.py"]`** – wenn aus diesem Image ein Container gestartet wird, führe diesen Befehl aus.
+1. **`FROM python:3.12-slim`**, nimm das offizielle Python-3.12-Image (Slim-Variante, etwa 160 MB) als Basis.
+2. **`WORKDIR /app`**, setze das Arbeitsverzeichnis im Image auf `/app`. Wenn der Ordner nicht existiert, wird er angelegt.
+3. **`COPY app.py .`**, kopiere die Datei `app.py` vom Host (aus dem Build-Kontext) ins aktuelle Arbeitsverzeichnis des Images (also `/app`).
+4. **`CMD ["python", "app.py"]`**, wenn aus diesem Image ein Container gestartet wird, führe diesen Befehl aus.
 
 Das war’s. Dieses Dockerfile ergibt ein lauffähiges Image.
 
@@ -53,7 +53,7 @@ Das war’s. Dieses Dockerfile ergibt ein lauffähiges Image.
 
 ## Die wichtigsten Instruktionen
 
-### `FROM` – die Basis
+### `FROM`: die Basis
 
 Jedes Dockerfile **muss** mit `FROM` anfangen. Es legt fest, auf welchem Image du aufbaust:
 
@@ -62,10 +62,10 @@ FROM nginx:1.27-alpine
 ```
 
 - Typische Basisimages: `ubuntu`, `debian`, `alpine`, `python`, `node`, `openjdk`, `golang`.
-- Die **Alpine-Varianten** sind sehr klein (10–30 MB), dafür fehlen viele Tools und einige Pakete verhalten sich anders.
-- Wenn du **wirklich bei Null** anfangen willst: `FROM scratch` – ein leeres Image ohne Dateisystem. Nur für sehr spezielle Fälle.
+- Die **Alpine-Varianten** sind sehr klein (10 bis 30 MB), dafür fehlen viele Tools und einige Pakete verhalten sich anders.
+- Wenn du **wirklich bei Null** anfangen willst: `FROM scratch`, ein leeres Image ohne Dateisystem. Nur für sehr spezielle Fälle.
 
-### `WORKDIR` – das Arbeitsverzeichnis
+### `WORKDIR`: das Arbeitsverzeichnis
 
 ```dockerfile
 WORKDIR /app
@@ -77,7 +77,7 @@ WORKDIR /app
 
 Faustregel: das erste Mal absoluten Pfad, danach relativ.
 
-### `COPY` – Dateien ins Image bringen
+### `COPY`: Dateien ins Image bringen
 
 ```dockerfile
 COPY app.py .
@@ -89,18 +89,18 @@ COPY requirements.txt .
 - Zweiter Parameter: **Ziel im Image**.
 - Der Ziel-Pfad ist relativ zu `WORKDIR`, wenn er mit `.` oder `./` anfängt.
 
-??? note "`COPY` vs. `ADD` – wann braucht man `ADD`?"
+??? note "`COPY` vs. `ADD`, wann braucht man `ADD`?"
     Beide Instruktionen kopieren Dateien ins Image. Der Unterschied:
 
     | Instruktion | Was sie zusätzlich kann |
     |-------------|-------------------------|
-    | `COPY app.py .` | nichts Besonderes – nur kopieren |
+    | `COPY app.py .` | nichts Besonderes, nur kopieren |
     | `ADD archive.tar.gz .` | entpackt das Tar-Archiv automatisch |
     | `ADD https://example.com/file.txt .` | lädt direkt von einer URL |
 
-    **Best Practice: nimm `COPY`**, es sei denn du brauchst explizit eine der `ADD`-Sonderfähigkeiten. `COPY` macht sichtbar, was passiert – `ADD` versteckt Tar-/Download-Logik. Für URLs ist es sowieso robuster, `RUN curl -fsSL https://…` zu schreiben, weil du Fehler behandeln kannst.
+    **Best Practice: nimm `COPY`**, es sei denn du brauchst explizit eine der `ADD`-Sonderfähigkeiten. `COPY` macht sichtbar, was passiert, `ADD` versteckt Tar-/Download-Logik. Für URLs ist es sowieso robuster, `RUN curl -fsSL https://…` zu schreiben, weil du Fehler behandeln kannst.
 
-### `RUN` – beim Build ausführen
+### `RUN`: beim Build ausführen
 
 ```dockerfile
 RUN apt-get update && apt-get install -y curl
@@ -114,21 +114,21 @@ RUN pip install --no-cache-dir -r requirements.txt
 !!! tip "Layer-Optimierung"
     Jedes `RUN` erzeugt einen eigenen Layer. Viele kurze `RUN`-Zeilen werden oft in **einen einzigen Befehl** mit `&&` zusammengefasst, um Layer zu sparen. Das macht Images kleiner.
 
-    **Schlecht** – drei Layer, Paket-Index bleibt oft liegen:
+    **Schlecht**, drei Layer, Paket-Index bleibt oft liegen:
     ```dockerfile
     RUN apt-get update
     RUN apt-get install -y curl
     RUN apt-get install -y git
     ```
 
-    **Besser** – ein Layer, Cache aufgeräumt:
+    **Besser**, ein Layer, Cache aufgeräumt:
     ```dockerfile
     RUN apt-get update \
         && apt-get install -y --no-install-recommends curl git \
         && rm -rf /var/lib/apt/lists/*
     ```
 
-### `CMD` – Default-Befehl beim Start
+### `CMD`: Default-Befehl beim Start
 
 ```dockerfile
 CMD ["python", "app.py"]
@@ -140,14 +140,14 @@ CMD ["python", "app.py"]
 
 **Formen von CMD:**
 
-- `CMD ["python", "app.py"]` – Exec-Form (empfohlen, JSON-Array)
-- `CMD python app.py` – Shell-Form (läuft in einer `/bin/sh -c`-Shell)
+- `CMD ["python", "app.py"]`. Exec-Form (empfohlen, JSON-Array)
+- `CMD python app.py`. Shell-Form (läuft in einer `/bin/sh -c`-Shell)
 
 Die Exec-Form ist die bessere Wahl, weil sie sauber mit Signalen umgeht (z.B. `Ctrl+C`, `docker stop`).
 
 Ein Dockerfile darf nur **eine `CMD`-Zeile** haben. Wenn du mehrere schreibst, zählt nur die letzte.
 
-### `EXPOSE` – dokumentieren, welcher Port offen ist
+### `EXPOSE`: dokumentieren, welcher Port offen ist
 
 ```dockerfile
 EXPOSE 80
@@ -157,7 +157,7 @@ EXPOSE 80
 - Es signalisiert Entwicklern und Orchestrierungs-Tools: „Dieses Image hört auf Port 80."
 - Die eigentliche Freigabe machst du beim Start mit `-p` (siehe nächste Seiten).
 
-### `ENV` – Umgebungsvariablen
+### `ENV`: Umgebungsvariablen
 
 ```dockerfile
 ENV APP_PORT=8080
@@ -203,7 +203,7 @@ CMD ["python", "app.py"]
 
 **Warum `requirements.txt` vor `app.py` kopieren?**
 
-Docker cached jeden Layer. Wenn du deine `app.py` änderst, aber `requirements.txt` gleich bleibt, wird der (teure) `pip install`-Layer aus dem Cache genommen – der Build dauert Sekunden statt Minuten. Ändert sich dagegen `requirements.txt`, muss `pip install` neu laufen, aber das ist dann auch korrekt.
+Docker cached jeden Layer. Wenn du deine `app.py` änderst, aber `requirements.txt` gleich bleibt, wird der (teure) `pip install`-Layer aus dem Cache genommen, der Build dauert Sekunden statt Minuten. Ändert sich dagegen `requirements.txt`, muss `pip install` neu laufen, aber das ist dann auch korrekt.
 
 !!! tip "Reihenfolge = Cache-Strategie"
     Lege selten geänderte Dinge (Abhängigkeiten) **vor** oft geänderte Dinge (Quellcode). Das spart dir täglich viele Minuten.
@@ -265,11 +265,11 @@ docker run -p 8000:8000 mein-bild:1.0
 
 Das Dockerfile-Universum ist groß. Für den Einstieg reicht das, was oben steht. Was wir **bewusst auslassen** (und sich für eine Vertiefung eignen):
 
-- **`ENTRYPOINT`** – verwandt mit `CMD`, aber mit anderem Verhalten. Für Anfänger oft verwirrend.
-- **Multi-Stage-Builds** – Images kleiner machen, indem Build-Tools und Laufzeit-Umgebung getrennt werden.
-- **`ARG`** – Build-Zeit-Variablen.
-- **`HEALTHCHECK`** – automatische Gesundheitsprüfung.
-- **`USER`** – als unprivilegierter Benutzer laufen (sinnvoll für Produktion).
+- **`ENTRYPOINT`**, verwandt mit `CMD`, aber mit anderem Verhalten. Für Anfänger oft verwirrend.
+- **Multi-Stage-Builds**. Images kleiner machen, indem Build-Tools und Laufzeit-Umgebung getrennt werden.
+- **`ARG`**. Build-Zeit-Variablen.
+- **`HEALTHCHECK`**, automatische Gesundheitsprüfung.
+- **`USER`**, als unprivilegierter Benutzer laufen (sinnvoll für Produktion).
 
 Alles Themen für die späteren Kapitel. Für den Anfang reichen `FROM`, `WORKDIR`, `COPY`, `RUN`, `CMD`, `EXPOSE` und `ENV`, um ernsthaft loszulegen.
 
@@ -284,5 +284,5 @@ Alles Themen für die späteren Kapitel. Für den Anfang reichen `FROM`, `WORKDI
 
 ## Weiterlesen
 
-- [Erste Schritte](erste-schritte.md) – wir starten jetzt wirklich Container
-- [Praxis: eigenes Image](praxis-eigenes-image.md) – Dockerfile live anwenden
+- [Erste Schritte](erste-schritte.md): wir starten jetzt wirklich Container
+- [Praxis: eigenes Image](praxis-eigenes-image.md): Dockerfile live anwenden

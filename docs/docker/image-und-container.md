@@ -30,12 +30,12 @@ Ein **Image** ist eine **schreibgeschützte Vorlage** für einen Container. Es e
 - die **Anwendung selbst** (oder Server-Software, Datenbank, was auch immer)
 - **Metadaten** wie „welcher Befehl soll beim Start ausgeführt werden?"
 
-Du kannst dir ein Image vorstellen wie eine **ausgeschaltete Festplatte** – alles ist drauf, aber nichts läuft.
+Du kannst dir ein Image vorstellen wie eine **ausgeschaltete Festplatte**, alles ist drauf, aber nichts läuft.
 
 ### Woher kommen Images?
 
 1. **Von einer Registry** (z.B. Docker Hub) heruntergeladen, siehe [Registry und Docker Hub](registry-und-dockerhub.md).
-2. **Selbst gebaut** aus einem **Dockerfile**, siehe [Dockerfile – Grundlagen](dockerfile-grundlagen.md).
+2. **Selbst gebaut** aus einem **Dockerfile**, siehe [Dockerfile. Grundlagen](dockerfile-grundlagen.md).
 
 Beide Wege führen zum selben Ergebnis: ein Image, das lokal bei dir liegt.
 
@@ -58,8 +58,8 @@ Wichtig:
 !!! tip "Bauplan und Haus"
     - Ein **Image** ist wie ein **Bauplan** (die PDF, unveränderlich).
     - Ein **Container** ist ein **gebautes Haus** nach diesem Bauplan.
-    - Nach **einem** Bauplan kannst du beliebig viele Häuser bauen – sie stehen unabhängig voneinander, aber sie sehen innen zunächst gleich aus.
-    - Das Haus kann **ändern**, z.B. eine Wand farbig streichen – der Bauplan ändert sich dadurch nicht.
+    - Nach **einem** Bauplan kannst du beliebig viele Häuser bauen, sie stehen unabhängig voneinander, aber sie sehen innen zunächst gleich aus.
+    - Das Haus kann **ändern**, z.B. eine Wand farbig streichen, der Bauplan ändert sich dadurch nicht.
     - Reißt du das Haus ab (`docker rm`), bleibt der Bauplan.
 
 Diese Analogie sitzt meistens nach einmal Hören.
@@ -68,7 +68,7 @@ Diese Analogie sitzt meistens nach einmal Hören.
 
 ## Wie Images intern aufgebaut sind: Layer
 
-Ein Image ist nicht monolithisch. Es besteht aus **Layern** – jede Schicht ist ein **Differenz-Snapshot** des Dateisystems, gegenüber dem vorhergehenden Layer.
+Ein Image ist nicht monolithisch. Es besteht aus **Layern**, jede Schicht ist ein **Differenz-Snapshot** des Dateisystems, gegenüber dem vorhergehenden Layer.
 
 Beispiel für das offizielle `python:3.12`-Image (vereinfacht):
 
@@ -83,7 +83,7 @@ Jeder Layer ist **unveränderlich** (read-only). Zusammen ergeben sie das Image.
 
 ### Warum Layer? Zwei Gründe.
 
-**1. Wiederverwendung.** Viele Images teilen sich ihre unteren Layer. Wenn du z.B. zwei Python-Images lokal hast, die beide auf Debian 12 basieren, liegt der Debian-Layer nur **einmal** auf deiner Festplatte – er wird von beiden Images referenziert.
+**1. Wiederverwendung.** Viele Images teilen sich ihre unteren Layer. Wenn du z.B. zwei Python-Images lokal hast, die beide auf Debian 12 basieren, liegt der Debian-Layer nur **einmal** auf deiner Festplatte, er wird von beiden Images referenziert.
 
 **2. Cache beim Build.** Beim Bauen eines eigenen Images cached Docker jeden Layer. Änderst du nur den obersten Layer (z.B. deinen eigenen App-Code), werden die darunterliegenden Layer nicht neu gebaut. Das spart enorm Zeit.
 
@@ -114,7 +114,7 @@ Jede Zeile ist ein Layer. Die Reihenfolge entspricht den Instruktionen im Docker
 Wenn ein Container startet, kriegt er **einen zusätzlichen beschreibbaren Top-Layer**:
 
 <div class="layer-stapel">
-  <div class="ls-hot">Writable Container-Layer <span class="ls-sub">der einzige schreibbare Layer – existiert pro Container</span></div>
+  <div class="ls-hot">Writable Container-Layer <span class="ls-sub">der einzige schreibbare Layer, existiert pro Container</span></div>
   <div>Image Layer 4 (read-only)</div>
   <div>Image Layer 3 (read-only)</div>
   <div>Image Layer 2 (read-only)</div>
@@ -134,8 +134,8 @@ Der beschreibbare Top-Layer wird weggeworfen. Alles, was der Container geschrieb
 
 Willst du Daten behalten, die ein Container erzeugt (z.B. eine Datenbank), musst du sie **außerhalb des Containers** speichern. Dafür gibt es:
 
-- **Volumes** – von Docker verwaltet, leben länger als Container
-- **Bind Mounts** – direkt ein Host-Verzeichnis in den Container einhängen
+- **Volumes**, von Docker verwaltet, leben länger als Container
+- **Bind Mounts**, direkt ein Host-Verzeichnis in den Container einhängen
 
 Diese Themen schauen wir uns im Aufbau-Kapitel an. Merke dir hier: **Was nur im Container-Layer lebt, ist beim nächsten `docker rm` weg.**
 
@@ -157,7 +157,7 @@ flowchart TB
 ```
 
 !!! note "Zusätzlicher Übergang"
-    Aus `running` geht's auch nach `stopped`, wenn der **Hauptprozess des Containers selbst endet** – z.B. ein Skript, das durchläuft und beendet.
+    Aus `running` geht's auch nach `stopped`, wenn der **Hauptprozess des Containers selbst endet**, z.B. ein Skript, das durchläuft und beendet.
 
 Der Weg von „Image" zu „laufender Container" führt praktisch immer über `docker run`. Das ist eine **Kombination** aus `docker create` (Container erzeugen) + `docker start` (Container starten).
 
@@ -184,5 +184,5 @@ Die Herkunftsadresse zerlegen wir auf der nächsten Seite.
 
 ## Weiterlesen
 
-- [Registry und Docker Hub](registry-und-dockerhub.md) – woher Images kommen
-- [Dockerfile – Grundlagen](dockerfile-grundlagen.md) – wie du eigene Images baust
+- [Registry und Docker Hub](registry-und-dockerhub.md): woher Images kommen
+- [Dockerfile. Grundlagen](dockerfile-grundlagen.md): wie du eigene Images baust

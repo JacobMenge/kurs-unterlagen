@@ -1,21 +1,21 @@
 ---
 title: "Übungen"
-description: "Eigene Hands-on-Übungen zum Docker-Einführungs-Block – vier Schwierigkeitsgrade vom Einsteiger bis zur Challenge."
+description: "Eigene Hands-on-Übungen zum Docker-Einführungs-Block, vier Schwierigkeitsgrade vom Einsteiger bis zur Challenge."
 ---
 
-# Übungen – Docker-Einführung
+# Übungen: Docker-Einführung
 
 Hier sind Übungen, die du selbst ausprobieren kannst, um Docker zu vertiefen. Arbeite dich von leicht nach schwer.
 
 !!! abstract "Die vier Stufen"
-    - 🟢 **Einsteiger** – jeder Schritt im Detail erklärt, inklusive Kontext (was ist der Dienst, was macht er)
-    - 🟡 **Mittel** – du kennst die Befehle, kombinierst sie
-    - 🔴 **Fortgeschritten** – Hinweise statt Rezepte
-    - 🏆 **Challenge** – Aufgabe ohne Lösung. Lösung aufklappbar
+    - 🟢 **Einsteiger**, jeder Schritt im Detail erklärt, inklusive Kontext (was ist der Dienst, was macht er)
+    - 🟡 **Mittel**, du kennst die Befehle, kombinierst sie
+    - 🔴 **Fortgeschritten**. Hinweise statt Rezepte
+    - 🏆 **Challenge**. Aufgabe ohne Lösung. Lösung aufklappbar
 
 ## Voraussetzung für alle Übungen
 
-- **Docker installiert und gestartet** – siehe [Docker installieren](installation.md).
+- **Docker installiert und gestartet**, siehe [Docker installieren](installation.md).
 - Im Terminal klappt:
     ```bash
     docker version
@@ -26,20 +26,20 @@ Hier sind Übungen, die du selbst ausprobieren kannst, um Docker zu vertiefen. A
 
 ## 🟢 Einsteiger
 
-### Übung 1 – hello-world und erster nginx
+### Übung 1: hello-world und erster nginx
 
 !!! info "Was du lernst"
     - Was passiert bei `docker run`
     - Der erste eigene Webserver in einem Container
     - Der Unterschied zwischen Image und Container
 
-#### Worum geht's – ganz einfach erklärt
+#### Worum geht's: ganz einfach erklärt
 
-Ein **Container** ist wie eine winzige, abgeschlossene Kiste auf deinem Rechner, in der eine Anwendung läuft. Die Kiste bringt alles mit, was die Anwendung braucht – Bibliotheken, Konfiguration, Dateien. Du kannst sie starten, stoppen, löschen.
+Ein **Container** ist wie eine winzige, abgeschlossene Kiste auf deinem Rechner, in der eine Anwendung läuft. Die Kiste bringt alles mit, was die Anwendung braucht. Bibliotheken, Konfiguration, Dateien. Du kannst sie starten, stoppen, löschen.
 
-Ein **Image** ist die Vorlage für eine solche Kiste. `nginx` ist z.B. ein Image, das einen **Webserver** enthält – das ist ein Programm, das im Browser aufgerufen werden kann und dann Seiten ausliefert. `hello-world` ist ein winziges Image, das nur „Hallo" sagt und dann beendet wird – perfekt zum Testen.
+Ein **Image** ist die Vorlage für eine solche Kiste. `nginx` ist z.B. ein Image, das einen **Webserver** enthält, das ist ein Programm, das im Browser aufgerufen werden kann und dann Seiten ausliefert. `hello-world` ist ein winziges Image, das nur „Hallo" sagt und dann beendet wird, perfekt zum Testen.
 
-#### Schritt 1 – hello-world
+#### Schritt 1: hello-world
 
 ```bash
 docker run hello-world
@@ -54,23 +54,23 @@ Was passiert Schritt für Schritt:
 
 Du siehst eine Begrüßung mit der Zeile „Hello from Docker!".
 
-#### Schritt 2 – Container-Zustand anschauen
+#### Schritt 2: Container-Zustand anschauen
 
 Laufende Container anzeigen:
 ```bash
 docker ps
 ```
 
-Wahrscheinlich leer – hello-world ist ja schon beendet.
+Wahrscheinlich leer, hello-world ist ja schon beendet.
 
 **Alle** Container (auch beendete):
 ```bash
 docker ps -a
 ```
 
-Da siehst du den `hello-world`-Container mit `Exited (0)` – das heißt, er hat sauber beendet.
+Da siehst du den `hello-world`-Container mit `Exited (0)`, das heißt, er hat sauber beendet.
 
-#### Schritt 3 – nginx starten
+#### Schritt 3: nginx starten
 
 Jetzt etwas Nützlicheres:
 
@@ -82,14 +82,14 @@ Die Flags erklärt:
 
 | Flag | Bedeutung |
 |------|-----------|
-| `-d` | „Detached" – im Hintergrund, nicht im Terminal |
+| `-d` | „Detached", im Hintergrund, nicht im Terminal |
 | `--name meinweb` | Fester Name statt zufälliger |
 | `-p 8080:80` | Port-Mapping: Host-Port 8080 → Container-Port 80 |
 | `nginx` | Image-Name (holt `nginx:latest` von Docker Hub) |
 
 **Port-Mapping:** Der nginx-Webserver in der Kiste hört auf Port 80. Docker leitet Port 8080 deines Rechners an Port 80 der Kiste weiter.
 
-#### Schritt 4 – Im Browser öffnen
+#### Schritt 4: Im Browser öffnen
 
 Öffne im Browser: <http://localhost:8080>
 
@@ -98,7 +98,7 @@ Du siehst die nginx-Standardseite: **„Welcome to nginx!"**.
 !!! success "Erkläre dir selbst, was gerade passiert"
     Dein Browser hat eine Anfrage an deinen Rechner (Port 8080) geschickt. Docker hat die Anfrage an den Container weitergeleitet. Dort hat nginx die Anfrage beantwortet und eine HTML-Seite zurückgeschickt. Ende.
 
-#### Schritt 5 – In den Container reinschauen
+#### Schritt 5: In den Container reinschauen
 
 ```bash
 docker exec -it meinweb bash
@@ -121,22 +121,22 @@ exit
 
 `exit` bringt dich zurück zum Host.
 
-#### Schritt 6 – Logs anschauen
+#### Schritt 6: Logs anschauen
 
 ```bash
 docker logs meinweb
 ```
 
-Zeigt alles, was nginx seit dem Start auf Standardausgabe geschrieben hat – vor allem Zugriffs-Logs, wenn du im Browser was geklickt hast.
+Zeigt alles, was nginx seit dem Start auf Standardausgabe geschrieben hat, vor allem Zugriffs-Logs, wenn du im Browser was geklickt hast.
 
-#### Schritt 7 – Stoppen und aufräumen
+#### Schritt 7: Stoppen und aufräumen
 
 ```bash
 docker stop meinweb
 docker rm meinweb
 ```
 
-Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg – die Befehle dafür unterscheiden sich pro Shell:
+Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg, die Befehle dafür unterscheiden sich pro Shell:
 
 === "macOS / Linux"
     ```bash
@@ -158,7 +158,7 @@ Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg – die
 
 ---
 
-### Übung 2 – Eigene HTML-Seite im Container
+### Übung 2: Eigene HTML-Seite im Container
 
 !!! info "Was du lernst"
     - Bind Mount: eigene Dateien in einen Container „reinhängen"
@@ -228,11 +228,11 @@ Du willst **nicht** die nginx-Standardseite zeigen, sondern deine eigene HTML-Se
           nginx
         ```
 
-    - `-v "<hostpfad>:/usr/share/nginx/html:ro"` – bindet deinen aktuellen Ordner in den Container ein, genau dort, wo nginx seine HTML-Dateien sucht. `:ro` = read-only.
+    - `-v "<hostpfad>:/usr/share/nginx/html:ro"`, bindet deinen aktuellen Ordner in den Container ein, genau dort, wo nginx seine HTML-Dateien sucht. `:ro` = read-only.
 
 4. Browser: <http://localhost:8080>. Du siehst **deine eigene** Seite.
 
-5. **Live-Edit:** Ändere `index.html` in deinem Editor, speichere, lade den Browser neu – die Änderung ist sofort da. Das ist der Bind-Mount-Charme.
+5. **Live-Edit:** Ändere `index.html` in deinem Editor, speichere, lade den Browser neu, die Änderung ist sofort da. Das ist der Bind-Mount-Charme.
 
 6. Aufräumen:
     ```bash
@@ -244,7 +244,7 @@ Du willst **nicht** die nginx-Standardseite zeigen, sondern deine eigene HTML-Se
 
 ## 🟡 Mittel
 
-### Übung 3 – Zwei Webserver gleichzeitig
+### Übung 3: Zwei Webserver gleichzeitig
 
 !!! info "Was du lernst"
     - Mehrere Container parallel auf unterschiedlichen Ports
@@ -282,7 +282,7 @@ docker rm nginx httpd
 
 ---
 
-### Übung 4 – Dein erstes eigenes Image bauen
+### Übung 4: Dein erstes eigenes Image bauen
 
 !!! info "Was du lernst"
     - Ein `Dockerfile` schreiben
@@ -291,7 +291,7 @@ docker rm nginx httpd
 
 #### Aufgabe
 
-Baue ein Image, das einen **personalisierten** nginx-Server startet – deine HTML-Seite ist dabei **im Image**, nicht als Mount. Dadurch kannst du das Image weitergeben.
+Baue ein Image, das einen **personalisierten** nginx-Server startet, deine HTML-Seite ist dabei **im Image**, nicht als Mount. Dadurch kannst du das Image weitergeben.
 
 #### Schritte (Rahmen)
 
@@ -320,7 +320,7 @@ Baue ein Image, das einen **personalisierten** nginx-Server startet – deine HT
 
 ## 🔴 Fortgeschritten
 
-### Übung 5 – Ein nginx-Container liefert mehrere Seiten aus
+### Übung 5: Ein nginx-Container liefert mehrere Seiten aus
 
 !!! info "Was du lernst"
     - Dateisystem-Struktur innerhalb eines Web-Verzeichnisses
@@ -350,15 +350,15 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
 
 ## 🏆 Challenge
 
-### Challenge – Dein Visitenkarten-Container
+### Challenge: Dein Visitenkarten-Container
 
 !!! abstract "Aufgabe"
     Erstelle ein eigenes Image namens `visitenkarte:1.0`, das einen nginx-Webserver mit folgendem Inhalt enthält:
 
-    - `/` – eine Startseite mit deinem Namen, Ort, Hobbies und Links zu den Unterseiten
-    - `/cv.html` – ein Mini-Lebenslauf (3 Stationen reichen)
-    - `/projekte.html` – eine Liste von 2–3 erdachten Projekten mit Beschreibung
-    - `/kontakt.html` – Kontakt-Infos (darfst du erfinden)
+    - `/`, eine Startseite mit deinem Namen, Ort, Hobbies und Links zu den Unterseiten
+    - `/cv.html`, ein Mini-Lebenslauf (3 Stationen reichen)
+    - `/projekte.html`, eine Liste von 2 bis 3 erdachten Projekten mit Beschreibung
+    - `/kontakt.html`. Kontakt-Infos (darfst du erfinden)
 
     Bonus-Anforderungen:
 
@@ -370,7 +370,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
 
 ??? success "Musterlösung"
 
-    ### Schritt 1 – Projektordner anlegen
+    ### Schritt 1. Projektordner anlegen
 
     === "macOS / Linux"
         ```bash
@@ -389,14 +389,14 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
 
         **macOS / Linux**: mit einem Editor (VSCode, nano, vim) oder per `cat > dateiname.html << 'EOF'` / Inhalt / `EOF`.
 
-        **Windows**: Dateien mit einem Editor (VSCode, Notepad, Notepad++) erstellen und den Inhalt aus den Code-Blöcken hineinkopieren. `cat > ... << 'EOF'` funktioniert in PowerShell **nicht** – nutze die Editor-Variante. Alternativ in PowerShell:
+        **Windows**: Dateien mit einem Editor (VSCode, Notepad, Notepad++) erstellen und den Inhalt aus den Code-Blöcken hineinkopieren. `cat > ... << 'EOF'` funktioniert in PowerShell **nicht**, nutze die Editor-Variante. Alternativ in PowerShell:
         ```powershell
         @"
         <Dateiinhalt hier>
         "@ | Set-Content dateiname.html
         ```
 
-    ### Schritt 2 – Gemeinsames CSS
+    ### Schritt 2. Gemeinsames CSS
 
     Erzeuge eine Datei `style.css`:
 
@@ -416,14 +416,14 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     hr { border-color: #1f4a2b; }
     ```
 
-    ### Schritt 3 – Startseite `index.html`
+    ### Schritt 3. Startseite `index.html`
 
     ```html
     <!DOCTYPE html>
     <html lang="de">
     <head>
       <meta charset="UTF-8">
-      <title>Visitenkarte – Max Mustermann</title>
+      <title>Visitenkarte von Max Mustermann</title>
       <link rel="stylesheet" href="style.css">
     </head>
     <body>
@@ -440,7 +440,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </html>
     ```
 
-    ### Schritt 4 – `cv.html`
+    ### Schritt 4, `cv.html`
 
     ```html
     <!DOCTYPE html>
@@ -462,7 +462,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </html>
     ```
 
-    ### Schritt 5 – `projekte.html`
+    ### Schritt 5, `projekte.html`
 
     ```html
     <!DOCTYPE html>
@@ -483,7 +483,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </html>
     ```
 
-    ### Schritt 6 – `kontakt.html`
+    ### Schritt 6, `kontakt.html`
 
     ```html
     <!DOCTYPE html>
@@ -501,25 +501,25 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </html>
     ```
 
-    ### Schritt 7 – `Dockerfile`
+    ### Schritt 7, `Dockerfile`
 
     ```dockerfile
     FROM nginx:alpine
     COPY index.html cv.html projekte.html kontakt.html style.css /usr/share/nginx/html/
     ```
 
-    ### Schritt 8 – Bauen und starten
+    ### Schritt 8. Bauen und starten
 
     ```bash
     docker build -t visitenkarte:1.0 .
     docker run -d --name meine-visitenkarte -p 9000:80 visitenkarte:1.0
     ```
 
-    ### Schritt 9 – Im Browser testen
+    ### Schritt 9. Im Browser testen
 
-    <http://localhost:9000> – Startseite mit Links zu allen Unterseiten.
+    <http://localhost:9000>. Startseite mit Links zu allen Unterseiten.
 
-    ### Schritt 10 – Aufräumen
+    ### Schritt 10. Aufräumen
 
     ```bash
     docker stop meine-visitenkarte
@@ -533,5 +533,5 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
 
 ## Weiter mit
 
-- [Docker-Aufbau](../docker-aufbau/index.md) – Volumes, ENV, Netzwerke, mit eigenen Übungen
-- [Stolpersteine Docker](stolpersteine.md) – wenn was schiefläuft
+- [Docker-Aufbau](../docker-aufbau/index.md): Volumes, ENV, Netzwerke, mit eigenen Übungen
+- [Stolpersteine Docker](stolpersteine.md): wenn was schiefläuft
