@@ -48,13 +48,27 @@ Wir arbeiten in einem frischen Ordner, damit der Build-Kontext klar ist:
     ```
 
 !!! note "Windows-Hinweis"
-    In dieser Anleitung verwenden wir **Unix-Shell-Syntax** (Bash). In Windows PowerShell funktionieren die meisten Befehle (`mkdir`, `cd`, `ls`) ähnlich, weil PowerShell Aliase dafür kennt. Bei komplexeren Konstrukten wie `$(pwd)` oder `docker ps -q | xargs …` zeigen wir die PowerShell-Variante zusätzlich.
+    Alle Befehle auf dieser Seite funktionieren unter macOS, Linux und Windows. Wo sich die Shells unterscheiden, findest du Tabs mit der passenden Variante. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal), nicht die alte Eingabeaufforderung (CMD). Und merke: Befehle, die **im Container** laufen, sind auf allen Systemen gleich, denn im Container steckt immer Linux.
 
 ---
 
 ## Schritt 2: HTML-Seite erstellen
 
-Lege eine Datei namens `index.html` an, z.B. mit `nano index.html` (oder deinem Lieblings-Editor):
+Lege eine Datei namens `index.html` an und öffne sie direkt im Editor:
+
+=== "macOS / Linux"
+    ```bash
+    nano index.html
+    ```
+    Oder ein Editor deiner Wahl, mit VS Code zum Beispiel `code index.html`.
+
+=== "Windows PowerShell"
+    ```powershell
+    notepad index.html
+    ```
+    Notepad fragt, ob es die Datei anlegen soll: **Ja**. Mit VS Code geht auch `code index.html`.
+
+Füge diesen Inhalt ein:
 
 ```html
 <!DOCTYPE html>
@@ -91,7 +105,20 @@ Speichern und schließen.
 
 ## Schritt 3: Dockerfile erstellen
 
-Im **selben Ordner** legst du eine Datei namens `Dockerfile` an, **ohne Endung**, exakt so geschrieben:
+Im **selben Ordner** legst du eine Datei namens `Dockerfile` an, **ohne Endung**:
+
+=== "macOS / Linux"
+    ```bash
+    nano Dockerfile
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    notepad Dockerfile
+    ```
+    Beim Anlegen mit **Ja** bestätigen, dann heißt die Datei wirklich `Dockerfile`. Lege sie **nicht** über „Speichern unter" im Explorer an, denn dabei hängt Windows gern ein unsichtbares `.txt` an und der Build findet die Datei später nicht.
+
+Der Inhalt, exakt so geschrieben:
 
 ```dockerfile
 FROM nginx:alpine
@@ -110,11 +137,17 @@ Mehr muss das Dockerfile nicht. Kein `CMD`, denn das Basis-Image `nginx:alpine` 
 
 ## Schritt 4: Was liegt jetzt im Ordner?
 
-```bash
-ls -la
-```
+=== "macOS / Linux"
+    ```bash
+    ls -l
+    ```
 
-Du solltest sehen:
+=== "Windows PowerShell"
+    ```powershell
+    dir
+    ```
+
+Neben Details je nach System solltest du diese zwei Dateien sehen:
 
 ```text
 Dockerfile
@@ -135,9 +168,22 @@ docker build -t mein-bild:1.0 .
     Der Build findet deine `index.html` nicht.
 
     **Häufige Ursache:** Du bist nicht im richtigen Ordner. Prüfe:
-    ```bash
-    pwd        # bin ich in mein-bild?
-    ls -la     # liegt Dockerfile UND index.html hier?
+
+    === "macOS / Linux"
+        ```bash
+        pwd        # bin ich in mein-bild?
+        ls -l      # liegen Dockerfile UND index.html hier?
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        pwd        # bin ich in mein-bild?
+        dir        # liegen Dockerfile UND index.html hier?
+        ```
+
+    **Zweite Ursache unter Windows:** Die Datei heißt in Wahrheit `Dockerfile.txt`. Dann umbenennen:
+    ```powershell
+    ren Dockerfile.txt Dockerfile
     ```
     Der Punkt am Ende von `docker build -t mein-bild:1.0 .` ist der **Build-Kontext**, also der Ordner, aus dem `COPY` Dateien nimmt.
 
@@ -178,10 +224,10 @@ Erwartete Ausgabe (gekürzt):
 ### Kontrolle
 
 ```bash
-docker images | grep mein-bild
+docker images mein-bild
 ```
 
-Du siehst:
+Der Befehl zeigt nur Images mit diesem Namen und funktioniert in jeder Shell gleich. Du siehst:
 
 ```text
 mein-bild   1.0   abcd1234   5 seconds ago   91.8MB
@@ -320,7 +366,7 @@ docker rmi nginx:alpine
 ERROR: failed to solve: failed to read dockerfile: open ... no such file
 ```
 
-Ursache: du bist nicht im richtigen Ordner. Check mit `pwd` und `ls -la`, ob deine `Dockerfile` wirklich da liegt, wo du gerade bist.
+Ursache eins: Du bist nicht im richtigen Ordner. Check mit `pwd` und `ls -l` (Windows: `dir`), ob deine `Dockerfile` wirklich da liegt, wo du gerade bist. Ursache zwei unter Windows: Die Datei heißt `Dockerfile.txt`, dann hilft `ren Dockerfile.txt Dockerfile`.
 
 ### „port is already allocated"
 
@@ -374,17 +420,40 @@ Mit `exit` kommst du wieder heraus.
 Ändere die Seite **im laufenden Container**:
 
 ```bash
-docker exec spion sh -c 'echo "<h1>Von Hand geaendert</h1>" > /usr/share/nginx/html/index.html'
-curl localhost:8090
+docker exec spion sh -c "echo '<h1>Von Hand geaendert</h1>' > /usr/share/nginx/html/index.html"
 ```
+
+Dann anschauen:
+
+=== "macOS / Linux"
+    ```bash
+    curl localhost:8090
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    curl.exe localhost:8090
+    ```
+    Das `.exe` ist wichtig: Ohne die Endung startet PowerShell nicht das echte curl, sondern seinen eigenen Webbefehl mit ganz anderer Ausgabe.
 
 Deine Änderung ist da. Jetzt der Test:
 
 ```bash
 docker rm -f spion
 docker run -d --name spion -p 8090:80 nginx
-curl localhost:8090
 ```
+
+Und wieder anschauen:
+
+=== "macOS / Linux"
+    ```bash
+    curl localhost:8090
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    curl.exe localhost:8090
+    ```
 
 **Was ist mit deiner Änderung passiert?** Und viel wichtiger: Wo müsste sie liegen, damit sie einen neuen Container überlebt?
 

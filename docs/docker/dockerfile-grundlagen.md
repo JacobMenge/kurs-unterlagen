@@ -250,7 +250,7 @@ was passiert:
 Du kannst das Ergebnis kontrollieren:
 
 ```bash
-docker images | grep mein-bild
+docker images mein-bild
 ```
 
 Und starten:

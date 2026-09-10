@@ -20,6 +20,7 @@ Hier sind Übungen, die du selbst ausprobieren kannst, um Docker zu vertiefen. A
     ```bash
     docker version
     ```
+- **Windows:** Arbeite in der **PowerShell** (im Windows-Terminal), nicht in der alten Eingabeaufforderung (CMD). Wo sich die Shells unterscheiden, haben die Übungen Tabs mit der passenden Variante.
 - **Apple Silicon (M-Macs):** die meisten Übungen nutzen Images mit ARM-Support, laufen also nativ. Falls ein Befehl mal „exec format error" meldet, probier `--platform linux/amd64`.
 
 ---

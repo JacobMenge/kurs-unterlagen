@@ -144,7 +144,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     **Mögliche Ursachen:**
 
     1. **Anwendung hört im Container auf `127.0.0.1` statt auf `0.0.0.0`.** Von außen erreichst du dann die App nicht. Lösung: in der Anwendung auf `0.0.0.0` binden.
-    2. **Firewall auf dem Host** blockiert den Zugriff. Testen: `curl http://localhost:8080` direkt auf dem Host, kommt eine Antwort? Ja → Problem liegt im Browser/Netz. Nein → Container oder Firewall.
+    2. **Firewall auf dem Host** blockiert den Zugriff. Testen: `curl http://localhost:8080` direkt auf dem Host (Windows PowerShell: `curl.exe http://localhost:8080`), kommt eine Antwort? Ja → Problem liegt im Browser/Netz. Nein → Container oder Firewall.
     3. **Docker Desktop auf Mac:** Achtung, `host.docker.internal` ist der Host aus Container-Sicht, `localhost` im Container ist der Container selbst. Im Browser auf dem Host bleibst du bei `localhost:<port>`.
 
 ---
@@ -254,7 +254,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
     **Lösung Schritt für Schritt:**
 
-    1. `ls -la` im Build-Ordner, liegt die Datei wirklich da?
+    1. `ls -l` (Windows: `dir`) im Build-Ordner, liegt die Datei wirklich da? Unter Windows auch prüfen, ob sie in Wahrheit `Dockerfile.txt` heißt, dann `ren Dockerfile.txt Dockerfile`.
     2. `cat .dockerignore`, wird die Datei dort gelistet?
     3. `docker build -t foo .` **muss aus dem Ordner aufgerufen werden, der die Datei UND das `Dockerfile` enthält**. Der Punkt am Ende ist der Build-Kontext.
 
@@ -285,7 +285,8 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     **Lösung:**
 
     ```bash
-    docker stop mein-web && docker rm mein-web
+    docker stop mein-web
+    docker rm mein-web
     docker build -t mein-bild .
     docker run -d --name mein-web -p 9000:80 mein-bild
     ```

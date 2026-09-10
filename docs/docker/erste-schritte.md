@@ -13,6 +13,10 @@ description: "Die ersten Container mit hello-world, nginx und httpd. Schritt fü
     - **Ports gemappt**, **Logs angeschaut**, den Container wieder **gestoppt**
     - denselben Ablauf mit einem **zweiten Webserver** (httpd) wiederholt
 
+
+!!! note "Windows-Hinweis"
+    Alle Befehle auf dieser Seite laufen unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal), nicht die alte Eingabeaufforderung (CMD). Wo sich die Shells doch unterscheiden, findest du Tabs mit der passenden Variante. Befehle **im Container** sind überall identisch, denn im Container steckt immer Linux.
+
 ## Voraussetzungen
 
 - **Docker Desktop** (auf Mac/Windows) oder **Docker Engine** (auf Linux) ist installiert. Wenn nicht → [Docker installieren](installation.md).
@@ -208,7 +212,8 @@ Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
 
         Wenn etwas anderes den Port belegt: entweder den Blockierer beenden, oder einen anderen Host-Port nehmen:
         ```bash
-        docker stop web && docker rm web
+        docker stop web
+        docker rm web
         docker run -d --name web -p 8081:80 nginx
         ```
 
