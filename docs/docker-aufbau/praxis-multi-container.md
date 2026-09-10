@@ -1,11 +1,11 @@
 ---
 title: "Praxis: Postgres & Adminer"
-description: "Schritt-für-Schritt-Anleitung für den Hands-on-Teil. Postgres-Datenbank mit Volume und ENV, Adminer über eigenes Netzwerk – alles nur mit offiziellen Images."
+description: "Schritt-für-Schritt-Anleitung für den Hands-on-Teil. Postgres-Datenbank mit Volume und ENV, Adminer über eigenes Netzwerk, alles nur mit offiziellen Images."
 ---
 
 # Praxis: Postgres & Adminer
 
-Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zusammen. Du brauchst **keine Programmierkenntnisse** und **kein eigenes Dockerfile** – wir nutzen ausschließlich fertige Images aus Docker Hub.
+Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zusammen. Du brauchst **keine Programmierkenntnisse** und **kein eigenes Dockerfile**, wir nutzen ausschließlich fertige Images aus Docker Hub.
 
 !!! abstract "Ziel"
     Am Ende hast du:
@@ -46,6 +46,9 @@ Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zus
 
     (Fehler „No such container" sind okay.)
 
+!!! note "Windows-Hinweis"
+    Alle Befehle auf dieser Seite laufen unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal), nicht die alte Eingabeaufforderung (CMD). Mehrzeilige Befehle brechen in Bash mit `\` um, in PowerShell mit dem Backtick `` ` `` und in CMD mit `^`. Die Tabs zeigen jeweils die passende Fassung.
+
 ---
 
 ## Was wir bauen
@@ -66,11 +69,11 @@ Zwei Container, ein Volume, ein Netzwerk. Klein, aber lehrreich.
 
 ---
 
-## Teil 1 – Postgres mit Volume und ENV
+## Teil 1: Postgres mit Volume und ENV
 
-**Zeit:** ca. 30–40 Minuten inkl. Vormachen + eigenes Ausprobieren + Besprechung.
+**Zeit:** ca. 20 Minuten.
 
-### Schritt 1.1 – Volume anlegen
+### Schritt 1.1: Volume anlegen
 
 Docker kann Volumes automatisch erzeugen, aber wir machen es einmal explizit, damit du den Befehl kennst:
 
@@ -86,20 +89,43 @@ docker volume ls
 
 Du siehst in der Liste `postgres-daten`.
 
-??? info "Was ist ein Volume – nochmal kurz?"
+??? info "Was ist ein Volume, nochmal kurz?"
     Ein Volume ist ein Speicherbereich, den **Docker** verwaltet, unabhängig von einzelnen Containern. Du kannst ihn in beliebige Container einhängen. Stirbt ein Container, bleibt das Volume. Details auf der [Volumes-Seite](volumes.md).
 
-### Schritt 1.2 – Postgres starten
+### Schritt 1.2: Postgres starten
 
-```bash
-docker run -d \
-  --name db \
-  -v postgres-daten:/var/lib/postgresql/data \
-  -e POSTGRES_USER=kurs \
-  -e POSTGRES_PASSWORD=geheim \
-  -e POSTGRES_DB=kursdaten \
-  postgres:16
-```
+=== "macOS / Linux"
+    ```bash
+    docker run -d \
+      --name db \
+      -v postgres-daten:/var/lib/postgresql/data \
+      -e POSTGRES_USER=kurs \
+      -e POSTGRES_PASSWORD=geheim \
+      -e POSTGRES_DB=kursdaten \
+      postgres:16
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker run -d `
+      --name db `
+      -v postgres-daten:/var/lib/postgresql/data `
+      -e POSTGRES_USER=kurs `
+      -e POSTGRES_PASSWORD=geheim `
+      -e POSTGRES_DB=kursdaten `
+      postgres:16
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    docker run -d ^
+      --name db ^
+      -v postgres-daten:/var/lib/postgresql/data ^
+      -e POSTGRES_USER=kurs ^
+      -e POSTGRES_PASSWORD=geheim ^
+      -e POSTGRES_DB=kursdaten ^
+      postgres:16
+    ```
 
 Gehen wir das **Flag für Flag** durch:
 
@@ -114,9 +140,9 @@ Gehen wir das **Flag für Flag** durch:
 | `postgres:16` | offizielles Postgres-Image, Version 16 |
 
 !!! tip "Kein `-p`?"
-    Stimmt, kein Port-Mapping. Die Datenbank soll **nicht direkt** vom Host aus erreichbar sein – nur Adminer soll mit ihr sprechen. Das machen wir gleich über das Netzwerk.
+    Stimmt, kein Port-Mapping. Die Datenbank soll **nicht direkt** vom Host aus erreichbar sein, nur Adminer soll mit ihr sprechen. Das machen wir gleich über das Netzwerk.
 
-### Schritt 1.3 – Prüfen, ob Postgres läuft
+### Schritt 1.3: Prüfen, ob Postgres läuft
 
 ```bash
 docker ps
@@ -145,17 +171,17 @@ database system is ready to accept connections
     Check `docker logs db`. Häufigste Fehler:
 
     - **Kein `POSTGRES_PASSWORD`**: Postgres verlangt ein Passwort oder eine Sondereinstellung. Ohne crasht er.
-    - **Alte Daten im Volume passen nicht zur Image-Version**: Wenn du vorher Postgres 15 benutzt hattest, wird 16 die alten Daten nicht annehmen. Fix: Volume neu erstellen (`docker volume rm postgres-daten && docker volume create postgres-daten`). **Achtung: dann sind die Daten weg!**
+    - **Alte Daten im Volume passen nicht zur Image-Version**: Wenn du vorher Postgres 15 benutzt hattest, wird 16 die alten Daten nicht annehmen. Fix: Volume neu erstellen, erst `docker volume rm postgres-daten`, dann `docker volume create postgres-daten`. **Achtung: dann sind die Daten weg!**
 
 ---
 
-## Teil 2 – Adminer dazu (das Netzwerk)
+## Teil 2: Adminer dazu (das Netzwerk)
 
-**Zeit:** ca. 30–40 Minuten.
+**Zeit:** ca. 20 Minuten.
 
-Postgres läuft, aber wir sehen nichts davon. Jetzt bringen wir **Adminer** dazu – das ist eine schlanke Web-GUI für Datenbanken, ebenfalls als offizielles Docker-Image verfügbar.
+Postgres läuft, aber wir sehen nichts davon. Jetzt bringen wir **Adminer** dazu, das ist eine schlanke Web-GUI für Datenbanken, ebenfalls als offizielles Docker-Image verfügbar.
 
-### Schritt 2.1 – Eigenes Netzwerk anlegen
+### Schritt 2.1: Eigenes Netzwerk anlegen
 
 Damit Adminer die Datenbank per Name `db` findet, brauchen wir ein eigenes Docker-Netzwerk (im Default-Bridge gibt es kein DNS):
 
@@ -171,9 +197,9 @@ docker network ls
 
 Neue Zeile mit `kurs-netz`.
 
-### Schritt 2.2 – Postgres ins Netzwerk aufnehmen
+### Schritt 2.2: Postgres ins Netzwerk aufnehmen
 
-Der Postgres-Container läuft schon – aber nicht im neuen Netzwerk. Zwei Wege:
+Der Postgres-Container läuft schon, aber nicht im neuen Netzwerk. Zwei Wege:
 
 === "Variante A: Container einfach umhängen (schnell)"
     ```bash
@@ -182,33 +208,62 @@ Der Postgres-Container läuft schon – aber nicht im neuen Netzwerk. Zwei Wege:
     Postgres läuft weiter, ist jetzt zusätzlich im `kurs-netz`.
 
 === "Variante B: Postgres neu starten (sauber)"
-    ```bash
-    docker stop db
-    docker rm db
+    === "macOS / Linux"
+        ```bash
+        docker stop db
+        docker rm db
 
-    docker run -d \
-      --name db \
-      --network kurs-netz \
-      -v postgres-daten:/var/lib/postgresql/data \
-      -e POSTGRES_USER=kurs \
-      -e POSTGRES_PASSWORD=geheim \
-      -e POSTGRES_DB=kursdaten \
-      postgres:16
-    ```
+        docker run -d \
+          --name db \
+          --network kurs-netz \
+          -v postgres-daten:/var/lib/postgresql/data \
+          -e POSTGRES_USER=kurs \
+          -e POSTGRES_PASSWORD=geheim \
+          -e POSTGRES_DB=kursdaten \
+          postgres:16
+        ```
 
-    Dieser Weg ist sauberer – in der `docker ps`-Ausgabe siehst du sofort, dass `db` im richtigen Netz ist. Das Volume bleibt erhalten, die Daten sind also noch da.
+    === "Windows PowerShell"
+        ```powershell
+        docker stop db
+        docker rm db
 
-Wir nehmen hier **Variante B** – so übst du `stop` + `rm` + `run` noch einmal explizit.
+        docker run -d `
+          --name db `
+          --network kurs-netz `
+          -v postgres-daten:/var/lib/postgresql/data `
+          -e POSTGRES_USER=kurs `
+          -e POSTGRES_PASSWORD=geheim `
+          -e POSTGRES_DB=kursdaten `
+          postgres:16
+        ```
 
-### Schritt 2.3 – Adminer starten
+    === "Windows CMD"
+        ```cmd
+        docker stop db
+        docker rm db
+
+        docker run -d ^
+          --name db ^
+          --network kurs-netz ^
+          -v postgres-daten:/var/lib/postgresql/data ^
+          -e POSTGRES_USER=kurs ^
+          -e POSTGRES_PASSWORD=geheim ^
+          -e POSTGRES_DB=kursdaten ^
+          postgres:16
+        ```
+
+    Dieser Weg ist sauberer, in der `docker ps`-Ausgabe siehst du sofort, dass `db` im richtigen Netz ist. Das Volume bleibt erhalten, die Daten sind also noch da.
+
+Wir nehmen hier **Variante B**, so übst du `stop` + `rm` + `run` noch einmal explizit.
+
+### Schritt 2.3: Adminer starten
 
 ```bash
-docker run -d \
-  --name adminer \
-  --network kurs-netz \
-  -p 8080:8080 \
-  adminer
+docker run -d --name adminer --network kurs-netz -p 8080:8080 adminer
 ```
+
+Der Befehl passt in eine Zeile und läuft so in jeder Shell.
 
 | Flag | Bedeutung |
 |------|-----------|
@@ -232,7 +287,7 @@ abc123         adminer       Up 5 seconds   0.0.0.0:8080->8080/tcp   adminer
 def456         postgres:16   Up 30 seconds  5432/tcp                 db
 ```
 
-### Schritt 2.4 – Im Browser öffnen
+### Schritt 2.4: Im Browser öffnen
 
 <http://localhost:8080>
 
@@ -248,7 +303,7 @@ Du siehst die Adminer-Login-Maske. Felder ausfüllen:
 
 Klick auf **Anmelden**.
 
-**Wichtig**: Im Feld **Server** steht **`db`** – der Name des anderen Containers. Docker-DNS löst das zur IP des Postgres-Containers auf. Kein `localhost`, kein `127.0.0.1`, keine IP-Adresse.
+**Wichtig**: Im Feld **Server** steht **`db`**, der Name des anderen Containers. Docker-DNS löst das zur IP des Postgres-Containers auf. Kein `localhost`, kein `127.0.0.1`, keine IP-Adresse.
 
 Wenn alles stimmt, landest du im Adminer-Dashboard mit der leeren Datenbank `kursdaten`.
 
@@ -262,18 +317,18 @@ Wenn alles stimmt, landest du im Adminer-Dashboard mit der leeren Datenbank `kur
        Unter „Containers" müssen `db` und `adminer` stehen.
     2. **Ist Postgres bereit?**
        ```bash
-       docker logs db | tail -5
+       docker logs --tail 5 db
        ```
        Letzte Zeile sollte „database system is ready to accept connections" sein.
     3. **Schreibfehler?** Server muss genau `db` sein (der Container-Name). Nicht `postgres`, nicht `localhost`.
 
 ---
 
-## Teil 3 – Daten und Persistenz erleben
+## Teil 3: Daten und Persistenz erleben
 
-**Zeit:** ca. 25–30 Minuten.
+**Zeit:** ca. 15 Minuten. Das ist der Moment, für den sich der ganze Abend lohnt.
 
-### Schritt 3.1 – Eine Tabelle anlegen
+### Schritt 3.1: Eine Tabelle anlegen
 
 In Adminer:
 
@@ -298,9 +353,9 @@ In Adminer:
 4. Links in der Seitenleiste siehst du jetzt die Tabelle `teilnehmer`. Klick drauf → **Auswählen** → du siehst die drei Datensätze.
 
 !!! tip "Ruhig kreativ werden"
-    Leg gern eigene Tabellen mit eigenen Daten an – zwei bis drei Datensätze reichen. Das macht den Persistenz-Test gleich interessanter.
+    Leg gern eigene Tabellen mit eigenen Daten an, zwei bis drei Datensätze reichen. Das macht den Persistenz-Test gleich interessanter.
 
-### Schritt 3.2 – Container zerstören
+### Schritt 3.2: Container zerstören
 
 Jetzt kommt der Lackmus-Test. Wir zerstören **beide Container**:
 
@@ -326,31 +381,56 @@ docker network ls
 
 Das **Volume `postgres-daten`** ist noch da. Das **Netzwerk `kurs-netz`** auch.
 
-### Schritt 3.3 – Neu starten und Daten prüfen
+### Schritt 3.3: Neu starten und Daten prüfen
 
-```bash
-docker run -d \
-  --name db \
-  --network kurs-netz \
-  -v postgres-daten:/var/lib/postgresql/data \
-  -e POSTGRES_USER=kurs \
-  -e POSTGRES_PASSWORD=geheim \
-  -e POSTGRES_DB=kursdaten \
-  postgres:16
+=== "macOS / Linux"
+    ```bash
+    docker run -d \
+      --name db \
+      --network kurs-netz \
+      -v postgres-daten:/var/lib/postgresql/data \
+      -e POSTGRES_USER=kurs \
+      -e POSTGRES_PASSWORD=geheim \
+      -e POSTGRES_DB=kursdaten \
+      postgres:16
 
-docker run -d \
-  --name adminer \
-  --network kurs-netz \
-  -p 8080:8080 \
-  adminer
-```
+    docker run -d --name adminer --network kurs-netz -p 8080:8080 adminer
+    ```
 
-Kurz warten (10–20 Sekunden), dann Browser neu laden: <http://localhost:8080>
+=== "Windows PowerShell"
+    ```powershell
+    docker run -d `
+      --name db `
+      --network kurs-netz `
+      -v postgres-daten:/var/lib/postgresql/data `
+      -e POSTGRES_USER=kurs `
+      -e POSTGRES_PASSWORD=geheim `
+      -e POSTGRES_DB=kursdaten `
+      postgres:16
+
+    docker run -d --name adminer --network kurs-netz -p 8080:8080 adminer
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    docker run -d ^
+      --name db ^
+      --network kurs-netz ^
+      -v postgres-daten:/var/lib/postgresql/data ^
+      -e POSTGRES_USER=kurs ^
+      -e POSTGRES_PASSWORD=geheim ^
+      -e POSTGRES_DB=kursdaten ^
+      postgres:16
+
+    docker run -d --name adminer --network kurs-netz -p 8080:8080 adminer
+    ```
+
+Kurz warten (10 bis 20 Sekunden), dann Browser neu laden: <http://localhost:8080>
 
 Login wie vorher. Tabelle `teilnehmer` ist **noch da**, Datensätze auch.
 
 !!! success "Das war der Beweis"
-    Die Container sind neu – aber das **Volume** ist dasselbe. Deshalb hat die Datenbank ihre Daten behalten. Ohne Volume wären sie verloren gewesen.
+    Die Container sind neu, aber das **Volume** ist dasselbe. Deshalb hat die Datenbank ihre Daten behalten. Ohne Volume wären sie verloren gewesen.
 
 ---
 
@@ -362,9 +442,80 @@ Zoom mal raus und schau drauf, was du gemacht hast:
 |-------|-------------------------------|
 | **Volume** | Container zerstört, Daten da. Der Unterschied zwischen „flüchtigem" Container-Layer und persistentem Volume. |
 | **ENV-Variablen** | Postgres mit `-e POSTGRES_USER=...` konfiguriert. Kein eigenes Image, einfach das Standard-Image mit passenden Variablen. |
-| **Netzwerk** | Adminer findet Postgres über `db` – **nicht** über eine IP, **nicht** über `localhost`. Docker-DNS macht das möglich. |
+| **Netzwerk** | Adminer findet Postgres über `db`, **nicht** über eine IP, **nicht** über `localhost`. Docker-DNS macht das möglich. |
 
 Das ist **das Kern-Werkzeug** für jede ernsthafte Container-Anwendung. Alles, was danach kommt (Docker Compose, Kubernetes, …), baut darauf auf.
+
+---
+
+## Bonus-Experimente: für alle, die mehr wollen
+
+Vier kurze Experimente, jedes beantwortet eine Frage, die im Container-Alltag sofort auftaucht. Alle Befehle laufen unverändert in jeder Shell.
+
+### Bonus 1: Schau in das Volume hinein
+
+Das Volume ist kein Zauberkasten, sondern ein Verzeichnis, das Docker verwaltet. Der Beweis: Hänge es in einen Wegwerf-Container und lass dir den Inhalt zeigen:
+
+```bash
+docker run --rm -v postgres-daten:/daten alpine ls /daten
+```
+
+Du siehst die echte Verzeichnisstruktur von PostgreSQL: `base`, `pg_wal`, `postgresql.conf` und mehr. Genau diese Dateien haben deinen Härtetest überlebt.
+
+**Frage zum Nachdenken:** Warum taucht dieser Alpine-Container in `docker ps -a` gar nicht auf?
+
+??? success "Antwort"
+    Das Flag `--rm` räumt den Container sofort nach Ende des Befehls automatisch weg. Für kurze Einmal-Aufgaben ist das das übliche Muster: starten, nachsehen, verschwinden.
+
+### Bonus 2: Ein zweiter Adminer am selben Netz
+
+Eine Datenbank kann viele Clients haben. Starte einen zweiten Adminer auf einem anderen Host-Port:
+
+```bash
+docker run -d --name adminer2 --network kurs-netz -p 8081:8080 adminer
+```
+
+Öffne <http://localhost:8081> und melde dich mit denselben Daten an. Beide Adminer sehen dieselben Tabellen, denn hinter beiden steht dieselbe Datenbank `db`.
+
+**Merke:** Im Container hören beide auf Port 8080. Nur am Host müssen sich die Ports unterscheiden, deshalb 8081.
+
+### Bonus 3: Der DNS-Beweis
+
+Die Behauptung des Abends: Namen funktionieren nur im eigenen Netz. Beweise es mit einem Wegwerf-Container, der den Namen `db` nachschlägt, einmal im Netz und einmal außerhalb:
+
+```bash
+docker run --rm --network kurs-netz busybox nslookup db
+```
+
+Die Antwort enthält eine interne IP-Adresse (typisch `172.x.x.x`, bei uns im Test `172.18.0.2`). Und jetzt derselbe Befehl ohne Netz:
+
+```bash
+docker run --rm busybox nslookup db
+```
+
+**Was passiert?**
+
+??? success "Antwort"
+    Der zweite Aufruf meldet `server can't find db: NXDOMAIN`, der Name `db` ist außerhalb von `kurs-netz` schlicht unbekannt. Das eingebaute DNS gehört zum Netzwerk, nicht zu Docker insgesamt. Genau deshalb war das eigene Netz in Teil 2 nötig.
+
+### Bonus 4: Welche Variablen sind wirklich im Container?
+
+```bash
+docker exec db env
+```
+
+Suche in der Ausgabe die drei Zeilen, die mit `POSTGRES_` beginnen. Es sind genau die Werte aus deinem `docker run`.
+
+**Frage zum Nachdenken:** Das Passwort steht hier im Klartext. Wer es auch noch sieht: jeder, der `docker inspect db` ausführen darf. Was heißt das für echte Produktionssysteme?
+
+??? success "Antwort"
+    Umgebungsvariablen sind bequem, aber kein Geheimnisschutz. Für echte Systeme gibt es Secret-Mechanismen (Docker Secrets, Vault und Ähnliches), die Passwörter erst im Container und nur für den Prozess sichtbar machen. Für unsere Kursumgebung ist `geheim` in Ordnung, für die Firma nicht.
+
+Wenn du die Bonus-Container am Ende loswerden willst:
+
+```bash
+docker rm -f adminer2
+```
 
 ---
 
@@ -384,7 +535,7 @@ docker volume ls
 docker volume rm postgres-daten
 ```
 
-Das Image von Postgres bleibt auf deiner Platte – das ist okay, so musst du es beim nächsten Durchlauf nicht erneut herunterladen.
+Das Image von Postgres bleibt auf deiner Platte, das ist okay, so musst du es beim nächsten Durchlauf nicht erneut herunterladen.
 
 ---
 
@@ -412,7 +563,7 @@ Siehe [Stolpersteine](stolpersteine.md) für eine ausführliche Liste. Die **Top
 
 Du hast gerade fünf einzelne `docker`-Befehle getippt (plus Stop/Rm-Zyklus). Das geht auch eleganter: **Docker Compose** beschreibt all das in **einer YAML-Datei** und startet es mit einem einzigen Befehl.
 
-Das ist das Thema des **Compose-Kapitels** – siehe [Docker Compose](../docker-compose/index.md).
+Das ist das Thema des **Compose-Kapitels**, siehe [Docker Compose](../docker-compose/index.md).
 
 ---
 

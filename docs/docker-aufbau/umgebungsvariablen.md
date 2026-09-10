@@ -9,15 +9,19 @@ description: "Container konfigurieren ohne Rebuild: -e, --env-file, ENV im Docke
     Nach dieser Seite kannst du:
 
     - erklären, **warum Umgebungsvariablen** die Standard-Konfigurationssprache für Container sind
-    - Variablen per `-e`, `--env-file` und im Dockerfile setzen – und weißt, wann welcher Weg sinnvoll ist
+    - Variablen per `-e`, `--env-file` und im Dockerfile setzen, und weißt, wann welcher Weg sinnvoll ist
     - mit `.env`-Dateien arbeiten und ihre **Gefahren** (Git-Commit!) einschätzen
     - **Secrets** (Passwörter, Keys) von normalen Konfigurationswerten unterscheiden und wissen, warum dieser Unterschied wichtig ist
 
 ---
 
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Einziger Unterschied bei mehrzeiligen Befehlen: Bash bricht Zeilen mit `\` um, PowerShell mit dem Backtick `` ` `` und CMD mit `^`. Du kannst jeden mehrzeiligen Befehl auch einfach in eine Zeile schreiben, dann ist er in jeder Shell gleich.
+
 ## Warum das wichtig ist
 
-Dein Image sollte **unabhängig von der Umgebung** sein. Genau dasselbe Image soll auf deinem Laptop, dem Test-Server und der Produktion laufen – aber eben mit **unterschiedlichen Konfigurationen**:
+Dein Image sollte **unabhängig von der Umgebung** sein. Genau dasselbe Image soll auf deinem Laptop, dem Test-Server und der Produktion laufen, aber eben mit **unterschiedlichen Konfigurationen**:
 
 - Datenbank-Hostname: `localhost` (Dev), `postgres.test.intern` (Test), `prod-db.eu-west-1.aws` (Produktion)
 - API-Key: „Dev-Dummy", echter Test-Key, echter Produktions-Key
@@ -34,13 +38,23 @@ Die Lösung ist die **12-Factor-App-Regel Nr. 3**: **Konfiguration in Umgebungsv
 
 ### 1. `-e` beim `docker run`
 
-```bash
-docker run -d --name app \
-  -e DATABASE_URL=postgres://db:5432/kurs \
-  -e LOG_LEVEL=debug \
-  -e FEATURE_FLAG_NEW_UI=true \
-  meine-app
-```
+=== "macOS / Linux"
+    ```bash
+    docker run -d --name app \
+      -e DATABASE_URL=postgres://db:5432/kurs \
+      -e LOG_LEVEL=debug \
+      -e FEATURE_FLAG_NEW_UI=true \
+      meine-app
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker run -d --name app `
+      -e DATABASE_URL=postgres://db:5432/kurs `
+      -e LOG_LEVEL=debug `
+      -e FEATURE_FLAG_NEW_UI=true `
+      meine-app
+    ```
 
 - Schnell, ideal für einzelne Werte.
 - Wenn du viele Variablen hast, wird das lang.
@@ -62,7 +76,7 @@ docker run -d --name app --env-file app.env meine-app
 ```
 
 - Übersichtlicher bei vielen Werten.
-- Kann in Git eingecheckt werden – aber **nur, wenn keine Secrets drin sind** (siehe unten).
+- Kann in Git eingecheckt werden, aber **nur, wenn keine Secrets drin sind** (siehe unten).
 
 ### 3. `ENV` im Dockerfile
 
@@ -77,7 +91,7 @@ CMD ["python", "/app/app.py"]
 
 - Ideal für **Werte, die als Default im Image stecken sollen**.
 - Können beim `docker run` mit `-e` überschrieben werden.
-- **Niemals Secrets** hier – sie landen im Image und sind für jeden sichtbar, der das Image lädt.
+- **Niemals Secrets** hier, sie landen im Image und sind für jeden sichtbar, der das Image lädt.
 
 !!! tip "Faustregel"
     - **`ENV` im Dockerfile**: gute Default-Werte, die fast immer stimmen.
@@ -107,12 +121,12 @@ LOG_LEVEL=debug
 
 Wenn du mit Compose arbeitest und in deinem Projektordner eine `.env` liegt, wird sie vor dem Lesen der `compose.yaml` ausgewertet. Innerhalb der `compose.yaml` kannst du dann `${POSTGRES_PASSWORD}` schreiben und dort wird der Wert aus der `.env` eingesetzt.
 
-Mehr dazu in [Docker Compose – Grundlagen](../docker-compose/grundlagen.md).
+Mehr dazu in [Docker Compose. Grundlagen](../docker-compose/grundlagen.md).
 
 ### Der häufigste Fehler: `.env` in Git
 
 !!! danger ".env gehört NICHT in Git!"
-    Wenn in deiner `.env` **irgendein Secret** steht (Passwort, API-Key, Token) und du diese Datei in ein öffentliches Git-Repo pushst, ist das Secret **für alle Welt sichtbar**. Auch wenn du sie später löschst – Git behält die History.
+    Wenn in deiner `.env` **irgendein Secret** steht (Passwort, API-Key, Token) und du diese Datei in ein öffentliches Git-Repo pushst, ist das Secret **für alle Welt sichtbar**. Auch wenn du sie später löschst. Git behält die History.
 
     **Schutzmaßnahmen:**
 
@@ -131,9 +145,9 @@ Mehr dazu in [Docker Compose – Grundlagen](../docker-compose/grundlagen.md).
        ```
     3. Vor jedem `git push` kurz `git status` prüfen.
 
-??? danger "Passiert: Secret ist schon in Git – was tun?"
+??? danger "Passiert: Secret ist schon in Git, was tun?"
     1. **Das Secret sofort rotieren** (neues Passwort/neuer API-Key generieren, altes deaktivieren).
-    2. Im Repo das Secret **aus allen Branches entfernen** – idealerweise mit Tools wie `git-filter-repo` oder `BFG Repo-Cleaner`.
+    2. Im Repo das Secret **aus allen Branches entfernen**, idealerweise mit Tools wie `git-filter-repo` oder `BFG Repo-Cleaner`.
     3. Bei GitHub: Secret-Scanning-Alerts bearbeiten.
 
     Merke: in einem öffentlichen Repo gilt ein einmal geleaktes Secret als **kompromittiert**. Rotation ist die einzige saubere Lösung.
@@ -171,7 +185,7 @@ Die Container-Anwendung liest Umgebungsvariablen wie jeder andere Prozess auch. 
     }
     ```
 
-**Merke:** immer einen Default angeben – damit die App nicht crasht, wenn eine Variable vergessen wird.
+**Merke:** immer einen Default angeben, damit die App nicht crasht, wenn eine Variable vergessen wird.
 
 ---
 
@@ -195,7 +209,7 @@ Praktisch, um zu prüfen, ob die Variable wirklich angekommen ist.
 
 ---
 
-## Secrets – was ist der Unterschied?
+## Secrets: was ist der Unterschied?
 
 Normale Konfigurationswerte:
 
@@ -225,7 +239,7 @@ Werden diese Werte im **Image** hinterlegt, sind sie für **jeden** sichtbar, de
     - `COPY` einer Datei mit Secrets ins Image
 
 !!! tip "Besser: erst zur Laufzeit reingeben"
-    - `-e API_KEY=...` beim `docker run` – okay für Dev und kleine Setups.
+    - `-e API_KEY=...` beim `docker run`, okay für Dev und kleine Setups.
     - `--env-file` mit einer Datei, die nicht in Git ist.
     - **Docker Secrets** (bei Docker Swarm) oder **Kubernetes Secrets** in Produktions-Orchestrierung.
     - **HashiCorp Vault**, **AWS Secrets Manager**, **1Password CLI** als Profi-Lösungen.
@@ -253,9 +267,7 @@ CMD ["python", "/app/app.py"]
 ```
 
 ```bash
-docker run -d \
-  -e OPENAI_API_KEY=sk-proj-... \
-  meine-app
+docker run -d -e OPENAI_API_KEY=sk-proj-... meine-app
 ```
 
 Oder mit einer `.env`-Datei (die nicht in Git ist):
@@ -274,10 +286,10 @@ Was passiert, wenn derselbe Name an mehreren Stellen definiert ist? Docker hat e
 
 Reihenfolge:
 
-1. **`ENV` im Dockerfile** (niedrigste Priorität – das sind Defaults).
-2. **`-e`** beim `docker run` – überschreibt Dockerfile-ENV.
-3. **`--env-file`** – Reihenfolge unter den Flags zählt, später gewinnt.
-4. **Shell-Environment** (wenn du `-e VAR` ohne Wert schreibst) – übernimmt den Wert aus der aufrufenden Shell.
+1. **`ENV` im Dockerfile** (niedrigste Priorität, das sind Defaults).
+2. **`-e`** beim `docker run`, überschreibt Dockerfile-ENV.
+3. **`--env-file`**. Reihenfolge unter den Flags zählt, später gewinnt.
+4. **Shell-Environment** (wenn du `-e VAR` ohne Wert schreibst), übernimmt den Wert aus der aufrufenden Shell.
 
 Beispiel:
 
@@ -357,16 +369,16 @@ docker run -e LOG_LEVEL=debug meine-app
 
 ## Stolpersteine
 
-??? danger "Variable kommt nicht an – Wert ist leer"
+??? danger "Variable kommt nicht an. Wert ist leer"
     **Häufige Ursachen:**
 
-    1. **Falsche Schreibweise** – ENV-Variablen sind case-sensitiv. `DATABASE_URL` ≠ `database_url`.
-    2. **Anführungszeichen in `.env`** – `.env` nimmt Anführungszeichen **wörtlich**:
+    1. **Falsche Schreibweise**. ENV-Variablen sind case-sensitiv. `DATABASE_URL` ≠ `database_url`.
+    2. **Anführungszeichen in `.env`**, `.env` nimmt Anführungszeichen **wörtlich**:
        ```
        POSTGRES_PASSWORD="geheim"   # Wert ist "geheim", mit Anführungszeichen!
        POSTGRES_PASSWORD=geheim     # Wert ist geheim, ohne Anführungszeichen
        ```
-    3. **Leerzeichen um `=`** – `.env` erwartet `KEY=VALUE` ohne Leerzeichen:
+    3. **Leerzeichen um `=`**, `.env` erwartet `KEY=VALUE` ohne Leerzeichen:
        ```
        KEY = value   # FALSCH
        KEY=value     # RICHTIG
@@ -390,19 +402,19 @@ docker run -e LOG_LEVEL=debug meine-app
     WELCOME_MESSAGE=Hallo Welt, alles gut
     ```
 
-    Funktioniert so – kein Quoting nötig. Aber **keine Newlines**. Für mehrzeilige Werte (z.B. private Keys) nimmst du ein Volume, nicht eine ENV-Variable.
+    Funktioniert so, kein Quoting nötig. Aber **keine Newlines**. Für mehrzeilige Werte (z.B. private Keys) nimmst du ein Volume, nicht eine ENV-Variable.
 
 ---
 
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Konfiguration gehört in Umgebungsvariablen, nicht ins Image. Defaults im Dockerfile mit `ENV`, spezifische Werte beim Run mit `-e` oder `--env-file`. Secrets niemals ins Image – immer erst zur Laufzeit.**
+    > **Konfiguration gehört in Umgebungsvariablen, nicht ins Image. Defaults im Dockerfile mit `ENV`, spezifische Werte beim Run mit `-e` oder `--env-file`. Secrets niemals ins Image, immer erst zur Laufzeit.**
 
 ---
 
 ## Weiterlesen
 
-- [Docker-Netzwerke](docker-networks.md) – Container sprechen über Hostnamen, die oft aus ENV-Variablen kommen
-- [Praxis: Postgres & Adminer](praxis-multi-container.md) – Volumes + ENV im Zusammenspiel
-- [Docker Compose – Grundlagen](../docker-compose/grundlagen.md) – Compose liest `.env` automatisch
+- [Docker-Netzwerke](docker-networks.md): Container sprechen über Hostnamen, die oft aus ENV-Variablen kommen
+- [Praxis: Postgres & Adminer](praxis-multi-container.md): Volumes + ENV im Zusammenspiel
+- [Docker Compose. Grundlagen](../docker-compose/grundlagen.md): Compose liest `.env` automatisch

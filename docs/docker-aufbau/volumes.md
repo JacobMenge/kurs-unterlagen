@@ -8,18 +8,22 @@ description: "Wie Daten einen Container überleben: Volumes, Bind Mounts, Copy-o
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
 
-    - erklären, **warum Daten in einem Container flüchtig sind** – und wann das zum Problem wird
+    - erklären, **warum Daten in einem Container flüchtig sind**, und wann das zum Problem wird
     - **Volumes** und **Bind Mounts** unterscheiden und jeweils sinnvoll einsetzen
     - einen Container mit persistentem Speicher starten, z.B. eine PostgreSQL mit dauerhaften Daten
     - typische Fallstricke rund um Permissions, Backups und Volume-Management umgehen
 
 ---
 
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Einziger Unterschied bei mehrzeiligen Befehlen: Bash bricht Zeilen mit `\` um, PowerShell mit dem Backtick `` ` `` und CMD mit `^`. Du kannst jeden mehrzeiligen Befehl auch einfach in eine Zeile schreiben, dann ist er in jeder Shell gleich.
+
 ## Warum das wichtig ist
 
 Erinnere dich an den [Einführungs-Block](../docker/image-und-container.md): Ein Container hat einen **beschreibbaren Top-Layer**. Alles, was der Container während seiner Laufzeit schreibt, landet dort. Und:
 
-> **Beim `docker rm` verschwindet dieser Top-Layer – und mit ihm alles, was der Container je geschrieben hat.**
+> **Beim `docker rm` verschwindet dieser Top-Layer, und mit ihm alles, was der Container je geschrieben hat.**
 
 Für eine **zustandslose** Web-App (ein nginx mit statischem HTML) ist das völlig okay. Für eine **Datenbank** oder eine App mit hochgeladenen Dateien ist das eine Katastrophe: bei jedem Container-Neustart wären alle Daten weg.
 
@@ -50,11 +54,11 @@ flowchart LR
 
 - **Image-Layer** bleibt beim Löschen des Containers bestehen (ist ja unveränderlich).
 - **Writable Top-Layer** verschwindet.
-- **Volumes und Bind Mounts** leben **außerhalb** des Containers – und bleiben erhalten.
+- **Volumes und Bind Mounts** leben **außerhalb** des Containers, und bleiben erhalten.
 
 ---
 
-## Volume vs. Bind Mount – der Kernunterschied
+## Volume vs. Bind Mount: der Kernunterschied
 
 | Aspekt | Volume | Bind Mount |
 |--------|--------|------------|
@@ -62,12 +66,12 @@ flowchart LR
 | **Wo liegt's physisch?** | `/var/lib/docker/volumes/…` (von Docker verwaltet) | Irgendwo auf deinem Host (du bestimmst den Pfad) |
 | **Syntax beim Run** | `-v mein-volume:/pfad-im-container` | `-v /absoluter/host/pfad:/pfad-im-container` |
 | **Typischer Einsatz** | Datenbanken, App-Daten, die einfach „persistent" sein sollen | Entwicklung (Source-Code live ins Image mounten), Konfigurationsdateien |
-| **Portabel zwischen Hosts?** | Mit etwas Arbeit (Backup/Restore) | Nicht wirklich – Host-Pfad ist fest |
+| **Portabel zwischen Hosts?** | Mit etwas Arbeit (Backup/Restore) | Nicht wirklich. Host-Pfad ist fest |
 | **Auf Mac/Windows performant?** | Ja (läuft in der Docker-VM) | Langsamer (Übersetzung zwischen Host-FS und VM-FS) |
 
 !!! tip "Faustregel"
     - **Volume**, wenn Docker die Daten verwalten soll und du nur „persistent" brauchst.
-    - **Bind Mount**, wenn du selbst wissen musst, wo die Daten liegen – oder wenn du lokale Dateien ins Image spiegeln willst (z.B. beim Entwickeln).
+    - **Bind Mount**, wenn du selbst wissen musst, wo die Daten liegen, oder wenn du lokale Dateien ins Image spiegeln willst (z.B. beim Entwickeln).
 
 ---
 
@@ -91,7 +95,7 @@ docker run -d --name db \
 Was passiert hier:
 
 1. Docker prüft, ob ein Volume `db-daten` existiert. Falls nein, wird es angelegt.
-2. Beim Container-Start wird das Volume in den Container gemountet – und zwar an `/var/lib/postgresql/data`, dem Pfad, an dem PostgreSQL seine Datenbankdateien ablegt.
+2. Beim Container-Start wird das Volume in den Container gemountet, und zwar an `/var/lib/postgresql/data`, dem Pfad, an dem PostgreSQL seine Datenbankdateien ablegt.
 3. PostgreSQL schreibt alles in dieses Volume. Der Container-Top-Layer bleibt leer.
 
 ### Check, dass es funktioniert
@@ -101,7 +105,8 @@ docker exec -it db psql -U postgres -c "CREATE TABLE kurs (name TEXT);"
 docker exec -it db psql -U postgres -c "INSERT INTO kurs VALUES ('Jacob');"
 
 # Container zerstören und neu starten
-docker stop db && docker rm db
+docker stop db
+docker rm db
 docker run -d --name db \
   -v db-daten:/var/lib/postgresql/data \
   -e POSTGRES_PASSWORD=geheim \
@@ -158,7 +163,7 @@ docker run -d --name web \
 
 Was passiert:
 
-1. Der Ordner `/Users/jacob/projekte/site` auf deinem Host wird in den Container gemountet – an dem Pfad, wo nginx seine HTML-Dateien erwartet.
+1. Der Ordner `/Users/jacob/projekte/site` auf deinem Host wird in den Container gemountet, an dem Pfad, wo nginx seine HTML-Dateien erwartet.
 2. Änderungen am Host (neues HTML, Edit in VSCode) sind **sofort** im Container sichtbar.
 3. Umgekehrt: Änderungen, die der Container schreibt, landen direkt auf dem Host.
 
@@ -217,7 +222,7 @@ Wenn der Container die Daten nur **lesen**, nicht verändern soll, häng `:ro` a
       meine-app
     ```
 
-Das ist gute Praxis für **Konfigurationsdateien** – der Container kann nicht aus Versehen etwas kaputtmachen.
+Das ist gute Praxis für **Konfigurationsdateien**, der Container kann nicht aus Versehen etwas kaputtmachen.
 
 ---
 
@@ -313,7 +318,7 @@ Für Bind Mount:
           node:20 npm run dev
         ```
 
-    Dein Host-Code ist im Container unter `/app`. Änderungen am Code greifen sofort – keine Rebuilds.
+    Dein Host-Code ist im Container unter `/app`. Änderungen am Code greifen sofort, keine Rebuilds.
 
 ??? example "Config-Datei read-only ins Image legen"
     === "macOS / Linux"
@@ -359,7 +364,7 @@ Für Bind Mount:
         ```
 
     === "Windows PowerShell"
-        Auf Windows gibt es keine UID/GID im Linux-Sinn – das Mount-Subsystem von Docker Desktop übersetzt Datei-Rechte automatisch. Falls dein Container trotzdem unter Linux-User-Rechten laufen soll, leg im Dockerfile einen User an:
+        Auf Windows gibt es keine UID/GID im Linux-Sinn, das Mount-Subsystem von Docker Desktop übersetzt Datei-Rechte automatisch. Falls dein Container trotzdem unter Linux-User-Rechten laufen soll, leg im Dockerfile einen User an:
         ```dockerfile
         RUN adduser -D appuser
         USER appuser
@@ -377,7 +382,7 @@ Für Bind Mount:
     **Lösungsansätze:**
 
     1. In Docker Desktop **Settings → General → File sharing implementation** → VirtioFS (Default, schnell).
-    2. Nur die Ordner mounten, die du wirklich brauchst – nicht das ganze `$HOME`.
+    2. Nur die Ordner mounten, die du wirklich brauchst, nicht das ganze `$HOME`.
     3. Für wirklich große Projekte: Volume nutzen und Daten beim Start einspielen, statt live mounten.
 
 ??? warning "Volume-Daten sind „verschwunden" nach `docker compose down -v`"
@@ -429,7 +434,7 @@ Für Bind Mount:
     - Ein Wegwerf-Container auf `alpine`-Basis.
     - Das zu sichernde Volume als `/data` gemountet.
     - Ein Bind Mount auf dein aktuelles Verzeichnis als `/backup`.
-    - `tar` erzeugt ein Archiv mit Datum im Namen. (Auf bash wird `$(date +%F)` **im Container** ausgeführt – wir umschließen mit `sh -c '...'`, damit die Variable nicht der Host-Shell entweicht.)
+    - `tar` erzeugt ein Archiv mit Datum im Namen. (Auf bash wird `$(date +%F)` **im Container** ausgeführt, wir umschließen mit `sh -c '...'`, damit die Variable nicht der Host-Shell entweicht.)
 
     Zum **Restore** umgekehrt:
 
@@ -469,7 +474,7 @@ Für Bind Mount:
 
 ---
 
-## tmpfs – Speicher im RAM
+## tmpfs: Speicher im RAM
 
 Manchmal willst du **gar keine Persistenz**, sondern im Gegenteil: einen Ordner, der garantiert nur im RAM existiert und nach dem Stoppen weg ist. Für Secrets oder temporäre Dateien.
 
@@ -479,7 +484,7 @@ docker run -d --name app \
   meine-app
 ```
 
-Unter `/tmp` hat der Container 64 MB RAM als Dateisystem. Alles, was dort landet, ist nach dem Stop weg – und bleibt nie auf einer Platte liegen.
+Unter `/tmp` hat der Container 64 MB RAM als Dateisystem. Alles, was dort landet, ist nach dem Stop weg, und bleibt nie auf einer Platte liegen.
 
 Praktisch für:
 
@@ -492,12 +497,12 @@ Praktisch für:
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Daten überleben einen Container nur, wenn sie außerhalb liegen – im Volume (von Docker verwaltet) oder im Bind Mount (Pfad, den du selbst kennst). Alles andere ist beim `docker rm` weg.**
+    > **Daten überleben einen Container nur, wenn sie außerhalb liegen, im Volume (von Docker verwaltet) oder im Bind Mount (Pfad, den du selbst kennst). Alles andere ist beim `docker rm` weg.**
 
 ---
 
 ## Weiterlesen
 
-- [Umgebungsvariablen](umgebungsvariablen.md) – die zweite Säule des Aufbau-Blocks
-- [Praxis: Postgres & Adminer](praxis-multi-container.md) – Volumes in einem größeren Setup
-- [Stolpersteine](stolpersteine.md) – weitere Probleme rund um Volumes
+- [Umgebungsvariablen](umgebungsvariablen.md): die zweite Säule des Aufbau-Blocks
+- [Praxis: Postgres & Adminer](praxis-multi-container.md): Volumes in einem größeren Setup
+- [Stolpersteine](stolpersteine.md): weitere Probleme rund um Volumes

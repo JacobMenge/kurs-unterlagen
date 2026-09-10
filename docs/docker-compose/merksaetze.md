@@ -1,9 +1,9 @@
 ---
-title: "Merksätze – Compose-Block"
+title: "Merksätze. Compose-Block"
 description: "Die Kern-Sätze aus dem Compose-Block kompakt auf einer Seite."
 ---
 
-# Merksätze – Docker Compose
+# Merksätze: Docker Compose
 
 ---
 
@@ -51,7 +51,7 @@ Plus: App sollte Retry-Logik haben. Produktion ist nicht immer freundlich.
 ## 6. Die wichtigsten Befehle
 
 !!! success "Merksatz 6"
-    > **`up -d`, `down`, `logs -f`, `ps`, `exec service bash` – mit diesen fünf Befehlen hast du 90 % deines Compose-Alltags abgedeckt.**
+    > **`up -d`, `down`, `logs -f`, `ps`, `exec service bash`, mit diesen fünf Befehlen hast du 90 % deines Compose-Alltags abgedeckt.**
 
 ---
 
@@ -83,8 +83,8 @@ flowchart LR
 
 Was jetzt noch offen ist:
 
-- **Images richtig bauen**: Multi-Stage, Layer-Caching, USER – kommt im [Profi-Block](../docker-profi/index.md).
-- **Mehrere Hosts**: Swarm oder Kubernetes – eigene Einheit.
+- **Images richtig bauen**: Multi-Stage, Layer-Caching, USER, kommt im [Profi-Block](../docker-profi/index.md).
+- **Mehrere Hosts**: Swarm oder Kubernetes, eigene Einheit.
 - **CI/CD-Integration**: Images in GitHub Actions bauen und pushen.
 
 Aber ein kompletter Compose-Stack läuft. Das ist **sehr** viel wert.

@@ -1,17 +1,21 @@
 ---
 title: "Übungen"
-description: "Eigene Hands-on-Übungen zum Aufbau-Block – Volumes, Env-Variablen, Netzwerke, vier Schwierigkeitsgrade."
+description: "Eigene Hands-on-Übungen zum Aufbau-Block. Volumes, Env-Variablen, Netzwerke, vier Schwierigkeitsgrade."
 ---
 
-# Übungen – Docker-Aufbau
+# Übungen: Docker-Aufbau
 
 Übungen zum Vertiefen von **Volumes, Umgebungsvariablen und Netzwerken**. Je höher das Level, desto weniger Anleitung.
 
 !!! abstract "Die vier Stufen"
-    - 🟢 **Einsteiger** – jeder Schritt bis ins Detail
-    - 🟡 **Mittel** – weniger Hand-Holding
-    - 🔴 **Fortgeschritten** – Hinweise statt Rezepte
-    - 🏆 **Challenge** – Aufgabe ohne Anleitung, Musterlösung aufklappbar
+    - 🟢 **Einsteiger**, jeder Schritt bis ins Detail
+    - 🟡 **Mittel**, weniger Hand-Holding
+    - 🔴 **Fortgeschritten**. Hinweise statt Rezepte
+    - 🏆 **Challenge**. Aufgabe ohne Anleitung, Musterlösung aufklappbar
+
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Einziger Unterschied bei mehrzeiligen Befehlen: Bash bricht Zeilen mit `\` um, PowerShell mit dem Backtick `` ` `` und CMD mit `^`. Du kannst jeden mehrzeiligen Befehl auch einfach in eine Zeile schreiben, dann ist er in jeder Shell gleich.
 
 ## Voraussetzung für alle Übungen
 
@@ -30,26 +34,26 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block – Volumes, Env-Variabl
         docker network ls --filter "name=kurs" -q | ForEach-Object { docker network rm $_ }
         ```
 
-    **`|`** ist die [Pipe](../glossar.md#pipe) – die Ausgabe des ersten Befehls wird an den zweiten weitergereicht. **[xargs](../glossar.md#xargs)** macht aus jeder Zeile ein Argument für den folgenden Befehl; PowerShell nutzt stattdessen `ForEach-Object`.
+    **`|`** ist die [Pipe](../glossar.md#pipe), die Ausgabe des ersten Befehls wird an den zweiten weitergereicht. **[xargs](../glossar.md#xargs)** macht aus jeder Zeile ein Argument für den folgenden Befehl; PowerShell nutzt stattdessen `ForEach-Object`.
 
 ---
 
 ## 🟢 Einsteiger
 
-### Übung 1 – Redis mit persistentem Volume
+### Übung 1: Redis mit persistentem Volume
 
 !!! info "Was du lernst"
     - Volume anlegen und einen Container damit starten
     - Prüfen, dass Daten einen Container-Neustart überleben
     - Was Redis ist (im Vorbeigehen)
 
-#### Worum geht's – Kontext
+#### Worum geht's: Kontext
 
-**Redis** ist ein sehr schneller In-Memory-Speicher, oft als Cache oder für einfache Key-Value-Daten genutzt. Normalerweise lebt Redis komplett im RAM – wenn der Container weg ist, sind die Daten weg. Wir zeigen Redis, wie er auf Disk speichert und nutzen ein **Docker-Volume**, damit die Daten einen Neustart überleben.
+**Redis** ist ein sehr schneller In-Memory-Speicher, oft als Cache oder für einfache Key-Value-Daten genutzt. Normalerweise lebt Redis komplett im RAM, wenn der Container weg ist, sind die Daten weg. Wir zeigen Redis, wie er auf Disk speichert und nutzen ein **Docker-Volume**, damit die Daten einen Neustart überleben.
 
-**Volume** – noch mal kurz: von Docker verwalteter Speicher außerhalb des Containers. Lebt, solange du ihn nicht explizit löschst.
+**Volume**, noch mal kurz: von Docker verwalteter Speicher außerhalb des Containers. Lebt, solange du ihn nicht explizit löschst.
 
-#### Schritt 1 – Volume anlegen
+#### Schritt 1: Volume anlegen
 
 ```bash
 docker volume create redis-daten
@@ -61,7 +65,7 @@ docker volume ls
 ```
 Du siehst `redis-daten` in der Liste.
 
-#### Schritt 2 – Redis starten und Volume einhängen
+#### Schritt 2: Redis starten und Volume einhängen
 
 ```bash
 docker run -d --name cache \
@@ -71,12 +75,12 @@ docker run -d --name cache \
 
 Erklärt:
 
-- `-d --name cache` – im Hintergrund, Name `cache`.
-- `-v redis-daten:/data` – Volume `redis-daten` in den Container an den Pfad `/data` einhängen. Redis speichert dort seine Snapshots.
-- `redis:7` – offizielles Redis-Image, Version 7.
-- `redis-server --save 60 1` – überschreibt das Standard-Command: „speichere alle 60 Sekunden einen Snapshot, wenn mindestens 1 Key geändert wurde".
+- `-d --name cache`, im Hintergrund, Name `cache`.
+- `-v redis-daten:/data`. Volume `redis-daten` in den Container an den Pfad `/data` einhängen. Redis speichert dort seine Snapshots.
+- `redis:7`, offizielles Redis-Image, Version 7.
+- `redis-server --save 60 1`, überschreibt das Standard-Command: „speichere alle 60 Sekunden einen Snapshot, wenn mindestens 1 Key geändert wurde".
 
-#### Schritt 3 – Daten in Redis schreiben
+#### Schritt 3: Daten in Redis schreiben
 
 Wir öffnen die Redis-CLI direkt im Container:
 
@@ -102,7 +106,7 @@ OK
 
 `SAVE` schreibt sofort einen Snapshot ins Volume, damit wir nicht 60 Sekunden warten müssen.
 
-#### Schritt 4 – Persistenz-Test
+#### Schritt 4: Persistenz-Test
 
 Container zerstören:
 ```bash
@@ -129,9 +133,9 @@ docker exec -it cache redis-cli
 2) "hobby"
 ```
 
-**Der Container ist neu – aber die Daten sind da.** Das ist Volume-Persistenz.
+**Der Container ist neu, aber die Daten sind da.** Das ist Volume-Persistenz.
 
-#### Schritt 5 – Aufräumen
+#### Schritt 5: Aufräumen
 
 ```bash
 docker stop cache
@@ -141,7 +145,7 @@ docker volume rm redis-daten
 
 ---
 
-### Übung 2 – nginx mit Umgebungsvariable konfigurieren
+### Übung 2: nginx mit Umgebungsvariable konfigurieren
 
 !!! info "Was du lernst"
     - Eine Umgebungsvariable beim Start übergeben
@@ -181,7 +185,7 @@ Viele Container-Images sind über Umgebungsvariablen konfigurierbar. Wir demonst
 
 ## 🟡 Mittel
 
-### Übung 3 – Postgres + eigenes Netzwerk + Adminer als GUI
+### Übung 3: Postgres + eigenes Netzwerk + Adminer als GUI
 
 !!! info "Was du lernst"
     - Eigenes Netzwerk anlegen
@@ -200,7 +204,7 @@ Bau einen Mini-Stack:
 #### Hinweise
 
 - Erst Netzwerk anlegen, dann Container.
-- Postgres braucht kein Port-Mapping – nur Adminer.
+- Postgres braucht kein Port-Mapping, nur Adminer.
 - Postgres-Container-Name wird zum DNS-Namen im Netzwerk.
 
 ??? info "Zielstruktur"
@@ -234,7 +238,7 @@ docker volume rm postgres-daten
 
 ---
 
-### Übung 4 – App liest Konfiguration aus `.env`-Datei
+### Übung 4: App liest Konfiguration aus `.env`-Datei
 
 !!! info "Was du lernst"
     - `--env-file` beim `docker run`
@@ -253,8 +257,8 @@ Du hast einen PostgreSQL-Container, dessen komplette Konfiguration (User, Passwo
     POSTGRES_DB=testdaten
     ```
 - Beim Start: `docker run --env-file .env postgres:16`
-- **Wichtig:** keine Anführungszeichen in der `.env` – die werden wörtlich übernommen.
-- Nach dem Start prüfen: `docker exec <container> env | grep POSTGRES`.
+- **Wichtig:** keine Anführungszeichen in der `.env`, die werden wörtlich übernommen.
+- Nach dem Start prüfen: `docker exec <container> sh -c "env | grep POSTGRES"` (die Suche läuft dabei im Container und funktioniert so in jeder Shell).
 
 #### Bonus
 
@@ -269,7 +273,7 @@ Lege eine `.gitignore` an, die `.env` ausschließt. Das ist die Gewohnheit, die 
 
 ## 🔴 Fortgeschritten
 
-### Übung 5 – Drei Services, zwei Netzwerke (Segmentierung)
+### Übung 5: Drei Services, zwei Netzwerke (Segmentierung)
 
 !!! info "Was du lernst"
     - Netzwerk-Segmentierung
@@ -279,9 +283,9 @@ Lege eine `.gitignore` an, die `.env` ausschließt. Das ist die Gewohnheit, die 
 
 Eine typische Web-Anwendung hat drei Schichten:
 
-- **Frontend** – Webserver, den der Browser erreicht
-- **Backend** – API-Server, der Anfragen bearbeitet
-- **Datenbank** – wo die Daten liegen
+- **Frontend**. Webserver, den der Browser erreicht
+- **Backend**. API-Server, der Anfragen bearbeitet
+- **Datenbank**, wo die Daten liegen
 
 Design-Prinzip: **Datenbank darf nur vom Backend erreicht werden, nicht vom Frontend.**
 
@@ -289,14 +293,14 @@ Design-Prinzip: **Datenbank darf nur vom Backend erreicht werden, nicht vom Fron
 
 Baue diese Struktur mit drei Containern:
 
-- `frontend` (nginx) – öffentlich auf Host-Port 8080
-- `backend` (nginx als Platzhalter) – nicht öffentlich
+- `frontend` (nginx), öffentlich auf Host-Port 8080
+- `backend` (nginx als Platzhalter), nicht öffentlich
 - `db` (postgres:16)
 
 Und zwei Netzwerken:
 
-- `netz-frontend` – enthält `frontend` und `backend`
-- `netz-backend` – enthält `backend` und `db`
+- `netz-frontend`, enthält `frontend` und `backend`
+- `netz-backend`, enthält `backend` und `db`
 
 Prüfe per `docker exec`, dass:
 
@@ -306,14 +310,14 @@ Prüfe per `docker exec`, dass:
 
 #### Hinweise
 
-- Ein Container kann in mehreren Netzwerken sein – genau das macht `backend`.
+- Ein Container kann in mehreren Netzwerken sein, genau das macht `backend`.
 - Mit `docker exec frontend ping -c 2 backend` testest du.
 - **Nicht jeder Container hat `ping` vorinstalliert.** Alternativen:
     - `docker exec frontend getent hosts backend` (DNS-Auflösung testen, meistens verfügbar)
     - `docker exec frontend wget -q -O- http://backend` (HTTP-Test, klappt bei nginx)
     - `ping` nachinstallieren:
         - In **Alpine-Images** (z.B. `nginx:alpine`): `docker exec frontend apk add --no-cache iputils-ping`
-        - In **Debian/Ubuntu-Images**: `docker exec frontend apt-get update && apt-get install -y iputils-ping`
+        - In **Debian/Ubuntu-Images**: `docker exec frontend sh -c "apt-get update && apt-get install -y iputils-ping"`
 - Network-Create, dann `docker network connect`.
 
 #### Aufräumen
@@ -324,7 +328,7 @@ Alle Container und beide Netzwerke entfernen.
 
 ## 🏆 Challenge
 
-### Challenge – Notizbuch-Stack mit echter Persistenz
+### Challenge: Notizbuch-Stack mit echter Persistenz
 
 !!! abstract "Aufgabe"
     Baue einen Stack, mit dem du **persönliche Notizen in einer Postgres-Datenbank** speichern und per Browser ansehen kannst.
@@ -341,7 +345,7 @@ Alle Container und beide Netzwerke entfernen.
     8. Starte beide Container neu.
     9. Prüfe: die drei Notizen sind **noch da**.
 
-    Am Ende räumst du alles auf – außer du willst das Notizbuch behalten.
+    Am Ende räumst du alles auf, außer du willst das Notizbuch behalten.
 
 ??? success "Musterlösung"
 
@@ -398,7 +402,7 @@ Alle Container und beide Netzwerke entfernen.
     );
 
     INSERT INTO notizen (titel, inhalt) VALUES
-      ('Dockerkurs', 'Volumes gelernt – geil.'),
+      ('Dockerkurs', 'Volumes gelernt, richtig gut.'),
       ('Einkaufsliste', 'Milch, Brot, Kaffee.'),
       ('Ideen', 'Mini-Blog in einem Container hosten.');
     ```
@@ -412,7 +416,7 @@ Alle Container und beide Netzwerke entfernen.
     docker rm notes-ui notes-db
     ```
 
-    Volumes prüfen – `notes-data` ist noch da:
+    Volumes prüfen, `notes-data` ist noch da:
 
     === "macOS / Linux"
         ```bash
@@ -431,7 +435,7 @@ Alle Container und beide Netzwerke entfernen.
 
     Beide Container neu starten (dieselben Befehle wie oben).
 
-    In Adminer wieder anmelden, `SELECT * FROM notizen;` ausführen – die drei Zeilen sind da.
+    In Adminer wieder anmelden, `SELECT * FROM notizen;` ausführen, die drei Zeilen sind da.
 
     ### Aufräumen
 
@@ -441,11 +445,11 @@ Alle Container und beide Netzwerke entfernen.
     docker network rm notes-netz
     ```
 
-    **Was du hier gelernt hast:** Alle drei Säulen im Zusammenspiel, plus echten SQL-Workflow. Persistenz überlebt den Tod der Container – nur das Volume halten. Das ist das Muster, das überall skaliert.
+    **Was du hier gelernt hast:** Alle drei Säulen im Zusammenspiel, plus echten SQL-Workflow. Persistenz überlebt den Tod der Container, nur das Volume halten. Das ist das Muster, das überall skaliert.
 
 ---
 
 ## Weiter mit
 
-- [Docker Compose](../docker-compose/index.md) – genau denselben Stack, aber mit `compose.yaml`
+- [Docker Compose](../docker-compose/index.md): genau denselben Stack, aber mit `compose.yaml`
 - [Stolpersteine Aufbau-Block](stolpersteine.md)

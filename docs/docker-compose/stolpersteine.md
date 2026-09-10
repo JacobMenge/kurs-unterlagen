@@ -1,6 +1,6 @@
 ---
 title: "Stolpersteine Compose"
-description: "Typische Probleme beim Arbeiten mit Docker Compose – YAML-Syntax, depends_on, Netzwerke zwischen Projekten, Healthchecks."
+description: "Typische Probleme beim Arbeiten mit Docker Compose. YAML-Syntax, depends_on, Netzwerke zwischen Projekten, Healthchecks."
 ---
 
 # Stolpersteine Compose
@@ -8,7 +8,7 @@ description: "Typische Probleme beim Arbeiten mit Docker Compose – YAML-Syntax
 Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Container startet nicht, Platte voll, Apple-Silicon-Fallen) findest du im [Docker-Stolpersteine-Abschnitt](../docker/stolpersteine.md).
 
 !!! info "Drei Säulen sind vorausgesetzt"
-    Compose ist **keine Alternative** zu Volumes, ENV-Variablen und Netzwerken – es nutzt sie nur deklarativ. Wenn du Probleme dort hast, zuerst in die [Aufbau-Stolpersteine](../docker-aufbau/stolpersteine.md) schauen.
+    Compose ist **keine Alternative** zu Volumes, ENV-Variablen und Netzwerken, es nutzt sie nur deklarativ. Wenn du Probleme dort hast, zuerst in die [Aufbau-Stolpersteine](../docker-aufbau/stolpersteine.md) schauen.
 
 ---
 
@@ -17,7 +17,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 ??? danger "„validating compose.yaml: ...", kryptische YAML-Fehler"
     **Häufigste Ursachen:**
 
-    1. **Tabs statt Leerzeichen**: YAML erlaubt nur Leerzeichen für Einrückung. Dein Editor sollte das konvertieren, wenn nicht – VSCode oder ein anderer Editor mit YAML-Support nehmen.
+    1. **Tabs statt Leerzeichen**: YAML erlaubt nur Leerzeichen für Einrückung. Dein Editor sollte das konvertieren, wenn nicht. VSCode oder ein anderer Editor mit YAML-Support nehmen.
     2. **Falsche Einrückung**: alle Elemente auf gleicher Hierarchie-Ebene brauchen **gleiche Einrückung** (idealerweise 2 Leerzeichen).
     3. **Map vs. Liste vermischt**: `environment:` kann entweder als Map (`KEY: value`) oder als Liste (`- KEY=value`) geschrieben werden, nicht gemischt.
 
@@ -30,7 +30,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 ??? warning "`${VAR}` erscheint wörtlich statt ersetzt"
     **Ursache:** `VAR` ist weder in einer `.env` noch in der Shell-Umgebung gesetzt.
 
-    **Diagnose** – nach den `${VAR}`-Stellen in der aufgelösten YAML suchen:
+    **Diagnose**, nach den `${VAR}`-Stellen in der aufgelösten YAML suchen:
 
     === "macOS / Linux"
         ```bash
@@ -80,10 +80,10 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 
 ## depends_on und Startreihenfolge
 
-??? danger "App startet zu früh – DB antwortet noch nicht"
+??? danger "App startet zu früh. DB antwortet noch nicht"
     **Symptom:** App crasht mit „connection refused" beim Start, obwohl `depends_on: db` gesetzt ist.
 
-    **Ursache:** `depends_on` **ohne** `condition` wartet nur, bis der Container **startet** – nicht bis der Dienst **bereit** ist. Postgres braucht bei frischem Volume 5–15 Sekunden, bis er Anfragen annimmt.
+    **Ursache:** `depends_on` **ohne** `condition` wartet nur, bis der Container **startet**, nicht bis der Dienst **bereit** ist. Postgres braucht bei frischem Volume 5 bis 15 Sekunden, bis er Anfragen annimmt.
 
     **Lösung:** Healthcheck + `depends_on: condition: service_healthy`:
 
@@ -107,7 +107,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
             condition: service_healthy
     ```
 
-    **Zusätzlich:** App sollte **selbst Retry-Logik** haben. In Produktion gehen DBs auch mal kurz offline – die App muss das aushalten.
+    **Zusätzlich:** App sollte **selbst Retry-Logik** haben. In Produktion gehen DBs auch mal kurz offline, die App muss das aushalten.
 
 ??? warning "Healthcheck-Test schlägt endlos fehl"
     **Symptom:** `docker compose ps` zeigt den Service dauerhaft als `starting` oder `unhealthy`.
@@ -120,13 +120,13 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
        ```
        Liefert das `accepting connections`? Wenn nein: der Befehl selbst passt nicht.
     2. **Falscher User**: `pg_isready -U postgres` prüft den Default-User. Wenn du einen anderen angelegt hast (`POSTGRES_USER=kurs`), musst du den nutzen.
-    3. **`start_period` zu kurz**: Bei frischem Postgres-Volume kann die Initialisierung länger dauern. 15–30 Sekunden sind oft realistisch.
+    3. **`start_period` zu kurz**: Bei frischem Postgres-Volume kann die Initialisierung länger dauern. 15 bis 30 Sekunden sind oft realistisch.
 
 ---
 
 ## Service-Kommunikation
 
-??? danger "App findet DB nicht – „could not translate host name""
+??? danger "App findet DB nicht, „could not translate host name""
     **Fast immer:** Compose hat beide Services **in unterschiedliche Netzwerke** gelegt, oder du hast ein Custom-Netzwerk definiert, in dem einer fehlt.
 
     **Diagnose:**
@@ -136,7 +136,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     docker network inspect <projektname>_default
     ```
 
-    **Der einfachste Fix:** Keine `networks:`-Blöcke angeben – Compose legt automatisch ein Default-Netzwerk an, in dem **alle Services** sind.
+    **Der einfachste Fix:** Keine `networks:`-Blöcke angeben. Compose legt automatisch ein Default-Netzwerk an, in dem **alle Services** sind.
 
     **Wenn du Custom-Netzwerke brauchst:** Sicherstellen, dass beide Services explizit auflisten:
     ```yaml
@@ -208,7 +208,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     docker volume ls
     ```
 
-    **Verhalten fixieren – Projektname als Umgebungsvariable:**
+    **Verhalten fixieren. Projektname als Umgebungsvariable:**
 
     === "macOS / Linux"
         ```bash
@@ -227,7 +227,7 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 
     Oder per Flag direkt am Aufruf: `docker compose -p kurs up -d`.
 
-??? info "External Volume – vorhandenes Volume ohne Projekt-Präfix nutzen"
+??? info "External Volume, vorhandenes Volume ohne Projekt-Präfix nutzen"
     ```yaml
     volumes:
       meine-daten:
@@ -296,9 +296,9 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
     ```
 
 ??? warning "`docker-compose` vs. `docker compose`"
-    **Alt:** `docker-compose` mit Bindestrich (Python, Compose V1) – **veraltet**, keine Updates mehr.
+    **Alt:** `docker-compose` mit Bindestrich (Python, Compose V1), **veraltet**, keine Updates mehr.
 
-    **Neu:** `docker compose` mit Leerzeichen (Go, Compose V2) – **aktueller Standard**.
+    **Neu:** `docker compose` mit Leerzeichen (Go, Compose V2), **aktueller Standard**.
 
     Wenn nur das alte installiert ist:
 
@@ -328,9 +328,9 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 
     Spätere Dateien überschreiben frühere. Klassische Verwendung:
 
-    - `compose.yaml` – Basis
-    - `compose.dev.yaml` – lokale Entwicklung (Live-Mounts, Debug-Ports)
-    - `compose.prod.yaml` – Produktion (Restart-Policies, keine Debug-Tools)
+    - `compose.yaml`. Basis
+    - `compose.dev.yaml`, lokale Entwicklung (Live-Mounts, Debug-Ports)
+    - `compose.prod.yaml`. Produktion (Restart-Policies, keine Debug-Tools)
 
 ---
 

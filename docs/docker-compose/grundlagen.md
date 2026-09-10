@@ -1,9 +1,9 @@
 ---
-title: "Compose – Grundlagen"
+title: "Compose. Grundlagen"
 description: "Die compose.yaml-Syntax Schritt für Schritt: services, volumes, networks, depends_on, healthcheck, profiles. Mit Erklärung jedes Schlüssels."
 ---
 
-# Compose – Grundlagen der `compose.yaml`
+# Compose: Grundlagen der `compose.yaml`
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
@@ -41,7 +41,7 @@ Der wichtigste Block ist **`services:`**. Alles andere ist Zusatz.
 
 ---
 
-## `services:` – die Container deines Stacks
+## `services:` listet die Container deines Stacks
 
 Jeder Eintrag unter `services:` wird zu einem Container. Beispiel:
 
@@ -93,7 +93,7 @@ services:
 !!! tip "image + build kombinieren"
     Wenn du `build:` **und** `image:` setzt, baut Compose lokal und taggt das Ergebnis mit dem angegebenen Namen. Das ist praktisch, wenn du das gleiche Image später pushen willst.
 
-### `ports` – Port-Mapping
+### `ports`: Port-Mapping
 
 Format: `"HOST:CONTAINER"`, immer **als String** geschrieben (wegen YAML-Eigenheiten bei Zahlen).
 
@@ -109,7 +109,7 @@ ports:
 
     Beispiel: Wenn deine App über `db:5432` auf Postgres zugreift, brauchst du **keinen** `ports:`-Block am `db`-Service.
 
-### `environment` – ENV-Variablen
+### `environment`: ENV-Variablen
 
 Zwei Schreibweisen sind erlaubt:
 
@@ -131,7 +131,7 @@ Zwei Schreibweisen sind erlaubt:
 
 Beide funktionieren. Wählt einen Stil und bleibt konsistent.
 
-### `env_file` – Variablen aus Datei laden
+### `env_file`: Variablen aus Datei laden
 
 Statt jede Variable einzeln aufzulisten, kannst du auf eine Datei verweisen:
 
@@ -173,7 +173,7 @@ volumes:
 
 **Wichtig:** Benannte Volumes (die ohne `/` am Anfang) müssen auch im Top-Level-Block `volumes:` deklariert werden (siehe ganz unten).
 
-### `depends_on` – Startreihenfolge
+### `depends_on`: Startreihenfolge
 
 ```yaml
 services:
@@ -193,7 +193,7 @@ services:
 
     Für echtes „warte, bis DB bereit" brauchst du ein **Healthcheck** plus eine längere `depends_on`-Syntax (siehe gleich).
 
-### `healthcheck` – Bereitschaft prüfen
+### `healthcheck`: Bereitschaft prüfen
 
 ```yaml
 services:
@@ -212,7 +212,7 @@ services:
 ```
 
 !!! tip "Warum `$${...}` mit doppeltem `$`?"
-    Compose interpretiert `$VAR` als YAML-Variable. Mit `$$` schreibst du **ein** `$`, das im Container angekommt – so kann Bash die Umgebungsvariable dort auflösen. `pg_isready` kennt sonst weder User noch Datenbank, prüft Default-Postgres und der Check wäre unzuverlässig.
+    Compose interpretiert `$VAR` als YAML-Variable. Mit `$$` schreibst du **ein** `$`, das im Container angekommt, so kann Bash die Umgebungsvariable dort auflösen. `pg_isready` kennt sonst weder User noch Datenbank, prüft Default-Postgres und der Check wäre unzuverlässig.
 
 Was die Felder bedeuten:
 
@@ -248,7 +248,7 @@ services:
 
 Jetzt startet `app` erst, wenn `db` als „healthy" markiert ist.
 
-### `restart` – automatischer Neustart
+### `restart`: automatischer Neustart
 
 ```yaml
 services:
@@ -259,14 +259,14 @@ services:
 
 Optionen:
 
-- `no` (Default) – kein automatischer Neustart
-- `always` – immer neu starten, auch wenn der Container ordentlich beendet wurde
-- `on-failure` – nur bei Fehler-Exit
-- `unless-stopped` – wie `always`, aber respektiert manuelles `docker stop`
+- `no` (Default), kein automatischer Neustart
+- `always`, immer neu starten, auch wenn der Container ordentlich beendet wurde
+- `on-failure`, nur bei Fehler-Exit
+- `unless-stopped`, wie `always`, aber respektiert manuelles `docker stop`
 
 Für Entwicklung meistens `no`, für kleine Self-Hosting-Setups `unless-stopped`.
 
-### `command` – den Default-Befehl überschreiben
+### `command`: den Default-Befehl überschreiben
 
 ```yaml
 services:
@@ -335,7 +335,7 @@ networks:
         - subnet: 10.20.0.0/16
 ```
 
-Die meisten Stacks brauchen keine Netzwerk-Konfiguration – das Default-Netzwerk reicht.
+Die meisten Stacks brauchen keine Netzwerk-Konfiguration, das Default-Netzwerk reicht.
 
 ---
 
@@ -383,7 +383,7 @@ services:
 ## Ein vollständiges, kommentiertes Beispiel
 
 ```yaml
-# 1) Die Services – das sind die Container
+# 1) Die Services: das sind die Container
 services:
 
   # 1a) Die Datenbank
@@ -443,13 +443,13 @@ Mit dieser YAML legst du eine `.env` mit dem Passwort an und startest den Stack:
     ```
 
     !!! note "Keine Anführungszeichen"
-        Unter CMD landen Anführungszeichen wörtlich in der Datei. Deshalb hier ohne `"` schreiben – und ohne Leerzeichen vor dem `>`.
+        Unter CMD landen Anführungszeichen wörtlich in der Datei. Deshalb hier ohne `"` schreiben, und ohne Leerzeichen vor dem `>`.
 
 Läuft ein produktionsähnlicher Stack. Alles, was in der vorigen Einheit manuell war, ist hier deklarativ.
 
 ---
 
-## Profile – verschiedene Varianten desselben Stacks
+## Profile: verschiedene Varianten desselben Stacks
 
 Mit `profiles:` kannst du Services an- und abschalten, ohne die YAML zu ändern:
 
@@ -476,7 +476,7 @@ Praktisch, um **optionale Dienste** (Debug-Tools, Test-Seeds) sauber von Default
 
 ---
 
-## `docker compose config` – YAML prüfen
+## `docker compose config`: YAML prüfen
 
 ```bash
 docker compose config
@@ -526,7 +526,7 @@ Zeigt die komplett aufgelöste YAML nach Einsetzen von `.env`-Variablen und Defa
     - `compose.dev.yaml` für Entwicklung (Live-Mounts, Debug-Ports)
     - `compose.prod.yaml` für Produktion (Restart-Policies, Secrets, Scaling)
 
-??? info "`docker compose watch` – Autoreload bei Code-Änderungen"
+??? info "`docker compose watch`. Autoreload bei Code-Änderungen"
     Seit Compose v2.22 gibt es einen eingebauten „Watch"-Modus:
 
     ```yaml
@@ -548,7 +548,7 @@ Zeigt die komplett aufgelöste YAML nach Einsetzen von `.env`-Variablen und Defa
     docker compose watch
     ```
 
-    Compose überwacht Dateien und synct oder baut automatisch. Super für iterative Entwicklung – aber fortgeschritten.
+    Compose überwacht Dateien und synct oder baut automatisch. Super für iterative Entwicklung, aber fortgeschritten.
 
 ---
 
@@ -561,5 +561,5 @@ Zeigt die komplett aufgelöste YAML nach Einsetzen von `.env`-Variablen und Defa
 
 ## Weiterlesen
 
-- [Praxis: erste compose.yaml](praxis-webapp.md) – jetzt bauen wir den Stack aus der manuellen Praxis mit Compose (45 min)
+- [Praxis: erste compose.yaml](praxis-webapp.md): jetzt bauen wir den Stack aus der manuellen Praxis mit Compose (45 min)
 - [Cheatsheet Docker Compose](../cheatsheets/compose.md)

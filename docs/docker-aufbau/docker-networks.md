@@ -8,7 +8,7 @@ description: "Wie Container miteinander sprechen: Bridge-, Host-, None-Netzwerke
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
 
-    - erklären, **warum Container nicht automatisch miteinander sprechen** können – und wie man das ändert
+    - erklären, **warum Container nicht automatisch miteinander sprechen** können, und wie man das ändert
     - die drei Standard-Netzwerktreiber **bridge, host, none** einordnen
     - ein **eigenes Netzwerk** anlegen und Container daran hängen
     - verstehen, was **Docker-DNS** ist: Container per Name erreichen
@@ -16,11 +16,15 @@ description: "Wie Container miteinander sprechen: Bridge-, Host-, None-Netzwerke
 
 ---
 
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Einziger Unterschied bei mehrzeiligen Befehlen: Bash bricht Zeilen mit `\` um, PowerShell mit dem Backtick `` ` `` und CMD mit `^`. Du kannst jeden mehrzeiligen Befehl auch einfach in eine Zeile schreiben, dann ist er in jeder Shell gleich.
+
 ## Warum das wichtig ist
 
 Sobald deine Anwendung aus **mehr als einem Container** besteht, stellt sich die Frage: Wie sprechen sie miteinander?
 
-Beispiel: Eine Web-App-Container muss mit dem Datenbank-Container reden. Wenn beide auf demselben Host laufen, denkt man intuitiv: „Na klar, über `localhost`." Falsch. **`localhost` im Container ist der Container selbst** – nicht der Host, nicht andere Container.
+Beispiel: Eine Web-App-Container muss mit dem Datenbank-Container reden. Wenn beide auf demselben Host laufen, denkt man intuitiv: „Na klar, über `localhost`." Falsch. **`localhost` im Container ist der Container selbst**, nicht der Host, nicht andere Container.
 
 Die richtige Antwort sind **Docker-Netzwerke**. Sie sind einfacher, als sie zunächst klingen.
 
@@ -65,14 +69,14 @@ flowchart TB
   end
 ```
 
-### bridge – der Normalfall
+### bridge: der Normalfall
 
 - Container bekommt eine **private IP** in einem Docker-verwalteten Subnetz (typisch `172.17.0.0/16`).
 - Kommunikation nach außen läuft über NAT auf dem Host.
 - Ports werden mit `-p` explizit freigegeben.
 - **Standard für alle `docker run`**, wenn du nichts anderes sagst.
 
-### host – „direkt ins Host-Netzwerk"
+### host: „direkt ins Host-Netzwerk"
 
 - Container **teilt sich das Netzwerk** mit dem Host.
 - Kein NAT, keine Port-Mappings nötig.
@@ -81,7 +85,7 @@ flowchart TB
 
 **Einsatz:** wenn maximale Netzwerk-Performance wichtig ist oder spezielle Protokolle (Multicast) verwendet werden.
 
-### none – „kein Netzwerk"
+### none: „kein Netzwerk"
 
 - Container hat **keine Netzwerkverbindung**.
 - Nur das Loopback-Interface im Container selbst.
@@ -127,7 +131,7 @@ docker run -d --name app \
   meine-app
 ```
 
-Beachte in der `DATABASE_URL` den Host **`db`** – das ist der **Name des anderen Containers**. Docker-DNS übersetzt diesen Namen zur IP des `db`-Containers im Netzwerk `kurs-netz`.
+Beachte in der `DATABASE_URL` den Host **`db`**, das ist der **Name des anderen Containers**. Docker-DNS übersetzt diesen Namen zur IP des `db`-Containers im Netzwerk `kurs-netz`.
 
 ### Kommunikation testen
 
@@ -138,7 +142,7 @@ docker exec app ping -c 3 db
 docker exec app nslookup db
 ```
 
-Du siehst: `db` wird zu einer IP aufgelöst. Jetzt können die Container ohne feste IP-Adressen miteinander sprechen – Docker kümmert sich um den Rest.
+Du siehst: `db` wird zu einer IP aufgelöst. Jetzt können die Container ohne feste IP-Adressen miteinander sprechen. Docker kümmert sich um den Rest.
 
 ### Netzwerk-Inhalt anschauen
 
@@ -168,7 +172,7 @@ In einem **User-Defined Bridge-Netz** gibt es einen integrierten DNS-Server. Con
 
 Was *nicht* geht:
 
-- `ping db.kurs-netz` mit Domain-Suffix – Docker-DNS ist „flach".
+- `ping db.kurs-netz` mit Domain-Suffix. Docker-DNS ist „flach".
 - Cross-Netz-Namen: Container in Netz A kann Container in Netz B nicht per Name erreichen.
 
 ### Besonders schön: mehrere Netze pro Container
@@ -200,7 +204,7 @@ Das ist ein einfaches, aber effektives **Segmentierungsmuster** für Mehr-Schich
 
 ---
 
-## Ports – was heißt „Publisher" eigentlich?
+## Ports: was heißt „Publisher" eigentlich?
 
 Rekap aus dem Einführungsblock:
 
@@ -215,7 +219,7 @@ Der Container hört intern auf Port 80. Docker macht diesen Port **für den Host
 
 **Wichtig für das Netzwerk-Verständnis:** Wenn zwei Container im selben User-Defined Netzwerk sind, brauchst du **zwischen ihnen keinen `-p`-Port**. Sie können sich über Container-Namen auf *allen* Ports erreichen.
 
-Beispiel: Eine App spricht mit PostgreSQL auf Port 5432. Wenn beide im `kurs-netz` hängen, brauchst du **keinen `-p 5432:5432`** beim Datenbank-Container – die App erreicht die DB über `db:5432` im internen Netz.
+Beispiel: Eine App spricht mit PostgreSQL auf Port 5432. Wenn beide im `kurs-netz` hängen, brauchst du **keinen `-p 5432:5432`** beim Datenbank-Container, die App erreicht die DB über `db:5432` im internen Netz.
 
 **`-p` brauchst du nur**, wenn der Port **vom Host aus** (oder von außen) erreichbar sein soll.
 
@@ -229,7 +233,7 @@ Nehmen wir ein typisches Setup:
 # Eigenes Netzwerk
 docker network create kurs-netz
 
-# Datenbank – braucht keinen Host-Port, nur die App muss sie erreichen
+# Datenbank: braucht keinen Host-Port, nur die App muss sie erreichen
 docker run -d --name db \
   --network kurs-netz \
   -v db-daten:/var/lib/postgresql/data \
@@ -238,7 +242,7 @@ docker run -d --name db \
   -e POSTGRES_DB=kursdaten \
   postgres:16
 
-# App – bekommt einen Host-Port, damit wir sie im Browser öffnen können
+# App: bekommt einen Host-Port, damit wir sie im Browser öffnen können
 docker run -d --name app \
   --network kurs-netz \
   -e DATABASE_URL=postgres://kurs:geheim@db:5432/kursdaten \
@@ -249,8 +253,8 @@ docker run -d --name app \
 Was passiert:
 
 1. Ein Netzwerk `kurs-netz` wird angelegt.
-2. Die Datenbank startet, hängt am Netz. **Kein `-p`** – die DB ist **nur von innen** erreichbar.
-3. Die App startet, hängt ebenfalls am Netz. Sie bekommt via ENV-Variable die URL zur DB: `postgres://kurs:geheim@db:5432/kursdaten` – Host ist einfach `db`.
+2. Die Datenbank startet, hängt am Netz. **Kein `-p`**, die DB ist **nur von innen** erreichbar.
+3. Die App startet, hängt ebenfalls am Netz. Sie bekommt via ENV-Variable die URL zur DB: `postgres://kurs:geheim@db:5432/kursdaten`. Host ist einfach `db`.
 4. Die App hat `-p 8080:8000`, damit wir sie auf dem Host im Browser aufrufen können.
 
 Das ist die Basis dessen, was [Docker Compose](../docker-compose/einfuehrung.md) später automatisiert.
@@ -285,7 +289,7 @@ Das ist die Basis dessen, was [Docker Compose](../docker-compose/einfuehrung.md)
             ```
 
         Müssen im selben Netz sein.
-    2. **Default-Bridge** statt User-Defined. Default-Bridge hat kein DNS – also lieber ein eigenes Netzwerk anlegen.
+    2. **Default-Bridge** statt User-Defined. Default-Bridge hat kein DNS, also lieber ein eigenes Netzwerk anlegen.
     3. **Container-Name falsch geschrieben.** `DATABASE_URL=postgres://...@DB:5432/...` mit Großbuchstaben? DNS ist case-insensitiv, aber manche Applikationen behandeln Hostnamen komisch. Kleinbuchstaben nutzen.
 
 ??? warning "`localhost` vom App-Container aus den Host zu erreichen"
@@ -326,7 +330,7 @@ Das ist die Basis dessen, was [Docker Compose](../docker-compose/einfuehrung.md)
 ??? warning "IP-Adressen der Container ändern sich nach Neustart"
     **Beobachtung:** IP wechselt zwischen Docker-Neustarts.
 
-    **Ursache:** Das ist Absicht. IPs sind im Bridge-Netz nicht stabil – deshalb gibt es **Docker-DNS** mit Namen.
+    **Ursache:** Das ist Absicht. IPs sind im Bridge-Netz nicht stabil, deshalb gibt es **Docker-DNS** mit Namen.
 
     **Lösung:** Deine Anwendung **niemals** auf feste IP-Adressen bauen. Immer über den Container-Namen.
 
@@ -381,11 +385,11 @@ Im Praxis-Teil setzen wir alle drei zusammen ein.
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Container im selben User-Defined Netzwerk finden sich über ihren Namen – das ist Docker-DNS. `-p` brauchst du nur, wenn der Port vom Host aus erreichbar sein soll, nicht für Container-zu-Container.**
+    > **Container im selben User-Defined Netzwerk finden sich über ihren Namen, das ist Docker-DNS. `-p` brauchst du nur, wenn der Port vom Host aus erreichbar sein soll, nicht für Container-zu-Container.**
 
 ---
 
 ## Weiterlesen
 
-- [Praxis: Postgres & Adminer](praxis-multi-container.md) – alle drei Säulen zusammen
-- [Docker Compose – Einführung](../docker-compose/einfuehrung.md) – Automatisierung dessen, was du gerade gelernt hast
+- [Praxis: Postgres & Adminer](praxis-multi-container.md): alle drei Säulen zusammen
+- [Docker Compose. Einführung](../docker-compose/einfuehrung.md): Automatisierung dessen, was du gerade gelernt hast

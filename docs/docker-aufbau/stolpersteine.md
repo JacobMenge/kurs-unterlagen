@@ -5,7 +5,7 @@ description: "Typische Probleme rund um Volumes, Umgebungsvariablen, Netzwerke u
 
 # Stolpersteine Aufbau-Block
 
-Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund um Volumes, Umgebungsvariablen, Netzwerke und den Postgres+Adminer-Hands-on.
+Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind, rund um Volumes, Umgebungsvariablen, Netzwerke und den Postgres+Adminer-Hands-on.
 
 !!! info "Weitere Stolpersteine"
     - **Docker-Installation und Einstieg**: [Docker-Stolpersteine im Einführungs-Block](../docker/stolpersteine.md)
@@ -22,7 +22,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     **Ursache 2:** Volume wurde aus Versehen mit `docker volume rm` oder `docker system prune --volumes` gelöscht.
 
     **Lösung:**
-    - Check: `docker volume ls` – ist `postgres-daten` noch da?
+    - Check: `docker volume ls`, ist `postgres-daten` noch da?
     - Wenn ja, ist vermutlich einfach das `-v`-Flag beim Run vergessen worden. Container stoppen, mit `-v` neu starten.
     - Wenn nein, sind die Daten unwiederbringlich weg.
 
@@ -70,7 +70,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
 
 ## Umgebungsvariablen
 
-??? danger "Postgres startet nicht – „database \"kursdaten\" does not exist""
+??? danger "Postgres startet nicht, „database \"kursdaten\" does not exist""
     **Ursache:** Das `POSTGRES_DB=kursdaten` wird **nur beim allerersten Start** des Containers ausgewertet. Wenn das Volume schon von einer früheren Postgres-Installation belegt ist (mit anderer DB), wird die DB **nicht** automatisch angelegt.
 
     **Lösung:**
@@ -86,7 +86,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
 ??? warning "Variable wird nicht gesetzt, Wert ist leer"
     **Häufige Ursachen:**
 
-    1. **Falsche Schreibweise** – ENV-Variablen sind case-sensitiv. `POSTGRES_USER` ≠ `postgres_user`.
+    1. **Falsche Schreibweise**. ENV-Variablen sind case-sensitiv. `POSTGRES_USER` ≠ `postgres_user`.
     2. **Anführungszeichen** werden in `-e`- Werten wörtlich genommen:
        ```bash
        -e POSTGRES_PASSWORD="geheim"   # Wert ist "geheim", MIT Anführungszeichen
@@ -115,7 +115,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
 ??? danger "Secret ist in Git gelandet"
     Siehe [Umgebungsvariablen → Secret ist in Git](umgebungsvariablen.md). Kurz:
 
-    1. **Secret sofort rotieren** – neues Passwort / Key setzen, altes deaktivieren.
+    1. **Secret sofort rotieren**, neues Passwort / Key setzen, altes deaktivieren.
     2. Git-History bereinigen mit `git-filter-repo` oder BFG Repo-Cleaner.
     3. Ein in öffentlichem Repo geleaktes Secret gilt als **kompromittiert**. Rotation ist die einzige saubere Lösung.
 
@@ -124,7 +124,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
 ## Netzwerke
 
 ??? danger "Adminer findet Postgres nicht"
-    **Ursache (fast immer):** Beide Container sind nicht im selben User-Defined Netzwerk. Im Default-Bridge (ohne `--network`) gibt es **kein DNS** – der Name `db` wird nicht aufgelöst.
+    **Ursache (fast immer):** Beide Container sind nicht im selben User-Defined Netzwerk. Im Default-Bridge (ohne `--network`) gibt es **kein DNS**, der Name `db` wird nicht aufgelöst.
 
     **Diagnose:**
     ```bash
@@ -186,7 +186,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     ```
 
 ??? info "Zwei Container sollen auf denselben Ports hören"
-    Mehrere Postgres-Instanzen auf Port 5432? Im selben Netzwerk geht das sauber – **intern** hat jeder Container seinen eigenen Port 5432. Problem entsteht nur, wenn beide per `-p 5432:5432` nach **außen** gemappt werden. Dann konflikt auf dem Host-Port.
+    Mehrere Postgres-Instanzen auf Port 5432? Im selben Netzwerk geht das sauber, **intern** hat jeder Container seinen eigenen Port 5432. Problem entsteht nur, wenn beide per `-p 5432:5432` nach **außen** gemappt werden. Dann konflikt auf dem Host-Port.
 
     Lösung: nur einen Container per `-p` freigeben, oder unterschiedliche Host-Ports wählen:
     ```bash
@@ -195,7 +195,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     ```
 
 ??? info "`localhost` vom App-Container zum Host-Dienst"
-    Wenn ein Container einen Dienst **auf dem Host** (nicht in einem anderen Container) erreichen will, ist `localhost` nicht der Host – sondern der Container selbst.
+    Wenn ein Container einen Dienst **auf dem Host** (nicht in einem anderen Container) erreichen will, ist `localhost` nicht der Host, sondern der Container selbst.
 
     **Docker Desktop auf macOS und Windows:**
     `host.docker.internal` funktioniert direkt. Docker Desktop richtet den DNS-Eintrag automatisch ein.
@@ -204,7 +204,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     ```
 
     **Docker Engine auf Linux:**
-    Kein automatisches `host.docker.internal` – du musst es explizit freischalten. Zwei Wege:
+    Kein automatisches `host.docker.internal`, du musst es explizit freischalten. Zwei Wege:
 
     1. **Per `--add-host`** beim `docker run`:
        ```bash
@@ -219,10 +219,17 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
        ```
 
     **Achtung:** `host-gateway` funktioniert nur mit Docker ≥ 20.10 **und** einem Linux-Host mit passenden Netzwerk-Plugins (`netfilter`). Bei exotischen Setups (rootless Docker, Podman) klappt es manchmal nicht. Fallback: die tatsächliche Host-IP im Bridge-Netzwerk verwenden:
-    ```bash
-    docker network inspect bridge | grep Gateway
-    # meist 172.17.0.1
-    ```
+    === "macOS / Linux"
+        ```bash
+        docker network inspect bridge | grep Gateway
+        # meist 172.17.0.1
+        ```
+
+    === "Windows PowerShell"
+        ```powershell
+        docker network inspect bridge | Select-String Gateway
+        # meist 172.17.0.1
+        ```
 
 ??? warning "Bind-Mount-Performance schlechter als erwartet (macOS)"
     **Symptom:** Dein Projekt mit `node_modules` oder einem großen `vendor`-Ordner läuft im Container fünfmal langsamer als „nativ".
@@ -232,7 +239,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     **Lösungen:**
 
     1. **VirtioFS sicherstellen** (Docker Desktop → Settings → General → File sharing implementation). Inzwischen Default, aber alte Installationen haben manchmal noch gRPC FUSE.
-    2. **Nur das Nötigste mounten** – nicht `$HOME`, nicht den ganzen Projektstand samt `node_modules`.
+    2. **Nur das Nötigste mounten**, nicht `$HOME`, nicht den ganzen Projektstand samt `node_modules`.
     3. **Ausgewählte Ordner als Named Volume** statt Bind Mount behandeln:
        ```yaml
        volumes:
@@ -242,7 +249,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
        `node_modules` lebt dann in einem Volume (schnell), dein Code kommt über Bind Mount rein (langsam, aber klein).
     4. **Für wirklich große Setups:** Projekt-Verzeichnis komplett als Volume kopieren, Bind Mount nur für aktive Entwicklung zuschalten.
 
-    Auf **Linux** ist das nicht relevant – Bind Mounts sind dort direkt am Host-Dateisystem, ohne Übersetzungsschicht.
+    Auf **Linux** ist das nicht relevant. Bind Mounts sind dort direkt am Host-Dateisystem, ohne Übersetzungsschicht.
 
 ---
 
@@ -266,7 +273,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
 
     **Lösung:**
     - Check das Passwort, das du wirklich mit `-e` gesetzt hast.
-    - Oder Volume zurücksetzen (siehe oben – Daten weg!).
+    - Oder Volume zurücksetzen (siehe oben. Daten weg!).
 
 ---
 
@@ -278,7 +285,7 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     docker stop adminer db
     docker rm adminer db
     ```
-    Oder radikaler – alle laufenden Container auf einmal stoppen:
+    Oder radikaler, alle laufenden Container auf einmal stoppen:
 
     === "macOS / Linux"
         ```bash
@@ -325,11 +332,11 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     docker rmi postgres:16 adminer
     ```
 
-??? info "Wenn alles auseinanderbricht – Reset-Knopf"
+??? info "Wenn alles auseinanderbricht. Reset-Knopf"
     ```bash
     docker system prune -a --volumes
     ```
-    Entfernt **alle** gestoppten Container, ungenutzten Images, Netzwerke und **Volumes**. Vorsicht mit dem `--volumes` – falls du Daten anderswo drin hast.
+    Entfernt **alle** gestoppten Container, ungenutzten Images, Netzwerke und **Volumes**. Vorsicht mit dem `--volumes`, falls du Daten anderswo drin hast.
 
 ---
 
@@ -340,4 +347,4 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind – rund
     - **Container vor Änderungen stoppen und entfernen**, statt hoffen, dass sie sich anpassen.
     - **Beim ersten Fehler Logs lesen**: `docker logs <container>` erzählt meist die ganze Geschichte.
     - **Netzwerk immer mit-denken**: Wenn zwei Container kommunizieren sollen, müssen sie ins **gleiche User-Defined-Netz**.
-    - **Postgres-Majorversion nicht mittendrin wechseln** – entweder von Anfang an festlegen oder formales Upgrade durchführen.
+    - **Postgres-Majorversion nicht mittendrin wechseln**, entweder von Anfang an festlegen oder formales Upgrade durchführen.

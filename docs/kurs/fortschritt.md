@@ -53,29 +53,29 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Virtualisierung**
+    **Docker Grundlagen**
 
-    Hypervisor-Typen, Einsatz vom Rechenzentrum bis zur Cloud – und eine echte Cloud-VM als VM-Detektiv untersucht.
+    Vom Frachtcontainer zur Docker Engine: erster Container in Sekunden und ein eigenes Image gebaut.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Docker – Einführung**
+    **Docker Aufbau**
 
-    Kapseln ohne Ballast: erster Container in Sekunden, dann ein eigenes Image.
+    Volumes, Container-Netze und Umgebungsvariablen: Die Datenbank überlebt ihren Container.
 
-    [:octicons-arrow-right-24: Zur Übung](../docker/erste-schritte.md)
+    [:octicons-arrow-right-24: Zur Übung](../docker-aufbau/praxis-multi-container.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
     ---
 
-    **Docker – Aufbau**
+    **Docker Compose**
 
-    Volumes, Container-Netze und Umgebungsvariablen – damit Daten den Container überleben.
+    Der ganze Stack in einer Datei: beschreiben statt tippen, starten mit einem Befehl.
 
-    [:octicons-arrow-right-24: Vorbereiten](../docker-aufbau/index.md)
+    [:octicons-arrow-right-24: Vorbereiten](../docker-compose/index.md)
 
 </div>
 

@@ -1,9 +1,9 @@
 ---
-title: "Docker Compose – Einführung"
+title: "Docker Compose. Einführung"
 description: "Was Compose ist, warum es entstanden ist und wie sich das deklarative Gegenstück zu docker run anfühlt."
 ---
 
-# Docker Compose – Einführung
+# Docker Compose: Einführung
 
 !!! abstract "Lernziel"
     Nach dieser Seite kannst du:
@@ -14,6 +14,10 @@ description: "Was Compose ist, warum es entstanden ist und wie sich das deklarat
     - die Befehle `docker compose up`, `down`, `logs`, `ps` einordnen
 
 ---
+
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Einziger Unterschied bei mehrzeiligen Befehlen: Bash bricht Zeilen mit `\` um, PowerShell mit dem Backtick `` ` `` und CMD mit `^`. Du kannst jeden mehrzeiligen Befehl auch einfach in eine Zeile schreiben, dann ist er in jeder Shell gleich.
 
 ## Der Auslöser: die vorige Einheit
 
@@ -67,10 +71,10 @@ docker compose up -d
 2. Volume anlegen, falls nicht vorhanden.
 3. Image bauen, falls `build:` angegeben.
 4. DB-Container starten.
-5. App-Container starten – wartet dank `depends_on`, bis die DB-Startzeile durch ist.
+5. App-Container starten, wartet dank `depends_on`, bis die DB-Startzeile durch ist.
 6. Hängt beide Container ins selbe Netzwerk, damit sie sich per Name finden.
 
-Alles, was wir [in der manuellen Einheit](../docker-aufbau/praxis-multi-container.md) mit einer Handvoll `docker run`-Befehlen und Flags gebaut haben – in **einer** Datei.
+Alles, was wir [in der manuellen Einheit](../docker-aufbau/praxis-multi-container.md) mit einer Handvoll `docker run`-Befehlen und Flags gebaut haben, in **einer** Datei.
 
 ---
 
@@ -85,7 +89,7 @@ Das ist der eigentliche Gewinn.
 | Änderungen heißt: alles manuell stoppen, neu starten. | Änderungen in der YAML → `docker compose up -d` → Compose prüft und macht nur die nötigen Updates. |
 | Du musst dir die Befehle merken oder ins README schreiben. | Die `compose.yaml` **ist** das Setup. Wer sie liest, versteht den Stack. |
 
-In der IT nennt man diesen Unterschied **imperative** vs. **declarative configuration**. Er zieht sich durch viele moderne Tools: Terraform, Kubernetes, Ansible – alle arbeiten deklarativ. `compose.yaml` ist eine sanfte Einführung in diese Denkweise.
+In der IT nennt man diesen Unterschied **imperative** vs. **declarative configuration**. Er zieht sich durch viele moderne Tools: Terraform, Kubernetes, Ansible, alle arbeiten deklarativ. `compose.yaml` ist eine sanfte Einführung in diese Denkweise.
 
 ---
 
@@ -95,8 +99,8 @@ Du wirst auf beides stoßen und der Unterschied ist wichtig:
 
 | Variante | Implementation | Status |
 |----------|----------------|--------|
-| `docker-compose` (mit Bindestrich) | Python-Programm, separat installiert | **Veraltet** (Compose V1) – erhält seit 2023 keine Updates mehr |
-| `docker compose` (mit Leerzeichen) | In Go geschrieben, als Docker-CLI-Plugin | **Aktuell** (Compose V2) – installiert sich mit Docker Desktop und modernen Docker-Engine-Paketen |
+| `docker-compose` (mit Bindestrich) | Python-Programm, separat installiert | **Veraltet** (Compose V1), erhält seit 2023 keine Updates mehr |
+| `docker compose` (mit Leerzeichen) | In Go geschrieben, als Docker-CLI-Plugin | **Aktuell** (Compose V2), installiert sich mit Docker Desktop und modernen Docker-Engine-Paketen |
 
 **Empfehlung für diese Unterlagen und für alles, was du ab jetzt machst: `docker compose`** (mit Leerzeichen).
 
@@ -160,7 +164,7 @@ Wenn du `docker compose up` im Ordner `kurs-multicontainer` aufrufst, erzeugt Co
 Das Präfix `kurs-multicontainer` kommt vom **Projektnamen**, der standardmäßig der Ordnername ist.
 
 ??? info "Projektname fixieren"
-    Wenn du willst, dass alle Container einen festen Präfix haben – unabhängig vom Ordnernamen:
+    Wenn du willst, dass alle Container einen festen Präfix haben, unabhängig vom Ordnernamen:
 
     ```bash
     docker compose -p meinprojekt up -d
@@ -193,18 +197,18 @@ Das Präfix `kurs-multicontainer` kommt vom **Projektnamen**, der standardmäßi
 ### Compose glänzt bei
 
 - **Mehr als einem Container**, die zusammen arbeiten (Web-App + DB + Cache + Proxy).
-- **Entwicklungsumgebungen**, die alle Teammitglieder gleich aufsetzen sollen (`git clone && docker compose up`).
-- **Tests in CI/CD** – Stack hochfahren, Tests laufen lassen, Stack wieder abbauen.
+- **Entwicklungsumgebungen**, die alle Teammitglieder gleich aufsetzen sollen (`git clone`, dann `docker compose up`).
+- **Tests in CI/CD**. Stack hochfahren, Tests laufen lassen, Stack wieder abbauen.
 - **Kleine Self-Hosting-Setups** (z.B. Nextcloud, WordPress, Grafana-Stacks zu Hause).
 
 ### Compose ist nicht das Richtige für
 
-- **Einzelne Container** – da reicht `docker run`.
-- **Mehrere Hosts** (Cluster-Betrieb) – dafür gibt es **Kubernetes** oder **Docker Swarm**.
-- **Produktion mit mehreren Servern** – Compose ist ein Single-Host-Tool. Für Produktion mit Lastverteilung brauchst du mehr.
+- **Einzelne Container**, da reicht `docker run`.
+- **Mehrere Hosts** (Cluster-Betrieb), dafür gibt es **Kubernetes** oder **Docker Swarm**.
+- **Produktion mit mehreren Servern**. Compose ist ein Single-Host-Tool. Für Produktion mit Lastverteilung brauchst du mehr.
 
 !!! tip "Faustregel"
-    Wenn du dir die Frage stellst: „Soll ich ein Shell-Skript schreiben, das drei `docker run` nacheinander ausführt?" – die Antwort ist: **nimm Compose.**
+    Wenn du dir die Frage stellst: „Soll ich ein Shell-Skript schreiben, das drei `docker run` nacheinander ausführt?", die Antwort ist: **nimm Compose.**
 
 ---
 
@@ -322,7 +326,7 @@ flowchart LR
     - `docker compose config` zeigt die YAML nach Parsing. Wenn Parser-Fehler kommen, zeigt er die Zeile.
     - In VSCode: die YAML-Extension nutzen, die farbliche Einrückungshilfe gibt.
 
-??? warning "Ich habe `docker-compose.yml` mit Bindestrich – wird das noch gelesen?"
+??? warning "Ich habe `docker-compose.yml` mit Bindestrich, wird das noch gelesen?"
     Ja. Compose V2 liest beide Datei-Namen. Aber die **neue Konvention ist `compose.yaml`** ohne Bindestrich. Wenn du ein neues Projekt anfängst, nimm den neuen Namen.
 
 ??? info "Mehrere Compose-Dateien kombinieren"
@@ -333,7 +337,7 @@ flowchart LR
 
     Typisches Muster: `compose.yaml` hat den Basis-Stack, `compose.override.yaml` überschreibt Werte für lokale Entwicklung (z.B. aktiviert Live-Reload).
 
-    Wenn keine `-f`-Option angegeben wird, lädt Compose automatisch `compose.yaml` und – falls vorhanden – `compose.override.yaml`.
+    Wenn keine `-f`-Option angegeben wird, lädt Compose automatisch `compose.yaml` und, falls vorhanden, `compose.override.yaml`.
 
 ---
 
@@ -356,5 +360,5 @@ flowchart LR
 
 ## Weiterlesen
 
-- [Compose – Grundlagen](grundlagen.md) – jetzt die Syntax im Detail
-- [Praxis: erste compose.yaml](praxis-webapp.md) – der Stack aus der manuellen Praxis, jetzt sauber mit Compose (45 min)
+- [Compose. Grundlagen](grundlagen.md): jetzt die Syntax im Detail
+- [Praxis: erste compose.yaml](praxis-webapp.md): der Stack aus der manuellen Praxis, jetzt sauber mit Compose (45 min)

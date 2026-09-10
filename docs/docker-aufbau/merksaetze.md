@@ -1,9 +1,9 @@
 ---
-title: "Merksätze – Aufbau-Block"
+title: "Merksätze. Aufbau-Block"
 description: "Die Kern-Sätze aus dem Aufbau-Block kompakt auf einer Seite."
 ---
 
-# Merksätze – Aufbau-Block
+# Merksätze: Aufbau-Block
 
 Wenn du dir diese Sätze einprägst, hast du die Kern-Ideen dieses Kapitels beieinander.
 
@@ -12,7 +12,7 @@ Wenn du dir diese Sätze einprägst, hast du die Kern-Ideen dieses Kapitels beie
 ## 1. Die drei Säulen
 
 !!! success "Merksatz 1"
-    > **Daten überleben nur in Volumes (oder Bind Mounts). Konfiguration kommt aus Umgebungsvariablen. Container reden über eigene Docker-Netzwerke miteinander – per Container-Name, nicht per IP.**
+    > **Daten überleben nur in Volumes (oder Bind Mounts). Konfiguration kommt aus Umgebungsvariablen. Container reden über eigene Docker-Netzwerke miteinander, per Container-Name, nicht per IP.**
 
 Das ist der **zentrale Satz** des ganzen Blocks. Alle weiteren Sätze sind Vertiefungen davon.
 
@@ -23,14 +23,14 @@ Das ist der **zentrale Satz** des ganzen Blocks. Alle weiteren Sätze sind Verti
 !!! success "Merksatz 2"
     > **Was nur im beschreibbaren Top-Layer eines Containers lebt, ist beim `docker rm` weg. Für persistente Daten brauchst du Volumes (von Docker verwaltet) oder Bind Mounts (Host-Pfad, den du selbst kennst).**
 
-Konsequenz: **Nie auf das Container-Dateisystem vertrauen**. Datenbanken, Uploads, Logs – immer außerhalb.
+Konsequenz: **Nie auf das Container-Dateisystem vertrauen**. Datenbanken, Uploads, Logs, immer außerhalb.
 
 ---
 
 ## 3. Konfiguration
 
 !!! success "Merksatz 3"
-    > **Konfiguration gehört in Umgebungsvariablen, nicht ins Image. Secrets niemals ins Image – immer erst zur Laufzeit per `-e` oder `--env-file`.**
+    > **Konfiguration gehört in Umgebungsvariablen, nicht ins Image. Secrets niemals ins Image, immer erst zur Laufzeit per `-e` oder `--env-file`.**
 
 Konsequenz: `.env` gehört in `.gitignore`.
 
@@ -39,18 +39,18 @@ Konsequenz: `.env` gehört in `.gitignore`.
 ## 4. Netzwerk
 
 !!! success "Merksatz 4"
-    > **Container im selben User-Defined Netzwerk finden sich über ihren Namen – das ist Docker-DNS. `-p` brauchst du nur, wenn der Port vom Host aus erreichbar sein soll, nicht für Container-zu-Container.**
+    > **Container im selben User-Defined Netzwerk finden sich über ihren Namen, das ist Docker-DNS. `-p` brauchst du nur, wenn der Port vom Host aus erreichbar sein soll, nicht für Container-zu-Container.**
 
-Im Default-Bridge gibt es **kein** DNS – deshalb für ernsthafte Setups immer ein eigenes Netzwerk anlegen.
+Im Default-Bridge gibt es **kein** DNS, deshalb für ernsthafte Setups immer ein eigenes Netzwerk anlegen.
 
 ---
 
 ## 5. Der Praxis-Merksatz
 
 !!! success "Merksatz 5"
-    > **Mit drei Standard-Befehlen – `docker volume create`, `docker network create`, `docker run -v ... -e ... --network ...` – baust du jeden Multi-Container-Stack manuell zusammen.**
+    > **Mit drei Standard-Befehlen, `docker volume create`, `docker network create`, `docker run -v ... -e ... --network ...`, baust du jeden Multi-Container-Stack manuell zusammen.**
 
-Im Praxis-Teil hast du das mit **Postgres + Adminer** in 30–40 Minuten getan. Fünf `docker`-Befehle und du hast eine funktionierende, persistente Datenbank mit Web-GUI.
+Im Praxis-Teil hast du das mit **Postgres + Adminer** in 30 bis 40 Minuten getan. Fünf `docker`-Befehle und du hast eine funktionierende, persistente Datenbank mit Web-GUI.
 
 ---
 
@@ -92,7 +92,7 @@ Das ist das Muster, das jede ernsthafte Container-Anwendung nutzt.
 
 - Baue den Stack noch einmal auf, diesmal mit eigenen Daten in der Tabelle.
 - Ändere das Passwort über eine `.env`-Datei statt inline.
-- Stoppe beide Container **ohne** das Volume zu löschen – prüfe, dass die Daten nach dem Neustart noch da sind.
+- Stoppe beide Container **ohne** das Volume zu löschen, prüfe, dass die Daten nach dem Neustart noch da sind.
 
 Wenn dir das alles locker fällt, bist du optimal vorbereitet für **Docker Compose**.
 

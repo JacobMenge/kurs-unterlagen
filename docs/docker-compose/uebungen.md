@@ -1,17 +1,21 @@
 ---
 title: "Übungen"
-description: "Eigene Hands-on-Übungen zum Compose-Block – vier Schwierigkeitsgrade."
+description: "Eigene Hands-on-Übungen zum Compose-Block, vier Schwierigkeitsgrade."
 ---
 
-# Übungen – Docker Compose
+# Übungen: Docker Compose
 
 Übungen zum Vertiefen von Docker Compose. Jeder `up -d` zeigt dir, wie elegant Multi-Container-Stacks werden, wenn man sie deklariert statt scriptet.
 
 !!! abstract "Die vier Stufen"
-    - 🟢 **Einsteiger** – jeder Schritt bis ins Detail
-    - 🟡 **Mittel** – weniger Hand-Holding
-    - 🔴 **Fortgeschritten** – Hinweise statt Rezepte
-    - 🏆 **Challenge** – Aufgabe ohne Anleitung, Musterlösung aufklappbar
+    - 🟢 **Einsteiger**, jeder Schritt bis ins Detail
+    - 🟡 **Mittel**, weniger Hand-Holding
+    - 🔴 **Fortgeschritten**. Hinweise statt Rezepte
+    - 🏆 **Challenge**. Aufgabe ohne Anleitung, Musterlösung aufklappbar
+
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Einziger Unterschied bei mehrzeiligen Befehlen: Bash bricht Zeilen mit `\` um, PowerShell mit dem Backtick `` ` `` und CMD mit `^`. Du kannst jeden mehrzeiligen Befehl auch einfach in eine Zeile schreiben, dann ist er in jeder Shell gleich.
 
 ## Voraussetzung für alle Übungen
 
@@ -26,18 +30,18 @@ description: "Eigene Hands-on-Übungen zum Compose-Block – vier Schwierigkeits
 
 ## 🟢 Einsteiger
 
-### Übung 1 – Erste `compose.yaml` mit nginx
+### Übung 1: Erste `compose.yaml` mit nginx
 
 !!! info "Was du lernst"
     - Eine `compose.yaml`-Datei anlegen
     - `docker compose up` und `down`
     - Vergleich zu `docker run`
 
-#### Worum geht's – Kontext
+#### Worum geht's: Kontext
 
 **Docker Compose** ist ein Werkzeug, mit dem du einen Stack von Containern **in einer Textdatei beschreibst** und mit **einem Befehl** startest oder stoppst. Statt fünf `docker run`-Befehle einzeln zu tippen, schreibst du sie einmal in `compose.yaml` und sagst `docker compose up -d`.
 
-#### Schritt 1 – Projektordner
+#### Schritt 1: Projektordner
 
 === "macOS / Linux"
     ```bash
@@ -57,7 +61,7 @@ description: "Eigene Hands-on-Übungen zum Compose-Block – vier Schwierigkeits
     cd %USERPROFILE%\compose-uebung1
     ```
 
-#### Schritt 2 – `compose.yaml` anlegen
+#### Schritt 2: `compose.yaml` anlegen
 
 Lege eine Datei `compose.yaml` mit diesem Inhalt an:
 
@@ -71,14 +75,14 @@ services:
 
 Bedeutung Zeile für Zeile:
 
-- `services:` – Container-Liste (Top-Level-Block)
-- `web:` – Service-Name (beliebig wählbar); wird auch Container-Name und DNS-Name
-- `image: nginx:alpine` – welches Image
-- `ports: "8080:80"` – Port-Mapping wie bei `docker run -p`
+- `services:`. Container-Liste (Top-Level-Block)
+- `web:`. Service-Name (beliebig wählbar); wird auch Container-Name und DNS-Name
+- `image: nginx:alpine`, welches Image
+- `ports: "8080:80"`. Port-Mapping wie bei `docker run -p`
 
 **Wichtig:** YAML ist **pingelig** mit Einrückung. Nutze **2 Leerzeichen** pro Ebene. **Keine Tabs**.
 
-#### Schritt 3 – Stack starten
+#### Schritt 3: Stack starten
 
 ```bash
 docker compose up -d
@@ -91,7 +95,7 @@ Was passiert:
 - Zieht `nginx:alpine`, falls noch nicht lokal.
 - Startet den Container `compose-uebung1-web-1`.
 
-#### Schritt 4 – Prüfen
+#### Schritt 4: Prüfen
 
 ```bash
 docker compose ps
@@ -107,7 +111,7 @@ Zeigt die gesammelten Logs.
 
 Im Browser: <http://localhost:8080> → nginx-Willkommensseite.
 
-#### Schritt 5 – Stack herunterfahren
+#### Schritt 5: Stack herunterfahren
 
 ```bash
 docker compose down
@@ -120,7 +124,7 @@ Stoppt und entfernt alle Container des Stacks **und** das automatisch erzeugte N
 
 ---
 
-### Übung 2 – Mehrere Services in einer `compose.yaml`
+### Übung 2: Mehrere Services in einer `compose.yaml`
 
 !!! info "Was du lernst"
     - Mehrere Container gleichzeitig deklarieren
@@ -158,14 +162,14 @@ Baue einen Stack mit **zwei** Services: `web` (nginx) und `proxy` (httpd). Unter
     wget -q -O - http://proxy:80 | head -3
     exit
     ```
-    Du siehst die httpd-Begrüßung – obwohl kein Port-Mapping zwischen den Services existiert. **Docker-DNS** macht's möglich.
+    Du siehst die httpd-Begrüßung, obwohl kein Port-Mapping zwischen den Services existiert. **Docker-DNS** macht's möglich.
 6. `docker compose down`
 
 ---
 
 ## 🟡 Mittel
 
-### Übung 3 – WordPress mit MariaDB
+### Übung 3: WordPress mit MariaDB
 
 !!! info "Was du lernst"
     - Ein echter Multi-Container-Stack (App + DB)
@@ -234,7 +238,7 @@ Wenn du **alle** Daten löschen willst: `docker compose down -v` (mit `-v`!).
 
 ---
 
-### Übung 4 – `.env` mit Compose
+### Übung 4: `.env` mit Compose
 
 !!! info "Was du lernst"
     - Variablen aus `.env` in `compose.yaml` nutzen
@@ -258,7 +262,7 @@ Baue den WordPress-Stack aus Übung 3 **um**:
 
 ## 🔴 Fortgeschritten
 
-### Übung 5 – Stack mit Healthcheck und depends_on-Condition
+### Übung 5: Stack mit Healthcheck und depends_on-Condition
 
 !!! info "Was du lernst"
     - `depends_on` mit `condition: service_healthy`
@@ -278,7 +282,7 @@ Erweitere den WordPress-Stack aus Übung 3 so, dass:
 
 #### Hinweise
 
-- Das MariaDB-Image bringt ein **eingebautes** Healthcheck-Script mit: `healthcheck.sh --connect --innodb_initialized`. Das ist die Canonical-Lösung – robuster als `mariadb-admin ping`, weil es keine Auth-Argumente braucht.
+- Das MariaDB-Image bringt ein **eingebautes** Healthcheck-Script mit: `healthcheck.sh --connect --innodb_initialized`. Das ist die Canonical-Lösung, robuster als `mariadb-admin ping`, weil es keine Auth-Argumente braucht.
 - `docker compose ps` zeigt den Health-Status eines Services.
 - Achte darauf, dass `depends_on` in der detaillierteren Form (`condition:`) strukturiert werden muss.
 
@@ -288,7 +292,7 @@ Erweitere den WordPress-Stack aus Übung 3 so, dass:
 docker compose up -d
 docker compose ps
 ```
-Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` – und erst **danach** läuft `wordpress`.
+Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)`, und erst **danach** läuft `wordpress`.
 
 ??? success "Musterlösung"
 
@@ -349,7 +353,7 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
         ```
 
     === "macOS"
-        Auf macOS gibt's `watch` nicht standardmäßig – entweder per `brew install watch` nachinstallieren, oder eine Bash-Schleife:
+        Auf macOS gibt's `watch` nicht standardmäßig, entweder per `brew install watch` nachinstallieren, oder eine Bash-Schleife:
         ```bash
         while true; do clear; docker compose ps; sleep 1; done
         ```
@@ -360,7 +364,7 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
         ```
 
     === "Windows CMD"
-        Direkt als Einzeiler hat CMD keine Schleifen-Syntax – speichere die Zeilen als z.B. `watch.bat` im Projektordner und starte das Skript mit `watch.bat`. Mit `Strg + C` brichst du es ab.
+        Direkt als Einzeiler hat CMD keine Schleifen-Syntax, speichere die Zeilen als z.B. `watch.bat` im Projektordner und starte das Skript mit `watch.bat`. Mit `Strg + C` brichst du es ab.
 
         ```cmd
         :loop
@@ -372,15 +376,15 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
     Du siehst nacheinander:
 
-    1. `db` – `(health: starting)`
-    2. `db` – `(healthy)` ← jetzt darf wordpress starten
-    3. `wordpress` – `running`
+    1. `db`, `(health: starting)`
+    2. `db`, `(healthy)` ← jetzt darf wordpress starten
+    3. `wordpress`, `running`
 
     ### Ohne Healthcheck-Bedingung (Vergleich)
 
-    Wenn du nur `depends_on: [db]` schreibst (ohne `condition`), startet `wordpress` **sofort**, auch wenn `db` noch 10 Sekunden braucht, bis es Anfragen akzeptiert. Die App stirbt dann mit Verbindungsfehler – außer sie hat eingebaute Retry-Logik.
+    Wenn du nur `depends_on: [db]` schreibst (ohne `condition`), startet `wordpress` **sofort**, auch wenn `db` noch 10 Sekunden braucht, bis es Anfragen akzeptiert. Die App stirbt dann mit Verbindungsfehler, außer sie hat eingebaute Retry-Logik.
 
-    ### `$$` in Healthchecks – wofür das gut ist
+    ### `$$` in Healthchecks, wofür das gut ist
 
     Falls dein Healthcheck eine ENV-Variable nutzen will, die Compose ebenfalls verwenden darf, musst du `$$` schreiben:
 
@@ -389,27 +393,27 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
     ```
 
-    **Warum?** Compose parst `${VAR}` bereits, bevor der Container startet. Mit `$${VAR}` schreibst du buchstäblich `${VAR}` in die Container-Config – und die Shell im Container ersetzt das dann zur Laufzeit. Ohne `$$` würde Compose die Variable schon selbst einsetzen (oder leer lassen, falls nicht gesetzt).
+    **Warum?** Compose parst `${VAR}` bereits, bevor der Container startet. Mit `$${VAR}` schreibst du buchstäblich `${VAR}` in die Container-Config, und die Shell im Container ersetzt das dann zur Laufzeit. Ohne `$$` würde Compose die Variable schon selbst einsetzen (oder leer lassen, falls nicht gesetzt).
 
 ---
 
 ## 🏆 Challenge
 
-### Challenge – Vollständiger Tech-Stack
+### Challenge: Vollständiger Tech-Stack
 
 !!! abstract "Aufgabe"
     Baue einen Stack mit **vier** Services, der dir sowohl eine kleine Web-App als auch Monitoring zeigt:
 
-    1. **`web`** – nginx, liefert eine simple HTML-Seite aus (per Bind Mount)
-    2. **`redis`** – Cache auf Port 6379 (intern, nicht vom Host erreichbar), mit Volume für Persistenz
-    3. **`adminer`** – für eine PostgreSQL
-    4. **`db`** – PostgreSQL mit Volume
+    1. **`web`**, nginx, liefert eine simple HTML-Seite aus (per Bind Mount)
+    2. **`redis`**. Cache auf Port 6379 (intern, nicht vom Host erreichbar), mit Volume für Persistenz
+    3. **`adminer`**, für eine PostgreSQL
+    4. **`db`**. PostgreSQL mit Volume
 
     Anforderungen:
 
     - Alle Services in einer `compose.yaml`.
     - Secrets (`POSTGRES_PASSWORD`, `REDIS_PASSWORD`) aus `.env`.
-    - Volumes für `db` und `redis` – Daten überleben `down` (ohne `-v`).
+    - Volumes für `db` und `redis`. Daten überleben `down` (ohne `-v`).
     - `web` mountet einen lokalen `html/`-Ordner als Bind-Mount.
     - Adminer hört auf Port 8081, nginx auf 8080.
     - Postgres und Redis haben Healthchecks; Adminer wartet auf `db: condition: service_healthy`.
@@ -419,7 +423,7 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
 ??? success "Musterlösung"
 
-    !!! tip "Dateien erstellen – OS-agnostisch"
+    !!! tip "Dateien erstellen. OS-agnostisch"
         Die folgenden Code-Blöcke zeigen jeweils den **Dateiinhalt**. Erstelle die Dateien mit einem Editor deiner Wahl (VSCode, Notepad, nano, vim) und speichere sie unter dem angegebenen Namen. Auf allen drei Systemen (Windows, macOS, Linux) ist das der zuverlässigste Weg.
 
     ### Verzeichnisstruktur
@@ -477,10 +481,10 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
       <h1>Mein Tech-Stack läuft</h1>
       <p>Dieser Stack besteht aus:</p>
       <ul>
-        <li><code>web</code> – nginx (das hier)</li>
-        <li><code>redis</code> – Cache</li>
-        <li><code>db</code> – PostgreSQL</li>
-        <li><code>adminer</code> – Datenbank-GUI</li>
+        <li><code>web</code>: nginx (das hier)</li>
+        <li><code>redis</code>: Cache</li>
+        <li><code>db</code>: PostgreSQL</li>
+        <li><code>adminer</code>: Datenbank-Oberfläche</li>
       </ul>
     </body>
     </html>
@@ -555,8 +559,8 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
     1. `.env.example` nach `.env` kopieren, Werte eintragen.
     2. `docker compose up -d`.
-    3. <http://localhost:8080> – Web-Seite
-    4. <http://localhost:8081> – Adminer (Login: Server `db`, Rest aus `.env`)
+    3. <http://localhost:8080>: Web-Seite
+    4. <http://localhost:8081>: Adminer (Login: Server `db`, Rest aus `.env`)
 
     ## Stoppen (Daten bleiben)
 
@@ -599,7 +603,7 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
     docker compose exec redis redis-cli
     ```
 
-    `redis-cli` liest im Container automatisch die Env-Variable `REDISCLI_AUTH` und authentifiziert sich damit – du musst nicht `-a` + Passwort tippen. Im Redis-Prompt: `SET foo bar`, `GET foo`, `exit`.
+    `redis-cli` liest im Container automatisch die Env-Variable `REDISCLI_AUTH` und authentifiziert sich damit, du musst nicht `-a` + Passwort tippen. Im Redis-Prompt: `SET foo bar`, `GET foo`, `exit`.
 
     ### Postgres testen
 
@@ -607,11 +611,11 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
     ### Persistenz-Test
 
-    `docker compose down`, `docker compose up -d` – alles noch da.
+    `docker compose down`, `docker compose up -d`, alles noch da.
 
     ### Aufräumen
 
-    `docker compose down -v` – Volumes gelöscht, Daten weg.
+    `docker compose down -v`. Volumes gelöscht, Daten weg.
 
     **Was du gelernt hast:** vier Services, zwei Netzwerke (automatisch), zwei persistente Volumes, ein Bind Mount, Healthchecks, `.env`-basiertes Secrets-Management, Health-basierte Startreihenfolge. Das ist **Produktions-nahes Docker-Compose**.
 
@@ -619,5 +623,5 @@ Du solltest sehen, dass `db` zuerst `(health: starting)` ist, dann `(healthy)` �
 
 ## Weiter mit
 
-- [Docker für Profis](../docker-profi/index.md) – Dockerfile-Best-Practices und Image-Optimierung
+- [Docker für Profis](../docker-profi/index.md): Dockerfile-Best-Practices und Image-Optimierung
 - [Stolpersteine Compose](stolpersteine.md)
