@@ -16,6 +16,9 @@ Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zus
     - **Adminer** als grafische Oberfläche für Postgres
     - einen **Persistenz-Test**: Container weg, Daten bleiben
 
+!!! info "Womit du hier arbeitest"
+    **PostgreSQL** (kurz „Postgres") ist eine relationale Datenbank, sie speichert Daten in Tabellen. **Adminer** ist eine winzige Weboberfläche, mit der du in Datenbanken hineinschauen kannst, selbst nur ein Container. Du musst keins von beiden beherrschen: Postgres startest du nur mit den richtigen Variablen und in Adminer klickst du dich durch, das nötige SQL steht fertig in dieser Anleitung. Für die Prüfung zählt das Container-Konzept (Volume, Netz, Variablen), im Beruf laufen Datenbanken heute genau nach diesem Muster.
+
 ## Voraussetzungen
 
 - Docker läuft (`docker version` klappt). Siehe [Installation](../docker/installation.md).
@@ -45,6 +48,14 @@ Dieser Hands-on führt dich durch **alle drei Säulen** aus dem Theorie-Teil zus
         ```
 
     (Fehler „No such container" sind okay.)
+
+- **Nur falls du diese Übung schon einmal gemacht hast:** auch das alte Volume
+  entfernen, sonst ignoriert Postgres deine neuen Zugangsdaten (die gelten nur
+  beim allerersten Start mit leerem Volume):
+
+    ```bash
+    docker volume rm postgres-daten
+    ```
 
 !!! note "Windows-Hinweis"
     Alle Befehle auf dieser Seite laufen unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal), nicht die alte Eingabeaufforderung (CMD). Mehrzeilige Befehle brechen in Bash mit `\` um, in PowerShell mit dem Backtick `` ` `` und in CMD mit `^`. Die Tabs zeigen jeweils die passende Fassung.
@@ -196,6 +207,9 @@ docker network ls
 ```
 
 Neue Zeile mit `kurs-netz`.
+
+!!! warning "Anders als beim Volume: Das Netz muss vorher existieren"
+    Ein fehlendes Volume legt Docker beim ersten `-v` selbst an. Ein fehlendes **Netz nicht**: Startest du einen Container mit `--network` auf ein Netz, das es nicht gibt, bekommst du zwar eine Container-ID zurück, der Container bleibt aber im Zustand `Created` hängen und taucht in `docker ps` nie auf. `docker ps -a` zeigt ihn samt Fehler `network kurs-netz not found`. Also: erst `docker network create`, dann starten.
 
 ### Schritt 2.2: Postgres ins Netzwerk aufnehmen
 
@@ -454,7 +468,7 @@ Vier kurze Experimente, jedes beantwortet eine Frage, die im Container-Alltag so
 
 ### Bonus 1: Schau in das Volume hinein
 
-Das Volume ist kein Zauberkasten, sondern ein Verzeichnis, das Docker verwaltet. Der Beweis: Hänge es in einen Wegwerf-Container und lass dir den Inhalt zeigen:
+Das Volume ist kein Zauberkasten, sondern ein Verzeichnis, das Docker verwaltet. Der Beweis: Hänge es in einen Wegwerf-Container und lass dir den Inhalt zeigen. `ls` ist der Linux-Befehl für „zeig mir den Ordnerinhalt" und läuft hier **im Container**, deshalb ist der Befehl auf jedem Betriebssystem gleich:
 
 ```bash
 docker run --rm -v postgres-daten:/daten alpine ls /daten

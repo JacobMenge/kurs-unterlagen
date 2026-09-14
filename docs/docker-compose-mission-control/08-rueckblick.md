@@ -1,6 +1,6 @@
 ---
 title: "Rückblick & Ausblick"
-description: "Was ihr in den drei Praxis-Blöcken gelernt habt – und was als nächstes kommt."
+description: "Was ihr in den drei Praxis-Blöcken gelernt habt, und was als nächstes kommt."
 ---
 
 # Rückblick & Ausblick
@@ -25,7 +25,7 @@ flowchart LR
 
 | Block | Was war neu |
 |---|---|
-| Docker Escape Room | Drei Container, ein Netzwerk, ein Volume – **alles per Hand** |
+| Docker Escape Room | Drei Container, ein Netzwerk, ein Volume, **alles per Hand** |
 | Compose-Praxis | Genau dasselbe, aber als kleine `compose.yaml` |
 | **Mission Control** | Vier Services, internes Routing, `.env`, Healthcheck, Persistenz, Bonus-Swap |
 
@@ -80,13 +80,13 @@ Beim nächsten Projekt, wenn ihr in Versuchung kommt, alles "kurz mit `docker ru
 
 ## Was kommt als nächstes
 
-- [Docker für Profis](../docker-profi/index.md) – Multi-Stage-Builds, schlanke Images, USER, HEALTHCHECK direkt im Dockerfile
-- [Stolpersteine Compose](../docker-compose/stolpersteine.md) – Sammlung typischer Compose-Probleme, falls ihr in eigenen Projekten in einen davon lauft
-- [Cheatsheet Compose](../cheatsheets/compose.md) – Tabelle mit allen Befehlen, zum schnellen Nachschlagen
+- [Docker für Profis](../docker-profi/index.md): Multi-Stage-Builds, schlanke Images, USER, HEALTHCHECK direkt im Dockerfile
+- [Stolpersteine Compose](../docker-compose/stolpersteine.md): Sammlung typischer Compose-Probleme, falls ihr in eigenen Projekten in einen davon lauft
+- [Cheatsheet Compose](../cheatsheets/compose.md): Tabelle mit allen Befehlen, zum schnellen Nachschlagen
 
 ---
 
 ## Merksatz
 
 !!! success "Der Compose-Take-Away"
-    > **Mit Compose beschreibt ihr den Zielzustand eures Stacks – Services, Volumes, Netzwerke, Abhängigkeiten – einmal in einer Datei. `docker compose up -d` bringt das System dorthin, `docker compose down` baut es ab. Der Rest sind Variationen über dasselbe Thema.**
+    > **Mit Compose beschreibt ihr den Zielzustand eures Stacks. Services, Volumes, Netzwerke, Abhängigkeiten, einmal in einer Datei. `docker compose up -d` bringt das System dorthin, `docker compose down` baut es ab. Der Rest sind Variationen über dasselbe Thema.**

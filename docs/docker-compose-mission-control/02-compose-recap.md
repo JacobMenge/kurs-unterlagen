@@ -1,11 +1,11 @@
 ---
 title: "Compose-Recap"
-description: "Die Compose-YAML-Bausteine, die ihr für Mission Control braucht – alle auf einer Seite."
+description: "Die Compose-YAML-Bausteine, die ihr für Mission Control braucht, alle auf einer Seite."
 ---
 
 # Compose-Recap
 
-Diese Bausteine solltet ihr für die Aufgabe kennen. Nichts davon ist neu – ihr habt das alles im [Compose-Block](../docker-compose/index.md) gesehen. Lasst diese Seite während der Übung offen – ihr müsst nichts auswendig wissen.
+Diese Bausteine solltet ihr für die Aufgabe kennen. Nichts davon ist neu, ihr habt das alles im [Compose-Block](../docker-compose/index.md) gesehen. Lasst diese Seite während der Übung offen, ihr müsst nichts auswendig wissen.
 
 !!! tip "Diese Seite ist eure Referenz während der Aufgabe"
     Schauen ist erlaubt. Auswendiglernen ist nicht der Lerninhalt.
@@ -71,13 +71,13 @@ ports:
   - "8080:80"
 ```
 
-Format: `"HOST_PORT:CONTAINER_PORT"`. Beide Seiten als **String** schreiben (Anführungszeichen) – sonst interpretiert YAML das als Zahl, was bei Ports zu Fehlern führt.
+Format: `"HOST_PORT:CONTAINER_PORT"`. Beide Seiten als **String** schreiben (Anführungszeichen), sonst interpretiert YAML das als Zahl, was bei Ports zu Fehlern führt.
 
 > **Wichtig:** Services, die nur intern angesprochen werden (z.B. `backend`, `db` in unserem Fall), brauchen **kein** `ports:`. Sie sind im Compose-Netzwerk trotzdem erreichbar.
 
 ---
 
-## Volumes – benannte vs. Bind-Mount
+## Volumes: benannte vs. Bind-Mount
 
 **Benanntes Volume** (von Compose verwaltet, persistent):
 
@@ -100,7 +100,7 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 ```
 
-Das `ro` am Ende bedeutet "read-only" – der Container kann lesen, aber nicht ändern. Für Konfig- und Init-Dateien ist das Standard.
+Das `ro` am Ende bedeutet "read-only", der Container kann lesen, aber nicht ändern. Für Konfig- und Init-Dateien ist das Standard.
 
 ---
 
@@ -135,14 +135,14 @@ services:
 Compose ersetzt `${VAR}` automatisch beim Start. Wenn eine Variable fehlt, bleibt der Platzhalter stehen → unbedingt vorher mit `docker compose config` prüfen.
 
 !!! warning "Achtung: zwei Sorten Umgebungsvariablen"
-    - **Variablen für Compose** (in `${...}` substituiert) – kommen aus `.env` oder eurer Shell.
-    - **Variablen für den Container** – stehen unter `environment:` und werden beim Container-Start als ENV gesetzt.
+    - **Variablen für Compose** (in `${...}` substituiert), kommen aus `.env` oder eurer Shell.
+    - **Variablen für den Container**, stehen unter `environment:` und werden beim Container-Start als ENV gesetzt.
 
     Eine Variable kann beides sein: in `.env` definiert, in der `compose.yaml` über `${VAR}` an `environment:` durchgereicht.
 
 ---
 
-## `depends_on` – Reihenfolge erzwingen
+## `depends_on`: Reihenfolge erzwingen
 
 **Einfache Variante** (wartet nur, bis der Container *startet*):
 
@@ -171,13 +171,13 @@ services:
         condition: service_healthy
 ```
 
-Ohne Healthcheck startet der Backend-Container, sobald die DB-Image-Prozess da ist – aber **bevor** Postgres Anfragen annimmt. Mit Healthcheck wartet Compose auf "ready".
+Ohne Healthcheck startet der Backend-Container, sobald die DB-Image-Prozess da ist, aber **bevor** Postgres Anfragen annimmt. Mit Healthcheck wartet Compose auf "ready".
 
 ---
 
 ## Bind-Mount für Init-Skripte (Postgres-Spezial)
 
-Das offizielle `postgres`-Image führt Skripte im Verzeichnis `/docker-entrypoint-initdb.d/` automatisch aus – aber **nur beim allerersten Start** (frisches Volume).
+Das offizielle `postgres`-Image führt Skripte im Verzeichnis `/docker-entrypoint-initdb.d/` automatisch aus, aber **nur beim allerersten Start** (frisches Volume).
 
 ```yaml
 services:
@@ -224,5 +224,5 @@ docker compose config             # geparste, aufgelöste YAML anzeigen
 
 ## Weiter
 
-- [Szenario](03-szenario.md) – die Story und die Architektur
-- [Aufgabenübersicht](04-aufgabenuebersicht.md) – die Missionen
+- [Szenario](03-szenario.md): die Story und die Architektur
+- [Aufgabenübersicht](04-aufgabenuebersicht.md): die Missionen

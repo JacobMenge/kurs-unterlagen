@@ -13,6 +13,7 @@ nav:
       - "Praxis: Escape Room": docker-escape-room
       - "Docker Compose": docker-compose
       - "Praxis: Mission Control": docker-compose-mission-control
+      - "Industrie & IoT": industrie-iot
       - "Docker für Profis": docker-profi
       - "Infrastruktur & Architektur": infrastruktur-planung
   - "2 · Laufender Betrieb":

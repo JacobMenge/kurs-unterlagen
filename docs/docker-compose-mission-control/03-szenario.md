@@ -6,7 +6,7 @@ description: "Aurora Station Mission Control: Story, Mission, Zielarchitektur."
 # Szenario: Mission Control der Aurora Station
 
 !!! note "Hinweis"
-    Die "Aurora Station" und ihr Mission-Control-Dashboard sind eine **fiktive Geschichte** – nur damit die Übung greifbarer wird. Das Setup, das ihr baut, ist aber sehr nahe an Setups aus echten Projekten.
+    Die "Aurora Station" und ihr Mission-Control-Dashboard sind eine **fiktive Geschichte**, nur damit die Übung greifbarer wird. Das Setup, das ihr baut, ist aber sehr nahe an Setups aus echten Projekten.
 
 Die **Aurora Station** kreist seit Jahren in einer niedrigen Erdumlaufbahn. Sie ist eine kleine, durchaus betagte Forschungsstation mit sechs Modulen: Lebenserhaltung, Energieverteilung, Kommunikation, Forschungslabor, Hydroponik, Andockschleuse.
 
@@ -24,7 +24,7 @@ Die Schichtleitung erwartet: in 90 Minuten ist Mission Control wieder online, mi
 
 ## Eure Mission
 
-Bringt Mission Control wieder online – als deklarativen Compose-Stack, in 90 Minuten, im Team.
+Bringt Mission Control wieder online, als deklarativen Compose-Stack, in 90 Minuten, im Team.
 
 ---
 
@@ -35,8 +35,8 @@ Am Ende laufen **vier Services** im selben Compose-Projekt:
 | Service | Image / Build | Externer Port | Zweck |
 |---|---|---:|---|
 | `frontend` | `build: ./frontend` (Nginx-basiert) | `8080` | Dashboard im Browser, leitet `/api/*` an Backend |
-| `backend` | `build: ./backend-node` | – (nur intern) | API für Module |
-| `db` | `image: postgres:16-alpine` | – (nur intern) | Datenbank, mit Init-Skript |
+| `backend` | `build: ./backend-node` |, (nur intern) | API für Module |
+| `db` | `image: postgres:16-alpine` |, (nur intern) | Datenbank, mit Init-Skript |
 | `adminer` | `image: adminer:latest` | `8081` | DB-Weboberfläche |
 
 Außerdem braucht ihr:
@@ -81,7 +81,7 @@ flowchart TD
 - Das Frontend (Nginx) reicht alle `/api/*`-Anfragen intern an den `backend`-Service weiter.
 - Das Backend kennt die Datenbank über den Service-Namen `db`.
 - Adminer kennt die Datenbank ebenfalls über `db`.
-- Die DB-Daten liegen im benannten Volume `aurora-data` – auch nach `docker compose down` noch da.
+- Die DB-Daten liegen im benannten Volume `aurora-data`, auch nach `docker compose down` noch da.
 - Das `init.sql` wird als Read-only-Bind-Mount in den DB-Container gemountet und beim allerersten Start ausgeführt.
 
 ---
@@ -101,7 +101,7 @@ Wenn euer Stack steht, seht ihr im Frontend automatisch sechs Module aus dem Ini
 
 Status-Werte: `online`, `offline`, `critical`, `maintenance`.
 
-Über das Dashboard könnt ihr neue Module anlegen, den Status bestehender ändern und Module löschen – alle Aktionen gehen über die API durch das Backend in die Datenbank.
+Über das Dashboard könnt ihr neue Module anlegen, den Status bestehender ändern und Module löschen, alle Aktionen gehen über die API durch das Backend in die Datenbank.
 
 ---
 
@@ -113,5 +113,5 @@ Status-Werte: `online`, `offline`, `critical`, `maintenance`.
 
 ## Weiter
 
-- [Aufgabenübersicht](04-aufgabenuebersicht.md) – jetzt geht's los
+- [Aufgabenübersicht](04-aufgabenuebersicht.md): jetzt geht's los
 - Falls ihr stockt: [Hilfekarten](05-hilfekarten.md)

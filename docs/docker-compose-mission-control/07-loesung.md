@@ -8,11 +8,15 @@ description: "Vollständige Schritt-für-Schritt-Lösung für Mission Control. E
 !!! danger "Erst nach der eigenen Arbeit aufschlagen!"
     Diese Seite enthält die **vollständige Lösung**. Wenn ihr noch in der Gruppenarbeit seid: [Hilfekarten](05-hilfekarten.md) sind der bessere Ort.
 
-Die Lösung baut die `compose.yaml` schrittweise auf – Mission für Mission – und zeigt am Ende die komplette Datei.
+Die Lösung baut die `compose.yaml` schrittweise auf. Mission für Mission, und zeigt am Ende die komplette Datei.
 
 ---
 
-## Schritt 0 – In den App-Ordner wechseln
+
+!!! note "Windows-Hinweis"
+    Alle Befehle dieser Einheit sind Ein-Zeilen-Befehle und laufen unverändert unter macOS, Linux und Windows. Unter Windows arbeitet ihr wie immer in der **PowerShell** (im Windows-Terminal). Die compose.yaml legt ihr im Editor an, unter Windows zum Beispiel mit `notepad compose.yaml` oder in VS Code.
+
+## Schritt 0: In den App-Ordner wechseln
 
 ```bash
 cd apps/docker-compose-mission-control
@@ -50,7 +54,7 @@ Falls noch keine `compose.yaml` existiert: leere Datei anlegen.
 
 ---
 
-## Schritt 1 – Frontend-Service
+## Schritt 1: Frontend-Service
 
 Wir starten mit dem **Frontend**, damit ihr von der ersten Sekunde an etwas im Browser seht. Erste Version der `compose.yaml`:
 
@@ -85,7 +89,7 @@ Erwartet:
 
 ---
 
-## Schritt 2 – Datenbank-Service
+## Schritt 2: Datenbank-Service
 
 DB hinzufügen:
 
@@ -131,7 +135,7 @@ Erwartetes Ergebnis: sechs Beispiel-Module aus dem `init.sql`.
 
 ---
 
-## Schritt 3 – Backend-Service
+## Schritt 3: Backend-Service
 
 Backend dazu nehmen:
 
@@ -188,11 +192,11 @@ API-Test direkt im Backend-Container (optional):
 docker compose exec backend wget -qO- http://localhost:3000/api/health
 ```
 
-Aus einem Terminal **außerhalb** der Container heraus geht das **nicht**, weil der Backend-Service bewusst keinen externen Port hat – das Frontend übernimmt das Routing.
+Aus einem Terminal **außerhalb** der Container heraus geht das **nicht**, weil der Backend-Service bewusst keinen externen Port hat, das Frontend übernimmt das Routing.
 
 ---
 
-## Schritt 4 – Adminer-Service
+## Schritt 4: Adminer-Service
 
 ```yaml
 services:
@@ -241,7 +245,7 @@ In der Tabelle `modules` solltet ihr sechs Init-Module + alles, was ihr im Front
 
 ---
 
-## Schritt 5 – Konfiguration in `.env`
+## Schritt 5: Konfiguration in `.env`
 
 `.env.example` kopieren:
 
@@ -331,7 +335,7 @@ docker compose up -d
 
 ---
 
-## Schritt 6 – Healthcheck + `condition: service_healthy`
+## Schritt 6: Healthcheck + `condition: service_healthy`
 
 Im DB-Service den Healthcheck ergänzen, im Backend `depends_on` umbauen:
 
@@ -370,7 +374,7 @@ services:
   # frontend, adminer wie vorher
 ```
 
-Wichtig: `$${POSTGRES_USER}` mit **doppeltem** Dollar – damit Compose die Variable **nicht** beim Parsen ersetzt, sondern erst die Bash im Container sie zur Laufzeit auflöst (zu dem Zeitpunkt ist `POSTGRES_USER` als ENV im Container gesetzt).
+Wichtig: `$${POSTGRES_USER}` mit **doppeltem** Dollar, damit Compose die Variable **nicht** beim Parsen ersetzt, sondern erst die Bash im Container sie zur Laufzeit auflöst (zu dem Zeitpunkt ist `POSTGRES_USER` als ENV im Container gesetzt).
 
 Stack komplett neu hochfahren:
 
@@ -385,11 +389,11 @@ Check:
 docker compose ps
 ```
 
-`db` zeigt `Up (healthy)`. Das Backend startet erst, nachdem `db` `healthy` meldet – also ohne "Database not ready"-Versuche.
+`db` zeigt `Up (healthy)`. Das Backend startet erst, nachdem `db` `healthy` meldet, also ohne "Database not ready"-Versuche.
 
 ---
 
-## Schritt 7 – Persistenz testen
+## Schritt 7: Persistenz testen
 
 Im Frontend ein paar eigene Module anlegen, dann:
 
@@ -398,7 +402,7 @@ docker compose down
 docker compose up -d
 ```
 
-Browser neu laden – eure Module sind noch da. ✅
+Browser neu laden, eure Module sind noch da. ✅
 
 Jetzt der harte Test:
 
@@ -479,9 +483,9 @@ BACKEND_PORT=3000
 
 ---
 
-## Bonus A – Backend austauschen (Node → FastAPI)
+## Bonus A: Backend austauschen (Node → FastAPI)
 
-**Variante 1 – einfach:** `compose.yaml` direkt anpassen.
+**Variante 1, einfach:** `compose.yaml` direkt anpassen.
 
 ```yaml
 backend:
@@ -497,7 +501,7 @@ docker compose up -d --build
 
 Im Frontend nachschauen: oben rechts steht jetzt „Backend online · python-fastapi".
 
-**Variante 2 – sauberer mit Override:** zweite Datei `compose.fastapi.yaml`:
+**Variante 2, sauberer mit Override:** zweite Datei `compose.fastapi.yaml`:
 
 ```yaml
 services:
@@ -515,7 +519,7 @@ docker compose -f compose.yaml -f compose.fastapi.yaml up -d --build
 
 ---
 
-## Typische Fehler – und wie ihr sie löst
+## Typische Fehler: und wie ihr sie löst
 
 ### Fehler 1: Backend findet DB nicht
 
@@ -525,7 +529,7 @@ docker compose -f compose.yaml -f compose.fastapi.yaml up -d --build
 getaddrinfo ENOTFOUND db
 ```
 
-**Ursache:** `PGHOST` ist falsch gesetzt – oder der Service heißt nicht `db`.
+**Ursache:** `PGHOST` ist falsch gesetzt, oder der Service heißt nicht `db`.
 
 **Lösung:** in der `compose.yaml` den Service `db:` (genau so) und im Backend `PGHOST: db` setzen.
 
@@ -589,7 +593,7 @@ docker compose up -d
     docker compose exec db pg_isready -U aurora -d auroradb
     ```
 
-- `start_period` zu kurz. Auf 15–20 Sekunden hochsetzen.
+- `start_period` zu kurz. Auf 15 bis 20 Sekunden hochsetzen.
 - `$${VARIABLE}` im Healthcheck vergessen → Variable wird nicht im Container ausgewertet.
 
 ---
@@ -641,4 +645,4 @@ Das löscht Container, Netzwerk, benannte Volumes und die lokal gebauten Images 
 
 ## Weiter
 
-- [Rückblick & Ausblick](08-rueckblick.md) – wie habt ihr euch durch die drei Praxis-Blöcke entwickelt
+- [Rückblick & Ausblick](08-rueckblick.md): wie habt ihr euch durch die drei Praxis-Blöcke entwickelt

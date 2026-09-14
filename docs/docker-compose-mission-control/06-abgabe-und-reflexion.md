@@ -5,7 +5,7 @@ description: "Was ihr am Ende präsentiert und welche Reflexionsfragen Mission C
 
 # Abgabe und Reflexion
 
-Jede Gruppe präsentiert am Ende **kurz** ihre Lösung. Plant pro Gruppe **3–5 Minuten** ein.
+Jede Gruppe präsentiert am Ende **kurz** ihre Lösung. Plant pro Gruppe **3 bis 5 Minuten** ein.
 
 ---
 
@@ -66,13 +66,13 @@ Im Frontend nach Neustart: Module sind weiterhin da → Volume hat seinen Job ge
 
 ### 6. Bonus (falls geschafft)
 
-Mindestens eine Bonus-Mission kurz vorzeigen – idealerweise **Bonus A** (Backend-Tausch auf FastAPI) oder **Bonus C** (Drei-Sätze-Erklärung).
+Mindestens eine Bonus-Mission kurz vorzeigen, idealerweise **Bonus A** (Backend-Tausch auf FastAPI) oder **Bonus C** (Drei-Sätze-Erklärung).
 
 ---
 
 ## Reflexionsfragen
 
-Beantwortet kurz – mündlich in der Gruppe oder schriftlich auf dem Doku-Zettel:
+Beantwortet kurz, mündlich in der Gruppe oder schriftlich auf dem Doku-Zettel:
 
 1. Welche Stelle in eurer `compose.yaml` war für euch der **größte Aha-Moment**?
 2. Wo hat euch das **`docker compose config`** beim Debuggen geholfen?
@@ -88,7 +88,7 @@ Beantwortet kurz – mündlich in der Gruppe oder schriftlich auf dem Doku-Zette
 
 Eine kleine Selbst-Checkliste, damit ihr für die Besprechung gut vorbereitet seid:
 
-- [ ] Die `compose.yaml` ist **euer Werk** – nicht aus der Lösung kopiert?
+- [ ] Die `compose.yaml` ist **euer Werk**, nicht aus der Lösung kopiert?
 - [ ] Externe Ports sind **nur** dort gesetzt, wo wirklich nötig (Frontend + Adminer)?
 - [ ] Alle Services kommunizieren über **Service-Namen**, nicht über `localhost`?
 - [ ] Konfigurationen liegen in der **`.env`**, nicht hartkodiert in der YAML?
@@ -102,5 +102,5 @@ Die Übung wird **nicht benotet**. Sie dient ausschließlich dazu, eure Compose-
 
 ## Weiter
 
-- [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
-- [Rückblick & Ausblick](08-rueckblick.md) – was kommt als nächstes
+- [Lösung](07-loesung.md): **erst nach der eigenen Arbeit aufschlagen!**
+- [Rückblick & Ausblick](08-rueckblick.md): was kommt als nächstes

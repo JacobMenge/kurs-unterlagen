@@ -14,6 +14,10 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind, rund um
 
 ---
 
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle auf dieser Seite funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Wo sich die Shells unterscheiden, stehen Tabs mit der passenden Variante. Befehle **im Container** sind überall gleich, denn im Container steckt immer Linux.
+
 ## Volumes & Persistenz
 
 ??? danger "Volume-Daten sind nach Container-Neustart weg"
@@ -25,6 +29,15 @@ Diese Seite sammelt Probleme, die spezifisch für den Aufbau-Block sind, rund um
     - Check: `docker volume ls`, ist `postgres-daten` noch da?
     - Wenn ja, ist vermutlich einfach das `-v`-Flag beim Run vergessen worden. Container stoppen, mit `-v` neu starten.
     - Wenn nein, sind die Daten unwiederbringlich weg.
+
+??? warning "Container bekommt eine ID, taucht aber nie in docker ps auf"
+    Klassiker beim Arbeiten mit `--network`: Das angegebene Netz existiert nicht. `docker run -d` liefert trotzdem eine Container-ID, der Container bleibt aber im Zustand `Created` hängen. Diagnose:
+
+    ```bash
+    docker ps -a
+    ```
+
+    Steht der Container dort auf `Created`, zeigt `docker inspect <name>` unter `State.Error` die Ursache, typisch: `network kurs-netz not found`. Lösung: Netz anlegen (`docker network create kurs-netz`), den hängenden Container mit `docker rm <name>` entfernen und neu starten. Volumes betrifft das nicht, die legt Docker beim ersten `-v` selbst an.
 
 ??? warning "„Volume is in use" beim `docker volume rm`"
     **Ursache:** Das Volume ist noch an einen Container gebunden (auch an einen gestoppten).

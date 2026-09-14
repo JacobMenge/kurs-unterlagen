@@ -19,6 +19,10 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
 
 ---
 
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle auf dieser Seite funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Wo sich die Shells unterscheiden, stehen Tabs mit der passenden Variante. Befehle **im Container** sind überall gleich, denn im Container steckt immer Linux.
+
 ## Docker startet nicht / Daemon nicht erreichbar
 
 ??? danger "`Cannot connect to the Docker daemon at unix:///var/run/docker.sock`"
@@ -512,10 +516,7 @@ Diese Seite ist eine **Fehler-Nachschlagekarte**. Such dein Symptom, klick die B
     **Lösung je Container:**
 
     ```bash
-    docker run -d \
-      --log-opt max-size=10m \
-      --log-opt max-file=3 \
-      nginx
+    docker run -d --log-opt max-size=10m --log-opt max-file=3 nginx
     ```
 
     Begrenzt auf 3 Dateien à 10 MB.

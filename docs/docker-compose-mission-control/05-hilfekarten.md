@@ -1,21 +1,21 @@
 ---
 title: "Hilfekarten"
-description: "Abgestufte Hinweise für Mission Control – nutzt sie nur, wenn ihr feststeckt."
+description: "Abgestufte Hinweise für Mission Control, nutzt sie nur, wenn ihr feststeckt."
 ---
 
 # Hilfekarten
 
 !!! tip "Spielregel"
-    Nutzt diese Hilfekarten **nur**, wenn ihr feststeckt. Erst selbst überlegen, in den Logs schauen, im Team diskutieren – **dann** aufklappen.
+    Nutzt diese Hilfekarten **nur**, wenn ihr feststeckt. Erst selbst überlegen, in den Logs schauen, im Team diskutieren, **dann** aufklappen.
 
 Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 1 – Status der Services prüfen
+## Hilfekarte 1: Status der Services prüfen
 
 ??? info "Aufklappen"
-    Wenn etwas nicht läuft, ist die erste Frage immer: **Laufen die Services überhaupt – und in welchem Zustand?**
+    Wenn etwas nicht läuft, ist die erste Frage immer: **Laufen die Services überhaupt, und in welchem Zustand?**
 
     ```bash
     docker compose ps
@@ -31,7 +31,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 2 – Logs gezielt lesen
+## Hilfekarte 2: Logs gezielt lesen
 
 ??? info "Aufklappen"
     ```bash
@@ -41,21 +41,21 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
     docker compose logs --tail 50 backend
     ```
 
-    **Frage an euch:** Was ist die **erste konkrete Fehlermeldung** im Log? Nicht der Stack-Trace darunter – die erste Zeile, die den Fehler beschreibt. Dort liegt fast immer die Ursache.
+    **Frage an euch:** Was ist die **erste konkrete Fehlermeldung** im Log? Nicht der Stack-Trace darunter, die erste Zeile, die den Fehler beschreibt. Dort liegt fast immer die Ursache.
 
     Häufige Backend-Logs in dieser Übung:
 
     | Log-Zeile | Bedeutung |
     |---|---|
-    | `Database not ready (attempt N/30)` | Backend wartet auf DB – meist nach ein paar Sekunden gut |
+    | `Database not ready (attempt N/30)` | Backend wartet auf DB, meist nach ein paar Sekunden gut |
     | `Database connection established.` | DB ist erreichbar |
     | `Listening on port 3000` | API ist bereit |
-    | `getaddrinfo ENOTFOUND db` | `PGHOST` zeigt ins Leere – Service-Name oder Netzwerk falsch |
+    | `getaddrinfo ENOTFOUND db` | `PGHOST` zeigt ins Leere. Service-Name oder Netzwerk falsch |
     | `connect ECONNREFUSED 127.0.0.1:5432` | klassische `localhost`-Falle, siehe Hilfekarte 5 |
 
 ---
 
-## Hilfekarte 3 – `docker compose config` als Diagnose
+## Hilfekarte 3: `docker compose config` als Diagnose
 
 ??? info "Aufklappen"
     ```bash
@@ -90,7 +90,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 4 – `${VARIABLE}` wird nicht ersetzt
+## Hilfekarte 4: `${VARIABLE}` wird nicht ersetzt
 
 ??? info "Aufklappen"
     Symptom: in `docker compose config` steht buchstäblich `${POSTGRES_USER}` statt `aurora`. Oder Compose meldet beim Start `the variable POSTGRES_USER is not set`.
@@ -128,7 +128,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 5 – Die `localhost`-Falle (zwischen Services)
+## Hilfekarte 5: Die `localhost`-Falle (zwischen Services)
 
 ??? info "Aufklappen"
     Wenn das Backend im Container läuft, bedeutet `localhost` **nicht** euren Rechner und **nicht** automatisch die Datenbank.
@@ -153,7 +153,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 6 – Healthcheck schlägt fehl
+## Hilfekarte 6: Healthcheck schlägt fehl
 
 ??? info "Aufklappen"
     Symptom: `db` zeigt in `docker compose ps` dauerhaft `health: starting` oder `unhealthy`. Backend bleibt deshalb im `created`-Zustand und startet nicht.
@@ -171,7 +171,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
     2. Häufige Ursachen:
 
         - Falscher User: `pg_isready` ohne `-U` prüft den Default-User `postgres`. Wenn ihr `POSTGRES_USER=aurora` gesetzt habt, müsst ihr im Healthcheck `pg_isready -U aurora` schreiben.
-        - `start_period` zu kurz: Bei frischem Volume kann die Initialisierung 10–20 Sekunden dauern.
+        - `start_period` zu kurz: Bei frischem Volume kann die Initialisierung 10 bis 20 Sekunden dauern.
         - Variable nicht im Container vorhanden: `$${POSTGRES_USER}` (mit doppeltem Dollar) ist Pflicht, damit nicht **Compose** die Variable beim Parsen ersetzt, sondern erst die Shell **im Container**.
 
     !!! tip "Healthcheck mit Defaults"
@@ -188,7 +188,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 7 – Build greift nicht / alte Version läuft
+## Hilfekarte 7: Build greift nicht / alte Version läuft
 
 ??? info "Aufklappen"
     Wenn ihr im Backend-Code (oder Dockerfile, oder `package.json`) etwas ändert und es kommt nicht im Container an: Compose hat nicht neu gebaut.
@@ -211,9 +211,9 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ---
 
-## Hilfekarte 8 – „password authentication failed for user …" (DB-Volume-Falle)
+## Hilfekarte 8: „password authentication failed for user …" (DB-Volume-Falle)
 
-??? danger "Aufklappen – häufigste Ursache nach Mission 5"
+??? danger "Aufklappen, häufigste Ursache nach Mission 5"
     Symptom: das Backend protokolliert in einer Endlos-Schleife:
 
     ```text
@@ -224,17 +224,17 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
     **Was passiert:**
 
-    > Das offizielle `postgres`-Image liest `POSTGRES_USER`, `POSTGRES_PASSWORD` und `POSTGRES_DB` **nur beim allerersten Start eines frischen Volumes** ein. Beim zweiten Start ignoriert es diese Variablen komplett – die DB läuft mit User/Passwort, die beim allerersten Mal gesetzt wurden.
+    > Das offizielle `postgres`-Image liest `POSTGRES_USER`, `POSTGRES_PASSWORD` und `POSTGRES_DB` **nur beim allerersten Start eines frischen Volumes** ein. Beim zweiten Start ignoriert es diese Variablen komplett, die DB läuft mit User/Passwort, die beim allerersten Mal gesetzt wurden.
 
     **Typischer Auslöser:**
 
-    - Ihr habt in Mission 1–4 hartkodierte Werte in der `compose.yaml` gehabt.
+    - Ihr habt in Mission 1 bis 4 hartkodierte Werte in der `compose.yaml` gehabt.
     - In Mission 5 habt ihr auf `.env` umgestellt, dabei aber einen Tippfehler im Variablen-Namen oder einen anderen Wert gewählt.
     - Oder: die `.env` lag nicht im richtigen Ordner → Compose hat eine leere Variable eingesetzt → Postgres-Image hat das Default-Passwort genommen → Backend kennt das nicht.
 
     Das alte Volume hat noch das alte Passwort, das Backend schickt das neue. **Zack: Auth-Loop.**
 
-    **Lösung – Volume zurücksetzen:**
+    **Lösung. Volume zurücksetzen:**
 
     ```bash
     docker compose down -v
@@ -243,18 +243,18 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
     Das `-v` löscht das benannte Volume, beim nächsten Start initialisiert sich Postgres frisch mit dem aktuellen `POSTGRES_PASSWORD` aus eurer `.env`. Init-SQL läuft auch wieder, ihr habt die sechs Beispiel-Module zurück.
 
-    !!! danger "Achtung – `-v` löscht Daten"
+    !!! danger "Achtung, `-v` löscht Daten"
         `docker compose down -v` löscht **alle** benannten Volumes dieses Compose-Projekts. Selbst angelegte Module sind danach weg.
 
     **Vorbeugung:**
 
-    1. Vor `up` immer `docker compose config` aufrufen – stehen `POSTGRES_USER` und `POSTGRES_PASSWORD` sauber aufgelöst da?
+    1. Vor `up` immer `docker compose config` aufrufen, stehen `POSTGRES_USER` und `POSTGRES_PASSWORD` sauber aufgelöst da?
     2. `.env` muss im **selben Ordner** wie die `compose.yaml` liegen.
     3. Wenn ihr `POSTGRES_PASSWORD` ändert, müsst ihr immer auch das Volume neu anlegen.
 
 ---
 
-## Hilfekarte 9 – Init-SQL hat nicht ausgeführt
+## Hilfekarte 9: Init-SQL hat nicht ausgeführt
 
 ??? info "Aufklappen"
     Symptom: ihr seht im Frontend keine Module, oder `docker compose exec db psql -U aurora -d auroradb -c "\dt"` zeigt **keine Tabelle `modules`**.
@@ -265,7 +265,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
     Wenn ihr erst ohne Init-SQL gestartet habt und dann das Bind-Mount nachgezogen habt, hat Postgres das Skript nie gesehen.
 
-    **Lösung – Volume neu anlegen:**
+    **Lösung. Volume neu anlegen:**
 
     ```bash
     docker compose down -v
@@ -277,12 +277,12 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
     Andere Ursachen:
 
-    - Bind-Mount-Pfad falsch geschrieben (z.B. `./db/init.sql` vs. `db/init.sql` – beide gehen, aber **muss zur Datei passen**).
-    - Datei steht **read-write** statt `:ro` – das ist nicht falsch, aber sicherer ist `:ro`.
+    - Bind-Mount-Pfad falsch geschrieben (z.B. `./db/init.sql` vs. `db/init.sql`, beide gehen, aber **muss zur Datei passen**).
+    - Datei steht **read-write** statt `:ro`, das ist nicht falsch, aber sicherer ist `:ro`.
 
 ---
 
-## Hilfekarte 10 – Port ist bereits belegt
+## Hilfekarte 10: Port ist bereits belegt
 
 ??? info "Aufklappen"
     Symptom: `docker compose up -d` bricht ab mit:
@@ -291,7 +291,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
     Bind for 0.0.0.0:8080 failed: port is already allocated
     ```
 
-    **Ursache:** auf eurem Rechner läuft schon ein Dienst auf dem Host-Port – oft ein Container aus einer früheren Übung (Adminer aus dem Escape Room z.B.) oder ein anderes Programm.
+    **Ursache:** auf eurem Rechner läuft schon ein Dienst auf dem Host-Port, oft ein Container aus einer früheren Übung (Adminer aus dem Escape Room z.B.) oder ein anderes Programm.
 
     **Mögliche Lösungen:**
 
@@ -326,7 +326,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
 ## Bonus-Hilfekarte: Sauberes Reset
 
-??? warning "Aufklappen – nur wenn ihr alles neu starten wollt"
+??? warning "Aufklappen, nur wenn ihr alles neu starten wollt"
     Achtung: Der folgende Befehl löscht Container, Netzwerk und **alle benannten Volumes** des Compose-Projekts. Daten in `aurora-data` sind danach **weg**.
 
     ```bash
@@ -341,7 +341,7 @@ Jede Karte ist eine aufklappbare Box. Innen steht der Hinweis.
 
     Danach mit `docker compose up -d --build` wieder hochfahren.
 
-    Noch radikaler – euch interessieren wirklich nur Mission-Control-Container und nichts anderes auf eurem Rechner:
+    Noch radikaler, euch interessieren wirklich nur Mission-Control-Container und nichts anderes auf eurem Rechner:
 
     ```bash
     docker compose ps -a

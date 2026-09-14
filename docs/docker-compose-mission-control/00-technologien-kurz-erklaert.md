@@ -5,7 +5,7 @@ description: "Worum geht's bei Nginx, Reverse-Proxy, Express, FastAPI, PostgreSQ
 
 # Die Technologien kurz erklärt
 
-In dieser Aufgabe geht es um **Docker Compose**. Die Beispiel-App nutzt zwar Nginx, Node.js/Express, PostgreSQL und (optional) FastAPI – aber **nur als Beispielsystem**. Ihr müsst diese Technologien **nicht im Detail** lernen.
+In dieser Aufgabe geht es um **Docker Compose**. Die Beispiel-App nutzt zwar Nginx, Node.js/Express, PostgreSQL und (optional) FastAPI, aber **nur als Beispielsystem**. Ihr müsst diese Technologien **nicht im Detail** lernen.
 
 Diese Seite gibt euch den nötigen Kontext, mehr nicht.
 
@@ -13,7 +13,7 @@ Diese Seite gibt euch den nötigen Kontext, mehr nicht.
 
 ## Was ist das Frontend?
 
-Das **Frontend** ist die kleine Webseite, die ihr im Browser seht: das Mission-Control-Dashboard. Es ist eine **statische** Single-Page-App – nur HTML, CSS und JavaScript.
+Das **Frontend** ist die kleine Webseite, die ihr im Browser seht: das Mission-Control-Dashboard. Es ist eine **statische** Single-Page-App, nur HTML, CSS und JavaScript.
 
 Wenn ihr auf einen Button klickt, schickt das Frontend per `fetch` eine Anfrage an einen Pfad wie `/api/modules`. Genau diese Anfrage wandert dann durch Nginx an das Backend.
 
@@ -44,11 +44,11 @@ location /api/ {
 
 Das bedeutet: jede Anfrage `/api/...`, die im Frontend-Container ankommt, wird intern an `http://backend:3000/api/...` weitergegeben.
 
-> Der Hostname `backend` ist **kein DNS-Eintrag im Internet** – das ist der **Service-Name** aus eurer `compose.yaml`. Compose legt für jeden Service einen DNS-Eintrag im internen Netzwerk an.
+> Der Hostname `backend` ist **kein DNS-Eintrag im Internet**, das ist der **Service-Name** aus eurer `compose.yaml`. Compose legt für jeden Service einen DNS-Eintrag im internen Netzwerk an.
 
 **Was du dadurch nicht brauchst:**
 
-- kein **CORS** (Cross-Origin Requests) – aus Browsersicht läuft alles auf `localhost:8080`
+- kein **CORS** (Cross-Origin Requests), aus Browsersicht läuft alles auf `localhost:8080`
 - keine zwei Domains, keine zusätzlichen API-URLs im JavaScript
 
 Das ist ein klassisches Setup, das ihr in echten Projekten ständig wiederfindet.
@@ -97,7 +97,7 @@ Für euch ist nur wichtig:
 
 **FastAPI** ist ein modernes Python-Framework für HTTP-APIs. Es ist Pythons Pendant zu Express in Node.js.
 
-In der Bonus-Mission tauscht ihr das Node-Backend gegen das FastAPI-Backend. **Frontend und Datenbank bleiben unverändert** – ihr ändert nur den `build:`-Pfad in eurer `compose.yaml`.
+In der Bonus-Mission tauscht ihr das Node-Backend gegen das FastAPI-Backend. **Frontend und Datenbank bleiben unverändert**, ihr ändert nur den `build:`-Pfad in eurer `compose.yaml`.
 
 > Genau das ist der Witz an Containern: Schnittstelle stabil, Innenleben austauschbar.
 
@@ -111,7 +111,7 @@ Beim ersten Start liest die Datenbank das Skript `db/init.sql` ein. Darin wird d
 
 - Life Support, Power Grid, Comms Array, Research Lab, Hydroponics, Docking Bay.
 
-Damit ist eure Datenbank **nicht leer**, wenn ihr den Stack zum ersten Mal startet – ihr seht direkt etwas im Frontend.
+Damit ist eure Datenbank **nicht leer**, wenn ihr den Stack zum ersten Mal startet, ihr seht direkt etwas im Frontend.
 
 **Compose-Fokus:** Datenbank-Container starten, Init-SQL über Bind-Mount einbinden, Volume für persistente Daten setzen, Umgebungsvariablen für User/Passwort/DB-Name.
 
@@ -133,7 +133,7 @@ Damit ist eure Datenbank **nicht leer**, wenn ihr den Stack zum ersten Mal start
 | Passwort | `aurorapass` |
 | Datenbank | `auroradb` |
 
-> Wichtig: Im Feld **Server** steht der **Service-Name** aus eurer `compose.yaml` – nicht `localhost` und keine IP.
+> Wichtig: Im Feld **Server** steht der **Service-Name** aus eurer `compose.yaml`, nicht `localhost` und keine IP.
 
 ---
 
@@ -141,7 +141,7 @@ Damit ist eure Datenbank **nicht leer**, wenn ihr den Stack zum ersten Mal start
 
 Eine **`.env`** ist eine schlichte Textdatei mit `KEY=VALUE`-Zeilen. Compose liest sie automatisch ein, wenn sie im selben Ordner wie die `compose.yaml` liegt. In der `compose.yaml` schreibt ihr `${KEY}` und Compose ersetzt das beim Start mit dem Wert.
 
-So bleiben Geheimnisse (Passwörter, Tokens) und umgebungsspezifische Werte aus der `compose.yaml` raus – die `.env` gehört in `.gitignore`, die `.env.example` (mit Default-Werten) wird mit eingecheckt.
+So bleiben Geheimnisse (Passwörter, Tokens) und umgebungsspezifische Werte aus der `compose.yaml` raus, die `.env` gehört in `.gitignore`, die `.env.example` (mit Default-Werten) wird mit eingecheckt.
 
 In dieser Übung benutzt ihr `.env` für DB-User, Passwort, DB-Name und Ports.
 
@@ -161,5 +161,5 @@ In dieser Übung benutzt ihr `.env` für DB-User, Passwort, DB-Name und Ports.
 
 ## Weiter
 
-- [Compose-Recap](02-compose-recap.md) – die YAML-Bausteine, die ihr in der Übung braucht
-- [Szenario](03-szenario.md) – die Geschichte hinter der Aufgabe
+- [Compose-Recap](02-compose-recap.md): die YAML-Bausteine, die ihr in der Übung braucht
+- [Szenario](03-szenario.md): die Geschichte hinter der Aufgabe

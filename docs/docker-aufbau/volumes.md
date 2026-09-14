@@ -86,10 +86,7 @@ Docker kann Volumes **on the fly** erzeugen, oder du legst sie explizit an. Beid
 docker volume create db-daten
 
 # Oder Docker macht es beim ersten -v automatisch
-docker run -d --name db \
-  -v db-daten:/var/lib/postgresql/data \
-  -e POSTGRES_PASSWORD=geheim \
-  postgres:16
+docker run -d --name db -v db-daten:/var/lib/postgresql/data -e POSTGRES_PASSWORD=geheim postgres:16
 ```
 
 Was passiert hier:
@@ -107,10 +104,7 @@ docker exec -it db psql -U postgres -c "INSERT INTO kurs VALUES ('Jacob');"
 # Container zerstören und neu starten
 docker stop db
 docker rm db
-docker run -d --name db \
-  -v db-daten:/var/lib/postgresql/data \
-  -e POSTGRES_PASSWORD=geheim \
-  postgres:16
+docker run -d --name db -v db-daten:/var/lib/postgresql/data -e POSTGRES_PASSWORD=geheim postgres:16
 
 # Daten sind immer noch da
 docker exec -it db psql -U postgres -c "SELECT * FROM kurs;"
@@ -154,12 +148,17 @@ erzeugt Docker ein **anonymes Volume** mit einer kryptischen ID wie `f8a3bc7e…
 
 Bei einem Bind Mount gibst du einen **absoluten Host-Pfad** an:
 
-```bash
-docker run -d --name web \
-  -v /Users/jacob/projekte/site:/usr/share/nginx/html \
-  -p 8080:80 \
-  nginx:alpine
-```
+Der Host-Pfad links vom Doppelpunkt sieht je System anders aus, der Container-Pfad rechts ist immer derselbe:
+
+=== "macOS / Linux"
+    ```bash
+    docker run -d --name web -v ~/projekte/site:/usr/share/nginx/html -p 8080:80 nginx:alpine
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    docker run -d --name web -v C:\Projekte\site:/usr/share/nginx/html -p 8080:80 nginx:alpine
+    ```
 
 Was passiert:
 
@@ -175,26 +174,17 @@ Wenn der Host-Pfad der aktuelle Ordner ist:
 
 === "macOS / Linux"
     ```bash
-    docker run -d --name web \
-      -v $(pwd):/usr/share/nginx/html \
-      -p 8080:80 \
-      nginx:alpine
+    docker run -d --name web -v $(pwd):/usr/share/nginx/html -p 8080:80 nginx:alpine
     ```
 
 === "Windows PowerShell"
     ```powershell
-    docker run -d --name web `
-      -v ${PWD}:/usr/share/nginx/html `
-      -p 8080:80 `
-      nginx:alpine
+    docker run -d --name web -v ${PWD}:/usr/share/nginx/html -p 8080:80 nginx:alpine
     ```
 
 === "Windows CMD"
     ```cmd
-    docker run -d --name web ^
-      -v %cd%:/usr/share/nginx/html ^
-      -p 8080:80 ^
-      nginx:alpine
+    docker run -d --name web -v %cd%:/usr/share/nginx/html -p 8080:80 nginx:alpine
     ```
 
 ### Read-only-Mount
@@ -203,23 +193,17 @@ Wenn der Container die Daten nur **lesen**, nicht verändern soll, häng `:ro` a
 
 === "macOS / Linux"
     ```bash
-    docker run -d \
-      -v $(pwd)/config.yaml:/etc/app/config.yaml:ro \
-      meine-app
+    docker run -d -v $(pwd)/config.yaml:/etc/app/config.yaml:ro meine-app
     ```
 
 === "Windows PowerShell"
     ```powershell
-    docker run -d `
-      -v "${PWD}/config.yaml:/etc/app/config.yaml:ro" `
-      meine-app
+    docker run -d -v "${PWD}/config.yaml:/etc/app/config.yaml:ro" meine-app
     ```
 
 === "Windows CMD"
     ```cmd
-    docker run -d ^
-      -v "%cd%\config.yaml:/etc/app/config.yaml:ro" ^
-      meine-app
+    docker run -d -v "%cd%\config.yaml:/etc/app/config.yaml:ro" meine-app
     ```
 
 Das ist gute Praxis für **Konfigurationsdateien**, der Container kann nicht aus Versehen etwas kaputtmachen.
@@ -231,36 +215,24 @@ Das ist gute Praxis für **Konfigurationsdateien**, der Container kann nicht aus
 Docker hat neben `-v` eine neuere, explizitere Syntax: `--mount`. Sie ist wortreicher, aber eindeutig:
 
 ```bash
-docker run -d --name db \
-  --mount type=volume,source=db-daten,target=/var/lib/postgresql/data \
-  -e POSTGRES_PASSWORD=geheim \
-  postgres:16
+docker run -d --name db --mount type=volume,source=db-daten,target=/var/lib/postgresql/data -e POSTGRES_PASSWORD=geheim postgres:16
 ```
 
 Für Bind Mount:
 
 === "macOS / Linux"
     ```bash
-    docker run -d --name web \
-      --mount type=bind,source=$(pwd),target=/usr/share/nginx/html \
-      -p 8080:80 \
-      nginx:alpine
+    docker run -d --name web --mount type=bind,source=$(pwd),target=/usr/share/nginx/html -p 8080:80 nginx:alpine
     ```
 
 === "Windows PowerShell"
     ```powershell
-    docker run -d --name web `
-      --mount "type=bind,source=${PWD},target=/usr/share/nginx/html" `
-      -p 8080:80 `
-      nginx:alpine
+    docker run -d --name web --mount "type=bind,source=${PWD},target=/usr/share/nginx/html" -p 8080:80 nginx:alpine
     ```
 
 === "Windows CMD"
     ```cmd
-    docker run -d --name web ^
-      --mount type=bind,source=%cd%,target=/usr/share/nginx/html ^
-      -p 8080:80 ^
-      nginx:alpine
+    docker run -d --name web --mount type=bind,source=%cd%,target=/usr/share/nginx/html -p 8080:80 nginx:alpine
     ```
 
 **Für den Alltag reicht `-v`.** `--mount` ist vor allem nützlich, wenn du Spezialfälle brauchst (z.B. `tmpfs`-Mounts, also Speicher im RAM, der beim Stoppen des Containers verschwindet).
@@ -271,21 +243,14 @@ Für Bind Mount:
 
 ??? example "PostgreSQL mit persistenten Daten"
     ```bash
-    docker run -d --name db \
-      -v postgres-daten:/var/lib/postgresql/data \
-      -e POSTGRES_PASSWORD=geheim \
-      -p 5432:5432 \
-      postgres:16
+    docker run -d --name db -v postgres-daten:/var/lib/postgresql/data -e POSTGRES_PASSWORD=geheim -p 5432:5432 postgres:16
     ```
 
     Datenbank-Dateien landen im Volume `postgres-daten`. Beim Restart oder Re-create bleiben sie erhalten.
 
 ??? example "Redis mit Snapshot-Persistenz"
     ```bash
-    docker run -d --name cache \
-      -v redis-daten:/data \
-      -p 6379:6379 \
-      redis:7 redis-server --save 60 1
+    docker run -d --name cache -v redis-daten:/data -p 6379:6379 redis:7 redis-server --save 60 1
     ```
 
     `--save 60 1` sagt Redis: „mache alle 60 Sekunden einen Snapshot, wenn mindestens 1 Key geändert wurde". Der Snapshot landet in `/data`, also im Volume.
@@ -302,20 +267,12 @@ Für Bind Mount:
 
     === "Windows PowerShell"
         ```powershell
-        docker run -d --name dev `
-          -v "${PWD}:/app" `
-          -w /app `
-          -p 3000:3000 `
-          node:20 npm run dev
+        docker run -d --name dev -v "${PWD}:/app" -w /app -p 3000:3000 node:20 npm run dev
         ```
 
     === "Windows CMD"
         ```cmd
-        docker run -d --name dev ^
-          -v "%cd%:/app" ^
-          -w /app ^
-          -p 3000:3000 ^
-          node:20 npm run dev
+        docker run -d --name dev -v "%cd%:/app" -w /app -p 3000:3000 node:20 npm run dev
         ```
 
     Dein Host-Code ist im Container unter `/app`. Änderungen am Code greifen sofort, keine Rebuilds.
@@ -331,18 +288,12 @@ Für Bind Mount:
 
     === "Windows PowerShell"
         ```powershell
-        docker run -d `
-          -v "${PWD}/nginx.conf:/etc/nginx/nginx.conf:ro" `
-          -p 8080:80 `
-          nginx:alpine
+        docker run -d -v "${PWD}/nginx.conf:/etc/nginx/nginx.conf:ro" -p 8080:80 nginx:alpine
         ```
 
     === "Windows CMD"
         ```cmd
-        docker run -d ^
-          -v "%cd%\nginx.conf:/etc/nginx/nginx.conf:ro" ^
-          -p 8080:80 ^
-          nginx:alpine
+        docker run -d -v "%cd%\nginx.conf:/etc/nginx/nginx.conf:ro" -p 8080:80 nginx:alpine
         ```
 
     Deine eigene nginx-Konfiguration, ohne ein eigenes Image bauen zu müssen. Praktisch für Experimente.
@@ -412,21 +363,13 @@ Für Bind Mount:
     === "Windows PowerShell"
         ```powershell
         $datum = Get-Date -Format "yyyy-MM-dd"
-        docker run --rm `
-          -v postgres-daten:/data `
-          -v "${PWD}:/backup" `
-          alpine `
-          tar czf "/backup/postgres-backup-$datum.tar.gz" -C /data .
+        docker run --rm -v postgres-daten:/data -v "${PWD}:/backup" alpine tar czf "/backup/postgres-backup-$datum.tar.gz" -C /data .
         ```
 
     === "Windows CMD"
         ```cmd
         for /f %i in ('powershell -Command "Get-Date -Format yyyy-MM-dd"') do set DATUM=%i
-        docker run --rm ^
-          -v postgres-daten:/data ^
-          -v "%cd%:/backup" ^
-          alpine ^
-          tar czf /backup/postgres-backup-%DATUM%.tar.gz -C /data .
+        docker run --rm -v postgres-daten:/data -v "%cd%:/backup" alpine tar czf /backup/postgres-backup-%DATUM%.tar.gz -C /data .
         ```
 
     Was passiert:
@@ -449,20 +392,12 @@ Für Bind Mount:
 
     === "Windows PowerShell"
         ```powershell
-        docker run --rm `
-          -v postgres-daten:/data `
-          -v "${PWD}:/backup" `
-          alpine `
-          tar xzf /backup/postgres-backup-2024-03-15.tar.gz -C /data
+        docker run --rm -v postgres-daten:/data -v "${PWD}:/backup" alpine tar xzf /backup/postgres-backup-2024-03-15.tar.gz -C /data
         ```
 
     === "Windows CMD"
         ```cmd
-        docker run --rm ^
-          -v postgres-daten:/data ^
-          -v "%cd%:/backup" ^
-          alpine ^
-          tar xzf /backup/postgres-backup-2024-03-15.tar.gz -C /data
+        docker run --rm -v postgres-daten:/data -v "%cd%:/backup" alpine tar xzf /backup/postgres-backup-2024-03-15.tar.gz -C /data
         ```
 
 ??? info "Wie viel Platz belegen meine Volumes?"
@@ -479,9 +414,7 @@ Für Bind Mount:
 Manchmal willst du **gar keine Persistenz**, sondern im Gegenteil: einen Ordner, der garantiert nur im RAM existiert und nach dem Stoppen weg ist. Für Secrets oder temporäre Dateien.
 
 ```bash
-docker run -d --name app \
-  --tmpfs /tmp:size=64M \
-  meine-app
+docker run -d --name app --tmpfs /tmp:size=64M meine-app
 ```
 
 Unter `/tmp` hat der Container 64 MB RAM als Dateisystem. Alles, was dort landet, ist nach dem Stop weg, und bleibt nie auf einer Platte liegen.

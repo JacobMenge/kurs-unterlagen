@@ -1,13 +1,13 @@
 ---
-title: "Mission Control – Compose-Praxis"
-description: "Praxis-Block zum Compose-Thema: Multi-Container-Anwendung Aurora Station mit Docker Compose aufbauen – rund 90 Minuten Arbeit in Kleingruppen."
+title: "Mission Control. Compose-Praxis"
+description: "Praxis-Block zum Compose-Thema: Multi-Container-Anwendung Aurora Station mit Docker Compose aufbauen, rund 90 Minuten Arbeit in Kleingruppen."
 ---
 
-# Mission Control – Compose-Praxis
+# Mission Control: Compose-Praxis
 
 Willkommen zum **Compose-Praxis-Block**. 🛰️
 
-Im [Docker Escape Room](../docker-escape-room/index.md) habt ihr einen Multi-Container-Stack **manuell** zusammengeschraubt – Netzwerk, Volume, Container für Container. Jetzt macht ihr es **richtig**: alles in einer einzigen `compose.yaml`, gestartet mit einem einzigen Befehl.
+Im [Docker Escape Room](../docker-escape-room/index.md) habt ihr einen Multi-Container-Stack **manuell** zusammengeschraubt. Netzwerk, Volume, Container für Container. Jetzt macht ihr es **richtig**: alles in einer einzigen `compose.yaml`, gestartet mit einem einzigen Befehl.
 
 **In Kleingruppen, in rund 90 Minuten, mit Docker Compose.**
 
@@ -18,7 +18,7 @@ Im [Docker Escape Room](../docker-escape-room/index.md) habt ihr einen Multi-Con
 Ihr bringt eine kleine Mehr-Container-Anwendung zum Laufen: das **Mission-Control-Dashboard der Aurora Station**. Vier Dienste arbeiten zusammen:
 
 - ein **Frontend** (Nginx, statisches HTML/CSS/JS)
-- ein **Backend** (Node.js/Express – alternativ FastAPI als Bonus)
+- ein **Backend** (Node.js/Express, alternativ FastAPI als Bonus)
 - eine **Datenbank** (PostgreSQL mit Init-Skript und Beispiel-Modulen)
 - eine **Datenbank-Weboberfläche** (Adminer)
 
@@ -34,7 +34,7 @@ Ihr schreibt dafür eine **eigene `compose.yaml`** und nutzt die wichtigsten Com
 - Logs lesen, Container in den Stack hineinschauen
 
 !!! tip "Live-Status statt Browser-Refresh"
-    Das Frontend ist als kleines **Mission-Control-Cockpit** gebaut: oben hat es vier **Status-Lampen** (Frontend, Backend, Datenbank, Adminer), die ihr Schritt für Schritt aufleuchten seht. Sobald ihr einen Service hinzufügt oder austauscht, ploppt oben rechts ein **Toast** auf („Backend ist online (node-express)") – kein manuelles Reload nötig. Auch beim Bonus-Tausch Node→FastAPI seht ihr live, wie das Frontend den neuen Implementierungs-Namen anzeigt.
+    Das Frontend ist als kleines **Mission-Control-Cockpit** gebaut: oben hat es vier **Status-Lampen** (Frontend, Backend, Datenbank, Adminer), die ihr Schritt für Schritt aufleuchten seht. Sobald ihr einen Service hinzufügt oder austauscht, ploppt oben rechts ein **Toast** auf („Backend ist online (node-express)"), kein manuelles Reload nötig. Auch beim Bonus-Tausch Node→FastAPI seht ihr live, wie das Frontend den neuen Implementierungs-Namen anzeigt.
 
 !!! info "Code zur Aufgabe"
     Der Code für die Beispielanwendung liegt im Repository unter:
@@ -50,7 +50,7 @@ Ihr schreibt dafür eine **eigene `compose.yaml`** und nutzt die wichtigsten Com
     - Frontend, Backend, Datenbank und Adminer laufen je in einem eigenen Container.
     - Frontend und Adminer sollen im Browser erreichbar sein, Backend und DB **nicht** nach außen.
     - Das Backend kennt die Datenbank über deren **Service-Namen** (`db`).
-    - Das Frontend kennt das Backend ebenfalls über den Service-Namen (`backend`) – Nginx ist als Reverse-Proxy schon vorkonfiguriert.
+    - Das Frontend kennt das Backend ebenfalls über den Service-Namen (`backend`). Nginx ist als Reverse-Proxy schon vorkonfiguriert.
     - Die Datenbank speichert ihre Daten in einem **benannten Volume**, damit ein `docker compose down` keine Einträge zerstört.
 
 !!! warning "Nur Compose"
@@ -103,7 +103,7 @@ flowchart TD
 | Phase | Aufwand |
 |---|---:|
 | Einstieg & Erklärung | ca. 15 Min |
-| Compose-Recap | ca. 10–15 Min |
+| Compose-Recap | ca. 10 bis 15 Min |
 | **Arbeit in Kleingruppen (Missionen)** | **ca. 90 Min** |
 | Gemeinsame Besprechung | ca. 30 Min |
 | Rückblick & Ausblick | ca. 10 Min |
@@ -116,14 +116,14 @@ Insgesamt **rund 2,5 Stunden**, davon etwa 90 Minuten aktive Gruppenarbeit.
 
 Wenn ihr den Block linear durcharbeitet:
 
-1. [Technologien kurz erklärt](00-technologien-kurz-erklaert.md) – was ist Nginx, was ist FastAPI, was ist `proxy_pass`?
-2. [Compose-Recap](02-compose-recap.md) – die YAML-Bausteine, die ihr braucht
-3. [Szenario](03-szenario.md) – die Story und die Ziel-Architektur
-4. [Aufgabenübersicht](04-aufgabenuebersicht.md) – eure Missionen + Bonus
-5. [Hilfekarten](05-hilfekarten.md) – nutzt sie nur, wenn ihr feststeckt
-6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md) – was am Ende vorgezeigt wird
-7. [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
-8. [Rückblick & Ausblick](08-rueckblick.md) – was habt ihr in den drei Praxis-Blöcken gelernt
+1. [Technologien kurz erklärt](00-technologien-kurz-erklaert.md), was ist Nginx, was ist FastAPI, was ist `proxy_pass`?
+2. [Compose-Recap](02-compose-recap.md), die YAML-Bausteine, die ihr braucht
+3. [Szenario](03-szenario.md), die Story und die Ziel-Architektur
+4. [Aufgabenübersicht](04-aufgabenuebersicht.md), eure Missionen + Bonus
+5. [Hilfekarten](05-hilfekarten.md), nutzt sie nur, wenn ihr feststeckt
+6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md), was am Ende vorgezeigt wird
+7. [Lösung](07-loesung.md), **erst nach der eigenen Arbeit aufschlagen!**
+8. [Rückblick & Ausblick](08-rueckblick.md), was habt ihr in den drei Praxis-Blöcken gelernt
 
 ---
 
@@ -134,5 +134,5 @@ Wenn ihr den Block linear durcharbeitet:
 - Service-Namen als **DNS-Hostnamen** zwischen Containern nutzen
 - Konfiguration sauber in eine **`.env`-Datei** auslagern
 - Mit `depends_on` + `healthcheck` echte Startreihenfolge erzwingen
-- Den Stack mit einem Befehl hoch- und runterfahren – und nach einem Volume-Tausch sehen, **dass Daten persistent sind**
+- Den Stack mit einem Befehl hoch- und runterfahren, und nach einem Volume-Tausch sehen, **dass Daten persistent sind**
 - Ein Backend gegen ein anderes austauschen, ohne dass Frontend oder DB davon etwas merken

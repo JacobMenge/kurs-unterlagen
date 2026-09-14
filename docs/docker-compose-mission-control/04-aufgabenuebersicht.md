@@ -1,9 +1,13 @@
 ---
 title: "Aufgabenübersicht"
-description: "Die 7 Missionen für Mission Control – plus Bonus, Checkliste, Regeln."
+description: "Die 7 Missionen für Mission Control, plus Bonus, Checkliste, Regeln."
 ---
 
-# Mission Control – Aufgabenübersicht
+# Mission Control: Aufgabenübersicht
+
+
+!!! note "Windows-Hinweis"
+    Alle Befehle dieser Einheit sind Ein-Zeilen-Befehle und laufen unverändert unter macOS, Linux und Windows. Unter Windows arbeitet ihr wie immer in der **PowerShell** (im Windows-Terminal). Die compose.yaml legt ihr im Editor an, unter Windows zum Beispiel mit `notepad compose.yaml` oder in VS Code.
 
 ## Ziel
 
@@ -16,7 +20,7 @@ Ihr arbeitet in Kleingruppen als kleines DevOps-Team. Eure Aufgabe ist es, das M
 
 ## Wichtiger Hinweis
 
-Das ist eine **Compose-Aufgabe**. Die Beispiel-App besteht aus Nginx, Node.js, Express, PostgreSQL und (als Bonus) FastAPI – aber **ihr müsst diese Technologien nicht im Detail verstehen**. Ihr müsst keinen Anwendungscode schreiben und kein SQL benutzen.
+Das ist eine **Compose-Aufgabe**. Die Beispiel-App besteht aus Nginx, Node.js, Express, PostgreSQL und (als Bonus) FastAPI, aber **ihr müsst diese Technologien nicht im Detail verstehen**. Ihr müsst keinen Anwendungscode schreiben und kein SQL benutzen.
 
 Konzentriert euch auf:
 
@@ -53,13 +57,13 @@ Verteilt am Anfang die Rollen in eurer Gruppe:
 | **Debugger** | Liest Logs, prüft `docker compose ps`, `config`, `exec` |
 | **Dokumentator** | Notiert Befehle, Probleme und Lösungswege |
 
-Bei kleineren Gruppen können Rollen kombiniert werden – aber **immer einer** als Dokumentator!
+Bei kleineren Gruppen können Rollen kombiniert werden, aber **immer einer** als Dokumentator!
 
 ---
 
 # Eure Missionen
 
-## Mission 0 – Briefing & Projekt vorbereiten
+## Mission 0: Briefing & Projekt vorbereiten
 
 Macht euch zuerst mit dem Projektordner vertraut. Der Code liegt im Repository unter:
 
@@ -106,11 +110,11 @@ Dort baut ihr Mission für Mission auf.
 
 ---
 
-## Mission 1 – Frontend zuerst: das Kontrollzentrum hochfahren
+## Mission 1: Frontend zuerst, das Kontrollzentrum hochfahren
 
-Wir fangen **mit dem Frontend** an. Das ist die UI eures Mission-Control-Dashboards. Sie funktioniert auch **ganz ohne** Backend und Datenbank – sie zeigt einfach, dass die anderen Services noch fehlen.
+Wir fangen **mit dem Frontend** an. Das ist die UI eures Mission-Control-Dashboards. Sie funktioniert auch **ganz ohne** Backend und Datenbank, sie zeigt einfach, dass die anderen Services noch fehlen.
 
-> **Warum frontend zuerst?** Weil ihr so von der ersten Minute an einen sichtbaren Erfolg habt – und weil ihr dann live mitverfolgt, wie nach und nach jede Lampe grün wird, sobald ihr in den nächsten Missionen weitere Services hinzufügt. Kein einziges Browser-Refresh nötig: das Frontend pollt alle 2 Sekunden selbständig.
+> **Warum frontend zuerst?** Weil ihr so von der ersten Minute an einen sichtbaren Erfolg habt, und weil ihr dann live mitverfolgt, wie nach und nach jede Lampe grün wird, sobald ihr in den nächsten Missionen weitere Services hinzufügt. Kein einziges Browser-Refresh nötig: das Frontend pollt alle 2 Sekunden selbständig.
 
 **Anforderungen:**
 
@@ -137,17 +141,17 @@ docker compose up -d --build
 
 !!! tip "Erwartung am Ende von Mission 1"
     - 🟢 Frontend (das seht ihr ja, also läuft es)
-    - 🔴 Backend (gibt es noch nicht – Lampe ist rot)
+    - 🔴 Backend (gibt es noch nicht. Lampe ist rot)
     - 🔴 Datenbank (das Backend könnte sie zwar erreichen, aber das Backend gibt's noch nicht)
     - 🔴 Adminer (gibt es noch nicht)
 
-    Oben rechts steht „warte auf backend …". Das ist **gewollt** – im Laufe der Aufgabe werden alle Lampen grün.
+    Oben rechts steht „warte auf backend …". Das ist **gewollt**, im Laufe der Aufgabe werden alle Lampen grün.
 
-**Compose-Fokus:** allererster Service, `build:`, `ports:` mit Port-Mapping. Kein `depends_on` – das Frontend läuft autark.
+**Compose-Fokus:** allererster Service, `build:`, `ports:` mit Port-Mapping. Kein `depends_on`, das Frontend läuft autark.
 
 ---
 
-## Mission 2 – Datenbank starten
+## Mission 2: Datenbank starten
 
 Fügt den Service **`db`** hinzu.
 
@@ -185,13 +189,13 @@ docker compose up -d
     Erwartet: eine Tabelle mit sechs Zeilen (Life Support, Power Grid, …).
 
 !!! tip "Im Frontend ändert sich noch nichts"
-    Die DB-Lampe bleibt rot, obwohl die DB läuft. Das ist okay: das Frontend kann die DB nur **über das Backend** prüfen – und das Backend kommt erst in Mission 3. Die DB-Lampe wird also gleichzeitig mit der Backend-Lampe grün.
+    Die DB-Lampe bleibt rot, obwohl die DB läuft. Das ist okay: das Frontend kann die DB nur **über das Backend** prüfen, und das Backend kommt erst in Mission 3. Die DB-Lampe wird also gleichzeitig mit der Backend-Lampe grün.
 
 **Compose-Fokus:** zweiter Service, `image:`, `environment:`, `volumes:` (benannt + Bind-Mount), Top-Level-`volumes:`-Block.
 
 ---
 
-## Mission 3 – Backend dranhängen und mit der DB verbinden
+## Mission 3: Backend dranhängen und mit der DB verbinden
 
 Fügt den Service **`backend`** hinzu. Das ist der Moment, in dem zwei Lampen gleichzeitig grün werden.
 
@@ -211,7 +215,7 @@ Fügt den Service **`backend`** hinzu. Das ist der Moment, in dem zwei Lampen gl
 | `depends_on` | `db` |
 
 !!! warning "Erinnerung: keine `localhost`-Falle"
-    `PGHOST` ist **nicht** `localhost`. Aus Sicht des Backend-Containers wäre `localhost` der Backend-Container selbst. Schreibt den **Service-Namen** der Datenbank rein – also `db`.
+    `PGHOST` ist **nicht** `localhost`. Aus Sicht des Backend-Containers wäre `localhost` der Backend-Container selbst. Schreibt den **Service-Namen** der Datenbank rein, also `db`.
 
 Stack neu starten und Image bauen:
 
@@ -221,7 +225,7 @@ docker compose up -d --build
 
 **Schaut jetzt im Frontend zu:**
 
-- Innerhalb von 2–3 Sekunden poppen oben rechts Toasts auf:
+- Innerhalb von 2 bis 3 Sekunden poppen oben rechts Toasts auf:
     - **„Backend ist online (node-express)."**
     - **„Datenbank ist verbunden."**
 - Die Backend- und DB-Lampen werden grün.
@@ -235,13 +239,13 @@ docker compose up -d --build
 - Funktioniert „Status ändern" (Dropdown auf einer Karte)?
 - Funktioniert „Entfernen"?
 
-Falls das Backend zunächst nicht startet: das ist normal beim ersten Start, weil die DB-Initialisierung etwas dauert. Die Retry-Logik im Backend fängt das ab. **Wenn nach 30 Sekunden immer noch nichts geht:** Logs lesen, in den Hilfekarten 1–4 nachschauen.
+Falls das Backend zunächst nicht startet: das ist normal beim ersten Start, weil die DB-Initialisierung etwas dauert. Die Retry-Logik im Backend fängt das ab. **Wenn nach 30 Sekunden immer noch nichts geht:** Logs lesen, in den Hilfekarten 1 bis 4 nachschauen.
 
 **Compose-Fokus:** `build:` mit eigenem Dockerfile, Service-Namen als DNS-Hostname, einfaches `depends_on`.
 
 ---
 
-## Mission 4 – Adminer dranhängen und Daten kontrollieren
+## Mission 4: Adminer dranhängen und Daten kontrollieren
 
 Fügt den vierten Service **`adminer`** hinzu.
 
@@ -274,7 +278,7 @@ docker compose up -d
 | Datenbank | `auroradb` |
 
 !!! warning "Server = `db`, nicht `localhost`"
-    Adminer läuft im Container. `localhost` wäre der Adminer-Container selbst – dort gibt's keine Datenbank. Adminer findet die DB über den Service-Namen `db`.
+    Adminer läuft im Container. `localhost` wäre der Adminer-Container selbst, dort gibt's keine Datenbank. Adminer findet die DB über den Service-Namen `db`.
 
 **Prüft danach:**
 
@@ -284,7 +288,7 @@ docker compose up -d
 
 ---
 
-## Mission 5 – Konfiguration in eine `.env` auslagern
+## Mission 5: Konfiguration in eine `.env` auslagern
 
 Aktuell stehen Username, Passwort und DB-Name **hart kodiert** in eurer `compose.yaml`. Das ist okay zum Lernen, aber im echten Leben gehören sie in eine `.env`-Datei.
 
@@ -322,7 +326,7 @@ Aktuell stehen Username, Passwort und DB-Name **hart kodiert** in eurer `compose
     Details und Vorbeugung: [Hilfekarte 8](05-hilfekarten.md#hilfekarte-8-password-authentication-failed-for-user-db-volume-falle).
 
 !!! tip "Profi-Tipp: zwei Quellen für die DB-Variablen"
-    Das DB-Image braucht `POSTGRES_*`. Das Backend-Image braucht `PG*`. **Beide** Servies können sich aus den **gleichen** `.env`-Variablen bedienen – ihr müsst sie nur in der jeweiligen `environment:`-Sektion entsprechend abbilden:
+    Das DB-Image braucht `POSTGRES_*`. Das Backend-Image braucht `PG*`. **Beide** Servies können sich aus den **gleichen** `.env`-Variablen bedienen, ihr müsst sie nur in der jeweiligen `environment:`-Sektion entsprechend abbilden:
 
     ```yaml
     db:
@@ -338,9 +342,9 @@ Aktuell stehen Username, Passwort und DB-Name **hart kodiert** in eurer `compose
 
 ---
 
-## Mission 6 – Healthcheck + `condition: service_healthy`
+## Mission 6: Healthcheck + `condition: service_healthy`
 
-Im Moment startet das Backend so früh, dass es manchmal kurz auf "DB nicht bereit" läuft. Das fängt die Retry-Logik im Backend ab – aber sauberer ist es, Compose **selbst** warten zu lassen.
+Im Moment startet das Backend so früh, dass es manchmal kurz auf "DB nicht bereit" läuft. Das fängt die Retry-Logik im Backend ab, aber sauberer ist es, Compose **selbst** warten zu lassen.
 
 **Aufgabe:**
 
@@ -356,7 +360,7 @@ Im Moment startet das Backend so früh, dass es manchmal kurz auf "DB nicht bere
     ```
 
     !!! tip "Warum `$${VAR}`?"
-        Der **doppelte** `$$` schützt die Variable vor Compose. Compose würde `${POSTGRES_USER}` sonst beim Parsen der YAML ersetzen – das wollen wir hier nicht. Wir wollen, dass der String **so** in den Container geht und Bash dort die Container-eigene `$POSTGRES_USER`-Variable einsetzt.
+        Der **doppelte** `$$` schützt die Variable vor Compose. Compose würde `${POSTGRES_USER}` sonst beim Parsen der YAML ersetzen, das wollen wir hier nicht. Wir wollen, dass der String **so** in den Container geht und Bash dort die Container-eigene `$POSTGRES_USER`-Variable einsetzt.
 
 2. Im `backend`-Service: ändert `depends_on` von der Liste auf das Map-Format mit `condition: service_healthy`:
 
@@ -383,7 +387,7 @@ Im Moment startet das Backend so früh, dass es manchmal kurz auf "DB nicht bere
 
 ---
 
-## Mission 7 – Persistenz und sauberes Aufräumen
+## Mission 7: Persistenz und sauberes Aufräumen
 
 Der finale Test: bleiben eure Daten beim Restart erhalten?
 
@@ -396,7 +400,7 @@ Der finale Test: bleiben eure Daten beim Restart erhalten?
     docker compose down
     ```
 
-    Das beendet alle Container und entfernt das Compose-Netzwerk – aber **nicht** das benannte Volume.
+    Das beendet alle Container und entfernt das Compose-Netzwerk, aber **nicht** das benannte Volume.
 
 3. **Startet den Stack neu:**
 
@@ -404,11 +408,11 @@ Der finale Test: bleiben eure Daten beim Restart erhalten?
     docker compose up -d
     ```
 
-4. Im Frontend zuschauen: kurze rote Lampen, dann gehen sie wieder grün. **Sind eure eigenen Module noch da?** Sie sollten es sein – die Daten leben im Volume `aurora-data`, das von `down` nicht angefasst wird.
+4. Im Frontend zuschauen: kurze rote Lampen, dann gehen sie wieder grün. **Sind eure eigenen Module noch da?** Sie sollten es sein, die Daten leben im Volume `aurora-data`, das von `down` nicht angefasst wird.
 
 5. Jetzt der harte Test:
 
-    !!! danger "Alles weg – Volume-Test"
+    !!! danger "Alles weg. Volume-Test"
         ```bash
         docker compose down -v
         docker compose up -d
@@ -424,7 +428,7 @@ Der finale Test: bleiben eure Daten beim Restart erhalten?
 
 Wenn ihr früher fertig seid:
 
-## Bonus A – Backend austauschen (Node → FastAPI)
+## Bonus A: Backend austauschen (Node → FastAPI)
 
 Im Repo liegt ein zweites Backend mit identischer API:
 
@@ -445,16 +449,16 @@ backend-fastapi/
     ```
 
     !!! info "Erster FastAPI-Build dauert länger"
-        Das FastAPI-Image installiert beim ersten Build seine Python-Pakete (FastAPI, uvicorn, psycopg). Rechnet mit **1–3 Minuten** Build-Zeit beim allerersten Mal.
+        Das FastAPI-Image installiert beim ersten Build seine Python-Pakete (FastAPI, uvicorn, psycopg). Rechnet mit **1 bis 3 Minuten** Build-Zeit beim allerersten Mal.
 
 - Lasst das Frontend offen und schaut zu, was passiert:
     - Während des Rebuilds wird die Backend-Lampe **kurz rot**, ein Toast meldet **„Backend nicht mehr erreichbar."**
     - Sobald der neue Container läuft: Toast **„Backend gewechselt: node-express → python-fastapi"**.
     - Backend-Lampe ist wieder grün, im Status-Panel steht jetzt `python-fastapi` statt `node-express`.
 
-> Ergebnis: das Frontend hat sich **nicht** geändert, die Datenbank auch nicht (gleiche Tabelle, gleiche Module). Das Backend ist eine andere Sprache, eine andere Library, ein anderes Image – aber die Schnittstelle bleibt gleich. Das ist die Stärke von Container-basierten Systemen.
+> Ergebnis: das Frontend hat sich **nicht** geändert, die Datenbank auch nicht (gleiche Tabelle, gleiche Module). Das Backend ist eine andere Sprache, eine andere Library, ein anderes Image, aber die Schnittstelle bleibt gleich. Das ist die Stärke von Container-basierten Systemen.
 
-**Zurück zu Node:** einfach den `build:`-Pfad wieder auf `./backend-node` setzen, `docker compose up -d --build` – Lampen blinken wieder kurz, dann zeigt das Frontend wieder `node-express`.
+**Zurück zu Node:** einfach den `build:`-Pfad wieder auf `./backend-node` setzen, `docker compose up -d --build`. Lampen blinken wieder kurz, dann zeigt das Frontend wieder `node-express`.
 
 **Profi-Variante** (optional):
 
@@ -476,7 +480,7 @@ So habt ihr ein "Override" und müsst die Hauptdatei nicht anfassen.
 
 ---
 
-## Bonus B – Stack untersuchen mit Compose-Befehlen
+## Bonus B: Stack untersuchen mit Compose-Befehlen
 
 Findet heraus:
 
@@ -492,11 +496,11 @@ Findet heraus:
 
 ---
 
-## Bonus C – Mini-Erklärung für die Schichtleitung
+## Bonus C: Mini-Erklärung für die Schichtleitung
 
 Schreibt in **drei Sätzen** auf:
 
-> Was hätte uns 90 Minuten Compose im Vergleich zu rein manuellem `docker run` *konkret* gebracht – und welche Stellen wären ohne `.env` und Healthcheck noch fragil gewesen?
+> Was hätte uns 90 Minuten Compose im Vergleich zu rein manuellem `docker run` *konkret* gebracht, und welche Stellen wären ohne `.env` und Healthcheck noch fragil gewesen?
 
 ---
 
@@ -504,7 +508,7 @@ Schreibt in **drei Sätzen** auf:
 
 → [Hilfekarten](05-hilfekarten.md) (9 abgestufte Hinweise)
 
-→ Im Plenum nachfragen oder die [Lösung](07-loesung.md) konsultieren – aber bitte erst nach ehrlichem eigenen Versuch.
+→ Im Plenum nachfragen oder die [Lösung](07-loesung.md) konsultieren, aber bitte erst nach ehrlichem eigenen Versuch.
 
 ---
 
@@ -530,7 +534,7 @@ Jede Gruppe zeigt am Ende kurz:
 - eigene Notizen, das [Cheatsheet](../cheatsheets/compose.md)
 - Terminal, Browser
 - Zusammenarbeit in der Gruppe
-- **Google und KI-Tools** (ChatGPT, Gemini, …) – aber nur für **einzelne Fragen, an denen ihr feststeckt**. Nicht „löst mir die ganze Aufgabe": dann lernt ihr nichts.
+- **Google und KI-Tools** (ChatGPT, Gemini, …), aber nur für **einzelne Fragen, an denen ihr feststeckt**. Nicht „löst mir die ganze Aufgabe": dann lernt ihr nichts.
 
 ## ❌ Nicht erlaubt
 
@@ -577,5 +581,5 @@ docker compose restart backend
 
 ## Weiter
 
-- [Hilfekarten](05-hilfekarten.md) – wenn etwas hakt
-- [Abgabe & Reflexion](06-abgabe-und-reflexion.md) – worüber wir am Ende sprechen
+- [Hilfekarten](05-hilfekarten.md): wenn etwas hakt
+- [Abgabe & Reflexion](06-abgabe-und-reflexion.md): worüber wir am Ende sprechen

@@ -12,6 +12,10 @@ Diese Seite sammelt Compose-spezifische Probleme. Allgemeine Docker-Probleme (Co
 
 ---
 
+
+!!! note "Windows-Hinweis"
+    Alle Docker-Befehle auf dieser Seite funktionieren unter macOS, Linux und Windows. Unter Windows nutzt du bitte die **PowerShell** (im Windows-Terminal). Wo sich die Shells unterscheiden, stehen Tabs mit der passenden Variante. Befehle **im Container** sind überall gleich, denn im Container steckt immer Linux.
+
 ## YAML-Syntax und Parsing
 
 ??? danger "„validating compose.yaml: ...", kryptische YAML-Fehler"

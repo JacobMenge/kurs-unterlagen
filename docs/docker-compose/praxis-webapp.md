@@ -6,7 +6,7 @@ description: "In 45 Minuten von docker run zur eigenen compose.yaml: Postgres + 
 # Praxis: erste compose.yaml
 
 !!! abstract "Ziel"
-    In **45 Minuten** baust du den Postgres + Adminer-Stack aus dem Aufbau-Block nach, diesmal **nicht** mit fünf `docker run`-Befehlen, sondern mit **einer einzigen `compose.yaml`**.
+    In **45 Minuten** baust du den Postgres + Adminer-Stack aus dem Aufbau-Block nach, diesmal **nicht** mit einer Handvoll Einzelbefehlen, sondern mit **einer einzigen `compose.yaml`**.
 
     Am Ende kannst du:
 
@@ -98,7 +98,21 @@ Wir starten in einem frischen Ordner:
 
 ## Schritt 2: `compose.yaml` schreiben
 
-Lege im aktuellen Ordner eine Datei namens **`compose.yaml`** an (genau so geschrieben, ohne Bindestrich, mit `.yaml`-Endung). Inhalt:
+Lege im aktuellen Ordner eine Datei namens **`compose.yaml`** an (genau so geschrieben, mit `.yaml`-Endung) und öffne sie direkt im Editor:
+
+=== "macOS / Linux"
+    ```bash
+    nano compose.yaml
+    ```
+    Oder ein Editor deiner Wahl, mit VS Code zum Beispiel `code compose.yaml`.
+
+=== "Windows PowerShell"
+    ```powershell
+    notepad compose.yaml
+    ```
+    Notepad fragt, ob es die Datei anlegen soll: **Ja**. Mit VS Code geht auch `code compose.yaml`. Lege die Datei **nicht** über den Explorer („Neu → Textdokument") an, dabei entsteht ein verstecktes `.txt` am Ende und Compose findet die Datei nicht.
+
+Der Inhalt:
 
 ```yaml
 services:
@@ -251,7 +265,7 @@ docker compose logs --tail 20 adminer
 
 ## Schritt 8: In einen Container reinspringen
 
-Direkt eine Postgres-Shell öffnen:
+`psql` ist das Kommandozeilen-Werkzeug von PostgreSQL. Es steckt schon im Container und läuft deshalb auf jedem Betriebssystem gleich, du öffnest es so:
 
 ```bash
 docker compose exec db psql -U kurs -d kursdaten
@@ -266,13 +280,13 @@ SELECT * FROM teilnehmer;
 
 `\q` verlässt `psql`.
 
-Du kannst auch eine simple Shell im Adminer-Container öffnen:
+Du kannst auch eine Shell im Adminer-Container öffnen. `sh` ist eine kleine Linux-Shell, denn im Container steckt immer Linux, egal ob dein Rechner Windows oder macOS ist:
 
 ```bash
 docker compose exec adminer sh
 ```
 
-`exit` bringt dich zurück.
+Ab jetzt tippst du **im Container**: Probier `ls` (zeigt den Ordnerinhalt) oder `hostname`. `exit` bringt dich zurück in deine gewohnte Shell.
 
 ---
 

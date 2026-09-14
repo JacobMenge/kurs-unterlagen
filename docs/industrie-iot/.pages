@@ -1,0 +1,6 @@
+nav:
+  - "Überblick": index.md
+  - "Wireshark installieren": wireshark-installation.md
+  - "Die drei Protokolle": protokolle-ueberblick.md
+  - "Praxis: Paket-Detektiv": praxis-paket-detektiv.md
+  - "Stolpersteine": stolpersteine.md

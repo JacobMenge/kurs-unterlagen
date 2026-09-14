@@ -68,9 +68,7 @@ Du siehst `redis-daten` in der Liste.
 #### Schritt 2: Redis starten und Volume einhängen
 
 ```bash
-docker run -d --name cache \
-  -v redis-daten:/data \
-  redis:7 redis-server --save 60 1
+docker run -d --name cache -v redis-daten:/data redis:7 redis-server --save 60 1
 ```
 
 Erklärt:
@@ -116,9 +114,7 @@ docker rm cache
 
 Neu starten mit **demselben Volume**:
 ```bash
-docker run -d --name cache \
-  -v redis-daten:/data \
-  redis:7 redis-server --save 60 1
+docker run -d --name cache -v redis-daten:/data redis:7 redis-server --save 60 1
 ```
 
 In Redis reinschauen:
@@ -159,10 +155,7 @@ Viele Container-Images sind über Umgebungsvariablen konfigurierbar. Wir demonst
 
 1. Container starten mit Variable:
     ```bash
-    docker run -d --name envtest \
-      -e WILLKOMMEN="Hallo Kurs" \
-      -e FAVORITE_COLOR="phosphor-grün" \
-      nginx:alpine
+    docker run -d --name envtest -e WILLKOMMEN="Hallo Kurs" -e FAVORITE_COLOR="phosphor-grün" nginx:alpine
     ```
 
 2. Prüfen, was im Container ankam:
@@ -358,25 +351,16 @@ Alle Container und beide Netzwerke entfernen.
 
     ### Postgres
 
+    Als eine Zeile, damit es in jeder Shell läuft:
+
     ```bash
-    docker run -d \
-      --name notes-db \
-      --network notes-netz \
-      -v notes-data:/var/lib/postgresql/data \
-      -e POSTGRES_USER=notes \
-      -e POSTGRES_PASSWORD=geheim \
-      -e POSTGRES_DB=notizbuch \
-      postgres:16
+    docker run -d --name notes-db --network notes-netz -v notes-data:/var/lib/postgresql/data -e POSTGRES_USER=notes -e POSTGRES_PASSWORD=geheim -e POSTGRES_DB=notizbuch postgres:16
     ```
 
     ### Adminer
 
     ```bash
-    docker run -d \
-      --name notes-ui \
-      --network notes-netz \
-      -p 9090:8080 \
-      adminer
+    docker run -d --name notes-ui --network notes-netz -p 9090:8080 adminer
     ```
 
     ### Im Browser anmelden

@@ -216,6 +216,8 @@ Das Präfix `kurs-multicontainer` kommt vom **Projektnamen**, der standardmäßi
 
 In der manuellen Praxis hatten wir:
 
+Nur zum Ansehen, nicht zum Abtippen. Genau diese Zettelwirtschaft löst Compose ab:
+
 ```bash
 docker network create kurs-netz
 

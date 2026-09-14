@@ -119,16 +119,9 @@ docker network create kurs-netz
 ### Container daran hängen
 
 ```bash
-docker run -d --name db \
-  --network kurs-netz \
-  -e POSTGRES_PASSWORD=geheim \
-  postgres:16
+docker run -d --name db --network kurs-netz -e POSTGRES_PASSWORD=geheim postgres:16
 
-docker run -d --name app \
-  --network kurs-netz \
-  -e DATABASE_URL=postgres://postgres:geheim@db:5432/postgres \
-  -p 8080:8000 \
-  meine-app
+docker run -d --name app --network kurs-netz -e DATABASE_URL=postgres://postgres:geheim@db:5432/postgres -p 8080:8000 meine-app
 ```
 
 Beachte in der `DATABASE_URL` den Host **`db`**, das ist der **Name des anderen Containers**. Docker-DNS übersetzt diesen Namen zur IP des `db`-Containers im Netzwerk `kurs-netz`.
@@ -183,16 +176,11 @@ Ein Container kann gleichzeitig in mehreren Netzen hängen:
 docker network create frontend-netz
 docker network create backend-netz
 
-docker run -d --name api \
-  --network backend-netz \
-  meine-api
+docker run -d --name api --network backend-netz meine-api
 
 docker network connect frontend-netz api
 
-docker run -d --name web \
-  --network frontend-netz \
-  -p 80:80 \
-  mein-webserver
+docker run -d --name web --network frontend-netz -p 80:80 mein-webserver
 ```
 
 - `api` ist in beiden Netzen.
@@ -234,20 +222,10 @@ Nehmen wir ein typisches Setup:
 docker network create kurs-netz
 
 # Datenbank: braucht keinen Host-Port, nur die App muss sie erreichen
-docker run -d --name db \
-  --network kurs-netz \
-  -v db-daten:/var/lib/postgresql/data \
-  -e POSTGRES_USER=kurs \
-  -e POSTGRES_PASSWORD=geheim \
-  -e POSTGRES_DB=kursdaten \
-  postgres:16
+docker run -d --name db --network kurs-netz -v db-daten:/var/lib/postgresql/data -e POSTGRES_USER=kurs -e POSTGRES_PASSWORD=geheim -e POSTGRES_DB=kursdaten postgres:16
 
 # App: bekommt einen Host-Port, damit wir sie im Browser öffnen können
-docker run -d --name app \
-  --network kurs-netz \
-  -e DATABASE_URL=postgres://kurs:geheim@db:5432/kursdaten \
-  -p 8080:8000 \
-  meine-app
+docker run -d --name app --network kurs-netz -e DATABASE_URL=postgres://kurs:geheim@db:5432/kursdaten -p 8080:8000 meine-app
 ```
 
 Was passiert:
