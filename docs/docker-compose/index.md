@@ -35,7 +35,8 @@ Im [Aufbau-Block](../docker-aufbau/index.md) hast du einen Postgres-Container mi
 | [Einführung](einfuehrung.md) | Motivation, imperativ vs. deklarativ, V1 vs. V2, Befehls-Übersicht |
 | [Grundlagen](grundlagen.md) | Komplette `compose.yaml`-Syntax Schritt für Schritt |
 | [Praxis: erste compose.yaml](praxis-webapp.md) | 45-Minuten-Hands-on. Postgres + Adminer als simpler Compose-Stack |
-| [Übungen](uebungen.md) | 🟢🟡🔴🏆 Vier Schwierigkeitsgrade zum Selbermachen (inkl. WordPress, `.env`, Tech-Stack) |
+| [Challenge: der zweite Stack](challenge-zweiter-stack.md) | Ohne Anleitung prüfen, ob es sitzt: zweite Umgebung parallel |
+| [Übungen](uebungen.md) | Aufgaben in vier Schwierigkeitsgraden zum Selbermachen (WordPress, `.env`, Tech-Stack) |
 | [Stolpersteine](stolpersteine.md) | Typische Compose-Probleme |
 | [Merksätze](merksaetze.md) | Kompakte Zusammenfassung |
 
@@ -49,6 +50,6 @@ Wenn du bei den drei Säulen (Volumes, ENV-Variablen, Netzwerke) noch unsicher b
 
 ## Leitfrage
 
-> **Wie beschreibst du einen Container-Stack so, dass jeder aus deinem Team ihn mit einem einzigen Befehl hochfahren kann, und alle Teile sauber zusammenspielen?**
+> **Wie beschreibst du einen Container-Stack so, dass jeder aus deinem Team ihn mit einem einzigen Befehl hochfahren kann und alle Teile sauber zusammenspielen?**
 
 Am Ende dieses Blocks hast du deine erste eigene `compose.yaml`, die genau das tut.

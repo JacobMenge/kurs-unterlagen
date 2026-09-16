@@ -22,9 +22,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 <div class="fortschritt-block t1" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 1 · Planung, Konzeptionierung, Integration</span>
-<span class="fortschritt-wert">2 von 6 Blöcken fertig</span>
+<span class="fortschritt-wert">4 von 6 Blöcken fertig</span>
 </div>
-<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 33%"></div></div>
+<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 67%"></div></div>
 </div>
 
 <div class="fortschritt-block t2" markdown>
@@ -53,21 +53,11 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Docker Grundlagen**
-
-    Vom Frachtcontainer zur Docker Engine: erster Container in Sekunden und ein eigenes Image gebaut.
-
--   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
-
-    ---
-
     **Docker Aufbau**
 
     Volumes, Container-Netze und Umgebungsvariablen: Die Datenbank überlebt ihren Container.
 
-    [:octicons-arrow-right-24: Zur Übung](../docker-aufbau/praxis-multi-container.md)
-
--   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+-   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
@@ -75,7 +65,17 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     Der ganze Stack in einer Datei: beschreiben statt tippen, starten mit einem Befehl.
 
-    [:octicons-arrow-right-24: Vorbereiten](../docker-compose/index.md)
+    [:octicons-arrow-right-24: Zur Übung](../docker-compose/praxis-webapp.md)
+
+-   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+
+    ---
+
+    **Docker Praxis: Mission Control**
+
+    Das Gruppen-Event: Die Aurora Station mit zehn Containern aus einer selbst geschriebenen Datei.
+
+    [:octicons-arrow-right-24: Vorbereiten](../docker-compose-mission-control/index.md)
 
 </div>
 
@@ -91,9 +91,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 |:---:|---|---|
 | <span class="status-fertig">✓</span> | [Netzwerke](../netzwerke/index.md) | Modelle, Adressierung, Routing, Protokolle, Sicherheit |
 | <span class="status-fertig">✓</span> | [Virtualisierung](../virtualisierung/index.md) | Hypervisor, virtuelle Maschinen, Werkzeuge |
-| <span class="status-laeuft">●</span> | [Docker – Einführung](../docker/index.md) | Container, Images, eigene Container bauen |
-| <span class="status-offen">○</span> | [Docker – Aufbau](../docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke |
-| <span class="status-offen">○</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
+| <span class="status-fertig">✓</span> | [Docker – Einführung](../docker/index.md) | Container, Images, eigene Container bauen |
+| <span class="status-fertig">✓</span> | [Docker – Aufbau](../docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke |
+| <span class="status-laeuft">●</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
 | <span class="status-offen">○</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen |
 
 ### Thema 2 · Sicherstellung des laufenden Betriebs

@@ -94,6 +94,8 @@ Wir starten in einem frischen Ordner:
     cd %USERPROFILE%\kurs-compose
     ```
 
+Gibt es den Ordner von einem früheren Versuch schon, meldet `mkdir` das nur. Kein Problem, das `cd` klappt trotzdem.
+
 ---
 
 ## Schritt 2: `compose.yaml` schreiben
@@ -148,6 +150,9 @@ Lass uns das **Zeile für Zeile** durchgehen:
 | `ports:` | Host-Port `8080` → Container-Port `8080` (Adminer-Default) |
 | `volumes:` *(Top-Level)* | das benannte Volume `postgres-daten` deklarieren, damit Compose es kennt und verwaltet |
 
+!!! info "Warum „beim ersten Start"?"
+    Postgres wertet die drei Variablen nur aus, wenn sein Datenverzeichnis **leer** ist, also beim ersten Start auf einem frischen Volume. Liegt dort schon eine Datenbank, werden die Variablen ignoriert. Deshalb ändert ein neues `POSTGRES_PASSWORD` in der Datei **kein** Passwort einer bestehenden Datenbank: Die Konfiguration beschreibt die Geburt des Dienstes, nicht seinen laufenden Betrieb. Wer die Variablen wirklich neu anwenden will, braucht ein frisches Volume (`docker compose down -v`).
+
 !!! warning "YAML ist pingelig"
     YAML erlaubt **keine Tabs** für Einrückung, nur **Leerzeichen**. Pro Ebene **2 Leerzeichen**. Wenn dein Editor Tabs einfügt, schalte das auf „Leerzeichen statt Tabs" um. Ein moderner Editor mit YAML-Highlighting (z.B. VSCode) zeigt Einrückungsfehler farbig an.
 
@@ -174,6 +179,9 @@ Was Compose jetzt automatisch macht:
 6. gibt dir die Kontrolle zurück (dank `-d` = detached)
 
 Beim ersten Mal dauert der Pull der Images ein paar Sekunden, beim zweiten Aufruf geht alles in Sekundenbruchteilen.
+
+!!! info "Warum du `up -d` beliebig oft tippen darfst"
+    Compose merkt sich an jedem Container, zu welchem Projekt und Service er gehört. Bei jedem `up` vergleicht es die Datei (Soll) mit dem laufenden Zustand (Ist). Erzeugt wird nur die Differenz, ein unveränderter Stack bleibt komplett unangetastet. Der Fachbegriff dafür ist **idempotent**: Ein Befehl darf mehrfach laufen und führt immer zum selben Ergebnis. Genau diese Eigenschaft macht deklarative Werkzeuge betriebstauglich.
 
 ---
 
@@ -212,7 +220,7 @@ Die Login-Maske erscheint. Felder ausfüllen:
 Klick auf **Anmelden**.
 
 !!! tip "Wichtig: Server = `db`"
-    Im Server-Feld steht **`db`**, der **Service-Name** aus der `compose.yaml`. Compose hat dafür automatisch einen DNS-Eintrag im internen Netzwerk angelegt. Kein `localhost`, kein `127.0.0.1`, keine IP.
+    Im Server-Feld steht **`db`**, der **Service-Name** aus der `compose.yaml`. Docker betreibt in jedem Container-Netz einen kleinen eingebauten DNS-Dienst, der jeden Servicenamen zur aktuellen Container-IP auflöst. Bekommt der Datenbank-Container nach einem Neustart eine neue IP, stimmt der Name trotzdem weiter. Deshalb gehört in Konfigurationen der Name und nie die IP: Kein `localhost`, kein `127.0.0.1`, keine Adresse.
 
 Wenn der Login klappt, landest du im Adminer-Dashboard mit der leeren Datenbank `kursdaten`. **Das ist der Beweis, dass beide Services miteinander reden**, ohne dass du irgendwo eine IP eingetragen hättest.
 
@@ -340,7 +348,7 @@ Das `-v` löscht auch das benannte Volume. Danach ist wirklich nichts mehr von d
 
 ## Vergleich: manuell vs. Compose
 
-Was du beim manuellen Setup noch von Hand getippt hast, und wie viel Compose dir abnimmt:
+Was du beim manuellen Setup noch von Hand getippt hast und wie viel Compose dir abnimmt:
 
 | Schritt | Manuell (`docker run`) | Compose |
 |---------|-----------------------|---------|
@@ -348,7 +356,7 @@ Was du beim manuellen Setup noch von Hand getippt hast, und wie viel Compose dir
 | Volume anlegen | `docker volume create postgres-daten` | automatisch |
 | DB starten | `docker run -d --name db --network … -v … -e … -e … -e … postgres:16` | in `compose.yaml` deklariert |
 | Adminer starten | `docker run -d --name adminer --network … -p … adminer` | in `compose.yaml` deklariert |
-| **Starten gesamt** | **3 Befehle** + Reihenfolge merken | **1 Befehl** |
+| **Starten gesamt** | **4 Befehle** + Reihenfolge merken | **1 Befehl** |
 | Status prüfen | `docker ps`, manuell filtern | `docker compose ps` |
 | Logs lesen | `docker logs db`, `docker logs adminer` einzeln | `docker compose logs -f` für alles auf einmal |
 | Aufräumen | `docker stop`, `docker rm`, `docker network rm` | `docker compose down` |
@@ -399,10 +407,13 @@ Das ist genau der Sprung von **imperativer** zu **deklarativer** Konfiguration. 
 
     Compose zeigt dir die fertig geparste YAML. Wenn da Einrückungsmüll ist, fällt es hier auf.
 
-??? warning "YAML-Fehler: „did not find expected ..."
-    **Ursache:** Tabs statt Leerzeichen, oder ungleichmäßige Einrückung.
+??? warning "YAML-Fehler beim Start"
+    **Zwei typische Meldungen, zwei Ursachen:**
 
-    **Lösung:** Editor auf „Leerzeichen statt Tabs" stellen, alle Einrückungen mit **2 Leerzeichen** pro Ebene neu setzen. `docker compose config` zeigt die genaue Zeile mit dem Fehler.
+    - `found character that cannot start any token`: ein **Tab** in der Datei. YAML erlaubt nur Leerzeichen.
+    - `did not find expected key`: **ungleichmäßige Einrückung**, eine Zeile sitzt auf der falschen Ebene.
+
+    **Lösung:** Editor auf „Leerzeichen statt Tabs" stellen, Einrückungen mit **2 Leerzeichen** pro Ebene neu setzen. `docker compose config` nennt die genaue Zeile.
 
 ??? danger "`docker compose down -v` aus Versehen ausgeführt"
     Volumes sind weg, Daten sind weg. Es gibt keinen Undo. Im Alltag also: **erst denken, dann `-v`**.
@@ -472,14 +483,7 @@ Zum Schluss den Bonus-Service wieder ausbauen: die fünf Zeilen aus der `compose
 
 ## Nächste Schritte
 
-In den [Übungen](uebungen.md) findest du vier weitere Aufgaben mit aufsteigender Schwierigkeit:
-
-- 🟢 **Übung 1**, noch kompakter: nur ein nginx-Service
-- 🟢 **Übung 2**, zwei Services und Service-zu-Service-Kommunikation
-- 🟡 **Übung 3**. WordPress + MariaDB
-- 🟡 **Übung 4**. Variablen aus `.env` ziehen
-- 🔴 **Übung 5**. Healthchecks und `depends_on: condition: service_healthy`
-- 🏆 **Challenge**, vollständiger Tech-Stack mit vier Services, Bind Mount und Healthchecks
+Der schnellste Test, ob alles saß: die [Challenge: der zweite Stack](challenge-zweiter-stack.md), ganz ohne Anleitung. Danach oder für zu Hause stehen in den [Übungen](uebungen.md) weitere Aufgaben mit aufsteigender Schwierigkeit, vom nginx-Einstieg über WordPress mit MariaDB bis zu `.env` und Healthchecks (beides greifen wir am Montag gemeinsam auf).
 
 ---
 
@@ -492,6 +496,7 @@ In den [Übungen](uebungen.md) findest du vier weitere Aufgaben mit aufsteigende
 
 ## Weiterlesen
 
+- [Challenge: der zweite Stack](challenge-zweiter-stack.md): ohne Anleitung prüfen, ob es sitzt
 - [Übungen](uebungen.md): vier Schwierigkeitsgrade zum Selbermachen
 - [Stolpersteine](stolpersteine.md): wenn etwas hakt
 - [Cheatsheet Compose](../cheatsheets/compose.md): alle Befehle und YAML-Snippets auf einer Seite

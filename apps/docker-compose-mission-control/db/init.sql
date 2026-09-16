@@ -3,21 +3,16 @@
 -- ausgeführt, weil die Datei ins Verzeichnis /docker-entrypoint-initdb.d/
 -- gemountet wird (siehe compose.yaml).
 --
--- WICHTIG: Das Skript läuft NUR, wenn das Datenverzeichnis leer ist –
+-- WICHTIG: Das Skript läuft NUR, wenn das Datenverzeichnis leer ist,
 -- also nur beim ersten Start eines frischen Volumes. Wer Änderungen
 -- testen will, muss das Volume neu anlegen.
 
-CREATE TABLE IF NOT EXISTS modules (
-  id          SERIAL       PRIMARY KEY,
-  name        VARCHAR(100) NOT NULL,
-  status      VARCHAR(20)  NOT NULL DEFAULT 'offline',
-  created_at  TIMESTAMP    NOT NULL DEFAULT NOW()
+CREATE TABLE IF NOT EXISTS logbuch (
+  id        SERIAL       PRIMARY KEY,
+  zeit      TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  modul     VARCHAR(100) NOT NULL,
+  ereignis  VARCHAR(20)  NOT NULL
 );
 
-INSERT INTO modules (name, status) VALUES
-  ('Life Support (LS-01)',     'online'),
-  ('Power Grid (PG-02)',       'online'),
-  ('Comms Array (CA-03)',      'maintenance'),
-  ('Research Lab (RL-04)',     'offline'),
-  ('Hydroponics (HY-05)',      'critical'),
-  ('Docking Bay (DB-06)',      'online');
+INSERT INTO logbuch (modul, ereignis) VALUES
+  ('Bodenkontrolle', 'angelegt');

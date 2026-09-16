@@ -1,106 +1,33 @@
 ---
-title: "Abgabe & Reflexion"
-description: "Was ihr am Ende präsentiert und welche Reflexionsfragen Mission Control runden."
+title: "Demo-Runde"
+description: "Der Abschluss von Mission Control: Jede Gruppe zeigt ihre Station, den Logbuch-Beweis und ihre kniffligste Stelle."
 ---
 
-# Abgabe und Reflexion
+# Demo-Runde
 
-Jede Gruppe präsentiert am Ende **kurz** ihre Lösung. Plant pro Gruppe **3 bis 5 Minuten** ein.
+Um 20:30 Uhr kommen alle zurück. Jede Gruppe hat 3 bis 5 Minuten und
+zeigt am geteilten Bildschirm:
 
----
+1. **Die Station:** Wie viele Module leuchten? Einmal
+   `docker compose ps` daneben halten.
+2. **Der Beweis:** die Logbuch-Historie nach `down` und `up`. Warum
+   überlebt sie den Neustart?
+3. **Die knifflige Stelle:** Wo hing es am längsten und welche
+   Funkhilfe-Stufe oder welches Log hat es gelöst?
+4. **Wer in der Vertiefung war:** Störung der Andockschleuse, Ausfall im
+   Logbuch oder der Tausch auf FastAPI, einmal kurz vorführen.
 
-## Was ihr zeigen sollt
+Punkte gibt es nur symbolisch und nur für Teamarbeit: Jede Rolle, die in
+der Demo zu Wort kommt, zählt einen.
 
-### 1. Laufende Services
+## Notiert euch als Gruppe
 
-```bash
-docker compose ps
-```
+Tragt eure Antworten in das Ergebnis-Dokument aus dem Kurs-Chat ein:
 
-Erwartet werden vier Services, alle als `Up`. `db` zusätzlich als `(healthy)`:
-
-```text
-NAME                          IMAGE                    STATUS              PORTS
-mission-...-frontend-1        mission-...-frontend     Up                  0.0.0.0:8080->80/tcp
-mission-...-backend-1         mission-...-backend      Up                  3000/tcp
-mission-...-db-1              postgres:16-alpine       Up (healthy)        5432/tcp
-mission-...-adminer-1         adminer:latest           Up                  0.0.0.0:8081->8080/tcp
-```
-
-### 2. Volume
-
-```bash
-docker volume ls
-```
-
-`aurora-data` (mit Compose-Projekt-Präfix, z.B. `docker-compose-mission-control_aurora-data`) ist in der Liste sichtbar.
-
-### 3. Frontend
-
-Im Browser: <http://localhost:8080>
-
-- Status-Indikator oben rechts ist grün und zeigt „Backend online · …"
-- Sechs Beispiel-Module sind sichtbar
-- Mindestens ein selbst angelegtes Modul ist drin
-- Status-Änderung über das Dropdown funktioniert
-- Löschen funktioniert
-
-### 4. Adminer
-
-Im Browser: <http://localhost:8081>
-
-- Login mit `db` / `aurora` / `aurorapass` / `auroradb` klappt
-- Tabelle `modules` ist sichtbar
-- Eure Frontend-Aktionen tauchen auch hier auf
-
-### 5. Persistenz-Test
-
-Kurze Demo:
-
-```bash
-docker compose down
-docker compose up -d
-```
-
-Im Frontend nach Neustart: Module sind weiterhin da → Volume hat seinen Job gemacht.
-
-### 6. Bonus (falls geschafft)
-
-Mindestens eine Bonus-Mission kurz vorzeigen, idealerweise **Bonus A** (Backend-Tausch auf FastAPI) oder **Bonus C** (Drei-Sätze-Erklärung).
-
----
-
-## Reflexionsfragen
-
-Beantwortet kurz, mündlich in der Gruppe oder schriftlich auf dem Doku-Zettel:
-
-1. Welche Stelle in eurer `compose.yaml` war für euch der **größte Aha-Moment**?
-2. Wo hat euch das **`docker compose config`** beim Debuggen geholfen?
-3. Warum reicht `depends_on` allein **nicht**, um auf eine bereite DB zu warten?
-4. Warum braucht das Backend `PGHOST=db` und nicht `localhost`?
-5. Warum war **`down -v`** zwischendurch nötig (oder gefährlich)?
-6. Was wäre passiert, wenn ihr das Init-SQL **nach** dem ersten DB-Start hinzugefügt hättet?
-7. Welcher Compose-Vorteil ist euch **persönlich** am stärksten aufgefallen?
-
----
-
-## Worauf wir am Ende gemeinsam schauen
-
-Eine kleine Selbst-Checkliste, damit ihr für die Besprechung gut vorbereitet seid:
-
-- [ ] Die `compose.yaml` ist **euer Werk**, nicht aus der Lösung kopiert?
-- [ ] Externe Ports sind **nur** dort gesetzt, wo wirklich nötig (Frontend + Adminer)?
-- [ ] Alle Services kommunizieren über **Service-Namen**, nicht über `localhost`?
-- [ ] Konfigurationen liegen in der **`.env`**, nicht hartkodiert in der YAML?
-- [ ] Healthcheck + `condition: service_healthy` sind aktiv?
-- [ ] Persistenz mit `down`+`up` getestet?
-- [ ] Ihr könnt in eigenen Worten erklären, **warum** Compose hier so deutlich besser ist als zehn `docker run`-Befehle?
-
-Die Übung wird **nicht benotet**. Sie dient ausschließlich dazu, eure Compose-Praxis zu festigen, bevor es an Optimierungen, Multi-Stage-Builds und CI/CD geht.
-
----
-
-## Weiter
-
-- [Lösung](07-loesung.md): **erst nach der eigenen Arbeit aufschlagen!**
-- [Rückblick & Ausblick](08-rueckblick.md): was kommt als nächstes
+- Eure `compose.yaml`: Wie viele Zeilen beschreiben euren ganzen Stack?
+- Der Unterschied zwischen `docker compose down` und
+  `docker compose down -v` in einem Satz.
+- Woran erkennt das Backend, dass ein Modul offline ist? (Zwei Zahlen
+  gehören in die Antwort.)
+- Die offene Frage für Mittwoch: Euer Stack spricht HTTP. Die Presse in
+  einer Fabrikhalle, spricht die auch HTTP?

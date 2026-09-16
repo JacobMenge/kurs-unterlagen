@@ -1,138 +1,76 @@
 ---
-title: "Mission Control. Compose-Praxis"
-description: "Praxis-Block zum Compose-Thema: Multi-Container-Anwendung Aurora Station mit Docker Compose aufbauen, rund 90 Minuten Arbeit in Kleingruppen."
+title: "Mission Control: Docker Praxis"
+description: "Das Gruppen-Event zum Docker-Block: die Aurora Station mit zehn Containern aus einer selbst geschriebenen compose.yaml wieder online bringen."
 ---
 
-# Mission Control: Compose-Praxis
+# Mission Control: Docker Praxis
 
-Willkommen zum **Compose-Praxis-Block**. 🛰️
+Das Gruppen-Event zum Abschluss des Docker-Blocks. Das alte Deployment der
+Bodenkontrolle ist abgerissen, übrig sind der Code, die Dockerfiles und die
+Anforderung: diesmal alles mit Docker Compose. Ihr schreibt die
+`compose.yaml` selbst und bringt die Station Dienst für Dienst zurück.
 
-Im [Docker Escape Room](../docker-escape-room/index.md) habt ihr einen Multi-Container-Stack **manuell** zusammengeschraubt. Netzwerk, Volume, Container für Container. Jetzt macht ihr es **richtig**: alles in einer einzigen `compose.yaml`, gestartet mit einem einzigen Befehl.
+!!! abstract "Ziel"
+    Am Ende laufen bei euch aus einer Datei:
 
-**In Kleingruppen, in rund 90 Minuten, mit Docker Compose.**
+    - das **Frontend** der Bodenkontrolle (Stationsansicht und Logbuch im Browser)
+    - das **Backend** (nimmt die Meldungen der Module an, schreibt das Logbuch)
+    - die **Datenbank** mit Volume: das Logbuch übersteht jeden Neustart
+    - **Adminer** für den Blick in die Tabelle
+    - **sechs Stationsmodule**, jedes ein eigener Container aus demselben Image
 
----
+## Anders als bisher: keine Schritt-für-Schritt-Anleitung
 
-## Worum geht's
+Ihr habt in den letzten vier Abenden jeden Baustein selbst benutzt. Deshalb
+bekommt ihr heute **Missionen mit Ziel und Erfolgskriterium** statt einer
+Befehlsliste. Jede Mission sagt euch, **woran ihr erkennt, dass sie
+geschafft ist**. Den Weg dorthin baut ihr selbst.
 
-Ihr bringt eine kleine Mehr-Container-Anwendung zum Laufen: das **Mission-Control-Dashboard der Aurora Station**. Vier Dienste arbeiten zusammen:
+Wenn es klemmt, gibt es je Mission die **Funkhilfe in drei Stufen** zum
+Aufklappen:
 
-- ein **Frontend** (Nginx, statisches HTML/CSS/JS)
-- ein **Backend** (Node.js/Express, alternativ FastAPI als Bonus)
-- eine **Datenbank** (PostgreSQL mit Init-Skript und Beispiel-Modulen)
-- eine **Datenbank-Weboberfläche** (Adminer)
+1. **Richtung:** ein Satz, der auf das passende Konzept zeigt
+2. **Werkzeug:** die konkreten Schlüssel oder Flags, noch ohne fertigen Code
+3. **Notfallplan:** der fertige Block zum Kopieren
 
-Ihr schreibt dafür eine **eigene `compose.yaml`** und nutzt die wichtigsten Compose-Bausteine:
+## Spielregeln
 
-- `services` mit `image` und `build`
-- interne Kommunikation über Service-Namen als Hostname
-- externe Ports vs. nur-interne Services
-- `environment` mit `.env`-Datei
-- benannte `volumes` für persistente Daten
-- `depends_on` mit `condition: service_healthy`
-- `healthcheck` für die Datenbank
-- Logs lesen, Container in den Stack hineinschauen
+- Gleiche Gruppen wie bisher. Eine Person teilt den Bildschirm und tippt,
+  die anderen navigieren. Windows wie immer in der PowerShell.
+- Erst im Team reden, dann Funkhilfe: Stufe 1, dann 2, dann 3.
+- **Fünf Minuten ohne Fortschritt? Nächste Stufe aufklappen.** Dafür ist
+  sie da, das ist kein Schummeln.
+- Die [Musterlösung](07-loesung.md) ist der Notausgang und die Nachlese,
+  nicht der Startpunkt.
+- Pflicht sind die Missionen 1 bis 7 mit **drei leuchtenden Modulen**. Die
+  volle Station und alles danach ist [Vertiefung](04-aufgabenuebersicht.md#vertiefung).
+- Wenn gar nichts mehr geht: [Stolpersteine](05-hilfekarten.md), dann Hilfe
+  im Kurs-Chat.
 
-!!! tip "Live-Status statt Browser-Refresh"
-    Das Frontend ist als kleines **Mission-Control-Cockpit** gebaut: oben hat es vier **Status-Lampen** (Frontend, Backend, Datenbank, Adminer), die ihr Schritt für Schritt aufleuchten seht. Sobald ihr einen Service hinzufügt oder austauscht, ploppt oben rechts ein **Toast** auf („Backend ist online (node-express)"), kein manuelles Reload nötig. Auch beim Bonus-Tausch Node→FastAPI seht ihr live, wie das Frontend den neuen Implementierungs-Namen anzeigt.
+## Der Fahrplan
 
-!!! info "Code zur Aufgabe"
-    Der Code für die Beispielanwendung liegt im Repository unter:
+| Schritt | Seite |
+|---|---|
+| Das Szenario in zwei Minuten | [Szenario](03-szenario.md) |
+| Was heute neu ist (build, .env, Healthcheck, Heartbeat) | [Technik kurz erklärt](00-technologien-kurz-erklaert.md) |
+| Die Compose-Bausteine von Mittwoch zum Nachschlagen | [Compose-Recap](02-compose-recap.md) |
+| **Die Missionen** (der Kern der Übung) | [Missionen](04-aufgabenuebersicht.md) |
+| Wenn es klemmt | [Stolpersteine](05-hilfekarten.md) |
+| Demo-Runde am Ende | [Demo-Runde](06-abgabe-und-reflexion.md) |
 
-    [`apps/docker-compose-mission-control/`](https://github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-compose-mission-control)
+## Code holen
 
-    Falls ihr lokal arbeitet, findet ihr den Ordner direkt im Projektverzeichnis.
+Der Code liegt fertig im Kurs-Repository. Programmieren müsst ihr nichts.
 
-    Ihr müsst den Code **nicht verändern** und auch **nicht vollständig verstehen**.
-
-    Wichtig ist nur:
-
-    - Frontend, Backend, Datenbank und Adminer laufen je in einem eigenen Container.
-    - Frontend und Adminer sollen im Browser erreichbar sein, Backend und DB **nicht** nach außen.
-    - Das Backend kennt die Datenbank über deren **Service-Namen** (`db`).
-    - Das Frontend kennt das Backend ebenfalls über den Service-Namen (`backend`). Nginx ist als Reverse-Proxy schon vorkonfiguriert.
-    - Die Datenbank speichert ihre Daten in einem **benannten Volume**, damit ein `docker compose down` keine Einträge zerstört.
-
-!!! warning "Nur Compose"
-    In dieser Aufgabe baut ihr ausschließlich mit Compose. **Keine** einzelnen `docker run`-Befehle für die Services. Wenn ihr in Versuchung kommt: das war der Escape Room. Hier geht's um die deklarative Variante.
-
----
-
-## Ziel-Architektur
-
-Am Ende laufen **vier Services** im selben Compose-Projekt, plus ein Volume für die Datenbank:
-
-```mermaid
-flowchart TD
-  USER([Browser])
-
-  subgraph NET["Compose-Netzwerk: aurora-net (default)"]
-    direction TB
-    FE["frontend<br/>Nginx + statisches HTML"]
-    BE["backend<br/>Node.js / Express"]
-    DB["db<br/>PostgreSQL"]
-    AD["adminer<br/>DB-Weboberfläche"]
-  end
-
-  VOL[("aurora-data<br/>benanntes Volume")]
-
-  USER == "localhost:8080" ==> FE
-  USER == "localhost:8081" ==> AD
-  FE -- "/api/* via nginx proxy_pass" --> BE
-  BE -- "PGHOST=db" --> DB
-  AD -- "Server: db" --> DB
-  DB -. "persistiert auf" .-> VOL
+```bash
+git clone https://github.com/JacobMenge/kurs-unterlagen.git
 ```
 
-| Service | Zweck |
-|---|---|
-| `frontend` | Nginx mit statischer Single-Page-App; reverse-proxypased `/api/*` → `backend:3000` |
-| `backend` | Node.js/Express-API mit Endpunkten für Module |
-| `db` | PostgreSQL mit Init-Skript für Tabelle `modules` |
-| `adminer` | DB-Weboberfläche für Selbstkontrolle |
+Danach in den App-Ordner wechseln:
 
-| Ressource | Name | Zweck |
-|---|---|---|
-| Compose-Netzwerk | `<projekt>_default` | Container-Kommunikation (von Compose automatisch erzeugt) |
-| Volume | `aurora-data` | Persistente DB-Daten |
+```bash
+cd kurs-unterlagen/apps/docker-compose-mission-control
+```
 
----
-
-## Ablauf und Aufwand
-
-| Phase | Aufwand |
-|---|---:|
-| Einstieg & Erklärung | ca. 15 Min |
-| Compose-Recap | ca. 10 bis 15 Min |
-| **Arbeit in Kleingruppen (Missionen)** | **ca. 90 Min** |
-| Gemeinsame Besprechung | ca. 30 Min |
-| Rückblick & Ausblick | ca. 10 Min |
-
-Insgesamt **rund 2,5 Stunden**, davon etwa 90 Minuten aktive Gruppenarbeit.
-
----
-
-## Lese-Reihenfolge
-
-Wenn ihr den Block linear durcharbeitet:
-
-1. [Technologien kurz erklärt](00-technologien-kurz-erklaert.md), was ist Nginx, was ist FastAPI, was ist `proxy_pass`?
-2. [Compose-Recap](02-compose-recap.md), die YAML-Bausteine, die ihr braucht
-3. [Szenario](03-szenario.md), die Story und die Ziel-Architektur
-4. [Aufgabenübersicht](04-aufgabenuebersicht.md), eure Missionen + Bonus
-5. [Hilfekarten](05-hilfekarten.md), nutzt sie nur, wenn ihr feststeckt
-6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md), was am Ende vorgezeigt wird
-7. [Lösung](07-loesung.md), **erst nach der eigenen Arbeit aufschlagen!**
-8. [Rückblick & Ausblick](08-rueckblick.md), was habt ihr in den drei Praxis-Blöcken gelernt
-
----
-
-## Was ihr nach dieser Einheit könnt
-
-- Eine **eigene `compose.yaml`** für einen Vier-Service-Stack schreiben
-- Externe Ports gezielt veröffentlichen und interne Services bewusst verbergen
-- Service-Namen als **DNS-Hostnamen** zwischen Containern nutzen
-- Konfiguration sauber in eine **`.env`-Datei** auslagern
-- Mit `depends_on` + `healthcheck` echte Startreihenfolge erzwingen
-- Den Stack mit einem Befehl hoch- und runterfahren, und nach einem Volume-Tausch sehen, **dass Daten persistent sind**
-- Ein Backend gegen ein anderes austauschen, ohne dass Frontend oder DB davon etwas merken
+Ohne Git geht auch der ZIP-Download über GitHub (Code, dann Download ZIP),
+der Ordner heißt dann `kurs-unterlagen-main`.

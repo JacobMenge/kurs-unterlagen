@@ -1,6 +1,11 @@
-// Mission Control – Backend (Node.js + Express)
+// Mission Control: Backend (Node.js + Express)
 // Übungs-App für Docker Compose. Der Code muss nicht im Detail
-// verstanden werden – Fokus der Übung ist Compose, nicht JavaScript.
+// verstanden werden. Fokus der Übung ist Compose, nicht JavaScript.
+//
+// Aufgaben des Backends:
+//   1. Heartbeats der Stationsmodule entgegennehmen (POST /api/heartbeat)
+//   2. Statuswechsel ins Logbuch schreiben (Tabelle logbuch in Postgres)
+//   3. Der Bodenkontrolle den Stationszustand liefern (GET /api/station)
 
 import express from "express";
 import pg from "pg";
@@ -10,12 +15,8 @@ const { Pool } = pg;
 const PORT = Number(process.env.PORT || 3000);
 const APP_NAME = "Mission Control Backend (Node/Express)";
 
-const VALID_STATUSES = new Set([
-  "online",
-  "offline",
-  "critical",
-  "maintenance",
-]);
+// Nach so vielen Millisekunden ohne Meldung gilt ein Modul als offline.
+const OFFLINE_NACH_MS = 8000;
 
 const pool = new Pool({
   host: process.env.PGHOST || "localhost",
@@ -28,6 +29,9 @@ const pool = new Pool({
 const app = express();
 app.use(express.json());
 
+// Zuletzt gesehene Module: Name -> { zuletzt: ms, status: "online"|"offline" }
+const module_ = new Map();
+
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -36,16 +40,16 @@ async function waitForDatabase(maxAttempts = 30) {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       await pool.query("SELECT 1");
-      console.log("[backend] Database connection established.");
+      console.log("[backend] Datenbankverbindung steht.");
       return;
     } catch (err) {
       console.log(
-        `[backend] Database not ready (attempt ${attempt}/${maxAttempts}): ${err.message}`
+        `[backend] Datenbank noch nicht bereit (Versuch ${attempt}/${maxAttempts}): ${err.message}`
       );
       await sleep(1000);
     }
   }
-  throw new Error("Database connection failed after multiple attempts.");
+  throw new Error("Datenbankverbindung nach mehreren Versuchen fehlgeschlagen.");
 }
 
 async function ensureSchema() {
@@ -53,16 +57,39 @@ async function ensureSchema() {
   // Wir legen sie hier defensiv ein zweites Mal an, falls jemand die
   // Datenbank ohne Init-Skript startet.
   await pool.query(`
-    CREATE TABLE IF NOT EXISTS modules (
-      id          SERIAL PRIMARY KEY,
-      name        VARCHAR(100) NOT NULL,
-      status      VARCHAR(20)  NOT NULL DEFAULT 'offline',
-      created_at  TIMESTAMP    NOT NULL DEFAULT NOW()
+    CREATE TABLE IF NOT EXISTS logbuch (
+      id        SERIAL       PRIMARY KEY,
+      zeit      TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+      modul     VARCHAR(100) NOT NULL,
+      ereignis  VARCHAR(20)  NOT NULL
     );
   `);
 }
 
-// ------------------- Routes -------------------
+async function logbuchEintrag(modul, ereignis) {
+  try {
+    await pool.query(
+      "INSERT INTO logbuch (modul, ereignis) VALUES ($1, $2)",
+      [modul, ereignis]
+    );
+    console.log(`[backend] Logbuch: ${modul} ${ereignis}`);
+  } catch (err) {
+    console.log(`[backend] Logbuch nicht erreichbar: ${err.message}`);
+  }
+}
+
+// Wer 8 Sekunden schweigt, gilt als offline. Läuft alle 2 Sekunden.
+setInterval(() => {
+  const jetzt = Date.now();
+  for (const [name, eintrag] of module_) {
+    if (eintrag.status === "online" && jetzt - eintrag.zuletzt > OFFLINE_NACH_MS) {
+      eintrag.status = "offline";
+      logbuchEintrag(name, "offline");
+    }
+  }
+}, 2000);
+
+// ------------------- Routen -------------------
 
 app.get("/api/health", async (_req, res) => {
   let dbStatus = "disconnected";
@@ -81,107 +108,55 @@ app.get("/api/health", async (_req, res) => {
   });
 });
 
-app.get("/api/modules", async (_req, res) => {
+// Ein Stationsmodul meldet sich: { "name": "Energie" }
+app.post("/api/heartbeat", async (req, res) => {
+  const { name } = req.body || {};
+  if (!name || typeof name !== "string" || !name.trim() || name.length > 80) {
+    return res.status(400).json({ error: "Feld name fehlt oder ist ungültig." });
+  }
+  const modul = name.trim();
+  const bisher = module_.get(modul);
+  module_.set(modul, { zuletzt: Date.now(), status: "online" });
+  if (!bisher || bisher.status !== "online") {
+    await logbuchEintrag(modul, "online");
+  }
+  res.json({ ok: true });
+});
+
+// Der Stationszustand für das Frontend der Bodenkontrolle.
+app.get("/api/station", async (_req, res) => {
+  let dbStatus = "disconnected";
+  let logbuch = [];
   try {
     const result = await pool.query(
-      "SELECT id, name, status, created_at FROM modules ORDER BY id ASC"
+      "SELECT id, zeit, modul, ereignis FROM logbuch ORDER BY id DESC LIMIT 12"
     );
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({
-      error: "Could not load modules.",
-      message: err.message,
-    });
+    logbuch = result.rows;
+    dbStatus = "connected";
+  } catch (_) {
+    dbStatus = "disconnected";
   }
+  const jetzt = Date.now();
+  const moduleListe = [...module_.entries()].map(([name, eintrag]) => ({
+    name,
+    status: eintrag.status,
+    sekundenSeitMeldung: Math.round((jetzt - eintrag.zuletzt) / 1000),
+  }));
+  moduleListe.sort((a, b) => a.name.localeCompare(b.name, "de"));
+  res.json({
+    app: APP_NAME,
+    implementation: "node-express",
+    database: dbStatus,
+    module: moduleListe,
+    logbuch,
+  });
 });
 
-app.post("/api/modules", async (req, res) => {
-  const { name, status } = req.body || {};
-
-  if (!name || typeof name !== "string" || !name.trim()) {
-    return res.status(400).json({
-      error: "Missing or invalid field: name",
-    });
-  }
-  const finalStatus = status || "offline";
-  if (!VALID_STATUSES.has(finalStatus)) {
-    return res.status(400).json({
-      error: "Invalid status.",
-      validValues: [...VALID_STATUSES],
-    });
-  }
-
-  try {
-    const result = await pool.query(
-      `INSERT INTO modules (name, status)
-       VALUES ($1, $2)
-       RETURNING id, name, status, created_at`,
-      [name.trim(), finalStatus]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    res.status(500).json({
-      error: "Could not create module.",
-      message: err.message,
-    });
-  }
-});
-
-app.patch("/api/modules/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  const { status } = req.body || {};
-  if (!Number.isInteger(id)) {
-    return res.status(400).json({ error: "Invalid id." });
-  }
-  if (!VALID_STATUSES.has(status)) {
-    return res.status(400).json({
-      error: "Invalid status.",
-      validValues: [...VALID_STATUSES],
-    });
-  }
-
-  try {
-    const result = await pool.query(
-      `UPDATE modules SET status = $1 WHERE id = $2
-       RETURNING id, name, status, created_at`,
-      [status, id]
-    );
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Module not found." });
-    }
-    res.json(result.rows[0]);
-  } catch (err) {
-    res.status(500).json({
-      error: "Could not update module.",
-      message: err.message,
-    });
-  }
-});
-
-app.delete("/api/modules/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  if (!Number.isInteger(id)) {
-    return res.status(400).json({ error: "Invalid id." });
-  }
-  try {
-    const result = await pool.query("DELETE FROM modules WHERE id = $1", [id]);
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Module not found." });
-    }
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({
-      error: "Could not delete module.",
-      message: err.message,
-    });
-  }
-});
-
-// ------------------- Boot -------------------
+// ------------------- Start -------------------
 
 async function start() {
-  console.log(`[backend] Starting ${APP_NAME}`);
-  console.log("[backend] DB target:", {
+  console.log(`[backend] Starte ${APP_NAME}`);
+  console.log("[backend] Datenbank-Ziel:", {
     host: process.env.PGHOST,
     port: process.env.PGPORT,
     database: process.env.PGDATABASE,
@@ -190,17 +165,17 @@ async function start() {
   await waitForDatabase();
   await ensureSchema();
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[backend] Listening on port ${PORT}`);
+    console.log(`[backend] Erreichbar auf Port ${PORT}`);
   });
 }
 
 process.on("SIGTERM", async () => {
-  console.log("[backend] SIGTERM received, closing pool.");
+  console.log("[backend] Stopp-Signal empfangen, schließe Verbindungen.");
   await pool.end();
   process.exit(0);
 });
 
 start().catch((err) => {
-  console.error("[backend] Startup failed:", err.message);
+  console.error("[backend] Start fehlgeschlagen:", err.message);
   process.exit(1);
 });

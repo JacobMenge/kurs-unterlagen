@@ -1,319 +1,212 @@
-// Mission Control – Frontend
-// Reine Browser-App. Pollt das Backend alle paar Sekunden, zeigt
-// Status-Lampen für die anderen Services und benachrichtigt bei
-// Status-Wechseln per Toast. Studierende müssen die Seite nicht
-// neu laden – Änderungen am Stack werden automatisch sichtbar.
+// Mission Control – Frontend der Bodenkontrolle
+// Reine Browser-App. Pollt das Backend alle zwei Sekunden, färbt die
+// Status-Lampen, schaltet die Stationsmodule an und aus und zeigt das
+// Logbuch aus der Datenbank. Niemand muss die Seite neu laden,
+// Änderungen am Stack werden von selbst sichtbar.
 
-const API_BASE = "/api";
-const STATUS_BASE = "/__status";
 const POLL_INTERVAL_MS = 2000;
-const STATUSES = ["online", "offline", "critical", "maintenance"];
+
+// Die sechs festen Stellplätze der Station (data-slot im SVG).
+const SLOTS = [
+  "lebenserhaltung",
+  "energie",
+  "kommunikation",
+  "forschungslabor",
+  "hydroponik",
+  "andockschleuse",
+];
 
 const els = {
-  grid: document.getElementById("module-grid"),
-  empty: document.getElementById("empty-state"),
-  count: document.getElementById("module-count"),
-  form: document.getElementById("module-form"),
-  formFeedback: document.getElementById("form-feedback"),
   heartbeat: document.getElementById("heartbeat"),
   heartbeatLabel: document.getElementById("heartbeat-label"),
   backendImpl: document.getElementById("backend-impl"),
   backendState: document.getElementById("backend-state"),
   dbState: document.getElementById("db-state"),
   adminerState: document.getElementById("adminer-state"),
+  zaehler: document.getElementById("modul-zaehler"),
+  signaleBlock: document.getElementById("signale-block"),
+  signale: document.getElementById("signale"),
+  logbuch: document.getElementById("logbuch"),
+  logbuchLeer: document.getElementById("logbuch-leer"),
   toasts: document.getElementById("toasts"),
   lampCards: {
-    frontend: document.querySelector('.lamp-card[data-service="frontend"]'),
     backend: document.querySelector('.lamp-card[data-service="backend"]'),
     db: document.querySelector('.lamp-card[data-service="db"]'),
     adminer: document.querySelector('.lamp-card[data-service="adminer"]'),
   },
+  slots: Object.fromEntries(
+    SLOTS.map((s) => [s, document.querySelector(`.slot[data-slot="${s}"]`)])
+  ),
 };
 
-// Status-Memory, damit wir nur bei Wechseln Toasts feuern
-const lastState = {
+// Letzter bekannter Zustand, damit Toasts nur bei Wechseln erscheinen.
+const zuletzt = {
   backend: "unknown",
   db: "unknown",
   adminer: "unknown",
-  implementation: null,
+  module: new Map(),
 };
 
-let modulesSignature = null;
-let firstRun = true;
+// ---------------- Anzeige-Helfer ----------------
 
-// ---------------- Utility ----------------
-
-async function fetchJson(path, options = {}) {
-  const res = await fetch(API_BASE + path, {
-    headers: { "Content-Type": "application/json" },
-    ...options,
-  });
-  let body = null;
-  try {
-    body = await res.json();
-  } catch (_) {}
-  if (!res.ok) {
-    const message = (body && (body.message || body.error || body.detail)) || res.statusText || "Fehler";
-    throw new Error(`${res.status} – ${message}`);
-  }
-  return body;
-}
-
-async function pingStatus(path) {
-  try {
-    const res = await fetch(STATUS_BASE + path, { cache: "no-store" });
-    return res.ok ? "ok" : "error";
-  } catch (_) {
-    return "error";
-  }
-}
-
-function setLamp(service, state, stateText) {
-  const card = els.lampCards[service];
-  if (card) card.dataset.state = state;
-  if (service === "backend" && els.backendState) els.backendState.textContent = stateText;
-  if (service === "db" && els.dbState) els.dbState.textContent = stateText;
-  if (service === "adminer" && els.adminerState) els.adminerState.textContent = stateText;
-}
-
-function setHeartbeat(state, label) {
-  els.heartbeat.dataset.state = state;
-  els.heartbeatLabel.textContent = label;
-}
-
-function setFeedback(kind, text) {
-  els.formFeedback.className = "feedback " + kind;
-  els.formFeedback.textContent = text;
-}
-
-// ---------------- Toasts ----------------
-
-function toast(kind, message, ttl = 4500) {
+function toast(text, art = "info") {
   const el = document.createElement("div");
-  el.className = "toast toast-" + kind;
-  el.textContent = message;
+  el.className = `toast toast-${art}`;
+  el.textContent = text;
   els.toasts.appendChild(el);
   setTimeout(() => {
     el.classList.add("fading");
     setTimeout(() => el.remove(), 400);
-  }, ttl);
+  }, 4200);
 }
 
-// ---------------- Module-Rendering ----------------
-
-function moduleSignature(modules) {
-  // Kompakte Darstellung der Liste, um Vergleiche zu machen ohne Re-Render
-  return modules
-    .map((m) => `${m.id}:${m.name}:${m.status}`)
-    .join("|");
+function lampe(name, zustand, text) {
+  const card = els.lampCards[name];
+  if (!card) return;
+  card.dataset.state = zustand;
+  const stateEl = card.querySelector(".lamp-state");
+  if (stateEl) stateEl.textContent = text;
 }
 
-function renderModules(modules) {
-  const sig = moduleSignature(modules);
-  if (sig === modulesSignature) return;
-  modulesSignature = sig;
+function meldeWechsel(name, neu, texte) {
+  if (zuletzt[name] !== "unknown" && zuletzt[name] !== neu) {
+    toast(texte[neu] || `${name}: ${neu}`, neu === "ok" ? "ok" : "warn");
+  }
+  zuletzt[name] = neu;
+}
 
-  els.grid.innerHTML = "";
-  els.count.textContent = modules.length;
-  if (modules.length === 0) {
-    els.empty.classList.remove("hidden");
+function zeitAnzeige(iso) {
+  try {
+    return new Date(iso).toLocaleTimeString("de-DE");
+  } catch (_) {
+    return iso;
+  }
+}
+
+// ---------------- Station ----------------
+
+function stationAktualisieren(moduleListe) {
+  const bekannt = new Map();
+  for (const m of moduleListe) {
+    bekannt.set(m.name.trim().toLowerCase(), m);
+  }
+
+  let online = 0;
+  for (const slot of SLOTS) {
+    const m = bekannt.get(slot);
+    const an = Boolean(m && m.status === "online");
+    els.slots[slot].classList.toggle("an", an);
+    if (an) online++;
+    bekannt.delete(slot);
+  }
+  els.zaehler.textContent = `${online} von ${SLOTS.length} Modulen online`;
+
+  // Unbekannte Namen (zum Beispiel Tippfehler) tauchen hier auf,
+  // statt still zu verschwinden. Das hilft bei der Fehlersuche.
+  const fremde = [...bekannt.values()];
+  els.signaleBlock.classList.toggle("hidden", fremde.length === 0);
+  els.signale.replaceChildren(
+    ...fremde.map((m) => {
+      const chip = document.createElement("span");
+      chip.className = `signal-chip ${m.status === "online" ? "an" : "aus"}`;
+      chip.textContent = `${m.name} (${m.status})`;
+      return chip;
+    })
+  );
+
+  // Toasts bei Modulwechseln
+  for (const m of moduleListe) {
+    const alt = zuletzt.module.get(m.name);
+    if (alt && alt !== m.status) {
+      toast(
+        `Modul ${m.name}: ${m.status}`,
+        m.status === "online" ? "ok" : "warn"
+      );
+    }
+    zuletzt.module.set(m.name, m.status);
+  }
+}
+
+function stationLeeren() {
+  for (const slot of SLOTS) els.slots[slot].classList.remove("an");
+  els.zaehler.textContent = `0 von ${SLOTS.length} Modulen online`;
+}
+
+function logbuchAktualisieren(eintraege) {
+  const hatEintraege = Array.isArray(eintraege) && eintraege.length > 0;
+  els.logbuchLeer.classList.toggle("hidden", hatEintraege);
+  if (!hatEintraege) {
+    els.logbuch.replaceChildren();
     return;
   }
-  els.empty.classList.add("hidden");
-  for (const mod of modules) {
-    els.grid.appendChild(renderCard(mod));
-  }
-}
-
-function renderCard(mod) {
-  const card = document.createElement("article");
-  card.className = "module-card";
-
-  const name = document.createElement("div");
-  name.className = "name";
-  name.textContent = mod.name;
-
-  const status = document.createElement("span");
-  status.className = "status-badge status-" + mod.status;
-  status.textContent = mod.status;
-
-  const meta = document.createElement("div");
-  meta.className = "meta";
-  meta.textContent = `ID #${mod.id} · seit ${formatDate(mod.created_at)}`;
-
-  const actions = document.createElement("div");
-  actions.className = "module-actions";
-
-  const select = document.createElement("select");
-  for (const s of STATUSES) {
-    const opt = document.createElement("option");
-    opt.value = s;
-    opt.textContent = s;
-    if (s === mod.status) opt.selected = true;
-    select.appendChild(opt);
-  }
-  select.addEventListener("change", () => updateStatus(mod.id, select.value));
-
-  const del = document.createElement("button");
-  del.type = "button";
-  del.textContent = "Entfernen";
-  del.classList.add("danger");
-  del.addEventListener("click", () => deleteModule(mod.id, mod.name));
-
-  actions.appendChild(select);
-  actions.appendChild(del);
-
-  card.appendChild(name);
-  card.appendChild(status);
-  card.appendChild(meta);
-  card.appendChild(actions);
-  return card;
-}
-
-function formatDate(value) {
-  if (!value) return "–";
-  try {
-    return new Date(value).toLocaleString("de-DE", {
-      dateStyle: "short",
-      timeStyle: "short",
-    });
-  } catch (_) {
-    return value;
-  }
-}
-
-// ---------------- Aktionen ----------------
-
-async function createModule(payload) {
-  setFeedback("", "");
-  try {
-    const created = await fetchJson("/modules", {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-    setFeedback("ok", `Modul „${created.name}" angelegt.`);
-    els.form.reset();
-    await refreshModules();
-  } catch (err) {
-    setFeedback("err", "Fehler: " + err.message);
-  }
-}
-
-async function updateStatus(id, newStatus) {
-  try {
-    await fetchJson(`/modules/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ status: newStatus }),
-    });
-    await refreshModules();
-  } catch (err) {
-    setFeedback("err", "Status-Update fehlgeschlagen: " + err.message);
-  }
-}
-
-async function deleteModule(id, name) {
-  if (!confirm(`Modul „${name}" wirklich entfernen?`)) return;
-  try {
-    await fetchJson(`/modules/${id}`, { method: "DELETE" });
-    await refreshModules();
-  } catch (err) {
-    setFeedback("err", "Löschen fehlgeschlagen: " + err.message);
-  }
-}
-
-async function refreshModules() {
-  try {
-    const modules = await fetchJson("/modules");
-    renderModules(modules);
-  } catch (err) {
-    // Backend offline – Liste leeren wir nicht, damit Stand sichtbar bleibt
-    els.count.textContent = "–";
-  }
+  els.logbuch.replaceChildren(
+    ...eintraege.map((e) => {
+      const li = document.createElement("li");
+      const zeit = document.createElement("span");
+      zeit.className = "log-zeit";
+      zeit.textContent = zeitAnzeige(e.zeit);
+      const modul = document.createElement("span");
+      modul.className = "log-modul";
+      modul.textContent = e.modul;
+      const ereignis = document.createElement("span");
+      ereignis.className = `log-ereignis log-${e.ereignis}`;
+      ereignis.textContent = e.ereignis;
+      li.append(zeit, modul, ereignis);
+      return li;
+    })
+  );
 }
 
 // ---------------- Polling ----------------
 
-async function pollOnce() {
-  // 1. Backend + DB-Status aus /api/health holen
-  let healthOk = false;
-  let dbConnected = false;
-  let implementation = null;
+async function stationAbfragen() {
   try {
-    const health = await fetchJson("/health");
-    healthOk = true;
-    dbConnected = health.database === "connected";
-    implementation = health.implementation || "?";
+    const res = await fetch("/api/station", { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const daten = await res.json();
+
+    els.heartbeat.dataset.state = "ok";
+    els.heartbeatLabel.textContent = "Bodenkontrolle verbunden";
+    els.backendImpl.textContent =
+      daten.implementation === "fastapi" ? "FastAPI" : "Node/Express";
+    lampe("backend", "ok", "online");
+    meldeWechsel("backend", "ok", { ok: "Backend ist wieder da." });
+
+    const dbOk = daten.database === "connected";
+    lampe("db", dbOk ? "ok" : "error", dbOk ? "verbunden" : "getrennt");
+    meldeWechsel("db", dbOk ? "ok" : "error", {
+      ok: "Datenbank verbunden. Das Logbuch läuft.",
+      error: "Datenbank getrennt.",
+    });
+
+    stationAktualisieren(daten.module || []);
+    logbuchAktualisieren(daten.logbuch || []);
   } catch (_) {
-    healthOk = false;
-  }
-
-  // 2. Adminer-Status separat über nginx-Status-Route
-  const adminerStatus = await pingStatus("/adminer");
-  const adminerOk = adminerStatus === "ok";
-
-  // 3. UI aktualisieren
-  setLamp("backend", healthOk ? "ok" : "error", healthOk ? "online" : "nicht erreichbar");
-  setLamp("db", healthOk ? (dbConnected ? "ok" : "warn") : "error",
-    healthOk ? (dbConnected ? "verbunden" : "nicht verbunden") : "unbekannt");
-  setLamp("adminer", adminerOk ? "ok" : "error", adminerOk ? "online" : "nicht erreichbar");
-
-  if (healthOk) {
-    els.backendImpl.textContent = implementation;
-    setHeartbeat("ok", "live · alle 2s");
-  } else {
-    els.backendImpl.textContent = "–";
-    setHeartbeat("warn", "warte auf backend …");
-  }
-
-  // 4. Toast-Benachrichtigungen bei Status-Wechseln
-  if (!firstRun) {
-    if (healthOk && lastState.backend !== "ok") {
-      toast("ok", `Backend ist online (${implementation}).`);
-    } else if (!healthOk && lastState.backend === "ok") {
-      toast("err", "Backend nicht mehr erreichbar.");
-    }
-
-    if (lastState.implementation && implementation && implementation !== lastState.implementation) {
-      toast("info", `Backend gewechselt: ${lastState.implementation} → ${implementation}`);
-    }
-
-    const dbNow = healthOk ? (dbConnected ? "ok" : "warn") : "error";
-    if (dbNow === "ok" && lastState.db !== "ok") {
-      toast("ok", "Datenbank ist verbunden.");
-    } else if (dbNow !== "ok" && lastState.db === "ok") {
-      toast("warn", "Datenbank-Verbindung verloren.");
-    }
-
-    if (adminerOk && lastState.adminer !== "ok") {
-      toast("ok", "Adminer ist online (Port 8081).");
-    } else if (!adminerOk && lastState.adminer === "ok") {
-      toast("warn", "Adminer nicht mehr erreichbar.");
-    }
-  }
-
-  lastState.backend = healthOk ? "ok" : "error";
-  lastState.db = healthOk ? (dbConnected ? "ok" : "warn") : "error";
-  lastState.adminer = adminerOk ? "ok" : "error";
-  if (implementation) lastState.implementation = implementation;
-  firstRun = false;
-
-  // 5. Module-Liste aktualisieren, wenn Backend antwortet
-  if (healthOk) {
-    await refreshModules();
+    els.heartbeat.dataset.state = "error";
+    els.heartbeatLabel.textContent = "Backend nicht erreichbar";
+    lampe("backend", "error", "nicht erreichbar");
+    lampe("db", "unknown", "unbekannt");
+    meldeWechsel("backend", "error", { error: "Backend nicht erreichbar." });
+    stationLeeren();
   }
 }
 
-// ---------------- Init ----------------
+async function adminerAbfragen() {
+  try {
+    const res = await fetch("/__status/adminer", { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    lampe("adminer", "ok", "online");
+    meldeWechsel("adminer", "ok", { ok: "Adminer ist online." });
+  } catch (_) {
+    lampe("adminer", "unknown", "nicht erreichbar");
+    zuletzt.adminer = "unknown";
+  }
+}
 
-els.form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const data = new FormData(els.form);
-  createModule({
-    name: data.get("name"),
-    status: data.get("status"),
-  });
-});
+function tick() {
+  stationAbfragen();
+  adminerAbfragen();
+}
 
-// Erste Iteration sofort, dann im Intervall
-pollOnce();
-setInterval(pollOnce, POLL_INTERVAL_MS);
+tick();
+setInterval(tick, POLL_INTERVAL_MS);
