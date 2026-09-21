@@ -13,7 +13,7 @@ Missionen.
 ```yaml
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:16
     environment:
       POSTGRES_USER: aurora
     volumes:

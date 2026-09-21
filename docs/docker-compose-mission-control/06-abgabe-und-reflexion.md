@@ -20,9 +20,10 @@ zeigt am geteilten Bildschirm:
 Punkte gibt es nur symbolisch und nur für Teamarbeit: Jede Rolle, die in
 der Demo zu Wort kommt, zählt einen.
 
-## Notiert euch als Gruppe
+## Klärt vorher im Team
 
-Tragt eure Antworten in das Ergebnis-Dokument aus dem Kurs-Chat ein:
+Diese vier Fragen kommen in der Demo-Runde und am Mittwoch wieder dran.
+Sprecht die Antworten einmal durch, bevor ihr zurückkommt:
 
 - Eure `compose.yaml`: Wie viele Zeilen beschreiben euren ganzen Stack?
 - Der Unterschied zwischen `docker compose down` und

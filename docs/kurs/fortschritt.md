@@ -53,21 +53,11 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Docker Aufbau**
-
-    Volumes, Container-Netze und Umgebungsvariablen: Die Datenbank überlebt ihren Container.
-
--   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
-
-    ---
-
     **Docker Compose**
 
     Der ganze Stack in einer Datei: beschreiben statt tippen, starten mit einem Befehl.
 
-    [:octicons-arrow-right-24: Zur Übung](../docker-compose/praxis-webapp.md)
-
--   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+-   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
@@ -75,7 +65,17 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     Das Gruppen-Event: Die Aurora Station mit zehn Containern aus einer selbst geschriebenen Datei.
 
-    [:octicons-arrow-right-24: Vorbereiten](../docker-compose-mission-control/index.md)
+    [:octicons-arrow-right-24: Zu den Missionen](../docker-compose-mission-control/index.md)
+
+-   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+
+    ---
+
+    **Industrie und IoT**
+
+    Wie Maschinen sprechen: Profinet, OPC UA und MQTT, erst im Überblick, dann live im Datenmitschnitt.
+
+    [:octicons-arrow-right-24: Zum Block](../industrie-iot/index.md)
 
 </div>
 

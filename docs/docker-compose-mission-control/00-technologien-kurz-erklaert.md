@@ -11,9 +11,21 @@ holt euch nur ab, damit kein Name unbekannt bleibt.
 ## Was heute neu ist
 
 **build statt image.** Bisher kamen Container aus fertigen Images
-(`image: postgres:16-alpine`). Heute liegen eigene Dockerfiles bei:
+(`image: postgres:16`). Heute liegen eigene Dockerfiles bei:
 `build: ./frontend` sagt Compose, das Image vor dem Start selbst aus
-diesem Ordner zu bauen.
+diesem Ordner zu bauen. So sieht der kleinste der vier Baupläne aus,
+`modul/Dockerfile`:
+
+```dockerfile
+FROM node:22-alpine       # Basis-Image: Node.js auf schlankem Linux
+WORKDIR /app              # Arbeitsordner im Container
+COPY modul.js ./          # den Code ins Image kopieren
+CMD ["node", "modul.js"]  # Startbefehl jedes Containers daraus
+```
+
+Die anderen drei folgen demselben Muster, sie kopieren nur mehr Dateien
+(das Backend installiert zusätzlich mit `npm install` seine Pakete).
+Schreiben müsst ihr heute kein Dockerfile, lesen können reicht.
 
 **Die .env-Datei.** Eine Textdatei neben der `compose.yaml` mit Zeilen
 wie `POSTGRES_USER=aurora`. Compose liest sie automatisch und setzt in
@@ -22,15 +34,22 @@ ein. So stehen alle Werte an einer Stelle und kein Passwort in der
 Compose-Datei.
 
 **Healthcheck.** Ein kleiner Test, den Docker regelmäßig im Container
-ausführt. Für Postgres: `pg_isready`. Erst wenn der Test besteht, gilt
-der Container als **healthy**. Zusammen mit
+ausführt. Der Testbefehl ist je Dienst individuell und gehört zum
+Container, nicht zu Docker: `pg_isready` liegt dem Postgres-Image bei,
+es ist weder ein Docker-Befehl noch unser Code. Docker startet das
+Werkzeug nur im Takt von `interval` und bewertet den Exit-Code (0 heißt
+bereit). Erst dann gilt der Container als **healthy**. Zusammen mit
 `depends_on: condition: service_healthy` startet das Backend erst, wenn
 die Datenbank wirklich bereit ist, nicht nur gestartet.
 
 **Heartbeat.** Ein regelmäßiges Lebenszeichen: Jedes Stationsmodul
 meldet sich alle drei Sekunden per HTTP beim Backend. Acht Sekunden
-Funkstille und es gilt als offline. Das ist die einfachste Form von
-Verfügbarkeitsüberwachung und im Betrieb Alltag (Monitoring, Watchdogs).
+Funkstille und es gilt als offline. Wichtig zur Einordnung: Der
+Heartbeat ist **Anwendungscode** in `modul/modul.js`, kein
+Docker-Mechanismus. Docker liefert nur das Netz und den Servicenamen
+`backend`, die Meldung schickt das Modul selbst. Das Muster ist die
+einfachste Form von Verfügbarkeitsüberwachung und im Betrieb Alltag
+(Monitoring, Watchdogs).
 
 ## Die Dienste im Stack
 

@@ -43,7 +43,8 @@ Aufklappen:
 - Die [Musterlösung](07-loesung.md) ist der Notausgang und die Nachlese,
   nicht der Startpunkt.
 - Pflicht sind die Missionen 1 bis 7 mit **drei leuchtenden Modulen**. Die
-  volle Station und alles danach ist [Vertiefung](04-aufgabenuebersicht.md#vertiefung).
+  volle Station und alles danach ist [Vertiefung](04-aufgabenuebersicht.md#vertiefung)
+  und **freiwillig**: für Gruppen, die vor der Demo-Runde noch Zeit haben.
 - Wenn gar nichts mehr geht: [Stolpersteine](05-hilfekarten.md), dann Hilfe
   im Kurs-Chat.
 
@@ -60,17 +61,43 @@ Aufklappen:
 
 ## Code holen
 
-Der Code liegt fertig im Kurs-Repository. Programmieren müsst ihr nichts.
+Der Code liegt fertig auf **GitHub**, dort wohnt unser Kurs-Repository:
+ein Projektarchiv im Netz, aus dem sich jeder den aktuellen Stand holen
+kann. Mehr müsst ihr über GitHub heute nicht wissen, das Werkzeug
+dahinter (Git) bekommt später einen eigenen Abend. Heute reicht der
+Download:
 
-```bash
-git clone https://github.com/JacobMenge/kurs-unterlagen.git
-```
+1. Im Browser öffnen:
+   [github.com/JacobMenge/kurs-unterlagen](https://github.com/JacobMenge/kurs-unterlagen)
+2. Auf den grünen Knopf **Code** klicken, dann **Download ZIP**.
+3. Die ZIP-Datei entpacken (Windows: Rechtsklick, **Alle extrahieren**),
+   zum Beispiel in euren Dokumente-Ordner. Der entpackte Ordner heißt
+   `kurs-unterlagen-main`.
+4. Im Explorer bis in den Unterordner
+   `kurs-unterlagen-main` → `apps` → `docker-compose-mission-control`
+   klicken. Dort liegen `README.md`, `frontend/`, `backend-node/`,
+   `modul/` und `db/`: Das ist euer Arbeitsordner für heute.
+5. Ein Terminal **in diesem Ordner** öffnen:
 
-Danach in den App-Ordner wechseln:
+    === "Windows"
+        Rechtsklick auf eine freie Stelle im Ordner, dann
+        **Im Terminal öffnen**. Fehlt der Eintrag: Windows-Terminal
+        starten und `cd ` tippen (mit Leerzeichen), dann den Pfad oben
+        aus der Explorer-Adressleiste kopieren, einfügen, Enter.
 
-```bash
-cd kurs-unterlagen/apps/docker-compose-mission-control
-```
+    === "macOS"
+        Rechtsklick auf den Ordner im Finder, dann
+        **Neues Terminal beim Ordner**. Alternativ Terminal öffnen,
+        `cd ` tippen und den Ordner in das Fenster ziehen, Enter.
 
-Ohne Git geht auch der ZIP-Download über GitHub (Code, dann Download ZIP),
-der Ordner heißt dann `kurs-unterlagen-main`.
+    === "Linux"
+        Im Dateimanager **Im Terminal öffnen** wählen oder im Terminal
+        mit `cd` in den Ordner wechseln.
+
+Kontrolle: `docker compose version` antwortet und die Eingabezeile zeigt
+den Ordnernamen `docker-compose-mission-control`.
+
+??? note "Wer Git schon nutzt"
+    Dann geht wie gewohnt `git clone https://github.com/JacobMenge/kurs-unterlagen.git`
+    und der Ordner heißt `kurs-unterlagen` statt `kurs-unterlagen-main`.
+    Für alle anderen ist der ZIP-Weg heute völlig gleichwertig.

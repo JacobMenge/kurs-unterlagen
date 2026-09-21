@@ -34,7 +34,7 @@ services:
         condition: service_healthy
 
   db:
-    image: postgres:16-alpine
+    image: postgres:16
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -131,7 +131,7 @@ docker compose ps
 
 ## Auflösungen der Vertiefungen
 
-**Vertiefung 1, die Störung:** `docker compose logs andockschleuse`
+**Vertiefung 1, die volle Station mit der Störung:** `docker compose logs andockschleuse`
 zeigt
 `Bodenkontrolle nicht erreichbar unter http://backend-api:3000 (ENOTFOUND)`.
 Es gibt keinen Service `backend-api`, der Hostname ist im Projekt-Netz

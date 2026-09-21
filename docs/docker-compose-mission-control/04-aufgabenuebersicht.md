@@ -10,9 +10,15 @@ dass sie geschafft ist**. Den Weg baut ihr selbst. Klemmt es, klappt die
 Funkhilfe auf: erst Stufe 1, dann 2, dann 3. Fünf Minuten ohne
 Fortschritt heißt: nächste Stufe.
 
+Zur Einordnung: **Nur drei Missionen bringen etwas Neues.** `build:` in
+Mission 1, die `.env` in Mission 6 und der Healthcheck in Mission 7.
+Alles dazwischen ist der Stoff von Montag und Mittwoch, nur als YAML
+geschrieben.
+
 !!! note "Startaufstellung"
-    Ihr steht im Ordner `apps/docker-compose-mission-control` des
-    geklonten Repositorys ([Code holen](index.md#code-holen)). Schaut euch
+    Ihr steht mit dem Terminal im Ordner
+    `apps/docker-compose-mission-control` des heruntergeladenen
+    Kurs-Repositorys ([Code holen](index.md#code-holen)). Schaut euch
     kurz um: `frontend/`, `backend-node/`, `modul/` und `db/` bringen
     fertige Dockerfiles mit. Legt dann eine **leere Datei `compose.yaml`**
     im App-Ordner an, direkt neben `README.md`. Mehr braucht der Start
@@ -34,7 +40,16 @@ Port 80.
 Station **komplett dunkel** dasteht. Die Lampe Backend zeigt „nicht
 erreichbar", genau richtig: Es gibt ja noch keins.
 
-**Ausrüstung:** Mittwoch Teil 1 (erster Service), Folie „Das Zielbild".
+**Ausrüstung:** Mittwoch Schritt 2 (die compose.yaml schreiben), Folie
+„Das Zielbild".
+
+!!! info "Warum leitet das Frontend /api/ weiter?"
+    Der Nginx im Frontend-Container arbeitet als **Reverse Proxy**: Der
+    Browser spricht nur mit ihm und alle `/api/`-Anfragen reicht er im
+    Projekt-Netz an den Service `backend` weiter. So braucht genau ein
+    Dienst eine Tür nach außen, das Backend bleibt von draußen
+    unerreichbar. Nach diesem Muster ist praktisch jede Web-Anwendung in
+    Produktion gebaut.
 
 ??? tip "Funkhilfe Stufe 1: Richtung"
     Am Mittwoch stand beim Service `image: adminer`. Heute liegt kein
@@ -71,7 +86,7 @@ erreichbar", genau richtig: Es gibt ja noch keins.
 jede davon verloren.
 
 **Auftrag:** Bringt PostgreSQL als Service `db` in den Stack, mit dem
-Image von Montag (`postgres:16-alpine`), den drei bekannten
+Image von Montag (`postgres:16`), den drei bekannten
 `POSTGRES_*`-Variablen (Werte: `aurora`, `aurorapass`, `auroradb`) und
 **zwei** Volume-Einträgen: einem benannten Volume `aurora-data` für
 `/var/lib/postgresql/data` und dem Init-Skript `./db/init.sql` nach
@@ -83,8 +98,14 @@ und in `docker compose logs db` die Zeile
 `database system is ready to accept connections` steht. Die Lampe
 Datenbank bleibt vorerst grau, sie braucht das Backend als Melder.
 
-**Ausrüstung:** Montag Teil 1 und 2 (Volume und Variablen), Mittwoch
-Teil 2 (Volumes in Compose).
+**Ausrüstung:** Montag Teil 1 (Volume und Variablen), Mittwoch Schritt 2
+(der db-Block mit seinen volumes).
+
+!!! info "Warum bekommt die Datenbank keinen Port?"
+    Erreichbar sein muss sie nur für Backend und Adminer, beide stehen
+    mit ihr im Projekt-Netz. Jede zusätzliche Tür nach draußen
+    wäre reine Angriffsfläche. Im Betrieb gilt dieselbe Regel: Nach
+    außen öffnet nur, was Anfragen von Nutzern annehmen muss.
 
 ??? tip "Funkhilfe Stufe 1: Richtung"
     Das ist der Montags-Befehl mit `-v postgres-daten:/var/lib/postgresql/data`
@@ -108,7 +129,7 @@ Teil 2 (Volumes in Compose).
 ??? success "Funkhilfe Stufe 3: Notfallplan"
     ```yaml
       db:
-        image: postgres:16-alpine
+        image: postgres:16
         environment:
           POSTGRES_USER: aurora
           POSTGRES_PASSWORD: aurorapass
@@ -147,8 +168,16 @@ leitet `/api/`-Anfragen intern weiter, dafür muss der Service exakt
 Lampen Backend **und** Datenbank grün sind und im Logbuch-Panel der erste
 Eintrag der Bodenkontrolle auftaucht.
 
-**Ausrüstung:** Montag Teil 3 (zwei Container, ein Netz, Namen statt
+**Ausrüstung:** Montag Teil 2 (zwei Container, ein Netz, Namen statt
 IP-Adressen), Folie „Was ist eine Umgebungsvariable?".
+
+!!! info "Namen statt IP-Adressen"
+    Compose trägt jeden Service unter seinem Namen in das eingebaute
+    DNS des Projekt-Netzes ein. `PGHOST: db` funktioniert deshalb
+    unabhängig davon, welche IP-Adresse der Datenbank-Container gerade
+    hat: Die darf sich mit jedem Neustart ändern, der Name bleibt.
+    Feste Namen statt fester Adressen, so verdrahtet man Dienste im
+    Betrieb.
 
 ??? tip "Funkhilfe Stufe 1: Richtung"
     Dieselbe Frage wie Montag bei Adminer: Woher kennt ein Container die
@@ -193,6 +222,13 @@ mit dem Wert `Lebenserhaltung`.
 
 **Ausrüstung:** Folie „Ein Image, drei Umgebungen" von Montag, das ist
 genau dieses Muster.
+
+!!! info "Ein Image, viele Container: so wird skaliert"
+    Sechs Services aus demselben Image, unterschieden nur durch eine
+    Variable. Nach genau diesem Muster laufen im Betrieb mehrere
+    Instanzen desselben Dienstes nebeneinander, etwa Worker hinter
+    einer Warteschlange oder Replikate hinter einem Load Balancer. Das
+    Image bleibt eines, die Konfiguration macht den Unterschied.
 
 ??? tip "Funkhilfe Stufe 1: Richtung"
     Ein Modul braucht nur zwei Dinge: woraus es gebaut wird und wie es
@@ -264,7 +300,16 @@ danach nur noch Platzhalter wie `${POSTGRES_USER}`.
 zeigt, `docker compose up -d` unverändert läuft und in der
 `compose.yaml` kein Passwort mehr steht.
 
-**Ausrüstung:** Mittwoch Bonus (die .env-Datei), Folie „Die .env-Datei".
+**Ausrüstung:** Folie „Die .env-Datei", Mittwoch-Grundlagen (Abschnitt
+Variablen aus .env).
+
+!!! info "Konfiguration gehört nicht in den Code"
+    Dieselbe compose.yaml läuft mit einer anderen `.env` in
+    Entwicklung, Test und Produktion, ohne dass sich am Stack eine
+    Zeile ändert. Deshalb liegt im Repository nur die Vorlage
+    `.env.example` und die echte `.env` bleibt auf dem jeweiligen
+    System. Diese Trennung von Code und Konfiguration ist ein
+    Grundprinzip beim Betrieb von Anwendungen.
 
 ??? tip "Funkhilfe Stufe 1: Richtung"
     Compose liest eine Datei namens `.env` im selben Ordner automatisch
@@ -295,7 +340,7 @@ zeigt, `docker compose up -d` unverändert läuft und in der
 ??? success "Funkhilfe Stufe 3: Notfallplan"
     ```yaml
       db:
-        image: postgres:16-alpine
+        image: postgres:16
         environment:
           POSTGRES_USER: ${POSTGRES_USER}
           POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -331,7 +376,14 @@ Adminer die Logbuch-Zeilen listet und nach down und up die alten
 Einträge weiter im Logbuch stehen.
 
 **Ausrüstung:** Folie „Warten, bis die Datenbank bereit ist", Montag
-Teil 3 (Adminer), Montag Härtetest (der Beweis).
+Teil 2 (Adminer), Montag Teil 3 (der Härtetest als Beweis).
+
+!!! info "Healthchecks im Betrieb"
+    Heute steuert der Healthcheck nur die Startreihenfolge. Im Betrieb
+    ist derselbe kleine Testbefehl die Grundlage für mehr: Ein
+    Orchestrierer startet Container neu, die dauerhaft unhealthy sind,
+    ein Load Balancer nimmt sie aus der Verteilung. „Gestartet" und
+    „bereit" sind zwei verschiedene Zustände, das ist die Lektion.
 
 ??? tip "Funkhilfe Stufe 1: Richtung"
     Ein Healthcheck ist ein kleiner Test, den Docker regelmäßig im
@@ -354,7 +406,7 @@ Teil 3 (Adminer), Montag Härtetest (der Beweis).
 ??? success "Funkhilfe Stufe 3: Notfallplan"
     ```yaml
       db:
-        image: postgres:16-alpine
+        image: postgres:16
         environment:
           POSTGRES_USER: ${POSTGRES_USER}
           POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -382,7 +434,8 @@ Teil 3 (Adminer), Montag Härtetest (der Beweis).
 
 ## Vertiefung
 
-Für Gruppen, deren Pflicht steht. In beliebiger Reihenfolge.
+Alles ab hier ist **freiwillig**: Wer Mission 7 geschafft hat, hat den
+Abend geschafft. Für Gruppen mit Restzeit, in beliebiger Reihenfolge.
 
 ### Vertiefung 1: die volle Station
 
