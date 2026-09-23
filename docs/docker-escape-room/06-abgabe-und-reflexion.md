@@ -64,13 +64,13 @@ Zeigt im Browser:
 
 ## Reflexionsfragen
 
-Beantwortet kurz – mündlich in der Gruppe oder schriftlich auf dem Doku-Zettel:
+Beantwortet kurz, mündlich in der Gruppe oder schriftlich auf dem Doku-Zettel:
 
 1. Was war euer **größtes Problem**?
 2. Wie habt ihr den **Fehler gefunden**?
 3. Welche **Docker-Befehle** waren am wichtigsten?
 4. Warum braucht die API den Hostnamen `quest-db` (und nicht `localhost`)?
-5. Warum reicht `localhost` hier nicht?
+5. Warum braucht auch Adminer `quest-db` als Server?
 6. Warum braucht die Datenbank ein **Volume**?
 7. Was war an der **manuellen Einrichtung umständlich**?
 8. Was könnte **Docker Compose** daran vereinfachen?
@@ -83,7 +83,7 @@ Eine kleine Selbst-Checkliste, damit ihr für die Besprechung gut vorbereitet se
 
 - [ ] Sind alle Bestandteile vorhanden? (Container, Netzwerk, Volume)
 - [ ] Funktioniert die Kommunikation zwischen den Containern?
-- [ ] Bleiben die Daten nach einem Container-Neustart erhalten?
+- [ ] Bleiben die Daten erhalten, wenn der DB-Container gelöscht und neu erstellt wird?
 - [ ] Habt ihr mindestens **einen Fehler** dokumentiert und nachvollziehbar gelöst?
 - [ ] Könnt ihr in eigenen Worten erklären, **warum** Docker Compose im nächsten Schritt sinnvoll ist?
 
@@ -93,16 +93,16 @@ Die Übung wird **nicht benotet**. Sie dient ausschließlich dazu, die Docker-Ba
 
 ## Weiter
 
-- [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
+- [Lösung](07-loesung.md): **erst nach der eigenen Arbeit aufschlagen!**
 - [Übergang zu Compose](08-uebergang-zu-compose.md)
 
 ---
 
 ## Wenn ihr noch Lust auf mehr habt
 
-Wir haben noch ein paar **kleinere, eigenständige Docker-Übungen** für euch vorbereitet – jede in 15–25 Minuten machbar, alle **ohne Compose**:
+Wir haben noch ein paar **kleinere, eigenständige Docker-Übungen** für euch vorbereitet. Jede ist in 15 bis 25 Minuten machbar, alle **ohne Compose**:
 
-→ **[Docker-Vertiefung – fünf Zusatzübungen](../docker-vertiefung/index.md)**
+→ **[Docker-Vertiefung: fünf Zusatzübungen](../docker-vertiefung/index.md)**
 
 Themen:
 
@@ -114,4 +114,4 @@ Themen:
 
 Alternativ könnt ihr euch als Vorbereitung schon den ersten **Docker-Compose**-Teil anschauen:
 
-→ **[Docker Compose – Einführung](../docker-compose/einfuehrung.md)**
+→ **[Docker Compose: Einführung](../docker-compose/einfuehrung.md)**

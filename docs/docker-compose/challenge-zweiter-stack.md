@@ -18,7 +18,15 @@ In Firmen läuft neben der echten Umgebung fast immer eine zweite zum
 Ausprobieren, oft heißt sie Staging. Baut genau das: **Neben eurem
 Stack aus der Übung soll eine zweite, vollständig getrennte Umgebung
 laufen.** Gleiche Bauteile (PostgreSQL und Adminer), aber eigene Daten,
-eigener Port, gemeinsam nutzbar mit dem ersten Stack.
+eigener Port, gleichzeitig mit dem ersten Stack lauffähig.
+
+!!! warning "Voraussetzung: der erste Stack läuft"
+    Im Ordner `kurs-compose` aus der Praxis-Übung läuft der Stack und die
+    Tabelle `teilnehmer` existiert. Habt ihr dort schon `docker compose down -v`
+    ausgeführt, wechselt ihr in den Ordner, startet mit
+    `docker compose up -d` neu und legt die Tabelle wie in
+    [Schritt 6](praxis-webapp.md#schritt-6-eine-tabelle-anlegen) wieder an.
+    Unter Windows arbeitet ihr wie in der Übung in der **PowerShell**.
 
 **Geschafft, wenn:**
 
@@ -60,11 +68,14 @@ eigener Port, gemeinsam nutzbar mit dem ersten Stack.
 
     === "Windows CMD"
         ```cmd
-        mkdir %USERPROFILE%\staging && cd %USERPROFILE%\staging
+        mkdir %USERPROFILE%\staging
+        cd /d %USERPROFILE%\staging
         ```
 
-    Die `compose.yaml` ist die aus der Übung mit einem anderen
-    Außen-Port beim Adminer:
+    Die `compose.yaml` legt ihr wie in
+    [Schritt 2 der Übung](praxis-webapp.md#schritt-2-composeyaml-schreiben)
+    an, unter Windows mit `notepad compose.yaml`. Der Inhalt ist der aus
+    der Übung mit einem anderen Außen-Port beim Adminer:
 
     ```yaml
     services:

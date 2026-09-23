@@ -28,6 +28,10 @@ Diese Seite ist die Abkürzung in die Praxis: **jede Übung der Kursunterlagen, 
 
 ## Docker & Compose
 
+!!! tip "Welche Docker-Übung passt zu mir?"
+    Der **[Docker-Lernpfad](docker-uebungen.md)** ordnet alle Docker-Übungen in fünf Stufen, mit Selbstcheck für den Einstieg.
+
+- **[Docker-Training](docker-training/index.md)**: 16 kurze, unabhängige Übungen zu den Grundlagen, von Container bis Compose.
 - **[Erste Schritte mit Docker](docker/erste-schritte.md)** – Container starten, stoppen, verstehen.
 - **[Ein eigenes Image bauen](docker/praxis-eigenes-image.md)** – vom Dockerfile zum lauffähigen Container.
 - **[Übungen: Docker-Einführung](docker/uebungen.md)** – Images, Container und Registry im Griff.

@@ -53,19 +53,19 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Docker Compose**
+    **Docker Praxis: Mission Control**
 
-    Der ganze Stack in einer Datei: beschreiben statt tippen, starten mit einem Befehl.
+    Das Gruppen-Event: Die Aurora Station mit zehn Containern aus einer selbst geschriebenen Datei.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Docker Praxis: Mission Control**
+    **Docker-Training**
 
-    Das Gruppen-Event: Die Aurora Station mit zehn Containern aus einer selbst geschriebenen Datei.
+    Die Grundlagen in Ruhe festigen: 16 kurze, unabhängige Übungen von Container bis Compose.
 
-    [:octicons-arrow-right-24: Zu den Missionen](../docker-compose-mission-control/index.md)
+    [:octicons-arrow-right-24: Zum Training](../docker-training/index.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 

@@ -5,7 +5,7 @@ nav:
   - "Docker Desktop ist eine VM": docker-desktop-wahrheit.md
   - "Image und Container": image-und-container.md
   - "Registry und Docker Hub": registry-und-dockerhub.md
-  - "Dockerfile – Grundlagen": dockerfile-grundlagen.md
+  - "Dockerfile: Grundlagen": dockerfile-grundlagen.md
   - "Docker installieren": installation.md
   - "Erste Schritte": erste-schritte.md
   - "Praxis: eigenes Image": praxis-eigenes-image.md

@@ -5,7 +5,7 @@ description: "Worum geht's bei Node.js, Express, PostgreSQL und Adminer? Nur das
 
 # Die Technologien kurz erklärt
 
-In dieser Aufgabe geht es um **Docker**. Die Beispiel-App nutzt zwar Node.js, Express, PostgreSQL und Adminer – aber **nur als Beispielsystem**. Ihr müsst diese Technologien **nicht im Detail** lernen.
+In dieser Aufgabe geht es um **Docker**. Die Beispiel-App nutzt zwar Node.js, Express, PostgreSQL und Adminer, aber **nur als Beispielsystem**. Ihr müsst diese Technologien **nicht im Detail** lernen.
 
 Diese Seite gibt euch den nötigen Kontext, mehr nicht.
 
@@ -40,7 +40,7 @@ Beispiele für das, was die API macht:
 
 ## Was ist Node.js?
 
-**Node.js** ist die Laufzeitumgebung, mit der die Beispiel-API ausgeführt wird. Vergleichbar mit Python oder Java – nur eben für JavaScript-Code, der außerhalb des Browsers läuft.
+**Node.js** ist die Laufzeitumgebung, mit der die Beispiel-API ausgeführt wird. Vergleichbar mit Python oder Java, nur eben für JavaScript-Code, der außerhalb des Browsers läuft.
 
 Für euch ist nur wichtig:
 
@@ -77,7 +77,7 @@ Für euch ist nur wichtig:
 - Datenbankmodellierung
 - PostgreSQL-Administration
 
-Ihr werdet keinen einzigen `SELECT`, `INSERT` oder `CREATE TABLE` schreiben müssen – die API erledigt das alles selbst.
+Ihr werdet keinen einzigen `SELECT`, `INSERT` oder `CREATE TABLE` schreiben müssen. Die API erledigt das alles selbst.
 
 ---
 
@@ -96,7 +96,7 @@ Ihr werdet keinen einzigen `SELECT`, `INSERT` oder `CREATE TABLE` schreiben müs
 - Datenbank-Administration
 - SQL-Abfragen schreiben
 
-Adminer öffnet eine Login-Maske – mehr braucht ihr nicht.
+Adminer öffnet eine Login-Maske, mehr braucht ihr nicht.
 
 ---
 
@@ -105,7 +105,7 @@ Adminer öffnet eine Login-Maske – mehr braucht ihr nicht.
 Damit testet ihr die API. Ihr könnt das Tool nehmen, mit dem ihr euch wohlfühlt:
 
 - **Browser** für einfache GET-Anfragen (z.B. `http://localhost:3000/health`)
-- **curl** im Terminal (macOS, Linux, Windows ab Windows 10)
+- **curl** im Terminal (macOS, Linux; unter Windows immer als `curl.exe` tippen, weil `curl` in Windows PowerShell 5.1 ein anderer Befehl ist)
 - **PowerShell** mit `Invoke-RestMethod`
 - **Postman** als grafisches Tool
 - **REST Client** als VS-Code-Extension
@@ -133,5 +133,5 @@ Damit testet ihr die API. Ihr könnt das Tool nehmen, mit dem ihr euch wohlfühl
 
 ## Weiter
 
-- [Docker-Recap](02-docker-recap.md) – die Befehle, die ihr in der Übung braucht
-- [Szenario](03-szenario.md) – die Geschichte hinter der Aufgabe
+- [Docker-Recap](02-docker-recap.md): die Befehle, die ihr in der Übung braucht
+- [Szenario](03-szenario.md): die Geschichte hinter der Aufgabe

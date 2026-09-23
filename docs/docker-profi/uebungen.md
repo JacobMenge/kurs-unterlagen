@@ -1,40 +1,53 @@
 ---
 title: "Übungen"
-description: "Eigene Hands-on-Übungen zum Profi-Block – Dockerfile-Optimierung, Multi-Stage, Scanning. Vier Schwierigkeitsgrade."
+description: "Eigene Hands-on-Übungen zum Profi-Block: Dockerfile-Optimierung, Multi-Stage, Scanning. Vier Schwierigkeitsgrade."
 ---
 
-# Übungen – Docker für Profis
+# Übungen: Docker für Profis
 
 Übungen zu **Dockerfile-Best-Practices** und **Image-Optimierung**. Das sind die Techniken, die dein Docker-Handwerk vom Nutzer zum Profi bringen.
 
 !!! abstract "Die vier Stufen"
-    - 🟢 **Einsteiger** – jeder Schritt bis ins Detail
-    - 🟡 **Mittel** – weniger Hand-Holding
-    - 🔴 **Fortgeschritten** – Hinweise statt Rezepte
-    - 🏆 **Challenge** – Aufgabe ohne Anleitung, Musterlösung aufklappbar
+    - 🟢 **Einsteiger**: jeder Schritt bis ins Detail
+    - 🟡 **Mittel**: weniger Hand-Holding
+    - 🔴 **Fortgeschritten**: Hinweise statt Rezepte
+    - 🏆 **Challenge**: Aufgabe ohne Anleitung, Musterlösung aufklappbar
 
 ## Voraussetzung für alle Übungen
 
 - Docker läuft (`docker version` klappt).
-- Idealerweise die [Docker-Einführung](../docker/index.md) und den [Aufbau-Block](../docker-aufbau/index.md) durchgearbeitet.
+- Idealerweise die [Docker-Einführung](../docker/index.md), den [Aufbau-Block](../docker-aufbau/index.md) und [Docker Compose](../docker-compose/index.md) durchgearbeitet. Für die Challenge hilft die [Vertiefungsübung zu HEALTHCHECK](../docker-vertiefung/03-healthchecks.md).
 - Ein Editor.
+
+!!! tip "Dateien unter Windows anlegen"
+    Lege jede Datei (`Dockerfile`, `requirements.txt`, `app.py`, `main.go`, `go.mod`, `.dockerignore`) erst leer an und öffne sie dann in Notepad, zum Beispiel:
+
+    ```powershell
+    New-Item -ItemType File Dockerfile
+    notepad Dockerfile
+    ```
+
+    Sonst hängt Notepad beim Speichern `.txt` an und der Build findet die Datei nicht. Details unter [Dockerfile anlegen](../docker/praxis-eigenes-image.md#schritt-3-dockerfile-erstellen). Schreibe Dateien in Windows PowerShell 5.1 **nicht** mit `echo ... > datei`, das erzeugt UTF-16 und zum Beispiel `pip` kann die Datei dann nicht lesen.
+
+!!! note "curl unter Windows"
+    Wo in den Übungen `curl` vorkommt, schreibst du unter Windows `curl.exe`. In PowerShell ist `curl` ohne Endung ein Alias für ein anderes Kommando mit anderen Optionen.
 
 ---
 
 ## 🟢 Einsteiger
 
-### Übung 1 – Image-Größe beobachten
+### Übung 1: Image-Größe beobachten
 
 !!! info "Was du lernst"
     - Größe eines Images prüfen
     - `docker history` lesen
     - Welche Layer wie viel kosten
 
-#### Worum geht's – Kontext
+#### Worum geht's: Kontext
 
 Jedes Docker-Image ist aus **Schichten (Layern)** gebaut. Jede Instruktion im Dockerfile erzeugt einen Layer. Layer werden wiederverwendet (geteilt zwischen Images), aber große Layer blähen das Image auf. Als Profi willst du wissen, wo die Größe herkommt, um sie zu reduzieren.
 
-#### Schritt 1 – Zwei Images ziehen
+#### Schritt 1: Zwei Images ziehen
 
 ```bash
 docker pull python:3.12
@@ -43,17 +56,17 @@ docker pull python:3.12-slim
 
 Das erste ist das volle Python-Image (auf Debian-Basis), das zweite die schlanke Variante.
 
-#### Schritt 2 – Größen vergleichen
+#### Schritt 2: Größen vergleichen
 
 ```bash
-docker images | head
+docker images python
 ```
 
-Du siehst beide mit unterschiedlicher `SIZE`. Das volle Image ist meist ca. **1 GB**, das slim-Image **ca. 150 MB**.
+Du siehst beide mit unterschiedlicher `SIZE`. Das volle Image ist meist etwa **1 GB** groß, das slim-Image nur einen Bruchteil davon. Die genauen Zahlen hängen von Version und Architektur ab.
 
 **Takeaway:** Für reinen Python-Code reicht `-slim` meistens.
 
-#### Schritt 3 – Layer-History anschauen
+#### Schritt 3: Layer-History anschauen
 
 ```bash
 docker history python:3.12-slim
@@ -62,12 +75,12 @@ docker history python:3.12-slim
 Du siehst pro Zeile:
 
 - Einen Layer
-- Was er gemacht hat (z.B. `ADD debian-base`, `apt-get install`, etc.)
+- Was er gemacht hat (z.B. das Debian-Basis-Dateisystem, `apt-get install` usw.)
 - Wie groß er ist
 
-Die größten Einträge zeigen dir, wo das meiste Gewicht steckt – meist im Basis-Linux.
+Die größten Einträge zeigen dir, wo das meiste Gewicht steckt, meist im Basis-Linux.
 
-#### Schritt 4 – Image entfernen, um Platz zu sparen
+#### Schritt 4: Image entfernen, um Platz zu sparen
 
 ```bash
 docker rmi python:3.12
@@ -79,16 +92,35 @@ docker rmi python:3.12-slim
 
 ---
 
-### Übung 2 – Ein ineffizientes Dockerfile verbessern
+### Übung 2: Ein ineffizientes Dockerfile verbessern
 
 !!! info "Was du lernst"
-    - Schlechte Reihenfolge erkennen (Cache bricht)
+    - Schlechte Reihenfolge erkennen (Cache bricht), siehe [Layer-Caching](dockerfile-best-practices.md#1-layer-caching-aktiv-nutzen)
     - Layer zusammenfassen
-    - Paket-Index aufräumen
+    - Paket-Index aufräumen, siehe [apt-get-Cache aufräumen](image-optimierung.md#3-apt-get-cache-aufraumen)
 
 #### Das schlechte Dockerfile
 
-Lege einen Ordner `uebung-5-2` an. Erstelle darin:
+Lege einen Ordner `profi-uebung-2` an und wechsle hinein:
+
+=== "macOS / Linux"
+    ```bash
+    mkdir -p ~/profi-uebung-2 && cd ~/profi-uebung-2
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    mkdir -Force $HOME\profi-uebung-2
+    cd $HOME\profi-uebung-2
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    mkdir "%USERPROFILE%\profi-uebung-2"
+    cd "%USERPROFILE%\profi-uebung-2"
+    ```
+
+Erstelle darin:
 
 **`requirements.txt`**:
 ```
@@ -139,7 +171,7 @@ docker build -t schlecht:1.1 .
 FROM python:3.12-slim
 WORKDIR /app
 
-# 1) System-Pakete – selten geändert
+# 1) System-Pakete, selten geändert
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
@@ -166,7 +198,7 @@ docker build -t gut:1.0 .
 docker build -t gut:1.1 .
 ```
 
-**Beobachtung:** Beim zweiten Build sind `apt-get`- und `pip install`-Schritte **gecached** – nur der `COPY . .`-Schritt läuft neu. Viel schneller.
+**Beobachtung:** Beim zweiten Build sind `apt-get`- und `pip install`-Schritte **gecached**, nur der `COPY . .`-Schritt läuft neu. Viel schneller.
 
 #### Aufräumen
 
@@ -174,11 +206,13 @@ docker build -t gut:1.1 .
 docker rmi schlecht:1.0 schlecht:1.1 gut:1.0 gut:1.1
 ```
 
+Den Ordner mit `app.py` und `requirements.txt` brauchst du in Übung 4 noch.
+
 ---
 
 ## 🟡 Mittel
 
-### Übung 3 – Multi-Stage-Build für Go
+### Übung 3: Multi-Stage-Build für Go
 
 !!! info "Was du lernst"
     - Multi-Stage-Dockerfile
@@ -186,9 +220,11 @@ docker rmi schlecht:1.0 schlecht:1.1 gut:1.0 gut:1.1
 
 #### Worum geht's
 
-Eine Go-Anwendung muss **gebaut** werden (braucht Go-Compiler). **Zur Laufzeit** braucht sie den Compiler nicht mehr – nur die Binary. Genau dafür ist Multi-Stage.
+Eine Go-Anwendung muss **gebaut** werden (braucht Go-Compiler). **Zur Laufzeit** braucht sie den Compiler nicht mehr, nur die Binary. Genau dafür ist Multi-Stage da, siehe [Multi-Stage-Builds](dockerfile-best-practices.md#3-multi-stage-builds-kleine-sichere-images).
 
 #### Kleine Go-App
+
+Lege einen neuen Ordner an (z.B. `profi-uebung-3`) und darin diese zwei Dateien:
 
 **`main.go`**:
 ```go
@@ -203,7 +239,7 @@ func main() {
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
         fmt.Fprint(w, "Hallo aus Go!")
     })
-    fmt.Println("Server läuft auf :8080")
+    fmt.Println("Server laeuft auf :8080")
     http.ListenAndServe(":8080", nil)
 }
 ```
@@ -222,7 +258,7 @@ Schreibe ein `Dockerfile` mit **zwei** Stages:
 1. **build**: `golang:1.24` → kompiliert `main.go` zu einer Binary.
 2. **runtime**: `gcr.io/distroless/static-debian12` → nur die Binary.
 
-Baue, starte, öffne im Browser. Vergleiche die Image-Größe mit einem Single-Stage-Build.
+Baue es als `hallo-go:1.0`, starte es mit Port-Mapping und öffne <http://localhost:8080> im Browser. Vergleiche die Image-Größe mit einem Single-Stage-Build.
 
 #### Hinweise
 
@@ -246,20 +282,50 @@ Baue, starte, öffne im Browser. Vergleiche die Image-Größe mit einem Single-S
     ENTRYPOINT ["/server"]
     ```
 
+    Bauen und starten:
+
+    ```bash
+    docker build -t hallo-go:1.0 .
+    docker run -d --name hallo-go -p 8080:8080 hallo-go:1.0
+    ```
+
+??? info "Single-Stage zum Vergleich"
+    Datei `Dockerfile.single`:
+
+    ```dockerfile
+    FROM golang:1.24
+    WORKDIR /src
+    COPY go.mod main.go ./
+    RUN CGO_ENABLED=0 go build -o /bin/server main.go
+    EXPOSE 8080
+    CMD ["/bin/server"]
+    ```
+
+    ```bash
+    docker build -f Dockerfile.single -t hallo-go:single .
+    ```
+
 #### Erfolgs-Check
 
 ```bash
-docker images | grep hallo
+docker images hallo-go
 ```
 
-Du solltest ein Image unter **10 MB** sehen. Im Vergleich zu `golang:1.24` als Runtime (800+ MB) ein **enormer** Unterschied.
+Das Multi-Stage-Image sollte im Bereich von etwa 10 MB liegen. Das Single-Stage-Image mit `golang:1.24` als Basis ist dagegen mehrere hundert MB groß. Ein **enormer** Unterschied.
+
+#### Aufräumen
+
+```bash
+docker rm -f hallo-go
+docker rmi hallo-go:1.0 hallo-go:single
+```
 
 ---
 
-### Übung 4 – USER nicht-root in einem Python-Image
+### Übung 4: USER nicht-root in einem Python-Image
 
 !!! info "Was du lernst"
-    - Unprivilegierter User im Container
+    - Unprivilegierter User im Container, siehe [USER](dockerfile-best-practices.md#4-user-nicht-mehr-als-root)
     - Chown-Reihenfolge beachten
 
 #### Aufgabe
@@ -273,22 +339,38 @@ Nimm die Flask-App aus Übung 2 und ändere das Dockerfile so, dass der Containe
 - `USER app` am Ende des Dockerfiles (vor `CMD`)
 - Container startet **und** liefert die Seite aus
 
+#### Bauen und starten
+
+```bash
+docker build -t flask-user:1.0 .
+docker run -d --name flask-user -p 8000:8000 flask-user:1.0
+```
+
+Seite prüfen: <http://localhost:8000> im Browser oder `curl http://localhost:8000/` (Windows: `curl.exe`).
+
 #### Erfolgs-Check
 
 ```bash
-docker exec -it <container> whoami
+docker exec flask-user whoami
 ```
 Antwort: `app` (nicht `root`).
+
+#### Aufräumen
+
+```bash
+docker rm -f flask-user
+docker rmi flask-user:1.0
+```
 
 ---
 
 ## 🔴 Fortgeschritten
 
-### Übung 5 – Image mit Trivy scannen und Lücken fixen
+### Übung 5: Image mit Trivy scannen und Lücken fixen
 
 !!! info "Was du lernst"
     - Trivy installieren
-    - Image auf CVEs scannen
+    - Image auf CVEs scannen, siehe [Trivy im Theorieteil](image-optimierung.md#trivy-images-auf-cves-scannen)
     - Lücken durch Basis-Update schließen
 
 #### Voraussetzung
@@ -311,16 +393,17 @@ Trivy installieren:
     ```
 
 === "Windows (Scoop)"
+    Nur wenn du den Paketmanager Scoop schon installiert hast. Sonst nimm den Tab „Ohne Installation (Docker)".
     ```powershell
     scoop install trivy
     ```
 
-=== "Cross-Platform (Docker)"
-    Ohne Installation, direkt im Container:
+=== "Ohne Installation (Docker)"
+    Trivy läuft selbst in einem Container. Der Befehl ist auf allen Systemen gleich, auch in PowerShell und CMD:
     ```bash
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
-      aquasec/trivy:latest image <image>
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/ aquasec/trivy:latest image <image>
     ```
+    Das Volume `trivy-cache` speichert die Schwachstellen-Datenbank, damit Trivy sie nicht bei jedem Aufruf neu herunterlädt. In den Befehlen unten ersetzt du `trivy` durch diesen `docker run ...`-Anfang.
 
 #### Aufgabe
 
@@ -329,6 +412,12 @@ Scanne ein absichtlich veraltetes Image und finde die Schwachstellen:
 ```bash
 docker pull node:18
 trivy image --severity HIGH,CRITICAL node:18
+```
+
+Mit der Docker-Variante sieht der zweite Befehl so aus:
+
+```bash
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/ aquasec/trivy:latest image --severity HIGH,CRITICAL node:18
 ```
 
 Du siehst eine Liste von CVEs.
@@ -352,6 +441,13 @@ Dann versuche die Fixes:
 docker rmi node:18 node:22-slim node:22-alpine
 ```
 
+Falls du die Docker-Variante genutzt hast, zusätzlich:
+
+```bash
+docker rmi aquasec/trivy:latest
+docker volume rm trivy-cache
+```
+
 #### Fazit
 
 Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist einer der einfachsten Security-Gewinne im Docker-Alltag.
@@ -360,7 +456,7 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 
 ## 🏆 Challenge
 
-### Challenge – Produktions-fertiges Flask-Dockerfile
+### Challenge: Produktions-fertiges Flask-Dockerfile
 
 !!! abstract "Aufgabe"
     Nimm eine kleine Flask-App und baue ein **produktionsreifes** Image, das alle relevanten Best Practices vereint.
@@ -374,7 +470,7 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 
     @app.route("/")
     def home():
-        return "<h1>Challenge – Produktions-Image</h1>"
+        return "<h1>Challenge: Produktions-Image</h1>"
 
     @app.route("/health")
     def health():
@@ -391,17 +487,17 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 
     **Dein Dockerfile muss erfüllen:**
 
-    1. **Multi-Stage**: Build-Stage baut Deps, Runtime-Stage nimmt nur das Nötige.
+    1. **Multi-Stage**: Build-Stage baut Deps, Runtime-Stage nimmt nur das Nötige ([Multi-Stage](dockerfile-best-practices.md#3-multi-stage-builds-kleine-sichere-images)).
     2. **`python:3.12-slim`** als Runtime-Basis (nicht das volle `python`).
-    3. **Unprivilegierter User** `app` – nicht als root laufen.
+    3. **Unprivilegierter User** `app`, nicht als root laufen ([USER](dockerfile-best-practices.md#4-user-nicht-mehr-als-root)).
     4. **Layer-Caching-freundliche Reihenfolge**: Deps vor Code.
-    5. **`HEALTHCHECK`** im Dockerfile, der `/health` mit `curl` abfragt.
+    5. **`HEALTHCHECK`** im Dockerfile, der `/health` mit `curl` abfragt ([HEALTHCHECK](dockerfile-best-practices.md#5-healthcheck-container-pruft-sich-selbst)).
     6. **`EXPOSE 8000`** als Dokumentation.
-    7. **`CMD`** in Exec-Form (JSON-Array), damit SIGTERM ankommt.
-    8. **`LABEL org.opencontainers.image.source`** auf dein GitHub-Repo.
-    9. **`.dockerignore`** mit `.git/`, `__pycache__/`, `.venv/`, `*.log`.
+    7. **`CMD`** in Exec-Form (JSON-Array), damit SIGTERM direkt beim Python-Prozess ankommt ([Signal-Handling](dockerfile-best-practices.md#7-signal-handling)).
+    8. **`LABEL org.opencontainers.image.source`** auf dein GitHub-Repo ([LABEL](dockerfile-best-practices.md#8-label-metadaten-anbringen)).
+    9. **`.dockerignore`** mit `.git/`, `__pycache__/`, `.venv/`, `*.log` ([.dockerignore](dockerfile-best-practices.md#2-dockerignore-schlank-halten)).
 
-    **Erfolgs-Checks:**
+    **Erfolgs-Checks** (unter Windows `curl.exe` statt `curl`):
 
     - `docker build -t challenge-image:1.0 .` läuft durch.
     - `docker run -d --name challenge -p 8000:8000 challenge-image:1.0` startet.
@@ -450,7 +546,7 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
     RUN pip install --no-cache-dir --user -r requirements.txt
 
     # ============================================================
-    # Stage 2: Runtime – schlank, unprivilegiert, mit Healthcheck
+    # Stage 2: Runtime: schlank, unprivilegiert, mit Healthcheck
     # ============================================================
     FROM python:3.12-slim
 
@@ -480,39 +576,57 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
     CMD ["python", "app.py"]
 
     LABEL org.opencontainers.image.source="https://github.com/JacobMenge/kurs-unterlagen" \
-          org.opencontainers.image.description="Challenge – Produktions-Image-Muster"
+          org.opencontainers.image.description="Challenge: Produktions-Image-Muster"
     ```
 
     ### Bauen und testen
 
+    Bauen und starten:
+
     ```bash
     docker build -t challenge-image:1.0 .
     docker run -d --name challenge -p 8000:8000 challenge-image:1.0
+    ```
 
-    # Seite testen
+    Seite testen (Windows: `curl.exe -s ...`):
+
+    ```bash
     curl -s http://localhost:8000/
     curl -s http://localhost:8000/health
+    ```
 
-    # User-Check
-    docker exec challenge whoami        # muss 'app' zeigen
+    User-Check, muss `app` zeigen:
 
-    # Healthcheck
-    docker ps                    # Status nach 15s: (healthy)
+    ```bash
+    docker exec challenge whoami
+    ```
 
-    # Groesse
+    Healthcheck, nach etwa 15 Sekunden sollte `(healthy)` erscheinen:
+
+    ```bash
+    docker ps
+    ```
+
+    Größe:
+
+    ```bash
     docker images challenge-image:1.0
     ```
 
     **Was das Dockerfile technisch richtig macht:**
 
-    - **Multi-Stage**: Build-Artefakte werden rübergereicht, Compiler bleibt in Stage 1.
+    - **Multi-Stage**: Nur die installierten Pakete wandern in die Runtime-Stage. Alles, was pip beim Installieren nebenbei erzeugt, bleibt in Stage 1. Bei Paketen, die beim Installieren kompiliert werden, würdest du Compiler und Header ebenfalls nur in Stage 1 installieren.
     - **`--no-install-recommends`** + `rm -rf /var/lib/apt/lists/*`: kein Apt-Müll im Image.
     - **User `app` mit `chown`** in einem einzigen RUN-Block: keine verwaisten Dateien mit Root-Besitz.
     - **`pip install --user`** → alles in `~/.local`, einfacher zu kopieren.
     - **`PYTHONUNBUFFERED=1`**: Python-Logs erscheinen sofort in Docker Logs.
     - **`HEALTHCHECK` mit `curl`**: Docker weiß, wann die App bereit ist.
-    - **Exec-Form `CMD`**: SIGTERM kommt beim Python-Prozess an, kein 10-Sekunden-Timeout.
+    - **Exec-Form `CMD`**: SIGTERM geht direkt an den Python-Prozess, nicht an eine Shell dazwischen.
     - **`LABEL`**: Registry kann auf Source-Repo verlinken.
+
+    !!! warning "Grenzen dieser Musterlösung"
+        - **Python als PID 1:** Python reagiert als erster Prozess im Container nicht von selbst auf SIGTERM, auch der Flask-Entwicklungsserver nicht. `docker stop` kann deshalb trotz Exec-Form bis zum Timeout von 10 Sekunden dauern. Abhilfe: den Container mit `docker run --init ...` starten (siehe [`--init` als Abhilfe](dockerfile-best-practices.md#-init-als-abhilfe)) oder einen Produktionsserver wie gunicorn verwenden, der SIGTERM selbst behandelt.
+        - **Entwicklungsserver:** `app.run()` startet den eingebauten Flask-Entwicklungsserver. Für echte Produktion gehört ein WSGI-Server wie gunicorn davor.
 
     ### Aufräumen
 
@@ -522,7 +636,7 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
     docker rmi challenge-image:1.0
     ```
 
-    **Bonus-Schritt (optional):** Trivy-Scan laufen lassen:
+    **Bonus-Schritt (optional):** Trivy-Scan laufen lassen (oder die Docker-Variante aus Übung 5):
     ```bash
     trivy image --severity HIGH,CRITICAL challenge-image:1.0
     ```
@@ -532,5 +646,5 @@ Ein Image-Update reduziert die Angriffsfläche oft um ein Vielfaches. Das ist ei
 
 ## Weiter mit
 
-- [Merksätze](merksaetze.md) – Zusammenfassung der Profi-Techniken
+- [Merksätze](merksaetze.md): Zusammenfassung der Profi-Techniken
 - [Stolpersteine Profi-Block](stolpersteine.md)

@@ -21,8 +21,12 @@ geschrieben.
     Kurs-Repositorys ([Code holen](index.md#code-holen)). Schaut euch
     kurz um: `frontend/`, `backend-node/`, `modul/` und `db/` bringen
     fertige Dockerfiles mit. Legt dann eine **leere Datei `compose.yaml`**
-    im App-Ordner an, direkt neben `README.md`. Mehr braucht der Start
-    nicht.
+    im App-Ordner an, direkt neben `README.md`: unter Windows mit
+    `notepad compose.yaml` (Frage nach dem Anlegen mit **Ja**
+    beantworten), unter macOS mit `nano compose.yaml` oder
+    `code compose.yaml`. Nicht über den Explorer anlegen, sonst entsteht
+    `compose.yaml.txt` und Compose meldet `no configuration file
+    provided`. Mehr braucht der Start nicht.
 
 ---
 
@@ -364,7 +368,7 @@ geht.
 1. Gebt der Datenbank einen **Healthcheck** (`pg_isready`) und lasst das
    Backend per `depends_on` mit Bedingung erst starten, wenn die
    Datenbank **healthy** ist.
-2. Nehmt **Adminer** als vierten Dienst dazu (Image `adminer:latest`,
+2. Nehmt **Adminer** als weiteren Dienst dazu (Image `adminer:latest`,
    Port `${ADMINER_PORT}` auf 8080) und seht euch unter
    `http://localhost:8081` die Tabelle `logbuch` an (Server: `db`,
    Zugangsdaten aus eurer `.env`).

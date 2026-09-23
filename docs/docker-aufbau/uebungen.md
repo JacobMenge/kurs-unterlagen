@@ -10,8 +10,8 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block. Volumes, Env-Variablen,
 !!! abstract "Die vier Stufen"
     - 🟢 **Einsteiger**, jeder Schritt bis ins Detail
     - 🟡 **Mittel**, weniger Hand-Holding
-    - 🔴 **Fortgeschritten**. Hinweise statt Rezepte
-    - 🏆 **Challenge**. Aufgabe ohne Anleitung, Musterlösung aufklappbar
+    - 🔴 **Fortgeschritten**, Hinweise statt Rezepte
+    - 🏆 **Challenge**, Aufgabe ohne Anleitung, Musterlösung aufklappbar
 
 
 !!! note "Windows-Hinweis"
@@ -20,21 +20,16 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block. Volumes, Env-Variablen,
 ## Voraussetzung für alle Übungen
 
 - Docker läuft (`docker version` klappt).
-- Aufräumen von alten Übungen aus den vorherigen Kapiteln:
+- Keine alten Container mit denselben Namen. Die Übungen verwenden die Namen `cache`, `envtest`, `db`, `adminer`, `frontend`, `backend`, `notes-db` und `notes-ui`. Prüfe mit `docker ps -a`, ob einer davon noch existiert. Falls ja, entferne ihn gezielt, zum Beispiel:
 
-    === "macOS / Linux"
-        ```bash
-        docker ps -aq | xargs docker rm -f 2>/dev/null
-        docker network ls --filter "name=kurs" -q | xargs docker network rm 2>/dev/null
-        ```
+    ```bash
+    docker rm -f db adminer
+    ```
 
-    === "Windows PowerShell"
-        ```powershell
-        docker ps -aq | ForEach-Object { docker rm -f $_ }
-        docker network ls --filter "name=kurs" -q | ForEach-Object { docker network rm $_ }
-        ```
+    Eine Fehlermeldung `No such container` ist dabei kein Problem: Dann gab es den Container schlicht nicht.
 
-    **`|`** ist die [Pipe](../glossar.md#pipe), die Ausgabe des ersten Befehls wird an den zweiten weitergereicht. **[xargs](../glossar.md#xargs)** macht aus jeder Zeile ein Argument für den folgenden Befehl; PowerShell nutzt stattdessen `ForEach-Object`.
+!!! warning "Nicht einfach alle Container löschen"
+    Befehle wie `docker ps -aq | xargs docker rm -f` löschen **jeden** Container auf deinem Rechner, auch die aus anderen Projekten und Übungen. Lösche immer gezielt über den Namen.
 
 ---
 
@@ -51,7 +46,7 @@ description: "Eigene Hands-on-Übungen zum Aufbau-Block. Volumes, Env-Variablen,
 
 **Redis** ist ein sehr schneller In-Memory-Speicher, oft als Cache oder für einfache Key-Value-Daten genutzt. Normalerweise lebt Redis komplett im RAM, wenn der Container weg ist, sind die Daten weg. Wir zeigen Redis, wie er auf Disk speichert und nutzen ein **Docker-Volume**, damit die Daten einen Neustart überleben.
 
-**Volume**, noch mal kurz: von Docker verwalteter Speicher außerhalb des Containers. Lebt, solange du ihn nicht explizit löschst.
+**Volume**, noch mal kurz: von Docker verwalteter Speicher außerhalb des Containers. Lebt, solange du ihn nicht explizit löschst. Ausführlich erklärt auf der Seite [Volumes](volumes.md).
 
 #### Schritt 1: Volume anlegen
 
@@ -74,7 +69,7 @@ docker run -d --name cache -v redis-daten:/data redis:7 redis-server --save 60 1
 Erklärt:
 
 - `-d --name cache`, im Hintergrund, Name `cache`.
-- `-v redis-daten:/data`. Volume `redis-daten` in den Container an den Pfad `/data` einhängen. Redis speichert dort seine Snapshots.
+- `-v redis-daten:/data`, Volume `redis-daten` in den Container an den Pfad `/data` einhängen. Redis speichert dort seine Snapshots.
 - `redis:7`, offizielles Redis-Image, Version 7.
 - `redis-server --save 60 1`, überschreibt das Standard-Command: „speichere alle 60 Sekunden einen Snapshot, wenn mindestens 1 Key geändert wurde".
 
@@ -102,7 +97,7 @@ OK
 127.0.0.1:6379> exit
 ```
 
-`SAVE` schreibt sofort einen Snapshot ins Volume, damit wir nicht 60 Sekunden warten müssen.
+`SAVE` schreibt sofort einen Snapshot ins Volume, damit wir nicht 60 Sekunden warten müssen. Die Reihenfolge der Schlüssel bei `KEYS *` ist nicht festgelegt, bei dir kann `hobby` auch vor `name` stehen.
 
 #### Schritt 4: Persistenz-Test
 
@@ -141,7 +136,7 @@ docker volume rm redis-daten
 
 ---
 
-### Übung 2: nginx mit Umgebungsvariable konfigurieren
+### Übung 2: Umgebungsvariablen an einen Container übergeben
 
 !!! info "Was du lernst"
     - Eine Umgebungsvariable beim Start übergeben
@@ -149,20 +144,20 @@ docker volume rm redis-daten
 
 #### Worum geht's
 
-Viele Container-Images sind über Umgebungsvariablen konfigurierbar. Wir demonstrieren das an einem einfachen Beispiel: einer Variable `WILLKOMMEN`, die im Container ankommt.
+Viele Container-Images sind über Umgebungsvariablen konfigurierbar. Wir zeigen hier nur, dass eine Variable im Container ankommt. nginx selbst wertet `WILLKOMMEN` nicht aus, der Container dient nur als Transportmittel. Mehr dazu auf der Seite [Umgebungsvariablen](umgebungsvariablen.md).
 
 #### Schritte
 
 1. Container starten mit Variable:
     ```bash
-    docker run -d --name envtest -e WILLKOMMEN="Hallo Kurs" -e FAVORITE_COLOR="phosphor-grün" nginx:alpine
+    docker run -d --name envtest -e WILLKOMMEN="Hallo Kurs" -e FAVORITE_COLOR="phosphorgruen" nginx:alpine
     ```
 
 2. Prüfen, was im Container ankam:
     ```bash
     docker exec envtest env
     ```
-    Du siehst alle Env-Variablen des Containers, darunter `WILLKOMMEN=Hallo Kurs` und `FAVORITE_COLOR=phosphor-grün`.
+    Du siehst alle Env-Variablen des Containers, darunter `WILLKOMMEN=Hallo Kurs` und `FAVORITE_COLOR=phosphorgruen`.
 
 3. Gezielt eine einzelne:
     ```bash
@@ -221,6 +216,21 @@ In Adminer einloggen:
 
 Tabelle anlegen, Daten einfügen. Dann: Container zerstören, neu starten, sehen dass Daten noch da sind.
 
+??? success "Lösung"
+    ```bash
+    docker network create kurs-netz
+    ```
+
+    ```bash
+    docker run -d --name db --network kurs-netz -v postgres-daten:/var/lib/postgresql/data -e POSTGRES_USER=kurs -e POSTGRES_PASSWORD=geheim -e POSTGRES_DB=kursdaten postgres:16
+    ```
+
+    ```bash
+    docker run -d --name adminer --network kurs-netz -p 8080:8080 adminer
+    ```
+
+    Der Beweis für die Persistenz: Nach dem Anlegen der Tabelle beide Container mit `docker rm -f db adminer` löschen und mit denselben zwei `docker run`-Befehlen neu starten. Die Tabelle ist noch da, weil sie im Volume `postgres-daten` liegt. Ausführlich Schritt für Schritt steht das in der [Praxis: Postgres & Adminer](praxis-multi-container.md).
+
 #### Aufräumen
 
 ```bash
@@ -249,9 +259,43 @@ Du hast einen PostgreSQL-Container, dessen komplette Konfiguration (User, Passwo
     POSTGRES_PASSWORD=einGutesPasswort
     POSTGRES_DB=testdaten
     ```
-- Beim Start: `docker run --env-file .env postgres:16`
+- Die Datei heißt exakt `.env` und liegt im Ordner, in dem du `docker run` aufrufst.
+- Beim Start: `docker run -d --name envdb --env-file .env postgres:16`
 - **Wichtig:** keine Anführungszeichen in der `.env`, die werden wörtlich übernommen.
-- Nach dem Start prüfen: `docker exec <container> sh -c "env | grep POSTGRES"` (die Suche läuft dabei im Container und funktioniert so in jeder Shell).
+- Nach dem Start prüfen: `docker exec envdb sh -c "env | grep POSTGRES"` (die Suche läuft dabei im Container und funktioniert so in jeder Shell).
+
+!!! warning "Windows: die `.env` nicht mit `>` anlegen"
+    `echo POSTGRES_USER=kurs > .env` schreibt in Windows PowerShell die Datei in UTF-16. Docker kann das nicht lesen und bricht ab mit
+    `docker: invalid env file (.env): invalid utf8 bytes at line 1`.
+    Lege die Datei deshalb mit `notepad .env` an (Notepad fragt, ob es sie anlegen soll: **Ja**) und kopiere die drei Zeilen hinein.
+
+??? success "Lösung"
+    === "Windows PowerShell"
+        ```powershell
+        notepad .env
+        ```
+        Die drei Zeilen aus dem Hinweis oben einfügen, speichern, Notepad schließen.
+
+    === "macOS / Linux"
+        ```bash
+        printf 'POSTGRES_USER=kurs\nPOSTGRES_PASSWORD=einGutesPasswort\nPOSTGRES_DB=testdaten\n' > .env
+        ```
+
+    ```bash
+    docker run -d --name envdb --env-file .env postgres:16
+    ```
+
+    ```bash
+    docker exec envdb sh -c "env | grep POSTGRES"
+    ```
+
+    ```text
+    POSTGRES_PASSWORD=einGutesPasswort
+    POSTGRES_USER=kurs
+    POSTGRES_DB=testdaten
+    ```
+
+    Aufräumen: `docker rm -f envdb`. Warum Konfiguration von außen kommt, erklärt die Seite [Umgebungsvariablen](umgebungsvariablen.md).
 
 #### Bonus
 
@@ -276,8 +320,8 @@ Lege eine `.gitignore` an, die `.env` ausschließt. Das ist die Gewohnheit, die 
 
 Eine typische Web-Anwendung hat drei Schichten:
 
-- **Frontend**. Webserver, den der Browser erreicht
-- **Backend**. API-Server, der Anfragen bearbeitet
+- **Frontend**, Webserver, den der Browser erreicht
+- **Backend**, API-Server, der Anfragen bearbeitet
 - **Datenbank**, wo die Daten liegen
 
 Design-Prinzip: **Datenbank darf nur vom Backend erreicht werden, nicht vom Frontend.**
@@ -303,19 +347,62 @@ Prüfe per `docker exec`, dass:
 
 #### Hinweise
 
-- Ein Container kann in mehreren Netzwerken sein, genau das macht `backend`.
-- Mit `docker exec frontend ping -c 2 backend` testest du.
-- **Nicht jeder Container hat `ping` vorinstalliert.** Alternativen:
-    - `docker exec frontend getent hosts backend` (DNS-Auflösung testen, meistens verfügbar)
-    - `docker exec frontend wget -q -O- http://backend` (HTTP-Test, klappt bei nginx)
-    - `ping` nachinstallieren:
-        - In **Alpine-Images** (z.B. `nginx:alpine`): `docker exec frontend apk add --no-cache iputils-ping`
-        - In **Debian/Ubuntu-Images**: `docker exec frontend sh -c "apt-get update && apt-get install -y iputils-ping"`
-- Network-Create, dann `docker network connect`.
+- Ein Container kann in mehreren Netzwerken sein, genau das macht `backend`. Das Muster erklärt die Seite [Docker-Netzwerke](docker-networks.md#besonders-schon-mehrere-netze-pro-container).
+- Das Image `nginx` bringt kein `ping` mit, dafür zwei andere Werkzeuge:
+    - `docker exec frontend getent hosts backend` prüft die Namensauflösung. Kommt eine IP-Adresse zurück, ist der Name im Netz bekannt. Keine Ausgabe heißt: nicht erreichbar.
+    - `docker exec frontend curl -s http://backend` holt die Webseite des Backends ab.
+- Erst beide Netzwerke anlegen, dann die Container. `backend` startest du im ersten Netz und hängst es mit `docker network connect` zusätzlich ins zweite.
+
+??? success "Lösung"
+    ```bash
+    docker network create netz-frontend
+    ```
+
+    ```bash
+    docker network create netz-backend
+    ```
+
+    ```bash
+    docker run -d --name frontend --network netz-frontend -p 8080:80 nginx
+    ```
+
+    ```bash
+    docker run -d --name backend --network netz-frontend nginx
+    ```
+
+    ```bash
+    docker network connect netz-backend backend
+    ```
+
+    ```bash
+    docker run -d --name db --network netz-backend -e POSTGRES_PASSWORD=geheim postgres:16
+    ```
+
+    Die drei Prüfungen:
+
+    ```bash
+    docker exec frontend getent hosts backend
+    ```
+
+    ```bash
+    docker exec frontend getent hosts db
+    ```
+
+    ```bash
+    docker exec backend getent hosts db
+    ```
+
+    Der erste und der dritte Befehl liefern eine IP-Adresse, der zweite **nichts**: `frontend` kennt die Datenbank nicht, weil beide in keinem gemeinsamen Netz sind. Genau das ist Segmentierung, dieselbe Idee wie VLANs im Netzwerk-Block.
 
 #### Aufräumen
 
-Alle Container und beide Netzwerke entfernen.
+```bash
+docker rm -f frontend backend db
+```
+
+```bash
+docker network rm netz-frontend netz-backend
+```
 
 ---
 
@@ -334,7 +421,7 @@ Alle Container und beide Netzwerke entfernen.
     4. In Adminer anmelden (alle Credentials aus Schritt 1).
     5. Eine Tabelle `notizen` anlegen mit den Spalten `id` (auto-increment), `titel` (Text), `inhalt` (Text), `erstellt_am` (Timestamp mit Default `NOW()`).
     6. Füge **mindestens drei** Notizen ein.
-    7. Zerstöre beide Container (ohne `-v`!).
+    7. Zerstöre beide Container, das Volume `notes-data` bleibt stehen.
     8. Starte beide Container neu.
     9. Prüfe: die drei Notizen sind **noch da**.
 
@@ -429,7 +516,7 @@ Alle Container und beide Netzwerke entfernen.
     docker network rm notes-netz
     ```
 
-    **Was du hier gelernt hast:** Alle drei Säulen im Zusammenspiel, plus echten SQL-Workflow. Persistenz überlebt den Tod der Container, nur das Volume halten. Das ist das Muster, das überall skaliert.
+    **Was du hier gelernt hast:** Alle drei Säulen im Zusammenspiel, plus echten SQL-Workflow. Die Daten überleben das Ende der Container, solange du das Volume behältst. Das ist das Muster, das überall skaliert.
 
 ---
 

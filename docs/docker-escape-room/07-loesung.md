@@ -8,14 +8,14 @@ description: "Vollständige Musterlösung mit OS-Tabs für Linux, macOS und Wind
 !!! danger "Erst nach der eigenen Arbeit aufschlagen!"
     Diese Seite enthält die **vollständige Musterlösung**. Wenn ihr noch in der Gruppenarbeit seid: [Hilfekarten](05-hilfekarten.md) sind der bessere Ort.
 
-Die Lösung ist plattformneutral mit **OS-Tabs** für Linux/macOS und Windows PowerShell.
+Die Lösung ist plattformneutral: Wo sich die Befehle unterscheiden, gibt es **OS-Tabs** für macOS/Linux, Windows PowerShell und Windows CMD. Alle übrigen Befehle laufen in allen drei Terminals gleich.
 
 ---
 
 ## Sauberer Reset
 
-!!! warning "Vorsicht – löscht Daten"
-    Der folgende Befehl löscht Container, Netzwerk und Volume dieser Übung. Falls einzelne Ressourcen nicht existieren, erscheinen Fehlermeldungen – die sind unkritisch.
+!!! warning "Vorsicht: löscht Daten"
+    Der folgende Befehl löscht Container, Netzwerk und Volume dieser Übung. Falls einzelne Ressourcen nicht existieren, erscheinen Fehlermeldungen. Die sind unkritisch.
 
 ```bash
 docker rm -f quest-api quest-db quest-adminer
@@ -25,17 +25,15 @@ docker network rm quest-net
 
 ---
 
-## Schritt 1 – In den App-Ordner wechseln
+## Schritt 1: In den App-Ordner wechseln
 
-```bash
-cd apps/docker-escape-room
-```
+Terminal im Ordner `kurs-unterlagen-main/apps/docker-escape-room` öffnen (ZIP-Weg siehe [Aufgabe 1](04-aufgabenuebersicht.md#aufgabe-1-projekt-vorbereiten)).
 
-(Der Ordner liegt im Repository-Root, **nicht** unter `docs/`.)
+Kontrolle: `dir` (Windows) bzw. `ls` (macOS, Linux) zeigt `Dockerfile`, `package.json`, `README.md` und `src`.
 
 ---
 
-## Schritt 2 – Netzwerk erstellen
+## Schritt 2: Netzwerk erstellen
 
 ```bash
 docker network create quest-net
@@ -43,12 +41,12 @@ docker network create quest-net
 
 Check:
 ```bash
-docker network ls | grep quest-net
+docker network ls --filter name=quest-net
 ```
 
 ---
 
-## Schritt 3 – Volume erstellen
+## Schritt 3: Volume erstellen
 
 ```bash
 docker volume create quest-pg-data
@@ -56,14 +54,14 @@ docker volume create quest-pg-data
 
 Check:
 ```bash
-docker volume ls | grep quest-pg-data
+docker volume ls --filter name=quest-pg-data
 ```
 
 ---
 
-## Schritt 4 – PostgreSQL starten
+## Schritt 4: PostgreSQL starten
 
-=== "macOS / Linux / Git Bash"
+=== "macOS / Linux"
     ```bash
     docker run \
       --name quest-db \
@@ -92,7 +90,7 @@ docker volume ls | grep quest-pg-data
     docker run --name quest-db --network quest-net -e POSTGRES_USER=quest -e POSTGRES_PASSWORD=questpass -e POSTGRES_DB=questdb -v quest-pg-data:/var/lib/postgresql/data -d postgres:16-alpine
     ```
 
-Logs prüfen, bis „database system is ready to accept connections" erscheint:
+Logs prüfen, bis nach `PostgreSQL init process complete; ready for start up.` die Zeile `database system is ready to accept connections` erscheint (beim ersten Start steht sie zweimal im Log, erst die zweite zählt):
 ```bash
 docker logs -f quest-db
 ```
@@ -100,7 +98,7 @@ docker logs -f quest-db
 
 ---
 
-## Schritt 5 – API-Image bauen
+## Schritt 5: API-Image bauen
 
 Im Ordner `apps/docker-escape-room`:
 
@@ -115,9 +113,9 @@ docker images container-quest-api
 
 ---
 
-## Schritt 6 – API starten
+## Schritt 6: API starten
 
-=== "macOS / Linux / Git Bash"
+=== "macOS / Linux"
     ```bash
     docker run \
       --name quest-api \
@@ -149,15 +147,22 @@ docker images container-quest-api
       -d container-quest-api:1.0
     ```
 
+=== "Windows CMD (eine Zeile)"
+    ```cmd
+    docker run --name quest-api --network quest-net -p 3000:3000 -e PORT=3000 -e "APP_NAME=Container Quest API" -e PGHOST=quest-db -e PGPORT=5432 -e PGUSER=quest -e PGPASSWORD=questpass -e PGDATABASE=questdb -d container-quest-api:1.0
+    ```
+
+`PORT` und `APP_NAME` sind optional, die App hat dafür Standardwerte.
+
 Logs prüfen:
 ```bash
 docker logs -f quest-api
 ```
-Erwartet: erst „Database not ready yet…" für ein paar Sekunden, dann „Database connection established." und „Container Quest API listening on port 3000".
+Erwartet: `Starting Container Quest API...`, eventuell ein paar Zeilen `Database not ready yet…`, dann `Database connection established.` und `Container Quest API listening on port 3000`.
 
 ---
 
-## Schritt 7 – Adminer starten
+## Schritt 7: Adminer starten
 
 === "macOS / Linux"
     ```bash
@@ -177,9 +182,14 @@ Erwartet: erst „Database not ready yet…" für ein paar Sekunden, dann „Dat
       -d adminer:latest
     ```
 
+=== "Windows CMD (eine Zeile)"
+    ```cmd
+    docker run --name quest-adminer --network quest-net -p 8080:8080 -d adminer:latest
+    ```
+
 ---
 
-## Schritt 8 – API testen
+## Schritt 8: API testen
 
 === "Browser"
     Öffne nacheinander:
@@ -222,9 +232,19 @@ Erwartet: erst „Database not ready yet…" für ein paar Sekunden, dann „Dat
     Invoke-RestMethod http://localhost:3000/api/scoreboard
     ```
 
+=== "Windows CMD (curl.exe)"
+    ```cmd
+    curl http://localhost:3000/health
+    curl http://localhost:3000/db-check
+
+    curl -X POST http://localhost:3000/api/entries -H "Content-Type: application/json" -d "{\"team\":\"Team Beispiel\",\"category\":\"pizza\",\"name\":\"Container Calzone\",\"score\":42}"
+
+    curl http://localhost:3000/api/scoreboard
+    ```
+
 ---
 
-## Schritt 9 – Adminer-Login
+## Schritt 9: Adminer-Login
 
 Öffnen: <http://localhost:8080>
 
@@ -246,50 +266,93 @@ Du solltest die Tabelle `entries` mit den Test-Einträgen sehen.
 
 Daten werden via API angelegt → DB-Container zerstören → neu starten → Daten noch da.
 
-```bash
-# Eintrag anlegen (siehe Schritt 8)
+Zuerst einen Eintrag anlegen (siehe Schritt 8). Dann:
 
-# DB-Container zerstören
-docker stop quest-db
-docker rm quest-db
+=== "macOS / Linux"
+    ```bash
+    # DB-Container zerstören
+    docker stop quest-db
+    docker rm quest-db
 
-# Neu starten – mit demselben Volume!
-docker run \
-  --name quest-db \
-  --network quest-net \
-  -e POSTGRES_USER=quest \
-  -e POSTGRES_PASSWORD=questpass \
-  -e POSTGRES_DB=questdb \
-  -v quest-pg-data:/var/lib/postgresql/data \
-  -d postgres:16-alpine
+    # Neu starten, mit demselben Volume!
+    docker run \
+      --name quest-db \
+      --network quest-net \
+      -e POSTGRES_USER=quest \
+      -e POSTGRES_PASSWORD=questpass \
+      -e POSTGRES_DB=questdb \
+      -v quest-pg-data:/var/lib/postgresql/data \
+      -d postgres:16-alpine
 
-# Auch API neu starten (sonst hat sie alte DB-Verbindungen im Pool)
-docker restart quest-api
+    # API neu starten (sie ist beim Stoppen der DB abgestürzt)
+    docker restart quest-api
+    docker logs quest-api
 
-# Eintrag prüfen
-curl http://localhost:3000/api/entries
-```
+    # Eintrag prüfen
+    curl http://localhost:3000/api/entries
+    ```
+
+=== "Windows PowerShell"
+    ```powershell
+    # DB-Container zerstören
+    docker stop quest-db
+    docker rm quest-db
+
+    # Neu starten, mit demselben Volume!
+    docker run `
+      --name quest-db `
+      --network quest-net `
+      -e POSTGRES_USER=quest `
+      -e POSTGRES_PASSWORD=questpass `
+      -e POSTGRES_DB=questdb `
+      -v quest-pg-data:/var/lib/postgresql/data `
+      -d postgres:16-alpine
+
+    # API neu starten (sie ist beim Stoppen der DB abgestürzt)
+    docker restart quest-api
+    docker logs quest-api
+
+    # Eintrag prüfen
+    Invoke-RestMethod http://localhost:3000/api/entries
+    ```
+
+=== "Windows CMD"
+    ```cmd
+    docker stop quest-db
+    docker rm quest-db
+    docker run --name quest-db --network quest-net -e POSTGRES_USER=quest -e POSTGRES_PASSWORD=questpass -e POSTGRES_DB=questdb -v quest-pg-data:/var/lib/postgresql/data -d postgres:16-alpine
+    docker restart quest-api
+    docker logs quest-api
+    curl http://localhost:3000/api/entries
+    ```
+
+Nach dem Stoppen der DB zeigt `docker ps -a` den Container `quest-api` mit Status `Exited (1)`: Die Beispiel-App fängt die gekappten Datenbankverbindungen nicht ab und stürzt ab. Deshalb `docker restart quest-api`, sobald `quest-db` wieder läuft. Erst abrufen, wenn `docker logs quest-api` die Zeile `listening on port 3000` zeigt.
 
 Der Eintrag muss noch da sein. **Das ist der Beweis für Volume-Persistenz.**
 
 ---
 
-## Typische Fehler – und wie ihr sie löst
+## Typische Fehler und wie ihr sie löst
 
 ### Fehler 1: API nutzt `localhost` als `PGHOST`
 
-**Symptom:**
+**Symptom:** Das Log zeigt `host: 'localhost'` und danach Versuch um Versuch **ohne Grund** hinter `Reason:`:
 ```text
-connect ECONNREFUSED 127.0.0.1:5432
+Database config: { host: 'localhost', port: 5432, user: 'quest', database: 'questdb' }
+Database not ready yet. Attempt 1/20. Reason:
+Database not ready yet. Attempt 2/20. Reason:
 ```
+Der leere Grund entsteht, weil Node `localhost` gleichzeitig über IPv4 und IPv6 versucht und beide Versuche scheitern. Der entscheidende Hinweis steht in der Zeile `Database config`.
 
-**Ursache:** `localhost` zeigt im API-Container auf den API-Container selbst – nicht auf die Datenbank.
+**Ursache:** `localhost` zeigt im API-Container auf den API-Container selbst und nicht auf die Datenbank.
 
-**Lösung:** API-Container neu starten mit `-e PGHOST=quest-db`.
+**Lösung:** `docker rm -f quest-api`, dann den Container mit `-e PGHOST=quest-db` neu erstellen (Schritt 6). Ein `docker restart` übernimmt geänderte `-e`-Werte nicht, sie werden beim `docker run` festgelegt.
 
 ---
 
 ### Fehler 2: API und DB sind nicht im gleichen Netzwerk
+
+**Symptom:** Im Log von `quest-api` steht ein Namensfehler wie `getaddrinfo ENOTFOUND quest-db`, nach etwa 20 Versuchen `Startup failed` und der Container steht auf `Exited (1)`. Wurde beim `docker run` ein Netz angegeben, das es nicht gibt, bleibt der Container als `Created` liegen.
 
 **Diagnose:**
 ```bash
@@ -297,7 +360,12 @@ docker network inspect quest-net
 ```
 Zeigt unter `Containers` nur einen oder keinen.
 
-**Lösung:** Container neu starten mit `--network quest-net`.
+**Lösung:** Container ins Netz hängen und neu starten:
+```bash
+docker network connect quest-net quest-api
+docker restart quest-api
+```
+Oder den Container mit `docker rm -f quest-api` löschen und mit `--network quest-net` neu erstellen.
 
 ---
 
@@ -320,7 +388,7 @@ Dann neu starten.
 
 **Ursache:** PostgreSQL wurde **ohne** `-v quest-pg-data:/var/lib/postgresql/data` gestartet, oder das Volume wurde gelöscht.
 
-**Lösung:** Beim DB-Start immer das Volume mounten – siehe Schritt 4.
+**Lösung:** Beim DB-Start immer das Volume mounten, siehe Schritt 4.
 
 ---
 
@@ -330,6 +398,7 @@ Dann neu starten.
 ```text
 port is already allocated
 ```
+Unter Windows auch: `ports are not available: exposing port TCP 0.0.0.0:3000`.
 
 **Lösung:** Anderen Host-Port wählen, z.B. `-p 3001:3000`. Browser dann auf `http://localhost:3001`.
 
@@ -356,6 +425,30 @@ docker restart quest-api
 
 ---
 
+### Fehler 8: Postgres beendet sich sofort
+
+**Symptom:** `docker ps -a` zeigt `quest-db` als `Exited`, im Log steht `Database is uninitialized and superuser password is not specified.`
+
+**Lösung:** `docker rm quest-db`, dann mit `-e POSTGRES_PASSWORD=questpass` (und den übrigen Werten aus Schritt 4) neu starten.
+
+---
+
+### Fehler 9: Zugangsdaten falsch, obwohl die `-e`-Werte stimmen
+
+**Symptom:** API oder Adminer melden `password authentication failed for user "quest"`, `role "quest" does not exist` oder `database "questdb" does not exist`. Im Log von `quest-db` steht `Skipping initialization`.
+
+**Ursache:** Das Volume wurde bei einem früheren Versuch mit anderen Werten angelegt. `POSTGRES_USER`, `POSTGRES_PASSWORD` und `POSTGRES_DB` wirken nur beim ersten Start mit leerem Volume.
+
+**Lösung** (Daten im Volume sind danach weg):
+```bash
+docker rm -f quest-db
+docker volume rm quest-pg-data
+docker volume create quest-pg-data
+```
+Dann Schritt 4 wiederholen und `docker restart quest-api`.
+
+---
+
 ## Aufräumen am Ende
 
 ```bash
@@ -369,4 +462,4 @@ docker rmi container-quest-api:1.0
 
 ## Weiter
 
-- [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zu Docker Compose
+- [Übergang zu Compose](08-uebergang-zu-compose.md): Brücke zu Docker Compose

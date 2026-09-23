@@ -11,7 +11,7 @@ Hier sind Übungen, die du selbst ausprobieren kannst, um Docker zu vertiefen. A
     - 🟢 **Einsteiger**, jeder Schritt im Detail erklärt, inklusive Kontext (was ist der Dienst, was macht er)
     - 🟡 **Mittel**, du kennst die Befehle, kombinierst sie
     - 🔴 **Fortgeschritten**. Hinweise statt Rezepte
-    - 🏆 **Challenge**. Aufgabe ohne Lösung. Lösung aufklappbar
+    - 🏆 **Challenge**. Aufgabe ohne Rezept, Musterlösung zum Aufklappen
 
 ## Voraussetzung für alle Übungen
 
@@ -32,7 +32,7 @@ Hier sind Übungen, die du selbst ausprobieren kannst, um Docker zu vertiefen. A
 !!! info "Was du lernst"
     - Was passiert bei `docker run`
     - Der erste eigene Webserver in einem Container
-    - Der Unterschied zwischen Image und Container
+    - Der Unterschied zwischen Image und Container (Theorie: [Image und Container](image-und-container.md))
 
 #### Worum geht's: ganz einfach erklärt
 
@@ -69,7 +69,7 @@ Wahrscheinlich leer, hello-world ist ja schon beendet.
 docker ps -a
 ```
 
-Da siehst du den `hello-world`-Container mit `Exited (0)`, das heißt, er hat sauber beendet.
+Da siehst du den `hello-world`-Container mit `Exited (0)`, das heißt, er hat sich sauber beendet.
 
 #### Schritt 3: nginx starten
 
@@ -137,22 +137,16 @@ docker stop meinweb
 docker rm meinweb
 ```
 
-Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg, die Befehle dafür unterscheiden sich pro Shell:
+Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg. Er hat einen zufälligen Namen, den dir `docker ps -a` in der Spalte `NAMES` zeigt (zum Beispiel `happy_bell`). Lösche ihn über diesen Namen:
 
-=== "macOS / Linux"
-    ```bash
-    docker rm $(docker ps -aq)
-    ```
+```bash
+docker rm happy_bell
+```
 
-=== "Windows PowerShell"
-    ```powershell
-    docker rm @(docker ps -aq)
-    ```
+`happy_bell` ist nur ein Platzhalter. Dein Container heißt anders, also ersetze den Namen durch den, der bei dir in `docker ps -a` steht. Sonst meldet Docker `No such container`.
 
-=== "Windows CMD"
-    ```cmd
-    for /f "tokens=*" %i in ('docker ps -aq') do docker rm %i
-    ```
+!!! warning "Nicht einfach alle Container löschen"
+    Im Netz findet man oft `docker rm $(docker ps -aq)`. Das löscht **jeden** Container auf deinem Rechner, auch die aus anderen Projekten. Lösche gezielt über den Namen.
 
 !!! success "Geschafft!"
     Du hast zwei Container gestartet, einen davon sogar von außen (Browser) benutzt, einen von innen (Shell) angeschaut und alles sauber entfernt.
@@ -162,7 +156,7 @@ Zusätzlich räumst du den `hello-world`-Container von Schritt 1 mit weg, die Be
 ### Übung 2: Eigene HTML-Seite im Container
 
 !!! info "Was du lernst"
-    - Bind Mount: eigene Dateien in einen Container „reinhängen"
+    - Bind Mount: eigene Dateien in einen Container „reinhängen" (ausführlich in [Volumes und Persistenz](../docker-aufbau/volumes.md#bind-mounts-in-der-praxis))
     - Ohne eigenes Dockerfile trotzdem eigenen Inhalt ausliefern
 
 #### Worum geht's
@@ -208,7 +202,7 @@ Du willst **nicht** die nginx-Standardseite zeigen, sondern deine eigene HTML-Se
         <head><meta charset="UTF-8"><title>Meine Seite</title></head>
         <body><h1>Hallo aus meinem Container!</h1></body>
         </html>
-        "@ | Set-Content index.html
+        "@ | Set-Content -Encoding UTF8 index.html
         ```
 
 3. Container mit Bind Mount starten:
@@ -249,7 +243,7 @@ Du willst **nicht** die nginx-Standardseite zeigen, sondern deine eigene HTML-Se
 
 !!! info "Was du lernst"
     - Mehrere Container parallel auf unterschiedlichen Ports
-    - Verstehen, dass Container sich **gegenseitig nicht sehen** im Default-Bridge
+    - Warum der Container-Port bei beiden 80 bleiben darf, der Host-Port aber verschieden sein muss
 
 #### Aufgabe
 
@@ -296,9 +290,9 @@ Baue ein Image, das einen **personalisierten** nginx-Server startet, deine HTML-
 
 #### Schritte (Rahmen)
 
-1. Ordner `mein-nginx` anlegen.
-2. Darin `index.html` mit eigenem Inhalt.
-3. Darin ein `Dockerfile`:
+1. Ordner `mein-nginx` anlegen und mit `cd mein-nginx` hineinwechseln. Alle weiteren Befehle laufen in diesem Ordner.
+2. Darin `index.html` mit eigenem Inhalt anlegen. Unter Windows geht das mit `notepad index.html`, unter macOS mit `nano index.html` oder VS Code (`code index.html`). Eine Vorlage findest du in [Praxis: eigenes Image](praxis-eigenes-image.md#schritt-2-html-seite-erstellen).
+3. Darin ein `Dockerfile` (ohne Endung, unter Windows erst `New-Item -ItemType File Dockerfile`, dann `notepad Dockerfile`, sonst entsteht `Dockerfile.txt`):
     ```dockerfile
     FROM nginx:alpine
     COPY index.html /usr/share/nginx/html/index.html
@@ -311,11 +305,20 @@ Baue ein Image, das einen **personalisierten** nginx-Server startet, deine HTML-
     ```bash
     docker run -d --name test -p 8080:80 mein-nginx:1.0
     ```
-6. Browser prüfen. Alles gut? → aufräumen.
+6. Im Browser `http://localhost:8080` prüfen, danach den Container mit `docker rm -f test` entfernen.
 
 #### Bonus
 
-Ändere die `index.html`, baue neu, starte neu. Was passiert beim zweiten Build mit Cache?
+Ändere die `index.html`, baue mit neuem Tag (`docker build -t mein-nginx:1.1 .`) und starte wieder einen Container `test` auf Port 8080. Was passiert beim zweiten Build mit Cache?
+
+#### Aufräumen
+
+```bash
+docker rm -f test
+docker rmi mein-nginx:1.0 mein-nginx:1.1
+```
+
+Hast du den Bonus ausgelassen, meldet Docker für `mein-nginx:1.1` nur, dass es das Image nicht gibt. Das kannst du ignorieren.
 
 ---
 
@@ -359,7 +362,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     - `/`, eine Startseite mit deinem Namen, Ort, Hobbies und Links zu den Unterseiten
     - `/cv.html`, ein Mini-Lebenslauf (3 Stationen reichen)
     - `/projekte.html`, eine Liste von 2 bis 3 erdachten Projekten mit Beschreibung
-    - `/kontakt.html`. Kontakt-Infos (darfst du erfinden)
+    - `/kontakt.html`, Kontakt-Infos (darfst du erfinden)
 
     Bonus-Anforderungen:
 
@@ -371,7 +374,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
 
 ??? success "Musterlösung"
 
-    ### Schritt 1. Projektordner anlegen
+    **Schritt 1: Projektordner anlegen**
 
     === "macOS / Linux"
         ```bash
@@ -394,10 +397,11 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
         ```powershell
         @"
         <Dateiinhalt hier>
-        "@ | Set-Content dateiname.html
+        "@ | Set-Content -Encoding UTF8 dateiname.html
         ```
+        Das `-Encoding UTF8` ist wichtig: Ohne speichert Windows PowerShell die Datei in der alten Windows-Kodierung und Umlaute wie in „Selbstständig" erscheinen im Browser als Ersatzzeichen (�). In Notepad beim Speichern als Codierung **UTF-8** wählen (in Windows 11 der Standard).
 
-    ### Schritt 2. Gemeinsames CSS
+    **Schritt 2: Gemeinsames CSS**
 
     Erzeuge eine Datei `style.css`:
 
@@ -417,7 +421,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     hr { border-color: #1f4a2b; }
     ```
 
-    ### Schritt 3. Startseite `index.html`
+    **Schritt 3: Startseite `index.html`**
 
     ```html
     <!DOCTYPE html>
@@ -441,7 +445,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </html>
     ```
 
-    ### Schritt 4, `cv.html`
+    **Schritt 4: `cv.html`**
 
     ```html
     <!DOCTYPE html>
@@ -463,7 +467,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </html>
     ```
 
-    ### Schritt 5, `projekte.html`
+    **Schritt 5: `projekte.html`**
 
     ```html
     <!DOCTYPE html>
@@ -484,7 +488,7 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </html>
     ```
 
-    ### Schritt 6, `kontakt.html`
+    **Schritt 6: `kontakt.html`**
 
     ```html
     <!DOCTYPE html>
@@ -496,31 +500,33 @@ Alles stoppen, entfernen, das Image-Tag ebenfalls mit `docker rmi <name>`.
     </head>
     <body>
       <h1>Kontakt</h1>
-            <p>E-Mail: kontakt@beispiel.de</p>
+      <p>E-Mail: kontakt@beispiel.de</p>
       <p><a href="index.html">Zurück zur Startseite</a></p>
     </body>
     </html>
     ```
 
-    ### Schritt 7, `Dockerfile`
+    **Schritt 7: `Dockerfile`**
+
+    Unter Windows legst du die Datei zuerst mit `New-Item -ItemType File Dockerfile` an und öffnest sie dann mit `notepad Dockerfile`. Sonst entsteht `Dockerfile.txt` und der Build findet sie nicht.
 
     ```dockerfile
     FROM nginx:alpine
     COPY index.html cv.html projekte.html kontakt.html style.css /usr/share/nginx/html/
     ```
 
-    ### Schritt 8. Bauen und starten
+    **Schritt 8: Bauen und starten**
 
     ```bash
     docker build -t visitenkarte:1.0 .
     docker run -d --name meine-visitenkarte -p 9000:80 visitenkarte:1.0
     ```
 
-    ### Schritt 9. Im Browser testen
+    **Schritt 9: Im Browser testen**
 
     <http://localhost:9000>. Startseite mit Links zu allen Unterseiten.
 
-    ### Schritt 10. Aufräumen
+    **Schritt 10: Aufräumen**
 
     ```bash
     docker stop meine-visitenkarte

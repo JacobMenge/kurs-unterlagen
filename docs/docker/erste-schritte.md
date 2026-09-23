@@ -55,7 +55,7 @@ Du solltest Block für Client und Server bekommen. Wenn nur der Client steht und
 
         Wenn `docker` in der Gruppen-Ausgabe fehlt, hast du nach `sudo usermod -aG docker $USER` vermutlich vergessen, dich neu einzuloggen. Kurzfristig hilft `newgrp docker`.
 
-    Ausführlich: [Stolpersteine → Docker startet nicht](stolpersteine.md).
+    Ausführlich: [Stolpersteine → Docker startet nicht](stolpersteine.md#docker-startet-nicht-daemon-nicht-erreichbar).
 
 ---
 
@@ -83,7 +83,7 @@ This message shows that your installation appears to be working correctly.
 1. Docker sucht lokal nach einem Image namens `hello-world:latest`, findet keines.
 2. Docker holt es aus Docker Hub (Standard-Registry, siehe [Registry und Docker Hub](registry-und-dockerhub.md)).
 3. Docker erzeugt einen Container aus dem Image.
-4. Docker startet den Container. Der Container führt sein `CMD` aus (ein kleines Programm, das die Begrüßung druckt) und beendet sich sofort wieder.
+4. Docker startet den Container. Der Container führt sein [`CMD`](dockerfile-grundlagen.md#cmd-default-befehl-beim-start) aus (ein kleines Programm, das die Begrüßung druckt) und beendet sich sofort wieder.
 
 Das ist ein komplett normaler Container-Lebenszyklus, nur sehr kurz.
 
@@ -148,7 +148,7 @@ Dieser Befehl hat viel zu sagen. Gehen wir ihn durch:
 | `-d` | **Detached**: im Hintergrund, nicht im Vordergrund |
 | `--name web` | Gib dem Container den Namen `web` statt eines zufälligen |
 | `-p 8080:80` | **Port-Mapping**: Host-Port `8080` → Container-Port `80` |
-| `nginx` | Das Image. Kurz für `nginx:latest` |
+| `nginx` | Das Image. Kurz für `nginx:latest` (siehe [Tags](registry-und-dockerhub.md#tags-das-stille-drama)) |
 
 Erwartete Ausgabe:
 
@@ -183,20 +183,22 @@ Erscheint er nicht in `docker ps`, probier `docker ps -a`, dann siehst du, ob er
 Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
 
 ??? warning "Browser zeigt „Diese Seite ist nicht erreichbar" oder lädt nichts"
-    Vier häufige Ursachen, systematisch durchgehen:
+    Fünf häufige Ursachen, systematisch durchgehen:
 
     1. **Läuft der Container überhaupt?**
-       ```bash
-       docker ps
-       ```
-       Wenn nein → `docker ps -a` schauen, was passiert ist, dann `docker logs web`.
+
+        ```bash
+        docker ps
+        ```
+
+        Wenn nein → `docker ps -a` schauen, was passiert ist, dann `docker logs web`.
 
     2. **Ist das Port-Mapping aktiv?**
-       In der `docker ps`-Zeile muss `0.0.0.0:8080->80/tcp` stehen. Fehlt das Mapping, wurde `-p` vergessen. Lösung: Container neu starten mit `-p 8080:80`.
+        In der `docker ps`-Zeile muss `0.0.0.0:8080->80/tcp` stehen. Fehlt das Mapping, wurde `-p` vergessen. Lösung: Container neu starten mit `-p 8080:80`.
 
     3. **Port-Mapping umgedreht?** (häufigster Fehler)
-       Richtig: `-p HOST:CONTAINER` → `-p 8080:80`.
-       Falsch: `-p 80:8080` (dann hört Docker auf Host-Port 80 und leitet auf Container-Port 8080, aber nginx im Container hört intern auf Port 80, nicht 8080).
+        Richtig: `-p HOST:CONTAINER` → `-p 8080:80`.
+        Falsch: `-p 80:8080` (dann hört Docker auf Host-Port 80 und leitet auf Container-Port 8080, aber nginx im Container hört intern auf Port 80, nicht 8080).
 
     4. **Anderer Prozess belegt den Host-Port bereits?**
 
@@ -209,6 +211,8 @@ Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
             ```powershell
             netstat -ano | findstr :8080
             ```
+
+            Die letzte Zahl ist die Prozess-ID (PID). Mit `Get-Process -Id <PID>` siehst du, welches Programm das ist.
 
         Wenn etwas anderes den Port belegt: entweder den Blockierer beenden, oder einen anderen Host-Port nehmen:
         ```bash
@@ -231,10 +235,10 @@ Du solltest die nginx-Default-Seite sehen: „Welcome to nginx!"
 
         Kommt hier eine Antwort, liegt das Problem nur im Browser oder Netzwerk, nicht bei Docker.
 
-    Mehr in [Stolpersteine → Ports](stolpersteine.md).
+    Mehr in [Stolpersteine → Ports](stolpersteine.md#ports).
 
 ??? info "Warum genau Port 8080 und nicht 80?"
-    Auf dem Host sind die Ports unter 1024 (wie 80 und 443) **privilegierte Ports**, die nur mit Admin-Rechten oder `sudo` genutzt werden können. Ports ab 1024 kann jeder normale User frei nutzen. Deshalb ist 8080 der traditionelle „Ersatz-Port für HTTP im Entwickleralltag".
+    Port 80 ist auf vielen Rechnern schon belegt, zum Beispiel durch IIS, einen lokal installierten Webserver oder einen anderen Container. Unter Linux gelten die Ports unter 1024 außerdem als **privilegierte Ports**, die normale Programme nur mit Root-Rechten öffnen dürfen. Deshalb ist 8080 der übliche Ausweich-Port für HTTP im Entwickleralltag.
 
 **Was ist gerade passiert:**
 
@@ -358,7 +362,7 @@ Du siehst: „It works!", die Default-Seite von Apache httpd.
 **Was das zeigt:**
 
 - Docker ist nicht für eine bestimmte Software „gemacht". Es ist ein **standardisiertes Format** zum Verpacken und Starten von Anwendungen.
-- Der Befehl sieht **exakt gleich** aus wie bei nginx. Nur das Image-Name am Ende ist anders.
+- Der Befehl sieht **exakt gleich** aus wie bei nginx. Nur der Image-Name am Ende ist anders.
 
 Aufräumen:
 
@@ -387,7 +391,7 @@ docker ps
 ```text
 CONTAINER ID   IMAGE    ...   PORTS                   NAMES
 a1b2c3d4       nginx    ...   0.0.0.0:8080->80/tcp    web
-e5f6g7h8       httpd    ...   0.0.0.0:8081->80/tcp    web-alt
+e5f6a7b8       httpd    ...   0.0.0.0:8081->80/tcp    web-alt
 ```
 
 Zwei Webserver, zwei Ports, ein Host. Du kannst beide im Browser gleichzeitig aufrufen.

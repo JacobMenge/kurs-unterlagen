@@ -194,7 +194,7 @@ Postgres läuft, aber wir sehen nichts davon. Jetzt bringen wir **Adminer** dazu
 
 ### Schritt 2.1: Eigenes Netzwerk anlegen
 
-Damit Adminer die Datenbank per Name `db` findet, brauchen wir ein eigenes Docker-Netzwerk (im Default-Bridge gibt es kein DNS):
+Damit Adminer die Datenbank per Name `db` findet, brauchen wir ein eigenes Docker-Netzwerk. Im Default-Bridge gibt es keine Namensauflösung, den Unterschied erklärt die Seite [Docker-Netzwerke](docker-networks.md#default-bridge-vs-user-defined-bridges).
 
 ```bash
 docker network create kurs-netz
@@ -209,7 +209,7 @@ docker network ls
 Neue Zeile mit `kurs-netz`.
 
 !!! warning "Anders als beim Volume: Das Netz muss vorher existieren"
-    Ein fehlendes Volume legt Docker beim ersten `-v` selbst an. Ein fehlendes **Netz nicht**: Startest du einen Container mit `--network` auf ein Netz, das es nicht gibt, bekommst du zwar eine Container-ID zurück, der Container bleibt aber im Zustand `Created` hängen und taucht in `docker ps` nie auf. `docker ps -a` zeigt ihn samt Fehler `network kurs-netz not found`. Also: erst `docker network create`, dann starten.
+    Ein fehlendes Volume legt Docker beim ersten `-v` selbst an. Ein fehlendes **Netz nicht**: Startest du einen Container mit `--network` auf ein Netz, das es nicht gibt, meldet Docker `network kurs-netz not found`. Der Container bleibt trotzdem im Zustand `Created` liegen und taucht in `docker ps` nie auf, nur in `docker ps -a`. Er belegt aber seinen Namen: Vor dem nächsten Versuch entfernst du ihn mit `docker rm db`. Also: erst `docker network create`, dann starten.
 
 ### Schritt 2.2: Postgres ins Netzwerk aufnehmen
 
@@ -267,7 +267,7 @@ Der Postgres-Container läuft schon, aber nicht im neuen Netzwerk. Zwei Wege:
           postgres:16
         ```
 
-    Dieser Weg ist sauberer, in der `docker ps`-Ausgabe siehst du sofort, dass `db` im richtigen Netz ist. Das Volume bleibt erhalten, die Daten sind also noch da.
+    Dieser Weg ist sauberer, denn das Netz steht direkt im Startbefehl, genau wie später in Compose. Das Volume bleibt erhalten, die Daten sind also noch da. Ob `db` im richtigen Netz hängt, zeigt `docker network inspect kurs-netz` im Abschnitt „Containers".
 
 Wir nehmen hier **Variante B**, so übst du `stop` + `rm` + `run` noch einmal explizit.
 
@@ -541,11 +541,11 @@ Wenn du fertig bist:
 docker stop adminer db
 docker rm adminer db
 docker network rm kurs-netz
+```
 
-# Volume behalten (Daten bleiben):
-docker volume ls
+Das Volume `postgres-daten` bleibt dabei stehen und mit ihm die Daten. Willst du auch die Daten löschen, folgt ein eigener Befehl. Er ist endgültig:
 
-# ODER: Volume auch löschen (Daten weg!):
+```bash
 docker volume rm postgres-daten
 ```
 
@@ -569,13 +569,15 @@ Siehe [Stolpersteine](stolpersteine.md) für eine ausführliche Liste. Die **Top
         ```powershell
         netstat -ano | findstr :8080
         ```
+
+    Die letzte Zahl in der Zeile ist die Prozessnummer (PID). `Get-Process -Id 1234` (mit deiner PID) nennt das Programm dazu. Steht dort `com.docker.backend`, belegt ein anderer Container den Port, dann hilft `docker ps`.
 3. **Nach Stop/Start sind Daten weg** → das **Volume** muss beim zweiten `docker run` wieder gemountet werden. Ohne `-v postgres-daten:/var/lib/postgresql/data` hat der neue Container keine Verbindung zum alten Volume.
 
 ---
 
 ## Ausblick
 
-Du hast gerade fünf einzelne `docker`-Befehle getippt (plus Stop/Rm-Zyklus). Das geht auch eleganter: **Docker Compose** beschreibt all das in **einer YAML-Datei** und startet es mit einem einzigen Befehl.
+Du hast gerade eine Handvoll einzelner `docker`-Befehle getippt (plus Stop/Rm-Zyklus). Das geht auch eleganter: **Docker Compose** beschreibt all das in **einer YAML-Datei** und startet es mit einem einzigen Befehl.
 
 Das ist das Thema des **Compose-Kapitels**, siehe [Docker Compose](../docker-compose/index.md).
 
@@ -584,4 +586,4 @@ Das ist das Thema des **Compose-Kapitels**, siehe [Docker Compose](../docker-com
 ## Merksatz
 
 !!! success "Merksatz"
-    > **Drei Säulen reichen: Volume für Persistenz, ENV für Konfiguration, Netzwerk für Kommunikation. Mit Postgres + Adminer hast du alle drei in 30 Minuten praktisch erlebt.**
+    > **Drei Säulen reichen: Volume für Persistenz, ENV für Konfiguration, Netzwerk für Kommunikation. Mit Postgres + Adminer hast du alle drei in einer knappen Stunde praktisch erlebt.**

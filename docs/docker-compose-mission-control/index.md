@@ -72,7 +72,8 @@ Download:
 2. Auf den grünen Knopf **Code** klicken, dann **Download ZIP**.
 3. Die ZIP-Datei entpacken (Windows: Rechtsklick, **Alle extrahieren**),
    zum Beispiel in euren Dokumente-Ordner. Der entpackte Ordner heißt
-   `kurs-unterlagen-main`.
+   `kurs-unterlagen-main`. Liegt darin noch einmal ein Ordner
+   `kurs-unterlagen-main`, geht ihr in den inneren.
 4. Im Explorer bis in den Unterordner
    `kurs-unterlagen-main` → `apps` → `docker-compose-mission-control`
    klicken. Dort liegen `README.md`, `frontend/`, `backend-node/`,
@@ -82,8 +83,10 @@ Download:
     === "Windows"
         Rechtsklick auf eine freie Stelle im Ordner, dann
         **Im Terminal öffnen**. Fehlt der Eintrag: Windows-Terminal
-        starten und `cd ` tippen (mit Leerzeichen), dann den Pfad oben
-        aus der Explorer-Adressleiste kopieren, einfügen, Enter.
+        starten, `cd "` tippen, dann den Pfad oben aus der
+        Explorer-Adressleiste kopieren und einfügen, ein `"` dahinter
+        setzen und Enter drücken. Die Anführungszeichen braucht es, wenn
+        der Pfad Leerzeichen enthält (etwa `C:\Users\Max Mustermann`).
 
     === "macOS"
         Rechtsklick auf den Ordner im Finder, dann

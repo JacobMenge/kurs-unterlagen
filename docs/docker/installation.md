@@ -440,11 +440,21 @@ sudo usermod -aG docker $USER
 ??? warning "Fehler „conflict: unable to remove repository reference"
     Wenn du nach längerer Nutzung Plattenplatz zurückholen willst und `docker rmi` verweigert wird, weil ein Container das Image noch referenziert:
 
+    `docker ps -a` zeigt alle Container, auch gestoppte. In der Spalte `IMAGE` siehst du, welcher Container das Image noch benutzt. Diesen Container löschst du gezielt über seinen Namen, danach lässt sich das Image entfernen:
+
     ```bash
-    docker ps -a                 # zeigt alle Container
-    docker rm $(docker ps -aq)   # entfernt alle Container
-    docker rmi <image-id>        # jetzt geht das Image auch weg
+    docker ps -a
     ```
+
+    ```bash
+    docker rm <containername>
+    ```
+
+    ```bash
+    docker rmi <image-id>
+    ```
+
+    Die spitzen Klammern sind Platzhalter: Ersetze sie samt Klammern durch deine Werte.
 
 ??? info "Rootless Docker auf Linux"
     Für Entwickler, die ohne `docker`-Gruppe arbeiten wollen, gibt es seit Docker 20.10 einen rootless-Modus (Docker läuft komplett im User-Space). Setup ist aber fummelig; für den Einstieg empfehle ich den klassischen Weg oben. Doku: <https://docs.docker.com/engine/security/rootless/>

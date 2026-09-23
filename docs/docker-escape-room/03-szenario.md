@@ -6,7 +6,7 @@ description: "Die Container Quest GmbH braucht euch: Story, Mission, Zielarchite
 # Szenario: Die Container Quest GmbH braucht euch
 
 !!! note "Hinweis"
-    Die „Container Quest GmbH" ist eine **fiktive Firma** – nur eine Geschichte, damit die Übung greifbarer wird. Das Setup, das ihr baut, ist aber sehr nahe an Setups, die in echten Projekten vorkommen.
+    Die „Container Quest GmbH" ist eine **fiktive Firma**, nur eine Geschichte, damit die Übung greifbarer wird. Das Setup, das ihr baut, ist aber sehr nahe an Setups, die in echten Projekten vorkommen.
 
 Die **Container Quest GmbH** betreibt eine kleine interne Plattform für Team-Challenges. Kurz vor einer wichtigen Demo funktioniert plötzlich nichts mehr:
 
@@ -22,7 +22,7 @@ Die **Container Quest GmbH** betreibt eine kleine interne Plattform für Team-Ch
 
 ## Eure Mission
 
-Bringt die Plattform wieder online – mit reinen Docker-Befehlen, in 90 Minuten, im Team.
+Bringt die Plattform wieder online: mit reinen Docker-Befehlen, in 90 Minuten, im Team.
 
 ---
 
@@ -72,7 +72,7 @@ flowchart TD
 - Du als Nutzer (Browser) erreichst zwei Dinge: die API auf Port 3000 und Adminer auf Port 8080.
 - Die API spricht intern (im Docker-Netz) mit der Datenbank über den Hostnamen `quest-db`.
 - Adminer spricht ebenfalls über `quest-db` mit der Datenbank.
-- Die Datenbank speichert ihre Daten **nicht im Container**, sondern in einem **Docker-Volume** (`quest-pg-data`). Dadurch überleben die Daten einen Container-Restart.
+- Die Datenbank speichert ihre Daten **nicht im Container**, sondern in einem **Docker-Volume** (`quest-pg-data`). Dadurch überleben die Daten sogar das **Löschen und Neuerstellen** des Containers.
 
 ---
 
@@ -84,5 +84,5 @@ flowchart TD
 
 ## Weiter
 
-- [Aufgabenübersicht](04-aufgabenuebersicht.md) – jetzt geht's los
+- [Aufgabenübersicht](04-aufgabenuebersicht.md): jetzt geht's los
 - Falls ihr stockt: [Hilfekarten](05-hilfekarten.md)

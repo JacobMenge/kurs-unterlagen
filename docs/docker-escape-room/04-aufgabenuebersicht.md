@@ -1,9 +1,9 @@
 ---
 title: "Aufgabenübersicht"
-description: "Die 10 Aufgaben des Docker Escape Rooms – plus Bonus, Checkliste, Regeln."
+description: "Die 10 Aufgaben des Docker Escape Rooms, dazu Bonus, Checkliste, Regeln."
 ---
 
-# Docker Escape Room – Aufgabenübersicht
+# Docker Escape Room: Aufgabenübersicht
 
 ## Ziel
 
@@ -18,7 +18,7 @@ Ihr arbeitet in Kleingruppen als kleines DevOps-Team. Eure Aufgabe ist es, eine 
 
 ## Wichtiger Hinweis
 
-Das ist eine **Docker-Aufgabe**. Die Beispiel-App besteht zwar aus Node.js, Express und PostgreSQL – aber **ihr müsst diese Technologien nicht im Detail verstehen**. Ihr müsst keinen Code schreiben und kein SQL benutzen.
+Das ist eine **Docker-Aufgabe**. Die Beispiel-App besteht zwar aus Node.js, Express und PostgreSQL. **Ihr müsst aber diese Technologien nicht im Detail verstehen**. Ihr müsst keinen Code schreiben und kein SQL benutzen.
 
 Konzentriert euch auf:
 
@@ -54,24 +54,58 @@ Verteilt am Anfang die Rollen in eurer Gruppe:
 | **Debugger** | Prüft Logs, Netzwerke, Ports und Fehlermeldungen |
 | **Dokumentator** | Notiert Befehle, Probleme und Lösungswege |
 
-Bei kleineren Gruppen können Rollen kombiniert werden – aber **immer einer** als Dokumentator!
+Bei kleineren Gruppen können Rollen kombiniert werden, aber **immer einer** als Dokumentator!
 
 ---
 
 # Eure Aufgaben
 
-## Aufgabe 1 – Projekt vorbereiten
+## Aufgabe 1: Projekt vorbereiten
 
-Macht euch zuerst mit dem Projektordner vertraut. Der Code liegt im Repository unter:
+Macht euch zuerst mit dem Projektordner vertraut.
 
-→ **[github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room](https://github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room)**
+### Code holen
 
-Wenn ihr das Repo schon lokal geklont habt, findet ihr den Ordner direkt unter `apps/docker-escape-room/` im Projektverzeichnis. Andernfalls vorher klonen:
+Der Code liegt fertig auf **GitHub**, dort wohnt unser Kurs-Repository:
+ein Projektarchiv im Netz, aus dem sich jeder den aktuellen Stand holen
+kann. Git braucht ihr dafür nicht, der Download reicht:
 
-```bash
-git clone https://github.com/JacobMenge/kurs-unterlagen.git
-cd kurs-unterlagen/apps/docker-escape-room
-```
+1. Im Browser öffnen:
+   [github.com/JacobMenge/kurs-unterlagen](https://github.com/JacobMenge/kurs-unterlagen)
+2. Auf den grünen Knopf **Code** klicken, dann **Download ZIP**.
+3. Die ZIP-Datei entpacken (Windows: Rechtsklick, **Alle extrahieren**),
+   zum Beispiel in euren Dokumente-Ordner. Der entpackte Ordner heißt
+   `kurs-unterlagen-main`. Liegt darin noch einmal ein Ordner
+   `kurs-unterlagen-main` (also `kurs-unterlagen-main\kurs-unterlagen-main`),
+   geht ihr in den inneren.
+4. Im Explorer bis in den Unterordner
+   `kurs-unterlagen-main` → `apps` → `docker-escape-room`
+   klicken. Dort liegen `Dockerfile`, `package.json`, `README.md` und
+   der Ordner `src`: Das ist euer Arbeitsordner für heute.
+5. Ein Terminal **in diesem Ordner** öffnen:
+
+    === "Windows"
+        Rechtsklick auf eine freie Stelle im Ordner, dann
+        **Im Terminal öffnen**. Fehlt der Eintrag: Windows-Terminal
+        starten und `cd ` tippen (mit Leerzeichen), dann den Pfad
+        aus der Explorer-Adressleiste kopieren, einfügen, Enter.
+
+    === "macOS"
+        Rechtsklick auf den Ordner im Finder, dann
+        **Neues Terminal beim Ordner**. Alternativ Terminal öffnen,
+        `cd ` tippen und den Ordner in das Fenster ziehen, Enter.
+
+    === "Linux"
+        Im Dateimanager **Im Terminal öffnen** wählen oder im Terminal
+        mit `cd` in den Ordner wechseln.
+
+Kontrolle: `dir` (Windows) bzw. `ls` (macOS, Linux) zeigt `Dockerfile`,
+`package.json`, `README.md` und `src`.
+
+??? note "Wer Git schon nutzt"
+    Dann geht wie gewohnt `git clone https://github.com/JacobMenge/kurs-unterlagen.git`
+    und der Ordner heißt `kurs-unterlagen` statt `kurs-unterlagen-main`.
+    Für alle anderen ist der ZIP-Weg völlig gleichwertig.
 
 **Prüft:**
 
@@ -87,31 +121,31 @@ cd kurs-unterlagen/apps/docker-escape-room
 
 ---
 
-## Aufgabe 2 – Docker-Netzwerk erstellen
+## Aufgabe 2: Docker-Netzwerk erstellen
 
 Erstellt ein eigenes Docker-Netzwerk für die Anwendung. Dieses Netzwerk soll später von **allen drei Containern** genutzt werden (API, DB, Adminer).
 
 **Warum?**
 
-> Container sollen sich untereinander über Container-Namen erreichen können. Das geht nur in einem **User-Defined-Bridge-Netzwerk** – das Default-Netzwerk hat kein DNS.
+> Container sollen sich untereinander über Container-Namen erreichen können. Das klappt nur in einem **eigenen (user-defined) Bridge-Netzwerk**. Im Standardnetz `bridge` gibt es keine Namensauflösung über Containernamen ([Default-Bridge vs. User-Defined](../docker-aufbau/docker-networks.md#default-bridge-vs-user-defined-bridges)).
 
 **Docker-Fokus:** eigenes Netzwerk erstellen, Netzwerke anzeigen, Netzwerk später für Container verwenden.
 
 ---
 
-## Aufgabe 3 – Docker-Volume erstellen
+## Aufgabe 3: Docker-Volume erstellen
 
 Erstellt ein Docker-Volume für die Datenbank.
 
 **Warum?**
 
-> Die Datenbankdaten sollen erhalten bleiben, auch wenn der Datenbank-Container gelöscht oder neu erstellt wird. Ohne Volume sind alle Daten beim `docker rm` weg.
+> Die Datenbankdaten sollen erhalten bleiben, auch wenn der Datenbank-Container gelöscht oder neu erstellt wird. Ohne Volume sind alle Daten beim `docker rm` weg. Mehr dazu: [Volumes](../docker-aufbau/volumes.md).
 
 **Docker-Fokus:** Volume erstellen, später in Container einbinden, Persistenz verstehen.
 
 ---
 
-## Aufgabe 4 – PostgreSQL-Datenbank starten
+## Aufgabe 4: PostgreSQL-Datenbank starten
 
 Startet einen PostgreSQL-Container.
 
@@ -126,7 +160,12 @@ Verwendet diese Werte:
 | Passwort | `questpass` |
 | Volume | `quest-pg-data` |
 | PostgreSQL-Datenpfad im Container | `/var/lib/postgresql/data` |
-| Image-Empfehlung | `postgres:16-alpine` |
+| Image (genau diesen Tag nehmen) | `postgres:16-alpine` |
+
+Welche Umgebungsvariablen das Postgres-Image für Datenbank, Benutzer und Passwort erwartet, habt ihr in der [Praxis Postgres & Adminer](../docker-aufbau/praxis-multi-container.md) gesehen. Kurzfassung steht im [Docker-Recap](02-docker-recap.md#postgres-konfigurieren).
+
+!!! warning "Warum genau `postgres:16-alpine`?"
+    Ohne Tag bekommt ihr eine neuere Postgres-Version, die ihre Daten unter einem anderen Pfad ablegt. Dann passt der Datenpfad aus der Tabelle nicht mehr.
 
 **Prüft anschließend:**
 
@@ -140,7 +179,7 @@ Verwendet diese Werte:
 
 ---
 
-## Aufgabe 5 – API-Image bauen
+## Aufgabe 5: API-Image bauen
 
 Baut aus der Beispiel-Anwendung ein eigenes Docker-Image:
 
@@ -150,14 +189,14 @@ container-quest-api:1.0
 
 **Achtet darauf:**
 
-- Ihr müsst euch im richtigen Ordner befinden (`apps/docker-escape-room/`).
+- Ihr müsst euch im richtigen Ordner befinden (`kurs-unterlagen-main/apps/docker-escape-room/`, siehe Aufgabe 1).
 - Das Dockerfile muss gefunden werden.
 - Der Build soll ohne Fehler durchlaufen.
 
 **Prüft danach:**
 
-- Ist das Image vorhanden? (`docker images` zeigt `container-quest-api` mit Tag `1.0`)
-- Lief der Build ohne rote `ERROR`-Zeilen durch? Mit aktuellem Docker (BuildKit) endet der Output auf `naming to docker.io/library/container-quest-api:1.0` – das ist das Erfolgszeichen.
+- Ist das Image vorhanden? (`docker images` zeigt `container-quest-api` mit Tag `1.0`, je nach Docker-Version auch zusammen als `container-quest-api:1.0`)
+- Lief der Build ohne rote `ERROR`-Zeilen durch? Mit aktuellem Docker (BuildKit) steht im Output die Zeile `naming to docker.io/library/container-quest-api:1.0`: Das ist das Erfolgszeichen. Zeilen mit `npm notice` sind harmlos.
 
 **Docker-Fokus:** Build-Kontext, Dockerfile verwenden, Image taggen, Build-Ausgabe lesen.
 
@@ -165,9 +204,9 @@ container-quest-api:1.0
 
 ---
 
-## Aufgabe 6 – API-Container starten
+## Aufgabe 6: API-Container starten
 
-Startet nun den API-Container. Die API braucht mehrere Informationen, um die Datenbank zu erreichen:
+Startet nun den API-Container. Die API braucht mehrere Informationen, um die Datenbank zu erreichen. Ihr übergebt sie als Umgebungsvariablen mit `-e` ([Umgebungsvariablen](../docker-aufbau/umgebungsvariablen.md#die-drei-wege-env-variablen-zu-setzen)):
 
 | Information | Wert |
 |---|---|
@@ -182,7 +221,7 @@ Startet nun den API-Container. Die API braucht mehrere Informationen, um die Dat
 | `PGPASSWORD` | `questpass` |
 
 !!! warning "Achtung: localhost-Falle"
-    Überlegt **genau**, ob die API die Datenbank über `localhost` erreichen kann. (Spoiler: nein. Schaut sorgfältig in die Tabelle oben, welcher Wert für `PGHOST` steht – und warum genau dieser.)
+    Überlegt **genau**, ob die API die Datenbank über `localhost` erreichen kann. (Spoiler: nein. Schaut sorgfältig in die Tabelle oben, welcher Wert für `PGHOST` steht und warum genau dieser.)
 
 **Prüft anschließend:**
 
@@ -195,12 +234,12 @@ Startet nun den API-Container. Die API braucht mehrere Informationen, um die Dat
 
 ---
 
-## Aufgabe 7 – API testen
+## Aufgabe 7: API testen
 
 Testet die wichtigsten Endpunkte der API.
 
 !!! info "Kurz: was sind GET und POST?"
-    Eine API spricht **HTTP** – das gleiche Protokoll, mit dem dein Browser eine Webseite lädt. Es gibt verschiedene HTTP-Methoden:
+    Eine API spricht **HTTP**, das gleiche Protokoll, mit dem dein Browser eine Webseite lädt. Es gibt verschiedene HTTP-Methoden:
 
     - **GET** = „Daten abrufen, ohne etwas zu verändern". Ein normaler Browser-Aufruf ist immer GET.
     - **POST** = „Daten senden, Server soll etwas anlegen oder verarbeiten". Wird typischerweise mit einem **JSON-Body** kombiniert: `{"team": "Alpha", ...}`.
@@ -234,6 +273,8 @@ GET  http://localhost:3000/api/scoreboard
     Invoke-RestMethod http://localhost:3000/health
     Invoke-RestMethod http://localhost:3000/db-check
     ```
+
+    Meldet PowerShell nur `(500) Interner Serverfehler`, ruft `/db-check` im Browser oder mit `curl.exe http://localhost:3000/db-check` auf. Dort seht ihr die genaue Fehlermeldung.
 
 **Beispieldaten für POST:**
 
@@ -284,7 +325,7 @@ GET  http://localhost:3000/api/scoreboard
 
 ---
 
-## Aufgabe 8 – Adminer starten
+## Aufgabe 8: Adminer starten
 
 Startet zusätzlich einen Adminer-Container.
 
@@ -309,7 +350,7 @@ Adminer soll im Browser erreichbar sein unter `http://localhost:8080`.
 | Datenbank | `questdb` |
 
 !!! warning "Auch hier: nicht `localhost` als Server eintragen"
-    Adminer läuft **im Container**. Aus Sicht des Adminer-Containers ist `localhost` der Adminer-Container selbst – dort gibt's keine Datenbank.
+    Adminer läuft **im Container**. Aus Sicht des Adminer-Containers ist `localhost` der Adminer-Container selbst. Dort gibt's keine Datenbank.
 
     Adminer findet die DB über den Container-Namen `quest-db`, weil beide im Netzwerk `quest-net` hängen und Docker-DNS sie dort über den Namen erreichbar macht.
 
@@ -324,7 +365,7 @@ Adminer soll im Browser erreichbar sein unter `http://localhost:8080`.
 
 ---
 
-## Aufgabe 9 – Persistenz prüfen
+## Aufgabe 9: Persistenz prüfen
 
 Prüft, ob eure Daten **wirklich** erhalten bleiben.
 
@@ -334,22 +375,22 @@ Prüft, ob eure Daten **wirklich** erhalten bleiben.
 2. Prüft den Eintrag über Adminer oder `GET /api/entries`.
 3. **Stoppt** den DB-Container (`docker stop quest-db`).
 4. **Entfernt** ihn (`docker rm quest-db`).
-5. **Startet** ihn erneut – mit demselben Volume!
+5. **Startet** ihn erneut: mit demselben Volume, demselben Netzwerk und denselben `-e`-Werten!
 6. Auch den API-Container neu starten (siehe Erklärung unten).
 7. Prüft, ob der Eintrag noch vorhanden ist.
 
 ??? info "Warum muss die API neu gestartet werden?"
-    Die API hält **Datenbankverbindungen in einem Pool** (Connection Pool). Wenn die DB hinter ihr verschwindet und neu startet, sind diese alten Verbindungen tot – die API würde Fehler werfen, bis sie neue Verbindungen aufbaut.
+    Die API hält offene **Datenbankverbindungen in einem Pool** (Connection Pool). Stoppt ihr die DB, kappt sie diese Verbindungen. Die Beispiel-App fängt das nicht ab und stürzt ab: `docker ps -a` zeigt `quest-api` danach mit Status `Exited (1)`.
 
-    Ein einfacher `docker restart quest-api` baut alle Verbindungen frisch auf. In Produktion gibt es elegantere Lösungen (Auto-Reconnect, Healthchecks), aber für die Übung ist Restart der einfachste und ehrlichste Weg.
+    Sobald `quest-db` mit demselben Volume wieder läuft, startet `docker restart quest-api` die API neu und baut alle Verbindungen frisch auf. In Produktion gibt es elegantere Lösungen (Auto-Reconnect, Healthchecks), aber für die Übung ist Restart der einfachste und ehrlichste Weg.
 
 **Ziel:**
 
-> Ihr könnt erklären, warum das Volume wichtig ist – und was passiert, wenn man es weglässt.
+> Ihr könnt erklären, warum das Volume wichtig ist und was passiert, wenn man es weglässt.
 
 ---
 
-## Aufgabe 10 – Debugging dokumentieren
+## Aufgabe 10: Debugging dokumentieren
 
 Dokumentiert während der Aufgabe **mindestens ein** Problem, das bei euch aufgetreten ist.
 
@@ -385,7 +426,7 @@ Jede Gruppe zeigt am Ende kurz:
 3. **Docker-Volume** (`docker volume ls` zeigt `quest-pg-data`)
 4. **API-Test** (mind. `/health`, `/db-check`, `/api/entries`)
 5. **Adminer-Login** und Tabelleninhalt im Browser
-6. **Reflexion** – siehe [Abgabe & Reflexion](06-abgabe-und-reflexion.md)
+6. **Reflexion**: siehe [Abgabe & Reflexion](06-abgabe-und-reflexion.md)
 
 ---
 
@@ -398,7 +439,7 @@ Jede Gruppe zeigt am Ende kurz:
 - eigene Notizen
 - Terminal, Browser, Postman, curl
 - Zusammenarbeit in der Gruppe
-- **Google und KI-Tools** (ChatGPT, Gemini, …) – aber bitte nur für **einzelne Fragen, an denen ihr feststeckt**. Nicht „löst mir die ganze Aufgabe": dann lernt ihr nichts. Wenn ihr die Lösung kopiert, bevor ihr verstanden habt, wofür sie da ist, raubt ihr euch selbst den Aha-Moment.
+- **Google und KI-Tools** (ChatGPT, Gemini, …), aber bitte nur für **einzelne Fragen, an denen ihr feststeckt**. Nicht „löst mir die ganze Aufgabe": dann lernt ihr nichts. Wenn ihr die Lösung kopiert, bevor ihr verstanden habt, wofür sie da ist, raubt ihr euch selbst den Aha-Moment.
 
 ## ❌ Nicht erlaubt
 
@@ -461,14 +502,14 @@ Die konkreten Befehle für diese Aufgabe müsst ihr selbst zusammensetzen. Falls
 
 Wenn ihr früher fertig seid:
 
-## Bonus 1 – Anderer Host-Port
+## Bonus 1: Anderer Host-Port
 
 Startet die API so, dass sie auf eurem Rechner über einen **anderen Port** erreichbar ist (z.B. `9000:3000`). Erklärt danach den Unterschied zwischen Host-Port und Container-Port.
 
 !!! tip "Welche Ports sind frei?"
     Port `8080` ist bei dieser Übung schon von **Adminer** belegt. Nehmt einen anderen freien Port (z.B. `9000`, `9090`, `5050`). Im Browser ruft ihr die API dann unter `http://localhost:<euer-port>` auf.
 
-## Bonus 2 – Container untersuchen
+## Bonus 2: Container untersuchen
 
 Findet heraus mit `docker inspect` und `docker network inspect quest-net`:
 
@@ -477,11 +518,11 @@ Findet heraus mit `docker inspect` und `docker network inspect quest-net`:
 - Welche Umgebungsvariablen wurden im API-Container gesetzt?
 - Welche Mounts nutzt der Datenbank-Container?
 
-## Bonus 3 – Mehrere Einträge + Scoreboard
+## Bonus 3: Mehrere Einträge + Scoreboard
 
 Erstellt mehrere Einträge für **euer Team** und seht euch das Scoreboard an: `GET /api/scoreboard`. Welches Team führt?
 
-## Bonus 4 – Mini-Erklärung für Compose
+## Bonus 4: Mini-Erklärung für Compose
 
 Schreibt in **drei Sätzen** auf:
 
@@ -493,6 +534,6 @@ Aber: Keine Compose-Datei schreiben.
 
 ## Wenn ihr nicht weiterkommt
 
-→ [Hilfekarten](05-hilfekarten.md) (10 abgestufte Hinweise)
+→ [Hilfekarten](05-hilfekarten.md) (12 Hilfekarten)
 
 → Im Plenum nachfragen oder die [Musterlösung](07-loesung.md) konsultieren

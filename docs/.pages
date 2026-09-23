@@ -1,7 +1,9 @@
 nav:
   - "Start": index.md
   - "Fahrplan": fahrplan.md
-  - "Übungen": uebungen.md
+  - "Übungen":
+      - "Alle Übungen": uebungen.md
+      - "Docker-Lernpfad": docker-uebungen.md
   - "Kursinfo": kurs
   - "1 · Planung & Integration":
       - "Worum es geht": thema-1.md
@@ -13,6 +15,7 @@ nav:
       - "Praxis: Escape Room": docker-escape-room
       - "Docker Compose": docker-compose
       - "Praxis: Mission Control": docker-compose-mission-control
+      - "Praxis: Docker-Training": docker-training
       - "Industrie & IoT": industrie-iot
       - "Docker für Profis": docker-profi
       - "Infrastruktur & Architektur": infrastruktur-planung

@@ -1,19 +1,19 @@
 ---
 title: "Docker-Vertiefung"
-description: "Fünf zusätzliche Docker-Übungen zwischen Escape Room und Compose – jede in 15–25 Minuten machbar, alle ohne Compose."
+description: "Fünf zusätzliche Docker-Übungen zwischen Aufbau-Block und Escape Room, jede in 15 bis 25 Minuten machbar, alle ohne Compose."
 ---
 
 # Docker-Vertiefung
 
-Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufbau-Block gelernt und im **Docker Escape Room** geübt hast. Jede Übung ist **eigenständig** – du kannst sie in beliebiger Reihenfolge bearbeiten.
+Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufbau-Block gelernt hast. Sie sind eine gute Vorbereitung auf den [Docker Escape Room](../docker-escape-room/index.md). Jede Übung ist **eigenständig**, du kannst sie in beliebiger Reihenfolge bearbeiten.
 
 !!! info "Wann ist dieser Block sinnvoll?"
-    - **Als Zugabe**, wenn du im Escape Room schnell fertig wirst und mehr machen willst.
-    - **Als Vorbereitung** auf Docker Compose.
+    - **Als Zugabe**, wenn du mit den Übungen im Aufbau-Block schnell fertig bist und mehr machen willst.
+    - **Als Vorbereitung** auf den Escape Room und auf Docker Compose.
     - **Zum Nachschlagen**, um die einzelnen Themen in eigenem Tempo zu wiederholen.
 
 !!! warning "Kein Docker Compose"
-    Alle fünf Übungen funktionieren mit **reinen `docker`-Befehlen**. Compose kommt erst im Compose-Block – und du wirst dort sehen, wie viele dieser Patterns Compose dir abnimmt.
+    Alle fünf Übungen funktionieren mit **reinen `docker`-Befehlen**. Compose kommt erst im Compose-Block. Dort wirst du sehen, wie viele dieser Patterns Compose dir abnimmt.
 
 ---
 
@@ -21,7 +21,7 @@ Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufb
 
 <div class="grid cards" markdown>
 
--   :material-bug-outline:{ .lg .middle } __[1 — `docker exec` als Debug-Werkzeug](01-exec-debugging.md)__
+-   :material-bug-outline:{ .lg .middle } __[1: `docker exec` als Debug-Werkzeug](01-exec-debugging.md)__
 
     ---
 
@@ -29,7 +29,7 @@ Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufb
 
     *15–20 Min · Schwierigkeit: 🟢 Einsteiger*
 
--   :material-content-save-outline:{ .lg .middle } __[2 — Volume-Backup und Restore](02-volumes-backup.md)__
+-   :material-content-save-outline:{ .lg .middle } __[2: Volume-Backup und Restore](02-volumes-backup.md)__
 
     ---
 
@@ -37,7 +37,7 @@ Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufb
 
     *20 Min · Schwierigkeit: 🟡 Mittel*
 
--   :material-heart-pulse:{ .lg .middle } __[3 — HEALTHCHECK im Dockerfile](03-healthchecks.md)__
+-   :material-heart-pulse:{ .lg .middle } __[3: HEALTHCHECK im Dockerfile](03-healthchecks.md)__
 
     ---
 
@@ -45,7 +45,7 @@ Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufb
 
     *20 Min · Schwierigkeit: 🟡 Mittel*
 
--   :material-restart:{ .lg .middle } __[4 — Restart-Policies und Crash-Recovery](04-restart-policies.md)__
+-   :material-restart:{ .lg .middle } __[4: Restart-Policies und Crash-Recovery](04-restart-policies.md)__
 
     ---
 
@@ -53,7 +53,7 @@ Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufb
 
     *15–20 Min · Schwierigkeit: 🟢 Einsteiger*
 
--   :material-scale-balance:{ .lg .middle } __[5 — Image-Größen vergleichen](05-image-groessen.md)__
+-   :material-scale-balance:{ .lg .middle } __[5: Image-Größen vergleichen](05-image-groessen.md)__
 
     ---
 
@@ -68,8 +68,8 @@ Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufb
 ## Voraussetzungen
 
 - Docker läuft (`docker version` klappt). Siehe [Docker installieren](../docker/installation.md).
-- Du hast die Blöcke [Docker-Einführung](../docker/index.md) und [Docker-Aufbau](../docker-aufbau/index.md) bereits durchgearbeitet.
-- Ein Terminal (macOS Terminal/iTerm, Windows PowerShell, Linux Shell deiner Wahl).
+- Du hast die Blöcke [Docker-Einführung](../docker/index.md) und [Docker-Aufbau](../docker-aufbau/index.md) bereits durchgearbeitet. Für Übung 3 und 5 brauchst du außerdem die [Dockerfile-Grundlagen](../docker/dockerfile-grundlagen.md).
+- Ein Terminal (macOS Terminal/iTerm, Windows PowerShell, Linux Shell deiner Wahl). Wo sich die Befehle je Betriebssystem unterscheiden, stehen sie in Tabs. Unter Windows nimmst du den Tab „Windows PowerShell".
 
 ---
 
@@ -78,14 +78,15 @@ Diese fünf Übungen vertiefen das, was du in der Docker-Einführung und im Aufb
 - **In** laufenden Containern arbeiten, nicht nur **mit** ihnen.
 - **Daten** in Volumes mit einem reproduzierbaren Pattern sichern und wiederherstellen.
 - **Healthchecks** schreiben, die echte Bereitschaft prüfen, nicht nur „läuft der Prozess".
-- Container **automatisch wieder hochfahren** lassen, wenn sie crashen – mit der richtigen Policy.
+- Container **automatisch wieder hochfahren** lassen, wenn sie crashen, mit der richtigen Policy.
 - Den **Effekt der Basis-Image-Wahl** auf Größe, Sicherheit und Build-Zeit greifbar machen.
 
-Das sind alles Patterns, die du im Compose-Block **wiedersehen** wirst – dort dann deklarativ in `compose.yaml` formuliert. Aber die zugrunde liegenden Konzepte beherrscht du dann schon.
+Das sind alles Patterns, die du im Compose-Block **wiedersehen** wirst, dort dann deklarativ in `compose.yaml` formuliert. Die zugrunde liegenden Konzepte beherrschst du dann schon.
 
 ---
 
 ## Was kommt danach
 
-- [Docker Compose – Einführung](../docker-compose/einfuehrung.md) – Container-Stacks deklarativ beschreiben
-- [Docker für Profis](../docker-profi/index.md) – Best Practices, Multi-Stage, Image-Optimierung, Vulnerability-Scanning
+- [Docker Escape Room](../docker-escape-room/index.md): alles bisher Gelernte im Team anwenden
+- [Docker Compose: Einführung](../docker-compose/einfuehrung.md): Container-Stacks deklarativ beschreiben
+- [Docker für Profis](../docker-profi/index.md): Best Practices, Multi-Stage, Image-Optimierung, Vulnerability-Scanning

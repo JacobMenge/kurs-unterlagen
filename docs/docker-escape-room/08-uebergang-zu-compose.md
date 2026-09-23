@@ -9,9 +9,9 @@ Im Escape Room habt ihr ein Multi-Container-System **manuell** gestartet. Dafür
 
 - Netzwerk erstellen
 - Volume erstellen
-- Datenbank starten (mit 5 Env-Variablen + Volume + Netzwerk)
+- Datenbank starten (mit 3 Env-Variablen + Volume + Netzwerk)
 - API-Image bauen
-- API starten (mit 7 Env-Variablen + Port + Netzwerk)
+- API starten (mit 5 bis 7 Env-Variablen + Port + Netzwerk)
 - Adminer starten
 - Logs prüfen, Fehler suchen, Container neu erstellen
 
@@ -26,7 +26,7 @@ Diskutiert kurz in der Gruppe oder im Plenum:
 1. Welche Befehle mussten **alle Gruppen** fast gleich ausführen?
 2. Welche **Werte** musste man sich merken (oder ständig nachschlagen)?
 3. **Wo** sind Fehler passiert?
-4. Was wäre praktisch, wenn man das Setup in **einer einzigen Datei** beschreiben könnte – die jede:r aus der Gruppe per `git clone` bekommt und sofort starten kann?
+4. Was wäre praktisch, wenn man das Setup in **einer einzigen Datei** beschreiben könnte, die jede:r aus der Gruppe mit dem Projektordner bekommt und sofort starten kann?
 
 ---
 
@@ -81,7 +81,7 @@ Aus Sicht dieser Aufgabe:
 | Alle drei manuell starten und in der richtigen Reihenfolge | `docker compose up -d` startet alles |
 | Alle drei manuell stoppen + entfernen | `docker compose down` |
 
-**Reihenfolge** mit `depends_on` + `condition: service_healthy` – Compose startet die DB zuerst und wartet, bis sie bereit ist, bevor die API startet.
+**Reihenfolge:** `depends_on` startet die DB vor der API. Erst mit einem `healthcheck` am DB-Dienst und `condition: service_healthy` wartet Compose, bis die DB wirklich bereit ist.
 
 ---
 
@@ -89,7 +89,7 @@ Aus Sicht dieser Aufgabe:
 
 In dieser Einheit **schreibt ihr noch keine Compose-Datei**. Das kommt im Compose-Kapitel.
 
-Aber wenn ihr erlebt habt, wie viele Schritte ihr gebraucht habt, dann ist Compose nicht „noch ein Tool, das ich lernen muss" – sondern **die Erleichterung, die ihr euch sehnlich gewünscht habt**.
+Aber wenn ihr erlebt habt, wie viele Schritte ihr gebraucht habt, dann ist Compose nicht „noch ein Tool, das ich lernen muss", sondern **die Erleichterung, die ihr euch sehnlich gewünscht habt**.
 
 ---
 
@@ -103,8 +103,8 @@ Aber wenn ihr erlebt habt, wie viele Schritte ihr gebraucht habt, dann ist Compo
 
 Im Compose-Kapitel geht es weiter:
 
-- [Docker Compose – Einführung](../docker-compose/einfuehrung.md)
-- [Compose – Grundlagen](../docker-compose/grundlagen.md)
+- [Docker Compose: Einführung](../docker-compose/einfuehrung.md)
+- [Compose: Grundlagen](../docker-compose/grundlagen.md)
 - [Praxis: erste compose.yaml](../docker-compose/praxis-webapp.md)
 
 Ihr werdet **den Postgres + Adminer-Stack** als deklarative `compose.yaml` neu aufbauen. Und ihr werdet sehen, wie wenig Tipparbeit das ist, wenn man das einmal in einer Datei beschrieben hat.

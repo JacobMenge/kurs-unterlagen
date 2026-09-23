@@ -91,7 +91,7 @@ Wir starten in einem frischen Ordner:
 === "Windows CMD"
     ```cmd
     mkdir %USERPROFILE%\kurs-compose
-    cd %USERPROFILE%\kurs-compose
+    cd /d %USERPROFILE%\kurs-compose
     ```
 
 Gibt es den Ordner von einem früheren Versuch schon, meldet `mkdir` das nur. Kein Problem, das `cd` klappt trotzdem.
@@ -149,6 +149,8 @@ Lass uns das **Zeile für Zeile** durchgehen:
 | `adminer:` | zweiter Service mit dem `adminer`-Image |
 | `ports:` | Host-Port `8080` → Container-Port `8080` (Adminer-Default) |
 | `volumes:` *(Top-Level)* | das benannte Volume `postgres-daten` deklarieren, damit Compose es kennt und verwaltet |
+
+Alle Schlüssel im Detail erklärt die Seite [Grundlagen der compose.yaml](grundlagen.md).
 
 !!! info "Warum „beim ersten Start"?"
     Postgres wertet die drei Variablen nur aus, wenn sein Datenverzeichnis **leer** ist, also beim ersten Start auf einem frischen Volume. Liegt dort schon eine Datenbank, werden die Variablen ignoriert. Deshalb ändert ein neues `POSTGRES_PASSWORD` in der Datei **kein** Passwort einer bestehenden Datenbank: Die Konfiguration beschreibt die Geburt des Dienstes, nicht seinen laufenden Betrieb. Wer die Variablen wirklich neu anwenden will, braucht ein frisches Volume (`docker compose down -v`).
@@ -249,7 +251,7 @@ INSERT INTO teilnehmer (name, hobby) VALUES
 
 ## Schritt 7: Logs schauen
 
-In einem zweiten Terminal (oder neben dem Browser):
+In einem zweiten Terminal (oder neben dem Browser). Ein neues Terminal startet in deinem Benutzerordner, wechsle dort zuerst in den Projektordner (`cd $HOME\kurs-compose` in PowerShell, `cd ~/kurs-compose` in macOS/Linux). Sonst meldet Compose `no configuration file provided`.
 
 ```bash
 docker compose logs -f
@@ -314,9 +316,11 @@ Was jetzt weg ist:
 Was **noch da ist**:
 
 ```bash
-docker compose ps        # leer
-docker volume ls         # postgres-daten ist noch da!
+docker compose ps
+docker volume ls
 ```
+
+`docker compose ps` ist leer, aber `docker volume ls` zeigt weiter `kurs-compose_postgres-daten`.
 
 Jetzt einfach wieder hochfahren:
 
@@ -332,6 +336,8 @@ Browser neu laden, in Adminer einloggen, die **Tabelle `teilnehmer` ist noch da*
 ---
 
 ## Schritt 10: Aufräumen
+
+Diesen Schritt machst du erst ganz am Schluss. Die Bonus-Experimente unten und die [Challenge](challenge-zweiter-stack.md) brauchen den laufenden Stack samt Tabelle.
 
 Wenn du alles loswerden willst (inkl. der Daten):
 
@@ -374,7 +380,7 @@ Das ist genau der Sprung von **imperativer** zu **deklarativer** Konfiguration. 
 ## Typische Stolpersteine in dieser Übung
 
 ??? warning "Port 8080 ist belegt"
-    **Symptom:** `docker compose up -d` bricht ab mit „bind: address already in use".
+    **Symptom:** `docker compose up -d` bricht ab. Belegt ein anderer Container den Port, lautet die Meldung `port is already allocated`. Belegt ihn ein anderes Programm, heißt es `ports are not available` oder `address already in use`.
 
     **Lösungen:**
 
@@ -396,7 +402,7 @@ Das ist genau der Sprung von **imperativer** zu **deklarativer** Konfiguration. 
             netstat -ano | findstr :8080
             ```
 
-??? warning "Adminer-Login: „could not translate host name 'db'"
+??? warning "Adminer-Login: „could not translate host name 'db'""
     **Ursache:** Etwas stimmt am Compose-Setup nicht, meist ein YAML-Einrückungsfehler, sodass `adminer` und `db` nicht im selben Netzwerk gelandet sind.
 
     **Diagnose:**
@@ -422,7 +428,7 @@ Das ist genau der Sprung von **imperativer** zu **deklarativer** Konfiguration. 
 
 ## Bonus-Experimente: für alle, die mehr wollen
 
-Drei kurze Experimente mit dem laufenden Stack. Alle Befehle laufen unverändert in jeder Shell.
+Drei kurze Experimente mit dem laufenden Stack. Alle Befehle laufen unverändert in jeder Shell. Hast du in Schritt 10 schon aufgeräumt, startest du den Stack mit `docker compose up -d` neu. Die Tabelle aus Schritt 6 legst du dann noch einmal an.
 
 ### Bonus 1: Ein dritter Service in fünf Zeilen
 
@@ -444,7 +450,7 @@ docker compose up -d
 **Schau genau auf die Ausgabe:** `db` und `adminer` bleiben unberührt („Running"), nur `adminer2` wird neu erzeugt. Compose vergleicht die Datei mit dem Ist-Zustand und ändert nur, was sich unterscheidet. Danach: <http://localhost:8081> zeigt denselben Stack aus zweiter Sicht.
 
 ??? success "Warum ist das bemerkenswert?"
-    Bei den Handbefehlen von Montag hättest du selbst wissen müssen, was schon läuft. Deklarative Werkzeuge übernehmen diesen Abgleich, das gleiche Prinzip steckt später in Kubernetes und Terraform.
+    Bei den Handbefehlen aus dem Aufbau-Block hättest du selbst wissen müssen, was schon läuft. Deklarative Werkzeuge übernehmen diesen Abgleich, das gleiche Prinzip steckt später in Kubernetes und Terraform.
 
 ### Bonus 2: Einem Dienst live zusehen
 
@@ -483,7 +489,7 @@ Zum Schluss den Bonus-Service wieder ausbauen: die fünf Zeilen aus der `compose
 
 ## Nächste Schritte
 
-Der schnellste Test, ob alles saß: die [Challenge: der zweite Stack](challenge-zweiter-stack.md), ganz ohne Anleitung. Danach oder für zu Hause stehen in den [Übungen](uebungen.md) weitere Aufgaben mit aufsteigender Schwierigkeit, vom nginx-Einstieg über WordPress mit MariaDB bis zu `.env` und Healthchecks (beides greifen wir am Montag gemeinsam auf).
+Der schnellste Test, ob alles saß: die [Challenge: der zweite Stack](challenge-zweiter-stack.md), ganz ohne Anleitung. Danach oder für zu Hause stehen in den [Übungen](uebungen.md) weitere Aufgaben mit aufsteigender Schwierigkeit, vom nginx-Einstieg über WordPress mit MariaDB bis zu `.env` und Healthchecks (beides greifen wir in der nächsten Einheit gemeinsam auf).
 
 ---
 

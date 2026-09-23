@@ -7,7 +7,7 @@ description: "Praxis-Wiederholung vor Docker Compose: Multi-Container-Setup manu
 
 Willkommen zur **Docker-Praxis-Wiederholung**.
 
-Bevor wir uns dem nächsten großen Werkzeug widmen – **Docker Compose** – wendet ihr in dieser Einheit alles an, was ihr bisher über Docker gelernt habt. **In Gruppen, in 90 Minuten, ohne Compose.**
+Bevor wir uns dem nächsten großen Werkzeug widmen, **Docker Compose**, wendet ihr in dieser Einheit alles an, was ihr bisher über Docker gelernt habt. **In Gruppen, in 90 Minuten, ohne Compose.**
 
 ---
 
@@ -36,7 +36,7 @@ Dabei nutzt ihr bewusst **kein Docker Compose**. Stattdessen alle einzelnen Baus
 
     [`apps/docker-escape-room/`](https://github.com/JacobMenge/kurs-unterlagen/tree/main/apps/docker-escape-room)
 
-    Falls ihr lokal arbeitet, findet ihr den Ordner direkt im Projektverzeichnis. Die Anwendung ist bewusst sehr einfach gehalten und dient **nur als Testobjekt für Docker**.
+    Wie ihr den Code als ZIP holt, steht in [Aufgabe 1](04-aufgabenuebersicht.md#aufgabe-1-projekt-vorbereiten). Git braucht ihr dafür nicht. Die Anwendung ist bewusst sehr einfach gehalten und dient **nur als Testobjekt für Docker**.
 
     Ihr müsst den Code **nicht verändern** und auch **nicht vollständig verstehen**.
 
@@ -54,10 +54,10 @@ Dabei nutzt ihr bewusst **kein Docker Compose**. Stattdessen alle einzelnen Baus
     Nicht verwenden:
     ```bash
     docker compose up
-    docker-compose up
+    docker-compose up   # alte Schreibweise
     ```
 
-    Compose ist das Thema des nachfolgenden Kapitels. Hier spürt ihr, **warum** Compose erfunden wurde – indem ihr alles manuell macht.
+    Compose ist das Thema des nachfolgenden Kapitels. Hier spürt ihr, **warum** Compose erfunden wurde: Ihr macht alles manuell.
 
 ---
 
@@ -108,7 +108,7 @@ flowchart TD
 | Gemeinsame Besprechung | 30–45 Min |
 | Übergang zu Compose | 10–15 Min |
 
-Damit kommt ihr auf **rund 2:30 h Gesamteinheit** mit aktiven 90 Minuten Gruppenarbeit.
+Damit kommt ihr auf **rund 3 Stunden Gesamteinheit** mit 90 Minuten aktiver Gruppenarbeit.
 
 ---
 
@@ -116,14 +116,14 @@ Damit kommt ihr auf **rund 2:30 h Gesamteinheit** mit aktiven 90 Minuten Gruppen
 
 Wenn du den Block linear durcharbeitest:
 
-1. [Technologien kurz erklärt](00-technologien-kurz-erklaert.md) – was ist Express, was ist PostgreSQL, was ist Adminer? (5 Minuten lesen, dann weiter)
-2. [Docker-Recap](02-docker-recap.md) – die Befehle, die ihr braucht
-3. [Szenario](03-szenario.md) – die Story und die Zielarchitektur
-4. [Aufgabenübersicht](04-aufgabenuebersicht.md) – eure 10 Aufgaben + Bonus
-5. [Hilfekarten](05-hilfekarten.md) – nutzt sie nur, wenn ihr feststeckt
-6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md) – was am Ende vorgezeigt wird
-7. [Lösung](07-loesung.md) – **erst nach der eigenen Arbeit aufschlagen!**
-8. [Übergang zu Compose](08-uebergang-zu-compose.md) – Brücke zu Docker Compose
+1. [Technologien kurz erklärt](00-technologien-kurz-erklaert.md): was ist Express, was ist PostgreSQL, was ist Adminer? (5 Minuten lesen, dann weiter)
+2. [Docker-Recap](02-docker-recap.md): die Befehle, die ihr braucht
+3. [Szenario](03-szenario.md): die Story und die Zielarchitektur
+4. [Aufgabenübersicht](04-aufgabenuebersicht.md): eure 10 Aufgaben + Bonus
+5. [Hilfekarten](05-hilfekarten.md): nutzt sie nur, wenn ihr feststeckt
+6. [Abgabe & Reflexion](06-abgabe-und-reflexion.md): was am Ende vorgezeigt wird
+7. [Lösung](07-loesung.md): **erst nach der eigenen Arbeit aufschlagen!**
+8. [Übergang zu Compose](08-uebergang-zu-compose.md): Brücke zu Docker Compose
 
 ---
 
@@ -133,4 +133,4 @@ Wenn du den Block linear durcharbeitest:
 - Container über ein **eigenes Netzwerk** miteinander reden lassen
 - **Volume-Persistenz** in der Praxis erleben
 - Typische Fehler **systematisch debuggen** (Logs, `inspect`, Netzwerk prüfen)
-- Mit Selbstüberzeugung sagen können: **„Ja, das geht ohne Compose – aber Compose nimmt mir genau diese Schritte ab."**
+- Mit Überzeugung sagen können: **„Ja, das geht ohne Compose, aber Compose nimmt mir genau diese Schritte ab."**

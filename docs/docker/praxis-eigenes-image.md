@@ -17,11 +17,11 @@ description: "Schritt-für-Schritt ein eigenes nginx-Image mit eigener HTML-Seit
 
 - Docker läuft (`docker version` klappt). Wenn nicht → [Docker installieren](installation.md).
 - Ein Terminal.
-- Ein **Editor** für Texte (VSCode, Sublime, nano, vim, egal).
+- Ein **Editor** für Texte (VS Code, Notepad, nano, egal).
 - Kleine Lust, HTML zu schreiben (oder kopieren).
 
 ??? info "Ich habe noch nie ein `Dockerfile` gesehen, was ist das?"
-    Ein `Dockerfile` ist ein Text-Rezept, aus dem Docker ein Image baut. Eine ausführliche Erklärung findest du unter [Dockerfile. Grundlagen](dockerfile-grundlagen.md). Für diese Übung reicht es, das Beispiel unten zu kopieren und den Ablauf mitzumachen.
+    Ein `Dockerfile` ist ein Text-Rezept, aus dem Docker ein Image baut. Eine ausführliche Erklärung findest du unter [Dockerfile: Grundlagen](dockerfile-grundlagen.md). Für diese Übung reicht es, das Beispiel unten zu kopieren und den Ablauf mitzumachen.
 
 ---
 
@@ -113,10 +113,14 @@ Im **selben Ordner** legst du eine Datei namens `Dockerfile` an, **ohne Endung**
     ```
 
 === "Windows PowerShell"
+    Erst die leere Datei anlegen, dann in Notepad öffnen:
+    ```powershell
+    New-Item -ItemType File Dockerfile
+    ```
     ```powershell
     notepad Dockerfile
     ```
-    Beim Anlegen mit **Ja** bestätigen, dann heißt die Datei wirklich `Dockerfile`. Lege sie **nicht** über „Speichern unter" im Explorer an, denn dabei hängt Windows gern ein unsichtbares `.txt` an und der Build findet die Datei später nicht.
+    Die Reihenfolge ist wichtig: Gibt es die Datei noch nicht, legt Notepad beim Speichern `Dockerfile.txt` an und der Build findet sie nicht. Aus demselben Grund die Datei **nicht** über den Explorer („Neu → Textdokument") anlegen.
 
 Der Inhalt, exakt so geschrieben:
 
@@ -131,7 +135,7 @@ Zwei Zeilen:
 1. **`FROM nginx:alpine`**, nimm das offizielle nginx-Image in der Alpine-Variante. Alpine-Linux ist ein besonders schlankes Linux: Das fertige Image wiegt rund **90 MB**, das gewöhnliche `nginx:latest` dagegen etwa **270 MB**. Ein Drittel der Größe für dieselbe Aufgabe.
 2. **`COPY index.html /usr/share/nginx/html/index.html`**, kopiere unsere HTML-Datei an den Pfad, unter dem nginx die Default-Seite ausliefert. Damit wird unsere Seite zur neuen Startseite.
 
-Mehr muss das Dockerfile nicht. Kein `CMD`, denn das Basis-Image `nginx:alpine` hat bereits ein passendes `CMD` gesetzt, das nginx im Vordergrund startet. Das haben wir von der Basis geerbt.
+Mehr muss das Dockerfile nicht. Kein [`CMD`](dockerfile-grundlagen.md#cmd-default-befehl-beim-start), denn das Basis-Image `nginx:alpine` hat bereits ein passendes `CMD` gesetzt, das nginx im Vordergrund startet. Das haben wir von der Basis geerbt.
 
 ---
 
@@ -154,7 +158,7 @@ Dockerfile
 index.html
 ```
 
-Zwei Dateien, das reicht.
+Zwei Dateien, das reicht. Steht bei dir unter Windows `Dockerfile.txt`, benenne die Datei mit `ren Dockerfile.txt Dockerfile` um.
 
 ---
 
@@ -164,7 +168,7 @@ Zwei Dateien, das reicht.
 docker build -t mein-bild:1.0 .
 ```
 
-??? warning "Fehler: „failed to compute cache key: \"/index.html\" not found""
+??? warning "Fehler: failed to compute cache key … /index.html: not found"
     Der Build findet deine `index.html` nicht.
 
     **Häufige Ursache:** Du bist nicht im richtigen Ordner. Prüfe:
@@ -181,10 +185,8 @@ docker build -t mein-bild:1.0 .
         dir        # liegen Dockerfile UND index.html hier?
         ```
 
-    **Zweite Ursache unter Windows:** Die Datei heißt in Wahrheit `Dockerfile.txt`. Dann umbenennen:
-    ```powershell
-    ren Dockerfile.txt Dockerfile
-    ```
+    **Zweite Ursache:** Die Datei liegt zwar im Ordner, heißt aber anders, zum Beispiel `index.htm` oder `Index.html`. Der Name muss exakt zu der Zeile `COPY index.html …` im Dockerfile passen.
+
     Der Punkt am Ende von `docker build -t mein-bild:1.0 .` ist der **Build-Kontext**, also der Ordner, aus dem `COPY` Dateien nimmt.
 
 ??? warning "Build hängt beim Schritt „Pulling nginx:alpine""
@@ -203,7 +205,7 @@ Was jeder Teil bedeutet:
 |------|-----------|
 | `docker build` | baue ein Image |
 | `-t mein-bild:1.0` | benenne das Image `mein-bild` mit Tag `1.0` |
-| `.` | der Build-Kontext ist das **aktuelle Verzeichnis** (der Punkt!) |
+| `.` | der [Build-Kontext](dockerfile-grundlagen.md#der-build-kontext) ist das **aktuelle Verzeichnis** (der Punkt!) |
 
 Erwartete Ausgabe (gekürzt):
 
@@ -279,7 +281,7 @@ Achte auf die Ausgabe: Du siehst, dass Docker beim **FROM**-Schritt sagt `CACHED
  => [2/2] COPY index.html /usr/share/nginx/html/index.html
 ```
 
-Der erste Layer (Basis-Image) wird nicht neu geladen, er liegt schon lokal und nichts hat sich daran geändert. Nur der `COPY`-Layer wird neu gebaut, weil wir die Datei geändert haben.
+Der `FROM`-Schritt (das Basis-Image mit all seinen [Layern](image-und-container.md#wie-images-intern-aufgebaut-sind-layer)) wird nicht neu geladen, er liegt schon lokal und nichts hat sich daran geändert. Nur der `COPY`-Layer wird neu gebaut, weil wir die Datei geändert haben.
 
 **Das ist Layer-Caching in Aktion.**
 
@@ -346,7 +348,7 @@ docker rmi mein-bild:1.0 mein-bild:1.1
 Kontrolle:
 
 ```bash
-docker ps -a           # keine mein-web-Container mehr
+docker ps -a           # keine v1- und v2-Container mehr
 docker images          # keine mein-bild-Einträge mehr
 ```
 
@@ -381,7 +383,7 @@ Ein anderer Container (oder ein anderes Programm) nutzt schon Port 9000. Entwede
 
 Ursache: du hast `index.html` geändert, aber **den alten Container** noch laufen. Der alte Container benutzt das **alte Image** mit der alten Datei. Neues Image bauen, alten Container entfernen, neuen starten, wie oben beschrieben.
 
-Alternative ohne Rebuild: ein **Bind Mount** von deinem Host-Ordner in den Container. Das ist das Thema des Volumes-Kapitels.
+Alternative ohne Rebuild: ein **Bind Mount** von deinem Host-Ordner in den Container. Das ist das Thema des [Volumes-Kapitels](../docker-aufbau/volumes.md#bind-mounts-in-der-praxis).
 
 ---
 
@@ -410,10 +412,10 @@ ls /usr/share/nginx/html/
 
 Mit `exit` kommst du wieder heraus.
 
-**Was dir auffallen sollte:** Der Hostname ist eine kryptische ID (die Container-ID), du bist `root`, und das System meldet sich als Debian, obwohl dein Rechner vielleicht macOS oder Windows ist. Probier einmal `ps aux`. Es **fehlt**. Frag dich: Warum sind in diesem Linux so wenige Werkzeuge installiert?
+**Was dir auffallen sollte:** Der Hostname ist eine kryptische ID (die Container-ID), du bist `root` und das System meldet sich als Debian, obwohl dein Rechner vielleicht macOS oder Windows ist. Probier einmal `ps aux`. Es **fehlt**. Frag dich: Warum sind in diesem Linux so wenige Werkzeuge installiert?
 
 ??? success "Antwort"
-    Weil ein Image nur enthält, was die Anwendung wirklich braucht. Kein Texteditor, keine Prozesstabelle, kein Paketmanager-Ballast, nginx und seine Bibliotheken, mehr nicht. Genau daher kommt der Größenunterschied zur VM von Montag: Die bringt ein komplettes Betriebssystem mit, der Container nur das Nötigste.
+    Weil ein Image nur enthält, was die Anwendung wirklich braucht. Kein Texteditor, kein `ps`, kein Paketmanager-Ballast: nginx und seine Bibliotheken, mehr nicht. Genau daher kommt der Größenunterschied zur VM von Montag: Die bringt ein komplettes Betriebssystem mit, der Container nur das Nötigste.
 
 ### Bonus 2: Die Wegwerf-Lektion
 
@@ -460,7 +462,7 @@ Und wieder anschauen:
 ??? success "Antwort"
     Die Änderung ist **weg**. Der neue Container startet wieder frisch aus dem unveränderten Image, alles, was du im laufenden Container anfasst, lebt nur so lange wie dieser eine Container.
 
-    Das ist kein Fehler, sondern das Prinzip: Container sind wegwerfbar. Wer Daten behalten will, muss ihnen einen Platz **außerhalb** des Containers geben. Genau dafür gibt es **Volumes**, das Thema der nächsten Einheit.
+    Das ist kein Fehler, sondern das Prinzip: Container sind wegwerfbar. Wer Daten behalten will, muss ihnen einen Platz **außerhalb** des Containers geben. Genau dafür gibt es **Volumes**, das Thema der nächsten Einheit (siehe [Volumes und Persistenz](../docker-aufbau/volumes.md)).
 
 ### Bonus 3: Zwei Versionen nebeneinander
 
@@ -471,14 +473,16 @@ docker build -t mein-bild:2.0 .
 docker images mein-bild
 ```
 
+Version 1.0 hast du in Schritt 9 bereits gelöscht. Zeigt `docker images mein-bild` sie nicht mehr an, baust du sie kurz neu: Setz die Überschrift in `index.html` auf den alten Text zurück, führe `docker build -t mein-bild:1.0 .` aus und schreib danach wieder „Version 2" hinein.
+
 Beide Versionen existieren jetzt nebeneinander. Starte sie gleichzeitig auf verschiedenen Ports:
 
 ```bash
-docker run -d -p 8081:80 --name v1 mein-bild:1.0
-docker run -d -p 8082:80 --name v2 mein-bild:2.0
+docker run -d -p 9001:80 --name v1 mein-bild:1.0
+docker run -d -p 9002:80 --name v2 mein-bild:2.0
 ```
 
-Ruf `http://localhost:8081` und `http://localhost:8082` auf.
+Ruf `http://localhost:9001` und `http://localhost:9002` auf.
 
 **Die Erkenntnis:** Ein Image lässt sich nachträglich nicht ändern, du baust ein **neues** und gibst ihm ein anderes Tag. Alte Version kaputt? Einfach den Container aus `1.0` wieder starten. Genau so funktioniert später auch ein Rollback im Betrieb.
 
@@ -490,10 +494,10 @@ docker system df
 
 Du siehst vier Zeilen: Images, Container, Volumes und Build-Cache, jeweils mit der Spalte **RECLAIMABLE**, also dem, was du gefahrlos freigeben könntest.
 
-**Vergleich zu Montag:** Eine einzelne Cloud-VM bringt schnell mehrere Gigabyte mit. Wie viel wiegen deine Container im Vergleich, und wo steckt der meiste Platz wirklich?
+**Vergleich zu Montag:** Eine einzelne Cloud-VM bringt schnell mehrere Gigabyte mit. Wie viel wiegen deine Container im Vergleich und wo steckt der meiste Platz wirklich?
 
 ??? success "Antwort und Aufräum-Befehl"
-    Der meiste Platz liegt fast immer bei den **Images** und im **Build-Cache**, nicht bei den Containern selbst, ein laufender Container kostet oft nur ein paar hundert Kilobyte, weil er sich das Image mit allen anderen teilt (das Copy-on-Write-Prinzip).
+    Der meiste Platz liegt fast immer bei den **Images** und im **Build-Cache**, nicht bei den Containern selbst, ein laufender Container kostet oft nur ein paar hundert Kilobyte, weil er sich das Image mit allen anderen teilt (das [Copy-on-Write-Prinzip](image-und-container.md#copy-on-write-der-trick-des-laufenden-containers)).
 
     Aufräumen, wenn es eng wird:
 
@@ -507,6 +511,7 @@ Du siehst vier Zeilen: Images, Container, Volumes und Build-Cache, jeweils mit d
 
 ```bash
 docker rm -f spion v1 v2
+docker rmi mein-bild:1.0 mein-bild:2.0
 ```
 
 ---
@@ -532,5 +537,5 @@ Das ist schon sehr ordentlich fürs erste Mal. Alles, was ab hier kommt (Volumes
 ## Weiterlesen
 
 - [Stolpersteine Docker](stolpersteine.md): wenn etwas nicht geht
-- [Merksätze. Docker](merksaetze.md)
+- [Merksätze: Docker](merksaetze.md)
 - [Cheatsheet Docker](../cheatsheets/docker.md)

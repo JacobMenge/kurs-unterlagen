@@ -1,6 +1,6 @@
 # Container Quest API
 
-Diese kleine Anwendung ist Teil des **Docker Escape Rooms** – einer Praxis-Übung für den Docker-Kurs.
+Diese kleine Anwendung ist Teil des **Docker Escape Rooms**, einer Praxis-Übung für den Docker-Kurs.
 
 Die App ist bewusst minimal und dient nur als **Testobjekt für Docker**. Sie ist eine **Blackbox** für die Teilnehmenden: niemand muss am Code etwas ändern oder verstehen, wie Express, Node.js oder PostgreSQL intern arbeiten.
 
@@ -52,4 +52,4 @@ docker build -t container-quest-api:1.0 .
 
 ## Lösung
 
-Eine vollständige Lösung steht **nicht** hier – sondern in der Trainer-Lösung der MkDocs-Unterlagen (`docs/docker-escape-room/07-trainer-loesung.md`). Erst alleine versuchen!
+Eine vollständige Lösung steht **nicht** hier, sondern in der Lösung der MkDocs-Unterlagen (`docs/docker-escape-room/07-loesung.md`). Erst alleine versuchen!
