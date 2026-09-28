@@ -35,7 +35,7 @@ Ein Kollege hat euch einen Mitschnitt aus dem Netz der **Halle 1** mitgebracht. 
 **Frage 1:** Welche Protokolle stecken im Mitschnitt und welches stellt die meisten Pakete?
 
 ??? success "Lösung Teil 1"
-    Die Hierarchie zeigt unter Ethernet: **PN-RT** (Profinet Real-Time, darunter PN-DCP und PN-IO), **TCP** mit **MQTT** und **OPC UA**, dazu etwas **ARP** und **LLDP**. Die meisten Pakete stellt Profinet (PN-RT mit 13 Frames), denn zyklische Prozessdaten kommen ständig.
+    Die Hierarchie zeigt unter Ethernet: **PN-RT** (Profinet Real-Time, darunter PN-DCP und PN-IO), **IP/TCP** mit **MQTT** und **OPC UA**, dazu etwas **ARP** und **LLDP**. Knapp vorn liegt TCP mit 15 Paketen. Davon tragen aber nur 6 echte Nachrichten (4 MQTT, 2 OPC UA), der Rest ist Verbindungsaufbau und Bestätigung. Das einzelne Protokoll mit den meisten Paketen ist Profinet (PN-RT, 13 Pakete), denn zyklische Prozessdaten kommen ständig. In einem echten Mitschnitt über Stunden wäre Profinet weit vorn.
 
 ---
 
@@ -47,7 +47,7 @@ Tippt oben in die **Anzeigefilter-Leiste** (das Eingabefeld über der Paketliste
 pn_dcp
 ```
 
-Mit ++enter++ bestätigen. Die Leiste wird grün, wenn der Filter gültig ist, und die Liste zeigt nur noch vier Pakete: eine Frage und drei Antworten.
+Mit ++enter++ bestätigen. Ist der Filter gültig, wird die Leiste grün. Die Liste zeigt dann nur noch vier Pakete: eine Frage und drei Antworten.
 
 1. Öffnet das **erste** Paket (die Frage). Im Detailbereich seht ihr: ServiceID **Identify**, gesendet an eine Multicast-Adresse. Der Controller ruft: Wer ist hier?
 2. Öffnet die drei **Antworten** und klappt jeweils den Block **Device/NameOfStation** auf.
@@ -79,7 +79,7 @@ Ihr seht den Verbindungsaufbau (**Connect Command** und **Connect Ack**) und zwe
 1. Öffnet das erste Publish-Paket und klappt im Detailbereich **MQ Telemetry Transport Protocol** auf.
 
 **Frage 3a:** Zu welchem **Topic** wird veröffentlicht und was steht in der Nutzlast?
-**Frage 3b:** Rechtsklick auf das Paket, dann **Folgen → TCP-Stream** (Follow → TCP Stream). Was fällt euch auf, und die entscheidende Frage: **Wer kann das alles mitlesen?**
+**Frage 3b:** Rechtsklick auf das Paket, dann **Folgen → TCP-Stream** (Follow → TCP Stream). Was fällt euch auf? Und die entscheidende Frage: **Wer kann das alles mitlesen?**
 
 ??? success "Lösung Teil 3"
     - **3a:** Topic `halle1/ofen/temperatur` mit der Nutzlast `{"wert": 228.5, "einheit": "C"}`. Das zweite Publish meldet `halle1/ofen/status`.

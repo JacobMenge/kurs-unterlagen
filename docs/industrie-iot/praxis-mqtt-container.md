@@ -15,9 +15,10 @@ sonst funkt dazwischen. Probiert ruhig herum, kaputtgehen kann nichts.
 
     - einen MQTT-Broker mit einem einzigen `docker run` starten
     - Nachrichten veröffentlichen (publish) und abonnieren (subscribe)
-    - mit den Platzhaltern `+` und `#` mehrere Topics auf einmal abonnieren
-    - erklären, was eine Retained Message ist und wozu sie dient
-    - einen zweiten Container als Sensor funken lassen, der den Broker über seinen Namen findet
+    - mit `#` alles unter einem Topic auf einmal abonnieren
+
+    Wer schneller ist, findet am Ende Extras: Retained Messages, einen
+    Sensor-Container und den Platzhalter `+`.
 
 !!! warning "Windows: bitte in der PowerShell arbeiten"
     Alle Befehle sind einzeilig und laufen so in der PowerShell, in CMD und
@@ -26,15 +27,54 @@ sonst funkt dazwischen. Probiert ruhig herum, kaputtgehen kann nichts.
     `Strg+Umschalt+T` einen neuen Tab, noch übersichtlicher ist ein
     geteiltes Fenster mit `Alt+Umschalt+Plus`.
 
+## MQTT in 60 Sekunden
+
+Stellt euch eine **Poststelle mit Fächern** vor. Wer etwas mitteilen will,
+wirft einen Zettel in ein bestimmtes Fach. Wer sich für ein Fach
+interessiert, lässt sich von der Poststelle eine Kopie jedes neuen Zettels
+bringen. Absender und Empfänger müssen sich dafür nicht kennen, beide
+kennen nur die Poststelle und das Fach.
+
+Genau so arbeitet MQTT, mit diesen fünf Begriffen:
+
+| Begriff | Bedeutung | Im Beispiel |
+|---|---|---|
+| **Broker** | die Poststelle: nimmt jede Nachricht an und verteilt sie weiter | der Container `broker` |
+| **Topic** | das Fach: eine Adresse wie ein Ordnerpfad, Ebenen getrennt durch `/` | `halle1/ofen/temperatur` |
+| **Publish** | eine Nachricht in ein Topic senden (veröffentlichen) | der Ofen meldet seine Temperatur |
+| **Subscribe** | ein Topic abonnieren: ab jetzt jede neue Nachricht darin bekommen | die Leitwarte liest mit |
+| **Nutzlast** (Payload) | der eigentliche Inhalt der Nachricht | `228.5` |
+
+Der Unterschied zu dem, was ihr aus dem Web kennt: Bei HTTP fragt der
+Browser einen Server und bekommt eine Antwort. Bei MQTT fragt niemand nach,
+die Geräte **melden von sich aus**, sobald es etwas Neues gibt. Deshalb ist
+MQTT so sparsam und passt zu Tausenden Sensoren, die jeweils nur kleine
+Werte senden.
+
+## Die zwei Werkzeuge und ihre Schalter
+
+**`mosquitto_pub`** veröffentlicht eine Nachricht, **`mosquitto_sub`**
+abonniert und zeigt alles an, was hereinkommt. Die Schalter, die ihr heute
+braucht:
+
+| Schalter | Bedeutung | Werkzeug |
+|---|---|---|
+| `-t` | das Topic (**t**opic) | beide |
+| `-m` | die Nachricht, also die Nutzlast (**m**essage) | pub |
+| `-r` | der Broker soll sich die Nachricht merken (**r**etain), siehe Extra 1 | pub |
+| `-h` | an welchen Broker, per Name oder Adresse (**h**ost). Ohne `-h` ist es der eigene Container | beide |
+| `-v` | beim Mitlesen auch das Topic anzeigen, nicht nur die Nutzlast (**v**erbose) | sub |
+
+Ein Beispiel zum Lesen: `mosquitto_pub -t halle1/ofen/temperatur -m 228.5`
+heißt „veröffentliche den Wert 228.5 im Topic halle1/ofen/temperatur".
+
 ## Womit du hier arbeitest
 
 **Mosquitto** ist ein weit verbreiteter MQTT-Broker, schlank genug für
 einen Raspberry Pi und stabil genug für Industrieanlagen. Das Image
-`eclipse-mosquitto` bringt neben dem Broker auch die zwei Werkzeuge mit, mit
-denen ihr gleich arbeitet: **`mosquitto_pub`** veröffentlicht eine
-Nachricht, **`mosquitto_sub`** abonniert und zeigt alles an, was
-hereinkommt. Beide ruft ihr mit `docker exec` **im** Container auf, ihr
-müsst also nichts installieren. Für die Prüfung zählt das Muster
+`eclipse-mosquitto` bringt neben dem Broker auch die zwei Werkzeuge
+`mosquitto_pub` und `mosquitto_sub` mit. Beide ruft ihr mit `docker exec`
+**im** Container auf, ihr müsst also nichts installieren. Für die Prüfung zählt das Muster
 Publish/Subscribe mit Broker und Topic, im Beruf begegnet euch genau dieser
 Aufbau vom Sensor in der Halle bis zum Smart Home.
 
@@ -65,7 +105,7 @@ Dort steht die Zeile `mosquitto version 2.1.2 running` (die Versionsnummer kann 
 
 ??? info "Was steckt in diesem Befehl?"
     - `-p 1883:1883` ist der Standard-Port für MQTT ohne Verschlüsselung.
-    - `-p 9883:9883` öffnet ein kleines Web-Dashboard des Brokers (Teil 5).
+    - `-p 9883:9883` öffnet ein kleines Web-Dashboard des Brokers (Extra 2).
     - `mosquitto -c /mosquitto-no-auth.conf` startet den Broker mit einer
       Konfiguration, die dem Image beiliegt: **ohne Anmeldung**. Seit
       Version 2 lässt Mosquitto ohne ausdrückliche Konfiguration niemanden
@@ -122,39 +162,41 @@ Mit `Strg+C` beendet ihr das Mitlesen in Fenster 1.
 
 ---
 
-## Teil 3: Die Platzhalter + und # (7 Minuten)
+## Teil 3: Alles auf einmal mitlesen mit # (7 Minuten)
 
-Topics sind wie Ordnerpfade aufgebaut, die Ebenen trennt ein `/`. Beim
-Abonnieren gibt es zwei Platzhalter:
-
-| Platzhalter | Bedeutung | Beispiel | passt auf |
-|---|---|---|---|
-| `#` | alles ab hier, beliebig viele Ebenen | `halle1/#` | `halle1/ofen/temperatur`, `halle1/uhr` |
-| `+` | genau eine Ebene | `+/+/temperatur` | `halle1/ofen/temperatur`, `halle2/kuehlhaus/temperatur` |
-
-Abonniert in Fenster 1 alle Temperaturen aus allen Hallen:
+Bisher habt ihr ein Topic genau abonniert. Mit dem Zeichen `#` am Ende
+bekommt ihr **alles, was darunter liegt**, auf einmal. Beendet in
+Fenster 1 das laufende Abo mit `Strg+C` und abonniert dann alles, was es
+überhaupt gibt:
 
 ```bash
-docker exec -it broker mosquitto_sub -t "+/+/temperatur" -v
+docker exec -it broker mosquitto_sub -t "#" -v
 ```
 
-Sendet aus Fenster 2 Temperaturen und andere Werte in verschiedene Hallen
-und beobachtet, was ankommt und was nicht.
+Sendet aus Fenster 2 an beliebige eigene Topics, zum Beispiel:
 
-**Frage 2:** Welches Abo bräuchte eine Leitwarte, die **alle** Nachrichten
-aller Hallen sehen will? Und welches ein Instandhalter, der nur den Ofen
-in Halle 1 betreut?
+```bash
+docker exec broker mosquitto_pub -t halle2/kuehlhaus/temperatur -m 4
+```
+
+Jetzt kommt alles in Fenster 1 an, auch die Nachricht aus Halle 2.
+
+**Frage 2:** Welches Abo bräuchte ein Instandhalter, der nur den Ofen in
+Halle 1 betreut, von dem aber alles?
 
 ??? success "Lösung Frage 2"
-    Die Leitwarte abonniert `#`, also schlicht alles. Der Instandhalter
-    nimmt `halle1/ofen/#` und bekommt Temperatur, Status und alles, was
-    später unter dem Ofen dazukommt. Gute Topic-Namen sind deshalb eine
-    Planungsaufgabe: Wer sie sauber nach Ort und Gerät ordnet, kann später
-    gezielt abonnieren.
+    `halle1/ofen/#`. Damit bekommt er Temperatur, Status und alles, was
+    später unter dem Ofen dazukommt, aber nichts aus Halle 2. Deshalb lohnt
+    es sich, Topics sauber nach Ort und Gerät zu benennen.
 
 ---
 
-## Teil 4: Die Retained Message (5 Minuten)
+## Extras für Neugierige
+
+Das Ziel der Übung habt ihr mit Teil 3 erreicht. Wer noch Zeit hat,
+probiert hier weiter. Alles davon vertiefen wir beim nächsten Mal.
+
+### Extra 1: Die Retained Message
 
 Eine normale Nachricht bekommt nur, wer **in dem Moment** zuhört. Wer sich
 später verbindet, hat sie verpasst. Mit `-r` (retain) merkt sich der
@@ -176,11 +218,11 @@ docker exec -it broker mosquitto_sub -t halle1/ofen/sollwert -v
 Der Wert `230` erscheint sofort, obwohl er vor dem Abonnieren gesendet
 wurde.
 
-**Frage 3:** Ein Display in der Halle startet nach einem Stromausfall neu.
+**Extra-Frage:** Ein Display in der Halle startet nach einem Stromausfall neu.
 Warum ist es für den aktuellen Sollwert wichtig, dass er als Retained
 Message gesendet wurde?
 
-??? success "Lösung Frage 3"
+??? success "Lösung Extra-Frage"
     Ohne Retain müsste das Display warten, bis irgendwer den Sollwert
     zufällig erneut sendet. Bis dahin zeigte es nichts oder Veraltetes.
     Mit Retain bekommt es beim Verbinden sofort den letzten gültigen Wert.
@@ -189,7 +231,7 @@ Message gesendet wurde?
 
 ---
 
-## Teil 5: Ein Sensor-Container funkt mit (für alle mit Restzeit)
+### Extra 2: Ein Sensor-Container funkt mit
 
 Bisher habt ihr von Hand gesendet. Jetzt übernimmt ein eigener Container
 die Rolle eines Sensors: Er schickt alle zwei Sekunden die Uhrzeit an den
@@ -217,15 +259,24 @@ halle1/uhr 15:04:12
 wie viele Nachrichten der Broker schon angenommen und verteilt hat.
 Startet ein weiteres Abo und schaut, wie sich die Zahlen ändern.
 
-**Frage 4:** Der Sensor-Container hat kein `-p`. Warum erreicht er den
+**Extra-Frage:** Der Sensor-Container hat kein `-p`. Warum erreicht er den
 Broker trotzdem?
 
-??? success "Lösung Frage 4"
+??? success "Lösung zum Sensor"
     `-p` öffnet nur eine Tür von **außen**, von eurem Rechner in den
     Container. Der Sensor spricht aber **innerhalb** des Netzwerks
     `mqtt-netz` mit dem Broker, dort erreichen sich Container direkt über
     ihren Namen und den inneren Port 1883. Das ist dasselbe Muster wie die
     Datenbank ohne Port nach außen im Docker-Block.
+
+### Extra 3: Der Platzhalter +
+
+Das `+` steht für **genau eine** Ebene. `+/+/temperatur` bekommt alle
+Temperaturen aus allen Hallen, aber keinen Status:
+
+```bash
+docker exec -it broker mosquitto_sub -t "+/+/temperatur" -v
+```
 
 ---
 
@@ -235,10 +286,10 @@ Euer Broker nimmt Nachrichten von **jedem** an, ohne Passwort. Alles
 geht im Klartext über Port 1883. Genau das habt ihr im Paket-Detektiv
 gesehen: Topic und Messwert standen lesbar im Mitschnitt.
 
-**Frage 5:** Was müsste sich ändern, bevor so ein Broker in einer echten
+**Frage 3:** Was müsste sich ändern, bevor so ein Broker in einer echten
 Fabrik oder im Internet läuft?
 
-??? success "Lösung Frage 5"
+??? success "Lösung Frage 3"
     - **Anmeldung:** Benutzername und Passwort (oder Zertifikate) statt
       `allow_anonymous true`.
     - **Verschlüsselung:** TLS, üblich auf Port **8883**, damit niemand

@@ -14,15 +14,18 @@ description: "Wireshark für Windows, macOS und Linux installieren: Schritt für
 
 === "Windows"
 
-    1. Lade den Installer von <https://www.wireshark.org/download.html> (Windows x64 Installer).
-    2. Installer starten und durchklicken. Die Vorgaben passen.
+    1. Öffne <https://www.wireshark.org/download.html> und lade unter **Stable Release** den **Windows x64 Installer**. Nur wer ein Notebook mit Snapdragon-Prozessor hat (Windows auf ARM), nimmt den **Windows Arm64 Installer**. Welcher Prozessor drinsteckt, zeigt **Einstellungen → System → Info** unter „Systemtyp".
+    2. Installer starten und durchklicken. Die Vorgaben passen. Windows fragt einmal nach Administratorrechten.
     3. Der Installer fragt nach **Npcap**: Das ist der Treiber für Live-Mitschnitte. Du kannst ihn mitinstallieren (Vorgabe) oder weglassen, für unsere Übung mit der Datei ist er egal.
-    4. Test: Wireshark aus dem Startmenü öffnen. Es erscheint die Startseite mit der Schnittstellenliste.
+    4. Test: Wireshark aus dem Startmenü öffnen. Es erscheint die Startseite.
+
+    !!! warning "Keine Administratorrechte, zum Beispiel auf einem Firmenrechner?"
+        Dann nimm die **portable Version**: auf derselben Seite **Windows x64 PortableApps®** laden, die Datei starten und als Zielordner einen Ordner wählen, in dem du schreiben darfst, zum Beispiel `Downloads\WiresharkPortable`. Danach in diesem Ordner **WiresharkPortable64.exe** starten. Eine Installation ist nicht nötig. Die Frage nach Npcap kannst du verneinen, zum Öffnen der Übungsdatei braucht es ihn nicht.
 
 === "macOS"
 
-    1. Lade das dmg von <https://www.wireshark.org/download.html> (Arm oder Intel, je nach Mac).
-    2. Wireshark in den Programme-Ordner ziehen und starten.
+    1. Lade von <https://www.wireshark.org/download.html> unter **Stable Release** das **macOS Universal Disk Image**. Es läuft auf jedem Mac, egal ob mit Apple- oder Intel-Prozessor.
+    2. Das dmg öffnen, Wireshark in den Programme-Ordner ziehen und starten.
     3. Die Frage nach „ChmodBPF" betrifft nur Live-Mitschnitte, für die Übung mit der Datei kannst du sie überspringen.
     4. Alternativ mit Homebrew:
        ```bash

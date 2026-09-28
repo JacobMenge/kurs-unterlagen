@@ -36,7 +36,7 @@ kurs/#
 
 Die Raute ist ein Platzhalter für „alles darunter". Ab jetzt seht ihr jede Kursnachricht live hereinkommen. Lasst das Fenster offen und beobachtet kurz, was die anderen tun.
 
-**Frage 1:** Woran erkennt ihr in der Liste, wer eine Nachricht geschickt hat, und woran, an welches Topic sie ging?
+**Frage 1:** Woran erkennt ihr in der Liste, wer eine Nachricht geschickt hat? Woran, an welches Topic sie ging?
 
 ??? success "Lösung Teil 1"
     Jede eingehende Nachricht zeigt Topic und Payload. Einen Absender zeigt MQTT **nicht** an: Das Protokoll kennt nur Topics, keine Empfänger- oder Absenderlisten. Wer etwas über den Absender wissen will, muss es in die Nutzlast schreiben, genau das macht ihr gleich mit eurem Namen.
@@ -111,7 +111,7 @@ Versucht gezielt, die Regeln zu brechen: 21 Zeichen, verbotene Zeichen, kaputtes
 Warum heißt es wohl `kurs/matrix/anzeige` und nicht einfach `anzeige`?
 
 ??? success "Antwort"
-    Topics sind hierarchisch wie Pfade: `kurs/…` bündelt alles aus diesem Kurs, `kurs/matrix/…` alles zur Matrix. Dadurch funktionieren Wildcards wie `kurs/#` oder `kurs/matrix/+`, und verschiedene Anwendungen kommen sich nicht in die Quere.
+    Topics sind hierarchisch wie Pfade: `kurs/…` bündelt alles aus diesem Kurs, `kurs/matrix/…` alles zur Matrix. Dadurch funktionieren Wildcards wie `kurs/#` oder `kurs/matrix/+`. Außerdem kommen sich verschiedene Anwendungen nicht in die Quere.
 
 ---
 
