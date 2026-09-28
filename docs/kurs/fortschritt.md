@@ -22,9 +22,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 <div class="fortschritt-block t1" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 1 · Planung, Konzeptionierung, Integration</span>
-<span class="fortschritt-wert">4 von 6 Blöcken fertig</span>
+<span class="fortschritt-wert">5 von 7 Blöcken fertig</span>
 </div>
-<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 67%"></div></div>
+<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 71%"></div></div>
 </div>
 
 <div class="fortschritt-block t2" markdown>
@@ -53,29 +53,27 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Docker Praxis: Mission Control**
+    **Docker-Training**
 
-    Das Gruppen-Event: Die Aurora Station mit zehn Containern aus einer selbst geschriebenen Datei.
+    Die Grundlagen in Ruhe gefestigt: 16 kurze Übungen von Container bis Compose.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Docker-Training**
+    **Industrie und IoT**
 
-    Die Grundlagen in Ruhe festigen: 16 kurze, unabhängige Übungen von Container bis Compose.
+    Wie Maschinen sprechen: Profinet, OPC UA und MQTT, im Mitschnitt und mit dem eigenen Broker.
 
-    [:octicons-arrow-right-24: Zum Training](../docker-training/index.md)
+    [:octicons-arrow-right-24: Zum Block](../industrie-iot/index.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
     ---
 
-    **Industrie und IoT**
+    **MQTT live**
 
-    Wie Maschinen sprechen: Profinet, OPC UA und MQTT, erst im Überblick, dann live im Datenmitschnitt.
-
-    [:octicons-arrow-right-24: Zum Block](../industrie-iot/index.md)
+    Der ganze Kurs funkt über einen gemeinsamen Broker und steuert echte Hardware beim Dozenten.
 
 </div>
 
@@ -93,7 +91,8 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 | <span class="status-fertig">✓</span> | [Virtualisierung](../virtualisierung/index.md) | Hypervisor, virtuelle Maschinen, Werkzeuge |
 | <span class="status-fertig">✓</span> | [Docker – Einführung](../docker/index.md) | Container, Images, eigene Container bauen |
 | <span class="status-fertig">✓</span> | [Docker – Aufbau](../docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke |
-| <span class="status-laeuft">●</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
+| <span class="status-fertig">✓</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
+| <span class="status-laeuft">●</span> | [Industrie & IoT](../industrie-iot/index.md) | OT und IT, Profinet, OPC UA und MQTT |
 | <span class="status-offen">○</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen |
 
 ### Thema 2 · Sicherstellung des laufenden Betriebs

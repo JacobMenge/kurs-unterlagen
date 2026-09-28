@@ -22,11 +22,11 @@ Ein Kollege hat euch einen Mitschnitt aus dem Netz der **Halle 1** mitgebracht. 
 - Kein Terminal nötig: Die ganze Übung findet in der Wireshark-Oberfläche statt und ist damit auf Windows, macOS und Linux identisch.
 
 !!! info "Womit du hier arbeitest"
-    **Wireshark** zeigt Netzwerkverkehr Paket für Paket, wie ein Röntgenblick ins Kabel. Ein **Mitschnitt** (Datei `.pcap`, packet capture) ist aufgezeichneter Verkehr zum Nachschauen: gleiche Ansicht, nur ohne live dabei zu sein. Du musst nichts konfigurieren, nur öffnen, filtern und lesen. Für die Prüfung zählt, dass du Protokolle erkennen und einordnen kannst; im Beruf ist der geübte Wireshark-Blick bei jeder Netz-Fehlersuche Gold wert.
+    **Wireshark** zeigt Netzwerkverkehr Paket für Paket, jedes Feld einzeln aufgeschlüsselt. Ein **Mitschnitt** (Datei `.pcap`, packet capture) ist aufgezeichneter Verkehr zum Nachschauen: gleiche Ansicht, nur ohne live dabei zu sein. Du musst nichts konfigurieren, nur öffnen, filtern und lesen. Für die Prüfung zählt, dass du Protokolle erkennen und einordnen kannst; im Beruf ist der geübte Wireshark-Blick bei jeder Netz-Fehlersuche Gold wert.
 
 ---
 
-## Teil 1: Öffnen und Überblick (10 Minuten)
+## Teil 1: Öffnen und Überblick (8 Minuten)
 
 1. Wireshark starten, dann **Datei → Öffnen** (File → Open) und `fabrik-halle1.pcap` auswählen.
 2. Ihr seht die Paketliste: eine Zeile je Paket, mit Zeit, Quelle, Ziel und Protokoll.
@@ -39,7 +39,7 @@ Ein Kollege hat euch einen Mitschnitt aus dem Netz der **Halle 1** mitgebracht. 
 
 ---
 
-## Teil 2: Profinet, die Namensrunde (15 Minuten)
+## Teil 2: Profinet, die Namensrunde (12 Minuten)
 
 Tippt oben in die **Anzeigefilter-Leiste** (das Eingabefeld über der Paketliste):
 
@@ -57,7 +57,7 @@ Mit ++enter++ bestätigen. Die Leiste wird grün, wenn der Filter gültig ist, u
 **Frage 2c:** Löscht den Filter und setzt stattdessen `pn_io`. Schaut auf die **Zeit-Spalte**: In welchem Abstand kommen diese Pakete ungefähr?
 
 ??? success "Lösung Teil 2"
-    - **2a:** `plc-halle1`, `io-presse-01`, `hmi-panel-03`.
+    - **2a:** `plc-halle1`, `io-ofen-01`, `hmi-panel-03`.
     - **2b:** `plc-halle1` trägt die Rolle **IO-Controller**, die beiden anderen sind IO-Devices. Nebenbei: Wireshark zeigt euch über die MAC-Adressen sogar die Hersteller an.
     - **2c:** Rund alle **32 Millisekunden** ein Frame: der feste Zyklus, in dem Prozessdaten laufen. Genau das meint Echtzeit am Band.
 
@@ -66,7 +66,7 @@ Mit ++enter++ bestätigen. Die Leiste wird grün, wenn der Filter gültig ist, u
 
 ---
 
-## Teil 3: MQTT im Klartext (15 Minuten)
+## Teil 3: MQTT im Klartext (12 Minuten)
 
 Neuer Filter:
 
@@ -82,8 +82,8 @@ Ihr seht den Verbindungsaufbau (**Connect Command** und **Connect Ack**) und zwe
 **Frage 3b:** Rechtsklick auf das Paket, dann **Folgen → TCP-Stream** (Follow → TCP Stream). Was fällt euch auf, und die entscheidende Frage: **Wer kann das alles mitlesen?**
 
 ??? success "Lösung Teil 3"
-    - **3a:** Topic `halle1/presse/temperatur` mit der Nutzlast `{"wert": 78.5, "einheit": "C"}`. Das zweite Publish meldet `halle1/presse/status`.
-    - **3b:** Der komplette Austausch steht **im Klartext** im Stream, inklusive Client-Name `edge-halle1`. Mitlesen kann jeder, der an den Verkehr kommt, so wie ihr gerade. Deshalb gehört MQTT produktiv hinter **TLS** (Port 8883 statt 1883) und hinter Zugangskontrolle. Am Montag, wenn ihr euren eigenen Broker betreibt, kommen wir genau darauf zurück.
+    - **3a:** Topic `halle1/ofen/temperatur` mit der Nutzlast `{"wert": 228.5, "einheit": "C"}`. Das zweite Publish meldet `halle1/ofen/status`.
+    - **3b:** Der komplette Austausch steht **im Klartext** im Stream, inklusive Client-Name `edge-halle1`. Mitlesen kann jeder, der an den Verkehr kommt, so wie ihr gerade. Deshalb gehört MQTT produktiv hinter **TLS** (Port 8883 statt 1883) und hinter Zugangskontrolle. In der Übung [MQTT im Container](praxis-mqtt-container.md) betreibt ihr anschließend euren eigenen Broker und seht genau das.
 
 ---
 

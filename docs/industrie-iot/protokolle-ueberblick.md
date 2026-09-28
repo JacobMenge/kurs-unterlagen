@@ -41,7 +41,7 @@ Nach unten wird es schneller und strenger (Millisekunden, feste Takte), nach obe
 
 ## OPC UA: das Esperanto zwischen Maschine und IT
 
-**Was das ist:** OPC Unified Architecture, ein herstellerneutrales Protokoll, mit dem Maschinen ihre Daten **strukturiert und beschrieben** anbieten: nicht nur „42", sondern „Temperatur der Presse, in Grad Celsius, Grenzwert 80".
+**Was das ist:** OPC Unified Architecture, ein herstellerneutrales Protokoll, mit dem Maschinen ihre Daten **strukturiert und beschrieben** anbieten: nicht nur „42", sondern „Temperatur des Ofens, in Grad Celsius, Grenzwert 250".
 
 **Warum es das braucht:** Jeder Hersteller hat eigene Steuerungen. OPC UA ist die gemeinsame Schnittstelle, damit Leitsysteme nicht für jede Maschine einen eigenen Dolmetscher brauchen.
 
@@ -55,7 +55,7 @@ Nach unten wird es schneller und strenger (Millisekunden, feste Takte), nach obe
 
 ## MQTT: leichtgewichtig Richtung Cloud
 
-**Was das ist:** Message Queuing Telemetry Transport, ein sehr schlankes Nachrichtenprotokoll nach dem Prinzip **Publish/Subscribe**: Geräte veröffentlichen Nachrichten zu **Topics** (etwa `halle1/presse/temperatur`), ein zentraler **Broker** verteilt sie an alle Abonnenten.
+**Was das ist:** Message Queuing Telemetry Transport, ein sehr schlankes Nachrichtenprotokoll nach dem Prinzip **Publish/Subscribe**: Geräte veröffentlichen Nachrichten zu **Topics** (etwa `halle1/ofen/temperatur`), ein zentraler **Broker** verteilt sie an alle Abonnenten.
 
 **Warum es das braucht:** Tausende Sensoren, schmale Verbindungen, wechselnde Empfänger. Publish/Subscribe entkoppelt: Der Sensor kennt nur den Broker, nicht die Empfänger.
 
