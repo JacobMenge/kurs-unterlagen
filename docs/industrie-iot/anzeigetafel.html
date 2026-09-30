@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Jacob Menge">
+<meta name="description" content="Anzeigetafel für den MQTT-Kursabend: Signalleuchte, vier Teams und alle Nachrichten unter kurs/# live.">
+<meta name="color-scheme" content="dark">
+<meta name="referrer" content="no-referrer">
+<title>Anzeigetafel</title>
+<link rel="icon" href="data:,">
+<style>
+  :root {
+    --grund: #0f1115;
+    --flaeche: #171a21;
+    --flaeche-hoch: #1f232c;
+    --linie: #2b303b;
+    --linie-leise: #232731;
+    --text: #e6e8eb;
+    --text-leise: #9aa3af;
+    --nutzlast: #c9ced6;
+    --gut: #3dd68c;
+    --schlecht: #ff6369;
+    --schlecht-text: #ff9da1;
+    --warnung: #ffc53d;
+    --warnung-text: #ffdc8f;
+    --neutral: #6b7280;
+    --fokus: #9eb1ff;
+
+    --rot: #e5484d;
+    --rot-hell: #ff9592;
+    --rot-schimmer: rgba(229, 72, 77, 0.1);
+    --gruen: #30a46c;
+    --gruen-hell: #3dd68c;
+    --gruen-schimmer: rgba(48, 164, 108, 0.1);
+    --blau: #3e63dd;
+    --blau-hell: #9eb1ff;
+    --blau-schimmer: rgba(62, 99, 221, 0.12);
+    --lila: #8e4ec6;
+    --lila-hell: #d19dff;
+    --lila-schimmer: rgba(142, 78, 198, 0.12);
+
+    --schrift: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --radius: 12px;
+    color-scheme: dark;
+  }
+
+  [data-team="rot"] { --akzent: var(--rot); --akzent-hell: var(--rot-hell); --akzent-schimmer: var(--rot-schimmer); }
+  [data-team="gruen"] { --akzent: var(--gruen); --akzent-hell: var(--gruen-hell); --akzent-schimmer: var(--gruen-schimmer); }
+  [data-team="blau"] { --akzent: var(--blau); --akzent-hell: var(--blau-hell); --akzent-schimmer: var(--blau-schimmer); }
+  [data-team="lila"] { --akzent: var(--lila); --akzent-hell: var(--lila-hell); --akzent-schimmer: var(--lila-schimmer); }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  html {
+    background: var(--grund);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--grund);
+    color: var(--text);
+    font-family: var(--schrift);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, p { margin: 0; }
+  code { font-family: var(--mono); }
+
+  .nur-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .seite {
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  @media (min-width: 720px) {
+    .seite { padding: 18px 24px 24px; }
+  }
+
+  .karte {
+    min-width: 0;
+    background: var(--flaeche);
+    border: 1px solid var(--linie);
+    border-radius: var(--radius);
+  }
+
+  .karten-titel {
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .punkt {
+    display: inline-block;
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--neutral);
+  }
+
+  /* Kopf */
+
+  .kopf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    margin-bottom: 14px;
+  }
+
+  .kopf h1 {
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .unterzeile {
+    margin-top: 2px;
+    font-size: 15px;
+    color: var(--text-leise);
+  }
+
+  .unterzeile code {
+    padding: 0 6px;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--flaeche-hoch);
+    border: 1px solid var(--linie);
+    border-radius: 6px;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    background: var(--flaeche);
+    border: 1px solid var(--linie);
+    border-radius: 999px;
+  }
+
+  .status[data-zustand="verbunden"] { color: var(--gut); border-color: rgba(61, 214, 140, 0.45); }
+  .status[data-zustand="verbunden"] .punkt { background: var(--gut); box-shadow: 0 0 0 4px rgba(61, 214, 140, 0.18); }
+  .status[data-zustand="verbinde"] { border-color: rgba(255, 197, 61, 0.45); }
+  .status[data-zustand="verbinde"] .punkt { background: var(--warnung); animation: atmen 1.2s ease-in-out infinite; }
+  .status[data-zustand="fehler"] { color: var(--schlecht-text); border-color: rgba(255, 99, 105, 0.5); }
+  .status[data-zustand="fehler"] .punkt { background: var(--schlecht); }
+
+  @keyframes atmen {
+    50% { opacity: 0.3; }
+  }
+
+  /* Zugang */
+
+  .zugang-karte { margin-bottom: 16px; }
+
+  .zugang > summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 14px;
+    min-height: 48px;
+    padding: 12px 16px;
+    list-style: none;
+    cursor: pointer;
+    border-radius: var(--radius);
+  }
+
+  .zugang > summary::-webkit-details-marker { display: none; }
+  .zugang > summary:hover { background: rgba(255, 255, 255, 0.02); }
+
+  .zugang > summary:focus-visible,
+  .knopf:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--fokus);
+    outline-offset: 2px;
+  }
+
+  .zugang-titel { font-weight: 600; }
+
+  .zugang-info {
+    flex: 1 1 220px;
+    min-width: 0;
+    font-size: 15px;
+    color: var(--text-leise);
+    overflow-wrap: anywhere;
+  }
+
+  .pfeil {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    margin: 0 4px 4px auto;
+    border-right: 2px solid var(--text-leise);
+    border-bottom: 2px solid var(--text-leise);
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+  }
+
+  .zugang[open] .pfeil {
+    margin-bottom: -4px;
+    transform: rotate(-135deg);
+  }
+
+  .formular {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "host" "port" "benutzer" "passwort" "merken" "knopf";
+    gap: 12px;
+    padding: 4px 16px 16px;
+  }
+
+  .feld {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .feld > span {
+    font-size: 14px;
+    color: var(--text-leise);
+  }
+
+  .feld-host { grid-area: host; }
+  .feld-port { grid-area: port; }
+  .feld-benutzer { grid-area: benutzer; }
+  .feld-passwort { grid-area: passwort; }
+
+  .feld input {
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    padding: 0 12px;
+    font: inherit;
+    font-size: 16px;
+    color: var(--text);
+    background: var(--grund);
+    border: 1px solid var(--linie);
+    border-radius: 8px;
+  }
+
+  .feld input::placeholder { color: #6b7380; }
+
+  .merken {
+    grid-area: merken;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .merken input,
+  .schalter input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--gruen);
+  }
+
+  .knopf {
+    grid-area: knopf;
+    height: 44px;
+    padding: 0 24px;
+    font: inherit;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--grund);
+    background: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .knopf:hover { background: #ffffff; }
+
+  .knopf.ist-trennen {
+    color: var(--text);
+    background: var(--flaeche-hoch);
+    border-color: var(--linie);
+  }
+
+  .knopf.ist-trennen:hover { background: #262b35; }
+
+  .knopf:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .meldung {
+    padding: 0 16px 14px;
+    font-size: 15px;
+    color: var(--text-leise);
+  }
+
+  .meldung:empty { display: none; }
+  .meldung[data-art="fehler"] { color: var(--schlecht-text); }
+
+  @media (min-width: 640px) {
+    .formular {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-areas:
+        "host host host port"
+        "benutzer benutzer passwort passwort"
+        "merken merken merken knopf";
+      align-items: end;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .formular {
+      grid-template-columns: minmax(0, 2.2fr) 110px minmax(0, 1.2fr) minmax(0, 1.2fr) auto auto;
+      grid-template-areas: "host port benutzer passwort merken knopf";
+    }
+  }
+
+  /* Raster */
+
+  .raster {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "lampe" "teams" "verlauf";
+    gap: 16px;
+  }
+
+  @media (min-width: 960px) {
+    .raster {
+      grid-template-columns: 288px minmax(0, 1fr);
+      grid-template-areas: "lampe teams" "verlauf verlauf";
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .raster {
+      grid-template-columns: 288px minmax(0, 1fr) minmax(320px, 28%);
+      grid-template-areas: "lampe teams verlauf";
+    }
+  }
+
+  /* Signalleuchte */
+
+  .lampe {
+    grid-area: lampe;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 16px 20px;
+    overflow: hidden;
+  }
+
+  .lampe-inhalt {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .lampe-kreis {
+    --lampe: #262a33;
+    --glow: rgba(0, 0, 0, 0);
+    --ring: rgba(0, 0, 0, 0);
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 168px;
+    height: 168px;
+    margin: 10px 0;
+    border-radius: 50%;
+    background-color: var(--lampe);
+    background-image: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 55%);
+    box-shadow:
+      0 0 0 7px var(--ring),
+      0 0 44px 10px var(--glow),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      inset 0 -14px 30px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .lampe-kreis[data-zustand="an"] {
+    background-image: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 52%);
+  }
+
+  .lampe-text {
+    max-width: 84%;
+    padding: 4px 12px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-leise);
+    border-radius: 999px;
+  }
+
+  .lampe-kreis[data-zustand="an"] .lampe-text {
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    background: rgba(15, 17, 21, 0.72);
+  }
+
+  .lampe-kreis[data-zustand="aus"] .lampe-text { font-size: 22px; }
+
+  .lampe-kreis.blinkt { animation: pulsieren 1s ease-in-out 10; }
+
+  @keyframes pulsieren {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.95); }
+  }
+
+  @keyframes pulsieren-sanft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+  }
+
+  .lampe-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .lampe-zuletzt { overflow-wrap: anywhere; }
+  .zuletzt-label { color: var(--text-leise); }
+
+  .lampe-team {
+    font-weight: 700;
+    color: var(--akzent-hell, var(--text));
+  }
+
+  .abzeichen {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-leise);
+    background: var(--flaeche-hoch);
+    border: 1px solid var(--linie);
+    border-radius: 999px;
+  }
+
+  .abzeichen[data-zustand="online"] { color: var(--gut); background: rgba(61, 214, 140, 0.09); border-color: rgba(61, 214, 140, 0.4); }
+  .abzeichen[data-zustand="online"] .punkt { background: var(--gut); }
+  .abzeichen[data-zustand="offline"] { color: var(--schlecht-text); background: rgba(255, 99, 105, 0.09); border-color: rgba(255, 99, 105, 0.45); }
+  .abzeichen[data-zustand="offline"] .punkt { background: var(--schlecht); }
+
+  .hinweis {
+    width: 100%;
+    padding: 10px 12px;
+    text-align: left;
+    background: rgba(255, 197, 61, 0.08);
+    border: 1px solid rgba(255, 197, 61, 0.4);
+    border-radius: 10px;
+  }
+
+  .hinweis-kopf {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--warnung);
+  }
+
+  .hinweis-text {
+    margin-top: 2px;
+    font-size: 15px;
+    color: var(--warnung-text);
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 640px) and (max-width: 959px) {
+    .lampe-inhalt {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 32px;
+      padding-left: 12px;
+      text-align: left;
+    }
+
+    .lampe-info { align-items: flex-start; }
+  }
+
+  /* Teamkacheln */
+
+  .teams {
+    grid-area: teams;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 16px;
+  }
+
+  @media (min-width: 640px) {
+    .teams { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .team {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 16px 14px 20px;
+    background: linear-gradient(100deg, var(--akzent-schimmer), rgba(0, 0, 0, 0) 45%), var(--flaeche);
+    box-shadow: inset 4px 0 0 var(--akzent);
+  }
+
+  .team-kopf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+  }
+
+  .team-name {
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--akzent-hell);
+  }
+
+  .online {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    white-space: nowrap;
+    color: var(--text-leise);
+  }
+
+  .online[data-zustand="online"] { color: var(--gut); }
+  .online[data-zustand="online"] .punkt { background: var(--gut); box-shadow: 0 0 0 3px rgba(61, 214, 140, 0.2); }
+  .online[data-zustand="offline"] { color: var(--schlecht-text); }
+  .online[data-zustand="offline"] .punkt { background: var(--schlecht); }
+
+  .team-status {
+    display: -webkit-box;
+    min-height: 1.4em;
+    overflow: hidden;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .ist-leer {
+    font-style: italic;
+    color: var(--text-leise);
+  }
+
+  .temp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 6px 14px;
+  }
+
+  .temp-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-leise);
+  }
+
+  .temp-wert {
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 700;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .temp-einheit {
+    margin-left: 0.2em;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-leise);
+  }
+
+  .temp-wert.ist-leer {
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .spark {
+    display: block;
+    flex: 1 1 90px;
+    min-width: 0;
+    max-width: 150px;
+    height: 36px;
+    overflow: visible;
+  }
+
+  .spark-linie {
+    fill: none;
+    stroke: var(--akzent-hell);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .spark-flaeche {
+    fill: var(--akzent);
+    opacity: 0.18;
+  }
+
+  .team-aktion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    min-width: 0;
+    font-size: 15px;
+  }
+
+  .aktion-label { color: var(--text-leise); }
+  .aktion-text { min-width: 0; overflow-wrap: anywhere; }
+
+  .swatch {
+    display: inline-block;
+    flex: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  }
+
+  .team-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2px 12px;
+    margin-top: auto;
+    font-size: 14px;
+    color: var(--text-leise);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .team-meta > span { white-space: nowrap; }
+
+  /* Live-Verlauf */
+
+  .verlauf {
+    grid-area: verlauf;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .verlauf-kopf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 16px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--linie);
+  }
+
+  .verlauf-optionen {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    font-size: 14px;
+    color: var(--text-leise);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .schalter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .schalter input {
+    width: 16px;
+    height: 16px;
+  }
+
+  .verlauf-rahmen {
+    position: relative;
+    flex: 1 1 auto;
+  }
+
+  .verlauf-leer {
+    padding: 16px;
+    color: var(--text-leise);
+  }
+
+  .verlauf-liste {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 1200px) {
+    .verlauf { min-height: max(420px, calc(100vh - 190px)); }
+    .verlauf-rahmen { min-height: 200px; }
+
+    .verlauf-liste {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: #3a404c transparent;
+    }
+  }
+
+  .zeile {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "zeit topic marken" "nutzlast nutzlast nutzlast";
+    align-items: baseline;
+    gap: 2px 10px;
+    padding: 8px 14px 9px 12px;
+    border-left: 4px solid transparent;
+    border-bottom: 1px solid var(--linie-leise);
+  }
+
+  .zeile[data-team] { border-left-color: var(--akzent); }
+
+  .z-zeit {
+    grid-area: zeit;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--text-leise);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .z-topic {
+    grid-area: topic;
+    font-family: var(--mono);
+    font-size: 15px;
+    overflow-wrap: anywhere;
+  }
+
+  .z-marken {
+    grid-area: marken;
+    display: inline-flex;
+    gap: 6px;
+  }
+
+  .z-nutzlast {
+    grid-area: nutzlast;
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--nutzlast);
+    overflow-wrap: anywhere;
+  }
+
+  .z-nutzlast.ist-leer {
+    font-family: var(--schrift);
+    color: var(--text-leise);
+  }
+
+  .zeile.ist-hinweis {
+    background: rgba(255, 197, 61, 0.09);
+    border-left-color: var(--warnung);
+  }
+
+  .zeile.ist-hinweis .z-topic,
+  .zeile.ist-hinweis .z-nutzlast { color: var(--warnung-text); }
+
+  .marke {
+    display: inline-block;
+    padding: 0 6px;
+    font-family: var(--schrift);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    text-decoration: none;
+    border: 1px solid;
+    border-radius: 4px;
+    cursor: help;
+  }
+
+  .marke-r {
+    color: #b9c6ff;
+    background: rgba(158, 177, 255, 0.12);
+    border-color: rgba(158, 177, 255, 0.4);
+  }
+
+  .marke-ungueltig {
+    color: var(--schlecht-text);
+    background: rgba(255, 99, 105, 0.12);
+    border-color: rgba(255, 99, 105, 0.45);
+  }
+
+  @media (min-width: 760px) and (max-width: 1199px) {
+    .zeile {
+      grid-template-columns: 76px minmax(160px, 34%) minmax(0, 1fr) auto;
+      grid-template-areas: "zeit topic nutzlast marken";
+    }
+  }
+
+  /* Fußzeile */
+
+  .fuss {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 28px;
+    margin-top: 16px;
+    padding-top: 12px;
+    font-size: 14px;
+    color: var(--text-leise);
+    border-top: 1px solid var(--linie-leise);
+    overflow-wrap: anywhere;
+  }
+
+  .fuss code {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lampe-kreis { transition: none; }
+    .lampe-kreis.blinkt { animation-name: pulsieren-sanft; }
+    .status[data-zustand="verbinde"] .punkt { animation: none; }
+    .pfeil { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="seite">
+  <header class="kopf">
+    <div>
+      <h1>Anzeigetafel</h1>
+      <p class="unterzeile">Alles, was unter <code>kurs/#</code> ankommt, live</p>
+    </div>
+    <div class="status" id="status" data-zustand="getrennt" role="status" aria-live="polite">
+      <span class="punkt" aria-hidden="true"></span><span id="status-text">Getrennt</span>
+    </div>
+  </header>
+
+  <noscript><p class="meldung">Die Anzeigetafel braucht JavaScript.</p></noscript>
+
+  <section class="karte zugang-karte" aria-label="Verbindung zum Broker">
+    <details class="zugang" id="zugang" open>
+      <summary>
+        <span class="zugang-titel">Zugang zum Broker</span>
+        <span class="zugang-info" id="zugang-info">nicht verbunden</span>
+        <span class="pfeil" aria-hidden="true"></span>
+      </summary>
+      <form class="formular" id="formular" method="post" novalidate>
+        <label class="feld feld-host">
+          <span>Host</span>
+          <input type="text" id="host" placeholder="Adresse aus dem Chat, endet auf .hivemq.cloud" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </label>
+        <label class="feld feld-port">
+          <span>Port</span>
+          <input type="text" id="port" value="8884" inputmode="numeric" maxlength="5" autocomplete="off">
+        </label>
+        <label class="feld feld-benutzer">
+          <span>Benutzer</span>
+          <input type="text" id="benutzer" autocomplete="username" autocapitalize="off" spellcheck="false">
+        </label>
+        <label class="feld feld-passwort">
+          <span>Passwort</span>
+          <input type="password" id="passwort" autocomplete="current-password">
+        </label>
+        <label class="merken" title="Speichert das Passwort unverschlüsselt in diesem Browser. Nur auf dem eigenen Gerät anhaken.">
+          <input type="checkbox" id="merken">
+          <span>Zugang auf diesem Gerät merken</span>
+        </label>
+        <button type="submit" class="knopf" id="knopf">Verbinden</button>
+      </form>
+    </details>
+    <p class="meldung" id="meldung" aria-live="polite"></p>
+  </section>
+
+  <main class="raster">
+    <section class="karte lampe" aria-labelledby="lampe-titel">
+      <h2 class="karten-titel" id="lampe-titel">Signalleuchte</h2>
+      <div class="lampe-inhalt">
+        <div class="lampe-kreis" id="lampe-kreis" data-zustand="unbekannt">
+          <span class="lampe-text" id="lampe-text">keine Meldung</span>
+        </div>
+        <div class="lampe-info">
+          <p class="lampe-zuletzt" id="lampe-zuletzt">Zuletzt: noch kein Befehl</p>
+          <p class="abzeichen" id="gateway" data-zustand="unbekannt">
+            <span class="punkt" aria-hidden="true"></span><span id="gateway-text">Gateway: noch keine Meldung</span>
+          </p>
+          <div class="hinweis" id="hinweis" hidden>
+            <p class="hinweis-kopf" id="hinweis-kopf"></p>
+            <p class="hinweis-text" id="hinweis-text"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="teams" id="teams" aria-labelledby="teams-titel">
+      <h2 class="nur-sr" id="teams-titel">Teams</h2>
+    </section>
+
+    <section class="karte verlauf" aria-labelledby="verlauf-titel">
+      <div class="verlauf-kopf">
+        <h2 class="karten-titel" id="verlauf-titel">Live-Verlauf</h2>
+        <div class="verlauf-optionen">
+          <span id="verlauf-gesamt">0 Nachrichten empfangen</span>
+          <label class="schalter"><input type="checkbox" id="messwerte" checked> Ofentemperaturen zeigen</label>
+        </div>
+      </div>
+      <div class="verlauf-rahmen">
+        <p class="verlauf-leer" id="verlauf-leer">Noch keine Nachrichten. Sobald die Tafel verbunden ist, erscheint hier alles unter kurs/#.</p>
+        <ul class="verlauf-liste" id="verlauf-liste" aria-label="Nachrichten, neueste oben"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="fuss">
+    <span>Topics je Team: <code>kurs/&lt;team&gt;/lampe · status · online · ofen/temperatur</code></span>
+    <span>Teams: <code>rot</code>, <code>gruen</code>, <code>blau</code>, <code>lila</code></span>
+    <span>Gateway: <code>kurs/lampe/zustand · online · hinweis</code></span>
+  </footer>
+</div>
+
+<template id="vorlage-team">
+  <article class="karte team">
+    <div class="team-kopf">
+      <h3 class="team-name"></h3>
+      <span class="online" data-zustand="unbekannt"><span class="punkt" aria-hidden="true"></span><span class="online-text">noch nicht gemeldet</span></span>
+    </div>
+    <p class="team-status ist-leer">kein Status</p>
+    <div class="temp">
+      <div>
+        <p class="temp-label">Ofentemperatur</p>
+        <p class="temp-wert ist-leer"><span class="temp-zahl">noch kein Wert</span><span class="temp-einheit"></span></p>
+      </div>
+      <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <polygon class="spark-flaeche" points=""></polygon>
+        <polyline class="spark-linie" points="" vector-effect="non-scaling-stroke"></polyline>
+      </svg>
+    </div>
+    <p class="team-aktion"><span class="aktion-label">Lampe:</span><span class="swatch" hidden></span><span class="aktion-text ist-leer">noch keine Aktion</span></p>
+    <p class="team-meta"><span class="meta-zuletzt">noch keine Nachricht</span><span class="meta-anzahl" title="Live empfangene Nachrichten seit dem Verbinden. Gespeicherte Nachrichten zählen nicht mit.">0 Nachrichten</span></p>
+  </article>
+</template>
+
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.0/dist/mqtt.min.js"></script>
+<script>
+(() => {
+  'use strict';
+
+  const TEAMS = new Map([
+    ['rot', 'Team Rot'],
+    ['gruen', 'Team Grün'],
+    ['blau', 'Team Blau'],
+    ['lila', 'Team Lila']
+  ]);
+
+  const SPEICHER_ZUGANG = 'anzeigetafel.zugang';
+  const SPEICHER_MESSWERTE = 'anzeigetafel.messwerte';
+  const MAX_ZEILEN = 60;
+  const MAX_PUFFER = 300;
+  const MAX_NUTZLAST = 200;
+  const MAX_BYTES = 8192;
+  const SPARK_WERTE = 20;
+  const SPARK_BREITE = 120;
+  const SPARK_HOEHE = 36;
+  const SPARK_RAND = 3;
+  const BLINKDAUER = 10000;
+  const HINWEIS_DAUER = 60000;
+  const FARBE = /^#[0-9A-Fa-f]{6}$/;
+  const HOSTNAME = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/;
+  const STEUERZEICHEN = /[\u0000-\u001f\u007f-\u009f‎‏‪-‮⁦-⁩]+/g;
+
+  const TEXT_STATUS = { verbunden: 'Verbunden', verbinde: 'Verbinde …', getrennt: 'Getrennt', fehler: 'Fehler' };
+  const TEXT_ONLINE = { online: 'online', offline: 'offline', unbekannt: 'noch nicht gemeldet' };
+  const TEXT_R = 'gespeicherte Nachricht, kommt beim Abonnieren sofort';
+  const TEXT_UNGUELTIG = 'Die Nutzlast passt nicht zum Topic-Vertrag. Die Anzeige bleibt unverändert.';
+  const MELDUNG_ANMELDUNG = 'Anmeldung abgelehnt: Benutzer oder Passwort prüfen';
+  const MELDUNG_NETZ = 'Keine Verbindung: Host und Port prüfen';
+  const MELDUNG_UNTERBROCHEN = 'Verbindung unterbrochen. Neuer Versuch alle 3 Sekunden.';
+  const MELDUNG_BIBLIOTHEK = 'Die MQTT-Bibliothek konnte nicht geladen werden. Bitte die Internetverbindung prüfen und die Seite neu laden.';
+
+  const $ = (id) => document.getElementById(id);
+  const el = {
+    status: $('status'),
+    statusText: $('status-text'),
+    zugang: $('zugang'),
+    zugangInfo: $('zugang-info'),
+    formular: $('formular'),
+    host: $('host'),
+    port: $('port'),
+    benutzer: $('benutzer'),
+    passwort: $('passwort'),
+    merken: $('merken'),
+    knopf: $('knopf'),
+    meldung: $('meldung'),
+    kreis: $('lampe-kreis'),
+    kreisText: $('lampe-text'),
+    zuletzt: $('lampe-zuletzt'),
+    gateway: $('gateway'),
+    gatewayText: $('gateway-text'),
+    hinweis: $('hinweis'),
+    hinweisKopf: $('hinweis-kopf'),
+    hinweisText: $('hinweis-text'),
+    teams: $('teams'),
+    vorlageTeam: $('vorlage-team'),
+    liste: $('verlauf-liste'),
+    verlaufLeer: $('verlauf-leer'),
+    gesamt: $('verlauf-gesamt'),
+    messwerte: $('messwerte')
+  };
+
+  const zahlFormat = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const zaehlFormat = new Intl.NumberFormat('de-DE');
+  const dekoder = new TextDecoder('utf-8');
+
+  // Zustand der Anzeige. Gezeichnet wird gebündelt in zeichne().
+  const lampe = {};
+  const teams = new Map();
+  const puffer = [];
+  let gateway = 'unbekannt';
+  let hinweis = null;
+  let lampeGeaendert = true;
+  let hinweisGeaendert = true;
+  let neueZeilen = [];
+  let gesamt = 0;
+  let zeigeMesswerte = true;
+  let zeichnenGeplant = false;
+  let blinkTimer = null;
+  let verbindung = null;
+  let autoVerbinden = false;
+
+  /* Hilfsfunktionen */
+
+  function lies(schluessel) {
+    try {
+      return window.localStorage.getItem(schluessel);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function schreib(schluessel, wert) {
+    try {
+      window.localStorage.setItem(schluessel, wert);
+    } catch (e) {
+      // Ohne Speicher läuft die Tafel weiter, sie merkt sich dann nur nichts.
+    }
+  }
+
+  function zweistellig(n) {
+    return n < 10 ? '0' + n : String(n);
+  }
+
+  function uhrzeit(d) {
+    return zweistellig(d.getHours()) + ':' + zweistellig(d.getMinutes()) + ':' + zweistellig(d.getSeconds());
+  }
+
+  function saeubere(s) {
+    return s.replace(STEUERZEICHEN, ' ');
+  }
+
+  function kuerze(s, max) {
+    if (s.length <= max) return s;
+    let ende = max;
+    const code = s.charCodeAt(ende - 1);
+    if (code >= 0xd800 && code <= 0xdbff) ende -= 1;
+    return s.slice(0, ende) + '…';
+  }
+
+  function mitZahl(n, einzahl, mehrzahl) {
+    return zaehlFormat.format(n) + ' ' + (n === 1 ? einzahl : mehrzahl);
+  }
+
+  function textElement(tag, klasse, text) {
+    const knoten = document.createElement(tag);
+    knoten.className = klasse;
+    knoten.textContent = text;
+    return knoten;
+  }
+
+  function dekodiere(nutzlast) {
+    if (typeof nutzlast === 'string') return nutzlast;
+    try {
+      return dekoder.decode(nutzlast.length > MAX_BYTES ? nutzlast.subarray(0, MAX_BYTES) : nutzlast);
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function alsObjekt(text) {
+    try {
+      const d = JSON.parse(text);
+      return d !== null && typeof d === 'object' && !Array.isArray(d) ? d : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function alsZahl(x) {
+    if (typeof x === 'number') return Number.isFinite(x) ? x : null;
+    if (typeof x !== 'string') return null;
+    let s = x.trim();
+    if (/^[-+]?\d+,\d+$/.test(s)) s = s.replace(',', '.');
+    if (!/^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$/.test(s)) return null;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function alsEinheit(x) {
+    if (typeof x !== 'string') return '°C';
+    const s = saeubere(x).trim();
+    const gross = s.toUpperCase();
+    if (s === '' || gross === 'C' || gross === '°C') return '°C';
+    if (gross === 'F' || gross === '°F') return '°F';
+    if (gross === 'K') return 'K';
+    return kuerze(s, 6);
+  }
+
+  function alsFarbe(x) {
+    if (typeof x !== 'string') return null;
+    const s = x.trim();
+    return FARBE.test(s) ? s.toUpperCase() : null;
+  }
+
+  function alsOnline(text) {
+    const w = text.trim().toLowerCase();
+    return w === 'online' || w === 'offline' ? w : null;
+  }
+
+  function rgbAnteile(farbe) {
+    const n = parseInt(farbe.slice(1), 16);
+    return ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255);
+  }
+
+  function vorWann(zeitpunkt) {
+    const s = Math.floor((Date.now() - zeitpunkt) / 1000);
+    if (s < 1) return 'gerade eben';
+    if (s < 60) return 'vor ' + s + ' s';
+    const m = Math.floor(s / 60);
+    if (m < 60) return 'vor ' + m + ' min';
+    return 'vor ' + Math.floor(m / 60) + ' h';
+  }
+
+  /* Modell */
+
+  function lampeLeeren() {
+    lampe.zustand = 'unbekannt';
+    lampe.farbe = null;
+    lampe.team = '';
+    lampe.befehl = '';
+    lampe.befehlFarbe = null;
+    lampe.zeit = '';
+    lampe.blinken = 'stopp';
+    lampeGeaendert = true;
+  }
+
+  function teamLeeren(t) {
+    t.online = 'unbekannt';
+    t.status = '';
+    t.werte = [];
+    t.einheit = '°C';
+    t.aktion = null;
+    t.anzahl = 0;
+    t.zuletzt = null;
+    t.zuletztText = '';
+    t.geaendert = true;
+  }
+
+  function allesLeeren() {
+    lampeLeeren();
+    gateway = 'unbekannt';
+    hinweis = null;
+    hinweisGeaendert = true;
+    teams.forEach(teamLeeren);
+    puffer.length = 0;
+    neueZeilen = [];
+    gesamt = 0;
+    el.liste.replaceChildren();
+    el.verlaufLeer.hidden = false;
+    planeZeichnen();
+  }
+
+  // Nutzlasten sind fremde Eingaben: Sie landen nur per textContent im DOM,
+  // Farben erst nach Prüfung gegen FARBE.
+  function verarbeite(topic, nutzlast, gespeichert) {
+    gesamt += 1;
+    const leer = !nutzlast || nutzlast.length === 0;
+    const text = leer ? '' : dekodiere(nutzlast);
+    const teile = topic.split('/');
+    const team = teile.length >= 2 && TEAMS.has(teile[1]) ? teile[1] : null;
+    const rest = team ? teile.slice(2).join('/') : '';
+    let ungueltig = false;
+
+    if (topic === 'kurs/lampe/zustand') {
+      ungueltig = !lampeZustand(text, leer, gespeichert);
+    } else if (topic === 'kurs/lampe/online') {
+      ungueltig = !gatewayMeldung(text, leer);
+    } else if (topic === 'kurs/lampe/hinweis') {
+      neuerHinweis(text, leer);
+    } else if (team) {
+      const t = teams.get(team);
+      if (rest === 'lampe') teamLampe(t, text, leer);
+      else if (rest === 'status') teamStatus(t, text, leer);
+      else if (rest === 'online') ungueltig = !teamOnline(t, text, leer);
+      else if (rest === 'ofen/temperatur') ungueltig = !teamTemperatur(t, text, leer);
+
+      // Gespeicherte Nachrichten sind alt und kommen nach jedem Verbinden erneut,
+      // sie zählen deshalb nicht als Aktivität.
+      if (!gespeichert) {
+        t.anzahl += 1;
+        t.zuletzt = Date.now();
+        t.geaendert = true;
+      }
+    }
+
+    neuerEintrag({
+      zeit: uhrzeit(new Date()),
+      topic: kuerze(saeubere(topic), 160),
+      text: leer ? null : kuerze(saeubere(text), MAX_NUTZLAST),
+      gespeichert: gespeichert,
+      team: team,
+      hinweis: topic === 'kurs/lampe/hinweis',
+      ungueltig: ungueltig,
+      messwert: rest === 'ofen/temperatur'
+    });
+    planeZeichnen();
+  }
+
+  function lampeZustand(text, leer, gespeichert) {
+    if (leer) {
+      lampeLeeren();
+      return true;
+    }
+    const d = alsObjekt(text);
+    if (!d) return false;
+    const befehl = typeof d.befehl === 'string' ? saeubere(d.befehl).trim().toLowerCase() : '';
+    const an = typeof d.an === 'boolean' ? d.an : befehl !== 'aus';
+    const farbe = alsFarbe(d.farbe);
+    lampe.zustand = an ? 'an' : 'aus';
+    lampe.farbe = an ? (farbe || '#FFFFFF') : null;
+    lampe.team = typeof d.team === 'string' ? saeubere(d.team).trim() : '';
+    lampe.befehl = befehl;
+    lampe.befehlFarbe = farbe;
+    lampe.zeit = typeof d.zeit === 'string' && d.zeit.trim() !== '' ? kuerze(saeubere(d.zeit).trim(), 25) : uhrzeit(new Date());
+    // Ein gespeicherter Zustand ist alt, beim Abonnieren soll nichts blinken.
+    lampe.blinken = an && befehl === 'blinken' && !gespeichert ? 'start' : 'stopp';
+    lampeGeaendert = true;
+    return true;
+  }
+
+  function gatewayMeldung(text, leer) {
+    if (leer) {
+      gateway = 'unbekannt';
+      lampeGeaendert = true;
+      return true;
+    }
+    const w = alsOnline(text);
+    if (!w) return false;
+    gateway = w;
+    lampeGeaendert = true;
+    return true;
+  }
+
+  function neuerHinweis(text, leer) {
+    const s = leer ? '' : kuerze(saeubere(text).trim(), 240);
+    hinweis = s ? { text: s, zeit: uhrzeit(new Date()), seit: Date.now() } : null;
+    hinweisGeaendert = true;
+  }
+
+  function teamLampe(t, text, leer) {
+    if (leer) {
+      t.aktion = null;
+    } else {
+      const roh = saeubere(text).trim();
+      const farbe = alsFarbe(roh);
+      t.aktion = {
+        text: farbe || (roh ? kuerze(roh, 40) : '(nur Leerzeichen)'),
+        farbe: farbe,
+        zeit: uhrzeit(new Date())
+      };
+    }
+    t.geaendert = true;
+  }
+
+  function teamStatus(t, text, leer) {
+    t.status = leer ? '' : kuerze(saeubere(text).trim(), 140);
+    t.geaendert = true;
+  }
+
+  function teamOnline(t, text, leer) {
+    if (leer) {
+      t.online = 'unbekannt';
+      t.geaendert = true;
+      return true;
+    }
+    const w = alsOnline(text);
+    if (!w) return false;
+    t.online = w;
+    t.geaendert = true;
+    return true;
+  }
+
+  // Erlaubt {"wert": 228.4, "einheit": "C"} und eine nackte Zahl wie 228.4.
+  function leseMesswert(text) {
+    const roh = text.trim();
+    if (roh.charAt(0) === '{') {
+      const d = alsObjekt(roh);
+      if (!d) return null;
+      const wert = alsZahl(d.wert);
+      return wert === null ? null : { wert: wert, einheit: alsEinheit(d.einheit) };
+    }
+    const wert = alsZahl(roh);
+    return wert === null ? null : { wert: wert, einheit: '°C' };
+  }
+
+  function teamTemperatur(t, text, leer) {
+    if (leer) {
+      t.werte = [];
+      t.einheit = '°C';
+      t.geaendert = true;
+      return true;
+    }
+    const messung = leseMesswert(text);
+    if (!messung) return false;
+    t.werte.push(messung.wert);
+    if (t.werte.length > SPARK_WERTE) t.werte.shift();
+    t.einheit = messung.einheit;
+    t.geaendert = true;
+    return true;
+  }
+
+  function neuerEintrag(eintrag) {
+    puffer.push(eintrag);
+    if (puffer.length > MAX_PUFFER) puffer.shift();
+    if (zeigeMesswerte || !eintrag.messwert) {
+      neueZeilen.push(eintrag);
+      if (neueZeilen.length > MAX_ZEILEN) neueZeilen.shift();
+    }
+  }
+
+  /* Zeichnen */
+
+  // Gebündelt statt pro Nachricht: So hält die Tafel auch 20 Nachrichten
+  // pro Sekunde aus, ohne das DOM ständig umzubauen.
+  function planeZeichnen() {
+    if (zeichnenGeplant) return;
+    zeichnenGeplant = true;
+    setTimeout(zeichne, 80);
+  }
+
+  function zeichne() {
+    zeichnenGeplant = false;
+    if (lampeGeaendert) zeichneLampe();
+    if (hinweisGeaendert) zeichneHinweis();
+    teams.forEach((t) => {
+      if (t.geaendert) zeichneTeam(t);
+    });
+    zeichneVerlauf();
+    el.gesamt.textContent = mitZahl(gesamt, 'Nachricht', 'Nachrichten') + ' empfangen';
+  }
+
+  function befehlText() {
+    switch (lampe.befehl) {
+      case 'an':
+      case 'aus':
+      case 'blinken':
+        return lampe.befehl;
+      case 'farbe':
+        return lampe.befehlFarbe ? 'Farbe ' + lampe.befehlFarbe : 'Farbe';
+      case '':
+        return lampe.zustand === 'an' ? 'an' : 'aus';
+      default:
+        return kuerze(lampe.befehl, 20);
+    }
+  }
+
+  function zeichneLampe() {
+    lampeGeaendert = false;
+    const kreis = el.kreis;
+    kreis.dataset.zustand = lampe.zustand;
+
+    if (lampe.zustand === 'an') {
+      const rgb = rgbAnteile(lampe.farbe);
+      kreis.style.setProperty('--lampe', lampe.farbe);
+      kreis.style.setProperty('--glow', 'rgba(' + rgb + ', 0.5)');
+      kreis.style.setProperty('--ring', 'rgba(' + rgb + ', 0.16)');
+      el.kreisText.textContent = lampe.farbe;
+    } else {
+      kreis.style.removeProperty('--lampe');
+      kreis.style.removeProperty('--glow');
+      kreis.style.removeProperty('--ring');
+      el.kreisText.textContent = lampe.zustand === 'aus' ? 'aus' : 'keine Meldung';
+    }
+
+    if (lampe.zustand === 'unbekannt') {
+      el.zuletzt.textContent = 'Zuletzt: noch kein Befehl';
+    } else {
+      el.zuletzt.replaceChildren(textElement('span', 'zuletzt-label', 'Zuletzt:'), ' ');
+      if (lampe.team) {
+        const schluessel = lampe.team.toLowerCase();
+        const name = textElement('span', 'lampe-team', '');
+        if (TEAMS.has(schluessel)) {
+          name.dataset.team = schluessel;
+          name.textContent = TEAMS.get(schluessel);
+        } else {
+          name.textContent = kuerze(lampe.team, 30);
+        }
+        el.zuletzt.append(name, ' · ');
+      }
+      el.zuletzt.append(befehlText() + ' · ' + lampe.zeit);
+    }
+
+    el.gateway.dataset.zustand = gateway;
+    el.gatewayText.textContent = gateway === 'online'
+      ? 'Gateway online'
+      : gateway === 'offline' ? 'Gateway offline' : 'Gateway: noch keine Meldung';
+
+    if (lampe.blinken === 'start') {
+      kreis.classList.remove('blinkt');
+      void kreis.offsetWidth; // Reflow, damit die Animation von vorn beginnt
+      kreis.classList.add('blinkt');
+      clearTimeout(blinkTimer);
+      blinkTimer = setTimeout(() => kreis.classList.remove('blinkt'), BLINKDAUER);
+    } else if (lampe.blinken === 'stopp') {
+      clearTimeout(blinkTimer);
+      kreis.classList.remove('blinkt');
+    }
+    lampe.blinken = null;
+  }
+
+  function zeichneHinweis() {
+    hinweisGeaendert = false;
+    if (!hinweis) {
+      el.hinweis.hidden = true;
+      return;
+    }
+    el.hinweisKopf.textContent = 'Hinweis vom Gateway · ' + hinweis.zeit;
+    el.hinweisText.textContent = hinweis.text;
+    el.hinweis.hidden = false;
+  }
+
+  function sparkPunkte(werte) {
+    const n = werte.length;
+    if (n === 0) return { linie: '', flaeche: '' };
+    let min = Math.min.apply(null, werte);
+    let max = Math.max.apply(null, werte);
+    // Mindestspanne, sonst sieht Sensorrauschen wie ein Ausschlag aus.
+    if (max - min < 2) {
+      const mitte = (max + min) / 2;
+      min = mitte - 1;
+      max = mitte + 1;
+    }
+    const schritt = (SPARK_BREITE - 2 * SPARK_RAND) / (SPARK_WERTE - 1);
+    const x = (i) => SPARK_RAND + (SPARK_WERTE - n + i) * schritt;
+    const y = (w) => SPARK_RAND + (SPARK_HOEHE - 2 * SPARK_RAND) * (1 - (w - min) / (max - min));
+    const punkte = [];
+    if (n === 1) punkte.push((x(0) - schritt).toFixed(1) + ',' + y(werte[0]).toFixed(1));
+    for (let i = 0; i < n; i += 1) punkte.push(x(i).toFixed(1) + ',' + y(werte[i]).toFixed(1));
+    const linie = punkte.join(' ');
+    const links = n === 1 ? x(0) - schritt : x(0);
+    const flaeche = links.toFixed(1) + ',' + SPARK_HOEHE + ' ' + linie + ' ' + x(n - 1).toFixed(1) + ',' + SPARK_HOEHE;
+    return { linie: linie, flaeche: flaeche };
+  }
+
+  function aktualisiereZuletzt(t) {
+    const text = t.zuletzt === null ? 'noch keine Nachricht' : 'letzte Nachricht ' + vorWann(t.zuletzt);
+    if (text !== t.zuletztText) {
+      t.zuletztText = text;
+      t.dom.zuletzt.textContent = text;
+    }
+  }
+
+  function zeichneTeam(t) {
+    t.geaendert = false;
+    const d = t.dom;
+
+    d.online.dataset.zustand = t.online;
+    d.onlineText.textContent = TEXT_ONLINE[t.online];
+
+    d.status.textContent = t.status || 'kein Status';
+    d.status.classList.toggle('ist-leer', !t.status);
+
+    if (t.werte.length > 0) {
+      d.zahl.textContent = zahlFormat.format(t.werte[t.werte.length - 1]);
+      d.einheit.textContent = t.einheit;
+      d.wert.classList.remove('ist-leer');
+    } else {
+      d.zahl.textContent = 'noch kein Wert';
+      d.einheit.textContent = '';
+      d.wert.classList.add('ist-leer');
+    }
+    const spark = sparkPunkte(t.werte);
+    d.linie.setAttribute('points', spark.linie);
+    d.flaeche.setAttribute('points', spark.flaeche);
+
+    if (t.aktion) {
+      d.aktion.textContent = t.aktion.text + ' · ' + t.aktion.zeit;
+      d.aktion.classList.remove('ist-leer');
+      if (t.aktion.farbe) {
+        d.swatch.style.backgroundColor = t.aktion.farbe;
+        d.swatch.hidden = false;
+      } else {
+        d.swatch.hidden = true;
+      }
+    } else {
+      d.aktion.textContent = 'noch keine Aktion';
+      d.aktion.classList.add('ist-leer');
+      d.swatch.hidden = true;
+    }
+
+    d.anzahl.textContent = mitZahl(t.anzahl, 'Nachricht', 'Nachrichten');
+    aktualisiereZuletzt(t);
+  }
+
+  // Umbruch bevorzugt nach einem Schrägstrich statt mitten in einer Topic-Ebene.
+  function topicElement(topic) {
+    const knoten = textElement('span', 'z-topic', '');
+    topic.split('/').forEach((ebene, i) => {
+      if (i > 0) knoten.append('/', document.createElement('wbr'));
+      knoten.append(ebene);
+    });
+    return knoten;
+  }
+
+  function baueZeile(eintrag) {
+    const zeile = document.createElement('li');
+    zeile.className = eintrag.hinweis ? 'zeile ist-hinweis' : 'zeile';
+    if (eintrag.team) zeile.dataset.team = eintrag.team;
+
+    const marken = textElement('span', 'z-marken', '');
+    if (eintrag.gespeichert) {
+      const r = textElement('abbr', 'marke marke-r', 'R');
+      r.title = TEXT_R;
+      marken.appendChild(r);
+    }
+    if (eintrag.ungueltig) {
+      const u = textElement('span', 'marke marke-ungueltig', 'ungültig');
+      u.title = TEXT_UNGUELTIG;
+      marken.appendChild(u);
+    }
+
+    zeile.append(
+      textElement('span', 'z-zeit', eintrag.zeit),
+      topicElement(eintrag.topic),
+      marken,
+      eintrag.text === null
+        ? textElement('span', 'z-nutzlast ist-leer', '(leer: gespeicherte Nachricht gelöscht)')
+        : textElement('span', 'z-nutzlast', eintrag.text)
+    );
+    return zeile;
+  }
+
+  function zeichneVerlauf() {
+    if (neueZeilen.length === 0) return;
+    const fragment = document.createDocumentFragment();
+    for (let i = neueZeilen.length - 1; i >= 0; i -= 1) fragment.appendChild(baueZeile(neueZeilen[i]));
+    if (neueZeilen.length >= MAX_ZEILEN) {
+      el.liste.replaceChildren(fragment);
+    } else {
+      el.liste.prepend(fragment);
+      while (el.liste.childElementCount > MAX_ZEILEN) el.liste.lastElementChild.remove();
+    }
+    neueZeilen = [];
+    el.verlaufLeer.hidden = true;
+  }
+
+  function verlaufNeuAufbauen() {
+    const fragment = document.createDocumentFragment();
+    let anzahl = 0;
+    for (let i = puffer.length - 1; i >= 0 && anzahl < MAX_ZEILEN; i -= 1) {
+      if (zeigeMesswerte || !puffer[i].messwert) {
+        fragment.appendChild(baueZeile(puffer[i]));
+        anzahl += 1;
+      }
+    }
+    el.liste.replaceChildren(fragment);
+    neueZeilen = [];
+    el.verlaufLeer.hidden = anzahl > 0;
+  }
+
+  function sekundentakt() {
+    teams.forEach(aktualisiereZuletzt);
+    if (hinweis && Date.now() - hinweis.seit > HINWEIS_DAUER) {
+      hinweis = null;
+      hinweisGeaendert = true;
+      planeZeichnen();
+    }
+  }
+
+  /* Verbindung */
+
+  function mqttBibliothek() {
+    const m = window.mqtt;
+    if (m && typeof m.connect === 'function') return m;
+    if (m && m.default && typeof m.default.connect === 'function') return m.default;
+    return null;
+  }
+
+  function zufall() {
+    try {
+      const werte = new Uint32Array(2);
+      window.crypto.getRandomValues(werte);
+      return werte[0].toString(16).padStart(8, '0') + werte[1].toString(16).padStart(8, '0').slice(0, 4);
+    } catch (e) {
+      return Math.random().toString(16).slice(2, 14);
+    }
+  }
+
+  // Wer die komplette Adresse aus dem Chat einfügt, bekommt trotzdem nur den Host.
+  function zerlegeHost(eingabe) {
+    let host = eingabe.trim().replace(/^[a-z][a-z0-9+.-]*:\/\//i, '');
+    host = host.split(/[/?#]/)[0];
+    let port = '';
+    const treffer = /^(.+):(\d{1,5})$/.exec(host);
+    if (treffer) {
+      host = treffer[1];
+      port = treffer[2];
+    }
+    return { host: host.toLowerCase(), port: port };
+  }
+
+  function ladeZugang() {
+    const roh = lies(SPEICHER_ZUGANG);
+    if (!roh) return null;
+    const d = alsObjekt(roh);
+    if (!d) return null;
+    const text = (x) => (typeof x === 'string' ? x : '');
+    return {
+      host: text(d.host),
+      port: text(d.port),
+      benutzer: text(d.benutzer),
+      passwort: text(d.passwort),
+      auto: d.auto === true
+    };
+  }
+
+  // Host, Port und Benutzer immer, das Passwort nur mit Häkchen.
+  function speichereZugang() {
+    const daten = {
+      host: el.host.value.trim(),
+      port: el.port.value.trim(),
+      benutzer: el.benutzer.value.trim(),
+      auto: autoVerbinden
+    };
+    const passwort = el.passwort.value.trim();
+    if (el.merken.checked && passwort) daten.passwort = passwort;
+    schreib(SPEICHER_ZUGANG, JSON.stringify(daten));
+  }
+
+  function setzeStatus(zustand, meldung) {
+    el.status.dataset.zustand = zustand;
+    el.statusText.textContent = TEXT_STATUS[zustand];
+    el.meldung.textContent = meldung || '';
+    el.meldung.dataset.art = zustand === 'fehler' ? 'fehler' : 'info';
+
+    const aktiv = verbindung !== null;
+    el.knopf.textContent = aktiv ? 'Trennen' : 'Verbinden';
+    el.knopf.classList.toggle('ist-trennen', aktiv);
+
+    if (verbindung && zustand === 'verbunden') {
+      el.zugangInfo.textContent = 'verbunden mit ' + verbindung.ziel + (verbindung.benutzer ? ' als ' + verbindung.benutzer : '');
+    } else if (verbindung) {
+      el.zugangInfo.textContent = 'verbinde mit ' + verbindung.ziel + ' …';
+    } else {
+      el.zugangInfo.textContent = 'nicht verbunden';
+    }
+  }
+
+  function zeigeFehler(meldung, feld) {
+    setzeStatus('fehler', meldung);
+    el.zugang.open = true;
+    if (feld) feld.focus();
+  }
+
+  function beende(v) {
+    if (v.beendet) return;
+    v.beendet = true;
+    if (verbindung === v) verbindung = null;
+    const client = v.client;
+    if (client) {
+      // Erst nach dem laufenden Ereignis schließen, MQTT.js steckt evtl. noch in der Paketauswertung.
+      setTimeout(() => {
+        try {
+          client.end(true);
+        } catch (e) {
+          // Verbindung war schon zu.
+        }
+      }, 0);
+    }
+  }
+
+  function verbinden() {
+    const bibliothek = mqttBibliothek();
+    if (!bibliothek) {
+      zeigeFehler(MELDUNG_BIBLIOTHEK);
+      return;
+    }
+
+    const ziel = zerlegeHost(el.host.value);
+    el.host.value = ziel.host;
+    if (ziel.port) el.port.value = ziel.port;
+    if (!el.port.value.trim()) el.port.value = '8884';
+
+    const host = ziel.host;
+    const portText = el.port.value.trim();
+    const port = /^\d{1,5}$/.test(portText) ? Number(portText) : NaN;
+    const benutzer = el.benutzer.value.trim();
+    const passwort = el.passwort.value.trim();
+
+    if (!host) {
+      zeigeFehler('Bitte den Host eintragen: die Adresse aus dem Chat, sie endet auf .hivemq.cloud.', el.host);
+      return;
+    }
+    if (host.length > 253 || !HOSTNAME.test(host)) {
+      zeigeFehler('Der Host enthält unzulässige Zeichen. Bitte nur den Namen eintragen, ohne https:// und ohne Port.', el.host);
+      return;
+    }
+    if (!(port >= 1 && port <= 65535)) {
+      zeigeFehler('Der Port muss eine Zahl zwischen 1 und 65535 sein.', el.port);
+      return;
+    }
+    el.port.value = String(port);
+
+    if (verbindung) beende(verbindung);
+    autoVerbinden = true;
+    speichereZugang();
+    allesLeeren();
+
+    const lokal = host === 'localhost' || host === '127.0.0.1';
+    const url = (lokal ? 'ws' : 'wss') + '://' + host + ':' + port + '/mqtt';
+    const optionen = {
+      clientId: 'tafel-' + zufall(),
+      clean: true,
+      reconnectPeriod: 3000,
+      connectTimeout: 10000,
+      keepalive: 30
+    };
+    if (benutzer) {
+      optionen.username = benutzer;
+      if (passwort) optionen.password = passwort;
+    }
+
+    const v = { client: null, ziel: host + ':' + port, benutzer: benutzer, jeVerbunden: false, abonniert: false, beendet: false };
+    verbindung = v;
+    setzeStatus('verbinde', '');
+
+    let client;
+    try {
+      client = bibliothek.connect(url, optionen);
+    } catch (e) {
+      verbindung = null;
+      zeigeFehler(MELDUNG_NETZ, el.host);
+      return;
+    }
+    v.client = client;
+
+    client.on('connect', () => {
+      if (verbindung !== v) return;
+      const erstesMal = !v.jeVerbunden;
+      v.jeVerbunden = true;
+      setzeStatus('verbunden', '');
+      if (erstesMal) el.zugang.open = false;
+
+      // Nach einem Wiederverbinden abonniert MQTT.js selbst neu (resubscribe).
+      if (v.abonniert) return;
+      v.abonniert = true;
+      client.subscribe('kurs/#', { qos: 0 }, (fehler, erteilt) => {
+        if (verbindung !== v) return;
+        if (fehler) {
+          v.abonniert = false;
+          return;
+        }
+        if (erteilt && erteilt[0] && erteilt[0].qos === 128) {
+          beende(v);
+          zeigeFehler('Das Abo für kurs/# wurde abgelehnt. Bitte die Rechte des Benutzers prüfen.');
+        }
+      });
+    });
+
+    client.on('message', (topic, nutzlast, paket) => {
+      if (verbindung !== v) return;
+      verarbeite(topic, nutzlast, !!(paket && paket.retain));
+    });
+
+    client.on('error', (fehler) => {
+      if (verbindung !== v) return;
+      const code = fehler && typeof fehler.code === 'number' ? fehler.code : null;
+      // CONNACK 4 und 5 (MQTT 3.1.1) bzw. 134 und 135 (MQTT 5): Zugangsdaten abgelehnt.
+      // Ohne Abbruch würde der Client es alle 3 Sekunden erneut versuchen.
+      if (code === 4 || code === 5 || code === 134 || code === 135) {
+        beende(v);
+        zeigeFehler(MELDUNG_ANMELDUNG, el.passwort);
+      }
+    });
+
+    client.on('close', () => {
+      if (verbindung !== v) return;
+      if (v.jeVerbunden) {
+        setzeStatus('verbinde', MELDUNG_UNTERBROCHEN);
+      } else {
+        beende(v);
+        zeigeFehler(MELDUNG_NETZ);
+      }
+    });
+  }
+
+  function trennen() {
+    if (verbindung) beende(verbindung);
+    autoVerbinden = false;
+    speichereZugang();
+    setzeStatus('getrennt', '');
+    el.zugang.open = true;
+  }
+
+  /* Start */
+
+  TEAMS.forEach((name, schluessel) => {
+    const kachel = el.vorlageTeam.content.firstElementChild.cloneNode(true);
+    const finde = (auswahl) => kachel.querySelector(auswahl);
+    kachel.dataset.team = schluessel;
+    finde('.team-name').textContent = name;
+    el.teams.appendChild(kachel);
+    const t = {
+      dom: {
+        online: finde('.online'),
+        onlineText: finde('.online-text'),
+        status: finde('.team-status'),
+        wert: finde('.temp-wert'),
+        zahl: finde('.temp-zahl'),
+        einheit: finde('.temp-einheit'),
+        linie: finde('.spark-linie'),
+        flaeche: finde('.spark-flaeche'),
+        swatch: finde('.swatch'),
+        aktion: finde('.aktion-text'),
+        zuletzt: finde('.meta-zuletzt'),
+        anzahl: finde('.meta-anzahl')
+      }
+    };
+    teamLeeren(t);
+    teams.set(schluessel, t);
+  });
+
+  zeigeMesswerte = lies(SPEICHER_MESSWERTE) !== '0';
+  el.messwerte.checked = zeigeMesswerte;
+  el.messwerte.addEventListener('change', () => {
+    zeigeMesswerte = el.messwerte.checked;
+    schreib(SPEICHER_MESSWERTE, zeigeMesswerte ? '1' : '0');
+    verlaufNeuAufbauen();
+  });
+
+  el.formular.addEventListener('submit', (ereignis) => {
+    ereignis.preventDefault();
+    if (verbindung) trennen();
+    else verbinden();
+  });
+
+  el.merken.addEventListener('change', () => speichereZugang());
+
+  const gemerkt = ladeZugang();
+  if (gemerkt) {
+    el.host.value = gemerkt.host;
+    if (gemerkt.port) el.port.value = gemerkt.port;
+    el.benutzer.value = gemerkt.benutzer;
+    if (gemerkt.passwort) {
+      el.passwort.value = gemerkt.passwort;
+      el.merken.checked = true;
+    }
+    autoVerbinden = gemerkt.auto;
+  }
+
+  lampeLeeren();
+  zeichne();
+  setInterval(sekundentakt, 1000);
+
+  if (!mqttBibliothek()) {
+    el.knopf.disabled = true;
+    setzeStatus('fehler', MELDUNG_BIBLIOTHEK);
+  } else if (gemerkt && gemerkt.auto && gemerkt.host && (gemerkt.passwort || !gemerkt.benutzer)) {
+    verbinden();
+  } else {
+    setzeStatus('getrennt', '');
+  }
+})();
+</script>
+</body>
+</html>

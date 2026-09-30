@@ -53,27 +53,27 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Docker-Training**
+    **Industrie und IoT**
 
-    Die Grundlagen in Ruhe gefestigt: 16 kurze Übungen von Container bis Compose.
+    Wie Maschinen sprechen: Profinet, OPC UA und MQTT im Mitschnitt, dazu der erste eigene Broker im Container.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Industrie und IoT**
+    **MQTT live**
 
-    Wie Maschinen sprechen: Profinet, OPC UA und MQTT, im Mitschnitt und mit dem eigenen Broker.
+    Ein Broker für den ganzen Kurs: Befehle an eine echte Lampe, Retain, Last Will und ein eigener Sensor im Container.
 
-    [:octicons-arrow-right-24: Zum Block](../industrie-iot/index.md)
+    [:octicons-arrow-right-24: Zur Übung](../industrie-iot/praxis-mqtt-live.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
     ---
 
-    **MQTT live**
+    **Infrastruktur und Architektur**
 
-    Der ganze Kurs funkt über einen gemeinsamen Broker und steuert echte Hardware beim Dozenten.
+    Ein Cloud-Lab und der Einstieg in die Planung von Infrastrukturen.
 
 </div>
 
