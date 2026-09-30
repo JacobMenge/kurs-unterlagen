@@ -18,7 +18,8 @@ die in eurer Teamfarbe leuchtet, sobald ihr den richtigen Befehl schickt.
     - Retained Messages und den Last Will erklären und selbst einsetzen
 
     Für die Schnellen gibt es eine Challenge: einen eigenen Sensor im
-    Container, dessen Messwerte live auf der Anzeigetafel erscheinen.
+    Container, dessen Messwerte live auf der Anzeigetafel erscheinen. Dazu
+    kommen drei kurze Bonus-Aufgaben am Ende der Seite.
 
 !!! info "Zugangsdaten kommen im Chat"
     Adresse, Benutzername und Passwort des Kurs-Brokers bekommt ihr **im
@@ -63,10 +64,10 @@ Teamfarbe, klein geschrieben und ohne Umlaut.
 ## Vorbereitung: den Zugang einmal ablegen (3 Minuten)
 
 Damit ihr die Zugangsdaten nicht in jeden Befehl tippen müsst, legt ihr sie
-in drei **Variablen** ab. Für die PowerShell stehen die drei Zeilen fertig im
-Chat: kopieren, einfügen, fertig. Für CMD und macOS setzt ihr dieselben Werte
-in die Vorlage unten ein. Fragt das Windows-Terminal beim Einfügen mehrerer
-Zeilen nach, bestätigt ihr das Einfügen.
+in drei **Variablen** ab. Adresse, Benutzer und Passwort stehen im Chat.
+Kopiert die Vorlage für euer System, ersetzt die drei Platzhalter durch die
+Werte aus dem Chat und führt die Zeilen aus. Fragt das Windows-Terminal beim
+Einfügen mehrerer Zeilen nach, bestätigt ihr das Einfügen.
 
 !!! warning "Zwei Fenster, also zweimal die Variablen"
     Ihr braucht wieder **zwei Terminal-Fenster**: eins zum Mitlesen, eins
@@ -527,6 +528,112 @@ Wie kommen seine Werte trotzdem dorthin?
     Start der Tafel noch gar nicht gab. Genau diese Entkopplung macht MQTT
     für das IoT so praktisch: Neue Geräte kommen dazu, ohne dass jemand die
     Empfänger umbaut.
+
+---
+
+## Bonus für Schnelle
+
+Drei kurze Aufgaben, jede in fünf Minuten zu schaffen. Sie gehören zur
+Theorie von vorhin und lassen sich in beliebiger Reihenfolge machen.
+
+### Bonus 1: QoS live ansehen
+
+Der Schalter `-d` (debug) zeigt jedes Paket, das `mosquitto_pub` mit dem
+Broker austauscht. Sendet einmal mit QoS 1 und einmal mit QoS 2:
+
+=== "Windows PowerShell"
+
+    ```powershell
+    docker run --rm eclipse-mosquitto:2 mosquitto_pub -h $BROKER -p 8883 --tls-use-os-certs -u $BENUTZER -P $PASSWORT -t kurs/rot/hallo -m "QoS 2 Test" -q 2 -d
+    ```
+
+=== "Windows CMD"
+
+    ```bat
+    docker run --rm eclipse-mosquitto:2 mosquitto_pub -h %BROKER% -p 8883 --tls-use-os-certs -u %BENUTZER% -P %PASSWORT% -t kurs/rot/hallo -m "QoS 2 Test" -q 2 -d
+    ```
+
+=== "macOS / Linux"
+
+    ```bash
+    docker run --rm eclipse-mosquitto:2 mosquitto_pub -h "$BROKER" -p 8883 --tls-use-os-certs -u "$BENUTZER" -P "$PASSWORT" -t kurs/rot/hallo -m "QoS 2 Test" -q 2 -d
+    ```
+
+```text
+Client null sending CONNECT
+Client (null) received CONNACK (0)
+Client null sending PUBLISH (d0, q2, r0, m1, 'kurs/rot/hallo', ... (10 bytes))
+Client null received PUBREC (Mid: 1)
+Client null sending PUBREL (m1)
+Client null received PUBCOMP (Mid: 1, RC:0)
+Client null sending DISCONNECT
+```
+
+Genau der Dialog von der QoS-Folie. `m1` und `Mid: 1` sind die Paketnummer,
+auf der Folie hieß sie Nr. 7. Ändert danach `-q 2` in `-q 1`.
+
+??? success "Was ihr bei QoS 1 seht"
+    Nur noch `PUBLISH` und `received PUBACK (Mid: 1, RC:0)`. Zwei Pakete
+    statt vier: schneller, aber ohne die Garantie „genau einmal".
+
+### Bonus 2: Nur die Status aller Teams mitlesen
+
+Der Platzhalter `+` steht für genau **eine** Ebene im Topic. Startet ein
+zusätzliches Abo, das nur die Status-Meldungen aller Teams zeigt:
+
+=== "Windows PowerShell"
+
+    ```powershell
+    docker run --rm -it eclipse-mosquitto:2 mosquitto_sub -h $BROKER -p 8883 --tls-use-os-certs -u $BENUTZER -P $PASSWORT -t "kurs/+/status" -v
+    ```
+
+=== "Windows CMD"
+
+    ```bat
+    docker run --rm -it eclipse-mosquitto:2 mosquitto_sub -h %BROKER% -p 8883 --tls-use-os-certs -u %BENUTZER% -P %PASSWORT% -t "kurs/+/status" -v
+    ```
+
+=== "macOS / Linux"
+
+    ```bash
+    docker run --rm -it eclipse-mosquitto:2 mosquitto_sub -h "$BROKER" -p 8883 --tls-use-os-certs -u "$BENUTZER" -P "$PASSWORT" -t "kurs/+/status" -v
+    ```
+
+Ein Hallo an `kurs/rot/hallo` taucht dort nicht auf, eine neue Status-Meldung
+schon. Probiert danach selbst: Mit welchem Abo seht ihr nur die
+Ofentemperaturen aller Teams?
+
+??? success "Lösung Bonus 2"
+    `kurs/+/ofen/temperatur` oder `kurs/+/ofen/#`. Das `+` ersetzt die
+    Teamfarbe, das `#` alles darunter.
+
+### Bonus 3: Eine gespeicherte Nachricht löschen
+
+Wie bekommt man eine Retained Message wieder vom Brett? Man sendet eine
+**leere** Nachricht mit `-r` an dasselbe Topic. `-n` heißt: Nachricht ohne
+Inhalt.
+
+=== "Windows PowerShell"
+
+    ```powershell
+    docker run --rm eclipse-mosquitto:2 mosquitto_pub -h $BROKER -p 8883 --tls-use-os-certs -u $BENUTZER -P $PASSWORT -t kurs/rot/status -r -n
+    ```
+
+=== "Windows CMD"
+
+    ```bat
+    docker run --rm eclipse-mosquitto:2 mosquitto_pub -h %BROKER% -p 8883 --tls-use-os-certs -u %BENUTZER% -P %PASSWORT% -t kurs/rot/status -r -n
+    ```
+
+=== "macOS / Linux"
+
+    ```bash
+    docker run --rm eclipse-mosquitto:2 mosquitto_pub -h "$BROKER" -p 8883 --tls-use-os-certs -u "$BENUTZER" -P "$PASSWORT" -t kurs/rot/status -r -n
+    ```
+
+Im Abo erscheint `kurs/rot/status (null)`, auf der Anzeigetafel ist euer
+Status weg. Wer das Topic ab jetzt abonniert, bekommt nichts mehr. Genau so
+räumt das Gateway nachher im Finale einen gespeicherten Befehl weg.
 
 ---
 
