@@ -19,7 +19,7 @@ die in eurer Teamfarbe leuchtet, sobald ihr den richtigen Befehl schickt.
 
     Für die Schnellen gibt es eine Challenge: einen eigenen Sensor im
     Container, dessen Messwerte live auf der Anzeigetafel erscheinen. Dazu
-    kommen drei kurze Bonus-Aufgaben am Ende der Seite.
+    kommen vier Bonus-Aufgaben am Ende der Seite.
 
 !!! info "Zugangsdaten kommen im Chat"
     Adresse, Benutzername und Passwort des Kurs-Brokers bekommt ihr **im
@@ -510,9 +510,17 @@ Start von 180 °C auf und pendelt sich um 228 °C ein.
     ```
 
 6. Auf der Anzeigetafel erscheint die Temperatur in eurer Teamkachel, samt
-   Verlaufslinie. Starten mehrere aus einem Team einen Sensor, mischen sich
-   die Werte in der Kachel. Das ist kein Fehler: Alle senden ins selbe Topic,
-   und das Topic sagt nichts über den Absender.
+   Verlaufslinie. **Ein Sensor pro Team genügt.** Starten mehrere einen,
+   mischen sich die Werte in der Kachel. Das ist kein Fehler: Alle senden ins
+   selbe Topic. Das Topic sagt nichts über den Absender.
+
+!!! tip "Fenster 1 wird zu unruhig?"
+    Sobald Sensoren laufen, zeigt euer Abo auf `kurs/#` alle paar Sekunden
+    Temperaturen. Beendet das Mitlesen mit ++ctrl+c++ und startet es mit
+    einem engeren Topic neu, etwa `-t "kurs/lampe/#"` für nur die Lampe. Auf
+    der Anzeigetafel blendet das Häkchen „Ofentemperaturen zeigen" die Werte
+    im Verlauf aus. Wenn ihr fertig seid, stoppt den Sensor mit
+    `docker rm -fv ofen-sensor`.
 
 **Weiter für Neugierige:** Startet den Sensor mit `-e INTERVALL=2` neu
 (vorher `docker rm -fv ofen-sensor`). Oder ändert in `sensor.sh` die
@@ -533,8 +541,8 @@ Wie kommen seine Werte trotzdem dorthin?
 
 ## Bonus für Schnelle
 
-Drei kurze Aufgaben, jede in fünf Minuten zu schaffen. Sie gehören zur
-Theorie von vorhin und lassen sich in beliebiger Reihenfolge machen.
+Vier Aufgaben in beliebiger Reihenfolge. Die ersten drei dauern je etwa fünf
+Minuten, die vierte ist eine längere Denkaufgabe.
 
 ### Bonus 1: QoS live ansehen
 
@@ -635,6 +643,44 @@ Im Abo erscheint `kurs/rot/status (null)`, auf der Anzeigetafel ist euer
 Status weg. Wer das Topic ab jetzt abonniert, bekommt nichts mehr. Genau so
 räumt das Gateway nachher im Finale einen gespeicherten Befehl weg.
 
+### Bonus 4: Ein Topic-Plan für die Großbäckerei
+
+Die Großbäckerei vom Montag will ihre Geräte an MQTT anschließen. In
+**Halle 1** stehen drei Backöfen, in **Halle 2** ein Kühlhaus und eine
+Teigmaschine. Jedes Gerät meldet Temperatur und Status, die Öfen lassen sich
+außerdem per Befehl ein- und ausschalten.
+
+1. Entwerft die Topics im Editor. Faustregeln: von grob nach fein (Standort,
+   Gerät, Messgröße), nur Kleinbuchstaben, keine Leerzeichen und keine
+   Umlaute. Befehle bekommen ein eigenes Topic, so wie bei der Lampe.
+2. Prüft den Plan mit drei Abo-Filtern: Welches Abo liefert **(a)** alle
+   Temperaturen der Bäckerei, **(b)** alles aus Halle 2, **(c)** nur die
+   Befehle an die Öfen?
+3. Testet den Plan auf dem Kurs-Broker. Hängt eure Topics unter euer Team,
+   damit ihr niemanden stört, zum Beispiel
+   `kurs/rot/baeckerei/halle1/ofen1/temperatur`. Startet ein Abo mit eurem
+   Filter und sendet ein paar Test-Nachrichten, die Befehle dafür kennt ihr.
+
+??? success "Musterlösung Bonus 4"
+    ```text
+    baeckerei/halle1/ofen1/temperatur
+    baeckerei/halle1/ofen1/status
+    baeckerei/halle1/ofen1/set
+    baeckerei/halle1/ofen2/…            (ofen2 und ofen3 genauso)
+    baeckerei/halle2/kuehlhaus/temperatur
+    baeckerei/halle2/kuehlhaus/status
+    baeckerei/halle2/teigmaschine/temperatur
+    baeckerei/halle2/teigmaschine/status
+    ```
+
+    - **(a)** `baeckerei/+/+/temperatur`
+    - **(b)** `baeckerei/halle2/#`
+    - **(c)** `baeckerei/halle1/+/set`
+
+    Entscheidend ist die feste Reihenfolge der Ebenen. Nur weil jedes Gerät
+    genau zwei Ebenen unter `baeckerei` hängt, trifft `+/+` überall die
+    richtige Stelle. In der Prüfung heißt das Topic-Hierarchie.
+
 ---
 
 ## Notieren für die Auswertung
@@ -653,6 +699,12 @@ docker rmi ofen-sensor
 
 Meldungen wie `No such container` sind hier kein Problem, dann war der
 Container schon weg. Die Variablen verschwinden mit dem Fenster.
+
+## Wie es weitergeht
+
+Wer den Aufbau von heute zu Hause nachbauen will: [Projekt: Smart Home zu
+Hause](projekt-smart-home.md). Ein eigener Broker, drei günstige Gerätewege
+und Rechte je Gerät. Das Projekt ist freiwillig. Anfangen könnt ihr auch ganz ohne Gerät.
 
 ## Wenn es klemmt
 

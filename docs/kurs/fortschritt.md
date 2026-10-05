@@ -22,9 +22,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 <div class="fortschritt-block t1" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 1 · Planung, Konzeptionierung, Integration</span>
-<span class="fortschritt-wert">5 von 7 Blöcken fertig</span>
+<span class="fortschritt-wert">6 von 7 Blöcken fertig</span>
 </div>
-<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 71%"></div></div>
+<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 86%"></div></div>
 </div>
 
 <div class="fortschritt-block t2" markdown>
@@ -55,25 +55,25 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Industrie und IoT**
 
-    Wie Maschinen sprechen: Profinet, OPC UA und MQTT im Mitschnitt, dazu der erste eigene Broker im Container.
+    Wie Maschinen sprechen: Profinet, OPC UA und MQTT. Zum Schluss hat der ganze Kurs über einen gemeinsamen Broker echte Lampen geschaltet.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **MQTT live**
+    **Infrastruktur und Architektur**
 
-    Ein Broker für den ganzen Kurs: Befehle an eine echte Lampe, Retain, Last Will und ein eigener Sensor im Container.
+    Cloud-Modelle, ein Cloud-Lab und der Einstieg in die Planung von Infrastrukturen.
 
-    [:octicons-arrow-right-24: Zur Übung](../industrie-iot/praxis-mqtt-live.md)
+    [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
     ---
 
-    **Infrastruktur und Architektur**
+    **Ist-Analyse und Sollkonzept**
 
-    Ein Cloud-Lab und der Einstieg in die Planung von Infrastrukturen.
+    Anforderungen erheben, ein Sollkonzept schreiben und verstehen, wozu eine CMDB dient.
 
 </div>
 
@@ -92,8 +92,8 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 | <span class="status-fertig">✓</span> | [Docker – Einführung](../docker/index.md) | Container, Images, eigene Container bauen |
 | <span class="status-fertig">✓</span> | [Docker – Aufbau](../docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke |
 | <span class="status-fertig">✓</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
-| <span class="status-laeuft">●</span> | [Industrie & IoT](../industrie-iot/index.md) | OT und IT, Profinet, OPC UA und MQTT |
-| <span class="status-offen">○</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen |
+| <span class="status-fertig">✓</span> | [Industrie & IoT](../industrie-iot/index.md) | OT und IT, Profinet, OPC UA und MQTT |
+| <span class="status-laeuft">●</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen |
 
 ### Thema 2 · Sicherstellung des laufenden Betriebs
 

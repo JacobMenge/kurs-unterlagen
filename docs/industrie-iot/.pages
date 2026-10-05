@@ -5,4 +5,5 @@ nav:
   - "Praxis: Paket-Detektiv": praxis-paket-detektiv.md
   - "Praxis: MQTT im Container": praxis-mqtt-container.md
   - "Praxis: MQTT live": praxis-mqtt-live.md
+  - "Projekt: Smart Home zu Hause": projekt-smart-home.md
   - "Stolpersteine": stolpersteine.md

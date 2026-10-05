@@ -27,4 +27,5 @@ Eine einzige Messung, zum Beispiel die Temperatur eines Backofens in einer Groß
 | [Praxis: Paket-Detektiv](praxis-paket-detektiv.md) | Die Breakout-Übung mit dem Mitschnitt fabrik-halle1.pcap |
 | [Praxis: MQTT im Container](praxis-mqtt-container.md) | Eigener Broker mit Docker: senden, abonnieren, Platzhalter, Retain, Sensor-Container |
 | [Praxis: MQTT live](praxis-mqtt-live.md) | Mit dem Kurs-Broker echte Hardware beim Dozenten ansteuern |
+| [Projekt: Smart Home zu Hause](projekt-smart-home.md) | Freiwillig: eigener Broker, drei günstige Gerätewege und Rechte je Gerät |
 | [Stolpersteine](stolpersteine.md) | Die typischen Wireshark-Hürden und ihre Lösungen |
