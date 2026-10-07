@@ -6,6 +6,7 @@ nav:
   - "Architekturen: zentral, dezentral, Cloud": architekturen.md
   - "Übungen: Architekturen": uebungen-architekturen.md
   - "Praxis: Euer erster Server bei AWS": praxis-cloud-lab.md
+  - "Praxis: Das Cloud-Rennen": praxis-cloud-rennen.md
   - "Speicherlösungen": speicherloesungen.md
   - "Übungen: Speicherlösungen": uebungen-speicherloesungen.md
   - "Ressourcen planen": ressourcen-planen.md
