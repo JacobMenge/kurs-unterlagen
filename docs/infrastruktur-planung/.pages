@@ -3,6 +3,7 @@ nav:
   - "Überblick": index.md
   - "Anforderungen & Sollkonzept": anforderungen-und-sollkonzept.md
   - "Übungen: Anforderungen & Sollkonzept": uebungen-anforderungen.md
+  - "Praxis: Bestandsaufnahme bei Voltrad": praxis-bestandsaufnahme.md
   - "Architekturen: zentral, dezentral, Cloud": architekturen.md
   - "Übungen: Architekturen": uebungen-architekturen.md
   - "Praxis: Euer erster Server bei AWS": praxis-cloud-lab.md

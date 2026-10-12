@@ -53,9 +53,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Industrie und IoT**
+    **Cloud Computing**
 
-    Wie Maschinen sprechen: Profinet, OPC UA und MQTT. Zum Schluss hat der ganze Kurs über einen gemeinsamen Broker echte Lampen geschaltet.
+    Servicemodelle, der erste eigene Server bei AWS und das Cloud-Rennen: Vier Teams haben einen Webdienst ausfallsicher über zwei Zonen aufgebaut.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
@@ -63,7 +63,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Infrastruktur und Architektur**
 
-    Cloud-Modelle, ein Cloud-Lab und der Einstieg in die Planung von Infrastrukturen.
+    Vom Ist zum Soll: Bestandsaufnahme, messbare Anforderungen, Sollkonzept und CMDB am Beispiel eines E-Bike-Herstellers.
 
     [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
@@ -71,9 +71,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Ist-Analyse und Sollkonzept**
+    **Speicher, Ressourcen und Lizenzen**
 
-    Anforderungen erheben, ein Sollkonzept schreiben und verstehen, wozu eine CMDB dient.
+    Speicher dimensionieren, Ressourcen planen und das passende Lizenzmodell wählen.
 
 </div>
 
