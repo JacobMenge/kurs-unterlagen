@@ -130,20 +130,21 @@ erledigt Station 1.
 
     ![Lageplan vom Rundgang: zwei Schränke mit USV im Serverraum, Halle mit Mini-PC, Cloud und Internet](../assets/diagramme/loesung-rundgang.png){ .diagramm }
 
-    ??? note "Die Notizen vom Rundgang als Text"
-        - **Schrank 1:** VH-01, VH-02, ERP-DB und ERP-APP. Alle vier laufen.
-        - **Schrank 1, oben:** ein Switch mit dem Etikett SW-CORE, an dem alle
-          Server hängen. Daneben die Firewall FW-01. An ihr steckt die eine
-          Internetleitung des Werks.
-        - **Schrank 2:** MES-01, WEB-01 und BACKUP-01 laufen. TEST-01 ist dunkel.
-          Das Netzkabel ist gezogen, auf dem Gehäuse liegt Staub.
-        - **Schrank 2, ganz unten:** ein NAS mit vier Festplatten, ohne Etikett.
-          Darauf klebt ein Zettel: „Konstruktion. NICHT ausschalten!"
-        - **Zwischen den Schränken:** eine USV, an der beide Schränke hängen. Die
-          Anzeige meldet „Batterie ersetzen".
-        - **In der Halle neben Prüfstand 3:** ein Mini-PC mit dem Etikett „MQTT".
-          Er läuft und hängt an einer normalen Steckdose.
-        - **Typenschilder:** Alle acht Server sind Baujahr 2020.
+    Die Notizen vom Rundgang als Text:
+
+    - **Schrank 1:** VH-01, VH-02, ERP-DB und ERP-APP. Alle vier laufen.
+    - **Schrank 1, oben:** ein Switch mit dem Etikett SW-CORE, an dem alle
+      Server hängen. Daneben die Firewall FW-01. An ihr steckt die eine
+      Internetleitung des Werks.
+    - **Schrank 2:** MES-01, WEB-01 und BACKUP-01 laufen. TEST-01 ist dunkel.
+      Das Netzkabel ist gezogen, auf dem Gehäuse liegt Staub.
+    - **Schrank 2, ganz unten:** ein NAS mit vier Festplatten, ohne Etikett.
+      Darauf klebt ein Zettel: „Konstruktion. NICHT ausschalten!"
+    - **Zwischen den Schränken:** eine USV, an der beide Schränke hängen. Die
+      Anzeige meldet „Batterie ersetzen".
+    - **In der Halle neben Prüfstand 3:** ein Mini-PC mit dem Etikett „MQTT".
+      Er läuft und hängt an einer normalen Steckdose.
+    - **Typenschilder:** Alle acht Server sind Baujahr 2020.
 
 === "C · Messwerte"
 
@@ -211,6 +212,33 @@ erledigt Station 1.
 
     - „Wir sind zu zweit. Nachts und am Wochenende ist niemand da."
     - „Eine Rücksicherung haben wir zuletzt 2023 ausprobiert, glaube ich."
+
+### Alle Fundstücke nebeneinander
+
+Dieselben Angaben wie in den Reitern oben, sortiert nach Gerät. Jede Zeile
+zeigt, was die vier Quellen über ein System sagen. Ihr könnt die Tabelle
+markieren und in euren Ergebniszettel kopieren.
+
+| System | A · Liste sagt | B · Rundgang | C · Messwerte | D · Gespräche |
+|---|---|---|---|---|
+| VH-01 | Host für DC-01, FILE-01, PRINT-01. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | Arbeitsspeicher zu 91 % belegt | |
+| VH-02 | Host für DC-02, MQTT-01, MON-01. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | Arbeitsspeicher zu 44 % belegt. VM MQTT-01 seit Februar 2025 aus. | |
+| FILE-01 (VM auf VH-01) | 2 TB, davon 55 % belegt | | 2 TB, zu 92 % belegt, Zuwachs etwa 25 GB im Monat | Lindner: Auf der Dateiablage war kein Platz mehr für die Konstruktion. |
+| ERP-DB | Datenbank der Warenwirtschaft. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | Windows Server 2016 mit SQL Server 2016 | Okafor: Ein Tag Datenverlust wäre eine Katastrophe. |
+| ERP-APP | Warenwirtschaft. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | | |
+| MES-01 | Fertigungsleitsystem. Windows Server 2019. Fertigung, Wartung durch Hersteller. | Schrank 2, läuft | | Yilmaz: Steht es, stehen nach zehn Minuten die Bänder. |
+| WEB-01 | Konfigurator und Händlerportal. Ubuntu 20.04 LTS. Webagentur. In der DMZ. | Schrank 2, läuft | Letzte Updates Dezember 2024. Im Jahresmittel 12 % Last, März bis Mai an neun Tagen 100 %. | Sommer: Agentur seit Ende 2024 weg. Im Frühjahr viermal so viele Besucher. |
+| BACKUP-01 | Datensicherung. Windows Server 2019. Hr. Brandt. Rücksicherung getestet: ja. | Schrank 2, läuft | Letzter Lauf gestern. Keine Probe-Rücksicherung im Protokoll. | Vogt: Rücksicherung zuletzt 2023 probiert, „glaube ich". |
+| TEST-01 | Testsystem der Warenwirtschaft. Windows Server 2016. Hr. Brandt. | Dunkel, Netzkabel gezogen, Staub | Antwortet nicht, letzte Werte von 2024 | |
+| NAS | steht nicht in der Liste | Schrank 2 unten, ohne Etikett, Zettel „Konstruktion" | | Lindner: selbst gekauft, CAD-Daten, „gesichert wird das, glaube ich, nicht". |
+| Mini-PC „MQTT" | steht nicht in der Liste (dort: MQTT-01 auf VH-02) | Halle, neben Prüfstand 3, normale Steckdose | | Yilmaz: Der Broker steht bei uns in der Halle. |
+| SW-CORE, FW-01 | stehen nicht in der Liste | Schrank 1 oben, an der Firewall die eine Internetleitung | | |
+| USV | steht nicht in der Liste | Eine USV für beide Schränke, Anzeige „Batterie ersetzen" | Meldung seit 14 Wochen, Überbrückung 4 Minuten | |
+| Zuständigkeit | Sechsmal „Hr. Brandt" | | | Lage: Hr. Brandt seit dem Sommer im Ruhestand. Vogt: zu zweit, nachts niemand da. |
+
+Dazu die Termine der Hersteller aus Fundstück C: SQL Server 2016 bis 14. Juli
+2026, Windows Server 2016 bis 12. Januar 2027, Windows Server 2019 bis
+9. Januar 2029, Ubuntu 20.04 ohne Zusatzvertrag bis 31. Mai 2025.
 
 ---
 
