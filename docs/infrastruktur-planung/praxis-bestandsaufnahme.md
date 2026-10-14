@@ -58,6 +58,16 @@ deshalb die Reihenfolge ein. Die Zeiten in den Überschriften sind Richtwerte.
 Zu jeder Station gibt es eine Musterlösung zum Aufklappen. Seht erst hinein,
 wenn ihr euch auf ein eigenes Ergebnis geeinigt habt.
 
+!!! tip "Ihr arbeitet in einer zweiten Runde weiter?"
+    So steigt ihr in fünf Minuten wieder ein:
+
+    1. Wer hat den Ergebniszettel? Diese Person teilt ihn im Breakout.
+    2. Lest eure Befunde aus Station 1 einmal laut vor. Fehlen noch welche,
+       nehmt euch den Lageplan im Fundstück B und vergleicht ihn mit der
+       Liste A.
+    3. Macht dort weiter, wo ihr aufgehört habt. Die Stationen 2, 3 und 4
+       bauen auf Station 1 auf, brauchen aber keine neuen Fundstücke.
+
 ## Die Lage
 
 Es ist Oktober 2026. Die Voltrad GmbH baut mit 280 Mitarbeitenden in einem
@@ -69,7 +79,9 @@ Herr Brandt hat diesen Serverraum aufgebaut und sechs Jahre lang allein
 betreut. Seit dem Sommer ist er im Ruhestand. Geblieben sind seine
 Inventarliste und zwei Kolleginnen in der IT.
 
-??? note "Wer ist wer im Serverraum? Die Abkürzungen in den Fundstücken"
+![Die Kürzel im Lageplan: VH, DC, FILE, PRINT, ERP, MES, WEB, BACKUP, SW-CORE, FW, USV, NAS, CAD, MQTT](../assets/diagramme/loesung-kuerzel.png){ .diagramm }
+
+??? note "Die Abkürzungen als Tabelle"
     | Kürzel | Bedeutung |
     |---|---|
     | **VH** | Virtualisierungshost: ein Server, auf dem mehrere virtuelle Maschinen laufen |
@@ -88,9 +100,10 @@ Inventarliste und zwei Kolleginnen in der IT.
 
 ## Die Fundstücke
 
-Teilt die Fundstücke im Team auf: Jede Person liest eines gründlich und
-berichtet den anderen. Seid ihr zu dritt, übernimmt eine Person A und B.
-Plant dafür zehn Minuten ein.
+Ihr müsst nicht alles lesen, bevor ihr anfangt. Jede Person öffnet
+die Liste in Fundstück A und dazu genau ein weiteres Fundstück: eine Person B,
+eine C, eine D. Seid ihr zu zweit, übernimmt eine Person B und D. Den Rest
+erledigt Station 1.
 
 === "A · Inventarliste"
 
@@ -112,21 +125,25 @@ Plant dafür zehn Minuten ein.
 
 === "B · Rundgang"
 
-    Notizen vom Rundgang durch Serverraum und Halle, diese Woche.
+    Was ihr beim Rundgang durch Serverraum und Halle seht, diese Woche. Legt
+    das Bild neben die Liste aus Fundstück A.
 
-    - **Schrank 1:** VH-01, VH-02, ERP-DB und ERP-APP. Alle vier laufen.
-    - **Schrank 1, oben:** ein Switch mit dem Etikett SW-CORE, an dem alle
-      Server hängen. Daneben die Firewall FW-01. An ihr steckt die eine
-      Internetleitung des Werks.
-    - **Schrank 2:** MES-01, WEB-01 und BACKUP-01 laufen. TEST-01 ist dunkel.
-      Das Netzkabel ist gezogen, auf dem Gehäuse liegt Staub.
-    - **Schrank 2, ganz unten:** ein NAS mit vier Festplatten, ohne Etikett.
-      Darauf klebt ein Zettel: „Konstruktion. NICHT ausschalten!"
-    - **Zwischen den Schränken:** eine USV, an der beide Schränke hängen. Die
-      Anzeige meldet „Batterie ersetzen".
-    - **In der Halle neben Prüfstand 3:** ein Mini-PC mit dem Etikett „MQTT".
-      Er läuft und hängt an einer normalen Steckdose.
-    - **Typenschilder:** Alle acht Server sind Baujahr 2020.
+    ![Lageplan vom Rundgang: zwei Schränke mit USV im Serverraum, Halle mit Mini-PC, Cloud und Internet](../assets/diagramme/loesung-rundgang.png){ .diagramm }
+
+    ??? note "Die Notizen vom Rundgang als Text"
+        - **Schrank 1:** VH-01, VH-02, ERP-DB und ERP-APP. Alle vier laufen.
+        - **Schrank 1, oben:** ein Switch mit dem Etikett SW-CORE, an dem alle
+          Server hängen. Daneben die Firewall FW-01. An ihr steckt die eine
+          Internetleitung des Werks.
+        - **Schrank 2:** MES-01, WEB-01 und BACKUP-01 laufen. TEST-01 ist dunkel.
+          Das Netzkabel ist gezogen, auf dem Gehäuse liegt Staub.
+        - **Schrank 2, ganz unten:** ein NAS mit vier Festplatten, ohne Etikett.
+          Darauf klebt ein Zettel: „Konstruktion. NICHT ausschalten!"
+        - **Zwischen den Schränken:** eine USV, an der beide Schränke hängen. Die
+          Anzeige meldet „Batterie ersetzen".
+        - **In der Halle neben Prüfstand 3:** ein Mini-PC mit dem Etikett „MQTT".
+          Er läuft und hängt an einer normalen Steckdose.
+        - **Typenschilder:** Alle acht Server sind Baujahr 2020.
 
 === "C · Messwerte"
 
@@ -197,7 +214,7 @@ Plant dafür zehn Minuten ein.
 
 ---
 
-## Station 1: Was steht da wirklich? (15 Minuten)
+## Station 1: Was steht da wirklich? (20 Minuten)
 
 **Was ihr hier tut:** Ihr prüft die Inventarliste gegen die drei anderen
 Fundstücke. Eine Ist-Analyse hat drei Quellen: lesen, messen und fragen. Jede
@@ -206,11 +223,16 @@ Bedeutung eines Systems, Menschen erinnern sich ungenau.
 
 ![Drei Quellen einer Ist-Analyse: lesen, messen, fragen, jede mit ihrem blinden Fleck](../assets/diagramme/soll-drei-quellen.png){ .diagramm }
 
-1. Vergleicht Fundstück A Zeile für Zeile mit B, C und D und mit dem
-   Abschnitt „Die Lage". Notiert jeden Widerspruch und jede Lücke in drei
-   Spalten: Was sagt die Liste? Was stimmt? Welches Fundstück belegt das?
-   Ein Eintrag sieht zum Beispiel so aus: „Die Liste nennt X. Im Rundgang
-   steht Y. Beleg: B."
+Ihr arbeitet gleichzeitig, jede Person mit ihrem Fundstück:
+
+| Wer | Vergleicht die Liste A mit | Und fragt |
+|---|---|---|
+| Person 1 | **B**, dem Rundgang als Lageplan | Gibt es jedes Gerät? Läuft es? Steht etwas da, das in der Liste fehlt? |
+| Person 2 | **C**, den Messwerten | Stimmen Betriebssystem und Zahlen? Welche Termine der Hersteller sind schon vorbei? |
+| Person 3 | **D**, den Gesprächen sowie der Lage | Gibt es die Zuständigen noch? Stimmt, was die Liste über Standort und Sicherung sagt? |
+
+1. Jede Person notiert ihre Funde in einer Zeile: „Die Liste sagt X.
+   Tatsächlich Y. Beleg: B." Nach zehn Minuten legt ihr alles zusammen.
 2. Die Musterlösung fasst neun Befunde zusammen. Findet mindestens sechs.
 3. Wählt die drei Befunde aus, die ihr zuerst angehen würdet. Begründet jede
    Wahl in einem Satz.
@@ -222,6 +244,8 @@ Bedeutung eines Systems, Menschen erinnern sich ungenau.
     nicht vorkommt?
 
 ??? tip "Musterlösung Station 1"
+    ![Der Bestand mit allen Befunden: rote Nummern an den Geräten](../assets/diagramme/loesung-lageplan.png){ .diagramm }
+
     | Nr. | Die Liste sagt | Tatsächlich | Beleg |
     |---|---|---|---|
     | 1 | Es gibt acht Server. | Im Schrank steht ein neuntes Gerät, das NAS der Konstruktion. Es wird nicht gesichert. | B, D |
@@ -283,8 +307,8 @@ zwei Arten zugleich enthalten. Nennt dann beide.
 
 ### Teil b: Messbar machen
 
-Schreibt mindestens zwei dieser Aussagen so um, dass man sie am Ende abhaken
-kann, darunter die zum Konfigurator. Jede
+Schreibt die Aussage zum Konfigurator so um, dass man sie am Ende abhaken
+kann. Die beiden anderen sind für Schnelle. Jede
 Anforderung braucht eine **Zahl mit Einheit**, einen **Bezug** (wann, unter
 welcher Last) und ein **Messverfahren**.
 
@@ -349,6 +373,8 @@ Raum. Die Fertigung ist ein dritter Fall: zwei Schichten an fünf Tagen.
 
     **Teil c**
 
+    ![Betriebszeit, erlaubter Ausfall und E-Bikes als Rechenkette](../assets/diagramme/loesung-verfuegbarkeit.png){ .diagramm }
+
     1. 16 Stunden × 5 Tage × 52 Wochen = **4.160 Stunden** im Jahr.
     2. 0,5 % von 4.160 Stunden = **20,8 Stunden**. Auf das ganze Jahr
        gerechnet wären es 0,5 % von 8.760 Stunden = 43,8 Stunden. Dieselbe
@@ -401,7 +427,7 @@ die Form: „In die Cloud, weil die Last stark schwankt." Zur Wahl stehen:
 Zählt am Ende: Wie viele Server muss Voltrad nach eurem Konzept noch selbst
 kaufen?
 
-### Teil b: Lastenheft oder Pflichtenheft?
+### Teil b: Lastenheft oder Pflichtenheft? (wenn Zeit bleibt)
 
 Das **Lastenheft** schreibt der Auftraggeber: Was wird gebraucht und wofür?
 Das **Pflichtenheft** schreibt der Auftragnehmer als Antwort: Wie und womit
@@ -426,6 +452,8 @@ Satz für das Lastenheft und den passenden Satz für das Pflichtenheft.
 
 ??? tip "Musterlösung Station 3"
     **Teil a** (eine gut begründete Lösung, andere sind möglich)
+
+    ![Voltrads Systeme in den vier Wegen des Sollkonzepts](../assets/diagramme/loesung-soll.png){ .diagramm }
 
     | System | Entscheidung | Begründung |
     |---|---|---|
@@ -602,7 +630,7 @@ So liest man das an einem Fall, der unten nicht gefragt ist:
 
 ![Die Datenbank der Warenwirtschaft fällt aus: Der Ausfall wandert gegen die Pfeile bis zur Montagelinie](../assets/diagramme/soll-ausfallfrage.png){ .diagramm }
 
-1. Im Serverraum löst eine Sicherung aus. Der Strom ist dort für 20 Minuten
+1. Im Serverraum löst ein Sicherungsautomat aus. Der Strom ist dort für 20 Minuten
    weg, die USV hält 4 Minuten. Die Halle hat weiter Strom. Was steht? Was
    läuft weiter?
 2. VH-01 fällt aus. Was steht? Können sich die Mitarbeitenden noch anmelden?
@@ -662,6 +690,11 @@ Ergebniszettel ein. Mit einem anderen Werkzeug macht ihr ein Bildschirmfoto.
       classDef kritisch stroke:#E05252,stroke-width:4px
       class USV,ERPDB,NETZ,NAS kritisch
     ```
+
+    Dasselbe als aufgeräumtes Schaubild. Der Blitz heißt: bekommt Strom von
+    der USV.
+
+    ![Der fertige Abhängigkeitsgraph mit roten Rahmen um die Single Points of Failure](../assets/diagramme/loesung-graph.png){ .diagramm }
 
     Zum Vergleichen und Weiterbauen:
     [Musterlösung im Mermaid Live Editor öffnen](https://mermaid.live/edit#pako:eNp9VF1v2jAU_StXmcQT0SBqX9BUCUgQiJYyPqUte3ASJ1g4NnKcsa70v-_aTlg7tXsxwbnnnHvuR569VGbUG4CXc3lOD0Rp2ISxALifLWbR99h7kEKTgnImGP2SqM93_aAHq7ju9ehNRhWQEjakiL0f4Pt3l0SROj3oCzxEawOO1n6vb2ETqjQralFUnDJdPVWalogyUhhlwQfJNQzrXCtHX1D4KcUFotVyuFwiHT74-GT59kRRcWZKV5h1rhsqF2rZqhNl6QFVgTmOcNRQhCPLEBJNRULEscEuV9togiFLK5-neaVdHiKjrb-S8owKIMj48HWzMRaxMP5yDFPCuSuQeeGPlDxSZZlbi502u47LxhKutZKls7ld75APTyzZFRiO-3gZjt2dhXCXFdYJSJ1fYDc1IbtpCwOYzO5N68xPW35jlpGEYyv_w-MUg0Yx-DgyaBSDRhGxaAvv3zHljIy20eoRUSNXXCX9oUrMJJwadv373ypX2D8sNWDYxRQCFTC5K9mbLguXmbHs9ObbRRgtUHBeC0OGJ0zbfnLbGksgahTGRPeRGQ8824rNpchxYBXRUnXfQE9SacIb54iwPFQpk0lCFDiHCVWYz970YX9dAqboGQel7dPezX3DXWg7WIto8w1RM6HRFtVmXXBtXsl1WuB7dZ4_LtablfEtRaVVfdRMitbs352w1VoMzZLiCa-DbabjYejbBWl0TdBHkiknVRXSHI6KaYb7CMiF4z_4FPVug9ug6_76Z5bpw-Dm9OsKMhxduwxd47prVFqSWHhd8EqqSsIy84V6jj19oCVOyQBiL6M5qTnu_YsJI7WW6yeR4iu0QfGmPmWYfshIoUjZXL_8AUKTlTc=){ target=_blank }

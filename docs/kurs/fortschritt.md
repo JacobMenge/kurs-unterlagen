@@ -63,7 +63,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Infrastruktur und Architektur**
 
-    Vom Ist zum Soll: Bestandsaufnahme, messbare Anforderungen, Sollkonzept und CMDB am Beispiel eines E-Bike-Herstellers.
+    Bestandsaufnahme, Anforderungen, Sollkonzept und CMDB am Beispiel eines E-Bike-Herstellers, mit ausführlicher Besprechung der Lösung.
 
     [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
@@ -71,9 +71,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Speicher, Ressourcen und Lizenzen**
+    **Speicher planen**
 
-    Speicher dimensionieren, Ressourcen planen und das passende Lizenzmodell wählen.
+    Wie viel Speicher, wie sicher und wie angebunden? Danach Ressourcen und Lizenzen.
 
 </div>
 
