@@ -55,8 +55,8 @@ Jede Person öffnet diese Seite selbst, denn die Fundstücke stehen in Reitern
 nebeneinander. Im Breakout teilt eine Person ihren Bildschirm, eine zweite
 führt den Ergebniszettel. Die Stationen bauen aufeinander auf, haltet
 deshalb die Reihenfolge ein. Die Zeiten in den Überschriften sind Richtwerte.
-Zu jeder Station gibt es Hinweise zum Aufklappen, falls ihr nicht
-weiterkommt. Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+Zu jeder Station gibt es Hinweise und eine Musterlösung zum Aufklappen. Seht
+erst in die Musterlösung, wenn ihr euch auf ein eigenes Ergebnis geeinigt habt.
 
 !!! tip "Ihr arbeitet in einer zweiten Runde weiter?"
     So steigt ihr in fünf Minuten wieder ein:
@@ -261,7 +261,7 @@ Ihr arbeitet gleichzeitig, jede Person mit ihrem Fundstück:
 
 1. Jede Person notiert ihre Funde in einer Zeile: „Die Liste sagt X.
    Tatsächlich Y. Beleg: B." Nach zehn Minuten legt ihr alles zusammen.
-2. Es gibt neun Befunde. Findet mindestens sechs.
+2. Die Musterlösung fasst neun Befunde zusammen. Findet mindestens sechs.
 3. Wählt die drei Befunde aus, die ihr zuerst angehen würdet. Begründet jede
    Wahl in einem Satz.
 
@@ -283,7 +283,43 @@ Ihr arbeitet gleichzeitig, jede Person mit ihrem Fundstück:
     4. Schaut auch auf das, was gar kein Server ist: Strom und Netz.
     5. Prüft die Spalte „Verantwortlich" gegen den Text „Die Lage".
 
-    Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+??? tip "Musterlösung Station 1"
+    ![Der Bestand mit allen Befunden: rote Nummern an den Geräten](../assets/diagramme/loesung-lageplan.png){ .diagramm }
+
+    | Nr. | Die Liste sagt | Tatsächlich | Beleg |
+    |---|---|---|---|
+    | 1 | Es gibt acht Server. | Im Schrank steht ein neuntes Gerät, das NAS der Konstruktion. Es wird nicht gesichert. | B, D |
+    | 2 | TEST-01 ist ein Testsystem. | TEST-01 ist seit 2024 außer Betrieb, das Netzkabel ist gezogen. | B, C |
+    | 3 | Der MQTT-Broker läuft als MQTT-01 auf VH-02. | MQTT-01 ist ausgeschaltet. Der Broker läuft auf einem Mini-PC in der Halle, an einer normalen Steckdose. | B, C, D |
+    | 4 | ERP-DB läuft unter Windows Server 2019. | Es ist Windows Server 2016 mit SQL Server 2016. Die Datenbank bekommt seit Juli 2026 keine Sicherheitsupdates mehr, das Betriebssystem nur noch bis Januar 2027. | C |
+    | 5 | Für WEB-01 ist die Webagentur verantwortlich. | Die Agentur ist seit Ende 2024 weg, seitdem hat niemand Updates eingespielt. Ubuntu 20.04 bekommt seit Ende Mai 2025 ohne Zusatzvertrag keine mehr. Der Server ist aus dem Internet erreichbar. | C, D |
+    | 6 | FILE-01 ist zu 55 % belegt. | Es sind 92 %. | C |
+    | 7 | Die Liste nennt nur Server. | USV, Switch, Firewall und Internetleitung fehlen ganz. Die USV meldet seit 14 Wochen einen Batteriefehler und überbrückt nur 4 Minuten. | B, C |
+    | 8 | Verantwortlich ist bei sechs Einträgen Herr Brandt. | Herr Brandt ist im Ruhestand. Diese Systeme haben keinen benannten Verantwortlichen. | Lage |
+    | 9 | Die Rücksicherung ist getestet. | Im Protokoll steht keine Probe. Die letzte liegt nach Erinnerung drei Jahre zurück. | C, D |
+
+    **Die drei dringendsten Befunde** (eine gute Auswahl, es gibt andere):
+
+    - **Befund 5, WEB-01:** Ein Server ohne Updates, den jeder aus dem
+      Internet erreicht, ist das größte Sicherheitsrisiko im Haus.
+    - **Befund 7, USV:** An der einen USV hängen beide Schränke. Fällt der
+      Strom länger als vier Minuten aus, steht alles zugleich, auch die
+      Fertigung.
+    - **Befund 1 und 9, Datensicherung:** Die CAD-Daten der neuen Modelle
+      liegen ungesichert auf einem einzigen Gerät. Und ob sich der Rest
+      zurückspielen lässt, weiß niemand.
+
+    Befund 4 ist ebenfalls dringend, weil das Datum feststeht. Wer ihn unter
+    die ersten drei wählt, liegt genauso richtig.
+
+    **Anders gezählt?** Wer bei WEB-01 Zuständigkeit und Updates getrennt
+    zählt oder die 91 % Arbeitsspeicher auf VH-01 notiert hat, hat genau
+    hingesehen. Auf die Zählung kommt es nicht an.
+
+    **Was ihr daran seht:** Kein einziger Befund stand in der Liste. Die
+    meisten zeigen sich erst, wenn zwei Quellen zusammenkommen: der Rundgang
+    und die Messung oder die Messung und das Gespräch. Erst der Abgleich
+    ergibt eine Ist-Aufnahme, der man trauen kann.
 
 ---
 
@@ -357,7 +393,55 @@ Raum. Die Fertigung ist ein dritter Fall: zwei Schichten an fünf Tagen.
     Jahr. Für die E-Bikes: Wie viele werden in einer Stunde gebaut? Für Frage
     4: Ist ein langer Ausfall für die Bänder dasselbe wie viele kurze?
 
-    Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+??? tip "Musterlösung Station 2"
+    **Teil a**
+
+    | Nr. | Einordnung | Begründung |
+    |---|---|---|
+    | 1 | funktional, dazu nicht-funktional | Beschreibt, was das Portal können muss. „Rund um die Uhr" ist zusätzlich eine Aussage zur Verfügbarkeit. |
+    | 2 | nicht-funktional | Es geht um Verfügbarkeit, also um das Wie-gut. So ist der Satz aber noch nicht messbar. |
+    | 3 | nicht-funktional | Die Fertigung soll unabhängig von der Internetleitung verfügbar sein. Das entscheidet später über den Standort der Systeme. Eine Rahmenbedingung ist es nicht: Sie steht nicht von außen fest, die Fertigung fordert sie vom Ergebnis. |
+    | 4 | keine Anforderung | Das ist ein Lösungsvorschlag. Die Frage dahinter lautet: Wozu? Erst die Antwort darauf ist eine Anforderung. |
+    | 5 | Rahmenbedingung | Die Größe des Teams steht fest. Jede Lösung muss damit auskommen. |
+    | 6 | funktional | Beschreibt eine Funktion des Systems. |
+
+    **Teil b** (Beispiele, eure Zahlen dürfen abweichen)
+
+    - „Der Konfigurator ist von März bis Mai in jedem Monat zu mindestens
+      99,9 % erreichbar. Gemessen wird von außen mit einem Abruf der
+      Startseite alle 60 Sekunden." In einem Monat mit 30 Tagen erlaubt das
+      etwa 43 Minuten Ausfall.
+    - „Die Startseite des Händlerportals ist bei 200 gleichzeitig angemeldeten
+      Händlern in höchstens 2 Sekunden geladen. Gemessen wird mit einem
+      Lasttest vor der Inbetriebnahme und danach montags zwischen 7 und 9 Uhr
+      über die aufgezeichneten Ladezeiten."
+    - „Bei einem Ausfall der Warenwirtschaft gehen höchstens die Buchungen der
+      letzten 60 Minuten verloren. Geprüft wird das zweimal im Jahr mit einer
+      Probe-Rücksicherung." Der Fachbegriff für diesen höchsten Datenverlust
+      ist RPO (Recovery Point Objective).
+
+    Die Zahlen selbst legt ihr nie allein fest. Ihr schlagt sie vor, die
+    Fachabteilung bestätigt sie. Eine strengere Zahl kostet mehr, deshalb gehört
+    die Entscheidung dorthin, wo der Nutzen entsteht.
+
+    **Teil c**
+
+    ![Betriebszeit, erlaubter Ausfall und E-Bikes als Rechenkette](../assets/diagramme/loesung-verfuegbarkeit.png){ .diagramm }
+
+    1. 16 Stunden × 5 Tage × 52 Wochen = **4.160 Stunden** im Jahr.
+    2. 0,5 % von 4.160 Stunden = **20,8 Stunden**. Auf das ganze Jahr
+       gerechnet wären es 0,5 % von 8.760 Stunden = 43,8 Stunden. Dieselbe
+       Prozentzahl erlaubt also mehr als doppelt so viel Ausfall, wenn der
+       Bezug nicht festgelegt ist.
+    3. 120 E-Bikes in 16 Stunden sind 7,5 je Stunde. 20,8 Stunden × 7,5 =
+       **156 E-Bikes**.
+    4. Nein. 20,8 Stunden können ein einziger langer Ausfall sein oder rund 125
+       Ausfälle von je zehn Minuten. Für die Fertigung ist das ein großer
+       Unterschied. Es fehlt eine zweite Zahl: wie lange ein einzelner
+       Ausfall höchstens dauern darf, zum Beispiel „spätestens nach fünf
+       Minuten läuft das System wieder". Der Fachbegriff dafür ist RTO
+       (Recovery Time Objective). Dazu gehört der Bezug: „gemessen in
+       der Betriebszeit montags bis freitags von 6 bis 22 Uhr".
 
 ---
 
@@ -428,7 +512,43 @@ Satz für das Lastenheft und den passenden Satz für das Pflichtenheft.
     **Teil b:** Steht in dem Satz ein Ziel, das erreicht werden soll, oder
     schon die Technik, mit der es erreicht wird?
 
-    Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+??? tip "Musterlösung Station 3"
+    **Teil a** (eine gut begründete Lösung, andere sind möglich)
+
+    ![Voltrads Systeme in den vier Wegen des Sollkonzepts](../assets/diagramme/loesung-soll.png){ .diagramm }
+
+    | System | Entscheidung | Begründung |
+    |---|---|---|
+    | Fertigungsleitsystem | im Werk erneuern | Die Fertigung muss ohne Internet laufen. Nach zehn Minuten Stillstand stehen die Bänder. |
+    | MQTT-Broker | im Werk erneuern | Er gehört zur Fertigung und muss ohne Internet arbeiten. Er zieht zurück in den Serverraum, an die USV und in die Datensicherung. |
+    | Warenwirtschaft | im Werk erneuern, mit aktuellem Betriebssystem und aktueller Datenbank | Das Fertigungsleitsystem holt seine Aufträge dort ab. Läge sie in der Cloud, hinge die Fertigung doch wieder an der Internetleitung. |
+    | Dateien | Bürodateien als fertigen Dienst mieten, CAD-Daten im Werk | Für Bürodateien ist in Microsoft 365 schon Speicher enthalten. CAD-Dateien sind groß und werden lokal bearbeitet, sie bekommen einen gesicherten Platz im Werk. Das NAS ohne Sicherung verschwindet. |
+    | Konfigurator und Händlerportal | in die Cloud | Die Last schwankt um das Vierfache. In der Cloud wächst die Umgebung im Frühjahr mit und schrumpft danach. Ein Ausfall der Internetleitung im Werk trifft den Konfigurator dann nicht mehr. Bestellungen aus dem Portal werden in der Cloud zwischengespeichert, bis die Warenwirtschaft im Werk wieder erreichbar ist. |
+    | Anmeldung und Druck | im Werk erneuern | Die Anmeldung muss auch ohne Internet funktionieren. Beide Domänencontroller bleiben auf zwei getrennten Hosts. |
+    | Datensicherung | im Werk erneuern, mit einer Kopie in der Cloud | Eine Sicherung, die im selben Raum steht wie die Server, hilft bei Brand oder Wasserschaden nicht. |
+    | Testsystem | abschalten | Es ist seit 2024 außer Betrieb. Die Platten werden gelöscht, der Eintrag bekommt den Status „außer Betrieb". |
+
+    **Wie viele Server kauft Voltrad?** Nach diesem Konzept drei bis vier
+    statt acht: zwei bis drei Virtualisierungshosts und ein Server für die
+    Datensicherung. Die Hosts müssen sich gegenseitig vertreten können. Dazu
+    kommt ein eigener Speicher für die CAD-Daten. Ob das Fertigungsleitsystem als
+    virtuelle Maschine laufen darf, klärt ihr vorher mit dem Hersteller.
+
+    **Teil b**
+
+    | Satz | Dokument | Warum |
+    |---|---|---|
+    | 1 | Lastenheft | Beschreibt den Bedarf, ohne eine Lösung zu nennen. |
+    | 2 | Pflichtenheft | Beschreibt, wie der Bedarf technisch gedeckt wird. |
+    | 3 | Lastenheft | Legt fest, was erreicht werden muss. |
+    | 4 | Pflichtenheft | Nennt die technische Umsetzung dazu. |
+
+    Ein Paar zum Fertigungsleitsystem könnte so aussehen. Lastenheft: „Das
+    Fertigungsleitsystem ist in der Betriebszeit zu 99,5 % verfügbar, kein
+    Ausfall dauert länger als fünf Minuten." Pflichtenheft: „Das System läuft
+    als virtuelle Maschine in einem Verbund aus zwei Hosts mit gemeinsamem
+    Speicher im Werk. Fällt ein Host aus, startet die Maschine automatisch
+    auf dem anderen."
 
 ---
 
@@ -568,7 +688,7 @@ Betroffen ist alles, von dem aus ein Weg entlang der Pfeile zum ausgefallenen
 Bestandteil führt. Eine Ausnahme: Führen zwei Pfeile zu gleichwertigen
 Systemen, etwa zu zwei Domänencontrollern, genügt eines davon.
 
-So liest man das an einem Fall, der unten nicht gefragt ist:
+Ein Beispiel: Die Datenbank der Warenwirtschaft fällt aus. Der Ausfall wandert gegen die Pfeile bis zur Montagelinie.
 
 ![Die Datenbank der Warenwirtschaft fällt aus: Der Ausfall wandert gegen die Pfeile bis zur Montagelinie](../assets/diagramme/soll-ausfallfrage.png){ .diagramm }
 
@@ -609,7 +729,76 @@ Ergebniszettel ein. Mit einem anderen Werkzeug macht ihr ein Bildschirmfoto.
        Domänencontroller?
     4. Rot markieren: Wofür gibt es keinen Ersatz, und woran hängt viel?
 
-    Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+??? tip "Musterlösung Station 4"
+    Ein möglicher Graph. Rot umrandet ist eine Auswahl: vier Bestandteile ohne
+    Ersatz, an denen besonders viel hängt.
+
+    ```mermaid
+    flowchart TD
+      LINIE["Montagelinie<br/>120 Räder am Tag"] -->|braucht| MES["MES-01<br/>Fertigungsleitsystem"]
+      MES -->|holt Aufträge von| ERPAPP["ERP-APP<br/>Warenwirtschaft"]
+      ERPAPP -->|speichert in| ERPDB["ERP-DB<br/>Datenbank"]
+      PRUEF["Prüfstände"] -->|melden an| MQTT["Mini-PC Halle<br/>MQTT-Broker"]
+
+      MES & ERPAPP & ERPDB -->|Strom von| USV["USV-01"]
+
+      DC1["DC-01"] -->|läuft auf| VH1["VH-01"]
+      FILE["FILE-01<br/>Dateiablage"] -->|läuft auf| VH1
+      DC2["DC-02"] -->|läuft auf| VH2["VH-02"]
+      VH1 & VH2 -->|Strom von| USV
+
+      BUERO["Büro-Arbeitsplätze"] -->|melden sich an bei| DC1 & DC2
+      BUERO -->|speichern auf| FILE
+
+      KUNDEN["Kunden und Händler"] -->|nutzen| WEB["WEB-01<br/>Konfigurator, Händlerportal"]
+      WEB -->|erreichbar über| FW["FW-01<br/>Firewall"]
+      FW -->|hängt an| NETZ["Internetleitung"]
+      WEB & FW -->|Strom von| USV
+
+      KONSTR["Konstruktion"] -->|speichert auf| NAS["NAS Konstruktion<br/>CAD-Daten"]
+      NAS -->|Strom von| USV
+
+      classDef kritisch stroke:#E05252,stroke-width:4px
+      class USV,ERPDB,NETZ,NAS kritisch
+    ```
+
+    Dasselbe als aufgeräumtes Schaubild. Der Blitz heißt: bekommt Strom von
+    der USV.
+
+    ![Der fertige Abhängigkeitsgraph mit roten Rahmen um die Single Points of Failure](../assets/diagramme/loesung-graph.png){ .diagramm }
+
+    Zum Vergleichen und Weiterbauen:
+    [Musterlösung im Mermaid Live Editor öffnen](https://mermaid.live/edit#pako:eNp9VF1v2jAU_StXmcQT0SBqX9BUCUgQiJYyPqUte3ASJ1g4NnKcsa70v-_aTlg7tXsxwbnnnHvuR569VGbUG4CXc3lOD0Rp2ISxALifLWbR99h7kEKTgnImGP2SqM93_aAHq7ju9ehNRhWQEjakiL0f4Pt3l0SROj3oCzxEawOO1n6vb2ETqjQralFUnDJdPVWalogyUhhlwQfJNQzrXCtHX1D4KcUFotVyuFwiHT74-GT59kRRcWZKV5h1rhsqF2rZqhNl6QFVgTmOcNRQhCPLEBJNRULEscEuV9togiFLK5-neaVdHiKjrb-S8owKIMj48HWzMRaxMP5yDFPCuSuQeeGPlDxSZZlbi502u47LxhKutZKls7ld75APTyzZFRiO-3gZjt2dhXCXFdYJSJ1fYDc1IbtpCwOYzO5N68xPW35jlpGEYyv_w-MUg0Yx-DgyaBSDRhGxaAvv3zHljIy20eoRUSNXXCX9oUrMJJwadv373ypX2D8sNWDYxRQCFTC5K9mbLguXmbHs9ObbRRgtUHBeC0OGJ0zbfnLbGksgahTGRPeRGQ8824rNpchxYBXRUnXfQE9SacIb54iwPFQpk0lCFDiHCVWYz970YX9dAqboGQel7dPezX3DXWg7WIto8w1RM6HRFtVmXXBtXsl1WuB7dZ4_LtablfEtRaVVfdRMitbs352w1VoMzZLiCa-DbabjYejbBWl0TdBHkiknVRXSHI6KaYb7CMiF4z_4FPVug9ug6_76Z5bpw-Dm9OsKMhxduwxd47prVFqSWHhd8EqqSsIy84V6jj19oCVOyQBiL6M5qTnu_YsJI7WW6yeR4iu0QfGmPmWYfshIoUjZXL_8AUKTlTc=){ target=_blank }
+
+    **Teil c**
+
+    1. **Stromausfall im Serverraum:** Nach vier Minuten steht dort alles
+       zugleich: Fertigungsleitsystem, Warenwirtschaft, beide Hosts mit
+       Anmeldung und Dateiablage, Konfigurator, Händlerportal, das NAS, die
+       Datensicherung, der Switch und die Firewall. Zehn Minuten später
+       steht auch die Montagelinie, obwohl die Halle Strom hat: Ohne
+       Fertigungsleitsystem kommen dort keine Aufträge an. Weiter läuft der
+       Mini-PC mit dem Broker in der Halle. Microsoft 365 läuft in der Cloud
+       zwar weiter, ist aus dem Werk aber nicht erreichbar, weil Firewall und
+       Switch ohne Strom sind. Die Server werden nicht sauber
+       heruntergefahren, weil vier Minuten dafür kaum reichen.
+    2. **VH-01:** Es stehen DC-01, FILE-01 und PRINT-01. Die Anmeldung
+       funktioniert weiter, weil DC-02 auf VH-02 läuft. Der Graph zeigt das
+       nicht von selbst, er kennt kein Entweder-oder. Die Dateiablage und
+       das Drucken fallen aus. Selbst wenn die Hosts dafür eingerichtet
+       wären, könnte VH-02 nicht alle Maschinen übernehmen: Dort sind nur
+       56 % des Arbeitsspeichers frei, VH-01 belegt 91 %.
+    3. **Internetleitung:** Die Fertigung läuft weiter, weil
+       Fertigungsleitsystem, Warenwirtschaft und Broker im Werk stehen.
+       Kunden und Händler erreichen Konfigurator und Portal nicht mehr, denn
+       WEB-01 hängt an derselben Leitung. Im Büro fallen E-Mail und die
+       Online-Dienste von Microsoft 365 aus.
+
+    **Teil d:** Einen roten Rahmen bekommen mindestens die USV (alles hängt an ihr), die
+    Datenbank der Warenwirtschaft (über sie steht die Fertigung), die eine
+    Internetleitung und das NAS (einziger Ort der CAD-Daten). Ebenso ohne
+    Ersatz sind das Fertigungsleitsystem, die Anwendung der Warenwirtschaft,
+    die Firewall und der Switch SW-CORE. Wer sie markiert, liegt auch richtig.
 
 ---
 

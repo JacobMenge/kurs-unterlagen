@@ -53,9 +53,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Cloud Computing**
+    **Vom Ist zum Soll**
 
-    Servicemodelle, der erste eigene Server bei AWS und das Cloud-Rennen: Vier Teams haben einen Webdienst ausfallsicher über zwei Zonen aufgebaut.
+    Bestandsaufnahme bei einem E-Bike-Hersteller: Befunde aus vier Quellen, messbare Anforderungen, Sollkonzept und CMDB.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
@@ -63,7 +63,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Infrastruktur und Architektur**
 
-    Bestandsaufnahme, Anforderungen, Sollkonzept und CMDB am Beispiel eines E-Bike-Herstellers, mit ausführlicher Besprechung der Lösung.
+    Speicher planen: wie viel, wie sicher, wie angebunden. Kapazität, RAID, Datensicherung nach 3-2-1 und DAS, NAS, SAN.
 
     [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
@@ -71,9 +71,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Speicher planen**
+    **Ressourcen und Lizenzen**
 
-    Wie viel Speicher, wie sicher und wie angebunden? Danach Ressourcen und Lizenzen.
+    Was kostet das neue Konzept, wer baut es auf und welche Lizenzen braucht es?
 
 </div>
 
