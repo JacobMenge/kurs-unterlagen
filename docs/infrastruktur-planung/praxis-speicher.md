@@ -84,7 +84,15 @@ drei Jahren braucht. Das ist der **Netto-Bedarf**.
 mit je 2 TB Voltrad kaufen muss. Gekauft wird **brutto**, nutzbar ist
 **netto**. Der Unterschied steckt in der Redundanz.
 
-Das Bild rechnet mit 4-TB-Platten, ihr rechnet mit 2 TB.
+So arbeiten die vier Level: Was liegt auf welcher Platte, und was passiert, wenn
+eine ausfällt?
+
+![RAID 1 und RAID 5: was auf den Platten liegt und was beim Ausfall passiert](../assets/diagramme/speicher-raid-erklaert-1.png){ .diagramm }
+
+![RAID 6 und RAID 10: was auf den Platten liegt und was beim Ausfall passiert](../assets/diagramme/speicher-raid-erklaert-2.png){ .diagramm }
+
+Im Vergleich, mit je vier Platten. Das Bild rechnet mit 4-TB-Platten, ihr
+rechnet mit 2 TB.
 
 ![Vier RAID-Level: was nutzbar ist und was ausfallen darf](../assets/diagramme/speicher-raid.png){ .diagramm }
 
@@ -123,7 +131,9 @@ Das Bild rechnet mit 4-TB-Platten, ihr rechnet mit 2 TB.
 **Was ihr hier tut:** Ihr entscheidet für drei Bedarfe, wie der Speicher an
 die Rechner kommt.
 
-![DAS, NAS und SAN als drei kleine Szenen mit Faustregel](../assets/diagramme/speicher-anbindung.png){ .diagramm }
+![DAS, NAS und SAN: Alltagsvergleich, Szene, was am Rechner ankommt und wofür es passt](../assets/diagramme/speicher-anbindung-klar.png){ .diagramm }
+
+![Dateien oder Blöcke: Ein NAS liefert ganze Dateien, ein SAN liefert Blöcke, aus denen der Server selbst Dateien macht](../assets/diagramme/speicher-dateien-bloecke.png){ .diagramm }
 
 Welche Anbindung passt? Begründet jede Wahl in einem Satz.
 
