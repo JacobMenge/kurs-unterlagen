@@ -53,9 +53,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Vom Ist zum Soll**
+    **Speicher planen**
 
-    Bestandsaufnahme bei einem E-Bike-Hersteller: Befunde aus vier Quellen, messbare Anforderungen, Sollkonzept und CMDB.
+    Wie viel, wie sicher, wie angebunden: Kapazität, RAID, Datensicherung nach 3-2-1 und DAS, NAS, SAN.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
@@ -63,7 +63,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Infrastruktur und Architektur**
 
-    Speicher planen: wie viel, wie sicher, wie angebunden. Kapazität, RAID, Datensicherung nach 3-2-1 und DAS, NAS, SAN.
+    Ressourcen und Lizenzen: Zeitplan, Migration, Cloud gegen Kauf, Lizenzmodelle und Budget.
 
     [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
@@ -71,9 +71,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Ressourcen und Lizenzen**
+    **Infrastruktur als Code**
 
-    Was kostet das neue Konzept, wer baut es auf und welche Lizenzen braucht es?
+    Server nicht mehr klicken, sondern beschreiben: mit Terraform zurück in die Cloud.
 
 </div>
 

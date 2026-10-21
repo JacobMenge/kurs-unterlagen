@@ -64,6 +64,15 @@ flowchart LR
 
 Zu jeder Änderung an einer Maschine gehört deshalb die Frage, ob darauf etwas kernbasiert lizenziert läuft. Das ist kein juristisches Detail, sondern eine gewöhnliche Betriebsfrage. Sie fällt nur meist erst beim Audit auf – dann allerdings rückwirkend.
 
+!!! example "Beispiel: Windows Server, pro Kern lizenziert"
+    Windows Server wird nach Prozessorkernen lizenziert. Es gelten drei Regeln:
+
+    1. Alle Kerne des Servers werden lizenziert, mindestens 8 je Prozessor und 16 je Server.
+    2. **Standard** deckt zwei virtuelle Maschinen mit Windows. Für mehr VMs lizenziert man alle Kerne ein weiteres Mal (zwei Lizenzen decken vier VMs). **Datacenter** deckt beliebig viele VMs und lohnt sich deshalb erst bei vielen Windows-VMs auf einem Host.
+    3. Zusätzlich braucht jeder Nutzer oder jedes Gerät, das auf den Server zugreift, eine Zugriffslizenz (CAL).
+
+    Lizenzen dürfen nur alle 90 Tage einem anderen Host zugeordnet werden. Sollen VMs bei einem Ausfall auf einen anderen Host wechseln, muss deshalb jeder Host für alle VMs lizenziert sein, die dort laufen können.
+
 ### Kaufen oder abonnieren?
 
 | | **Kauflizenz** (perpetual) | **Subscription** (Abo) |
