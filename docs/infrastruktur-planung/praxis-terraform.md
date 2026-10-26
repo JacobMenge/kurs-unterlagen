@@ -53,7 +53,7 @@ Cloud, VMware und Proxmox an.
 ## Was ihr gleich baut
 
 Ihr schreibt in CloudShell eine Datei. Terraform liest sie und baut daraus bei
-AWS zwei Dinge: eine **Firewall**, die Port 80 für Webseiten öffnet, und einen
+AWS zwei Dinge: eine **Firewall** mit offenem Port 80 für Webseiten und einen
 **Server**. Der Server installiert beim ersten Start einen Webserver und zeigt
 eine kleine Seite, die ihr im Browser öffnet. Danach ändert ihr die Datei
 Schritt für Schritt und schaut zu, was Terraform daraus macht.
@@ -111,6 +111,15 @@ habt ihr nur 1 GB.
 Terraform v1.16.7
 on linux_amd64
 ```
+
+Darunter kann der Hinweis stehen, dass es eine neuere Version gibt. Den
+ignoriert ihr: Für heute ist 1.16.7 festgelegt, damit bei allen dasselbe
+herauskommt.
+
+**Warum so umständlich?** CloudShell bringt Terraform nicht mit. Was ihr
+außerhalb des Home-Verzeichnisses installiert, ist nach einer Pause weg. Deshalb
+liegt das Programm in `~/bin`. Die Datei `~/.bashrc` sorgt dafür, dass es bei jedem
+Start von CloudShell gefunden wird.
 
 ---
 
@@ -228,7 +237,24 @@ Terraform den Plan zeigen und baut.
       `SKRIPT` sind Befehle, die der Server beim ersten Start ausführt:
       Webserver installieren, Startseite schreiben, Webserver starten.
     - `aws_instance.web[*].public_ip` heißt: die öffentliche IP-Adresse aller
-      Server dieses Blocks.
+      Server dieses Blocks. `[*]` steht für „alle“, weil `count` mehrere
+      Server bauen kann.
+
+    So hängt die Datei zusammen. Die Firewall baut ihr selbst, Port 80 steht
+    im Block `ingress`. Der Server bekommt sie über ihre ID zugewiesen:
+
+    ![Der Firewall-Block mit ingress und egress und der Verweis des Servers auf die Firewall](../assets/diagramme/iac-firewall.png){ .diagramm }
+
+    Wie kommt der Server an genau diese Firewall? Über einen Verweis: Beim
+    Bauen vergibt AWS der Firewall eine ID. Terraform setzt sie beim
+    Server ein.
+
+    ![Der Verweis aws_security_group.web.id in drei Schritten: Firewall bauen, Verweis auflösen, Server bauen](../assets/diagramme/iac-zuweisung.png){ .diagramm }
+
+    Und so verweisen die Blöcke aufeinander. Aus diesen Verweisen leitet
+    Terraform ab, was es zuerst bauen muss:
+
+    ![Welche Zeile im Server auf welchen anderen Block verweist](../assets/diagramme/iac-verweise.png){ .diagramm }
 
 3. Jetzt die drei Befehle, einer nach dem anderen:
 
@@ -236,29 +262,39 @@ Terraform den Plan zeigen und baut.
     terraform init
     ```
 
-    `init` lädt den AWS-Provider herunter. Das dauert beim ersten Mal etwa
-    eine Minute.
+    `init` bereitet den Ordner vor und lädt den AWS-Provider herunter, also
+    den Baustein, mit dem Terraform AWS ansteuert. Das dauert etwa eine halbe
+    Minute. Am Ende steht grün `Terraform has been successfully initialized!`
 
     ```bash
     terraform plan
     ```
 
-    `plan` zeigt, was Terraform tun würde, ändert aber noch nichts. Lest die
-    letzte Zeile.
+    `plan` vergleicht eure Datei mit dem, was es bei AWS schon gibt, und
+    zeigt, was Terraform tun würde. Geändert wird dabei noch nichts. Lest die
+    letzte Zeile, sie beginnt mit `Plan:`.
 
     ```bash
     terraform apply
     ```
 
-    `apply` zeigt denselben Plan noch einmal und fragt nach. Tippt `yes` und
-    drückt ++enter++. Nach etwa einer Minute steht unten eure IP-Adresse.
+    `apply` zeigt denselben Plan noch einmal und fragt nach. Erst wenn ihr
+    `yes` tippt und ++enter++ drückt, baut Terraform. Nach etwa einer halben
+    Minute steht unten unter `Outputs` eure IP-Adresse.
+
+    So sieht das bei euch aus, wenn alles klappt. Die Bilder zeigen echte
+    Ausgaben aus einer Sandbox:
+
+    ![Echte Ausgabe in CloudShell: Terraform-Version, Datei anlegen, terraform init](../assets/diagramme/iac-sandbox-1.png){ .diagramm }
+
+    ![Echte Ausgabe in CloudShell: terraform plan, terraform apply mit yes, die IP-Adresse und die fertige Seite](../assets/diagramme/iac-sandbox-2.png){ .diagramm }
 
 4. Öffnet im Browser `http://` und die Adresse, zum Beispiel
    `http://3.91.24.117`. Der Webserver installiert sich nach dem Start noch,
    wartet notfalls zwei Minuten und ladet neu.
 
-**Frage 1:** Wie viele Ressourcen wollte der Plan anlegen? Welche waren es?
-Warum taucht das Amazon-Linux-Abbild nicht darunter auf?
+**Frage 1:** Der Plan nennt zwei Ressourcen. Welche sind es? Warum taucht das
+Amazon-Linux-Abbild nicht darunter auf, obwohl es in der Datei steht?
 
 **Frage 2:** Öffnet in der Konsole EC2 und eure Instanz. Findet ihr den
 Namen aus der Datei wieder? Welche Datei liegt jetzt neu im Ordner? Der Befehl
@@ -289,6 +325,11 @@ ihr voraus, was passieren wird. Im Plan steht vor jeder Ressource ein Zeichen:
 
 Öffnet die Datei für jede Änderung mit `nano main.tf`, dann `terraform apply`.
 Lest den Plan, bevor ihr `yes` tippt.
+
+**Warum ihr das übt:** Im Betrieb entscheidet genau dieses Zeichen, ob der
+Konfigurator weiterläuft, kurz neu startet oder durch einen neuen Server mit
+neuer Adresse ersetzt wird. Wer den Plan lesen kann, erlebt keine
+Überraschung, wenn er `yes` tippt.
 
 !!! tip "So bedient ihr nano"
     Bewegen mit den Pfeiltasten, tippen wie in jedem Editor.
@@ -367,7 +408,10 @@ die IT von Voltrad deshalb als Regel festlegen?
 ## Station 5: Aus einem Server werden zwei (10 Minuten)
 
 **Was ihr hier tut:** Im Frühjahr braucht der Konfigurator mehr Server. Dafür
-ändert ihr genau eine Zahl.
+ändert ihr genau eine Zahl: die Variable `anzahl_server`. Weil im Server-Block
+`count = var.anzahl_server` steht, baut Terraform so viele Server, wie die
+Variable sagt. Genau dafür sind Variablen da: Der Bauplan bleibt gleich, nur
+die Stellschraube ändert sich.
 
 1. Öffnet `nano main.tf` und setzt bei `variable "anzahl_server"` den Wert
    `default = 1` auf `default = 2`.
@@ -565,7 +609,9 @@ nur in der CloudShell von Frau Vogt. Überlegt euch:
 ## Station 6: Mit einem Befehl aufräumen (5 Minuten)
 
 **Was ihr hier tut:** Was Terraform gebaut hat, löscht es auch wieder.
-Spätestens um 20:20 Uhr räumt ihr ab.
+Spätestens um 20:20 Uhr räumt ihr ab. In einem echten Konto kostet jeder
+vergessene Server weiter Geld. Terraform löscht genau das, was in der
+State-Datei steht. Dabei vergisst es nichts.
 
 ```bash
 terraform destroy
@@ -591,6 +637,7 @@ Schritte wären das in der Konsole gewesen?
 
 | Was ihr seht | Woran es liegt | Was hilft |
 |---|---|---|
+| `Your version of Terraform is out of date!` | Es gibt eine neuere Version als 1.16.7 | Kein Fehler, einfach weitermachen. |
 | `terraform: command not found` | Die Einstellungen aus Station 1 sind in diesem Terminal noch nicht geladen | `source ~/.bashrc` eingeben. Hilft das nicht, Station 1 wiederholen. |
 | `no space left on device` beim `init` | Der Provider landet im Home-Verzeichnis statt in `/tmp` | `echo $TF_DATA_DIR` muss `/tmp/terraform-daten` zeigen. Sonst `source ~/.bashrc`, dann `rm -rf ~/voltrad/.terraform` und noch einmal `terraform init`. |
 | `Required plugins are not installed` oder `Inconsistent dependency lock file` | CloudShell hat neu gestartet und `/tmp` geleert | Im Ordner `~/voltrad` noch einmal `terraform init`. Eure Datei und die State-Datei sind noch da. |
