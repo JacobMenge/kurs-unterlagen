@@ -16,4 +16,6 @@ nav:
   - "Praxis: Schafft Voltrad das?": praxis-ressourcen.md
   - "Lizenzmodelle": lizenzmodelle.md
   - "Übungen: Lizenzmodelle": uebungen-lizenzmodelle.md
+  - "Infrastruktur als Code": infrastruktur-als-code.md
+  - "Praxis: Der Konfigurator als Code": praxis-terraform.md
   - "Übungsaufgaben": uebungen.md

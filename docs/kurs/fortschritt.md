@@ -53,9 +53,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Speicher planen**
+    **Ressourcen und Lizenzen**
 
-    Wie viel, wie sicher, wie angebunden: Kapazität, RAID, Datensicherung nach 3-2-1 und DAS, NAS, SAN.
+    Zeitplan, Migration, Cloud gegen Kauf, Lizenzmodelle und Budget für das Sollkonzept.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
@@ -63,7 +63,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Infrastruktur und Architektur**
 
-    Ressourcen und Lizenzen: Zeitplan, Migration, Cloud gegen Kauf, Lizenzmodelle und Budget.
+    Infrastruktur als Code: Server nicht mehr klicken, sondern in einer Datei beschreiben und mit Terraform in der Cloud bauen.
 
     [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
@@ -71,9 +71,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Infrastruktur als Code**
+    **Terraform, Teil 2**
 
-    Server nicht mehr klicken, sondern beschreiben: mit Terraform zurück in die Cloud.
+    Das Cloud-Rennen als Code: zwei Server in zwei Zonen hinter einem Load Balancer, gebaut aus einer Datei.
 
 </div>
 
@@ -93,7 +93,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 | <span class="status-fertig">✓</span> | [Docker – Aufbau](../docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke |
 | <span class="status-fertig">✓</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
 | <span class="status-fertig">✓</span> | [Industrie & IoT](../industrie-iot/index.md) | OT und IT, Profinet, OPC UA und MQTT |
-| <span class="status-laeuft">●</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen |
+| <span class="status-laeuft">●</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen, Infrastruktur als Code |
 
 ### Thema 2 · Sicherstellung des laufenden Betriebs
 

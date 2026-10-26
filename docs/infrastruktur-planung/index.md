@@ -47,6 +47,8 @@ Auf jede Theorieseite folgt direkt der passende Aufgabensatz – du kannst also 
 | [Praxis: Schafft Voltrad das?](praxis-ressourcen.md) | Planungsübung im Team: Zeitplan, Migration, Cloud gegen Kauf, Lizenzen und Budget für das Sollkonzept | <span class='badge badge-praxis'>Praxis</span> |
 | [Lizenzmodelle](lizenzmodelle.md) | Lizenzarten und Metriken, bekannte Software und ihre Lizenzen, der Lizenz-Turm im Abhängigkeitsstapel, Erfassung und Lizenzprozess, Kosten, Auswahl, rechtliche Aspekte | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Übungen: Lizenzmodelle](uebungen-lizenzmodelle.md) | Neunzehn Einzelaufgaben zu genau diesem Themenblock, darunter vier Aufgaben an echten Fachartikeln, jede mit Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
+| [Infrastruktur als Code](infrastruktur-als-code.md) | Server, Netze und Firewalls in einer Datei: deklarativ gegen Skript, Nutzen und Grenzen, Terraform mit init, plan, apply, destroy und der State-Datei | <span class='badge badge-vertiefung'>Vertiefung</span> |
+| [Praxis: Der Konfigurator als Code](praxis-terraform.md) | Terraform in der AWS-Sandbox: ein Webserver aus einer Datei, ändern oder ersetzen, Drift aufdecken, zwei Server, mit einem Befehl aufräumen | <span class='badge badge-praxis'>Praxis</span> |
 | [Übungsaufgaben](uebungen.md) | Vierzehn Denk- und Transferaufgaben an einem durchgehenden Szenario – von der Schwachstellenanalyse bis zur Entscheidungsvorlage, jede mit ausführlicher Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 
 ---
