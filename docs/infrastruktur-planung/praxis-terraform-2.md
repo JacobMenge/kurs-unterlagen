@@ -435,7 +435,9 @@ sie jeweils gefunden?
        stehen unten die **Regeln für eingehenden Datenverkehr** (Inbound
        rules). Welcher Port steht dort? Welchen braucht ein Webserver?
     3. Der dritte Fehler: Lest auf der Seite vom Montag unter „Nachschlagen“
-       den Kasten **Achtung bei egress**.
+       den Kasten **Achtung bei egress**. Der fehlende Block gehört in die
+       geschweiften Klammern der Sicherheitsgruppe, direkt unter `ingress`.
+       Prüft nach dem Einfügen mit `terraform validate`.
     4. Das Startskript läuft nur beim ersten Start. Erinnert euch an die
        Folie „Terraform im Betrieb“.
 
@@ -481,17 +483,36 @@ sie jeweils gefunden?
     nichts ins Internet senden. Terraform entfernt bei Sicherheitsgruppen die
     Regel, die ausgehenden Verkehr erlaubt, wenn kein `egress`-Block in der
     Datei steht. Das Startskript konnte deshalb beim ersten Start den
-    Webserver nicht herunterladen. Den Block aus der Datei vom Montag nach
-    dem `ingress`-Block einfügen:
+    Webserver nicht herunterladen. Den Block aus der Datei vom Montag
+    **innerhalb der Sicherheitsgruppe** einfügen: nach der schließenden
+    Klammer von `ingress`, aber vor der letzten Klammer `}` der
+    Sicherheitsgruppe. So sieht der ganze Block danach aus:
 
     ```hcl
+    resource "aws_security_group" "web" {
+      name        = "konfigurator-${var.umgebung}"
+      description = "HTTP fuer den Konfigurator"
+
+      ingress {
+        from_port   = 80
+        to_port     = 80
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+
       egress {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
         cidr_blocks = ["0.0.0.0/0"]
       }
+    }
     ```
+
+    Steht `egress` an einer anderen Stelle, zum Beispiel ganz unten in der
+    Datei, meldet `terraform validate`
+    `Blocks of type "egress" are not expected here`. Terraform weiß dann
+    nicht, zu welcher Firewall die Regel gehört.
 
     `terraform apply` ändert die Firewall wieder im Betrieb
     (`0 to add, 1 to change`).
@@ -763,6 +784,8 @@ bleibt stehen.
 | `No configuration files` | Ihr steht im falschen Ordner | Mit `cd ~/test`, `cd ~/produktion` oder `cd ~/fehlersuche` wechseln. |
 | `InvalidGroup.Duplicate` | Eine Sicherheitsgruppe mit diesem Namen gibt es schon | In `terraform.tfvars` stimmt `umgebung` nicht, oder ein alter Versuch hängt noch. Die alte Gruppe in der Konsole löschen. |
 | `No valid credential sources found` oder `expired` | Die Anmeldung von CloudShell ist abgelaufen | Konsole neu laden, CloudShell neu öffnen. |
+| `Blocks of type "egress" are not expected here` | Der `egress`-Block steht außerhalb der Sicherheitsgruppe, oft ganz unten in der Datei oder eine Zeile zu tief, also hinter der letzten `}` der Sicherheitsgruppe | Mit `nano main.tf` ausschneiden (++ctrl+k++) und direkt unter dem `ingress`-Block wieder einfügen (++ctrl+u++), noch vor der letzten `}` der Sicherheitsgruppe. Vergleicht mit dem ganzen Block im Lösungsweg von Station 3. |
+| `Argument or block definition required` bei einer Zeile `ENDE` | Beim Kopieren ist die Endmarke `ENDE` in die Datei gerutscht. Sie gehört nur zum Kopierbefehl, nicht in `main.tf` | Mit `nano main.tf` zur genannten Zeile gehen und sie mit ++ctrl+k++ löschen. |
 | Die Seite lädt nicht | Bei Station 3 ist das Absicht. Sonst installiert sich der Webserver noch | Zwei Minuten warten, `http://` statt `https://`. |
 
 ## Was ihr zur Auswertung mitbringt
