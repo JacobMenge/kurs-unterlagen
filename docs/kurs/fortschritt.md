@@ -53,9 +53,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Ressourcen und Lizenzen**
+    **Infrastruktur als Code**
 
-    Zeitplan, Migration, Cloud gegen Kauf, Lizenzmodelle und Budget für das Sollkonzept.
+    Der Konfigurator als Code: ein Server aus einer Datei, ändern oder ersetzen, Drift, mehrere Server, aufräumen.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
@@ -63,7 +63,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Infrastruktur und Architektur**
 
-    Infrastruktur als Code: Server nicht mehr klicken, sondern in einer Datei beschreiben und mit Terraform in der Cloud bauen.
+    Terraform, Teil 2: Test und Produktion aus einer Datei, Fehlersuche und die Befehle für den Betrieb.
 
     [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
@@ -71,9 +71,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Terraform, Teil 2**
+    **Thema 2 · Laufender Betrieb**
 
-    Das Cloud-Rennen als Code: zwei Server in zwei Zonen hinter einem Load Balancer, gebaut aus einer Datei.
+    Verfügbarkeit, Datensicherung und Wiederanlauf: Was passiert, wenn etwas ausfällt?
 
 </div>
 

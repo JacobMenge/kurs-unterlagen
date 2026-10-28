@@ -18,4 +18,5 @@ nav:
   - "Übungen: Lizenzmodelle": uebungen-lizenzmodelle.md
   - "Infrastruktur als Code": infrastruktur-als-code.md
   - "Praxis: Der Konfigurator als Code": praxis-terraform.md
+  - "Praxis: Terraform verstehen und ausprobieren": praxis-terraform-2.md
   - "Übungsaufgaben": uebungen.md
