@@ -19,4 +19,5 @@ nav:
   - "Infrastruktur als Code": infrastruktur-als-code.md
   - "Praxis: Der Konfigurator als Code": praxis-terraform.md
   - "Praxis: Terraform verstehen und ausprobieren": praxis-terraform-2.md
+  - "Praxis: Terraform vom eigenen Laptop": praxis-terraform-lokal.md
   - "Übungsaufgaben": uebungen.md

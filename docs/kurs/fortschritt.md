@@ -53,9 +53,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Infrastruktur als Code**
+    **Terraform, Teil 2**
 
-    Der Konfigurator als Code: ein Server aus einer Datei, ändern oder ersetzen, Drift, mehrere Server, aufräumen.
+    Test und Produktion aus einer Datei, Fehlersuche und die Befehle für den Betrieb.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
@@ -63,7 +63,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Infrastruktur und Architektur**
 
-    Terraform, Teil 2: Test und Produktion aus einer Datei, Fehlersuche und die Befehle für den Betrieb.
+    Vom Laptop in die Cloud: Terraform auf dem eigenen Rechner mit VS Code, Zugangsschlüssel und SSH mit Schlüsselpaar.
 
     [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
 
@@ -71,9 +71,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Thema 2 · Laufender Betrieb**
+    **Git und GitHub**
 
-    Verfügbarkeit, Datensicherung und Wiederanlauf: Was passiert, wenn etwas ausfällt?
+    Den Ordner voltrad versionieren und teilen, ohne Schlüssel und ohne State-Datei.
 
 </div>
 

@@ -50,6 +50,7 @@ Auf jede Theorieseite folgt direkt der passende Aufgabensatz – du kannst also 
 | [Infrastruktur als Code](infrastruktur-als-code.md) | Server, Netze und Firewalls in einer Datei: deklarativ gegen Skript, Nutzen und Grenzen, Terraform mit init, plan, apply, destroy und der State-Datei | <span class='badge badge-vertiefung'>Vertiefung</span> |
 | [Praxis: Der Konfigurator als Code](praxis-terraform.md) | Terraform in der AWS-Sandbox: ein Webserver aus einer Datei, ändern oder ersetzen, Drift aufdecken, zwei Server, mit einem Befehl aufräumen | <span class='badge badge-praxis'>Praxis</span> |
 | [Praxis: Terraform verstehen und ausprobieren](praxis-terraform-2.md) | Zweite Terraform-Übung: Test und Produktion mit terraform.tfvars, drei Fehler finden, output, state list und apply -replace, mit Lösungswegen | <span class='badge badge-praxis'>Praxis</span> |
+| [Praxis: Terraform vom eigenen Laptop](praxis-terraform-lokal.md) | Terraform mit VS Code auf dem eigenen Rechner: Zugangsschlüssel für AWS, ein SSH-Schlüsselpaar erzeugen, per SSH auf den Server, drei Fehlermeldungen deuten | <span class='badge badge-praxis'>Praxis</span> |
 | [Übungsaufgaben](uebungen.md) | Vierzehn Denk- und Transferaufgaben an einem durchgehenden Szenario – von der Schwachstellenanalyse bis zur Entscheidungsvorlage, jede mit ausführlicher Musterlösung | <span class='badge badge-praxis'>Aufgaben</span> |
 
 ---
