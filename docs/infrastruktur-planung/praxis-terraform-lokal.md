@@ -137,7 +137,9 @@ Code ein und legt den Ordner an, in dem heute alles liegt.
 
 4. In VS Code links auf **Erweiterungen** (Extensions, ++ctrl+shift+x++),
    nach `HashiCorp Terraform` suchen und installieren. Sie färbt die Datei
-   ein und schlägt beim Tippen passende Wörter vor.
+   ein und schlägt beim Tippen passende Wörter vor. Fragt VS Code
+   „Do you trust the publisher HashiCorp?“, bestätigt mit **Trust Publisher
+   & Install**. Bilder dazu stehen im Kasten „VS Code: Wo ist was?“ unten.
 
 5. Den Ordner anlegen und in VS Code öffnen:
 
@@ -171,8 +173,66 @@ Code ein und legt den Ordner an, in dem heute alles liegt.
 
     `code .` öffnet VS Code mit dem aktuellen Ordner, der Punkt steht für
     „hier“. Fragt VS Code, ob ihr den Autoren des Ordners vertraut, wählt
-    **Ja**, es ist euer eigener Ordner. Öffnet dann unten das Terminal mit
-    **Terminal → Neues Terminal**. Ab jetzt arbeitet ihr dort.
+    **Ja** (Yes, I trust the authors), es ist euer eigener Ordner. Öffnet
+    dann unten das Terminal mit **Terminal → New Terminal** (auf Deutsch
+    „Terminal → Neues Terminal“) oder mit ++ctrl+"Ö"++. Ab jetzt arbeitet
+    ihr dort.
+
+??? info "VS Code: Wo ist was? (mit Bildern und Tastenkürzeln)"
+    VS Code zeigt nach der Installation alles auf Englisch. Die Bilder sind
+    auf einem Mac entstanden. Unter Windows sieht es gleich aus, nur steht
+    im Terminal **powershell** statt bash und bei den Kürzeln **Strg** statt ⌘.
+
+    **Das Fenster, in dem ihr heute arbeitet**
+
+    ![VS Code mit Explorer links, main.tf im Editor und dem Terminal unten, rot nummeriert](../assets/diagramme/lokal-vscode-arbeitsplatz.png)
+
+    1. **Explorer** (++ctrl+shift+e++): euer Ordner `voltrad` mit allen Dateien.
+       Ein Klick öffnet eine Datei im Editor.
+    2. **Neue Datei, neuer Ordner**: Die Symbole erscheinen, sobald die Maus
+       über dem Ordnernamen steht. Erstes Symbol, Namen tippen, Enter.
+    3. **Der Editor** mit der offenen Datei. Ein Punkt statt dem ✕ im Reiter
+       heißt: noch nicht gespeichert. Speichern mit ++ctrl+s++.
+    4. **Das Terminal**: Hier tippt ihr `terraform` und `ssh`. Es steht schon
+       im richtigen Ordner.
+    5. **+** öffnet ein weiteres Terminal, der **Papierkorb** schließt es.
+       Mit dem Schließen sind auch eure Umgebungsvariablen weg.
+
+    **Die Terraform-Erweiterung installieren**
+
+    ![Ansicht Extensions mit der Suche nach hashicorp terraform und der Schaltfläche Install, rot nummeriert](../assets/diagramme/lokal-vscode-erweiterung.png)
+
+    1. **Extensions** (Erweiterungen, ++ctrl+shift+x++) in der linken Leiste.
+    2. In das Suchfeld `hashicorp terraform` tippen.
+    3. Auf den Herausgeber achten: **HashiCorp** mit blauem Haken. Darunter
+       stehen Nachbauten anderer Herausgeber.
+    4. **Install**, danach die Frage nach dem Herausgeber mit
+       **Trust Publisher & Install** bestätigen.
+
+    **So zeigt die Erweiterung einen Fehler**
+
+    ![Ein Tippfehler instance_typ ist rot unterstrichen, darüber die Meldung Unexpected attribute](../assets/diagramme/lokal-vscode-fehler.png)
+
+    1. Ein Tippfehler wird **rot unterstrichen**, noch bevor ihr
+       `terraform validate` ausführt. Hier fehlt das e in `instance_type`.
+    2. Fahrt mit der Maus darüber, dann steht die Meldung da. Unten links in
+       der Statusleiste und im Reiter **Problems** zählt VS Code alle Fehler.
+
+    **Praktische Tastenkürzel** (Windows mit deutscher Tastatur)
+
+    | Kürzel | Was es tut |
+    |---|---|
+    | ++ctrl+s++ | Datei speichern |
+    | ++ctrl+"Ö"++ | Terminal ein- und ausblenden |
+    | ++ctrl+shift+p++ | Befehlspalette: jeden Befehl über seinen Namen finden |
+    | ++ctrl+p++ | Datei im Ordner über ihren Namen öffnen |
+    | ++ctrl+shift+e++ | Explorer |
+    | ++ctrl+shift+x++ | Erweiterungen |
+    | ++ctrl+f++ | in der Datei suchen |
+    | ++ctrl+z++ | rückgängig |
+    | ++ctrl+"#"++ | Zeile mit `#` auskommentieren oder wieder einschalten |
+    | ++shift+alt+f++ | Datei sauber einrücken, mit der Terraform-Erweiterung |
+    | ++ctrl+v++ im Terminal | Text einfügen, zum Beispiel einen kopierten Befehl |
 
 ??? tip "Hinweise zu Station 1"
     1. `terraform` wird nicht gefunden? Unter Windows das Terminal nach der
