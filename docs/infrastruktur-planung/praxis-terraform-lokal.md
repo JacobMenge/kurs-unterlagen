@@ -65,6 +65,18 @@ zum ersten Mal per **SSH mit einem Schlüsselpaar** auf eurem Server an.
 **Was ihr hier tut:** Ihr installiert Terraform auf eurem Rechner, richtet VS
 Code ein und legt den Ordner an, in dem heute alles liegt.
 
+!!! info "VS Code ist unsere Empfehlung, kein Muss"
+    Terraform liest nur Textdateien. Ihr könnt jeden Texteditor nehmen, den
+    ihr kennt: Notepad++, Notepad, Sublime Text oder einen anderen. Die
+    Befehle tippt ihr dann in ein eigenes PowerShell-Fenster, das im Ordner
+    `voltrad` steht. Wir empfehlen VS Code, weil Editor, Ordneransicht und
+    Terminal in einem Fenster liegen und die Terraform-Erweiterung Fehler
+    schon beim Tippen markiert. Die Anleitung unten beschreibt VS Code, mit
+    einem anderen Editor macht ihr dieselben Schritte an eurer Stelle.
+
+    **Achtung bei Notepad:** Beim Speichern **Dateityp: Alle Dateien**
+    wählen, sonst entsteht `main.tf.txt` und Terraform findet die Datei nicht.
+
 1. Terraform installieren. Unter Windows öffnet ihr dafür das
    **Windows-Terminal** (PowerShell):
 
@@ -100,7 +112,11 @@ Code ein und legt den Ordner an, in dem heute alles liegt.
     ```
 
     Der erste zeigt eine Version ab 1.16, der zweite eine Zeile mit
-    `OpenSSH`. SSH ist in Windows 10 und 11 schon eingebaut.
+    `OpenSSH`. SSH ist das Protokoll, also die Regeln der verschlüsselten
+    Verbindung. Das Programm, das es spricht, heißt `ssh` und gehört zum
+    Paket OpenSSH. Unter Windows 10 und 11 ist es als `ssh.exe` schon dabei
+    (in `C:\Windows\System32\OpenSSH`). Bei RDP ist es genauso: RDP ist das
+    Protokoll, `mstsc.exe` das Programm.
 
 3. VS Code installieren, falls ihr es noch nicht habt:
 
@@ -727,7 +743,8 @@ Meldet euch danach nacheinander auf beiden Servern an.
 
 ??? tip "Hinweis zu Bonus 3"
     `scp` braucht keinen eigenen Zugang. Was mit `ssh` klappt, klappt auch
-    mit `scp`. Unter Windows ist es mit SSH schon eingebaut.
+    mit `scp`. Das Programm `scp` gehört wie `ssh` zu OpenSSH und ist unter
+    Windows schon dabei.
 
 ### Denkaufgabe: Ein Admin kommt, ein Admin geht (10 Minuten)
 
@@ -809,6 +826,7 @@ behaltet ihr.
 | `Permission denied (publickey…)` | Der Server kennt euren Schlüssel nicht, oder der Benutzer stimmt nicht | Benutzer `ec2-user` prüfen. Habt ihr den Schlüssel nach dem Bauen neu erzeugt, passt er nicht mehr: Server mit `terraform apply -replace='aws_instance.web[0]'` neu bauen. |
 | `WARNING: UNPROTECTED PRIVATE KEY FILE!` | Der private Schlüssel wurde kopiert oder verschoben und hat zu offene Rechte | Den Schlüssel nicht selbst kopieren, sondern dort lassen, wo `ssh-keygen` ihn angelegt hat. |
 | `WARNING: connection is not using a post-quantum key exchange algorithm` | Neuere SSH-Programme, zum Beispiel auf macOS, warnen, weil Amazon Linux das neueste Verfahren noch nicht anbietet | Kein Fehler, die Verbindung ist verschlüsselt. Einfach weiterarbeiten. |
+| `No configuration files` oder `var.meine_ip` mit `Enter a value:`, obwohl die Dateien da sind | Der Editor hat `.txt` angehängt, die Dateien heißen `main.tf.txt` oder `terraform.tfvars.txt`. Der Explorer blendet die Endung oft aus | Mit `ls` im Terminal nachsehen. Umbenennen, zum Beispiel `Rename-Item main.tf.txt main.tf`. |
 | Die Seite lädt nicht | Der Webserver installiert sich noch | Zwei Minuten warten, `http://` statt `https://`. |
 
 ## Was ihr zur Auswertung mitbringt
