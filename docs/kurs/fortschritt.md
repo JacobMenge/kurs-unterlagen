@@ -22,15 +22,15 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 <div class="fortschritt-block t1" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 1 · Planung, Konzeptionierung, Integration</span>
-<span class="fortschritt-wert">6 von 7 Blöcken fertig</span>
+<span class="fortschritt-wert">7 von 7 Blöcken fertig</span>
 </div>
-<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 86%"></div></div>
+<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 100%"></div></div>
 </div>
 
 <div class="fortschritt-block t2" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 2 · Sicherstellung des laufenden Betriebs</span>
-<span class="fortschritt-wert">noch nicht begonnen</span>
+<span class="fortschritt-wert">0 von 6 Blöcken fertig, Git läuft</span>
 </div>
 <div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 0%"></div></div>
 </div>
@@ -53,27 +53,29 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Terraform, Teil 2**
+    **Vom Laptop in die Cloud**
 
-    Test und Produktion aus einer Datei, Fehlersuche und die Befehle für den Betrieb.
+    Terraform auf dem eigenen Rechner mit VS Code, Zugangsschlüssel und SSH mit Schlüsselpaar.
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Infrastruktur und Architektur**
+    **Git und GitHub**
 
-    Vom Laptop in die Cloud: Terraform auf dem eigenen Rechner mit VS Code, Zugangsschlüssel und SSH mit Schlüsselpaar.
+    Der Ordner voltrad bekommt einen Verlauf, liegt privat auf GitHub und wird im Team bearbeitet, mit einem echten Konflikt.
 
-    [:octicons-arrow-right-24: Zum Block](../infrastruktur-planung/index.md)
+    [:octicons-arrow-right-24: Zur Übung](../git/praxis-voltrad.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
     ---
 
-    **Git und GitHub**
+    **Verfügbarkeit und Redundanz**
 
-    Den Ordner voltrad versionieren und teilen, ohne Schlüssel und ohne State-Datei.
+    Wie viel Ausfall verträgt Voltrad? Verfügbarkeit berechnen, Ausfallzeiten und SLA, Redundanz gegen einzelne Schwachstellen.
+
+    [:octicons-arrow-right-24: Zum Block](../betrieb/index.md)
 
 </div>
 
@@ -93,7 +95,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 | <span class="status-fertig">✓</span> | [Docker – Aufbau](../docker-aufbau/index.md) | Volumes, Umgebungsvariablen, Netzwerke |
 | <span class="status-fertig">✓</span> | [Docker Compose](../docker-compose/index.md) | Mehrere Dienste als ein Stapel |
 | <span class="status-fertig">✓</span> | [Industrie & IoT](../industrie-iot/index.md) | OT und IT, Profinet, OPC UA und MQTT |
-| <span class="status-laeuft">●</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen, Infrastruktur als Code |
+| <span class="status-fertig">✓</span> | [Infrastruktur & Architektur](../infrastruktur-planung/index.md) | Anforderungen, Architekturen, Speicher, Lizenzen, Infrastruktur als Code |
 
 ### Thema 2 · Sicherstellung des laufenden Betriebs
 
@@ -103,7 +105,7 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 | <span class="status-offen">○</span> | [Monitoring](../monitoring-praxis/index.md) | Metriken, Kennzahlen, Alarmierung |
 | <span class="status-offen">○</span> | [Softwareverteilung](../orchestrierung/index.md) | Ausrollen, Deployment-Strategien, Rollback |
 | <span class="status-offen">○</span> | [Kubernetes](../kubernetes-praxis/index.md) | Container über einen Cluster betreiben |
-| <span class="status-offen">○</span> | [Git & GitHub](../git/index.md) | Versionskontrolle als Werkzeug |
+| <span class="status-laeuft">●</span> | [Git & GitHub](../git/index.md) | Versionskontrolle als Werkzeug |
 | <span class="status-offen">○</span> | [CI/CD](../ci-cd/index.md) | Automatisch bauen, testen, ausliefern |
 
 ### Thema 3 · Qualitätssicherung und IT-Sicherheit

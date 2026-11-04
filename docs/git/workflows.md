@@ -62,7 +62,7 @@ Antwort vorab: C2 und C3 **bleiben erhalten** (Git wirft keine Commits weg), abe
 
 ### Was bedeutet „detached HEAD"?
 
-Erinnerung: **HEAD ist Gits „du bist hier"-Schild.** Normalerweise zeigt HEAD auf einen **Branch** (z.B. `main`) und der Branch wiederum zeigt auf den neuesten Commit.
+Erinnerung: **HEAD ist Gits „du bist hier"-Schild.** Normalerweise zeigt HEAD auf einen **Branch** (z.B. `main`) und der Branch wiederum zeigt auf seinen letzten Commit.
 
 Wenn du auf einen Commit zurückspringst, der **nicht der oberste eines Branches** ist, hängt HEAD plötzlich direkt am Commit, ohne Branch dazwischen. Das ist **detached HEAD**.
 
