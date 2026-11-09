@@ -1,6 +1,7 @@
 nav:
   - "Überblick": index.md
-  - "Praxis: voltrad auf GitHub": praxis-voltrad.md
+  - "Praxis Teil 1: voltrad auf GitHub": praxis-voltrad.md
+  - "Praxis Teil 2: voltrad im Team": praxis-voltrad-2.md
   - "Warum Git?": warum-git.md
   - "Grundbegriffe": grundbegriffe.md
   - "Branches und Merge": branches-und-merge.md

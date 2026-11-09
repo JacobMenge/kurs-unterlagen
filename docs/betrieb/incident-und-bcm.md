@@ -51,6 +51,21 @@ flowchart LR
   N -->|Lage stabilisiert| W["Wiederanlauf"]
 ```
 
+!!! info "Die Stufen im BSI-Standard 200-4"
+    Der BSI-Standard 200-4 (Business Continuity Management) unterscheidet nach
+    der Auswirkung drei Stufen: **Störung**, **Notfall** und **Krise**. Eine
+    Störung behebt die übliche Organisation im Normalbetrieb. Ein Notfall
+    liegt vor, wenn ein zeitkritischer Geschäftsprozess im Normalbetrieb
+    nicht innerhalb der maximal tolerierbaren Ausfallzeit wiederhergestellt
+    werden kann. Dafür gibt es Notfallpläne und eine besondere Organisation,
+    den Stab. Eine Krise trifft die Institution massiv, und passende Pläne
+    fehlen oder greifen nicht. Ein Sicherheitsvorfall ist dort keine eigene
+    Stufe: Je nach Auswirkung ist er eine Störung, ein Notfall oder eine
+    Krise. Ein Notfall darf auch schon ausgerufen werden, wenn die
+    Unterbrechung erst droht.
+
+    ![Störung, Notfall und Krise mit Beispielen bei Voltrad](../assets/diagramme/notfall-stufen.png){ .diagramm }
+
 !!! danger "Die Höherstufung muss billig sein"
     Wenn das Hochstufen zum Sicherheitsvorfall oder Notfall mit Rechtfertigungsdruck verbunden ist, wird es zu spät passieren. Deshalb gehört in jedes Verfahren ein Satz sinngemäß: **Wer hochstuft und sich irrt, hat richtig gehandelt.** Eine Rückstufung ist in fünf Minuten erledigt; zwei verlorene Stunden holt niemand mehr auf. Praktisch braucht es dafür klare, einfache Auslösekriterien – etwa: mehr als eine betroffene Abteilung, Verdacht auf Schadsoftware, ein kritischer Prozess steht, personenbezogene Daten könnten abgeflossen sein – und eine benannte Person, die die Einstufung ohne Rückfrage vornehmen darf.
 
@@ -98,6 +113,14 @@ Typische Maßnahmen sind das Trennen betroffener Systeme vom Netz, das Sperren v
 !!! warning "Eindämmen und Spuren sichern sind ein Zielkonflikt"
     Ein Gerät vom Netz zu trennen ist fast immer richtig. Es **auszuschalten** ist es oft nicht: Mit dem Ausschalten verschwindet der Arbeitsspeicher und mit ihm häufig genau die Information, die zeigt, was passiert ist. Ebenso vernichtet ein sofortiges Neuaufsetzen die Beweise.
 
+    Das BSI rät in seinem Arbeitspapier
+    [Erste Hilfe bei einem schweren IT-Sicherheitsvorfall](https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Cyber-Sicherheit/Themen/Ransomware_Erste-Hilfe-IT-Sicherheitsvorfall.pdf?__blob=publicationFile&v=3){ target=_blank }
+    ausdrücklich: Netzwerkkabel ziehen, das Gerät nicht herunterfahren oder
+    ausschalten und sich auf befallenen Systemen nicht mit einem
+    Administratorkonto anmelden, solange sie im Netz hängen.
+
+    ![Die ersten Minuten bei einem Verschlüsselungsangriff nach BSI: trennen statt ausschalten](../assets/diagramme/notfall-erste-minuten.png){ .diagramm }
+
     Die Reihenfolge lautet deshalb: **isolieren, sichern, dann bereinigen.** Wo der Verdacht auf eine Straftat besteht oder eine Versicherung beteiligt ist, gehört vor jeder Änderung eine forensische Sicherung – ein vollständiges Abbild – angefertigt. Wie das beweissicher geschieht, steht unter [Beweissicherung & Prävention](../it-sicherheit/beweissicherung-und-praevention.md).
 
 ### 4 – Beseitigung
@@ -143,6 +166,8 @@ Zwei Grundsätze machen den Unterschied zwischen einem geführten Einsatz und ei
 
 **Rollen sind besetzt, nicht zugeordnet.** In der Liste steht ein Name und ein Vertretungsname, nicht eine Abteilung. Und die Liste wird gepflegt: Nach einem Personalwechsel ist ein Notfallplan mit alten Namen schlimmer als keiner, weil er falsche Sicherheit erzeugt.
 
+![Alarmierung bei Voltrad: melden, bewerten, ausrufen, Stab, Externe, mit Vorgabezeiten](../assets/diagramme/notfall-alarmierung.png){ .diagramm }
+
 ---
 
 ## Der Kommunikationsplan
@@ -169,7 +194,11 @@ Kommunikation ist im Ernstfall keine Nebentätigkeit. Sie entscheidet darüber, 
 - **Immer eine Handlungsanweisung mitgeben.** Wer eine Meldung erhält, will wissen, was er jetzt tun soll: weiterarbeiten, aufhören, Papierformular benutzen, keine Mails öffnen.
 
 !!! warning "Fristen laufen unabhängig von der Technik"
-    Bei Vorfällen mit personenbezogenen Daten greift eine ausdrückliche Frist: Die Meldung an die zuständige Aufsichtsbehörde muss nach Art. 33 DSGVO **binnen 72 Stunden** ab Kenntnis erfolgen, sofern ein Risiko für die Betroffenen besteht. Ist das Risiko hoch, kommt nach Art. 34 die Benachrichtigung der betroffenen Personen hinzu. Die Frist beginnt mit der **Kenntnis vom Vorfall**, nicht mit der vollständigen Aufklärung – eine unvollständige Meldung, die nachgereicht wird, ist ausdrücklich vorgesehen. Für Betreiber kritischer Infrastrukturen gelten zusätzlich eigene Meldepflichten gegenüber der zuständigen Stelle. Deshalb gehört die Frage „Sind personenbezogene Daten betroffen?“ in die **erste** Lagebesprechung und nicht in die dritte. Einzelheiten unter [Datenschutz](../recht-organisation/datenschutz-dsgvo.md).
+    Bei Vorfällen mit personenbezogenen Daten greift eine ausdrückliche Frist: Die Meldung an die zuständige Aufsichtsbehörde muss nach Art. 33 DSGVO **unverzüglich, möglichst binnen 72 Stunden** ab Kenntnis erfolgen, sofern ein Risiko für die Betroffenen besteht. Ist das Risiko hoch, kommt nach Art. 34 die Benachrichtigung der betroffenen Personen hinzu. Die Frist beginnt mit der **Kenntnis vom Vorfall**, nicht mit der vollständigen Aufklärung – eine unvollständige Meldung, die nachgereicht wird, ist ausdrücklich vorgesehen. Deshalb gehört die Frage „Sind personenbezogene Daten betroffen?“ in die **erste** Lagebesprechung und nicht in die dritte. Einzelheiten unter [Datenschutz](../recht-organisation/datenschutz-dsgvo.md).
+
+    Seit dem 6. Dezember 2025 gilt außerdem das neue BSI-Gesetz zur Umsetzung der europäischen NIS-2-Richtlinie: Besonders wichtige und wichtige Einrichtungen melden erhebliche Sicherheitsvorfälle an die gemeinsame Meldestelle von BSI und BBK (Bundesamt für Bevölkerungsschutz und Katastrophenhilfe). Die Frühwarnung ist binnen 24 Stunden fällig, die Meldung binnen 72 Stunden und die Abschlussmeldung spätestens einen Monat nach der Meldung (§ 32 BSIG). Wichtige Einrichtungen sind Unternehmen aus den Branchen der Anlagen 1 und 2 des Gesetzes ab 50 Beschäftigten oder mit mehr als 10 Millionen Euro Umsatz und Bilanzsumme, soweit sie nicht schon zu den besonders wichtigen zählen. Zu diesen Branchen gehört zum Beispiel der Fahrzeugbau.
+
+![Meldepflichten und Fristen am Beispiel Voltrad: Datenschutz, BSI-Gesetz, Strafanzeige, Versicherung](../assets/diagramme/notfall-meldepflichten.png){ .diagramm }
 
 ---
 
@@ -185,7 +214,7 @@ Am Anfang steht die **Business Impact Analysis (BIA)**. Sie fragt nicht, was kap
 
 Ihr Ergebnis sind die Zielwerte, an denen sich alles Weitere ausrichtet: die **maximal tolerierbare Ausfallzeit (MTA)** als Aussage des Fachbereichs, die **RTO** als Zielzeit für den Wiederanlauf und die **RPO** als maximal tolerierbarer Datenverlust. Diese drei Kennzahlen sind ausführlich im [Risikomanagement](../it-sicherheit/risikomanagement.md) hergeleitet; hier zählt vor allem, was daraus folgt.
 
-Ein vierter Wert kommt im BCM hinzu, der dort besonders wichtig ist: das **Mindestbetriebsniveau** (englisch *Minimum Business Continuity Objective*). Es beantwortet die Frage, welche Leistung im Notbetrieb genügt. Nicht „alles wie vorher“, sondern zum Beispiel: „Aufträge für Bestandskunden werden angenommen und ausgeliefert; Neukundenanlage, Auswertungen und Onlineshop ruhen.“ Ohne diese Festlegung versucht ein Notbetrieb, den Normalbetrieb nachzubilden – und scheitert daran.
+Ein vierter Wert kommt im BCM hinzu, der dort besonders wichtig ist: das **Notbetriebsniveau** (englisch *Minimum Business Continuity Objective*), oft auch Mindestbetriebsniveau genannt. Es beantwortet die Frage, welche Leistung im Notbetrieb genügt. Nicht „alles wie vorher“, sondern zum Beispiel: „Aufträge für Bestandskunden werden angenommen und ausgeliefert; Neukundenanlage, Auswertungen und Onlineshop ruhen.“ Ohne diese Festlegung versucht ein Notbetrieb, den Normalbetrieb nachzubilden – und scheitert daran.
 
 !!! tip "Der Befund, der jede BIA prägt"
     **Der Schaden wächst nicht gleichmäßig.** In der ersten Stunde passiert oft nichts, weil Puffer greifen. Nach vier Stunden verschieben sich Termine. Nach zwei Tagen werden Vertragsstrafen fällig. Nach einer Woche wandern Kunden ab. Deshalb arbeitet die BIA mit Zeitmarken statt mit einer einzelnen Euro-Zahl – und deshalb ist die Frage „ab wann wird es richtig teuer?“ ergiebiger als die Frage „was kostet ein Ausfall?“.
@@ -194,13 +223,26 @@ Ein vierter Wert kommt im BCM hinzu, der dort besonders wichtig ist: das **Minde
 
 ```mermaid
 flowchart LR
-  N["Normalbetrieb"] -->|Notfall tritt ein| NB["Notbetrieb<br/>Ersatzverfahren,<br/>Mindestbetriebsniveau"]
-  NB --> WA["Wiederanlauf<br/>Systeme kommen<br/>geordnet zurück"]
-  WA --> RK["Rückkehr<br/>Nacherfassung,<br/>Abgleich, Freigabe"]
-  RK --> N
+  N["Normalbetrieb"] -->|Notfall wird ausgerufen| WA["Wiederanlauf<br/>Wechsel in den<br/>vorbereiteten Notbetrieb"]
+  WA --> NB["Notbetrieb<br/>Ersatzverfahren,<br/>Notbetriebsniveau"]
+  NB --> WH["Wiederherstellung<br/>Systeme zurück, Nacherfassung,<br/>Abgleich, Freigabe"]
+  WH --> N
 ```
 
+![Leistung der Montage über der Zeit: Ausfall, Wiederanlauf in den Notbetrieb, Notbetrieb mit 60 Prozent, Wiederherstellung](../assets/diagramme/notfall-phasen.png){ .diagramm }
+
+!!! note "Wiederanlauf: zwei Bedeutungen"
+    Im BSI-Standard 200-4 heißt **Wiederanlauf** der strukturierte Wechsel
+    in den vorbereiteten Notbetrieb. Die geordnete Rückkehr in den
+    Normalbetrieb heißt **Wiederherstellung**. Die geforderte
+    Wiederanlaufzeit (RTO) zählt dort vom Ausrufen des Notfalls, bis die
+    Notfall-Lösung läuft. Im IT-Alltag sagt man Wiederanlauf auch einfach
+    für das Hochfahren der Systeme in der richtigen Reihenfolge. Beides
+    begegnet euch, achtet auf den Zusammenhang.
+
 Das **Notfallhandbuch** ist die schriftliche Fassung dieses Ablaufs. Es enthält die Auslösekriterien, die Rollen mit Namen und Vertretung, die Erreichbarkeiten, die Ersatzverfahren je Prozess, den Wiederanlaufplan mit Reihenfolge und die Kommunikationsvorlagen. Drei Eigenschaften machen es brauchbar: Es ist **offline verfügbar**, es ist **kurz genug, um im Stress benutzt zu werden**, und es ist **geübt**. Ein hundertseitiges Handbuch, das niemand je aufgeschlagen hat, ist ein Nachweisdokument, kein Arbeitsmittel.
+
+![Die Montage bei Voltrad im Normalbetrieb mit Fertigungsleitsystem und im Notbetrieb mit Laufzetteln](../assets/diagramme/notfall-notbetrieb.png){ .diagramm }
 
 Der **Notbetrieb** hält den Prozess mit **Ersatzverfahren** am Laufen. Typische Beispiele: Aufträge auf Papierformularen aufnehmen, Lieferscheine von Hand schreiben, telefonisch statt per Schnittstelle bestellen, mit einer exportierten Kundenliste auf einem separaten Rechner arbeiten, an einer Maschine im Handbetrieb fertigen. Drei Punkte entscheiden, ob so etwas funktioniert:
 
@@ -208,7 +250,7 @@ Der **Notbetrieb** hält den Prozess mit **Ersatzverfahren** am Laufen. Typische
 - **Die Leute müssen es können.** Wer seit Jahren nur die Maske kennt, füllt ein Papierformular nicht zuverlässig aus. Das ist der eigentliche Grund für Übungen.
 - **Die Nacherfassung muss mitgedacht sein.** Alles, was im Notbetrieb entsteht, muss später ins System – vollständig, ohne Dopplungen. Dafür braucht es von Anfang an eine durchgehende Nummerierung und einen festgelegten Ablageort.
 
-Der **Wiederanlauf** folgt der Reihenfolge aus dem Plan. Und die **Rückkehr zum Normalbetrieb** ist ein eigener, oft unterschätzter Schritt: Die Nacherfassung wird abgearbeitet, Bestände und Buchungen werden abgeglichen, die Ersatzverfahren werden ausdrücklich beendet, und jemand erklärt den Normalbetrieb formell für wiederhergestellt. Ohne diesen Punkt laufen wochenlang zwei Verfahren nebeneinander, und niemand weiß, welche Zahl die richtige ist.
+Die Systeme kommen in der Reihenfolge aus dem Plan zurück. Und die **Wiederherstellung**, also die Rückkehr zum Normalbetrieb, ist ein eigener, oft unterschätzter Schritt: Die Nacherfassung wird abgearbeitet, Bestände und Buchungen werden abgeglichen, die Ersatzverfahren werden ausdrücklich beendet, und jemand erklärt den Normalbetrieb formell für wiederhergestellt. Ohne diesen Punkt laufen wochenlang zwei Verfahren nebeneinander, und niemand weiß, welche Zahl die richtige ist.
 
 ---
 
@@ -265,7 +307,7 @@ Was den Sonderfall ausmacht, lässt sich in vier Punkten zusammenfassen:
 - **Verbindliche Mindeststandards.** Angemessene Vorkehrungen nach dem Stand der Technik sind nicht optional, sondern gefordert – und in wiederkehrenden Abständen nachzuweisen.
 - **Zusätzliche Meldepflichten.** Erhebliche Störungen sind der zuständigen Stelle zu melden, unabhängig davon, ob personenbezogene Daten betroffen sind.
 - **Branchenspezifische Vorgaben.** Neben den allgemeinen Anforderungen gelten Regelwerke der jeweiligen Branche, etwa im Energie- oder Gesundheitsbereich.
-- **Ein erweiterter Kreis von Betroffenen.** Die europäische NIS-2-Richtlinie weitet die Anforderungen an Risikomanagement, Meldewesen und Verantwortung der Leitung auf deutlich mehr Einrichtungen aus, auch mittelgroße – wer heute nicht betroffen ist, sollte die Entwicklung im Blick behalten.
+- **Ein erweiterter Kreis von Betroffenen.** Die europäische NIS-2-Richtlinie weitet die Anforderungen an Risikomanagement, Meldewesen und Verantwortung der Leitung auf deutlich mehr Einrichtungen aus, auch mittelgroße. In Deutschland gilt das seit dem 6. Dezember 2025 mit dem neuen BSI-Gesetz. Ob ein Unternehmen betroffen ist, hängt an Branche und Größe. Das BSI bietet dafür eine Betroffenheitsprüfung an.
 
 !!! note "Warum das auch ohne KRITIS-Status relevant ist"
     Die Anforderungen an Betreiber kritischer Infrastrukturen sind kein Sonderrecht, sondern eine strengere Fassung dessen, was diese Seite ohnehin beschreibt: dokumentierte Verfahren, geübte Notfallpläne, geregelte Meldewege, nachgewiesene Wirksamkeit. Wer das freiwillig ordentlich macht, erfüllt einen erheblichen Teil solcher Anforderungen bereits – und ist außerdem in der Lage, die Nachweise zu liefern, die Kunden aus regulierten Branchen zunehmend verlangen. Mehr dazu unter [Governance & Compliance](../recht-organisation/governance-und-compliance.md).
@@ -348,6 +390,7 @@ Was den Sonderfall ausmacht, lässt sich in vier Punkten zusammenfassen:
 
 ## Weiterlesen
 
+- [Praxis: Notfall bei Voltrad](praxis-notfall.md): das Planspiel in fünf Lagen, mit Spurensuche in einer Protokolldatei
 - [Übung: Notfallübung](uebung-notfalluebung.md): die Tabletop-Übung zu dieser Seite – ein Szenario in fünf Runden, mit Musterlösung
 - [Backup & Recovery](backup-und-recovery.md): die technische Grundlage von Wiederherstellung und Wiederanlauf
 - [Hochverfügbarkeit & Redundanz](hochverfuegbarkeit.md): wie man verhindert, dass es überhaupt zum Notfall kommt

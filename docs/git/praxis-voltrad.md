@@ -1,6 +1,6 @@
 ---
 title: "Praxis: voltrad auf GitHub"
-description: "Den Terraform-Ordner voltrad mit Git versionieren, privat auf GitHub ablegen und im Ring gemeinsam daran arbeiten: Konto, SSH-Schlüssel, .gitignore, Commits, Push, Pull, Klonen und ein echter Konflikt."
+description: "Den Terraform-Ordner voltrad mit Git versionieren, privat auf GitHub ablegen und im Ring gemeinsam daran arbeiten: Konto, SSH-Schlüssel, .gitignore, Commits, Push, Pull und Klonen."
 ---
 
 # Praxis: voltrad auf GitHub
@@ -13,14 +13,14 @@ Heute wird der Ordner `voltrad` ein **Repository**: ein Ordner, dessen
 Geschichte Git aufschreibt. Ihr legt ihn **privat auf GitHub** ab: ohne
 State-Datei und ohne Schlüssel. Danach arbeitet ihr im **Ring** mit:
 Jede Person lädt eine andere in ihr Repository ein und arbeitet als Gast im
-Repository einer dritten Person mit. In Teil 2 ändern dann zwei Personen
-dieselbe Zeile. Den Konflikt, der dabei entsteht, löst ihr selbst.
+Repository einer dritten Person mit. Was passiert, wenn zwei Personen
+dieselbe Zeile ändern, zeigt [Teil 2](praxis-voltrad-2.md).
 
-!!! info "Heute Teil 1"
-    Heute macht ihr **Station 1 bis 5** und danach **Üben mit dem eigenen
-    Verlauf**. Wer schneller ist, macht Bonus 1 und 2. **Station 6** (der
-    Konflikt) und **Bonus 3** (Pull Request) folgen in Teil 2 am Montag,
-    zusammen mit Branches und Merge.
+!!! info "Das ist Teil 1"
+    Hier macht ihr **Station 1 bis 5** und danach **Üben mit dem eigenen
+    Verlauf**. Wer schneller ist, macht Bonus 1 und 2. Konflikt, alte
+    Stände, Branches und Pull Request folgen in
+    [Teil 2: voltrad im Team](praxis-voltrad-2.md).
 
 !!! abstract "Ziel"
     Am Ende könnt ihr:
@@ -30,7 +30,6 @@ dieselbe Zeile. Den Konflikt, der dabei entsteht, löst ihr selbst.
     - Änderungen mit `git add` und `git commit` festhalten und mit `git log` und `git diff` ansehen
     - euch mit eurem SSH-Schlüssel bei GitHub anmelden und ein Repository hochladen
     - eine andere Person einladen, ein fremdes Repository klonen, Änderungen holen und schicken
-    - in Teil 2: einen Konflikt erkennen und auflösen
 
     Für die Schnellen gibt es heute Bonus 1 und 2 und eine Denkaufgabe.
 
@@ -91,13 +90,12 @@ dieselbe Zeile. Den Konflikt, der dabei entsteht, löst ihr selbst.
 | 4 | Privates Repository auf GitHub, hochladen, nachsehen | allein | 10 Min. |
 | 5 | Gast im Repository der Person, die euch einlädt | im Ring | 15 Min. |
 | Üben | Eigene Commits, push, im Browser ansehen | allein | 15 Min. |
-| 6 | Zwei Personen ändern dieselbe Zeile | Teil 2 | am Montag |
 
 ![Der Ring im Breakout-Raum: Jede Person lädt die nächste in ihr Repository ein und ist selbst Gast im Repository der vorherigen Person](../assets/diagramme/git-ring.png){ .diagramm }
 
-So sieht euer Repository auf GitHub nach Teil 2 aus: drei Dateien, keine
-State-Datei, Commits von zwei Personen. Heute fehlt nur der letzte Commit
-aus Station 6.
+So sieht euer Repository auf GitHub aus: drei Dateien, keine State-Datei,
+Commits von zwei Personen. Das Bild entstand nach Teil 2. Oben steht deshalb
+ein Commit, den ihr erst dort anlegt.
 
 ![Das Repository voltrad auf GitHub mit den Dateien .gitignore, .terraform.lock.hcl und main.tf](../assets/diagramme/git-zielbild.png){ width="560" }
 
@@ -213,6 +211,18 @@ GitHub-Konto an und sagt Git einmalig, wer ihr seid.
    Namen braucht ihr in Station 5. Wer mag, öffnet die Profile der anderen
    (`github.com/benutzername`) und klickt auf **Follow**.
 
+??? success "Musterlösung Station 1"
+    ![Git ist installiert, git config --global --list zeigt alle fünf Einstellungen](../assets/diagramme/git-loesung-einrichtung.png){ .diagramm }
+
+    `git config --global --list` zeigt alle fünf Zeilen. Git schreibt die
+    Namen dabei klein, aus `init.defaultBranch` wird
+    `init.defaultbranch`. Ist ein Wert falsch, führt ihr die Zeile mit dem
+    richtigen Wert noch einmal aus, sie überschreibt den alten.
+
+    Die Ersatzadresse von GitHub sorgt dafür, dass eure echte
+    E-Mail-Adresse in keinem Commit steht. GitHub ordnet die Commits
+    trotzdem eurem Konto zu.
+
 ---
 
 ## Station 2: Euer Schloss bei GitHub (10 Minuten, allein)
@@ -278,6 +288,21 @@ auf eurem Rechner.
     Der zweite Teil ist kein Fehler: GitHub lässt euch nicht auf seine
     Server, es prüft nur, wer ihr seid.
 
+??? success "Musterlösung Station 2"
+    ![Die erste SSH-Verbindung zu GitHub mit Frage nach dem Fingerabdruck](../assets/diagramme/git-loesung-ssh.png){ .diagramm }
+
+    **Vorhersage:** `ssh` fragt, ob ihr dem Server vertraut, und zeigt den
+    Fingerabdruck seines Schlüssels. Euer Rechner kennt `github.com` noch
+    nicht, genau wie am Montag den neuen Server. Stimmt der Fingerabdruck
+    mit dem Wert von GitHub überein, antwortet ihr `yes`. `ssh` trägt den
+    Schlüssel von GitHub in die Datei `known_hosts` ein und prüft ihn ab
+    jetzt bei jeder Verbindung, ohne zu fragen.
+
+    Die Prüfung geht in beide Richtungen: Ihr prüft GitHub am
+    Fingerabdruck. GitHub prüft euch: Euer privater Schlüssel unterschreibt,
+    GitHub prüft die Unterschrift mit dem öffentlichen Schlüssel in eurem
+    Konto. Der private Schlüssel bleibt auf eurem Rechner.
+
 ---
 
 ## Station 3: Der Ordner wird ein Repository (15 Minuten, allein)
@@ -323,7 +348,7 @@ fest.
     nicht.
 
 4. **Vorhersage 2:** Was zeigt `git status` jetzt? Notiert eure Liste.
-   Dann prüft ihr, stellt alles bereit und haltet den ersten Stand fest:
+   Dann prüft ihr, merkt alles vor und haltet den ersten Stand fest:
 
     ```bash
     git status
@@ -394,7 +419,21 @@ fest.
     `git diff` vergleicht euren Ordner mit dem letzten festgehaltenen Stand.
     Eine geänderte Zeile erscheint deshalb zweimal.
 
-Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+??? success "Musterlösung Station 3"
+    ![git status vor und nach der .gitignore, dazu git diff](../assets/diagramme/git-loesung-status.png){ .diagramm }
+
+    **Vorhersage 1:** Nach `git init` kennt Git noch keine Datei. `git status`
+    zeigt alles als **Untracked files**: `.terraform.lock.hcl`,
+    `.terraform/`, `main.tf`, `terraform.tfstate`,
+    `terraform.tfstate.backup` (falls vorhanden) und `terraform.tfvars`.
+
+    **Vorhersage 2:** Mit der `.gitignore` bleiben nur `.gitignore`,
+    `.terraform.lock.hcl` und `main.tf`. State, Backup, tfvars und der
+    Ordner `.terraform` fallen weg. Die `.gitignore` selbst kommt ins
+    Repository, damit sie für alle gilt.
+
+    **Frage 1:** Die Zeile mit `-` ist die alte Fassung der Kommentarzeile,
+    die mit `+` die neue. Git zeigt eine geänderte Zeile deshalb zweimal.
 
 ---
 
@@ -461,7 +500,21 @@ GitHub, obwohl sie in eurem Ordner liegen?
     Schaut noch einmal in eure `.gitignore` und in eure Vorhersage 2 aus
     Station 3.
 
-Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+??? success "Musterlösung Station 4"
+    ![Hochladen mit git push -u: drei Dateien auf GitHub, State und tfvars nur auf dem Laptop](../assets/diagramme/git-loesung-push.png){ .diagramm }
+
+    Auf GitHub liegen drei Dateien: `.gitignore`, `.terraform.lock.hcl` und
+    `main.tf`. Über der Dateiliste stehen 2 Commits.
+
+    **Frage 2:** `terraform.tfstate` und `terraform.tfvars` wurden nie
+    committet, die `.gitignore` hält sie draußen. GitHub bekommt genau das,
+    was in euren Commits steckt. Wer am Montag gefehlt hat, sieht zwei
+    Dateien, weil `.terraform.lock.hcl` erst mit `terraform init` entsteht.
+
+    Meldet `git push` **Repository not found**, ist meist der Benutzername
+    in der Adresse falsch geschrieben. `git remote -v` zeigt die Adresse,
+    `git remote set-url origin git@github.com:NAME/voltrad.git` korrigiert
+    sie.
 
 ---
 
@@ -553,7 +606,19 @@ Repositorys und **Gast** in genau einem fremden.
 !!! warning "In Station 5 ändert nur der Gast etwas"
     Der Eigentümer ändert in dieser Station nichts an seiner `main.tf`. So
     bleibt das Holen einfach. Wie es aussieht, wenn beide gleichzeitig
-    ändern, probiert ihr in Station 6 in Teil 2.
+    ändern, probiert ihr in Teil 2, Station 2.
+
+??? success "Musterlösung Station 5"
+    ![Der Gast klont, committet und pusht, die Eigentümerin holt per Fast-forward](../assets/diagramme/git-loesung-gast.png){ .diagramm }
+
+    Der Gast arbeitet in einem eigenen Klon `voltrad-NAME` neben dem
+    eigenen Ordner. Ohne angenommene Einladung meldet `git clone`
+    **Repository not found**.
+
+    Beim `git pull` der Eigentümerin meldet Git **Fast-forward**: Nur der
+    Gast hat etwas geändert, Git zieht `main` nach und es gibt nichts zu
+    entscheiden. In `git log --oneline` und auf GitHub unter den Commits
+    steht der Commit des Gastes mit seinem Namen.
 
 ---
 
@@ -637,114 +702,17 @@ den angegebenen Wert. `terraform apply` braucht ihr dafür nicht.
 **Frage:** Wer steht in eurem Verlauf alles als Autor? Wo seht ihr das auf
 GitHub?
 
----
+??? success "Musterlösung Üben"
+    ![git status, git diff und der eigene Verlauf mit zwei Autoren](../assets/diagramme/git-loesung-ueben.png){ .diagramm }
 
-## Station 6: Beide ändern dieselbe Zeile (12 Minuten, im Ring)
+    **Vorhersage:** `git status` meldet `modified: main.tf` unter
+    **Changes not staged for commit**: geändert, aber noch nicht
+    vorgemerkt. `git diff` zeigt die Zeile `default` einmal mit `-` und
+    `= 1`, einmal mit `+` und `= 2`.
 
-!!! info "Teil 2 am Montag"
-    Diese Station macht ihr in Teil 2. Heute hört ihr nach „Üben mit dem
-    eigenen Verlauf“ und den Bonus-Aufgaben 1 und 2 auf.
-
-**Was ihr hier tut:** Eigentümer und Gast ändern dieselbe Zeile, jeder
-anders. Wer als Zweiter hochlädt, muss den Konflikt lösen.
-
-1. **Zuerst alle als Eigentümer**, im eigenen Fenster `voltrad`: Ändert in
-   `aws_instance` den Wert von `instance_type` von `"t3.micro"` auf
-   `"t3.small"`. Nur der Wert in den Anführungszeichen ändert sich.
-   Speichern, dann:
-
-    ```bash
-    git commit -am "Mehr Leistung: t3.small"
-    ```
-
-    ```bash
-    git push
-    ```
-
-    `-a` stellt alle geänderten Dateien bereit, die Git schon kennt. Das
-    spart `git add`. Schreibt danach „gepusht“ in den Chat eures
-    Breakout-Raums.
-
-2. **Danach alle als Gast**, sobald alle in eurem Raum „gepusht“
-   geschrieben haben. Im Fenster `voltrad-NAME`, **ohne vorher zu holen**: Ändert dort `instance_type` auf `"t3.medium"`, speichert und
-   haltet die Änderung fest:
-
-    ```bash
-    git commit -am "Frühjahrslast: t3.medium"
-    ```
-
-3. **Vorhersage:** Was passiert gleich beim `git push`? Notiert es, dann
-   ladet ihr als Gast hoch:
-
-    ```bash
-    git push
-    ```
-
-    Lest die Meldung genau, sie sagt euch, was zu tun ist.
-
-4. Als Gast holen:
-
-    ```bash
-    git pull
-    ```
-
-    Öffnet danach `main.tf`. VS Code markiert die umstrittene Stelle farbig.
-    Darüber stehen die Knöpfe **Accept Current Change**, **Accept Incoming
-    Change**, **Accept Both Changes** und **Compare Changes**.
-
-    ![VS Code mit einem Konflikt in main.tf und den Knöpfen Accept Current Change und Accept Incoming Change](../assets/diagramme/git-vscode-konflikt.png){ width="560" }
-
-5. Einigt euch mit dem Eigentümer im Breakout-Chat, welcher Wert gelten
-   soll. Wählt dann eine Fassung per Knopf oder schreibt die Zeile von Hand
-   richtig. Am Ende dürfen in der Datei keine Zeilen mit `<<<<<<<`,
-   `=======` oder `>>>>>>>` übrig sein. Speichern, dann:
-
-    ```bash
-    git add main.tf
-    ```
-
-    ```bash
-    git commit -m "Konflikt instance_type gelöst"
-    ```
-
-    ```bash
-    git push
-    ```
-
-6. **Als Eigentümer**, im Fenster `voltrad`: Holt das Ergebnis und seht euch
-   die Geschichte als Bild an:
-
-    ```bash
-    git pull
-    ```
-
-    ```bash
-    git log --oneline --graph
-    ```
-
-**Frage 3:** Welche Meldung kam beim abgelehnten Push?
-
-**Frage 4:** Was bedeuten die drei Markierungen `<<<<<<<`, `=======` und
-`>>>>>>>`?
-
-**Frage 5:** Warum musste der Eigentümer beim letzten `git pull` nichts
-entscheiden?
-
-??? tip "Hinweis 1 zu Station 6"
-    Lest die Meldung beim abgelehnten Push bis zum Ende. Der wichtigste
-    Teil steht in den Zeilen mit `hint:`.
-
-??? tip "Hinweis 2 zu Station 6"
-    VS Code beschriftet beide Teile des Konflikts: **Current Change** und
-    **Incoming Change**. Überlegt, welcher Teil von euch kommt und welcher
-    vom Eigentümer.
-
-??? tip "Hinweis 3 zu Station 6"
-    Nach dem Speichern müsst ihr Git sagen, dass der Konflikt gelöst ist.
-    Das geht mit demselben Befehl, mit dem ihr sonst eine Datei
-    bereitstellt.
-
-Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
+    **Frage:** Im Verlauf stehen ihr und euer Gast. `git log` und
+    `git show` zeigen den Namen unter **Author**, GitHub zeigt Name und
+    Profilbild neben jedem Commit.
 
 ---
 
@@ -869,84 +837,6 @@ wieder gelöscht wird? Probiert es in einem eigenen Spielordner aus,
     ausstellen**. Die Geschichte nachträglich umzuschreiben ist aufwendig
     und erreicht keine Kopien, die andere schon geklont haben.
 
-### Bonus 3: Pull Request (15 Minuten)
-
-!!! info "Teil 2 am Montag"
-    Pull Requests und Branches erklären wir in Teil 2. Wer heute schon
-    Lust hat, darf es ausprobieren.
-
-In Teams schreibt meist niemand direkt auf `main`. Änderungen kommen über
-einen eigenen Zweig (Branch) und einen **Pull Request**: eine Anfrage an den
-Eigentümer, die Änderung zu prüfen und zu übernehmen.
-
-1. **Als Gast**, im Fenster `voltrad-NAME`: einen neuen Zweig anlegen und
-   dorthin wechseln:
-
-    ```bash
-    git switch -c groesse-produktion
-    ```
-
-2. In `main.tf` bei `variable "anzahl_server"` die Beschreibung ergänzen:
-
-    ```hcl
-      description = "Wie viele Server sollen laufen? Produktion im Frühjahr: 4"
-    ```
-
-    Speichern, festhalten und den Zweig hochladen:
-
-    ```bash
-    git commit -am "Beschreibung: vier Server in der Produktion im Frühjahr"
-    ```
-
-    ```bash
-    git push -u origin groesse-produktion
-    ```
-
-3. Auf GitHub im Repository des Eigentümers erscheint oben der Knopf
-   **Compare & pull request**. Klickt darauf, prüft den Titel und klickt
-   **Create pull request**. Fehlt der Knopf: **Pull requests** → **New pull
-   request**, bei **compare** den Zweig `groesse-produktion` wählen.
-
-    ![Das Formular Open a pull request mit base main, compare groesse-produktion, Titel und dem Knopf Create pull request](../assets/diagramme/git-github-pr-neu.png){ width="560" }
-
-4. **Als Eigentümer:** Öffnet den Pull Request, seht euch unter **Files
-   changed** die Änderung an. Über **Review changes** schreibt ihr einen
-   Kommentar und wählt **Approve**, dann **Submit review**. Anschließend
-   **Merge pull request** und **Confirm merge**.
-
-    ![Ein offener Pull Request mit den Reitern Conversation und Files changed, rechts Reviewers und unten Merge pull request](../assets/diagramme/git-github-pr.png){ width="560" }
-
-5. Beide holen den neuen Stand:
-
-    === "Gast"
-
-        ```bash
-        git switch main
-        ```
-
-        ```bash
-        git pull
-        ```
-
-    === "Eigentümer"
-
-        ```bash
-        git pull
-        ```
-
-??? success "Musterlösung Bonus 3"
-    Der Zweig `groesse-produktion` ist eine Abzweigung von `main`. Was dort
-    passiert, berührt `main` erst, wenn der Pull Request zusammengeführt
-    wird. Dazwischen liegt die Prüfung durch eine zweite Person.
-
-    Nach dem Zusammenführen enthält `main` die neue Beschreibung. Der Gast
-    wechselt mit `git switch main` zurück und holt den Stand. Den Zweig
-    `groesse-produktion` braucht danach niemand mehr. GitHub bietet nach dem
-    Zusammenführen an, ihn zu löschen (**Delete branch**).
-
-    Später läuft in diesem Moment oft automatisch eine Prüfung mit, zum
-    Beispiel `terraform validate`, bevor jemand zusammenführen darf.
-
 ### Denkaufgabe: Repo-Regeln für Voltrad (10 Minuten)
 
 Bei Voltrad arbeiten bald drei an `main.tf`: Frau Vogt, ihr neuer Kollege
@@ -1009,11 +899,11 @@ entfernt den Gast später wieder unter **Settings → Collaborators**.
 | `error: remote origin already exists` | Die Verbindung zu GitHub ist schon eingetragen | Adresse ersetzen: `git remote set-url origin git@github.com:NAME/voltrad.git` |
 | Beim Push erscheint ein Anmeldefenster oder eine Frage nach dem Passwort | Ihr habt die HTTPS-Adresse statt der SSH-Adresse eingetragen | Abbrechen, dann `git remote set-url origin git@github.com:NAME/voltrad.git` |
 | `ERROR: Repository not found` beim Klonen | Die Einladung ist noch nicht angenommen oder der Name ist falsch geschrieben | Station 5, Schritt 2 prüfen. Den Benutzernamen mit dem im Breakout-Chat vergleichen. |
+| `ERROR: Repository not found` beim Push | Die Adresse in `origin` ist falsch geschrieben, meist der Benutzername | `git remote -v` zeigen lassen und mit dem Namen auf GitHub vergleichen. Korrigieren mit `git remote set-url origin git@github.com:NAME/voltrad.git` |
 | `GH007: Your push would publish a private email address` | Eure Commits tragen eure private E-Mail-Adresse | `user.email` auf die Ersatzadresse aus Station 1 setzen, dann `git commit --amend --reset-author --no-edit` und noch einmal pushen. |
-| `Updates were rejected because the remote contains work that you do not have locally` | Auf GitHub liegt ein Stand, den ihr noch nicht habt | Erst `git pull`, dann `git push`. Öffnet sich dabei in VS Code ein Reiter `MERGE_MSG`, schließt ihn einfach. In Station 6 ist das gewollt. |
+| `Updates were rejected because the remote contains work that you do not have locally` | Auf GitHub liegt ein Stand, den ihr noch nicht habt | Erst `git pull`, dann `git push`. Öffnet sich dabei in VS Code ein Reiter `MERGE_MSG`, schließt ihn einfach. |
 | `fatal: Need to specify how to reconcile divergent branches` | Die Zeile `pull.rebase false` aus Station 1 fehlt, das betrifft vor allem macOS und Linux | `git config --global pull.rebase false` ausführen, dann noch einmal `git pull`. |
 | Das Terminal wartet nach `git commit`, in VS Code ist ein Reiter `COMMIT_EDITMSG` offen | Ihr habt `-m` weggelassen, Git wartet auf die Nachricht | Nachricht in die erste Zeile schreiben, speichern, Reiter schließen. Danach läuft das Terminal weiter. |
-| Der Gast konnte in Station 6 ohne Ablehnung pushen, es gab keinen Konflikt | Der Gast hat vor seiner Änderung geholt oder der Eigentümer hatte noch nicht gepusht | Kein Problem. Mit dem Eigentümer noch einmal dieselbe Zeile anders ändern: erst pusht der Eigentümer, dann der Gast ohne zu holen. |
 | Keine Einladung in der E-Mail | Die E-Mail kommt verspätet oder im Spam an | `github.com/NAME/voltrad/invitations` öffnen. Der Eigentümer prüft unter **Collaborators**, ob er den richtigen Benutzernamen eingeladen hat. |
 | `LF will be replaced by CRLF` | Windows und Linux beenden Zeilen unterschiedlich, Git gleicht das an | Nur ein Hinweis, weiterarbeiten. |
 | Meldungen auf Deutsch, zum Beispiel `KONFLIKT (Inhalt): Merge-Konflikt in main.tf` | Git für Windows übersetzt teilweise, je nach Spracheinstellung | Gleiche Bedeutung wie die englische Meldung, weiterarbeiten. |
@@ -1043,6 +933,22 @@ diesmal für `[ssh.github.com]:443`. Es ist derselbe Wert wie in Station 2.
    `git log` dazu?
 5. Denkfrage: Ihr committet eine Änderung, pusht aber nicht. Was sieht eine
    Kollegin auf GitHub?
+
+??? success "Antworten zur Auswertung"
+    1. Auf GitHub liegen `.gitignore`, `.terraform.lock.hcl` und `main.tf`.
+       Nicht dort: State und Backup (laufende Server, mögliche Geheimnisse),
+       `terraform.tfvars` (persönliche Werte) und `.terraform` (holt sich
+       jede Person mit `terraform init`).
+    2. Vorher sechs Einträge, nachher drei, siehe Station 3.
+    3. GitHub prüft mit dem öffentlichen Schlüssel in eurem Konto die
+       Unterschrift eures privaten Schlüssels. Ihr prüft GitHub am
+       Fingerabdruck seines Server-Schlüssels, danach still über
+       `known_hosts`.
+    4. Auf GitHub über die Zahl der Commits, dann ein Klick auf den Commit:
+       rot die alte Zeile, grün die neue. `git log` zeigt Kennung, Autor,
+       Datum und Nachricht, `git show KENNUNG` zusätzlich die Änderung.
+    5. Nichts davon. Der Commit liegt nur in eurem Verlauf auf dem Laptop,
+       bis ihr `git push` ausführt.
 
 ---
 

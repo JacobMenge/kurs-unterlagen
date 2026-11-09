@@ -28,6 +28,9 @@ Stell dir den Betrieb wie das Cockpit eines Flugzeugs vor. Niemand fliegt blind 
 
 | Seite | Inhalt | Relevanz |
 |-------|--------|----------|
+| [Praxis: Verfügbarkeit bei Voltrad](praxis-verfuegbarkeit.md) | Schaden je Stunde, Verfügbarkeit der Montage als Kette rechnen, Redundanz im Versuch mit zwei Webservern hinter nginx, eine Empfehlung im Budget | <span class='badge badge-praxis'>Gruppenarbeit</span> |
+| [Praxis: Datensicherung für Voltrad](praxis-datensicherung.md) | Die Warenwirtschaft als PostgreSQL-Container sichern, absichtlich löschen, zurückholen und RPO und RTO messen, dann ein Sicherungsplan im Team | <span class='badge badge-praxis'>Gruppenarbeit</span> |
+| [Praxis: Notfall bei Voltrad](praxis-notfall.md) | Planspiel „Montag, 6:10 Uhr“ in fünf Lagen: einstufen, alarmieren, Notbetrieb, Spurensuche im Protokoll mit Select-String oder grep, Meldungen mit Frist, Rückkehr in den Normalbetrieb | <span class='badge badge-praxis'>Gruppenarbeit</span> |
 | [Monitoring & Betrieb](monitoring.md) | Die vier Signale, aktiv/passiv und Black-Box/White-Box, Metriken, Logs & Traces, Schwellenwerte, Alarmierung & Alarmmüdigkeit, SNMP, Syslog & Flussdaten, Wartungsfenster, Patch- und Change-Prozess, Incident/Problem/Change | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
 | [Backup & Recovery](backup-und-recovery.md) | Sicherungsarten, 3-2-1-Regel, Snapshots, unveränderliche Kopien, RTO & RPO, Restore-Test, Wiederanlaufplan, Rechte & Rollen | <span class='badge badge-pruefung'>Prüfungsrelevant</span> |
 | [Hochverfügbarkeit & Redundanz](hochverfuegbarkeit.md) | Verfügbarkeit rechnen, Verfügbarkeitskette, SPOF, Redundanzarten, Cluster & Quorum, Notstrom, Georedundanz, SLA, Business Impact Analyse | <span class='badge badge-vertiefung'>Vertiefung</span> |

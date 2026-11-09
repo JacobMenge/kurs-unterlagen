@@ -1,0 +1,146 @@
+Mar 02 05:55:49 DC-01 4624 logon success user=yilmaz workstation=PC-FERT-01 source=10.0.20.31
+Mar 02 07:05:02 MON-01 alert: disk FILE-01 D: 92% used -> mail sent to brandt@voltrad.example
+Mar 02 07:40:53 DC-01 4624 logon success user=vogt workstation=PC-IT-01 source=10.0.20.11
+Mar 02 07:41:13 DC-01 4624 logon success user=kaya workstation=PC-IT-02 source=10.0.20.12
+Mar 02 08:09:19 DC-01 4624 logon success user=sommer workstation=PC-VERT-01 source=10.0.20.41
+Mar 02 08:17:30 DC-01 4624 logon success user=okafor workstation=PC-FIN-01 source=10.0.20.51
+Mar 02 09:54:48 FW-01 allow in src=198.51.100.23 dst=10.0.50.20:443
+Mar 02 09:54:49 WEB-01 apache2: 198.51.100.23 "GET /konfigurator/modell/city-3 HTTP/1.1" 200
+Mar 02 11:19:36 FW-01 allow in src=198.51.100.23 dst=10.0.50.20:443
+Mar 02 11:19:37 WEB-01 apache2: 198.51.100.23 "GET /haendler/login HTTP/1.1" 200
+Mar 02 14:37:54 FW-01 allow in src=198.51.100.41 dst=10.0.50.20:443
+Mar 02 14:37:55 WEB-01 apache2: 198.51.100.41 "GET /konfigurator HTTP/1.1" 200
+Mar 02 17:43:46 FW-01 allow in src=198.51.100.214 dst=10.0.50.20:443
+Mar 02 17:43:47 WEB-01 apache2: 198.51.100.214 "GET /konfigurator/modell/trail-7 HTTP/1.1" 200
+Mar 02 18:22:41 FW-01 allow in src=203.0.113.77 dst=10.0.50.20:443
+Mar 02 18:22:41 WEB-01 apache2: 203.0.113.77 "GET /.env HTTP/1.1" 404
+Mar 02 18:22:42 WEB-01 apache2: 203.0.113.77 "GET /admin HTTP/1.1" 404
+Mar 02 18:22:44 WEB-01 apache2: 203.0.113.77 "GET /haendler/suche?q=test HTTP/1.1" 200
+Mar 02 20:50:39 FW-01 allow in src=198.51.100.189 dst=10.0.50.20:443
+Mar 02 20:50:40 WEB-01 apache2: 198.51.100.189 "GET /konfigurator/modell/city-3 HTTP/1.1" 200
+Mar 02 22:00:04 BACKUP-01 job nightly started
+Mar 02 22:47:31 BACKUP-01 job nightly completed status=success
+Mar 02 23:00:12 BACKUP-01 cloud copy started target=voltrad-copy retention=30d immutable=yes
+Mar 02 23:38:50 BACKUP-01 cloud copy completed status=success
+Mar 03 05:58:58 DC-01 4624 logon success user=yilmaz workstation=PC-FERT-01 source=10.0.20.31
+Mar 03 07:05:02 MON-01 alert: disk FILE-01 D: 92% used -> mail sent to brandt@voltrad.example
+Mar 03 07:35:35 DC-01 4624 logon success user=vogt workstation=PC-IT-01 source=10.0.20.11
+Mar 03 07:43:32 DC-01 4624 logon success user=kaya workstation=PC-IT-02 source=10.0.20.12
+Mar 03 08:06:33 DC-01 4624 logon success user=sommer workstation=PC-VERT-01 source=10.0.20.41
+Mar 03 08:12:56 DC-01 4624 logon success user=okafor workstation=PC-FIN-01 source=10.0.20.51
+Mar 03 09:38:37 FW-01 allow in src=198.51.100.41 dst=10.0.50.20:443
+Mar 03 09:38:38 WEB-01 apache2: 198.51.100.41 "GET /konfigurator/modell/city-3 HTTP/1.1" 200
+Mar 03 11:22:12 FW-01 allow in src=198.51.100.151 dst=10.0.50.20:443
+Mar 03 11:22:13 WEB-01 apache2: 198.51.100.151 "GET /konfigurator/farbe HTTP/1.1" 200
+Mar 03 14:39:29 FW-01 allow in src=198.51.100.66 dst=10.0.50.20:443
+Mar 03 14:39:30 WEB-01 apache2: 198.51.100.66 "GET /konfigurator HTTP/1.1" 200
+Mar 03 17:25:36 FW-01 allow in src=198.51.100.37 dst=10.0.50.20:443
+Mar 03 17:25:37 WEB-01 apache2: 198.51.100.37 "GET /konfigurator HTTP/1.1" 200
+Mar 03 20:40:08 FW-01 allow in src=198.51.100.189 dst=10.0.50.20:443
+Mar 03 20:40:09 WEB-01 apache2: 198.51.100.189 "GET /konfigurator/farbe HTTP/1.1" 200
+Mar 03 22:00:04 BACKUP-01 job nightly started
+Mar 03 22:47:31 BACKUP-01 job nightly completed status=success
+Mar 03 23:00:12 BACKUP-01 cloud copy started target=voltrad-copy retention=30d immutable=yes
+Mar 03 23:38:50 BACKUP-01 cloud copy completed status=success
+Mar 04 02:14:07 FW-01 allow in src=203.0.113.77 dst=10.0.50.20:443
+Mar 04 02:14:07 WEB-01 apache2: 203.0.113.77 "POST /haendler/suche HTTP/1.1" 500
+Mar 04 02:14:09 WEB-01 audit: process started /tmp/.k user=www-data parent=apache2
+Mar 04 02:16:52 FW-01 allow out src=10.0.50.20 dst=203.0.113.77:4444
+Mar 04 02:19:11 FW-01 allow dmz-lan src=10.0.50.20 dst=10.0.10.11:445
+Mar 04 02:19:12 DC-01 4624 logon success user=brandt workstation=WEB-01 source=10.0.50.20
+Mar 04 02:31:05 DC-01 4720 user account created target=svc-update by=brandt
+Mar 04 02:31:40 DC-01 4728 member added group="Domain Admins" member=svc-update by=brandt
+Mar 04 02:32:10 MON-01 alert: group Domain Admins changed on DC-01 (+svc-update) -> mail sent to brandt@voltrad.example
+Mar 04 05:52:34 DC-01 4624 logon success user=yilmaz workstation=PC-FERT-01 source=10.0.20.31
+Mar 04 07:05:02 MON-01 alert: disk FILE-01 D: 92% used -> mail sent to brandt@voltrad.example
+Mar 04 07:35:04 DC-01 4624 logon success user=vogt workstation=PC-IT-01 source=10.0.20.11
+Mar 04 07:47:37 DC-01 4624 logon success user=kaya workstation=PC-IT-02 source=10.0.20.12
+Mar 04 08:04:49 DC-01 4624 logon success user=sommer workstation=PC-VERT-01 source=10.0.20.41
+Mar 04 08:15:55 DC-01 4624 logon success user=okafor workstation=PC-FIN-01 source=10.0.20.51
+Mar 04 09:28:27 FW-01 allow in src=198.51.100.203 dst=10.0.50.20:443
+Mar 04 09:28:28 WEB-01 apache2: 198.51.100.203 "GET /haendler/login HTTP/1.1" 200
+Mar 04 11:32:41 FW-01 allow in src=198.51.100.236 dst=10.0.50.20:443
+Mar 04 11:32:42 WEB-01 apache2: 198.51.100.236 "GET /haendler/login HTTP/1.1" 200
+Mar 04 14:03:52 FW-01 allow in src=198.51.100.166 dst=10.0.50.20:443
+Mar 04 14:03:53 WEB-01 apache2: 198.51.100.166 "GET /haendler/login HTTP/1.1" 200
+Mar 04 17:10:03 FW-01 allow in src=198.51.100.102 dst=10.0.50.20:443
+Mar 04 17:10:04 WEB-01 apache2: 198.51.100.102 "GET /haendler/login HTTP/1.1" 200
+Mar 04 20:40:29 FW-01 allow in src=198.51.100.140 dst=10.0.50.20:443
+Mar 04 20:40:30 WEB-01 apache2: 198.51.100.140 "GET /konfigurator HTTP/1.1" 200
+Mar 04 22:00:04 BACKUP-01 job nightly started
+Mar 04 22:47:31 BACKUP-01 job nightly completed status=success
+Mar 04 23:00:12 BACKUP-01 cloud copy started target=voltrad-copy retention=30d immutable=yes
+Mar 04 23:38:50 BACKUP-01 cloud copy completed status=success
+Mar 05 01:12:33 FILE-01 4624 logon success user=svc-update workstation=WEB-01 source=10.0.50.20
+Mar 05 01:40:08 ERP-DB 4624 logon success user=svc-update workstation=WEB-01 source=10.0.50.20
+Mar 05 01:55:47 BACKUP-01 4624 logon success user=svc-update workstation=WEB-01 source=10.0.50.20
+Mar 05 05:55:14 DC-01 4624 logon success user=yilmaz workstation=PC-FERT-01 source=10.0.20.31
+Mar 05 07:05:02 MON-01 alert: disk FILE-01 D: 92% used -> mail sent to brandt@voltrad.example
+Mar 05 07:37:39 DC-01 4624 logon success user=vogt workstation=PC-IT-01 source=10.0.20.11
+Mar 05 07:45:22 DC-01 4624 logon success user=kaya workstation=PC-IT-02 source=10.0.20.12
+Mar 05 08:03:53 DC-01 4624 logon success user=sommer workstation=PC-VERT-01 source=10.0.20.41
+Mar 05 08:13:07 DC-01 4624 logon success user=okafor workstation=PC-FIN-01 source=10.0.20.51
+Mar 05 09:14:43 FW-01 allow in src=198.51.100.37 dst=10.0.50.20:443
+Mar 05 09:14:44 WEB-01 apache2: 198.51.100.37 "GET /konfigurator/modell/trail-7 HTTP/1.1" 200
+Mar 05 11:14:59 FW-01 allow in src=198.51.100.58 dst=10.0.50.20:443
+Mar 05 11:14:59 WEB-01 apache2: 198.51.100.58 "GET /konfigurator/modell/trail-7 HTTP/1.1" 200
+Mar 05 14:13:10 FW-01 allow in src=198.51.100.129 dst=10.0.50.20:443
+Mar 05 14:13:11 WEB-01 apache2: 198.51.100.129 "GET /konfigurator/farbe HTTP/1.1" 200
+Mar 05 17:57:39 FW-01 allow in src=198.51.100.214 dst=10.0.50.20:443
+Mar 05 17:57:40 WEB-01 apache2: 198.51.100.214 "GET /haendler/bestellung HTTP/1.1" 200
+Mar 05 20:28:23 FW-01 allow in src=198.51.100.189 dst=10.0.50.20:443
+Mar 05 20:28:24 WEB-01 apache2: 198.51.100.189 "GET /konfigurator/modell/city-3 HTTP/1.1" 200
+Mar 05 22:00:04 BACKUP-01 job nightly started
+Mar 05 22:47:31 BACKUP-01 job nightly completed status=success
+Mar 05 23:00:12 BACKUP-01 cloud copy started target=voltrad-copy retention=30d immutable=yes
+Mar 05 23:38:50 BACKUP-01 cloud copy completed status=success
+Mar 05 23:50:18 FW-01 allow out src=10.0.10.21 dst=203.0.113.140:443 sent=71.4GB duration=4h12m
+Mar 06 04:30:00 MON-01 alert: traffic FILE-01 -> 203.0.113.140 above threshold (71.4 GB) -> mail sent to brandt@voltrad.example
+Mar 06 07:05:02 MON-01 alert: disk FILE-01 D: 92% used -> mail sent to brandt@voltrad.example
+Mar 06 09:31:31 FW-01 allow in src=198.51.100.129 dst=10.0.50.20:443
+Mar 06 09:31:32 WEB-01 apache2: 198.51.100.129 "GET /haendler/login HTTP/1.1" 200
+Mar 06 11:43:27 FW-01 allow in src=198.51.100.166 dst=10.0.50.20:443
+Mar 06 11:43:28 WEB-01 apache2: 198.51.100.166 "GET /haendler/login HTTP/1.1" 200
+Mar 06 14:22:32 FW-01 allow in src=198.51.100.140 dst=10.0.50.20:443
+Mar 06 14:22:33 WEB-01 apache2: 198.51.100.140 "GET /konfigurator HTTP/1.1" 200
+Mar 06 17:26:20 FW-01 allow in src=198.51.100.93 dst=10.0.50.20:443
+Mar 06 17:26:21 WEB-01 apache2: 198.51.100.93 "GET /konfigurator HTTP/1.1" 200
+Mar 06 20:51:39 FW-01 allow in src=198.51.100.214 dst=10.0.50.20:443
+Mar 06 20:51:40 WEB-01 apache2: 198.51.100.214 "GET /konfigurator/modell/trail-7 HTTP/1.1" 200
+Mar 06 22:00:04 BACKUP-01 job nightly started
+Mar 06 22:47:31 BACKUP-01 job nightly completed status=success
+Mar 06 23:00:12 BACKUP-01 cloud copy started target=voltrad-copy retention=30d immutable=yes
+Mar 06 23:38:50 BACKUP-01 cloud copy completed status=success
+Mar 06 23:47:02 FW-01 allow out src=10.0.10.21 dst=203.0.113.140:443 sent=68.9GB duration=4h05m
+Mar 07 04:30:00 MON-01 alert: traffic FILE-01 -> 203.0.113.140 above threshold (68.9 GB) -> mail sent to brandt@voltrad.example
+Mar 07 07:05:02 MON-01 alert: disk FILE-01 D: 92% used -> mail sent to brandt@voltrad.example
+Mar 07 09:01:11 FW-01 allow in src=198.51.100.214 dst=10.0.50.20:443
+Mar 07 09:01:12 WEB-01 apache2: 198.51.100.214 "GET /konfigurator/farbe HTTP/1.1" 200
+Mar 07 11:16:32 FW-01 allow in src=198.51.100.236 dst=10.0.50.20:443
+Mar 07 11:16:33 WEB-01 apache2: 198.51.100.236 "GET /konfigurator HTTP/1.1" 200
+Mar 07 14:37:50 FW-01 allow in src=198.51.100.93 dst=10.0.50.20:443
+Mar 07 14:37:51 WEB-01 apache2: 198.51.100.93 "GET /konfigurator HTTP/1.1" 200
+Mar 07 17:33:51 FW-01 allow in src=198.51.100.23 dst=10.0.50.20:443
+Mar 07 17:33:52 WEB-01 apache2: 198.51.100.23 "GET /konfigurator/modell/trail-7 HTTP/1.1" 200
+Mar 07 20:17:57 FW-01 allow in src=198.51.100.23 dst=10.0.50.20:443
+Mar 07 20:17:58 WEB-01 apache2: 198.51.100.23 "GET /konfigurator/modell/trail-7 HTTP/1.1" 200
+Mar 07 22:00:04 BACKUP-01 job nightly started
+Mar 07 22:47:31 BACKUP-01 job nightly completed status=success
+Mar 07 23:00:12 BACKUP-01 cloud copy started target=voltrad-copy retention=30d immutable=yes
+Mar 07 23:38:50 BACKUP-01 cloud copy completed status=success
+Mar 07 23:52:40 FW-01 allow out src=10.0.10.21 dst=203.0.113.140:443 sent=61.3GB duration=3h41m
+Mar 08 04:30:00 MON-01 alert: traffic FILE-01 -> 203.0.113.140 above threshold (61.3 GB) -> mail sent to brandt@voltrad.example
+Mar 08 05:06:26 FW-01 allow in src=198.51.100.37 dst=10.0.50.20:443
+Mar 08 05:06:27 WEB-01 apache2: 198.51.100.37 "GET /konfigurator/farbe HTTP/1.1" 200
+Mar 08 05:41:18 BACKUP-01 4624 logon success user=svc-update workstation=WEB-01 source=10.0.50.20
+Mar 08 05:41:55 BACKUP-01 job catalog deleted by=svc-update
+Mar 08 05:42:30 BACKUP-01 local repository deleted by=svc-update
+Mar 08 05:43:02 BACKUP-01 cloud copy delete request denied: immutable until Apr 06
+Mar 08 05:52:07 FILE-01 process started vssadmin.exe delete shadows /all /quiet user=svc-update
+Mar 08 05:56:20 DC-01 4624 logon success user=yilmaz workstation=PC-FERT-01 source=10.0.20.31
+Mar 08 05:58:31 FILE-01 file renamed D:\Vertrieb\Haendlerliste.xlsx -> Haendlerliste.xlsx.vlk user=svc-update
+Mar 08 05:58:32 FILE-01 file created D:\Vertrieb\LIESMICH-VOLTRAD.txt user=svc-update
+Mar 08 06:01:14 ERP-DB file renamed E:\SQLData\ERP.mdf -> ERP.mdf.vlk user=svc-update
+Mar 08 06:03:40 MES-01 file renamed C:\MES\data\auftraege.db -> auftraege.db.vlk user=svc-update
+Mar 08 06:04:02 MON-01 alert: MES-01 service not responding -> mail sent to brandt@voltrad.example
+Mar 08 06:05:19 PC-MONT-03 file renamed C:\Montage\anleitung.pdf -> anleitung.pdf.vlk user=svc-update

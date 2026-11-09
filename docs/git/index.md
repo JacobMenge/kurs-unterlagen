@@ -39,7 +39,8 @@ Wenn du [CI/CD](../ci-cd/index.md) schon angefangen hast: die Schritte „GitHub
 
 | Seite | Inhalt | Art |
 |-------|--------|-----|
-| [Praxis: voltrad auf GitHub](praxis-voltrad.md) | Den Terraform-Ordner `voltrad` versionieren, privat auf GitHub ablegen und im Ring gemeinsam bearbeiten, mit SSH-Schlüssel, `.gitignore` und einem echten Konflikt | Praxis |
+| [Praxis Teil 1: voltrad auf GitHub](praxis-voltrad.md) | Den Terraform-Ordner `voltrad` versionieren, privat auf GitHub ablegen und im Ring gemeinsam bearbeiten, mit SSH-Schlüssel und `.gitignore` | Praxis |
+| [Praxis Teil 2: voltrad im Team](praxis-voltrad-2.md) | Konflikt lösen, alte Stände und `git revert`, Branches und Merge, Pull Request mit Review im Ring | Praxis |
 | [Warum Git?](warum-git.md) | Das „FINAL_v2_wirklich_final.docx"-Problem, Spielstand-Analogie, was Versionskontrolle löst | Theorie |
 | [Grundbegriffe](grundbegriffe.md) | Repository, Working Tree, Staging, Commit, HEAD – mit Bibliotheks-Analogie | Theorie |
 | [Branches und Merge](branches-und-merge.md) | Parallelwelten in Git, fast-forward vs. echter Merge, Konflikte verstehen | Theorie |

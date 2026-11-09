@@ -1,6 +1,9 @@
 title: "Betrieb & Verfügbarkeit"
 nav:
   - "Überblick": index.md
+  - "Praxis: Verfügbarkeit bei Voltrad": praxis-verfuegbarkeit.md
+  - "Praxis: Datensicherung für Voltrad": praxis-datensicherung.md
+  - "Praxis: Notfall bei Voltrad": praxis-notfall.md
   - "Monitoring & Betrieb": monitoring.md
   - "Backup & Recovery": backup-und-recovery.md
   - "Hochverfügbarkeit & Redundanz": hochverfuegbarkeit.md

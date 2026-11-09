@@ -53,19 +53,21 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Vom Laptop in die Cloud**
+    **Git und GitHub, Teil 1**
 
-    Terraform auf dem eigenen Rechner mit VS Code, Zugangsschlüssel und SSH mit Schlüsselpaar.
+    Der Ordner voltrad hat einen Verlauf, liegt privat auf GitHub und ein Gast aus dem Breakout hat mitgearbeitet.
+
+    [:octicons-arrow-right-24: Zur Übung](../git/praxis-voltrad.md)
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Git und GitHub**
+    **Git und GitHub, Teil 2**
 
-    Der Ordner voltrad bekommt einen Verlauf, liegt privat auf GitHub und wird im Team bearbeitet, mit einem echten Konflikt.
+    Einen Konflikt lösen, alte Stände zurückholen, mit Branches arbeiten und Änderungen über einen Pull Request prüfen lassen.
 
-    [:octicons-arrow-right-24: Zur Übung](../git/praxis-voltrad.md)
+    [:octicons-arrow-right-24: Zur Übung](../git/praxis-voltrad-2.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
@@ -73,9 +75,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     **Verfügbarkeit und Redundanz**
 
-    Wie viel Ausfall verträgt Voltrad? Verfügbarkeit berechnen, Ausfallzeiten und SLA, Redundanz gegen einzelne Schwachstellen.
+    Wie viel Ausfall verträgt Voltrad? Schaden je Stunde, Verfügbarkeit rechnen, SLA und Redundanz im Versuch mit zwei Webservern.
 
-    [:octicons-arrow-right-24: Zum Block](../betrieb/index.md)
+    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-verfuegbarkeit.md)
 
 </div>
 

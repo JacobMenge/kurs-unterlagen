@@ -90,6 +90,10 @@ C) Inkrementell   ->  7 Saetze (Sonntag + Mo bis Sa)      =  2.240 GB, 7 Vorgaen
 
 Die Datenmenge ist bei B und C fast gleich – die **Anzahl der Vorgänge** ist es nicht. Sieben nacheinander einzuspielende Sätze bedeuten sieben Bandwechsel oder sieben Einbindungen, sieben Gelegenheiten für einen Fehler und sieben Sätze, von denen **jeder einzelne lesbar sein muss**. Fehlt das Inkrement von Mittwoch, endet die Wiederherstellung am Dienstag.
 
+Dasselbe Prinzip als Bild, an einem kleineren Beispiel mit 500 GB und einem Ausfall am Freitagmittag:
+
+![Drei Sicherungsarten über eine Woche: jeden Tag voll, differenziell und inkrementell, mit dem Speicher je Woche und den Sätzen, die nach einem Ausfall am Freitag zurückgespielt werden müssen](../assets/diagramme/sicherung-arten-4.png){ .diagramm }
+
 !!! tip "Die Merkregel"
     **Inkrementell spart beim Sichern, differenziell spart beim Zurückholen.** Wer nachts wenig Zeit hat, nimmt inkrementell. Wer eine kurze RTO einhalten muss, nimmt differenziell – oder inkrementell mit **synthetischer Vollsicherung**: Dabei baut das Backupsystem im Hintergrund aus der alten Vollsicherung und den Inkrementen einen neuen vollständigen Stand zusammen, ohne die Produktivsysteme noch einmal zu lesen. Man bekommt kurze Sicherungsläufe **und** einen Ein-Satz-Restore. Die Rechenzeit dafür fällt auf dem Backupsystem an, nicht im Betrieb.
 
@@ -111,6 +115,8 @@ Weil Angriffe auf Sicherungen zum Standardvorgehen geworden sind, hat sich die R
 |---|---|---|
 | **3-2-1-1-0** | zusätzlich **1** Kopie **offline oder unveränderlich** und **0** Fehler im letzten Wiederherstellungstest | gegen Ransomware, die auch die Sicherungen löscht – und gegen die Sicherung, die niemand geprüft hat |
 | **4-3-2** | 4 Kopien, an 3 Orten, 2 davon außer Haus | für Betriebe mit sehr geringer tolerierbarer Ausfallzeit oder mehreren Standorten |
+
+![Die Regel 3-2-1-1-0: drei Kopien, zwei Medien, eine außer Haus, eine offline oder unveränderlich, null Fehler beim Test, dazu Zahlen zu Angriffen auf Sicherungen](../assets/diagramme/sicherung-32110-neutral.png){ .diagramm }
 
 !!! danger "Der erste Angriffsschritt gilt heute den Sicherungen"
     Ein durchdachter Ransomware-Angriff verschlüsselt nicht sofort. Erst werden Zugangsdaten gesammelt, dann wird das Backupsystem gesucht, dessen Aufbewahrungsregeln werden verkürzt oder die Sicherungen gelöscht – **und erst danach** wird verschlüsselt. Wer dann feststellt, dass die Sicherung auf einer Netzwerkfreigabe lag, die mit denselben Administratorrechten erreichbar war wie alles andere, hat keine Sicherung mehr, sondern eine zweite verschlüsselte Kopie.
@@ -154,6 +160,8 @@ Ein einzelner Sicherungsstand nützt wenig, wenn der Fehler vor drei Wochen pass
 | **Vater** | wöchentlich | 8 Stände | „Vor zwei Wochen war die Datenbank noch in Ordnung." |
 | **Großvater** | monatlich | 12 Stände | „Wie sah der Bestand zum Monatsabschluss aus?" |
 | **Jahresstand** | jährlich | nach Vorgabe | „Was war zum Stichtag im Bestand?" |
+
+![Generationenprinzip auf einer gestauchten Zeitachse: täglich gesicherte Söhne der letzten zwei Wochen, wöchentliche Väter über acht Wochen, monatliche Großväter über zwölf Monate](../assets/diagramme/sicherung-generationen.png){ .diagramm }
 
 Die Zahlen sind Richtwerte, keine Vorschriften – sie folgen aus zwei Fragen: Wie weit muss man zurückkönnen, um einen schleichenden Fehler zu erwischen? Und wie lange muss der Bestand aus rechtlichen Gründen vorhanden bleiben?
 
