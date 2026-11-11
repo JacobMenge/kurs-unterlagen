@@ -104,7 +104,7 @@ Aus dem Notfallhandbuch braucht ihr drei Seiten:
     | IT-Notfallnummer, diese Woche Herr Kaya | nimmt Meldungen an, bewertet, alarmiert | rund um die Uhr |
     | Frau Vogt | IT-Leitung im Stab | mobil, rund um die Uhr |
     | Dr. Albers, Geschäftsführerin | ruft den Notfall aus, entscheidet über Geld und Aussagen nach außen | mobil |
-    | Herr Okafor, Finanzen | leitet den Stab, vertritt Dr. Albers | mobil |
+    | Herr Becker, Finanzen | leitet den Stab, vertritt Dr. Albers | mobil |
     | Herr Yilmaz, Fertigungsleiter | Notbetrieb in der Montage | in der Halle ab 5:30 Uhr |
     | Frau Sommer, Vertrieb | Kommunikation mit Belegschaft, Händlern und Presse | mobil |
     | Datenschutzbeauftragte, extern | bewertet Meldepflichten nach der Datenschutz-Grundverordnung (DSGVO) | werktags ab 8 Uhr |
@@ -132,7 +132,7 @@ Aus dem Notfallhandbuch braucht ihr drei Seiten:
 
 | Rolle | Spielt | Aufgabe |
 |---|---|---|
-| **Stabsleitung** | Herrn Okafor | führt durch jede Lage, achtet auf die Zeit und spricht die Entscheidung aus |
+| **Stabsleitung** | Herrn Becker | führt durch jede Lage, achtet auf die Zeit und spricht die Entscheidung aus |
 | **IT** | Frau Vogt und Herrn Kaya | sagt, was technisch geht und wie lange es dauert |
 | **Fertigung** | Herrn Yilmaz | vertritt die Montage und plant den Notbetrieb |
 | **Kommunikation** | Frau Sommer | kümmert sich um Händler, Presse, Belegschaft und die Meldungen |

@@ -45,7 +45,7 @@ nachrechnen kann.
 ??? info "nginx und die Messschleife in Kürze"
     | | nginx als Lastverteiler | Die Messschleife |
     |---|---|---|
-    | **Was das ist** | Ein verbreiteter Webserver, der Anfragen auch an andere Server weiterreichen kann. In dieser Rolle heißt er Lastverteiler (Load Balancer). | Eine Zeile PowerShell, die jede Sekunde eine Webseite abruft und Erfolge und Ausfälle zählt. |
+    | **Was das ist** | Ein verbreiteter Webserver, der Anfragen auch an andere Server weiterreichen kann. In dieser Rolle heißt er Lastverteiler (Load Balancer). | Eine Zeile in PowerShell oder bash, die jede Sekunde eine Webseite abruft und Erfolge und Ausfälle zählt. |
     | **Warum gerade das** | Kostenlos, im Betrieb weit verbreitet und als Container in Sekunden gestartet. | So messen auch Überwachungsdienste die Verfügbarkeit: von außen, in festen Abständen. |
     | **So arbeiten wir heute damit** | Dreimal nginx in einer `compose.yaml`: zwei Server mit einer Startseite, einer verteilt die Anfragen. | Kopieren, im ersten Terminal laufen lassen, mit ++ctrl+c++ beenden. |
 
@@ -86,7 +86,7 @@ teuer und wie schnell ein Ausfall wird. Das ist der Kern einer **Business
 Impact Analysis (BIA)**, einer Folgenabschätzung je Geschäftsprozess. Sie
 entscheidet später, wo Redundanz hingehört.
 
-Herr Okafor aus den Finanzen hat geschätzt, was eine Stunde Stillstand in der
+Herr Becker aus den Finanzen hat geschätzt, was eine Stunde Stillstand in der
 Betriebszeit kostet. Frau Vogt aus der IT hat mit den Abteilungen geklärt, nach
 welcher Zeit ein Ausfall nicht mehr hinnehmbar ist.
 
@@ -141,6 +141,9 @@ Glieder **gleichzeitig**. Fällt eines aus, steht sie. Das ist eine
 So geht das an einem Beispiel mit fünf gleichen Gliedern:
 
 ![Fünf Glieder in Reihe mit je 99,5 Prozent ergeben 97,52 Prozent, auf ein Jahr 217 Stunden, mit der Faustregel 219 Stunden](../assets/diagramme/vf-reihe.png){ .diagramm }
+
+Das Beispiel rechnet mit dem ganzen Jahr (8.760 h). Ihr rechnet gleich mit
+der Betriebszeit der Fertigung (4.160 h).
 
 Frau Vogt hat aus dem Monitoring und dem Störungsprotokoll der letzten zwei
 Jahre die Verfügbarkeit jedes Glieds ermittelt. Gemessen wurde nur in der
@@ -239,7 +242,7 @@ Server lahm: einmal ohne Lastverteiler, einmal mit.
       lastverteilung:
         content: |
           upstream konfigurator {
-            zone konfigurator 64k;           # ein Zähler für alle nginx-Prozesse
+            zone konfigurator 64k;           # gemeinsamer Speicher, nötig für resolve
             resolver 127.0.0.11 valid=5s;    # Namensdienst von Docker, alle 5 s neu fragen
             server konfigurator-1:80 resolve;
             server konfigurator-2:80 resolve;
@@ -283,7 +286,7 @@ zeigt die Schleife, während Server 1 gestoppt ist? Notiert es.
     === "Windows (PowerShell)"
 
         ```powershell
-        $ProgressPreference = "SilentlyContinue"; $ok = 0; $aus = 0; while ($true) { $zeit = Get-Date -Format "HH:mm:ss"; try { $antwort = (Invoke-WebRequest -UseBasicParsing -TimeoutSec 3 http://localhost:8071).Content.Trim(); $ok++; "$zeit  $antwort  (ok $ok, Ausfall $aus)" } catch { $aus++; "$zeit  AUSFALL  (ok $ok, Ausfall $aus)" }; Start-Sleep -Seconds 1 }
+        $ProgressPreference = "SilentlyContinue"; $ok = 0; $aus = 0; while ($true) { $zeit = Get-Date -Format "HH:mm:ss"; try { $antwort = (Invoke-WebRequest -UseBasicParsing -TimeoutSec 3 http://127.0.0.1:8071).Content.Trim(); $ok++; "$zeit  $antwort  (ok $ok, Ausfall $aus)" } catch { $aus++; "$zeit  AUSFALL  (ok $ok, Ausfall $aus)" }; Start-Sleep -Seconds 1 }
         ```
 
     === "macOS / Linux"
@@ -318,7 +321,7 @@ eine Weile zu: Wer antwortet?
     === "Windows (PowerShell)"
 
         ```powershell
-        $ProgressPreference = "SilentlyContinue"; $ok = 0; $aus = 0; while ($true) { $zeit = Get-Date -Format "HH:mm:ss"; try { $antwort = (Invoke-WebRequest -UseBasicParsing -TimeoutSec 3 http://localhost:8070).Content.Trim(); $ok++; "$zeit  $antwort  (ok $ok, Ausfall $aus)" } catch { $aus++; "$zeit  AUSFALL  (ok $ok, Ausfall $aus)" }; Start-Sleep -Seconds 1 }
+        $ProgressPreference = "SilentlyContinue"; $ok = 0; $aus = 0; while ($true) { $zeit = Get-Date -Format "HH:mm:ss"; try { $antwort = (Invoke-WebRequest -UseBasicParsing -TimeoutSec 3 http://127.0.0.1:8070).Content.Trim(); $ok++; "$zeit  $antwort  (ok $ok, Ausfall $aus)" } catch { $aus++; "$zeit  AUSFALL  (ok $ok, Ausfall $aus)" }; Start-Sleep -Seconds 1 }
         ```
 
     === "macOS / Linux"
@@ -339,8 +342,9 @@ eine Weile zu: Wer antwortet?
     docker compose start konfigurator-1
     ```
 
-3. Achtet nach dem Start auf die Uhrzeit: Nach wie vielen Sekunden steht
-   links wieder `Antwort von Server 1`? Beendet die Schleife mit ++ctrl+c++
+3. Achtet nach dem Start auf die Uhrzeit: Schaut in dem Moment, in dem ihr
+   rechts Enter drückt, auf die letzte Uhrzeit links. Nach wie vielen
+   Sekunden steht dort wieder `Antwort von Server 1`? Beendet die Schleife mit ++ctrl+c++
    und notiert ok und Ausfall.
 
 ### Teil c: beide Server fallen aus (4 Minuten)
@@ -458,7 +462,8 @@ Die Lösung besprechen wir gemeinsam nach der Praxiszeit.
 
     Im Betrieb löst man beides so: zwei Lastverteiler, die sich eine Adresse
     teilen. Fällt der aktive aus, übernimmt der zweite die Adresse, zum
-    Beispiel mit keepalived über das Protokoll VRRP. In der Cloud nimmt man
+    Beispiel mit keepalived über das Protokoll VRRP (Virtual Router
+    Redundancy Protocol). In der Cloud nimmt man
     den Lastverteiler des Anbieters, der selbst über mehrere Zonen verteilt
     ist, wie im Cloud-Rennen. Die Server laufen auf verschiedenen Hosts oder
     in verschiedenen Zonen.
@@ -497,6 +502,11 @@ Updates bei Voltrad?
 
 ### Bonus 3: Ein SLA lesen (5 Minuten)
 
+Ein **SLA (Service Level Agreement)** ist die vertragliche Zusage eines
+Anbieters über die Qualität seiner Leistung. Darin steht, welche
+Verfügbarkeit er zusagt, über welchen Zeitraum gemessen wird und was ihr
+bekommt, wenn er die Zusage verfehlt.
+
 Amazon sagt im SLA für EC2 zu: **99,5 %** im Kalendermonat für einen
 einzelnen Server und **99,99 %** für die Region, wenn die Server in
 mindestens zwei Zonen laufen. Wird die Zusage verfehlt, gibt es eine
@@ -505,7 +515,8 @@ Gutschrift auf die EC2-Kosten des Monats: **10 %** unter der Zusage,
 
 1. Wie viele Minuten darf ein einzelner Server im November (30 Tage)
    ausfallen, ohne dass Amazon etwas schuldet? Wie viele die Region?
-2. Der Server mit dem Konfigurator fällt im November 5 Stunden aus. Er kostet
+2. Angenommen, der Konfigurator läuft auf einem einzelnen EC2-Server. Der
+   Server fällt im November 5 Stunden aus. Er kostet
    60 € im Monat. Wie hoch ist die Gutschrift? Wie hoch ist der Schaden laut
    Station 1?
 3. Was folgt daraus für Voltrad?
@@ -517,8 +528,9 @@ Gutschrift auf die EC2-Kosten des Monats: **10 %** unter der Zusage,
     2. 5 Stunden sind 300 Minuten. Der Server war 42.900 von 43.200 Minuten
        verfügbar, also zu 99,31 %. Das liegt unter 99,5 % und über 99,0 %:
        **10 % Gutschrift, also 6 €**. Der Schaden für den Konfigurator im
-       November: 5 × 150 € = **750 €**. Läuft auf demselben Server auch das
-       Händlerportal, kommen werktags 5 × 1.000 € dazu.
+       November: 5 × 150 € = **750 €**. Läuft auf demselben Server wie heute auf
+       WEB-01 auch das Händlerportal, kommen 5 × 1.000 € dazu, montags
+       vormittags sogar 5 × 3.000 €.
     3. Ein SLA ersetzt keine Redundanz. Die Gutschrift richtet sich nach der
        Rechnung, nicht nach dem Schaden. Wer die höhere Zusage will, muss
        selbst in zwei Zonen bauen, wie im Cloud-Rennen. Quelle: Amazon
@@ -538,7 +550,7 @@ Messverfahren), was jede weitere Neun bringt und wo eure Zusage endet.
     Server doppelt laufen, bleiben Fehler in der eigenen Software, Updates
     und Störungen bei den Anbietern. Wir schlagen vor: Der Konfigurator ist
     von März bis Mai in jedem Monat zu mindestens 99,9 % erreichbar, gemessen
-    von außen mit einem Abruf der Startseite jede Minute. Das erlaubt etwa 43
+    von außen mit einem Abruf der Startseite jede Minute. Das erlaubt 43 bis 45
     Minuten Ausfall im Monat. Dafür laufen zwei Server in zwei Zonen der
     Cloud hinter einem Lastverteiler, wie im Cloud-Rennen. Der Schritt auf
     99,99 % würde im ganzen Frühjahr etwa zwei Stunden Ausfall sparen, bei
@@ -580,10 +592,10 @@ danach löschen.
 | `Additional property content is not allowed` | Docker Compose ist älter als Version 2.23 | Docker Desktop aktualisieren (Zahnrad, dann **Software updates**) oder am Bildschirm einer anderen Person mitarbeiten. |
 | `pull access denied` oder `TLS handshake timeout` beim ersten Start | Das Netz blockiert Docker Hub, das kommt in Firmennetzen vor | Am Bildschirm einer anderen Person mitarbeiten. |
 | Die Schleife zeigt nur `AUSFALL`, obwohl nichts gestoppt ist | Falscher Port oder die Container laufen nicht | `docker compose ps` prüfen. 8071 nutzt ihr nur in Teil a, 8070 in Teil b und c. |
-| Über 8070 antwortet immer nur Server 1 | Die Zeile mit `zone` fehlt in der `compose.yaml` | Datei mit der Vorlage vergleichen, dann `docker compose up -d --force-recreate`. |
-| Server 1 bekommt in Teil b auch nach einer Minute keine Anfragen mehr | Die Zeilen mit `resolver` und `resolve` fehlen oder sind falsch geschrieben | Datei vergleichen, dann `docker compose up -d --force-recreate`. |
+| Über 8070 kommt nur `AUSFALL`, `docker compose ps` zeigt nur zwei Container | Der Lastverteiler startet nicht, meist ein Tippfehler bei `zone`, `resolver` oder `resolve` | `docker compose logs lastverteiler` zeigt die Zeile mit `[emerg]`. Datei mit der Vorlage vergleichen, dann `docker compose up -d --force-recreate`. |
+| Server 1 bekommt in Teil b auch nach einer Minute keine Anfragen mehr | Das Wort `resolve` hinter den beiden `server`-Zeilen fehlt | Datei vergleichen, dann `docker compose up -d --force-recreate`. |
 | Eine geänderte `compose.yaml` wirkt nicht beim Lastverteiler | Docker Compose erkennt geänderten `content` nicht immer von selbst | `docker compose up -d --force-recreate` |
-| Unter Windows kommen die Zeilen während eines Ausfalls nur alle zwei bis drei Sekunden | Windows wartet bei einer abgelehnten Verbindung etwas, bevor es aufgibt | Kein Fehler. Die Zählung stimmt trotzdem. |
+| Unter Windows kommen die Zeilen während eines Ausfalls nur alle zwei bis drei Sekunden | Windows wartet bei einer abgelehnten Verbindung etwas, bevor es aufgibt | Kein Fehler. Die Schleife zählt dadurch weniger Ausfälle, eure Verfügbarkeit in Teil a fällt höher aus als auf dem Mac. Entscheidend ist der Vergleich: Teil a hat Ausfälle, Teil b keine. |
 | Die Schleife hört nicht auf | Sie läuft, bis ihr sie beendet | ++ctrl+c++ im Terminal der Schleife. |
 
 ---

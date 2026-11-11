@@ -197,7 +197,7 @@ erledigt Station 1.
     - „Die Webagentur betreut uns seit Ende 2024 nicht mehr. Texte ändert
       jetzt ein Freiberufler."
 
-    **Herr Okafor, Leiter Finanzen**
+    **Herr Becker, Leiter Finanzen**
 
     - „Wenn in der Warenwirtschaft Daten von einem ganzen Tag verloren gehen,
       ist das eine Katastrophe."
@@ -224,7 +224,7 @@ markieren und in euren Ergebniszettel kopieren.
 | VH-01 | Host für DC-01, FILE-01, PRINT-01. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | Arbeitsspeicher zu 91 % belegt | |
 | VH-02 | Host für DC-02, MQTT-01, MON-01. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | Arbeitsspeicher zu 44 % belegt. VM MQTT-01 seit Februar 2025 aus. | |
 | FILE-01 (VM auf VH-01) | 2 TB, davon 55 % belegt | | 2 TB, zu 92 % belegt, Zuwachs etwa 25 GB im Monat | Lindner: Auf der Dateiablage war kein Platz mehr für die Konstruktion. |
-| ERP-DB | Datenbank der Warenwirtschaft. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | Windows Server 2016 mit SQL Server 2016 | Okafor: Ein Tag Datenverlust wäre eine Katastrophe. |
+| ERP-DB | Datenbank der Warenwirtschaft. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | Windows Server 2016 mit SQL Server 2016 | Becker: Ein Tag Datenverlust wäre eine Katastrophe. |
 | ERP-APP | Warenwirtschaft. Windows Server 2019. Hr. Brandt. | Schrank 1, läuft | | |
 | MES-01 | Fertigungsleitsystem. Windows Server 2019. Fertigung, Wartung durch Hersteller. | Schrank 2, läuft | | Yilmaz: Steht es, stehen nach zehn Minuten die Bänder. |
 | WEB-01 | Konfigurator und Händlerportal. Ubuntu 20.04 LTS. Webagentur. In der DMZ. | Schrank 2, läuft | Letzte Updates Dezember 2024. Im Jahresmittel 12 % Last, März bis Mai an neun Tagen 100 %. | Sommer: Agentur seit Ende 2024 weg. Im Frühjahr viermal so viele Besucher. |

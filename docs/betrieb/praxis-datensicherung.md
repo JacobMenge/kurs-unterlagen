@@ -293,7 +293,7 @@ ist und wie lange es gedauert hat.
 **Frage 1:** Was bedeutet diese Nummer für den Händler, der heute schon einen
 der verlorenen Aufträge abgeschickt hat?
 
-**Frage 2:** Herr Okafor erlaubt höchstens eine Stunde Datenverlust. Reicht
+**Frage 2:** Herr Becker erlaubt höchstens eine Stunde Datenverlust. Reicht
 eine Sicherung pro Nacht? Wie oft müsste Voltrad die Warenwirtschaft
 sichern?
 
@@ -367,7 +367,7 @@ was, wenn statt des Containers euer ganzer Laptop ausfällt?
 Daten im Werk sichert. Ihr rechnet, füllt einen Plan aus und trefft eine
 Entscheidung. Alle Zahlen stehen auf der Karte.
 
-![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag 50 GB Änderungen, Vollsicherung samstags, Läufe Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Okafor, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
+![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag 50 GB Änderungen, Vollsicherung samstags, Läufe Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Becker, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
 
 ??? note "Die Karte als Text"
     | Was | Wert |
@@ -380,7 +380,7 @@ Entscheidung. Alle Zahlen stehen auf der Karte.
     | Durchsatz zum Sicherungsziel | 100 MB/s. Rechnet mit 1 GB = 1.000 MB. |
     | Annahme für Teil a | Am Freitag um 14 Uhr fällt der Speicher im Werk aus. |
 
-    - Herr Okafor, Finanzen: „Höchstens die Buchungen der letzten Stunde
+    - Herr Becker, Finanzen: „Höchstens die Buchungen der letzten Stunde
       dürfen fehlen.“
     - Herr Lindner, Konstruktion: „Einen Arbeitstag holen wir nach. Oft
       merken wir erst nach Wochen, dass jemand eine Zeichnung überschrieben
@@ -400,7 +400,7 @@ Entscheidung. Alle Zahlen stehen auf der Karte.
 3. Wie lange dauert es, diese Datenmenge bei 100 MB/s zurückzuspielen?
    Vergleicht mit Herrn Yilmaz: Nach zehn Minuten stehen die Bänder.
 4. Wie viele Stunden Buchungen fehlen der Warenwirtschaft, wenn nur nachts
-   gesichert wird? Vergleicht mit Herrn Okafor.
+   gesichert wird? Vergleicht mit Herrn Becker.
 
 ### Teil b: Den Plan ausfüllen
 

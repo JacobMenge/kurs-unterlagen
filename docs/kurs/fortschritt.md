@@ -30,9 +30,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 <div class="fortschritt-block t2" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 2 · Sicherstellung des laufenden Betriebs</span>
-<span class="fortschritt-wert">0 von 6 Blöcken fertig, Git läuft</span>
+<span class="fortschritt-wert">1 von 6 Blöcken fertig, Betrieb läuft</span>
 </div>
-<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 0%"></div></div>
+<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 17%"></div></div>
 </div>
 
 <div class="fortschritt-block t3" markdown>
@@ -53,23 +53,13 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Git und GitHub, Teil 1**
-
-    Der Ordner voltrad hat einen Verlauf, liegt privat auf GitHub und ein Gast aus dem Breakout hat mitgearbeitet.
-
-    [:octicons-arrow-right-24: Zur Übung](../git/praxis-voltrad.md)
-
--   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
-
-    ---
-
     **Git und GitHub, Teil 2**
 
-    Einen Konflikt lösen, alte Stände zurückholen, mit Branches arbeiten und Änderungen über einen Pull Request prüfen lassen.
+    Einen Konflikt gelöst, Fehler vor und nach dem Push zurückgenommen und eine Änderung über einen Pull Request prüfen lassen.
 
     [:octicons-arrow-right-24: Zur Übung](../git/praxis-voltrad-2.md)
 
--   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+-   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
@@ -78,6 +68,16 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
     Wie viel Ausfall verträgt Voltrad? Schaden je Stunde, Verfügbarkeit rechnen, SLA und Redundanz im Versuch mit zwei Webservern.
 
     [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-verfuegbarkeit.md)
+
+-   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+
+    ---
+
+    **Datensicherung und Wiederherstellung**
+
+    Am Montag: eine Datenbank im Container sichern, Daten löschen und zurückholen.
+
+    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-datensicherung.md)
 
 </div>
 
@@ -103,11 +103,11 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
 | Status | Block | Inhalt |
 |:---:|---|---|
-| <span class="status-offen">○</span> | [Betrieb & Verfügbarkeit](../betrieb/index.md) | Redundanz, Backup, Wiederanlauf, Notbetrieb |
+| <span class="status-laeuft">●</span> | [Betrieb & Verfügbarkeit](../betrieb/index.md) | Redundanz, Backup, Wiederanlauf, Notbetrieb |
 | <span class="status-offen">○</span> | [Monitoring](../monitoring-praxis/index.md) | Metriken, Kennzahlen, Alarmierung |
 | <span class="status-offen">○</span> | [Softwareverteilung](../orchestrierung/index.md) | Ausrollen, Deployment-Strategien, Rollback |
 | <span class="status-offen">○</span> | [Kubernetes](../kubernetes-praxis/index.md) | Container über einen Cluster betreiben |
-| <span class="status-laeuft">●</span> | [Git & GitHub](../git/index.md) | Versionskontrolle als Werkzeug |
+| <span class="status-fertig">✓</span> | [Git & GitHub](../git/index.md) | Versionskontrolle als Werkzeug |
 | <span class="status-offen">○</span> | [CI/CD](../ci-cd/index.md) | Automatisch bauen, testen, ausliefern |
 
 ### Thema 3 · Qualitätssicherung und IT-Sicherheit
