@@ -367,7 +367,7 @@ was, wenn statt des Containers euer ganzer Laptop ausfällt?
 Daten im Werk sichert. Ihr rechnet, füllt einen Plan aus und trefft eine
 Entscheidung. Alle Zahlen stehen auf der Karte.
 
-![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag 50 GB Änderungen, Vollsicherung samstags, Läufe Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Becker, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
+![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag 50 GB Änderungen, Vollsicherung samstags, weitere Sicherungen Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Becker, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
 
 ??? note "Die Karte als Text"
     | Was | Wert |
@@ -376,7 +376,7 @@ Entscheidung. Alle Zahlen stehen auf der Karte.
     | CAD-Daten der Konstruktion | 600 GB, davon ändern sich je Tag 20 GB |
     | Zusammen | 2.000 GB, je Tag 50 GB. Angenommen: jeden Tag andere Daten. |
     | Vollsicherung | samstags |
-    | Weitere Läufe | Montag bis Freitag um 22 Uhr, nach der Spätschicht |
+    | Weitere Sicherungen | Montag bis Freitag um 22 Uhr, nach der Spätschicht |
     | Durchsatz zum Sicherungsziel | 100 MB/s. Rechnet mit 1 GB = 1.000 MB. |
     | Annahme für Teil a | Am Freitag um 14 Uhr fällt der Speicher im Werk aus. |
 
@@ -391,10 +391,10 @@ Entscheidung. Alle Zahlen stehen auf der Karte.
 ### Teil a: Rechnen
 
 1. Wie viel Speicher braucht eine Woche auf dem Sicherungsziel, wenn Voltrad
-   (a) jeden Lauf als Vollsicherung macht, (b) samstags voll und Montag bis
+   (a) jedes Mal eine Vollsicherung macht, (b) samstags voll und Montag bis
    Freitag **differenziell** sichert, (c) samstags voll und Montag bis
    Freitag **inkrementell** sichert?
-2. Am Freitag um 14 Uhr fällt der Speicher aus. Welche Sicherungsläufe
+2. Am Freitag um 14 Uhr fällt der Speicher aus. Welche Sicherungen
    braucht ihr bei (a), (b) und (c) zum Zurückspielen? Wie viele GB sind das
    jeweils?
 3. Wie lange dauert es, diese Datenmenge bei 100 MB/s zurückzuspielen?
@@ -418,19 +418,19 @@ Legt danach fest, wo die Kopien liegen. Nennt für jede Ziffer der Regel
 
 ### Teil c: Entscheiden
 
-Differenziell oder inkrementell für die Läufe von Montag bis Freitag?
+Differenziell oder inkrementell für die Sicherungen von Montag bis Freitag?
 Begründet eure Wahl in zwei Sätzen mit euren Zahlen aus Teil a.
 
 ??? tip "Hinweise zu Station 5"
     Öffnet die Hinweise nacheinander.
 
-    1. **Teil a, Frage 1:** Eine Woche hat hier sechs Läufe, samstags und
+    1. **Teil a, Frage 1:** Eine Woche hat hier sechs Sicherungen, samstags und
        Montag bis Freitag. Differenziell sammelt alles seit der letzten
        Vollsicherung: am Montag 50 GB, am Dienstag 100 GB und so weiter.
-    2. **Teil a, Frage 2:** Der letzte Lauf vor Freitag 14 Uhr war am
-       Donnerstag um 22 Uhr. Differenziell braucht die Vollsicherung und den
-       letzten differenziellen Lauf, inkrementell jeden Lauf seit der
-       Vollsicherung.
+    2. **Teil a, Frage 2:** Die letzte Sicherung vor Freitag 14 Uhr war am
+       Donnerstag um 22 Uhr. Differenziell braucht die Vollsicherung und die
+       letzte differenzielle Sicherung, inkrementell jede Sicherung seit
+       der Vollsicherung.
     3. **Teil a, Frage 3:** GB mal 1.000 ergibt MB, geteilt durch 100 MB/s
        ergibt Sekunden. Was heißt das Ergebnis für ein System, das nach zehn
        Minuten wieder laufen muss?
@@ -661,6 +661,8 @@ zurückhaben möchte, entfernt es mit `docker image rm postgres:16-alpine`.
 | `invalid reference format` beim `docker run` | Die lange Zeile wurde nicht vollständig kopiert | Mit dem Kopierknopf rechts im Kasten neu kopieren und einfügen. |
 | `volume is in use` beim Löschen des Volumes | Der Container existiert noch | Erst `docker rm -f erp-db`, dann das Volume löschen. |
 | `ERROR: relation "auftraege" does not exist` | Die Tabelle gibt es nicht | In Station 3 nach dem Fehler und in Station 4 nach dem Neuaufbau ist das gewollt. Sonst die Datei `auftraege.sql` erneut ausführen. |
+| `"${PWD}" includes invalid characters for a local volume name` beim `docker run` | Ihr arbeitet in der Eingabeaufforderung (CMD), die `${PWD}` nicht kennt | Ein PowerShell-Terminal öffnen: in VS Code rechts neben dem Plus im Terminal den Pfeil, dann PowerShell. Dort `docker run` noch einmal. |
+| Docker Desktop fragt, ob es auf den Ordner zugreifen darf | Docker braucht die Freigabe für euren Ordner `datensicherung` | Zulassen. Danach `docker rm -f erp-db` und `docker run` noch einmal. |
 | Der Pfad `/arbeit` wird zu `C:/Program Files/Git/arbeit` | Ihr arbeitet in Git Bash, das Pfade umschreibt | Ein PowerShell-Terminal öffnen: in VS Code rechts neben dem Plus im Terminal den Pfeil, dann PowerShell. |
 | macOS: `Mounts denied` | Der Ordner liegt außerhalb eures Benutzerordners | Den Ordner `datensicherung` unter Dokumente anlegen und dort neu starten. |
 | Die Zählung zeigt mehr Aufträge als erwartet | Ein Befehl lief zweimal, zum Beispiel die 15 neuen Aufträge | Kein Problem. Rechnet mit euren eigenen Zahlen aus dem Messprotokoll. |

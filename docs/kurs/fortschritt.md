@@ -53,31 +53,31 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Git und GitHub, Teil 2**
-
-    Einen Konflikt gelöst, Fehler vor und nach dem Push zurückgenommen und eine Änderung über einen Pull Request prüfen lassen.
-
-    [:octicons-arrow-right-24: Zur Übung](../git/praxis-voltrad-2.md)
-
--   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
-
-    ---
-
     **Verfügbarkeit und Redundanz**
 
     Wie viel Ausfall verträgt Voltrad? Schaden je Stunde, Verfügbarkeit rechnen, SLA und Redundanz im Versuch mit zwei Webservern.
 
     [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-verfuegbarkeit.md)
 
--   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+-   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
     **Datensicherung und Wiederherstellung**
 
-    Am Montag: eine Datenbank im Container sichern, Daten löschen und zurückholen.
+    Eine Datenbank im Container sichern, die Tabelle löschen, zurückholen und dabei messen. Danach ein Sicherungsplan für Voltrad.
 
     [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-datensicherung.md)
+
+-   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
+
+    ---
+
+    **Notfallmanagement**
+
+    Am Mittwoch: Störung, Notfall oder Krise? Wer entscheidet, wer informiert und wie arbeitet Voltrad weiter?
+
+    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-notfall.md)
 
 </div>
 
