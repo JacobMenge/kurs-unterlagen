@@ -494,14 +494,14 @@ was, wenn statt des Containers euer ganzer Laptop ausfällt?
 Daten im Werk sichert. Ihr rechnet, füllt einen Plan aus und trefft eine
 Entscheidung. Alle Zahlen stehen auf der Karte.
 
-![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag 50 GB Änderungen, Vollsicherung samstags, weitere Sicherungen Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Becker, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
+![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag 50 GB Änderungen bei gleichbleibender Gesamtmenge, Vollsicherung samstags, weitere Sicherungen Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Becker, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
 
 ??? note "Die Karte als Text"
     | Was | Wert |
     |---|---|
     | Virtuelle Maschinen (Warenwirtschaft, Fertigung, Anmeldung, Druck, Broker) | 1.400 GB, davon ändern sich je Tag 30 GB |
     | CAD-Daten der Konstruktion | 600 GB, davon ändern sich je Tag 20 GB |
-    | Zusammen | 2.000 GB, je Tag 50 GB. Angenommen: jeden Tag andere Daten. |
+    | Zusammen | 2.000 GB, davon ändern sich je Tag 50 GB. Es kommt nichts dazu, die Gesamtmenge bleibt bei 2.000 GB. Angenommen: Jeden Tag ändern sich andere Daten. |
     | Vollsicherung | samstags |
     | Weitere Sicherungen | Montag bis Freitag um 22 Uhr, nach der Spätschicht |
     | Durchsatz zum Sicherungsziel | 100 MB/s. Rechnet mit 1 GB = 1.000 MB. |
