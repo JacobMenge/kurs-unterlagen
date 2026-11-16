@@ -58,8 +58,9 @@ Danach plant ihr im Team, wie Voltrad seine Daten künftig sichert.
     Die Stationen 1 bis 4 macht jede Person am eigenen Rechner. Station 5
     macht ihr im Team: Eine Person teilt den Bildschirm, eine zweite schreibt
     die Ergebnisse auf. Ihr schreibt keinen Code selbst, Befehle und die
-    Datei kopiert ihr von dieser Seite. Unter den Stationen stehen Hinweise
-    zum Aufklappen. Notiert eure Vorhersagen, bevor ihr einen Befehl
+    Datei kopiert ihr von dieser Seite. Unter jedem Befehl steht ein Kasten
+    „Der Befehl im Einzelnen“ zum Aufklappen, der ihn Teil für Teil
+    erklärt. Unter den Stationen stehen Hinweise zum Aufklappen. Notiert eure Vorhersagen, bevor ihr einen Befehl
     ausführt.
 
 ## Was ihr heute baut
@@ -104,6 +105,13 @@ und legt darin die Tabelle der Aufträge an.
     Kommt eine Tabellenzeile mit `CONTAINER ID`, läuft Docker. Kommt eine
     Fehlermeldung, seht in [Wenn es klemmt](#wenn-es-klemmt) nach.
 
+    ??? info "Der Befehl im Einzelnen"
+        - `docker` ist das Kommandozeilenprogramm von Docker. Es gibt eure
+          Befehle an Docker Desktop weiter.
+        - `ps` listet die laufenden Container auf. Die Abkürzung kommt von
+          „process status“. Läuft noch kein Container, seht ihr nur die
+          Kopfzeile.
+
 2. Legt in VS Code im Ordner eine neue Datei `auftraege.sql` an und kopiert
    diesen Inhalt hinein. Speichern nicht vergessen.
 
@@ -129,6 +137,31 @@ und legt darin die Tabelle der Aufträge an.
     FROM generate_series(1, 120) AS g;
     ```
 
+    ??? info "Die Datei im Einzelnen"
+        - Zeilen, die mit `--` beginnen, sind Kommentare. Die Datenbank
+          überspringt sie.
+        - `DROP TABLE IF EXISTS auftraege;` entfernt die Tabelle, falls es sie
+          schon gibt. Deshalb könnt ihr die Datei mehrmals ausführen.
+        - `CREATE TABLE auftraege ( … );` legt die Tabelle mit vier Spalten an.
+        - `nr serial PRIMARY KEY`: Bei `serial` zählt die Datenbank die Nummer
+          bei jedem neuen Auftrag selbst hoch. `PRIMARY KEY` heißt
+          Primärschlüssel: Jede Nummer kommt nur einmal vor.
+        - `text NOT NULL`: eine Textspalte, die nicht leer bleiben darf.
+        - `timestamp(0) NOT NULL DEFAULT now()`: Datum und Uhrzeit ohne
+          Sekundenbruchteile. Gibt man nichts an, trägt die Datenbank die
+          aktuelle Zeit ein.
+        - `INSERT INTO auftraege (…) SELECT … FROM generate_series(1, 120) AS g;`
+          fügt 120 Zeilen ein. `generate_series(1, 120)` liefert die Zahlen 1
+          bis 120. Für jede Zahl `g` entsteht ein Auftrag.
+        - `'Fachhandel ' || (1 + mod(g * 37, 600))`: Die zwei senkrechten
+          Striche hängen Texte aneinander. `mod` ist der Rest einer Division.
+          So entstehen Händlernummern zwischen 1 und 600.
+        - `(ARRAY['City', 'Trekking', 'Cargo'])[1 + mod(g, 3)]` wählt reihum
+          eines der drei Modelle.
+        - `now() - interval '8 hours' + g * interval '4 minutes'` verteilt die
+          Eingangszeiten über die letzten acht Stunden, alle vier Minuten ein
+          Auftrag.
+
 3. Startet den Container. Der Befehl ist eine einzige lange Zeile, kopiert
    ihn mit dem Knopf rechts im Kasten:
 
@@ -141,11 +174,16 @@ und legt darin die Tabelle der Aufträge an.
 
     | Teil | Bedeutung |
     |---|---|
+    | `docker run` | Erzeugt aus einem Image einen neuen Container und startet ihn. |
+    | `-d` | Der Container läuft im Hintergrund (detached), das Terminal bleibt frei. |
     | `--name erp-db` | Der Container heißt `erp-db`. |
+    | `-e …` | Setzt eine Umgebungsvariable im Container (e wie environment). Das Image liest daraus seine Einstellungen. |
     | `-e POSTGRES_USER=voltrad` und die beiden folgenden | Benutzer, Übungspasswort und Name der Datenbank `erp`. |
     | `-e TZ=Europe/Berlin` | Die Datenbank rechnet mit unserer Uhrzeit. |
     | `-v erp-daten:/var/lib/postgresql/data` | Die Dateien der Datenbank liegen im Volume `erp-daten`. |
+    | `-v …` | Verbindet einen Speicherort mit einem Pfad im Container (v wie volume). Links vom Doppelpunkt steht die Quelle, rechts der Pfad im Container. |
     | `-v "${PWD}:/arbeit"` | Euer Ordner `datensicherung` erscheint im Container als `/arbeit`. `${PWD}` steht für den Ordner, in dem das Terminal gerade steht. |
+    | `postgres:16-alpine` | Das Image, aus dem der Container entsteht: PostgreSQL in Version 16 auf dem kleinen Linux Alpine. |
 
 4. Wartet etwa zehn Sekunden, bis die Datenbank bereit ist. Dann legt ihr
    die Tabelle an:
@@ -157,6 +195,19 @@ und legt darin die Tabelle der Aufträge an.
     Die Ausgabe endet mit `INSERT 0 120`. Die Zeile `NOTICE: table
     "auftraege" does not exist, skipping` davor ist nur ein Hinweis: Beim
     ersten Mal gab es noch keine Tabelle zum Entfernen.
+
+    ??? info "Der Befehl im Einzelnen"
+        - `docker exec erp-db`: führt den folgenden Befehl im laufenden
+          Container `erp-db` aus.
+        - `psql`: das Kommandozeilenprogramm von PostgreSQL. Es schickt
+          SQL-Befehle an die Datenbank und zeigt ihre Antwort.
+        - `-U voltrad`: Anmeldung als Benutzer `voltrad` (U wie user).
+        - `-d erp`: Verbindung zur Datenbank `erp` (d wie database).
+        - `-f /arbeit/auftraege.sql`: führt alle Befehle aus dieser Datei aus
+          (f wie file). `/arbeit` ist euer Ordner `datensicherung`, so wie ihn
+          der Container sieht.
+        - Ausgabe `INSERT 0 120`: 120 Zeilen wurden eingefügt. Die 0 davor hat
+          heute keine Bedeutung mehr.
 
 5. Zählt die Aufträge und seht euch die drei neuesten an:
 
@@ -170,6 +221,21 @@ und legt darin die Tabelle der Aufträge an.
 
     Ihr seht 120 Aufträge. Der neueste hat die Nummer 120 und als Eingang
     ungefähr die jetzige Uhrzeit.
+
+    ??? info "Die Befehle im Einzelnen"
+        - Der Anfang `docker exec erp-db psql -U voltrad -d erp` ist derselbe
+          wie eben: im Container als Benutzer `voltrad` an der Datenbank `erp`
+          anmelden.
+        - `-c "…"`: führt genau einen SQL-Befehl aus (c wie command). Die
+          doppelten Anführungszeichen sorgen dafür, dass das Terminal den
+          Befehl als ein Stück weitergibt.
+        - `SELECT count(*) FROM auftraege`: zählt alle Zeilen der Tabelle
+          `auftraege`.
+        - `SELECT * FROM auftraege`: zeigt alle Spalten der Tabelle. Der Stern
+          steht für „alle Spalten“.
+        - `ORDER BY nr DESC`: sortiert nach der Auftragsnummer, die größte
+          zuerst (DESC wie descending, absteigend).
+        - `LIMIT 3`: zeigt nur die ersten drei Zeilen.
 
 ??? tip "Hinweise zu Station 1"
     Öffnet die Hinweise nacheinander.
@@ -200,6 +266,20 @@ Ordner und seht euch an, was in einer Sicherung steht.
     jede Tabelle einen Befehl, der eine vorhandene Fassung erst entfernt. So
     lässt sich die Sicherung auch über eine beschädigte Tabelle
     zurückspielen.
+
+    ??? info "Der Befehl im Einzelnen"
+        - `docker exec erp-db`: im Container `erp-db` ausführen.
+        - `pg_dump`: das Sicherungsprogramm von PostgreSQL. Es liest die
+          Datenbank und schreibt SQL-Befehle, mit denen sie sich neu aufbauen
+          lässt.
+        - `-U voltrad -d erp`: als Benutzer `voltrad` die Datenbank `erp`
+          sichern.
+        - `--clean`: schreibt vor jede Tabelle einen Befehl `DROP TABLE`, der
+          eine vorhandene Fassung entfernt.
+        - `--if-exists`: ergänzt diese Befehle um `IF EXISTS`. So gibt es
+          keinen Fehler, wenn die Tabelle beim Zurückspielen fehlt.
+        - `-f /arbeit/sicherung.sql`: schreibt das Ergebnis in diese Datei
+          (f wie file), also in euren Ordner `datensicherung`.
 
 2. Tragt die **Uhrzeit** und die Zahl der Aufträge in euer Messprotokoll ein.
 
@@ -238,6 +318,17 @@ ist und wie lange es gedauert hat.
     docker exec erp-db psql -U voltrad -d erp -c "INSERT INTO auftraege (haendler, modell) SELECT 'Fachhandel ' || g, 'Cargo' FROM generate_series(601, 615) AS g"
     ```
 
+    ??? info "Der Befehl im Einzelnen"
+        - `INSERT INTO auftraege (haendler, modell)`: fügt neue Zeilen ein und
+          füllt die Spalten `haendler` und `modell`. Nummer und Eingangszeit
+          vergibt die Datenbank selbst.
+        - `SELECT 'Fachhandel ' || g, 'Cargo'`: baut für jede Zahl `g` einen
+          Auftrag. Die zwei senkrechten Striche hängen die Zahl an den Text,
+          das Modell ist immer Cargo.
+        - `FROM generate_series(601, 615) AS g`: liefert die Zahlen 601 bis
+          615, also 15 Aufträge.
+        - Ausgabe `INSERT 0 15`: 15 Zeilen wurden eingefügt.
+
     Zählt nach und tragt Uhrzeit und Zahl ins Messprotokoll ein:
 
     ```bash
@@ -250,6 +341,14 @@ ist und wie lange es gedauert hat.
     ```bash
     docker exec erp-db psql -U voltrad -d erp -c "DROP TABLE auftraege"
     ```
+
+    ??? info "Der Befehl im Einzelnen"
+        - `DROP TABLE auftraege`: löscht die Tabelle mit allen Zeilen. Die
+          Datenbank fragt nicht nach und kennt dafür kein Rückgängig.
+        - Ausgabe `DROP TABLE`: Die Datenbank bestätigt, dass die Tabelle weg
+          ist.
+        - Die Zählung danach meldet `ERROR: relation "auftraege" does not
+          exist`. „Relation“ ist das Fachwort der Datenbank für eine Tabelle.
 
     Zählt noch einmal. Die Datenbank meldet, dass es die Tabelle nicht mehr
     gibt:
@@ -266,6 +365,18 @@ ist und wie lange es gedauert hat.
 
     Es laufen viele Zeilen durch. Achtet auf die Zeile, die mit `COPY`
     beginnt.
+
+    ??? info "Der Befehl im Einzelnen"
+        - Derselbe Aufbau wie in Station 1: `psql` führt mit `-f` alle Befehle
+          aus einer Datei aus. Diesmal ist die Datei eure Sicherung.
+        - Zeilen mit `SET`: Einstellungen für die Verbindung.
+        - `DROP TABLE` und `DROP SEQUENCE`: entfernen, was von der Tabelle noch
+          da ist. Das kommt von `--clean`.
+        - `CREATE TABLE`, `CREATE SEQUENCE` und `ALTER TABLE`: legen die
+          Tabelle und ihre Zählstelle für die Nummern neu an.
+        - `COPY` mit einer Zahl: spielt die Aufträge zurück. Die Zahl sagt, wie
+          viele es waren.
+        - `setval`: stellt die Zählstelle für die Auftragsnummern wieder ein.
 
 4. **Vorhersage:** Wie viele Aufträge zählt die Datenbank jetzt? Notiert
    eure Zahl, dann prüft. Tragt danach die **Uhrzeit** ins Messprotokoll
@@ -289,6 +400,12 @@ ist und wie lange es gedauert hat.
     ```bash
     docker exec erp-db psql -U voltrad -d erp -c "INSERT INTO auftraege (haendler, modell) VALUES ('Fachhandel 7', 'City') RETURNING nr"
     ```
+
+    ??? info "Der Befehl im Einzelnen"
+        - `INSERT INTO auftraege (haendler, modell) VALUES ('Fachhandel 7',
+          'City')`: fügt genau einen Auftrag mit diesen beiden Werten ein.
+        - `RETURNING nr`: gibt die Nummer zurück, die die Datenbank dem neuen
+          Auftrag gegeben hat.
 
 **Frage 1:** Was bedeutet diese Nummer für den Händler, der heute schon einen
 der verlorenen Aufträge abgeschickt hat?
@@ -326,6 +443,16 @@ Sicherung ein.
     ```bash
     docker volume rm erp-daten
     ```
+
+    ??? info "Die Befehle im Einzelnen"
+        - `docker rm erp-db`: löscht den Container `erp-db` (rm wie
+          remove).
+        - `-f`: erzwingt das Löschen, auch wenn der Container noch läuft
+          (f wie force). Ohne `-f` müsstet ihr ihn erst mit `docker stop`
+          anhalten.
+        - `docker volume rm erp-daten`: löscht das Volume `erp-daten` und
+          damit die Dateien der Datenbank. Das geht erst, wenn kein
+          Container das Volume mehr benutzt.
 
 2. Neuer Server, leere Datenbank: Startet den Container mit demselben
    Befehl wie in Station 1, Schritt 3. Mit der Pfeiltaste nach oben holt ihr
@@ -468,6 +595,15 @@ docker exec erp-db psql -U voltrad -d erp_probe -f /arbeit/sicherung.sql
 docker exec erp-db psql -U voltrad -d erp_probe -c "SELECT count(*) FROM auftraege"
 ```
 
+??? info "Die Befehle im Einzelnen"
+    - `createdb -U voltrad erp_probe`: legt als Benutzer `voltrad` eine
+      neue, leere Datenbank `erp_probe` an. `createdb` ist ein
+      Hilfsprogramm von PostgreSQL.
+    - `psql -U voltrad -d erp_probe -f /arbeit/sicherung.sql`: spielt die
+      Sicherung ein, diesmal in die Datenbank `erp_probe` statt in `erp`.
+    - Die Zählung mit `-d erp_probe` fragt die Probe-Datenbank, nicht die
+      laufende.
+
 Warum testet man nicht einfach in `erp`?
 
 ??? success "Musterlösung Bonus 1"
@@ -489,6 +625,14 @@ Aufträge an:
 ```bash
 docker exec erp-db psql -U voltrad -d erp -c "INSERT INTO auftraege (haendler, modell, eingang) SELECT 'Archiv ' || mod(g, 600), 'Trekking', now() - g * interval '1 minute' FROM generate_series(1, 1000000) AS g"
 ```
+
+??? info "Der Befehl im Einzelnen"
+    - `generate_series(1, 1000000)`: liefert eine Million Zahlen. Für jede
+      entsteht ein Auftrag.
+    - `'Archiv ' || mod(g, 600)`: der Händlername, zusammengesetzt aus dem
+      Text und einer Nummer von 0 bis 599.
+    - `now() - g * interval '1 minute'`: Jeder Auftrag liegt eine Minute
+      weiter in der Vergangenheit als der vorige.
 
 Messt, wie lange Sichern und Zurückspielen dauern. Für das Zurückspielen
 braucht ihr `erp_probe` aus Bonus 1.
@@ -516,6 +660,15 @@ braucht ihr `erp_probe` aus Bonus 1.
     ```
 
     Die Dauer steht in der Zeile mit `real` oder `total`.
+
+??? info "Die Messbefehle im Einzelnen"
+    - `Measure-Command { … }` (PowerShell) führt den Befehl in den
+      geschweiften Klammern aus und misst seine Dauer.
+    - `time …` (macOS, Linux) misst die Dauer des Befehls dahinter.
+    - `-q` bei `psql` steht für quiet: Die vielen Rückmeldungen beim
+      Zurückspielen entfallen.
+    - `gross.sql` ist die neue, große Sicherungsdatei. Eure
+      `sicherung.sql` bleibt unverändert.
 
 Seht im Explorer von VS Code nach, wie groß `gross.sql` ist. Rechnet dann
 grob hoch: Wie lange dauert das Zurückspielen bei einer Datenbank mit 80 GB?
@@ -568,6 +721,14 @@ Zeichen, ändert sich die ganze Summe. Kopiert eure Sicherung und vergleicht:
     ```bash
     sha256sum sicherung.sql kopie.sql
     ```
+
+??? info "Die Befehle im Einzelnen"
+    - `Copy-Item` (PowerShell) und `cp` (macOS, Linux) kopieren eine Datei.
+    - `Get-FileHash`, `shasum -a 256` und `sha256sum` berechnen eine
+      Prüfsumme nach dem Verfahren SHA-256. Das ist eine lange
+      Zeichenfolge, die sich aus dem Inhalt der Datei ergibt.
+    - Stehen zwei Dateinamen hintereinander, berechnet das Programm beide
+      Prüfsummen. Ihr vergleicht sie dann Zeichen für Zeichen.
 
 Öffnet danach `kopie.sql` in VS Code, ändert bei einem Auftrag eine einzige
 Ziffer, speichert und berechnet die Prüfsummen noch einmal.
