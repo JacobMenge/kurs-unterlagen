@@ -494,14 +494,14 @@ was, wenn statt des Containers euer ganzer Laptop ausfällt?
 Daten im Werk sichert. Ihr rechnet, füllt einen Plan aus und trefft eine
 Entscheidung. Alle Zahlen stehen auf der Karte.
 
-![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag 50 GB Änderungen bei gleichbleibender Gesamtmenge, Vollsicherung samstags, weitere Sicherungen Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Becker, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
+![Die Zahlen für Station 5: 1.400 GB virtuelle Maschinen und 600 GB CAD-Daten, je Tag kommen 50 GB dazu, Vollsicherung samstags, weitere Sicherungen Montag bis Freitag um 22 Uhr, 100 MB/s, Ausfall am Freitag um 14 Uhr, dazu die Aussagen von Herrn Becker, Herrn Lindner und Frau Vogt](../assets/diagramme/sicherung-auftrag.png){ .diagramm }
 
 ??? note "Die Karte als Text"
     | Was | Wert |
     |---|---|
-    | Virtuelle Maschinen (Warenwirtschaft, Fertigung, Anmeldung, Druck, Broker) | 1.400 GB, davon ändern sich je Tag 30 GB |
-    | CAD-Daten der Konstruktion | 600 GB, davon ändern sich je Tag 20 GB |
-    | Zusammen | 2.000 GB, davon ändern sich je Tag 50 GB. Es kommt nichts dazu, die Gesamtmenge bleibt bei 2.000 GB. Angenommen: Jeden Tag ändern sich andere Daten. |
+    | Virtuelle Maschinen (Warenwirtschaft, Fertigung, Anmeldung, Druck, Broker) | 1.400 GB, je Tag kommen 30 GB dazu |
+    | CAD-Daten der Konstruktion | 600 GB, je Tag kommen 20 GB dazu |
+    | Zusammen | 2.000 GB am Samstag. Von Montag bis Freitag kommen je Tag 50 GB dazu. Vorhandene Daten ändern sich nicht. |
     | Vollsicherung | samstags |
     | Weitere Sicherungen | Montag bis Freitag um 22 Uhr, nach der Spätschicht |
     | Durchsatz zum Sicherungsziel | 100 MB/s. Rechnet mit 1 GB = 1.000 MB. |
@@ -532,7 +532,8 @@ Entscheidung. Alle Zahlen stehen auf der Karte.
 ### Teil b: Den Plan ausfüllen
 
 Übertragt die Tabelle in eure Notiz und füllt sie aus. Für die Spalte
-„Aufheben“ hilft die Folie zu den Generationen: Sohn, Vater, Großvater.
+„Aufheben“ hilft die Folie zu den Generationen: Tages-, Wochen- und
+Monatssicherung.
 
 | System | Vorgabe der Fachabteilung | Sicherungsart und Rhythmus | Wie lange aufheben? |
 |---|---|---|---|
@@ -552,7 +553,8 @@ Begründet eure Wahl in zwei Sätzen mit euren Zahlen aus Teil a.
     Öffnet die Hinweise nacheinander.
 
     1. **Teil a, Frage 1:** Eine Woche hat hier sechs Sicherungen, samstags und
-       Montag bis Freitag. Differenziell sammelt alles seit der letzten
+       Montag bis Freitag. Die Vollsicherung wächst mit: am Montag 2.050 GB, am Dienstag
+       2.100 GB und so weiter. Differenziell sammelt alles seit der letzten
        Vollsicherung: am Montag 50 GB, am Dienstag 100 GB und so weiter.
     2. **Teil a, Frage 2:** Die letzte Sicherung vor Freitag 14 Uhr war am
        Donnerstag um 22 Uhr. Differenziell braucht die Vollsicherung und die

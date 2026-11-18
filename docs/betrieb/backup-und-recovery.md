@@ -52,47 +52,50 @@ Jede Sicherungsstrategie besteht aus einer **Vollsicherung** und dem, was zwisch
 
 | | **Vollsicherung** | **Differenzielle Sicherung** | **Inkrementelle Sicherung** |
 |---|---|---|---|
-| Was wird gesichert | alle ausgewählten Daten | alles, was sich seit der **letzten Vollsicherung** geändert hat | alles, was sich seit der **letzten Sicherung jeder Art** geändert hat |
+| Was wird gesichert | alle ausgewählten Daten | alles, was seit der **letzten Vollsicherung** neu oder geändert ist | alles, was seit der **letzten Sicherung jeder Art** neu oder geändert ist |
 | Sicherungsdauer | am längsten | wächst mit jedem Tag nach der Vollsicherung | am kürzesten, gleichbleibend |
 | Speicherbedarf | am höchsten | mittel, wachsend | am niedrigsten |
 | Für den Restore nötig | 1 Satz | 2 Sätze: Voll + letzte differenzielle | alle Sätze: Voll + **jedes** Inkrement seit dann |
 | Rückspieldauer | am kürzesten | kurz | am längsten, mit jedem Inkrement mehr |
 | Archivbit (klassische Windows-Sicherung) | wird zurückgesetzt | bleibt gesetzt | wird zurückgesetzt |
 
-Das **Archivbit** erklärt den Unterschied am kürzesten: Eine geänderte Datei bekommt ein Merkmal „geändert". Die inkrementelle Sicherung nimmt alle so markierten Dateien mit und **löscht** das Merkmal – der nächste Lauf sieht nur noch das, was seither dazugekommen ist. Die differenzielle Sicherung nimmt dieselben Dateien mit, **lässt das Merkmal aber stehen** – deshalb sammelt sie mit jedem Tag mehr an. Eine **Kopiersicherung** ignoriert das Merkmal in beide Richtungen; sie ist dafür da, eine Sonderkopie zu ziehen, ohne den laufenden Rhythmus durcheinanderzubringen.
+Das **Archivbit** erklärt den Unterschied am kürzesten: Eine neue oder geänderte Datei bekommt ein Merkmal „geändert". Die inkrementelle Sicherung nimmt alle so markierten Dateien mit und **löscht** das Merkmal – der nächste Lauf sieht nur noch das, was seither dazugekommen ist. Die differenzielle Sicherung nimmt dieselben Dateien mit, **lässt das Merkmal aber stehen** – deshalb sammelt sie mit jedem Tag mehr an. Eine **Kopiersicherung** ignoriert das Merkmal in beide Richtungen; sie ist dafür da, eine Sonderkopie zu ziehen, ohne den laufenden Rhythmus durcheinanderzubringen.
 
 ### Nachgerechnet: eine Woche, drei Strategien
 
-Ein Datenbestand von **2 TB**, davon ändern sich täglich rund **2 %**, also 40 GB. Vollsicherung am Sonntag, danach Montag bis Samstag ein Lauf pro Tag.
+Ein Datenbestand von **2 TB**, jeden Tag kommen rund **40 GB** neue Daten dazu. Vorhandene Daten ändern sich in diesem Beispiel nicht. Vollsicherung am Sonntag, danach Montag bis Samstag ein Lauf pro Tag.
 
 ```text
-A) Jeden Tag eine Vollsicherung
-   7 Laeufe x 2.000 GB                                    = 14.000 GB je Woche
+A) Jeden Tag eine Vollsicherung, sie waechst mit den Daten
+   2.000 + 2.040 + 2.080 + 2.120 + 2.160 + 2.200 + 2.240   = 14.840 GB je Woche
 
 B) Voll am Sonntag + differenziell Mo bis Sa
    Sonntag  2.000 GB
-   Mo 40 | Di 80 | Mi 120 | Do 160 | Fr 200 | Sa 240 GB   =    840 GB
-   Summe                                                  =  2.840 GB je Woche
+   Mo 40 | Di 80 | Mi 120 | Do 160 | Fr 200 | Sa 240 GB    =    840 GB
+   Summe                                                   =  2.840 GB je Woche
 
 C) Voll am Sonntag + inkrementell Mo bis Sa
    Sonntag  2.000 GB
-   6 Laeufe x 40 GB                                       =    240 GB
-   Summe                                                  =  2.240 GB je Woche
+   6 Laeufe x 40 GB                                        =    240 GB
+   Summe                                                   =  2.240 GB je Woche
 ```
 
-Und jetzt der Ernstfall: Am Samstagabend fällt der Server aus. Was muss zurückgespielt werden?
+Und jetzt der Ernstfall: Am Sonntagmittag fällt der Server aus, die letzte Sicherung lief am Samstagabend. Was muss zurückgespielt werden?
 
 ```text
-A) Vollsicherung  ->  1 Satz  (Samstag)                   =  2.000 GB, 1 Vorgang
-B) Differenziell  ->  2 Saetze (Sonntag + Samstag)        =  2.240 GB, 2 Vorgaenge
-C) Inkrementell   ->  7 Saetze (Sonntag + Mo bis Sa)      =  2.240 GB, 7 Vorgaenge
+A) Vollsicherung  ->  1 Satz  (Samstag)                    =  2.240 GB, 1 Vorgang
+B) Differenziell  ->  2 Saetze (Sonntag + Samstag)         =  2.240 GB, 2 Vorgaenge
+C) Inkrementell   ->  7 Saetze (Sonntag + Mo bis Sa)       =  2.240 GB, 7 Vorgaenge
 ```
 
-Die Datenmenge ist bei B und C fast gleich – die **Anzahl der Vorgänge** ist es nicht. Sieben nacheinander einzuspielende Sätze bedeuten sieben Bandwechsel oder sieben Einbindungen, sieben Gelegenheiten für einen Fehler und sieben Sätze, von denen **jeder einzelne lesbar sein muss**. Fehlt das Inkrement von Mittwoch, endet die Wiederherstellung am Dienstag.
+Die Datenmenge ist in allen drei Fällen dieselbe – die **Anzahl der Vorgänge** ist es nicht. Sieben nacheinander einzuspielende Sätze bedeuten sieben Bandwechsel oder sieben Einbindungen, sieben Gelegenheiten für einen Fehler und sieben Sätze, von denen **jeder einzelne lesbar sein muss**. Fehlt das Inkrement von Mittwoch, endet die Wiederherstellung am Dienstag.
+
+!!! note "„Kommen dazu“ oder „ändern sich“?"
+    In Aufgaben steht manchmal, dass sich täglich eine Datenmenge **ändert**, statt dass sie dazukommt. Dann bleibt der Bestand gleich groß, und jede Vollsicherung ist so groß wie die erste. Differenzielle und inkrementelle Sicherungen rechnet ihr in beiden Fällen gleich.
 
 Dasselbe Prinzip als Bild, an einem kleineren Beispiel mit 500 GB und einem Ausfall am Freitagmittag:
 
-![Drei Sicherungsarten über eine Woche: jeden Tag voll, differenziell und inkrementell, mit dem Speicher je Woche und den Sätzen, die nach einem Ausfall am Freitag zurückgespielt werden müssen](../assets/diagramme/sicherung-arten-4.png){ .diagramm }
+![Drei Sicherungsarten über eine Woche: Vollsicherung, differenziell und inkrementell, mit dem Speicher je Woche und den Sicherungen, die nach einem Ausfall am Freitag zurückgespielt werden müssen](../assets/diagramme/sicherung-arten-4.png){ .diagramm }
 
 !!! tip "Die Merkregel"
     **Inkrementell spart beim Sichern, differenziell spart beim Zurückholen.** Wer nachts wenig Zeit hat, nimmt inkrementell. Wer eine kurze RTO einhalten muss, nimmt differenziell – oder inkrementell mit **synthetischer Vollsicherung**: Dabei baut das Backupsystem im Hintergrund aus der alten Vollsicherung und den Inkrementen einen neuen vollständigen Stand zusammen, ohne die Produktivsysteme noch einmal zu lesen. Man bekommt kurze Sicherungsläufe **und** einen Ein-Satz-Restore. Die Rechenzeit dafür fällt auf dem Backupsystem an, nicht im Betrieb.

@@ -48,7 +48,7 @@ Spur des Angreifers.
 ??? info "Planspiel und Select-String in Kürze"
     | | Das Planspiel | Select-String und grep |
     |---|---|---|
-    | **Was das ist** | Ein Notfall wird am Tisch durchgespielt, Lage für Lage, ohne dass etwas ausfällt. Der Fachbegriff ist Planbesprechung, englisch Tabletop. | Ein Befehl, der aus einer Textdatei alle Zeilen zeigt, in denen ein Suchwort vorkommt. |
+    | **Was das ist** | Ein Notfall wird im Gespräch durchgespielt, Lage für Lage, ohne dass etwas ausfällt. Der Fachbegriff ist Planbesprechung, englisch Tabletop. | Ein Befehl, der aus einer Textdatei alle Zeilen zeigt, in denen ein Suchwort vorkommt. |
     | **Warum gerade das** | Es findet Lücken in Zuständigkeit und Meldewegen und kostet nur Zeit. | Protokolle haben viele Zeilen. Gefiltert bleibt übrig, was zum Vorfall gehört. |
     | **So arbeiten wir heute damit** | Fünf Lagen bei Voltrad, Rollen im Breakout, jede Entscheidung ins Ereignisprotokoll | Windows: `Select-String` in der PowerShell. macOS und Linux: `grep`. Eine Datei, fünf Suchwörter. |
 
@@ -145,10 +145,13 @@ Empfehlung.
 
 ## Das Ereignisprotokoll
 
-Die Protokollführung kopiert diese Vorlage in eine Textdatei oder ein
-gemeinsames Dokument und teilt den Bildschirm. Als Uhrzeit nehmt ihr immer
-die Spielzeit aus der Lage. Die erste Zeile zeigt ein Beispiel von einem
-anderen Tag.
+Die Protokollführung kopiert diese Vorlage in eine Textdatei und teilt den
+Bildschirm. Am einfachsten geht das in VS Code über **Datei → Neue
+Textdatei**, ein gemeinsames Dokument geht genauso. Eine Tabellenkalkulation
+braucht ihr nicht. Die Spalten müssen nicht bündig stehen: Eine Zeile je
+Eintrag reicht, die senkrechten Striche trennen die Spalten. Als Uhrzeit
+nehmt ihr immer die Spielzeit aus der Lage. Die erste Zeile zeigt ein
+Beispiel von einem anderen Tag.
 
 ```text
 EREIGNISPROTOKOLL VOLTRAD · Notfall vom Montag, 8. März
@@ -316,35 +319,85 @@ Ergebnisse in der Gruppe.
 
     Die Datei `voltrad-protokoll.log` muss in der Liste stehen.
 
-    **3. Suchen.** Der Befehl zeigt alle Zeilen, in denen das Suchwort
-    vorkommt. `SUCHWORT` ersetzt ihr jeweils durch eines aus der Tabelle
-    unten, die Anführungszeichen bleiben.
+    ??? info "Die Befehle im Einzelnen"
+        - `cd` wechselt den Ordner, die Abkürzung steht für „change
+          directory“. `$HOME\Downloads` unter Windows und `~/Downloads`
+          unter macOS und Linux meinen beide euren Ordner Downloads.
+        - `Get-ChildItem voltrad*` unter Windows und `ls voltrad*` unter
+          macOS und Linux listen alle Dateien auf, deren Name mit `voltrad`
+          beginnt. Der Stern steht für beliebige weitere Zeichen.
 
-    === "Windows (PowerShell)"
+    **3. Den Suchbefehl selbst bauen.** Ihr braucht einen Befehl, der alle
+    Zeilen zeigt, in denen ein Suchwort vorkommt. Schreibt ihn selbst, das
+    Bild zeigt den Aufbau am Suchwort `yilmaz`.
 
-        ```powershell
-        Select-String -Path voltrad-protokoll.log -Pattern "SUCHWORT"
-        ```
-
-        Nur der erste Treffer:
-
-        ```powershell
-        Select-String -Path voltrad-protokoll.log -Pattern "SUCHWORT" | Select-Object -First 1
-        ```
-
-    === "macOS / Linux"
-
-        ```bash
-        grep -n "SUCHWORT" voltrad-protokoll.log
-        ```
-
-        Nur der erste Treffer:
-
-        ```bash
-        grep -n "SUCHWORT" voltrad-protokoll.log | head -n 1
-        ```
+    - **Werkzeug:** unter Windows `Select-String` in der PowerShell, unter
+      macOS und Linux `grep`
+    - **Datei:** `voltrad-protokoll.log`
+    - **Suchwort:** in Anführungszeichen
+    - **Nur der erste Treffer:** das Ergebnis mit `|` an
+      `Select-Object -First 1` weiterreichen, unter macOS und Linux an
+      `head -n 1`
 
     ![Beispiel mit dem Suchwort yilmaz: Select-String in der PowerShell und grep im Terminal, jede Zeile beginnt mit Datum und Uhrzeit](../assets/diagramme/notfall-spur-befehl.png){ .diagramm }
+
+    Probiert euren Befehl zuerst mit dem Suchwort `yilmaz`. Stimmt er, seht
+    ihr fünf Treffer, der erste steht in Zeile 1.
+
+    ??? info "Hinweis: die Bausteine der Befehle"
+        **Windows (PowerShell)**
+
+        - `Select-String` durchsucht Text und gibt jede Zeile aus, in der
+          das Suchwort vorkommt.
+        - `-Path voltrad-protokoll.log` nennt die Datei, in der gesucht
+          wird.
+        - `-Pattern "SUCHWORT"` ist das Suchwort. Groß- und
+          Kleinschreibung spielen keine Rolle.
+        - `|` reicht das Ergebnis an den nächsten Befehl weiter.
+          `Select-Object -First 1` behält davon nur die erste Zeile.
+        - In der Ausgabe stehen vor jeder Zeile der Dateiname und die
+          Zeilennummer.
+
+        **macOS und Linux**
+
+        - `grep` durchsucht Text und gibt jede Zeile aus, in der das
+          Suchwort vorkommt.
+        - `-n` setzt vor jede Zeile ihre Zeilennummer.
+        - `"SUCHWORT"` ist das Suchwort, dahinter steht die Datei. `grep`
+          unterscheidet Groß- und Kleinschreibung.
+        - `|` reicht das Ergebnis an den nächsten Befehl weiter.
+          `head -n 1` behält davon nur die erste Zeile.
+
+        Ein Punkt im Suchwort steht bei beiden Befehlen für ein beliebiges
+        Zeichen. Bei einer Adresse wie `203.0.113.77` stört das nicht.
+
+    ??? tip "Kommt ihr nicht weiter? Den fertigen Befehl zeigen"
+        `SUCHWORT` ersetzt ihr durch euer Suchwort, die Anführungszeichen
+        bleiben.
+
+        === "Windows (PowerShell)"
+
+            ```powershell
+            Select-String -Path voltrad-protokoll.log -Pattern "SUCHWORT"
+            ```
+
+            Nur der erste Treffer:
+
+            ```powershell
+            Select-String -Path voltrad-protokoll.log -Pattern "SUCHWORT" | Select-Object -First 1
+            ```
+
+        === "macOS / Linux"
+
+            ```bash
+            grep -n "SUCHWORT" voltrad-protokoll.log
+            ```
+
+            Nur der erste Treffer:
+
+            ```bash
+            grep -n "SUCHWORT" voltrad-protokoll.log | head -n 1
+            ```
 
     **4. Fünf Suchwörter, fünf Fragen.** Geht sie der Reihe nach durch.
     Jede Antwort führt zum nächsten Suchwort.
@@ -524,8 +577,9 @@ Die Erpresser behaupten, 200 GB kopiert zu haben. Stimmt das? Sucht im
 Protokoll nach der zweiten verdächtigen Adresse `203.0.113.140`.
 
 1. In welchen Nächten floss etwas ab und wie viel jeweils?
-2. Von welchem Server kamen die Daten? Die Adresse `10.0.10.21` steht in
-   einer der Zeilen neben einem Namen.
+2. Von welchem Server kamen die Daten? Die Firewall nennt nur die Adresse
+   `10.0.10.21`. Den Namen dazu verrät eine Warnzeile von MON-01 mit
+   derselben Datenmenge.
 3. Wie viele Zeilen enthalten das Wort `sent=`? Zählen lassen geht so:
 
     === "Windows (PowerShell)"
@@ -540,12 +594,18 @@ Protokoll nach der zweiten verdächtigen Adresse `203.0.113.140`.
         grep -c "sent=" voltrad-protokoll.log
         ```
 
+    ??? info "Der Befehl im Einzelnen"
+        - Windows: Die Klammern führen `Select-String` zuerst aus, `.Count`
+          zählt danach die Treffer.
+        - macOS und Linux: `-c` lässt `grep` die Zeilen mit Treffer zählen,
+          statt sie auszugeben. Die Abkürzung steht für „count“.
+
 ??? success "Musterlösung Bonus 2"
     Drei Nächte, jeweils kurz vor Mitternacht beginnend: Freitag 71,4 GB,
     Samstag 68,9 GB, Sonntag 61,3 GB. Zusammen sind das **201,6 GB**. Die
     Erpresser haben also nicht übertrieben. Die Daten kamen von
     `10.0.10.21`, das ist FILE-01: Die Warnzeilen von MON-01 nennen den
-    Namen. Der Zähler ergibt 3.
+    Namen und dieselben Mengen wie die Firewall. Der Zähler ergibt 3.
 
     Für die Meldung an die Datenschutzaufsicht heißt das: Der Abfluss ist
     nicht nur angedroht, er ist im Protokoll belegt. Auf FILE-01 liegen
@@ -564,6 +624,10 @@ Notfallhandbuch dazu.
    Schränken steht Wasser.
 4. Die Erpresser veröffentlichen die Konstruktionszeichnungen der neuen
    Modelle. Fachpresse und Wettbewerber greifen das auf.
+5. Donnerstag, 9 Uhr: Die Internetleitung im Werk ist voll ausgelastet, das
+   Händlerportal reagiert kaum noch. Ein Kollege aus der Konstruktion hat
+   seine Konsole mit ins Büro gebracht und lädt dort GTA 6 herunter, das um
+   Mitternacht erschienen ist.
 
 ??? success "Musterlösung Bonus 3"
     1. **Störung.** Kein zeitkritischer Prozess steht. Das behebt die IT im
@@ -579,6 +643,11 @@ Notfallhandbuch dazu.
     4. **Krise.** Für die Veröffentlichung von Geschäftsgeheimnissen gibt
        es keinen Plan im Handbuch. Der Schaden trifft die ganze Firma, der
        Stab entscheidet nach Lage, die Geschäftsführung führt.
+    5. **Störung.** Kein zeitkritischer Prozess steht, die Montage braucht
+       kein Internet. Die IT stoppt den Download, danach läuft das Portal
+       wieder. Niemand ruft dafür den Stab zusammen. Das Gespräch führt die
+       Führungskraft, und private Downloads gehören in die
+       Nutzungsrichtlinie.
 
 ### Denkaufgabe: Ein Notfallplan für die Montage (12 Minuten)
 
@@ -671,3 +740,6 @@ die Auswertung“ aus eurem Protokoll reichen.
   Wiederherstellung
 - [Übung: Notfallübung](uebung-notfalluebung.md): ein zweites Planspiel mit
   einem anderen Unternehmen
+- [Muster: IT-Notfallplan der IHK München](https://www.ihk-muenchen.de/ratgeber/digitalisierung/informationssicherheit/muster-it-notfallplan/){ target=_blank }:
+  eine Word-Vorlage zum Ansehen, so ist ein Notfallhandbuch in der Praxis
+  aufgebaut. Die Seite verweist auch auf die Vorlagen des BSI.
