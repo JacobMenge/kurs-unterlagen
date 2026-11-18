@@ -62,6 +62,11 @@ Spur des Angreifers.
 | 4 | Montag, 10:30 Uhr | Fragen von außen: Meldungen mit Frist, Nachricht an die Belegschaft | 12 Min. |
 | 5 | Mittwoch, 14:00 Uhr | Rückkehr in den Normalbetrieb, drei Maßnahmen | 10 Min. |
 
+!!! tip "Wenn die Zeit knapp wird"
+    Pflicht sind **Lage 1 bis 3**, zusammen 40 Minuten. Lage 4 und 5 macht
+    ihr, wenn danach noch Zeit ist. Sonst gehen wir beide gemeinsam in der
+    Auswertung durch.
+
 ![Fünf Lagen mit Spielzeit und echten Minuten, darunter das Ereignisprotokoll als Ergebnis](../assets/diagramme/notfall-planspiel.png){ .diagramm }
 
 ---
