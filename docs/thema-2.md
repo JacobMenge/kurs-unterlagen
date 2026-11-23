@@ -54,6 +54,8 @@ Praktisch baust du einen kompletten Überwachungsstapel auf, sammelst Metriken e
 
 [:octicons-arrow-right-24: Zum Monitoring-Block](monitoring-praxis/index.md)
 
+[:octicons-arrow-right-24: Praxis mit Voltrad: Monitoring](betrieb/praxis-monitoring.md) · [Alarmierung](betrieb/praxis-alarmierung.md)
+
 ### Softwareverteilung und Orchestrierung
 
 Von Hand installieren funktioniert bis etwa drei Rechnern. Danach braucht es Verfahren: Imaging, unbeaufsichtigte Installation, Paketverteilung, Pilotgruppen und Rückholbarkeit. Und für Container: Orchestrierung.

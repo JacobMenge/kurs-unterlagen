@@ -54,6 +54,8 @@ Diese Seite ist die Abkürzung in die Praxis: **jede Übung der Kursunterlagen, 
 - **[Übungen: Verfügbarkeit rechnen](betrieb/uebungen-verfuegbarkeit.md)** – Ausfallzeiten, SPOF und Neunen im Griff.
 - **[Notfallübung](betrieb/uebung-notfalluebung.md)** – Wiederanlauf und Notbetrieb durchspielen.
 - **[Praxis: Monitoring](monitoring-praxis/index.md)** – Prometheus und Grafana im Container, bis zum echten Alert.
+- **[Praxis: Monitoring für Voltrad](betrieb/praxis-monitoring.md)** – ein simuliertes Werk überwachen: Zielliste, PromQL, Dashboard mit Sollwerten, die Woche vor dem Angriff im Zeitraffer.
+- **[Praxis: Alarmierung für Voltrad](betrieb/praxis-alarmierung.md)** – Alarmregeln, Stufen und der Weg zum richtigen Empfänger.
 
 ## Git & CI/CD
 

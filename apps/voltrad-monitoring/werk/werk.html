@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voltrad Werk</title>
+<style>
+  :root { --blau:#3843AF; --teal:#0F7C86; --bernstein:#9A6310; --rot:#B33A3A; --text:#272E52; --leise:#5C6377; --linie:#DFE3F0; --flaeche:#F5F6FC; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--text); background: #fff; line-height: 1.45; }
+  header { background: var(--text); color: #fff; padding: 18px 24px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 4px 0 0; color: #C9CEE6; font-size: 14px; }
+  main { max-width: 980px; margin: 0 auto; padding: 20px 24px 60px; }
+  h2 { font-size: 17px; margin: 30px 0 6px; }
+  p.erklaerung { margin: 0 0 12px; color: var(--leise); font-size: 14px; }
+  .lage { border: 2px solid var(--teal); background: #E6F4F5; border-radius: 8px; padding: 14px 18px; margin-top: 18px; }
+  .lage.zeitraffer { border-color: var(--bernstein); background: #FBF2E3; }
+  .lage.ende { border-color: var(--rot); background: #FAECEC; }
+  .lage strong { font-size: 18px; }
+  .uhr { font-size: 30px; font-weight: bold; margin: 6px 0 2px; font-variant-numeric: tabular-nums; }
+  .balken { height: 12px; background: #fff; border: 1px solid var(--bernstein); border-radius: 6px; overflow: hidden; margin-top: 8px; }
+  .balken div { height: 100%; background: var(--bernstein); width: 0; }
+  .tage { display: flex; justify-content: space-between; font-size: 12px; color: var(--leise); margin-top: 3px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--linie); vertical-align: top; }
+  th { color: var(--leise); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 13px; background: var(--flaeche); padding: 1px 5px; border-radius: 3px; }
+  button { font: inherit; font-size: 14px; border: 1.5px solid var(--blau); background: #fff; color: var(--blau); border-radius: 6px; padding: 7px 14px; cursor: pointer; }
+  button:hover { background: #EEF0FB; }
+  button.an { background: var(--rot); border-color: var(--rot); color: #fff; }
+  button.haupt { background: var(--blau); color: #fff; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .reihe { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--linie); }
+  .reihe span.zustand { font-size: 12px; color: var(--leise); min-width: 70px; text-align: right; }
+  .knoepfe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .hinweis { background: var(--flaeche); border-left: 4px solid var(--blau); padding: 10px 14px; border-radius: 4px; font-size: 14px; margin-top: 10px; }
+  .ergebnis { font-weight: bold; margin-top: 10px; min-height: 22px; }
+  .gut { color: var(--teal); } .schlecht { color: var(--rot); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Voltrad Werk</h1>
+  <p>Simulator für die Monitoring-Übung. Was im Werk geschieht, seht ihr nur in eurer Überwachung.</p>
+</header>
+<main>
+  <div class="lage" id="lage">
+    <strong id="lageTitel">Normalbetrieb</strong>
+    <div id="lageText">Die Schicht läuft, alle sieben Systeme arbeiten.</div>
+    <div id="zr" hidden>
+      <div class="uhr" id="uhr"></div>
+      <div class="balken"><div id="balken"></div></div>
+      <div class="tage"><span>Di 12 Uhr</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span><span>Mo 6:10</span></div>
+    </div>
+  </div>
+
+  <h2>Die sieben Systeme</h2>
+  <p class="erklaerung">Jedes System stellt seine Messwerte unter einer eigenen Adresse bereit. Unter dieser Adresse fragt Prometheus sie ab. Über „ansehen“ öffnet ihr dieselben Werte im Browser.</p>
+  <table>
+    <thead><tr><th>System</th><th>Aufgabe</th><th>Adresse für Prometheus</th><th>Messwerte</th></tr></thead>
+    <tbody id="systeme"></tbody>
+  </table>
+
+  <h2>Störungen auslösen</h2>
+  <p class="erklaerung">Ein Klick schaltet die Störung ein, ein zweiter behebt sie. Störungen gibt es nur im Normalbetrieb.</p>
+  <div id="stoerungen"></div>
+
+  <h2>Verdeckte Störung</h2>
+  <p class="erklaerung">Der Simulator löst eine der ersten fünf Störungen aus und sagt nicht, welche. Findet sie mit Prometheus und eurem Dashboard, dann gebt eure Diagnose ab.</p>
+  <button class="haupt" id="verdecktStart">Verdeckte Störung auslösen</button>
+  <div id="verdecktLauf" hidden>
+    <div class="hinweis">Seit <strong id="verdecktSeit"></strong> läuft eine verdeckte Störung. Was ist es?</div>
+    <div class="knoepfe" id="tipps"></div>
+    <div class="knoepfe"><button id="aufloesen">Auflösen und beheben</button></div>
+  </div>
+  <div class="ergebnis" id="ergebnis"></div>
+
+  <h2>Zeitraffer: die Woche vor dem Angriff</h2>
+  <p class="erklaerung">Der Simulator spielt Dienstag, 2. März, 12 Uhr bis Montag, 8. März, 6:10 Uhr ab. Eine Stunde im Werk dauert vier Sekunden, die ganze Woche gut neun Minuten. Mit Pause haltet ihr die Werkszeit an.</p>
+  <div class="knoepfe">
+    <button class="haupt" id="zrStart">Zeitraffer starten</button>
+    <button id="zrPause">Pause</button>
+    <button id="zrNormal">Zurück in den Normalbetrieb</button>
+  </div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+async function sende(pfad, daten) {
+  const r = await fetch(pfad, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(daten) });
+  return r.json();
+}
+let gebaut = false;
+function zeige(s) {
+  const lage = $("lage");
+  lage.className = "lage" + (s.modus === "zeitraffer" ? " zeitraffer" : s.modus === "ende" ? " ende" : "");
+  if (s.modus === "normal") {
+    $("lageTitel").textContent = "Normalbetrieb";
+    $("lageText").textContent = "Die Schicht läuft, alle sieben Systeme arbeiten.";
+  } else if (s.modus === "zeitraffer") {
+    $("lageTitel").textContent = s.pause ? "Zeitraffer angehalten" : "Zeitraffer läuft";
+    $("lageText").textContent = "Werkszeit:";
+  } else {
+    $("lageTitel").textContent = "Zeitraffer beendet";
+    $("lageText").textContent = "Um 6:10 Uhr ruft Herr Yilmaz die IT-Notfallnummer an. Die Werkszeit steht.";
+  }
+  $("zr").hidden = s.modus === "normal";
+  $("uhr").textContent = s.werkszeit || "";
+  $("balken").style.width = (s.fortschritt * 100).toFixed(1) + "%";
+  $("zrPause").textContent = s.pause ? "Weiter" : "Pause";
+  $("zrPause").disabled = s.modus !== "zeitraffer";
+  $("zrNormal").disabled = s.modus === "normal";
+  $("zrStart").textContent = s.modus === "normal" ? "Zeitraffer starten" : "Zeitraffer neu starten";
+
+  if (!gebaut) {
+    $("systeme").innerHTML = s.systeme.map((x) =>
+      `<tr><td><strong>${x.name}</strong></td><td>${x.aufgabe}</td><td><code>${x.adresse}</code></td><td><a href="/messwerte/${x.pfad}" target="_blank" rel="noopener">ansehen</a></td></tr>`).join("");
+    $("stoerungen").innerHTML = s.stoerungen.map((x) =>
+      `<div class="reihe"><span>${x.name}</span><span><button data-k="${x.schluessel}">auslösen</button></span></div>`).join("");
+    $("stoerungen").querySelectorAll("button").forEach((b) => b.addEventListener("click", async () => {
+      zeige(await sende("/api/stoerung", { schluessel: b.dataset.k, an: !b.classList.contains("an") }));
+    }));
+    $("tipps").innerHTML = s.auswahl.map((x) => `<button data-k="${x.schluessel}">${x.name}</button>`).join("");
+    $("tipps").querySelectorAll("button").forEach((b) => b.addEventListener("click", async () => {
+      const a = await sende("/api/verdeckt", { aktion: "tipp", tipp: b.dataset.k });
+      if (a.richtig) {
+        $("ergebnis").className = "ergebnis gut";
+        $("ergebnis").textContent = "Richtig: " + a.name + ". Die Störung ist behoben.";
+      } else {
+        $("ergebnis").className = "ergebnis schlecht";
+        $("ergebnis").textContent = "Das war es nicht. Seht noch einmal in die Messwerte.";
+      }
+      lade();
+    }));
+    gebaut = true;
+  }
+  s.stoerungen.forEach((x) => {
+    const b = $("stoerungen").querySelector(`button[data-k="${x.schluessel}"]`);
+    b.classList.toggle("an", x.an);
+    b.textContent = x.an ? "läuft, beheben" : "auslösen";
+    b.disabled = s.modus !== "normal" || s.verdeckt;
+  });
+  $("verdecktStart").hidden = s.verdeckt;
+  $("verdecktStart").disabled = s.modus !== "normal";
+  $("verdecktLauf").hidden = !s.verdeckt;
+  $("verdecktSeit").textContent = s.verdeckt_seit ? new Date(s.verdeckt_seit * 1000).toLocaleTimeString("de-DE") + " Uhr" : "";
+}
+async function lade() {
+  try { zeige(await (await fetch("/api/status")).json()); } catch (e) { /* Werk startet gerade neu */ }
+}
+$("verdecktStart").addEventListener("click", async () => { $("ergebnis").textContent = ""; zeige(await sende("/api/verdeckt", { aktion: "start" })); });
+$("aufloesen").addEventListener("click", async () => {
+  const a = await sende("/api/verdeckt", { aktion: "aufloesen" });
+  $("ergebnis").className = "ergebnis";
+  $("ergebnis").textContent = "Auflösung: " + a.name + ". Die Störung ist behoben.";
+  lade();
+});
+$("zrStart").addEventListener("click", async () => zeige(await sende("/api/zeitraffer", { aktion: "start" })));
+$("zrPause").addEventListener("click", async () => {
+  const weiter = $("zrPause").textContent === "Weiter";
+  zeige(await sende("/api/zeitraffer", { aktion: weiter ? "weiter" : "pause" }));
+});
+$("zrNormal").addEventListener("click", async () => zeige(await sende("/api/zeitraffer", { aktion: "normal" })));
+lade();
+setInterval(lade, 1000);
+</script>
+</body>
+</html>

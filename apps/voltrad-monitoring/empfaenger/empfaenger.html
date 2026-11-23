@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voltrad Empfänger</title>
+<style>
+  :root { --blau:#3843AF; --teal:#0F7C86; --bernstein:#9A6310; --rot:#B33A3A; --text:#272E52; --leise:#5C6377; --linie:#DFE3F0; --flaeche:#F5F6FC; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--text); background: #fff; line-height: 1.4; }
+  header { background: var(--text); color: #fff; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 4px 0 0; color: #C9CEE6; font-size: 14px; }
+  button { font: inherit; font-size: 14px; border: 1.5px solid #fff; background: transparent; color: #fff; border-radius: 6px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
+  main { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding: 20px 24px 60px; max-width: 1300px; margin: 0 auto; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  section { border: 2px solid var(--linie); border-radius: 10px; padding: 14px; min-height: 300px; background: var(--flaeche); }
+  section.handy { border-color: var(--rot); }
+  section.ticket { border-color: var(--bernstein); }
+  section.brandt { border-color: #9AA2BE; }
+  section h2 { margin: 0; font-size: 17px; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; overflow-wrap: anywhere; }
+  section .wer { color: var(--leise); font-size: 13px; margin: 2px 0 10px; }
+  .zahl { flex: none; font-weight: bold; font-size: 15px; background: #fff; border: 1.5px solid var(--linie); border-radius: 12px; padding: 1px 10px; }
+  .meldung { background: #fff; border-left: 5px solid var(--rot); border-radius: 6px; padding: 8px 10px; margin-top: 8px; font-size: 14px; box-shadow: 0 1px 2px rgba(39,46,82,.12); }
+  .meldung.entwarnung { border-left-color: var(--teal); }
+  .meldung .kopf { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--leise); }
+  .meldung .art { font-weight: bold; color: var(--rot); letter-spacing: .04em; }
+  .meldung.entwarnung .art { color: var(--teal); }
+  .meldung .titel { font-weight: bold; margin: 3px 0 1px; }
+  .meldung .text { color: #434A63; }
+  .meldung .fuss { font-size: 12px; color: var(--leise); margin-top: 4px; }
+  .marke { display: inline-block; font-size: 11px; font-weight: bold; border-radius: 9px; padding: 0 8px; border: 1.3px solid var(--leise); color: var(--leise); margin-right: 4px; }
+  .marke.kritisch { border-color: var(--rot); color: var(--rot); }
+  .marke.warnung { border-color: var(--bernstein); color: var(--bernstein); }
+  .zeit { font-size: 12.5px; color: var(--leise); margin-top: 3px; }
+  .werk { font-weight: bold; color: var(--bernstein); }
+  .leer { color: var(--leise); font-size: 14px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Voltrad Empfänger</h1>
+    <p>Hier seht ihr, wo eine Meldung der Überwachung ankommt. Die neueste steht oben.</p>
+  </div>
+  <button id="leeren">Alles leeren</button>
+</header>
+<main>
+  <section class="handy">
+    <h2>Diensthandy <span class="zahl" id="z-diensthandy">0</span></h2>
+    <div class="wer">Rufbereitschaft der IT, klingelt sofort, auch nachts.</div>
+    <div id="k-diensthandy"></div>
+  </section>
+  <section class="ticket">
+    <h2>Ticketsystem <span class="zahl" id="z-ticketsystem">0</span></h2>
+    <div class="wer">Liest die IT am nächsten Arbeitstag ab 7:30 Uhr.</div>
+    <div id="k-ticketsystem"></div>
+  </section>
+  <section class="brandt">
+    <h2>Postfach brandt@voltrad.example <span class="zahl" id="z-postfach-brandt">0</span></h2>
+    <div class="wer">Herr Brandt hat Voltrad verlassen. Dieses Postfach liest niemand.</div>
+    <div id="k-postfach-brandt"></div>
+  </section>
+</main>
+<script>
+const KANAELE = ["diensthandy", "ticketsystem", "postfach-brandt"];
+const esc = (s) => String(s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const uhr = (sekunden) => new Date(sekunden * 1000).toLocaleTimeString("de-DE");
+function karte(m) {
+  const art = m.status === "entwarnung" ? "ENTWARNUNG" : "ALARM";
+  const stufe = m.stufe ? `<span class="marke ${esc(m.stufe)}">${esc(m.stufe)}</span>` : "";
+  const server = m.server ? `<span class="marke">${esc(m.server)}</span>` : "";
+  const werk = m.werkszeit ? `<div class="zeit">im Werk: <span class="werk">${esc(m.werkszeit)}</span></div>` : "";
+  return `<div class="meldung ${m.status}">
+    <div class="kopf"><span class="art">${art}</span><span>Nr. ${m.nr} · ${uhr(m.zeit)} Uhr</span></div>
+    <div class="titel">${esc(m.titel || m.name)}</div>
+    ${m.text ? `<div class="text">${esc(m.text)}</div>` : ""}
+    <div class="fuss">${stufe}${server}Regel ${esc(m.name)}</div>
+    ${werk}
+  </div>`;
+}
+let letzte = -1;
+async function lade() {
+  let liste;
+  try { liste = await (await fetch("/api/meldungen")).json(); } catch (e) { return; }
+  const neueste = liste.length ? liste[liste.length - 1].nr : 0;
+  if (neueste === letzte) return;
+  letzte = neueste;
+  KANAELE.forEach((k) => {
+    const eigene = liste.filter((m) => m.kanal === k).reverse();
+    document.getElementById("z-" + k).textContent = eigene.length;
+    document.getElementById("k-" + k).innerHTML = eigene.length ? eigene.map(karte).join("") : '<div class="leer">Noch nichts angekommen.</div>';
+  });
+}
+document.getElementById("leeren").addEventListener("click", async () => {
+  await fetch("/api/leeren", { method: "POST" });
+  letzte = -1;
+  lade();
+});
+lade();
+setInterval(lade, 1000);
+</script>
+</body>
+</html>

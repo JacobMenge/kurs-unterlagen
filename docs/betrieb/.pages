@@ -4,6 +4,8 @@ nav:
   - "Praxis: Verfügbarkeit bei Voltrad": praxis-verfuegbarkeit.md
   - "Praxis: Datensicherung für Voltrad": praxis-datensicherung.md
   - "Praxis: Notfall bei Voltrad": praxis-notfall.md
+  - "Praxis: Monitoring für Voltrad": praxis-monitoring.md
+  - "Praxis: Alarmierung für Voltrad": praxis-alarmierung.md
   - "Monitoring & Betrieb": monitoring.md
   - "Backup & Recovery": backup-und-recovery.md
   - "Hochverfügbarkeit & Redundanz": hochverfuegbarkeit.md

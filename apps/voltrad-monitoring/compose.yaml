@@ -1,0 +1,88 @@
+# Monitoring für Voltrad
+#
+# werk          das simulierte Werk: sieben Systeme mit ihren Messwerten
+# prometheus    fragt die Systeme ab und speichert die Werte als Zeitreihen
+# grafana       zeigt die Werte als Dashboard
+# alertmanager  bringt Alarme zum richtigen Empfänger (zweiter Abend)
+# empfaenger    Diensthandy, Ticketsystem und ein altes Postfach (zweiter Abend)
+#
+# Starten:  docker compose up -d
+# Anhalten: docker compose stop     (Dashboards und Messwerte bleiben erhalten)
+
+services:
+  werk:
+    image: python:3.12-alpine
+    command: ["python", "-u", "/app/werk.py"]
+    volumes:
+      - ./werk:/app:ro
+    ports:
+      - "8090:8090"   # Bedienseite des Werks
+    networks:
+      default:
+        # Unter diesen Namen erreicht Prometheus die sieben Systeme.
+        aliases:
+          - dc-01
+          - file-01
+          - erp-db
+          - mes-01
+          - web-01
+          - backup-01
+          - sensor-01
+
+  prometheus:
+    image: prom/prometheus:v3.13.5
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      # Bestehende Alarme alle 10 Sekunden erneut an den Alertmanager melden.
+      # Voreinstellung ist eine Minute, für die Übung ist das zu träge.
+      - --rules.alert.resend-delay=10s
+    volumes:
+      - ./prometheus:/etc/prometheus:ro
+      - prometheus-daten:/prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:12.4.15
+    environment:
+      # Nur für die Übung: ohne Anmeldung, mit allen Rechten.
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      # Englische Oberfläche und helles Design, damit die Anleitung bei allen passt.
+      GF_USERS_DEFAULT_LANGUAGE: "en-US"
+      GF_USERS_DEFAULT_THEME: "light"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana-daten:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+  alertmanager:
+    image: prom/alertmanager:v0.34.2
+    volumes:
+      - ./alertmanager:/etc/alertmanager:ro
+    # Sein Gedächtnis liegt im Arbeitsspeicher: Nach einem Neustart meldet
+    # der Alertmanager jeden bestehenden Alarm neu.
+    tmpfs:
+      - /alertmanager
+    ports:
+      - "9093:9093"
+
+  empfaenger:
+    image: python:3.12-alpine
+    command: ["python", "-u", "/app/empfaenger.py"]
+    volumes:
+      - ./empfaenger:/app:ro
+    ports:
+      - "8091:8091"   # Diensthandy, Ticketsystem und Postfach
+
+volumes:
+  prometheus-daten:
+  grafana-daten:

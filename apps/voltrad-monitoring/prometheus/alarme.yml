@@ -1,0 +1,13 @@
+# Die Alarmregeln für Voltrad.
+#
+# Jede Regel hat einen Namen (alert) und eine Bedingung (expr).
+# Liefert die Bedingung ein Ergebnis, feuert die Regel.
+
+groups:
+  - name: voltrad
+    rules:
+      # Aus der alten Überwachung auf MON-01 übernommen.
+      - alert: PlatteFastVoll
+        expr: voltrad_disk_used_percent > 90
+        annotations:
+          summary: "disk {{ $labels.server }} {{ $labels.volume }} {{ $value }}% used"

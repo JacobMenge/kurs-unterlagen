@@ -1,0 +1,28 @@
+# Der Weg der Alarme: Welche Meldung geht an welchen Empfänger?
+
+route:
+  # Hierhin geht jede Meldung, für die weiter unten kein eigener Weg steht.
+  receiver: postfach-brandt
+  group_by: ["alertname", "server"]   # je Regel und Server eine Meldung
+  group_wait: 2s                      # so lange sammeln, bevor die erste Meldung rausgeht
+  group_interval: 10s                 # frühestens nach dieser Zeit eine Änderung nachmelden
+  repeat_interval: 96s                # so oft erinnern, solange der Alarm besteht.
+                                      # 96 Sekunden sind im Zeitraffer ein Tag.
+                                      # Im Betrieb üblich: 4 Stunden
+
+# Die Empfänger. Jeder hat eine eigene Adresse auf der Empfänger-Seite.
+receivers:
+  - name: postfach-brandt
+    webhook_configs:
+      - url: http://empfaenger:8091/postfach-brandt
+        send_resolved: true           # auch die Entwarnung melden
+
+  - name: diensthandy
+    webhook_configs:
+      - url: http://empfaenger:8091/diensthandy
+        send_resolved: true
+
+  - name: ticketsystem
+    webhook_configs:
+      - url: http://empfaenger:8091/ticketsystem
+        send_resolved: true

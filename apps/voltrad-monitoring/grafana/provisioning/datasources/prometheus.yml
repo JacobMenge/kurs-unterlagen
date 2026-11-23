@@ -1,0 +1,14 @@
+# Grafana liest diese Datei beim Start. Damit ist die Datenquelle
+# "Prometheus" schon eingerichtet.
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090     # der Dienstname aus compose.yaml
+    isDefault: true
+    editable: true
+    jsonData:
+      timeInterval: 2s              # so oft fragt Prometheus die Systeme ab

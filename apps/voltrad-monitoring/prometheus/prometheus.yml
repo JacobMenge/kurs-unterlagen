@@ -1,0 +1,38 @@
+# Die Zielliste von Prometheus: Wen fragt es ab, und wie oft?
+
+global:
+  scrape_interval: 2s        # alle 2 Sekunden abfragen. Im Betrieb üblich: 15 bis 60 Sekunden
+  evaluation_interval: 2s    # die Alarmregeln genauso oft prüfen
+
+# Die Alarmregeln stehen in einer eigenen Datei (zweiter Abend).
+rule_files:
+  - alarme.yml
+
+# Feuert eine Regel, geht die Meldung an den Alertmanager (zweiter Abend).
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
+
+scrape_configs:
+  - job_name: voltrad
+    static_configs:
+      # Jedes Ziel: die Adresse des Systems und ein Etikett mit seinem Namen.
+      - targets: ["dc-01:9100"]
+        labels:
+          server: "DC-01"
+      - targets: ["file-01:9100"]
+        labels:
+          server: "FILE-01"
+      - targets: ["erp-db:9100"]
+        labels:
+          server: "ERP-DB"
+      - targets: ["web-01:9100"]
+        labels:
+          server: "WEB-01"
+      - targets: ["backup-01:9100"]
+        labels:
+          server: "BACKUP-01"
+      - targets: ["sensor-01:9100"]
+        labels:
+          server: "SENSOR-01"

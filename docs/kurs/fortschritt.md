@@ -30,9 +30,9 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 <div class="fortschritt-block t2" markdown>
 <div class="fortschritt-kopf">
 <span class="fortschritt-name">Thema 2 · Sicherstellung des laufenden Betriebs</span>
-<span class="fortschritt-wert">1 von 6 Blöcken fertig, Betrieb läuft</span>
+<span class="fortschritt-wert">2 von 6 Blöcken fertig, Monitoring läuft</span>
 </div>
-<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 17%"></div></div>
+<div class="fortschritt-schiene"><div class="fortschritt-balken" style="width: 33%"></div></div>
 </div>
 
 <div class="fortschritt-block t3" markdown>
@@ -53,31 +53,31 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
     ---
 
-    **Verfügbarkeit und Redundanz**
+    **Notfallmanagement**
 
-    Wie viel Ausfall verträgt Voltrad? Schaden je Stunde, Verfügbarkeit rechnen, SLA und Redundanz im Versuch mit zwei Webservern.
+    Störung, Notfall oder Krise? Das Planspiel „Montag, 6:10 Uhr“ bei Voltrad: einstufen, alarmieren, Notbetrieb, Spurensuche im Protokoll, Meldungen.
 
-    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-verfuegbarkeit.md)
+    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-notfall.md)
 
 -   :material-play-circle-outline:{ .lg .middle } __Gerade dran__
 
     ---
 
-    **Datensicherung und Wiederherstellung**
+    **Monitoring, Teil 1: messen und sehen**
 
-    Eine Datenbank im Container sichern, die Tabelle löschen, zurückholen und dabei messen. Danach ein Sicherungsplan für Voltrad.
+    Ein simuliertes Werk mit sieben Systemen überwachen: Zielliste in Prometheus, Abfragen mit PromQL, ein Dashboard mit Sollwerten in Grafana.
 
-    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-datensicherung.md)
+    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-monitoring.md)
 
 -   :material-arrow-right-circle-outline:{ .lg .middle } __Als Nächstes__
 
     ---
 
-    **Notfallmanagement**
+    **Monitoring, Teil 2: alarmieren**
 
-    Am Mittwoch: Störung, Notfall oder Krise? Wer entscheidet, wer informiert und wie arbeitet Voltrad weiter?
+    Am Mittwoch: Wann darf eine Meldung jemanden wecken? Alarmregeln, Stufen und der Weg zum richtigen Empfänger.
 
-    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-notfall.md)
+    [:octicons-arrow-right-24: Zur Übung](../betrieb/praxis-alarmierung.md)
 
 </div>
 
@@ -103,8 +103,8 @@ Diese Seite zeigt euch jederzeit, **wie weit wir gekommen sind** und **was als N
 
 | Status | Block | Inhalt |
 |:---:|---|---|
-| <span class="status-laeuft">●</span> | [Betrieb & Verfügbarkeit](../betrieb/index.md) | Redundanz, Backup, Wiederanlauf, Notbetrieb |
-| <span class="status-offen">○</span> | [Monitoring](../monitoring-praxis/index.md) | Metriken, Kennzahlen, Alarmierung |
+| <span class="status-fertig">✓</span> | [Betrieb & Verfügbarkeit](../betrieb/index.md) | Redundanz, Backup, Wiederanlauf, Notbetrieb |
+| <span class="status-laeuft">●</span> | [Monitoring](../betrieb/praxis-monitoring.md) | Metriken, Kennzahlen, Alarmierung |
 | <span class="status-offen">○</span> | [Softwareverteilung](../orchestrierung/index.md) | Ausrollen, Deployment-Strategien, Rollback |
 | <span class="status-offen">○</span> | [Kubernetes](../kubernetes-praxis/index.md) | Container über einen Cluster betreiben |
 | <span class="status-fertig">✓</span> | [Git & GitHub](../git/index.md) | Versionskontrolle als Werkzeug |
