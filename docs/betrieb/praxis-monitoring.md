@@ -693,12 +693,18 @@ Den Stack braucht ihr in der zweiten Praxis wieder. Haltet ihn nur an:
 docker compose stop
 ```
 
+!!! warning "Nichts löschen"
+    Nehmt **nicht** `docker compose down -v` und behaltet den Ordner mit den
+    Dateien. Das `-v` löscht euer Dashboard. Am Mittwoch arbeitet ihr mit
+    genau diesem Stand weiter. Wer heute nicht fertig wurde, kann zu Hause
+    weitermachen: `docker compose up -d` im selben Ordner.
+
 ??? info "Der Befehl im Einzelnen"
     - `stop` hält die Container an, löscht aber nichts. Euer Dashboard und
       die gesammelten Messwerte bleiben in zwei Volumes erhalten.
     - Mit `docker compose up -d` läuft beim nächsten Mal alles weiter.
-    - Nehmt **nicht** `docker compose down -v`: Das `-v` löscht die Volumes
-      und damit euer Dashboard.
+    - Ein Dashboard bleibt nur erhalten, wenn ihr es in Grafana mit
+      **Save dashboard** gespeichert habt.
 
 ---
 
