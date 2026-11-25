@@ -17,6 +17,20 @@ gefehlt hat: Die richtige Meldung kommt bei der richtigen Person an. Am Ende
 läuft die Woche vor dem Angriff noch einmal im Zeitraffer und ihr messt, wie
 viele Stunden Vorsprung eure Alarme gebracht hätten.
 
+!!! warning "Praxis vom Montag noch nicht fertig?"
+    Dann macht zuerst dort weiter, wo ihr aufgehört habt:
+    [Praxis: Monitoring für Voltrad](praxis-monitoring.md), Station 2 bis 4.
+    Dafür sind die ersten 30 Minuten der Praxiszeit da.
+
+    - **Pflicht für heute ist Station 2.** MES-01 muss in der Zielliste
+      stehen, sonst kann der Alarm in Station 4 von heute nie auslösen.
+    - Im Dashboard tragt ihr jede Abfrage im Modus **Code** ein, nicht im
+      **Builder**. Nach jedem Feld **Save dashboard**.
+    - Station 5 vom Montag lasst ihr weg. Der Zeitraffer läuft heute in
+      Station 6 noch einmal, euer Dashboard öffnet ihr daneben.
+    - Nach 30 Minuten wechselt ihr hierher, auch wenn das Dashboard noch
+      nicht fertig ist. Für die Alarme braucht ihr es nicht.
+
 !!! abstract "Ziel"
     Am Ende könnt ihr:
 
@@ -46,7 +60,7 @@ viele Stunden Vorsprung eure Alarme gebracht hätten.
     | | Alertmanager | Empfänger-Seite |
     |---|---|---|
     | **Was das ist** | Ein Programm, das die Alarme von Prometheus annimmt und zustellt. Es bündelt gleiche Meldungen, wählt den Weg und erinnert, solange ein Alarm besteht. | Eine Seite der Übung, die drei Empfänger zeigt: das Diensthandy, das Ticketsystem und das Postfach von Herrn Brandt. |
-    | **Warum gerade das** | Der Alertmanager gehört zu Prometheus. Regeln und Wege stehen getrennt in zwei Dateien. | Im Betrieb gingen die Meldungen an ein echtes Handy und an ein Ticketsystem. Hier seht ihr alle drei Ziele nebeneinander. |
+    | **Warum gerade das** | Der Alertmanager stammt aus dem Prometheus-Projekt, läuft aber als eigenes Programm in einem eigenen Container. Regeln und Wege stehen getrennt in zwei Dateien. | Im Betrieb gingen die Meldungen an ein echtes Handy und an ein Ticketsystem. Hier seht ihr alle drei Ziele nebeneinander. |
     | **So arbeiten wir heute damit** | Den Weg in der Datei `alertmanager.yml` ändern. | Zusehen und zählen, was wo ankommt. |
 
     Das Prinzip gilt für jedes Werkzeug: Eine Regel entscheidet, ob gemeldet
@@ -219,9 +233,9 @@ ist die Reparatur, die bei Voltrad gefehlt hat.
    96 Sekunden mit derselben Meldung. Im Zeitraffer wäre das einmal am Tag.
    Beantwortet für diese Meldung die drei Alarmfragen:
 
-    - Merkt es jemand außerhalb der IT?
+    - Ist jemand außerhalb der IT betroffen?
     - Kann jemand etwas tun?
-    - Muss es jetzt sein, auch nachts?
+    - Muss es sofort sein, auch nachts?
 
 ??? tip "Hinweis 1 zu Station 2"
     Es ändert sich genau ein Wort in einer Zeile. Die Einrückung bleibt, wie

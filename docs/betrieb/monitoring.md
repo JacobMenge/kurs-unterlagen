@@ -169,9 +169,9 @@ Vier Stellschrauben machen aus einer wackeligen Schwelle einen brauchbaren Alarm
 
 Ein Alarm ist keine Information, sondern eine **Aufforderung zu handeln**. Aus diesem einen Satz folgt die gesamte Alarmierungsstrategie. Bevor ein Alarm eingerichtet wird, müssen drei Fragen beantwortet sein:
 
-1. **Merkt es jemand?** Wenn niemand außerhalb der IT etwas davon hätte, ist es kein Alarm, sondern ein Ticket.
+1. **Ist jemand betroffen?** Kann jemand außerhalb der IT nicht arbeiten oder droht ein Schaden? Wenn nicht, ist es kein Alarm, sondern ein Ticket.
 2. **Kann jemand etwas tun?** Ein Alarm über eine Störung beim Netzbetreiber, gegen die man nichts unternehmen kann, weckt Leute für nichts.
-3. **Muss es jetzt sein?** Alles, was bis zum nächsten Arbeitstag warten kann, wartet bis zum nächsten Arbeitstag.
+3. **Muss es sofort sein?** Alles, was bis zum nächsten Arbeitstag warten kann, wartet bis zum nächsten Arbeitstag.
 
 Wenn eine der drei Antworten „nein“ lautet, gehört die Meldung in ein Dashboard oder eine Ticketwarteschlange – nicht auf ein Telefon.
 
@@ -382,7 +382,7 @@ Ein Beispiel macht den Unterschied greifbar. Ein Anwendungsserver hängt sich je
     - **Abnahme**: Wer prüft mit welchen Schritten, dass der Dienst wieder vollständig funktioniert, und wer gibt frei? „Sieht gut aus“ ist keine Abnahme.
 
 ??? question "Frage 6: Eine Fachabteilung verlangt einen Alarm, sobald eine bestimmte Auswertung länger als drei Sekunden braucht. Wie gehst du damit um?"
-    Nicht mit einem Nein, sondern mit den drei Alarmfragen. **Merkt es jemand?** Ja, die Auswertung wird täglich benutzt. **Kann jemand etwas tun?** Nachts nicht – sie wird zu Bürozeiten aufgerufen. **Muss es jetzt sein?** Nein, sofern es Einzelfälle sind.
+    Nicht mit einem Nein, sondern mit den drei Alarmfragen. **Ist jemand betroffen?** Ja, die Auswertung wird täglich benutzt. **Kann jemand etwas tun?** Nachts nicht – sie wird zu Bürozeiten aufgerufen. **Muss es sofort sein?** Nein, sofern es Einzelfälle sind.
 
     Der Wunsch ist also berechtigt, aber es ist kein Bereitschaftsalarm. Sinnvoll ist eine Aufteilung: ein schriftlich vereinbarter **Zielwert** wie „95 Prozent der Aufrufe unter drei Sekunden“ – gemessen wird ein Perzentil, nicht der Einzelfall, weil ein einzelner langsamer Aufruf nichts über die Nutzbarkeit sagt. Eine **Warnung** öffnet zu Bürozeiten ein Ticket, wenn dieser Zielwert über längere Zeit gerissen wird. Ein **kritischer Alarm** greift erst, wenn die Auswertung gar nicht mehr antwortet. Und der Verlauf landet auf einem Dashboard, das die Fachabteilung selbst einsehen kann – oft ist genau das der eigentliche Wunsch hinter der Forderung nach einem Alarm.
 
